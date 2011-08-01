@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rubyXL}
-  s.version = "1.0.4"
+  s.version = "1.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
@@ -57,7 +57,6 @@ Gem::Specification.new do |s|
     "lib/writer/workbook_writer.rb",
     "lib/writer/worksheet_writer.rb",
     "lib/zip.rb",
-    "pkg/rubyXL-1.0.4.gem",
     "rubyXL.gemspec",
     "spec/lib/cell_spec.rb",
     "spec/lib/color_spec.rb",
