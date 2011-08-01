@@ -1,7 +1,28 @@
 = rubyXL
 
-To Install:
+== To Install:
   gem install rubyXL
+
+== To Use:
+  require 'rubyXL' #assuming rubygems is already required
+
+=== Parsing
+  workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
+
+=== Creating
+  workbook = RubyXL::Workbook.new
+  workbook.worksheets[0].add_cell(0,0,'A1') #sets A1 to string "A1"
+  workbook.worksheets[0].add_cell(0,1,'','A1') #sets A2 to value of A1
+
+=== Modifying
+  workbook.worksheets[0].sheet_data[0][0].change_font_bold(true) #sets A1 to bold
+  workbook.worksheets[0].change_row_font_italics(0,true) #makes first row italicized
+
+=== Writing
+  workbook.write("path/to/desired/Excel/file.xlsx")
+
+== For more information
+Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Contributing to rubyXL
  
