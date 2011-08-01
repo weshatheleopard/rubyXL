@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'nokogiri'
 require 'zip/zip' #rubyzip
-require File.expand_path(File.join(File.dirname(__FILE__),'html_generator'))
 require File.expand_path(File.join(File.dirname(__FILE__),'Hash'))
 
 module RubyXL
