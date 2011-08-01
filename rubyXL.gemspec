@@ -12,20 +12,37 @@ Gem::Specification.new do |s|
   s.date = %q{2011-08-01}
   s.description = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx) Documents}
   s.email = %q{bhagwat.vivek@gmail.com}
-  s.files = [
-    ".document",
-    "Gemfile",
+  s.extra_rdoc_files = [
     "LICENSE.txt",
+    "README",
+    "README.rdoc"
+  ]
+  s.files = [
+    "Gemfile",
+    "Gemfile.lock",
+    "LICENSE.txt",
+    "README",
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "lib/.DS_Store",
     "lib/Hash.rb",
     "lib/cell.rb",
     "lib/color.rb",
-    "lib/html_generator.rb",
     "lib/parser.rb",
     "lib/private_class.rb",
     "lib/rubyXL.rb",
+    "lib/test.html",
+    "lib/tests/test.rb",
+    "lib/tests/test10.rb",
+    "lib/tests/test2.rb",
+    "lib/tests/test3.rb",
+    "lib/tests/test4.rb",
+    "lib/tests/test5.rb",
+    "lib/tests/test6.rb",
+    "lib/tests/test7.rb",
+    "lib/tests/test8.rb",
+    "lib/tests/test9.rb",
     "lib/workbook.rb",
     "lib/worksheet.rb",
     "lib/writer/app_writer.rb",
@@ -40,6 +57,7 @@ Gem::Specification.new do |s|
     "lib/writer/workbook_writer.rb",
     "lib/writer/worksheet_writer.rb",
     "lib/zip.rb",
+    "pkg/rubyXL-1.0.4.gem",
     "rubyXL.gemspec",
     "spec/lib/cell_spec.rb",
     "spec/lib/color_spec.rb",
@@ -59,9 +77,30 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.6.0"])
+      s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<nokogiri>, [">= 1.4.4"])
+      s.add_development_dependency(%q<rubyzip>, [">= 0.9.4"])
+      s.add_development_dependency(%q<rspec>, [">= 1.3.4"])
     else
+      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
+      s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
+      s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
+      s.add_dependency(%q<rspec>, [">= 1.3.4"])
     end
   else
+    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
+    s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
+    s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
+    s.add_dependency(%q<rspec>, [">= 1.3.4"])
   end
 end
 
