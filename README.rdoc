@@ -1,6 +1,7 @@
 = rubyXL
 
-Description goes here.
+To Install:
+  gem install rubyXL
 
 == Contributing to rubyXL
  
