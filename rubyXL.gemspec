@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
-  s.date = %q{2011-08-01}
-  s.description = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx) Documents}
+  s.date = %q{2011-08-02}
+  s.description = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   s.email = %q{bhagwat.vivek@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -32,17 +32,6 @@ Gem::Specification.new do |s|
     "lib/parser.rb",
     "lib/private_class.rb",
     "lib/rubyXL.rb",
-    "lib/test.html",
-    "lib/tests/test.rb",
-    "lib/tests/test10.rb",
-    "lib/tests/test2.rb",
-    "lib/tests/test3.rb",
-    "lib/tests/test4.rb",
-    "lib/tests/test5.rb",
-    "lib/tests/test6.rb",
-    "lib/tests/test7.rb",
-    "lib/tests/test8.rb",
-    "lib/tests/test9.rb",
     "lib/workbook.rb",
     "lib/worksheet.rb",
     "lib/writer/app_writer.rb",
@@ -65,11 +54,11 @@ Gem::Specification.new do |s|
     "spec/lib/workbook_spec.rb",
     "spec/lib/worksheet_spec.rb"
   ]
-  s.homepage = %q{http://github.com/vivekbhagwat/rubyXL}
+  s.homepage = %q{http://github.com/gilt/rubyXL}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx) Documents}
+  s.summary = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
