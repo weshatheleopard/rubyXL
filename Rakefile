@@ -15,10 +15,10 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "rubyXL"
-  gem.homepage = "http://github.com/vivekbhagwat/rubyXL"
+  gem.homepage = "http://github.com/gilt/rubyXL"
   gem.license = "MIT"
-  gem.summary = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx) Documents}
-  gem.description = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx) Documents}
+  gem.summary = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
+  gem.description = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   gem.email = "bhagwat.vivek@gmail.com"
   gem.authors = ["Vivek Bhagwat"]
   # dependencies defined in Gemfile
