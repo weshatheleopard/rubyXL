@@ -977,7 +977,7 @@ class Worksheet < PrivateClass
     end
 
     @row_styles[(row+1).to_s][:style] =
-      modify_font(@workbook,Integer(@row_styles[(row+1).to_s][:style]))
+      modify_font(@workbook,(@row_styles[(row+1).to_s][:style]).to_i)
 
     if @sheet_data[row].nil?
       @sheet_data[row] = []

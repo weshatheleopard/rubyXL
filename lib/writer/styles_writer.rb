@@ -280,10 +280,10 @@ module Writer
               'fillId'=>fill_id_corrector[xf[:fillId].to_s].to_s,
               'borderId'=>border_id_corrector[xf[:borderId].to_s].to_s,
               'xfId'=>xf[:xfId].to_s,
-              'applyFont'=>Integer(xf[:applyFont]).to_s, #0 if nil
-              'applyFill'=>Integer(xf[:applyFill]).to_s,
-              'applyAlignment'=>Integer(xf[:applyAlignment]).to_s,
-              'applyNumberFormat'=>Integer(xf[:applyNumberFormat]).to_s) {
+              'applyFont'=>xf[:applyFont].to_i.to_s, #0 if nil
+              'applyFill'=>xf[:applyFill].to_i.to_s,
+              'applyAlignment'=>xf[:applyAlignment].to_i.to_s,
+              'applyNumberFormat'=>xf[:applyNumberFormat].to_i.to_s) {
                 unless xf_obj.is_a?Array
                   unless xf_obj[:alignment].nil?
                     xml.alignment('horizontal'=>xf_obj[:alignment][:attributes][:horizontal].to_s,
