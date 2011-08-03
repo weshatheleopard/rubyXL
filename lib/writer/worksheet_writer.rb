@@ -77,10 +77,11 @@ module Writer
 
           unless @worksheet.cols.nil? || @worksheet.cols.size==0
             xml.cols {
-              if @worksheet.cols.is_a?(Hash)
+              if @worksheet.cols.is_a?(Object::Hash)
                 @worksheet.cols = [@worksheet.cols]
               end
               @worksheet.cols.each do |col|
+                p col
                 if col[:attributes][:customWidth].nil?
                   col[:attributes][:customWidth] = '0'
                 end
