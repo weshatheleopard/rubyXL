@@ -82,6 +82,9 @@ module Writer
             (i+1).upto(@workbook.cell_xfs[:xf].size) do |j|
               unless i == j
                 if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
+                  puts "found match, #{i},#{j}"
+                  puts "i = #{@workbook.cell_xfs[:xf][i].inspect}"
+                  puts "j = #{@workbook.cell_xfs[:xf][j].inspect}"
                   @workbook.cell_xfs[:xf].delete_at(i)
                   style_id_corrector.delete(i.to_s)
                   offset += 1
