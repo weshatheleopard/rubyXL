@@ -216,23 +216,23 @@ module RubyXL
             style_index = nil
 
             data_type = value.attribute('t').to_s
-
-            if data_type == 's' #shared string
+            
+            if (value.css('v').to_s == "") || (value.css('v').children.to_s == "") #no data
+              cell_data = nil
+            elsif data_type == 's' #shared string
               str_index = Integer(value.css('v').children.to_s)
               cell_data = shared_strings[str_index].to_s
             elsif data_type=='str' #raw string
               cell_data = value.css('v').children.to_s
             elsif data_type=='e' #error
               cell_data = value.css('v').children.to_s
-            elsif value.css('v').to_s != "" #is number
+            else# (value.css('v').to_s != "") && (value.css('v').children.to_s != "") #is number
               data_type = ''
               if(value.css('v').children.to_s =~ /\./) #is float
                 cell_data = Float(value.css('v').children.to_s)
-              else
+              else           
                 cell_data = Integer(value.css('v').children.to_s)
               end
-            else #no data
-              cell_data = nil
             end
             cell_formula = nil
             if(value.css('f').to_s != "")
@@ -240,7 +240,7 @@ module RubyXL
             end
 
             unless @data_only
-              style_index = Integer(value['s']) #nil goes to 0 (default)
+              style_index = value['s'].to_i #nil goes to 0 (default)
             else
               style_index = 0
             end
@@ -370,7 +370,7 @@ module RubyXL
         wb.appversion = files['app'].css('AppVersion').children.to_s
       end
 
-      wb.shared_strings_XML = files['sharedString']
+      wb.shared_strings_XML = files['sharedString'].to_s
 
       wb.worksheets = Array.new(@num_sheets) #array of Worksheet objs
       wb
