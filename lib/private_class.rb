@@ -2,12 +2,6 @@ module RubyXL
   class PrivateClass
     private
 
-    def hash_to_array_of_hashes(hash)
-      if hash.is_a?(Hash)
-        hash = [hash]
-      end
-    end
-
     #validate and modify methods
     def validate_horizontal_alignment(alignment)
       if alignment.to_s == '' || alignment == 'center' || alignment == 'distributed' || alignment == 'justify' || alignment == 'left' || alignment == 'right'
