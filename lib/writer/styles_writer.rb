@@ -78,16 +78,16 @@ module Writer
           style_id_corrector['0']=0
           1.upto(@workbook.cell_xfs[:xf].size) do |i|
             style_id_corrector[i.to_s]= i-offset
-            #style correction commented out until bug is fixed
-            # (i+1).upto(@workbook.cell_xfs[:xf].size) do |j|
-            #   unless i == j
-            #     if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j])
-            #       @workbook.cell_xfs[:xf].delete_at(i)
-            #       style_id_corrector.delete(i.to_s)
-            #       offset += 1
-            #     end
-            #   end
-            # end
+            # style correction commented out until bug is fixed
+            (i+1).upto(@workbook.cell_xfs[:xf].size) do |j|
+              unless i == j
+                if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
+                  @workbook.cell_xfs[:xf].delete_at(i)
+                  style_id_corrector.delete(i.to_s)
+                  offset += 1
+                end
+              end
+            end
           end
           @workbook.style_corrector = style_id_corrector
 
