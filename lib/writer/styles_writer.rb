@@ -74,24 +74,28 @@ module Writer
             end
           end
 
-          offset = 0
+
           style_id_corrector['0']=0
-          1.upto(@workbook.cell_xfs[:xf].size) do |i|
-            style_id_corrector[i.to_s]= i-offset
+          delete_list = []
+          i = 1
+          while(i < @workbook.cell_xfs[:xf].size) do
+            style_id_corrector[i.to_s]= i
             # style correction commented out until bug is fixed
-            (i+1).upto(@workbook.cell_xfs[:xf].size) do |j|
-              unless i == j
-                if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
-                  puts "found match, #{i},#{j}"
-                  puts "i = #{@workbook.cell_xfs[:xf][i].inspect}"
-                  puts "j = #{@workbook.cell_xfs[:xf][j].inspect}"
-                  @workbook.cell_xfs[:xf].delete_at(i)
-                  style_id_corrector.delete(i.to_s)
-                  offset += 1
-                end
+            j = i+1
+            while(j < @workbook.cell_xfs[:xf].size) do
+              if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
+                puts "found match, #{i},#{j}"
+                puts "i = #{@workbook.cell_xfs[:xf][i].inspect}"
+                puts "j = #{@workbook.cell_xfs[:xf][j].inspect}"
+                # @workbook.cell_xfs[:xf].delete_at(j)
+                style_id_corrector[j.to_s] = i#.delete(j.to_s)
+                delete_list << j
               end
+              j += 1
             end
-          end
+            i += 1
+          end         
+          
           @workbook.style_corrector = style_id_corrector
 
           xml.fonts('count'=>@workbook.fonts.size) {
