@@ -303,6 +303,10 @@ module RubyXL
       col_string+row_string
     end
 
+    def inspect
+      "#{@row},#{@column}: #{@value} = #{@formula}, datatype = #{@datatype}, style_index = #{@style_index}"
+    end
+
     private
 
     def change_border(direction, weight)
