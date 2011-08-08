@@ -42,6 +42,15 @@ module RubyXL
         wb.num_strings = Integer(files['sharedString'].css('sst').attribute('count').value())
         wb.size = Integer(files['sharedString'].css('sst').attribute('uniqueCount').value())
 
+        files['sharedString'].css('si').each do |node|
+          unless node.css('r').empty?
+            text = node.css('r t').children.to_a.join
+            node.children.remove
+            node << "<t xml:space=\"preserve\">#{text}</t>"
+          end
+        end
+        
+
         shared_strings = files['sharedString'].css('si t').children
         wb.shared_strings = {}
         shared_strings.each_with_index do |string,i|
