@@ -124,17 +124,27 @@ module Writer
           #   @workbook.cell_xfs[:xf].delete_at(delete_index)
           #   offset += 1
           # end
-          
+          puts 'here1'
           i = 1
           offset = 0
           while offset <= delete_list.size do
             delete_index = @workbook.cell_xfs[:xf].size #for last iteration
             delete_index = delete_list[offset] - offset unless delete_list[offset].nil? #usually this
+            puts "delete_index=#{delete_index}"
+            puts "offset=#{offset}"
             while i < delete_index do
-#              # style_id_corrector[i.to_s] -= offset #173 should equal 53, not 52?
+              style_id_corrector[i.to_s] -= offset #173 should equal 53, not 52?
+              puts "i=#{i}"
+              if i == 175
+                p @workbook.cell_xfs[:xf]
+                p delete_index
+                p offset
+                raise "test"
+              end
+                            
               i += 1
             end
-#            # @workbook.cell_xfs[:xf].delete_at(delete_index)
+            @workbook.cell_xfs[:xf].delete_at(delete_index)
             offset += 1
           end
           
