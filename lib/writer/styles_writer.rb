@@ -74,6 +74,9 @@ module Writer
             end
           end
 
+          # if !@workbook.cell_xfs[:xf].is_a?(Array)
+          #   @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]]
+          # end
 
           style_id_corrector['0']=0
           delete_list = []
@@ -86,11 +89,7 @@ module Writer
             j = i+1
             while(j < @workbook.cell_xfs[:xf].size) do
               if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
-                puts "found match, #{i},#{j}"
-                puts "i = #{@workbook.cell_xfs[:xf][i].inspect}"
-                puts "j = #{@workbook.cell_xfs[:xf][j].inspect}"
                 style_id_corrector[j.to_s] = i
-                puts "style_id_corrector[#{j.to_s.inspect}] = #{style_id_corrector[j.to_s]}"
                 delete_list << j
               end
               j += 1
@@ -98,61 +97,25 @@ module Writer
             i += 1
           end
 
-          p style_id_corrector.keys.map {|k| k.to_i}.sort
+          delete_list.sort!          
           
-          #go through delete list, if before delete_list index 0, offset 0, if before delete_list index 1, offset 1, etc.
-          delete_list.sort!
-          puts "delete_list = #{delete_list.inspect}"
-          # delete_list.each_with_index do |delete_index, offset|
-          #   i = delete_index-offset
-          #   while (i < delete_list[offset]-offset) do
-          #     style_id_corrector[i.to_s] -= offset
-          #     i += 1
-          #   end
-          #   @workbook.cell_xfs[:xf].delete_at(delete_index-offset)
-          # end   
-                 
-          # i = 1
-          # offset = 0
-          # while i < @workbook.cell_xfs[:xf].size do
-          #   delete_index = @workbook.cell_xfs[:xf].size
-          #   delete_index = delete_list[offset] - offset unless delete_list[offset].nil?
-          #   while i < delete_index do
-          #     style_id_corrector[i.to_s] -= offset
-          #     i += 1
-          #   end
-          #   @workbook.cell_xfs[:xf].delete_at(delete_index)
-          #   offset += 1
-          # end
-          puts 'here1'
           i = 1
           offset = 0
-          while offset <= delete_list.size do
-            delete_index = @workbook.cell_xfs[:xf].size #for last iteration
-            delete_index = delete_list[offset] - offset unless delete_list[offset].nil? #usually this
-            puts "delete_index=#{delete_index}"
-            puts "offset=#{offset}"
-            while i < delete_index do
-              style_id_corrector[i.to_s] -= offset #173 should equal 53, not 52?
-              puts "i=#{i}"
-              if i == 175
-                p @workbook.cell_xfs[:xf]
-                p delete_index
-                p offset
-                raise "test"
-              end
-                            
+          delete_list << @workbook.cell_xfs[:xf].size
+          
+          #go through delete list, if before delete_list index 0, offset 0, if before delete_list index 1, offset 1, etc.
+          while offset < delete_list.size do
+            delete_index = delete_list[offset] - offset #unless delete_list[offset].nil? #usually this
+                        
+            while i <= delete_index+offset do
+              style_id_corrector[i.to_s] -= offset unless style_id_corrector[i.to_s].nil?
               i += 1
             end
+            
             @workbook.cell_xfs[:xf].delete_at(delete_index)
             offset += 1
           end
           
-#          # delete_list.each_with_index do |delete, offset|
-#            # style_id_corrector[delete.to_s] += offset+1 #WRONG
-#          # end
-          
-          p style_id_corrector
           @workbook.style_corrector = style_id_corrector
 
 
