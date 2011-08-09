@@ -120,8 +120,14 @@ module Writer
             puts "offset=#{offset}"
                         
             while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill
+              j = 0
+              while j < offset
+                if   < delete_list[offset]
+              end
+              
               puts "i=#{i} style_id_corrector[#{i.to_s.inspect}] = #{style_id_corrector[i.to_s]}"
               style_id_corrector[i.to_s] -= offset unless style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
+              
               i += 1
             end
             # if offset < delete_list.size-1
