@@ -244,8 +244,13 @@ module RubyXL
               end
             end
             cell_formula = nil
-            if(value.css('f').to_s != "")
-              cell_formula = value.css('f').children.to_s
+            fmla_css = value.css('f')
+            if(fmla_css.to_s != "")
+              cell_formula = fmla_css.children.to_s
+              cell_formula_attr = {}
+              cell_formula_attr['t'] = fmla_css.attribute('t').to_s if fmla_css.attribute('t')
+              cell_formula_attr['ref'] = fmla_css.attribute('ref').to_s if fmla_css.attribute('ref')
+              cell_formula_attr['si'] = fmla_css.attribute('si').to_s if fmla_css.attribute('si')
             end
 
             unless @data_only
@@ -256,7 +261,7 @@ module RubyXL
 
             wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]] =
               Cell.new(wb.worksheets[i],cell_index[0],cell_index[1],cell_data,cell_formula,
-                data_type,style_index)
+                data_type,style_index,cell_formula_attr)
             cell = wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]]
           end
         end

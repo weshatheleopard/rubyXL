@@ -121,9 +121,13 @@ module Writer
                       #TODO do xml.c for all cases, inside specific.
                       # if dat.formula.nil?
                       xml.c('r'=>Cell.convert_to_cell(i,j),
-                        's'=>@workbook.style_corrector[dat.style_index.to_s].to_s, 't'=>dat.datatype) {
+                        's'=>@workbook.style_corrector[dat.style_index.to_s].to_s, 't'=>dat.datatype) {                          
                         unless dat.formula.nil?
-                          xml.f dat.formula.to_s
+                          if dat.formula_attributes.empty?
+                            xml.f dat.formula.to_s
+                          else
+                            xml.f('t'=>dat.formula_attributes['t'].to_s, 'ref'=>dat.formula_attributes['ref'], 'si'=>dat.formula_attributes['si']).nokogiri dat.formula
+                          end
                         end
                         if(dat.datatype == 's')
                           unless dat.value.nil? #empty cell, but has a style

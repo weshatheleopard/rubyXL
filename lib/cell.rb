@@ -2,9 +2,9 @@ module RubyXL
   class Cell < PrivateClass
 
     attr_accessor :row, :column, :datatype, :style_index, :value, :formula, :worksheet
-    attr_reader :workbook
+    attr_reader :workbook,:formula_attributes
 
-    def initialize(worksheet,row,column,value=nil,formula=nil,datatype='s',style_index=0)
+    def initialize(worksheet,row,column,value=nil,formula=nil,datatype='s',style_index=0, fmla_attr={})
       @worksheet = worksheet
 
       @workbook = worksheet.workbook
@@ -14,6 +14,7 @@ module RubyXL
       @value = value
       @formula=formula
       @style_index = style_index
+      @formula_attributes = fmla_attr
     end
 
     # changes fill color of cell
