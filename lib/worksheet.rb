@@ -393,9 +393,36 @@ class Worksheet < PrivateClass
     return @sheet_data[row][column]
   end
 
+  def delete_row(row_index=0)
+    validate_workbook
+    validate_nonnegative(row_index)
+    
+    if row_index >= @sheet_data.size
+      return nil
+    end
+    
+    deleted = @sheet_data.delete_at(row_index)
+    row_num = row_index+1
+    
+    row_num.upto(@sheet_data.size) do |index|
+      @row_styles[(index-1).to_s] = deep_copy(@row_styles[index.to_s])
+    end
+    @row_styles.delete(@sheet_data.size.to_s)
+    
+    #change row styles
+    # raise row_styles.inspect
+    
+    #change cell row numbers
+    (row_index...(@sheet_data.size-1)).each do |index|
+      @sheet_data[index].map {|c| c.row -= 1 if c}
+    end
+    
+    return deleted
+  end
+
   #inserts row at row_index, pushes down, copies style from below (row previously at that index)
   #USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
-  def insert_row(row_index)
+  def insert_row(row_index=0)
     validate_workbook
     validate_nonnegative(row_index)
 
@@ -450,9 +477,41 @@ class Worksheet < PrivateClass
     return @sheet_data[row_index]
   end
 
+  def delete_column(col_index=0)
+    validate_workbook
+    validate_nonnegative(col_index)
+    
+    if col_index >= @sheet_data[0].size
+      return nil
+    end
+    
+    #delete column
+    @sheet_data.map {|r| r.delete_at(col_index)}
+
+    #change column numbers for cells to right of deleted column
+    @sheet_data.each_with_index do |row,row_index|
+      (col_index...(row.size)).each do |index|
+        if @sheet_data[row_index][index].is_a?(Cell)
+          @sheet_data[row_index][index].column -= 1
+        end
+      end
+    end
+    
+    #shift column styles
+    #shift col styles 'left'
+    @cols.each do |col|
+      if Integer(col[:attributes][:min]) >= col_index
+        col[:attributes][:min] = (Integer(col[:attributes][:min]) - 1).to_s
+      end
+      if Integer(col[:attributes][:max]) >= col_index
+        col[:attributes][:max] = (Integer(col[:attributes][:max]) - 1).to_s
+      end
+    end
+  end
+
   # inserts column at col_index, pushes everything right, takes styles from column to left
   # USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
-  def insert_column(col_index)
+  def insert_column(col_index=0)
     validate_workbook
     validate_nonnegative(col_index)
     increase_columns(col_index)
