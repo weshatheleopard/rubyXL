@@ -118,25 +118,16 @@ module Writer
             delete_index = delete_list[offset] - offset
             puts "delete_index=#{delete_index}"
             puts "offset=#{offset}"
-                        
-            while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill
-              j = 0
-              while j < offset
-                if   < delete_list[offset]
-              end
-              
+
+            while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill              
               puts "i=#{i} style_id_corrector[#{i.to_s.inspect}] = #{style_id_corrector[i.to_s]}"
               style_id_corrector[i.to_s] -= offset unless style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
-              
+
               i += 1
             end
-            # if offset < delete_list.size-1
-              @workbook.cell_xfs[:xf].delete_at(delete_index)
-            # end
+            @workbook.cell_xfs[:xf].delete_at(delete_index)
             offset += 1
           end
-          
-          
           
           p style_id_corrector
           @workbook.style_corrector = style_id_corrector
