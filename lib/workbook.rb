@@ -184,6 +184,7 @@ module RubyXL
       if File.exist?(filepath)
         FileUtils.rm_rf(dirpath)
       end
+      return filepath
     end
 
     #gets style object from style array given index
