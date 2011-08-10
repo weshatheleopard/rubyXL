@@ -953,6 +953,34 @@ describe RubyXL::Worksheet do
     end
   end
 
+  describe '.delete_row' do
+    it 'should delete a row at index specified, "pushing" everything else "up"' do
+      @worksheet.delete_row(0)
+      @worksheet[0][0].value.should == "1:0"
+      @worksheet[0][0].formula.should be_nil
+      @worksheet[0][0].row.should == 0
+      @worksheet[0][0].column.should == 0
+    end
+    
+    it 'should delete a row at index specified, adjusting styles for other rows' do
+      @worksheet.change_row_font_name(1,"Courier")
+      @worksheet.delete_row(0)
+      @worksheet.get_row_font_name(0).should == "Courier"
+    end
+    
+    it 'should preserve (rather than fix) formulas that reference cells in "pushed up" rows' do
+      @worksheet.add_cell(11,0,nil,'SUM(A1:A10)')
+      @worksheet.delete_row(0)
+      @worksheet[10][0].formula.should == 'SUM(A1:A10)'
+    end
+    
+    it 'should cause error if a negative argument is passed in' do
+      lambda {
+        @worksheet.delete_row(-1)
+      }.should raise_error
+    end
+  end
+
   describe '.insert_row' do
     it 'should insert a row at index specified, "pushing" everything else "down"' do
       @worksheet.insert_row(0)
@@ -986,6 +1014,34 @@ describe RubyXL::Worksheet do
     end
   end
 
+  describe '.delete_column' do
+    it 'should delete a column at index specified, "pushing" everything else "left"' do
+      @worksheet.delete_column(0)
+      @worksheet[0][0].value.should == "0:1"
+      @worksheet[0][0].formula.should be_nil
+      @worksheet[0][0].row.should == 0
+      @worksheet[0][0].column.should == 0
+    end
+    
+    it 'should delete a column at index specified, "pushing" styles "left"' do
+      @worksheet.change_column_font_name(1,"Courier")
+      @worksheet.delete_column(0)
+      @worksheet.get_column_font_name(0).should == "Courier"
+    end
+    
+    it 'should preserve (rather than fix) formulas that reference cells in "pushed left" columns' do
+      @worksheet.add_cell(0,4,nil,'SUM(A1:D1)')
+      @worksheet.delete_column(0)
+      @worksheet[0][3].formula.should == 'SUM(A1:D1)'
+    end
+    
+    it 'should cause error if negative argument is passed in' do
+      lambda {
+        @worksheet.delete_column(-1)
+      }.should raise_error
+    end
+  end
+
   describe '.insert_column' do
     it 'should insert a column at index specified, "pushing" everything else "right"' do
       @worksheet.insert_column(0)
@@ -1006,7 +1062,7 @@ describe RubyXL::Worksheet do
       @worksheet.get_column_font_name(0).should == 'Verdana' #not courier
     end
 
-    it 'should preserve (rather than fix) formulas that reference cells in "pushed right" rows' do
+    it 'should preserve (rather than fix) formulas that reference cells in "pushed right" column' do
       @worksheet.add_cell(0,5,nil,'SUM(A1:D1)')
       @worksheet.insert_column(0)
       @worksheet[0][6].formula.should == 'SUM(A1:D1)'
