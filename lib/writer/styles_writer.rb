@@ -91,36 +91,25 @@ module Writer
             j = i+1
             while(j < @workbook.cell_xfs[:xf].size) do
               if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
-                puts "found match, #{i},#{j}"
-                puts "i = #{@workbook.cell_xfs[:xf][i].inspect}"
-                puts "j = #{@workbook.cell_xfs[:xf][j].inspect}"
                 style_id_corrector[j.to_s] = i
-                puts "style_id_corrector[#{j.to_s.inspect}] = #{style_id_corrector[j.to_s]}"
                 delete_list << j
               end
               j += 1
             end
             i += 1
           end
-
-          p style_id_corrector.keys.map {|k| k.to_i}.sort
           
           #go through delete list, if before delete_list index 0, offset 0, if before delete_list index 1, offset 1, etc.
           delete_list.sort!
-          puts "delete_list = #{delete_list.inspect}"
 
-          puts "@workbook.cell_xfs[:xf].size = #{@workbook.cell_xfs[:xf].size}"
           i = 1
           offset = 0
           offset_corrector = 0
           delete_list << @workbook.cell_xfs[:xf].size
           while offset < delete_list.size do
             delete_index = delete_list[offset] - offset
-            puts "delete_index=#{delete_index}"
-            puts "offset=#{offset}"
 
             while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill              
-              puts "i=#{i} style_id_corrector[#{i.to_s.inspect}] = #{style_id_corrector[i.to_s]}"
               if style_id_corrector[i.to_s] == i
                 style_id_corrector[i.to_s] -= offset# unless style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
               end
@@ -131,7 +120,6 @@ module Writer
             offset += 1
           end
           
-          p style_id_corrector
           @workbook.style_corrector = style_id_corrector
 
 
