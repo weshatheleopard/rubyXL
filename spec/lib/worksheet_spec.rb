@@ -17,6 +17,15 @@ describe RubyXL::Worksheet do
     @old_cell_formula = @worksheet[0][0].formula
   end
 
+  describe '.extract_data' do
+    it 'should return a 2d array of just the cell values (without style or formula information)' do
+      data = @worksheet.extract_data()
+      data[0][0].should == '0:0'
+      data.size.should == @worksheet.sheet_data.size
+      data[0].size.should == @worksheet[0].size
+    end
+  end
+
   describe '.get_table' do
     it 'should return nil if table cannot be found with specified string' do
       @worksheet.get_table('TEST').should be_nil
