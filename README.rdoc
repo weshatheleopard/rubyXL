@@ -6,13 +6,61 @@
 == To Use:
   require 'rubyXL' #assuming rubygems is already required
 
-=== Parsing
+=== Parsing an existing workbook
   workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
 
 
-=== Creating
+=== Creating a new Workbook
   workbook = RubyXL::Workbook.new
 
+=== Accessing
+
+==== Accessing a Worksheet
+  workbook.worksheets[0] #returns first worksheet
+  workbook[0] #returns first worksheet
+
+==== Accessing a Row (Array of Cells)
+  workbook[0].sheet_data[0] #returns first row in first worksheet
+  workbook[0][0] #returns first row in first worksheet
+
+==== Accessing a Cell
+  workbook[0].sheet_data[0][0] #returns A1 in first worksheet
+  workbook[0][0][0] #returns A1 in first worksheet
+
+==== Accessing Cell properties
+  workbook[0][0][0].is_struckthrough() #returns if A1 is struckthrough, other boolean properties have same syntax
+  workbook[0][0][0].font_name #returns font name for A1
+  workbook[0][0][0].font_size #returns font size for A1
+  workbook[0][0][0].font_color #returns font color for A1
+  workbook[0][0][0].fill_color #returns fill color for A1
+  workbook[0][0][0].horizontal_alignment #returns horizontal alignment for A1 (or nil if it does not exist)
+  workbook[0][0][0].vertical_alignment #returns vertical alignment for A1 (or nil if it does not exist)
+  workbook[0][0][0].border_top #returns type of border on top of A1 (nil if none exists), other directions have same syntax
+
+==== Accessing row properties
+  workbook[0].get_row_fill(0) #returns fill color for first row
+  workbook[0].get_row_font_name(0) #returns font name for first row
+  workbook[0].get_row_font_size(0) #returns font size for first row
+  workbook[0].get_row_font_color(0) #returns font color for first row
+  workbook[0].is_row_underlined(0) #returns if first row is italicized, other boolean properties have same syntax
+  workbook[0].get_row_height(0) #returns height of first row
+  workbook[0].get_row_horizontal_alignment(0) #returns horizontal alignment of first row (nil if none exists)
+  workbook[0].get_row_vertical_alignment(0) #returns vertical alignment of first row (nil if none exists)
+  workbook[0].get_row_border_right(0) #returns weight of right border of first row (nil if none exists), other directions have the same syntax
+
+==== Accessing column properties
+workbook[0].get_column_fill(0) #returns fill color for first column
+workbook[0].get_column_font_name(0) #returns font name for first column
+workbook[0].get_column_font_size(0) #returns font size for first column
+workbook[0].get_column_font_color(0) #returns font color for first column
+workbook[0].is_column_underlined(0) #returns if first column is italicized, other boolean properties have same syntax
+workbook[0].get_column_height(0) #returns height of first column
+workbook[0].get_column_horizontal_alignment(0) #returns horizontal alignment of first column (nil if none exists)
+workbook[0].get_column_vertical_alignment(0) #returns vertical alignment of first column (nil if none exists)
+workbook[0].get_column_border_right(0) #returns weight of right border of first column (nil if none exists), other directions have the same syntax
+
+==== Table identification
+  #get table
 
 === Modifying
 
@@ -21,22 +69,70 @@
 
 ==== Adding Cells
   workbook.worksheets[0].add_cell(0,0,'A1') #sets A1 to string "A1"
-  workbook.worksheets[0].add_cell(0,1,'','A1') #sets A2 to value of A1
+  workbook.worksheets[0].add_cell(0,1,'','A1') #sets B1 to value of A1
+ 
+  workbook.worksheets[0].add_cell_obj(Cell.new(1,0,'blah')) #sets A2 to 'blah'
+
 
 ==== Changing Fonts
   workbook.worksheets[0].sheet_data[0][0].change_font_bold(true) #sets A1 to bold
   workbook.worksheets[0].change_row_font_italics(0,true) #makes first row italicized
-  workbook.worksheets[0].change_column_font_name(0,'Verdana')
+  workbook.worksheets[0].change_column_font_name(0,'Courier') #makes first column have font Courier
 
 ==== Changing Fills	
-  #code here
+  workbook.worksheets[0].sheet_data[0][0].change_fill('0ba53d') #sets A1 to have fill #0ba53d
+  workbook.worksheets[0].change_row_fill(0, '0ba53d') #sets first row to have fill #0ba53d
+  workbook.worksheets[0].change_column_fill(0, '0ba53d') #sets first column to have fill #0ba53d
+
+==== Changing Borders
+  # Possible weights: hairline, thin, medium, thick
+  # Possible "directions": top, bottom, left, right, diagonal
+  workbook.worksheets[0].sheet_data[0][0].change_border_top('thin') #sets A1 to have a top, thin border
+  workbook.worksheets[0].change_row_border_left(0, 'hairline') #sets first row to have a left, hairline border
+  workbook.worksheets[0].change_column_border_diagonal(0, 'medium') #sets first column to have diagonal, medium border
+
+==== Changing Alignment
+===== Horizontal
+center, distributed, justify, left, right
+  workbook.worksheets[0].sheet_data[0][0].change_horizontal_alignment('center') #sets A1 to be centered
+  workbook.worksheets[0].change_row_horizontal_alignment(0,'justify') #sets first row to be justified
+  workbook.worksheets[0].change_column_horizontal_alignment(0,'right'), #sets first column to be right-aligned
+
+===== Vertical
+bottom, center, distributed, top
+  workbook.worksheets[0].sheet_data[0][0].change_vertical_alignment('bottom') #sets A1 to be bottom aligned
+  workbook.worksheets[0].change_row_vertical_alignment(0,'distributed') #sets first row to be distributed vertically
+  workbook.worksheets[0].change_column_vertical_alignment(0,'top') #sets first column to be top aligned
+
+==== Changing Row Height
+  workbook.worksheets[0].change_row_height(0,30) #sets first row to be of height 30
+
+==== Changing Column Width
+  workbook.worksheets[0].change_column_width(0,30) #sets first column to be of width 30
 
 ==== Merging Cells
-  #code here
+  workbook.worksheets[0].merge_cells(0,0,1,1) #merges A1:B2
+
+==== Insert Row
+  #insert row
+
+==== Insert Column
+  #insert column
+
+==== Delete Row
+  #delete row
+
+==== Delete Column
+  #delete column
+
 
 === Writing
   workbook.write("path/to/desired/Excel/file.xlsx")
 
+
+=== Miscellaneous
+  Cell.convert_to_cell(0,0) == 'A1' #converts row and column index to Excel-style index
+  Parser.convert_to_index('A1') == [0,0] #converts Excel-style index to row and column index
 
 == For more information
 Take a look at the files in spec/lib/ for rspecs on most methods
