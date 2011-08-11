@@ -126,7 +126,7 @@ module Writer
                       xml.c('r'=>Cell.convert_to_cell(i,j),
                         's'=>dat.style_index.to_s, 't'=>dat.datatype) {
                         unless dat.formula.nil?
-                          if dat.formula_attributes.empty?
+                          if dat.formula_attributes.nil? || dat.formula_attributes.empty?
                             xml.f dat.formula.to_s
                           else
                             xml.f('t'=>dat.formula_attributes['t'].to_s, 'ref'=>dat.formula_attributes['ref'], 'si'=>dat.formula_attributes['si']).nokogiri dat.formula
