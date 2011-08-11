@@ -74,22 +74,54 @@ module Writer
             end
           end
 
-          offset = 0
-          style_id_corrector['0']=0
-          1.upto(@workbook.cell_xfs[:xf].size) do |i|
-            style_id_corrector[i.to_s]= i-offset
-            #style correction commented out until bug is fixed
-            # (i+1).upto(@workbook.cell_xfs[:xf].size) do |j|
-            #   unless i == j
-            #     if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j])
-            #       @workbook.cell_xfs[:xf].delete_at(i)
-            #       style_id_corrector.delete(i.to_s)
-            #       offset += 1
-            #     end
-            #   end
-            # end
+          if !@workbook.cell_xfs[:xf].is_a?(Array)
+            @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]]
           end
+          
+
+          
+          style_id_corrector['0']=0
+          delete_list = []
+          i = 1
+          while(i < @workbook.cell_xfs[:xf].size) do
+            if style_id_corrector[i.to_s].nil?
+              style_id_corrector[i.to_s]= i
+            end
+            # style correction commented out until bug is fixed
+            j = i+1
+            while(j < @workbook.cell_xfs[:xf].size) do
+              if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
+                style_id_corrector[j.to_s] = i
+                delete_list << j
+              end
+              j += 1
+            end
+            i += 1
+          end
+          
+          #go through delete list, if before delete_list index 0, offset 0, if before delete_list index 1, offset 1, etc.
+          delete_list.sort!
+
+          i = 1
+          offset = 0
+          offset_corrector = 0
+          delete_list << @workbook.cell_xfs[:xf].size
+          while offset < delete_list.size do
+            delete_index = delete_list[offset] - offset
+
+            while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill              
+              if style_id_corrector[i.to_s] == i
+                style_id_corrector[i.to_s] -= offset# unless style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
+              end
+
+              i += 1
+            end
+            @workbook.cell_xfs[:xf].delete_at(delete_index)
+            offset += 1
+          end
+          
           @workbook.style_corrector = style_id_corrector
+
 
           xml.fonts('count'=>@workbook.fonts.size) {
             0.upto(@workbook.fonts.size-1) do |i|

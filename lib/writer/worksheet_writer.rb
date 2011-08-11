@@ -77,6 +77,9 @@ module Writer
 
           unless @worksheet.cols.nil? || @worksheet.cols.size==0
             xml.cols {
+              if !@worksheet.cols.is_a?(Array)
+                @worksheet.cols = [@worksheet.cols]
+              end
               @worksheet.cols.each do |col|
                 if col[:attributes][:customWidth].nil?
                   col[:attributes][:customWidth] = '0'
@@ -109,19 +112,19 @@ module Writer
                 custom_format = '0'
               end
 
+              @worksheet.row_styles[(i+1).to_s][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style].to_s]
               xml.row('r'=>(i+1).to_s, 'spans'=>'1:'+row.size.to_s,
-                's'=>@workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style].to_s].to_s,
+                's'=>@worksheet.row_styles[(i+1).to_s][:style].to_s,
                 'customFormat'=>custom_format,
                 'ht'=>@worksheet.row_styles[(i+1).to_s][:height].to_s,
                 'customHeight'=>@worksheet.row_styles[(i+1).to_s][:customHeight].to_s) {
                 row.each_with_index do |dat, j|
                   unless dat.nil?
-                      #TODO un-hardcode t value, needs to be other values too
-                      #TODO recalculate based on formula....?
                       #TODO do xml.c for all cases, inside specific.
                       # if dat.formula.nil?
+                      dat.style_index = @workbook.style_corrector[dat.style_index.to_s]
                       xml.c('r'=>Cell.convert_to_cell(i,j),
-                        's'=>@workbook.style_corrector[dat.style_index.to_s].to_s, 't'=>dat.datatype) {                          
+                        's'=>dat.style_index.to_s, 't'=>dat.datatype) {
                         unless dat.formula.nil?
                           if dat.formula_attributes.empty?
                             xml.f dat.formula.to_s
