@@ -49,15 +49,15 @@
   workbook[0].get_row_border_right(0) #returns weight of right border of first row (nil if none exists), other directions have the same syntax
 
 ==== Accessing column properties
-workbook[0].get_column_fill(0) #returns fill color for first column
-workbook[0].get_column_font_name(0) #returns font name for first column
-workbook[0].get_column_font_size(0) #returns font size for first column
-workbook[0].get_column_font_color(0) #returns font color for first column
-workbook[0].is_column_underlined(0) #returns if first column is italicized, other boolean properties have same syntax
-workbook[0].get_column_height(0) #returns height of first column
-workbook[0].get_column_horizontal_alignment(0) #returns horizontal alignment of first column (nil if none exists)
-workbook[0].get_column_vertical_alignment(0) #returns vertical alignment of first column (nil if none exists)
-workbook[0].get_column_border_right(0) #returns weight of right border of first column (nil if none exists), other directions have the same syntax
+  workbook[0].get_column_fill(0) #returns fill color for first column
+  workbook[0].get_column_font_name(0) #returns font name for first column
+  workbook[0].get_column_font_size(0) #returns font size for first column
+  workbook[0].get_column_font_color(0) #returns font color for first column
+  workbook[0].is_column_underlined(0) #returns if first column is italicized, other boolean properties have same syntax
+  workbook[0].get_column_height(0) #returns height of first column
+  workbook[0].get_column_horizontal_alignment(0) #returns horizontal alignment of first column (nil if none exists)
+  workbook[0].get_column_vertical_alignment(0) #returns vertical alignment of first column (nil if none exists)
+  workbook[0].get_column_border_right(0) #returns weight of right border of first column (nil if none exists), other directions have the same syntax
 
 ==== Table identification
   #get table

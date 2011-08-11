@@ -579,6 +579,35 @@ class Worksheet < PrivateClass
     end
   end
   
+  def insert_cell(row=0,col=0,data=nil,formula=nil,shift=nil)
+    validate_workbook
+    validate_nonnegative(row)
+    validate_nonnegative(col)
+    
+    increase_rows(row)
+    increase_columns(col)
+    
+    if shift && shift != :right && shift != :down
+      raise 'invalid shift option'
+    end
+    
+    if shift == :right
+      @sheet_data[row].insert(col,nil)
+      (row...(@sheet_data[row].size)).each do |index|
+        if @sheet_data[row][index].is_a?(Cell)
+          @sheet_data[row][index].column += 1
+        end
+      end
+    elsif shift == :down
+      @sheet_data << Array.new(@sheet_data[row].size)
+      (@sheet_data.size-1).downto(row+1) do |index|
+        @sheet_data[index][col] = @sheet_data[index-1][col]
+      end
+    end
+    
+    return add_cell(row,col,data,formula)
+  end
+  
   # by default, only sets cell to nil
   # if :left is specified, method will shift row contents to the right of the deleted cell to the left
   # if :up is specified, method will shift column contents below the deleted cell upward

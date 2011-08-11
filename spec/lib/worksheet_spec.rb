@@ -1090,6 +1090,41 @@ describe RubyXL::Worksheet do
     end
   end
 
+  describe '.insert_cell' do
+    it 'should simply add a cell if no shift argument is specified' do
+      @worksheet.insert_cell(0,0,'test')
+      @worksheet[0][0].value.should == 'test'
+      @worksheet[0][1].value.should == '0:1'
+      @worksheet[1][0].value.should == '1:0'
+    end
+    
+    it 'should shift cells to the right if :right is specified' do
+      @worksheet.insert_cell(0,0,'test',nil,:right)
+      @worksheet[0][0].value.should == 'test'
+      @worksheet[0][1].value.should == '0:0'
+      @worksheet[1][0].value.should == '1:0'
+    end
+    
+    it 'should shift cells down if :down is specified' do
+      @worksheet.insert_cell(0,0,'test',nil,:down)
+      @worksheet[0][0].value.should == 'test'
+      @worksheet[0][1].value.should == '0:1'
+      @worksheet[1][0].value.should == '0:0'
+    end
+    
+    it 'should cause error if shift argument is specified whcih is not :right or :down' do
+      lambda {
+        @worksheet.insert_cell(0,0,'test',nil,:up)
+      }.should raise_error
+    end
+    
+    it 'should cause error if a negative argument is passed in' do
+      lambda {
+        @worksheet.insert_cell(-1,-1)
+      }.should raise_error
+    end
+  end
+
   describe '.delete_cell' do
     it 'should make a cell nil if no shift argument specified' do
       deleted = @worksheet.delete_cell(0,0)
