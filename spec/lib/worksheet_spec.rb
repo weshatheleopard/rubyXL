@@ -1081,6 +1081,40 @@ describe RubyXL::Worksheet do
     end
   end
 
+  describe '.delete_cell' do
+    it 'should make a cell nil if no shift argument specified' do
+      deleted = @worksheet.delete_cell(0,0)
+      @worksheet[0][0].should be_nil
+      @old_cell.inspect.should == deleted.inspect
+    end
+    
+    it 'should return nil if a cell which is out of range is specified' do
+      @worksheet.delete_cell(12,12).should be_nil
+    end
+    
+    it 'should cause error if a negative argument is passed in' do
+      lambda {
+        @worksheet.delete_cell(-1,-1)
+      }.should raise_error
+    end
+    
+    it 'should shift cells to the right of the deleted cell left if :left is specified' do
+      @worksheet.delete_cell(0,0,:left)
+      @worksheet[0][0].value.should == '0:1'
+    end
+    
+    it 'should shift cells below the deleted cell up if :up is specified' do
+      @worksheet.delete_cell(0,0,:up)
+      @worksheet[0][0].value.should == '1:0'
+    end
+    
+    it 'should cause en error if an argument other than :left, :up, or nil is specified for shift' do
+      lambda {
+        @worksheet.delete_cell(0,0,:down)
+      }.should raise_error
+    end
+  end
+
   describe '.get_row_fill' do
     it 'should return white (ffffff) if no fill color specified for row' do
       @worksheet.get_row_fill(0).should == 'ffffff'

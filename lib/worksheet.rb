@@ -573,6 +573,47 @@ class Worksheet < PrivateClass
       end
     end
   end
+  
+  # by default, only sets cell to nil
+  # if :left is specified, method will shift row contents to the right of the deleted cell to the left
+  # if :up is specified, method will shift column contents below the deleted cell upward
+  def delete_cell(row=0,col=0,shift=nil)
+    validate_workbook
+    validate_nonnegative(row)
+    validate_nonnegative(col)
+    if @sheet_data.size <= row || @sheet_data[row].size <= col
+      return nil
+    end
+    
+    cell = @sheet_data[row][col]
+    @sheet_data[row][col]=nil
+    
+    if shift && shift != :left && shift != :up
+      raise 'invalid shift option'
+    end
+    
+    if shift == :left
+      @sheet_data[row].delete_at(col)
+      @sheet_data[row] << nil
+      (col...(@sheet_data[row].size)).each do |index|
+        if @sheet_data[row][index].is_a?(Cell)
+          @sheet_data[row][index].column -= 1
+        end
+      end
+    elsif shift == :up
+      (row...(@sheet_data.size-1)).each do |index|
+        @sheet_data[index][col] = @sheet_data[index+1][col]
+        if @sheet_data[index][col].is_a?(Cell)
+          @sheet_data[index][col].row -= 1
+        end
+      end
+      if @sheet_data.last[col].is_a?(Cell)
+        @sheet_data.last[col].row -= 1
+      end
+    end
+    
+    return cell
+  end
 
   def get_row_fill(row=0)
     validate_workbook
