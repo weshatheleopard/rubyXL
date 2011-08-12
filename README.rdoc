@@ -19,6 +19,9 @@
   workbook.worksheets[0] #returns first worksheet
   workbook[0] #returns first worksheet
 
+==== Accessing Only the Values
+  workbook.worksheets[0].extract_data #produces a 2d array which consists only of the values (instead of the Cell objects which include other variables)
+
 ==== Accessing a Row (Array of Cells)
   workbook[0].sheet_data[0] #returns first row in first worksheet
   workbook[0][0] #returns first row in first worksheet
@@ -60,7 +63,18 @@
   workbook[0].get_column_border_right(0) #returns weight of right border of first column (nil if none exists), other directions have the same syntax
 
 ==== Table identification
-  #get table
+  workbook[0].get_table(["NAME", "AGE", "HEIGHT"]) #returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
+  #it has the following structure
+  => {
+	:Name=>["John", "Jane", "Joe"], 
+	:Height=>[70, 65, 68], 
+	:Age=>[30, 25, 35]
+	:table=>[
+	     {:Name=>"John", :Height=>70, :Age=>30},
+	     {:Name=>"Jane", :Height=>65, :Age=>25}, 
+	     {:Name=>"Joe", :Height=>68, :Age=>35}
+	]
+	}
 
 === Modifying
 
@@ -73,6 +87,8 @@
  
   workbook.worksheets[0].add_cell_obj(Cell.new(1,0,'blah')) #sets A2 to 'blah'
 
+==== Changing Cells
+  workbook.worksheets[0][0][0].change_contents("", workbook.worksheets[0][0][0].formula) #sets A1 to empty string, preserves formula
 
 ==== Changing Fonts
   workbook.worksheets[0].sheet_data[0][0].change_font_bold(true) #sets A1 to bold
@@ -114,17 +130,44 @@ bottom, center, distributed, top
   workbook.worksheets[0].merge_cells(0,0,1,1) #merges A1:B2
 
 ==== Insert Row
-  #insert row
+This method will insert a row at specified index, pushing all rows below it down. It also copies styles from row above.
+
+WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted rows
+  workbook.worksheets[0].insert_row(1)
 
 ==== Insert Column
-  #insert column
+This method will insert a column at specified index, pushing all columns to the right of it one to the right. It also copies styles from column to the left
+
+WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted columns
+  workbook.worksheets[0].insert_column(1)
 
 ==== Delete Row
-  #delete row
+This method will delete a row at specified index, pushing all rows below it up.
+
+WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted rows
+  workbook.worksheets[0].delete_row(1)
 
 ==== Delete Column
-  #delete column
+This method will delete a column at specified index, pushing all columns to the right of it left.
 
+WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted columns
+ workbook.worksheets[0].delete_column(1)
+
+==== Insert Cell
+This method will insert a cell at specified position. It takes a :right or :down option, to shift cells either left or down upon inserting (nil means replacing the cell)
+
+WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted cells
+  workbook.worksheets[0].insert_cell(0,0,"blah",formula=nil,:right) #inserts cell at A1, shifts cells in first row right
+  workbook.worksheets[0].insert_cell(0,0,"blah",formula=nil,:down) #inserts cell at A1, shifts cells in first column down
+  workbook.worksheets[0].insert_cell(0,0,"blah") #inserts cell at A1, shifts nothing
+
+==== Delete Cell
+This method will delete a cell at specified position. It takes a :left or :up option, to shift cells either up or left upon deletion (nil means simply deleting the cell contents)
+
+WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted cells
+  workbook.worksheets[0].delete_cell(0,0,:left) #deletes A1, shifts contents of first row left
+  workbook.worksheets[0].delete_cell(0,0,:up) #deletes A1, shifts contents of first column up
+  workbook.worksheets[0].delete_cell(0,0) #deletes A1, does not shift cells
 
 === Writing
   workbook.write("path/to/desired/Excel/file.xlsx")
