@@ -385,6 +385,8 @@ module RubyXL
       end
 
       wb.shared_strings_XML = files['sharedString'].to_s
+      wb.defined_names = files['workbook'].css('definedNames').to_s
+
 
       wb.worksheets = Array.new(@num_sheets) #array of Worksheet objs
       wb

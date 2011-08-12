@@ -44,15 +44,11 @@ module Writer
               end
             }
           end
-          # unless @workbook.definedNames.nil?
-          #   xml.definedNames {
-          #     @workbook.definedNames.each do |name|
-          #       xml.definedName('name'=>name[:attributes][:name]) {
-          #         # name[:]
-          #       }
-          #     end
-          #   }
-          # end
+          
+          # nokogiri builder creates CDATA tag around content, 
+          # using .text creates "html safe" &lt; and &gt; in place of < and >
+          # xml to hash method does not seem to function well for this particular piece of xml
+          xml.cdata @workbook.defined_names.to_s
 
           #TODO see if this changes with formulas
           #attributes out of order here
@@ -66,9 +62,15 @@ module Writer
         }
       end
       contents = builder.to_xml
+      p contents
       contents = contents.gsub(/\n/,'')
       contents = contents.gsub(/>(\s)+</,'><')
+      contents = contents.gsub(/<!\[CDATA\[(.*)\]\]>/,'\1')
       contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
+      puts '
+      
+      '
+      puts contents
 
       contents
     end

@@ -16,7 +16,7 @@ module RubyXL
       :modified_at, :company, :application, :appversion, :num_fmts, :fonts, :fills,
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :shared_strings, :calc_chain,
       :num_strings, :size, :date1904, :external_links, :style_corrector, :drawings,
-      :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML
+      :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names
 
     APPLICATION = 'Microsoft Macintosh Excel'
     APPVERSION  = '12.0000'
@@ -55,6 +55,7 @@ module RubyXL
       @macros             = nil
       @colors             = nil
       @shared_strings_XML = nil
+      @defined_names      = nil
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')
