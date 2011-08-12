@@ -64,17 +64,17 @@
 
 ==== Table identification
   workbook[0].get_table(["NAME", "AGE", "HEIGHT"]) #returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
-  #it has the following structure
-  => {
-	:Name=>["John", "Jane", "Joe"], 
-	:Height=>[70, 65, 68], 
-	:Age=>[30, 25, 35]
-	:table=>[
-	     {:Name=>"John", :Height=>70, :Age=>30},
-	     {:Name=>"Jane", :Height=>65, :Age=>25}, 
-	     {:Name=>"Joe", :Height=>68, :Age=>35}
-	]
-	}
+  #it returns the following structure
+  {
+   :Name=>["John", "Jane", "Joe"], 
+   :Height=>[70, 65, 68], 
+   :Age=>[30, 25, 35]
+   :table=>[
+    {:Name=>"John", :Height=>70, :Age=>30},
+    {:Name=>"Jane", :Height=>65, :Age=>25}, 
+    {:Name=>"Joe", :Height=>68, :Age=>35}
+   ]
+  }
 
 === Modifying
 
