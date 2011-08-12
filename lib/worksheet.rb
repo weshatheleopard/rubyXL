@@ -1085,12 +1085,14 @@ class Worksheet < PrivateClass
 
   #change cols array
   def change_cols(i,col_index)
+    style = '0'
     if @cols[i].nil?
       @cols << {:attributes=>{:style=>nil,:min=>nil,:max=>nil,:width=>nil,:customWidth=>nil}}
     else
       @cols << deep_copy(@cols[i])
+      style = @cols[i][:attributes][:style]
     end
-    @cols.last[:attributes][:style] = (@workbook.cell_xfs[:xf].size-1).to_s
+    @cols.last[:attributes][:style] = style
     @cols.last[:attributes][:min] = (Integer(col_index)+1).to_s
     @cols.last[:attributes][:max] = (Integer(col_index)+1).to_s
     @cols.last[:attributes][:width] = '10'
