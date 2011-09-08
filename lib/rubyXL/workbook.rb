@@ -8,7 +8,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),'writer','workbook_wri
 require File.expand_path(File.join(File.dirname(__FILE__),'writer','styles_writer'))
 require File.expand_path(File.join(File.dirname(__FILE__),'writer','shared_strings_writer'))
 require File.expand_path(File.join(File.dirname(__FILE__),'writer','worksheet_writer'))
-require 'zip'
+require 'rubyXL/zip'
 
 module RubyXL
   class Workbook
