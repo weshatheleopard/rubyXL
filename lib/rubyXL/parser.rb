@@ -49,13 +49,13 @@ module RubyXL
             node << "<t xml:space=\"preserve\">#{text}</t>"
           end
         end
-        
 
-        shared_strings = files['sharedString'].css('si t').children
+        string_nodes = files['sharedString'].css('si t')
         wb.shared_strings = {}
-        shared_strings.each_with_index do |string,i|
-          wb.shared_strings[i] = string.to_s
-          wb.shared_strings[string.to_s] = i
+        string_nodes.each_with_index do |node,i|
+          string = node.children.to_s
+          wb.shared_strings[i] = string
+          wb.shared_strings[string] = i
         end
       end
 
@@ -77,7 +77,7 @@ module RubyXL
       #2. Fill in the matrix with data from worksheet/shared_string files
       #3. Apply styles
       wb.worksheets.each_index do |i|
-        Parser.fill_worksheet(wb,i,files,shared_strings)
+        Parser.fill_worksheet(wb,i,files,wb.shared_strings)
       end
 
       return wb
@@ -225,7 +225,7 @@ module RubyXL
             style_index = nil
 
             data_type = value.attribute('t').to_s
-            
+
             if (value.css('v').to_s == "") || (value.css('v').children.to_s == "") #no data
               cell_data = nil
             elsif data_type == 's' #shared string
@@ -239,7 +239,7 @@ module RubyXL
               data_type = ''
               if(value.css('v').children.to_s =~ /\./) #is float
                 cell_data = Float(value.css('v').children.to_s)
-              else           
+              else
                 cell_data = Integer(value.css('v').children.to_s)
               end
             end
