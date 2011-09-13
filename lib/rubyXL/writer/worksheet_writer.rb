@@ -113,11 +113,21 @@ module Writer
               end
 
               @worksheet.row_styles[(i+1).to_s][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style].to_s]
-              xml.row('r'=>(i+1).to_s, 'spans'=>'1:'+row.size.to_s,
-                's'=>@worksheet.row_styles[(i+1).to_s][:style].to_s,
-                'customFormat'=>custom_format,
-                'ht'=>@worksheet.row_styles[(i+1).to_s][:height].to_s,
-                'customHeight'=>@worksheet.row_styles[(i+1).to_s][:customHeight].to_s) {
+              row_opts = {
+                'r'=>(i+1).to_s,
+                'spans'=>'1:'+row.size.to_s,
+                'customFormat'=>custom_format
+              }
+              unless @worksheet.row_styles[(i+1).to_s][:style].to_s == ''
+                row_opts['s'] = @worksheet.row_styles[(i+1).to_s][:style].to_s
+              end
+              unless @worksheet.row_styles[(i+1).to_s][:height].to_s == ''
+                row_opts['ht'] = @worksheet.row_styles[(i+1).to_s][:height].to_s
+              end
+              unless @worksheet.row_styles[(i+1).to_s][:customheight].to_s == ''
+                row_opts['customHeight'] = @worksheet.row_styles[(i+1).to_s][:customHeight].to_s
+              end
+              xml.row(row_opts) {
                 row.each_with_index do |dat, j|
                   unless dat.nil?
                       #TODO do xml.c for all cases, inside specific.

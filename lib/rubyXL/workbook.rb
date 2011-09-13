@@ -23,7 +23,7 @@ module RubyXL
     SHEET_NAME = 'Sheet1'
     def initialize(worksheets=[], filepath=nil, creator=nil, modifier=nil, created_at=nil,
                    company='', application=APPLICATION,
-                   appversion=APPVERSION, date_1904=0)
+                   appversion=APPVERSION, date1904=0)
       if worksheets.nil? || worksheets.empty?
         @worksheets       = [Worksheet.new(self,SHEET_NAME)]
       else
@@ -46,7 +46,7 @@ module RubyXL
       @calc_chain         = nil #unnecessary?
       @num_strings        = 0 #num strings total
       @size               = 0 #num strings in shared_strings array
-      @date_1904          = date_1904
+      @date1904          = date1904
       @external_links     = nil
       @style_corrector    = nil
       @drawings           = nil
