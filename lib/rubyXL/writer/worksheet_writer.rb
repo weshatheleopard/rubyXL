@@ -123,8 +123,11 @@ module Writer
                       #TODO do xml.c for all cases, inside specific.
                       # if dat.formula.nil?
                       dat.style_index = @workbook.style_corrector[dat.style_index.to_s]
-                      xml.c('r'=>Cell.convert_to_cell(i,j),
-                        's'=>dat.style_index.to_s, 't'=>dat.datatype) {
+                      c_opts = {'r'=>Cell.convert_to_cell(i,j), 's'=>dat.style_index.to_s}
+                      unless dat.datatype.nil? || dat.datatype == ''
+                        c_opts['t'] = dat.datatype
+                      end
+                      xml.c(c_opts) {
                         unless dat.formula.nil?
                           if dat.formula_attributes.nil? || dat.formula_attributes.empty?
                             xml.f dat.formula.to_s
@@ -191,7 +194,7 @@ module Writer
 
           unless @worksheet.legacy_drawing.nil?
             xml.legacyDrawing('r:id'=>@worksheet.legacy_drawing[:attributes][:id])
-          end            
+          end
 
           unless @worksheet.extLst.nil?
             xml.extLst {

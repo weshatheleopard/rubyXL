@@ -23,7 +23,11 @@ module Writer
           #attributes out of order here
           xml.fileVersion('appName'=>'xl', 'lastEdited'=>'4','lowestEdited'=>'4','rupBuild'=>'4505')
           #TODO following line - date 1904? check if mac only
-          xml.workbookPr('date1904'=>@workbook.date1904.to_s, 'showInkAnnotation'=>'0', 'autoCompressPictures'=>'0')
+          if @workbook.date1904.nil? || @workbook.date1904.to_s == ''
+            xml.workbookPr('showInkAnnotation'=>'0', 'autoCompressPictures'=>'0')
+          else
+            xml.workbookPr('date1904'=>@workbook.date1904.to_s, 'showInkAnnotation'=>'0', 'autoCompressPictures'=>'0')
+          end
           xml.bookViews {
             #attributes out of order here
             xml.workbookView('xWindow'=>'-20', 'yWindow'=>'-20',
@@ -44,8 +48,8 @@ module Writer
               end
             }
           end
-          
-          # nokogiri builder creates CDATA tag around content, 
+
+          # nokogiri builder creates CDATA tag around content,
           # using .text creates "html safe" &lt; and &gt; in place of < and >
           # xml to hash method does not seem to function well for this particular piece of xml
           xml.cdata @workbook.defined_names.to_s
@@ -68,7 +72,7 @@ module Writer
       contents = contents.gsub(/<!\[CDATA\[(.*)\]\]>/,'\1')
       contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
       puts '
-      
+
       '
       puts contents
 
