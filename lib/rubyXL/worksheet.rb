@@ -33,11 +33,11 @@ class Worksheet < PrivateClass
 
   def get_table(headers=[])
     validate_workbook
-    
+
     if !headers.is_a?(Array)
       headers = [headers]
     end
-    
+
     row_num = find_first_row_with_content(headers)
 
   	if row_num.nil?
@@ -47,20 +47,21 @@ class Worksheet < PrivateClass
   	table_hash = {}
   	table_hash[:table] = []
 
-  	headers.each do |header|
-  	  row_strings = @sheet_data[row_num].map { |cell| cell.nil? ? '' : cell.value.to_s }
-  	  header_column = row_strings.index(header)
-  	  table_hash[header.to_sym] = []
+    header_row = @sheet_data[row_num]
+  	header_row.each_with_index do |header_cell, index|
+      next if header_cell.nil? || header_cell.value.nil?
+      header = header_cell.value.to_s
+  	  table_hash[header] = []
 
   	  original_row = row_num + 1
   	  current_row = original_row
 
-  	  cell = @sheet_data[current_row][header_column]	  
+  	  cell = @sheet_data[current_row][index]
 
       # makes array of hashes in table_hash[:table]
-  	  # as well as hash of arrays in table_hash[header.to_sym]
+  	  # as well as hash of arrays in table_hash[header]
   	  while !cell.nil? && !cell.value.nil?
-  		  table_hash[header.to_sym] << cell.value
+  		  table_hash[header] << cell.value
 
     		table_index = current_row - original_row
 
@@ -68,17 +69,17 @@ class Worksheet < PrivateClass
     		  table_hash[:table][table_index] = {}
     		end
 
-    		table_hash[:table][table_index][header.to_sym] = cell.value	
+    		table_hash[:table][table_index][header] = cell.value
 
     		current_row += 1
     		if @sheet_data[current_row].nil?
     		  cell = nil
   		  else
-      		cell = @sheet_data[current_row][header_column]
+      		cell = @sheet_data[current_row][index]
     		end
   	  end
 	  end
-	  
+
 	  return table_hash
   end
 
@@ -374,11 +375,11 @@ class Worksheet < PrivateClass
 
   def add_cell_obj(cell, overwrite=true)
     validate_workbook
-    
+
     if cell.nil?
       return cell
     end
-    
+
     row = cell.row
     column = cell.column
 
@@ -401,27 +402,27 @@ class Worksheet < PrivateClass
   def delete_row(row_index=0)
     validate_workbook
     validate_nonnegative(row_index)
-    
+
     if row_index >= @sheet_data.size
       return nil
     end
-    
+
     deleted = @sheet_data.delete_at(row_index)
     row_num = row_index+1
-    
+
     row_num.upto(@sheet_data.size) do |index|
       @row_styles[(index-1).to_s] = deep_copy(@row_styles[index.to_s])
     end
     @row_styles.delete(@sheet_data.size.to_s)
-    
+
     #change row styles
     # raise row_styles.inspect
-    
+
     #change cell row numbers
     (row_index...(@sheet_data.size-1)).each do |index|
       @sheet_data[index].map {|c| c.row -= 1 if c}
     end
-    
+
     return deleted
   end
 
@@ -485,11 +486,11 @@ class Worksheet < PrivateClass
   def delete_column(col_index=0)
     validate_workbook
     validate_nonnegative(col_index)
-    
+
     if col_index >= @sheet_data[0].size
       return nil
     end
-    
+
     #delete column
     @sheet_data.map {|r| r.delete_at(col_index)}
 
@@ -501,7 +502,7 @@ class Worksheet < PrivateClass
         end
       end
     end
-    
+
     #shift column styles
     #shift col styles 'left'
     @cols.each do |col|
@@ -578,19 +579,19 @@ class Worksheet < PrivateClass
       end
     end
   end
-  
+
   def insert_cell(row=0,col=0,data=nil,formula=nil,shift=nil)
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(col)
-    
+
     increase_rows(row)
     increase_columns(col)
-    
+
     if shift && shift != :right && shift != :down
       raise 'invalid shift option'
     end
-    
+
     if shift == :right
       @sheet_data[row].insert(col,nil)
       (row...(@sheet_data[row].size)).each do |index|
@@ -604,10 +605,10 @@ class Worksheet < PrivateClass
         @sheet_data[index][col] = @sheet_data[index-1][col]
       end
     end
-    
+
     return add_cell(row,col,data,formula)
   end
-  
+
   # by default, only sets cell to nil
   # if :left is specified, method will shift row contents to the right of the deleted cell to the left
   # if :up is specified, method will shift column contents below the deleted cell upward
@@ -618,14 +619,14 @@ class Worksheet < PrivateClass
     if @sheet_data.size <= row || @sheet_data[row].size <= col
       return nil
     end
-    
+
     cell = @sheet_data[row][col]
     @sheet_data[row][col]=nil
-    
+
     if shift && shift != :left && shift != :up
       raise 'invalid shift option'
     end
-    
+
     if shift == :left
       @sheet_data[row].delete_at(col)
       @sheet_data[row] << nil
@@ -645,7 +646,7 @@ class Worksheet < PrivateClass
         @sheet_data.last[col].row -= 1
       end
     end
-    
+
     return cell
   end
 
@@ -1362,7 +1363,7 @@ class Worksheet < PrivateClass
     @workbook.fills[xf[:fillId].to_s][:count] += 1
     @workbook.borders[xf[:borderId].to_s][:count] += 1
   end
-  
+
   # finds first row which contains at least all strings in cells_content
   def find_first_row_with_content(cells_content)
     validate_workbook
@@ -1376,6 +1377,6 @@ class Worksheet < PrivateClass
     end
     return nil
   end
-  
+
 end #end class
 end
