@@ -19,13 +19,11 @@ module Writer
     def write()
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.Types('xmlns'=>"http://schemas.openxmlformats.org/package/2006/content-types") {
-          xml.Override('PartName'=>'/docProps/app.xml',
-            'ContentType'=>"application/vnd.openxmlformats-officedocument.extended-properties+xml")
+          xml.Default('Extension'=>'xml', 'ContentType'=>'application/xml')
           unless @workbook.shared_strings.nil?
             xml.Override('PartName'=>'/xl/sharedStrings.xml',
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
           end
-          xml.Default('Extension'=>'xml', 'ContentType'=>'application/xml')
           if @workbook.macros.nil? && @workbook.drawings.nil?
             xml.Override('PartName'=>'/xl/workbook.xml',
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
@@ -33,6 +31,8 @@ module Writer
             xml.Override('PartName'=>'/xl/workbook.xml',
               'ContentType'=>"application/vnd.ms-excel.sheet.macroEnabled.main+xml")
           end
+          xml.Override('PartName'=>"/xl/styles.xml",
+            'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")
           xml.Default('Extension'=>'rels','ContentType'=>'application/vnd.openxmlformats-package.relationships+xml')
           unless @workbook.external_links.nil?
             1.upto(@workbook.external_links.size-1) do |i|
@@ -40,8 +40,6 @@ module Writer
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml")
             end
           end
-          xml.Override('PartName'=>"/xl/styles.xml",
-            'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")
           unless @workbook.macros.nil?
             xml.Override('PartName'=>'/xl/vbaProject.bin',
               'ContentType'=>'application/vnd.ms-office.vbaProject')
@@ -62,6 +60,8 @@ module Writer
           end
           xml.Override('PartName'=>'/docProps/core.xml',
             'ContentType'=>"application/vnd.openxmlformats-package.core-properties+xml")
+          xml.Override('PartName'=>'/docProps/app.xml',
+            'ContentType'=>"application/vnd.openxmlformats-officedocument.extended-properties+xml")
         }
       end
 
