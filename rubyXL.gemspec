@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rubyXL}
-  s.version = "1.1.7"
+  s.version = "1.1.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
-  s.date = %q{2011-09-13}
+  s.date = %q{2011-09-14}
   s.description = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   s.email = %q{bhagwat.vivek@gmail.com}
   s.extra_rdoc_files = [
