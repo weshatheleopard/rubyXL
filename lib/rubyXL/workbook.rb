@@ -322,7 +322,7 @@ module RubyXL
           end
         end
 
-        if string_hash[0].nil?
+        if string_hash.empty?
           @shared_strings = nil
         else
           @shared_strings = string_hash

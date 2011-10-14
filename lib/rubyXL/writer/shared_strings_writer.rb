@@ -17,26 +17,12 @@ module Writer
     end
 
     def write()
-      # contents = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n"
-
-      # builder = Nokogiri::XML::Builder.new do |xml|
-      #         xml.sst('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main",
-      #         'count'=>@workbook.numStrings,
-      #         'uniqueCount'=>@workbook.size) {
-      #           i = 0
-      #           0.upto(@workbook.size-1).each do |i|
-      #             xml.si {
-      #               xml.t @workbook.sharedStrings[i].to_s
-      #               xml.phoneticPr('fontId'=>'1', 'type'=>'noConversion')
-      #             }
-      #           end
-      #         }
-      #       end
-      #       contents = builder.to_xml
-      #       contents = contents.gsub(/\n/,'')
-      #       contents = contents.gsub(/>(\s)+</,'><')
-      #       contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-      contents = @workbook.shared_strings_XML
+      # Excel doesn't care much about the contents of sharedStrings.xml -- it will fill it in, but the file has to exist and have a root node.
+      if @workbook.shared_strings_XML
+        contents = @workbook.shared_strings_XML
+      else
+        contents = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n"+'<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="0" uniqueCount="0"></sst>'
+      end
       contents
     end
   end
