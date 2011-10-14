@@ -30,21 +30,19 @@ describe RubyXL::Worksheet do
     it 'should return nil if table cannot be found with specified string' do
       @worksheet.get_table('TEST').should be_nil
     end
-    
+
     it 'should return nil if table cannot be found with specified headers' do
       @worksheet.get_table(['TEST']).should be_nil
     end
-    
+
     it 'should return a hash when given an array of headers it can find, where :table points to an array of hashes (rows), where each symbol is a column' do
       headers = ["0:0", "0:1", "0:4"]
       table_hash = @worksheet.get_table(headers)
-      
-      table_hash.size.should == 4
+
       table_hash[:table].size.should == 10
-      table_hash[:table][0].size.should == 3
-      table_hash[:"0:0"].size.should == 10
-      table_hash[:"0:1"].size.should == 10
-      table_hash[:"0:4"].size.should == 10      
+      table_hash["0:0"].size.should == 10
+      table_hash["0:1"].size.should == 10
+      table_hash["0:4"].size.should == 10
     end
   end
 
@@ -970,19 +968,19 @@ describe RubyXL::Worksheet do
       @worksheet[0][0].row.should == 0
       @worksheet[0][0].column.should == 0
     end
-    
+
     it 'should delete a row at index specified, adjusting styles for other rows' do
       @worksheet.change_row_font_name(1,"Courier")
       @worksheet.delete_row(0)
       @worksheet.get_row_font_name(0).should == "Courier"
     end
-    
+
     it 'should preserve (rather than fix) formulas that reference cells in "pushed up" rows' do
       @worksheet.add_cell(11,0,nil,'SUM(A1:A10)')
       @worksheet.delete_row(0)
       @worksheet[10][0].formula.should == 'SUM(A1:A10)'
     end
-    
+
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.delete_row(-1)
@@ -1031,19 +1029,19 @@ describe RubyXL::Worksheet do
       @worksheet[0][0].row.should == 0
       @worksheet[0][0].column.should == 0
     end
-    
+
     it 'should delete a column at index specified, "pushing" styles "left"' do
       @worksheet.change_column_font_name(1,"Courier")
       @worksheet.delete_column(0)
       @worksheet.get_column_font_name(0).should == "Courier"
     end
-    
+
     it 'should preserve (rather than fix) formulas that reference cells in "pushed left" columns' do
       @worksheet.add_cell(0,4,nil,'SUM(A1:D1)')
       @worksheet.delete_column(0)
       @worksheet[0][3].formula.should == 'SUM(A1:D1)'
     end
-    
+
     it 'should cause error if negative argument is passed in' do
       lambda {
         @worksheet.delete_column(-1)
@@ -1097,27 +1095,27 @@ describe RubyXL::Worksheet do
       @worksheet[0][1].value.should == '0:1'
       @worksheet[1][0].value.should == '1:0'
     end
-    
+
     it 'should shift cells to the right if :right is specified' do
       @worksheet.insert_cell(0,0,'test',nil,:right)
       @worksheet[0][0].value.should == 'test'
       @worksheet[0][1].value.should == '0:0'
       @worksheet[1][0].value.should == '1:0'
     end
-    
+
     it 'should shift cells down if :down is specified' do
       @worksheet.insert_cell(0,0,'test',nil,:down)
       @worksheet[0][0].value.should == 'test'
       @worksheet[0][1].value.should == '0:1'
       @worksheet[1][0].value.should == '0:0'
     end
-    
+
     it 'should cause error if shift argument is specified whcih is not :right or :down' do
       lambda {
         @worksheet.insert_cell(0,0,'test',nil,:up)
       }.should raise_error
     end
-    
+
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.insert_cell(-1,-1)
@@ -1131,27 +1129,27 @@ describe RubyXL::Worksheet do
       @worksheet[0][0].should be_nil
       @old_cell.inspect.should == deleted.inspect
     end
-    
+
     it 'should return nil if a cell which is out of range is specified' do
       @worksheet.delete_cell(12,12).should be_nil
     end
-    
+
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.delete_cell(-1,-1)
       }.should raise_error
     end
-    
+
     it 'should shift cells to the right of the deleted cell left if :left is specified' do
       @worksheet.delete_cell(0,0,:left)
       @worksheet[0][0].value.should == '0:1'
     end
-    
+
     it 'should shift cells below the deleted cell up if :up is specified' do
       @worksheet.delete_cell(0,0,:up)
       @worksheet[0][0].value.should == '1:0'
     end
-    
+
     it 'should cause en error if an argument other than :left, :up, or nil is specified for shift' do
       lambda {
         @worksheet.delete_cell(0,0,:down)
