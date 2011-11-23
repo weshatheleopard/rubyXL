@@ -1,7 +1,7 @@
 module RubyXL
   class Cell < PrivateClass
 
-    attr_accessor :row, :column, :datatype, :style_index, :value, :formula, :worksheet
+    attr_accessor :row, :column, :datatype, :style_index, :formula, :worksheet
     attr_reader :workbook,:formula_attributes
 
     def initialize(worksheet,row,column,value=nil,formula=nil,datatype='s',style_index=0, fmla_attr={})
@@ -15,6 +15,83 @@ module RubyXL
       @formula=formula
       @style_index = style_index
       @formula_attributes = fmla_attr
+    end
+
+    def value
+      if is_date?
+        return @workbook.num_to_date(@value)
+      else
+        return @value
+      end
+    end
+
+    def is_date?
+      if !@value.is_a?(String)
+        if @workbook.num_fmts
+          num_fmt_id = xf_id()[:numFmtId]
+          num_fmt = @workbook.num_fmts[:numFmt].select { |f| f[:attributes][:numFmtId] == num_fmt_id }[0].andand[:attributes].andand[:formatCode]
+          if num_fmt && is_date_format?(num_fmt)
+            return true
+          end
+        end
+      end
+      return false
+    end
+
+    def is_date_format?(num_fmt)
+      skip_chars = ['$', '-', '+', '/', '(', ')', ':', ' ']
+      num_chars = ['0', '#', '?']
+      non_date_formats = ['0.00E+00', '##0.0E+0', 'General', 'GENERAL', 'general', '@']
+      date_chars = ['y','m','d','h','s']
+
+      state = 0
+      s = ''
+      num_fmt.split(//).each do |c|
+        if state == 0
+          if c == '"'
+            state = 1
+          elsif ['\\', '_', '*'].include?(c)
+            state = 2
+          elsif skip_chars.include?(c)
+            next
+          else
+            s << c
+          end
+        elsif state == 1
+          if c == '"'
+            state = 0
+          end
+        elsif state == 2
+          state = 0
+        end
+      end
+      s.gsub!(/\[[^\]]*\]/, '')
+      if non_date_formats.include?(s)
+        return false
+      end
+      separator = ';'
+      got_sep = 0
+      date_count = 0
+      num_count = 0
+      s.split(//).each do |c|
+        if date_chars.include?(c)
+          date_count += 1
+        elsif num_chars.include?(c)
+          num_count += 1
+        elsif c == separator
+          got_sep = 1
+        end
+      end
+      if date_count > 0 && num_count == 0
+        return true
+      elsif num_count > 0 && date_count == 0
+        return false
+      elsif date_count
+        # ambiguous result
+      elsif got_sep == 0
+        # constant result
+      end
+      return date_count > num_count
     end
 
     # changes fill color of cell
@@ -145,6 +222,9 @@ module RubyXL
     def change_contents(data, formula=nil)
       validate_worksheet
       @datatype='str'
+      if data.is_a?(Date) || data.is_a?(DateTime)
+        data = @workbook.date_to_num(data)
+      end
       if (data.is_a?Integer) || (data.is_a?Float)
         @datatype = ''
       end
@@ -305,7 +385,7 @@ module RubyXL
     end
 
     def inspect
-      str = "(#{@row},#{@column}): #{@value}" 
+      str = "(#{@row},#{@column}): #{@value}"
       str += " =#{@formula}" if @formula
       str += ", datatype = #{@datatype}, style_index = #{@style_index}"
       return str

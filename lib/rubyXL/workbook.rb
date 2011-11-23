@@ -9,6 +9,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),'writer','styles_write
 require File.expand_path(File.join(File.dirname(__FILE__),'writer','shared_strings_writer'))
 require File.expand_path(File.join(File.dirname(__FILE__),'writer','worksheet_writer'))
 require 'rubyXL/zip'
+require 'date'
 
 module RubyXL
   class Workbook
@@ -46,7 +47,7 @@ module RubyXL
       @calc_chain         = nil #unnecessary?
       @num_strings        = 0 #num strings total
       @size               = 0 #num strings in shared_strings array
-      @date1904          = date1904
+      @date1904           = date1904
       @external_links     = nil
       @style_corrector    = nil
       @drawings           = nil
@@ -186,6 +187,28 @@ module RubyXL
         FileUtils.rm_rf(dirpath)
       end
       return filepath
+    end
+
+    def date_to_num(date)
+      return nil if date.nil?
+      if @date1904
+        compare_date = DateTime.parse('December 31, 1903')
+      else
+        compare_date = DateTime.parse('December 31, 1899')
+      end
+      # add one day to compare date for erroneous 1900 leap year compatibility
+      date.ajd - (compare_date.ajd + 1)
+    end
+
+    def num_to_date(num)
+      return nil if num.nil?
+      if @date1904
+        compare_date = DateTime.parse('December 31, 1903')
+      else
+        compare_date = DateTime.parse('December 31, 1899')
+      end
+      # add one day to compare date for erroneous 1900 leap year compatibility
+      compare_date + 1 + num
     end
 
     #gets style object from style array given index

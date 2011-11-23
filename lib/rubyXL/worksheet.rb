@@ -1370,7 +1370,8 @@ class Worksheet < PrivateClass
     index = nil
 
     @sheet_data.each_with_index do |row, index|
-      original_cells_content = row.map { |cell| cell.nil? ? '' : cell.value.to_s }
+      cells_content = cells_content.map { |header| header.to_s.downcase.strip }
+      original_cells_content = row.map { |cell| cell.nil? ? '' : cell.value.to_s.downcase.strip }
       if (cells_content & original_cells_content).size == cells_content.size
         return index
       end

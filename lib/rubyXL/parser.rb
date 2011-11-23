@@ -33,6 +33,7 @@ module RubyXL
 
 
     # data_only allows only the sheet data to be parsed, so as to speed up parsing
+    # However, using this option will result in date-formatted cells being interpreted as numbers
     def Parser.parse(file_path, data_only=false)
       @data_only = data_only
       files = Parser.decompress(file_path)
@@ -386,7 +387,7 @@ module RubyXL
 
       wb.shared_strings_XML = files['sharedString'].to_s
       wb.defined_names = files['workbook'].css('definedNames').to_s
-
+      wb.date1904 = files['workbook'].css('workbookPr').attribute('date1904').to_s == '1'
 
       wb.worksheets = Array.new(@num_sheets) #array of Worksheet objs
       wb

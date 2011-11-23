@@ -192,10 +192,27 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '.value' do
+    it 'should return the value of a date' do
+      date = Date.parse('January 1, 2011')
+      @cell.change_contents(date)
+      @cell.should_receive(:is_date?).once.and_return(true)
+      @cell.value.should == date
+    end
+  end
+
   describe '.change_contents' do
     it 'should cause cell value to match string or number that is passed in' do
       @cell.change_contents('TEST')
       @cell.value.should == 'TEST'
+      @cell.formula.should == nil
+    end
+
+    it 'should cause cell value to match a date that is passed in' do
+      date = Date.parse('January 1, 2011')
+      @cell.change_contents(date)
+      @cell.should_receive(:is_date?).once.and_return(true)
+      @cell.value.should == date
       @cell.formula.should == nil
     end
 
