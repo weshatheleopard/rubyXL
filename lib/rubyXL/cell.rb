@@ -101,82 +101,91 @@ module RubyXL
       @style_index = modify_fill(@workbook, @style_index,rgb)
     end
 
-    # changes font name of cell
+    # Changes font name of cell
     def change_font_name(font_name='Verdana')
       validate_worksheet
-      @style_index = modify_font(@workbook,@style_index)
-      @workbook.fonts[font_id()][:font][:name][:attributes][:val] = font_name.to_s
+      # Get copy of font object with modified name
+      font = deep_copy(workbook.fonts[font_id().to_s][:font])
+      font[:name][:attributes][:val] = font_name.to_s
+      # Update font and xf array
+      change_font(font)
     end
 
-    # changes font size of cell
+    # Changes font size of cell
     def change_font_size(font_size=10)
       validate_worksheet
       if font_size.is_a?(Integer) || font_size.is_a?(Float)
-        @style_index = modify_font(@workbook, @style_index)
-        @workbook.fonts[font_id()][:font][:sz][:attributes][:val] = font_size
+        # Get copy of font object with modified size
+        font = deep_copy(workbook.fonts[font_id().to_s][:font])
+        font[:sz][:attributes][:val] = font_size
+        # Update font and xf array
+        change_font(font)
       else
         raise 'Argument must be a number'
       end
     end
 
-    # changes font color of cell
+    # Changes font color of cell
     def change_font_color(font_color='000000')
       validate_worksheet
       #if arg is a color name, convert to integer
       Color.validate_color(font_color)
-
-      @style_index = modify_font(@workbook,@style_index)
-      font_id = font_id()
-      if @workbook.fonts[font_id][:font][:color].nil?
-        @workbook.fonts[font_id][:font][:color] = {:attributes => {:rgb => ''}}
-      end
-      @workbook.fonts[font_id][:font][:color][:attributes][:rgb] = font_color.to_s
+      # Get copy of font object with modified color
+      font = deep_copy(workbook.fonts[font_id().to_s][:font])
+      font = modify_font_color(font, font_color.to_s)
+      # Update font and xf array
+      change_font(font)
     end
 
-    # changes if font is italicized or not
+    # Changes font italics settings of cell
     def change_font_italics(italicized=false)
       validate_worksheet
-      @style_index = modify_font(@workbook,@style_index)
-      if italicized
-        @workbook.fonts[font_id()][:font][:i] = {}
-      else
-        @workbook.fonts[font_id()][:font][:i] = nil
-      end
+      # Get copy of font object with modified italics settings
+      font = deep_copy(workbook.fonts[font_id().to_s][:font])
+      font = modify_font_italics(font, italicized)
+      # Update font and xf array
+      change_font(font)
     end
 
-    # changes if font is bolded or not
+    # Changes font bold settings of cell
     def change_font_bold(bolded=false)
       validate_worksheet
-      @style_index = modify_font(@workbook,@style_index)
-      if bolded
-        @workbook.fonts[font_id()][:font][:b] = {}
-      else
-        @workbook.fonts[font_id()][:font][:b] = nil
-      end
+      # Get copy of font object with modified bold settings
+      font = deep_copy(workbook.fonts[font_id().to_s][:font])
+      font = modify_font_bold(font, bolded)
+      # Update font and xf array
+      change_font(font)
     end
 
-    # changes if font is underlined or not
+    # Changes font underline settings of cell
     def change_font_underline(underlined=false)
       validate_worksheet
-      @style_index = modify_font(@workbook,@style_index)
-
-      if underlined
-        @workbook.fonts[font_id()][:font][:u] = {}
-      else
-        @workbook.fonts[font_id()][:font][:u] = nil
-      end
+      # Get copy of font object with modified underline settings
+      font = deep_copy(workbook.fonts[font_id().to_s][:font])
+      font = modify_font_underline(font, underlined)
+      # Update font and xf array
+      change_font(font)
     end
 
-    # changes if font has a strikethrough or not
+    # Changes font strikethrough settings of cell
     def change_font_strikethrough(struckthrough=false)
       validate_worksheet
-      @style_index = modify_font(@workbook,@style_index)
+      # Get copy of font object with modified strikethrough settings
+      font = deep_copy(workbook.fonts[font_id().to_s][:font])
+      font = modify_font_strikethrough(font, struckthrough)
+      # Update font and xf array
+      change_font(font)
+    end
 
-      if struckthrough
-        @workbook.fonts[font_id()][:font][:strike] = {}
-      else
-        @workbook.fonts[font_id()][:font][:strike] = nil
-      end
+    # Helper method to update the font array and xf array
+    def change_font(font)
+      # Modify font array and retrieve new font id
+      font_id = modify_font(@workbook, font, font_id())
+      # Get copy of xf object with modified font id
+      xf = deep_copy(xf_id())
+      xf[:fontId] = Integer(font_id.to_i)
+      # Modify xf array and retrieve new xf id
+      @style_index = modify_xf(@workbook, xf)
     end
 
     # changes horizontal alignment of cell
@@ -385,7 +394,7 @@ module RubyXL
     end
 
     def inspect
-      str = "(#{@row},#{@column}): #{@value}"
+      str = "(#{@row},#{@column}): #{@value}" 
       str += " =#{@formula}" if @formula
       str += ", datatype = #{@datatype}, style_index = #{@style_index}"
       return str

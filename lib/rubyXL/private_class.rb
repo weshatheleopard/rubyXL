@@ -30,42 +30,125 @@ module RubyXL
       end
     end
 
-    #modifies font array (copies,appends) then styles array (copies,appends)
-    #does not actually modify font object,
-    #allows method caller to do that (cell or worksheet)
-    def modify_font(workbook, style_index)
-      # xf_obj = workbook.get_style(style_index)
-      xf = workbook.get_style_attributes(workbook.get_style(style_index))
-
-      #modify fonts array
-      font_id = xf[:fontId]
-      font = workbook.fonts[font_id.to_s][:font]
-
-      #else, just change the attribute itself, done in calling method.
-      if workbook.fonts[font_id.to_s][:count] > 1 || font_id == 0
-        old_size = workbook.fonts.size.to_s
-        workbook.fonts[old_size] = {}
-        workbook.fonts[old_size][:font] = deep_copy(font)
-        workbook.fonts[old_size][:count] = 1
-        workbook.fonts[font_id.to_s][:count] -= 1
-
-        #modify styles array
-        font_id = old_size
-
-        if workbook.cell_xfs[:xf].is_a?Array
-          workbook.cell_xfs[:xf] << deep_copy({:attributes=>xf})
-        else
-          workbook.cell_xfs[:xf] = [workbook.cell_xfs[:xf], deep_copy({:attributes=>xf})]
+    # This method checks to see if there is an equivalent font that exists
+    def find_font(workbook, font)
+      workbook.fonts.each {|font_id, f|
+        if f[:font][:i] == font[:i] &&
+          f[:font][:b] == font[:b] &&
+          f[:font][:u] == font[:u] &&
+          f[:font][:strike] == font[:strike] &&
+          f[:font][:name][:attributes][:val] == font[:name][:attributes][:val] &&
+          f[:font][:sz][:attributes][:val] == font[:sz][:attributes][:val] &&
+          (f[:font][:color] && f[:font][:color][:attributes][:rgb]) == (font[:color] && font[:color][:attributes][:rgb])
+          return font_id
         end
+      }
+      return nil
+    end
 
-        xf = workbook.get_style_attributes(workbook.cell_xfs[:xf].last)
-        xf[:fontId] = font_id
+    # Helper method to modify the font color
+    def modify_font_color(font, font_color)
+      if font[:color].nil?
+        font[:color] = {:attributes => {:rgb => ''}}
+      end
+      font[:color][:attributes][:rgb] = font_color.to_s
+      return font
+    end
+
+    # Helper method to modify the font's italics settings
+    def modify_font_italics(font, italicized)
+      if italicized
+        font[:i] = {}
+      else
+        font[:i] = nil
+      end
+      return font
+    end
+
+    # Helper method to modify the font's bold settings
+    def modify_font_bold(font, bolded)
+      if bolded
+        font[:b] = {}
+      else
+        font[:b] = nil
+      end
+      return font
+    end
+
+    # Helper method to modify the font's underline settings
+    def modify_font_underline(font, underlined)
+      if underlined
+        font[:u] = {}
+      else
+        font[:u] = nil
+      end
+      return font
+    end
+
+    # Helper method to modify the font's strikethrough settings
+    def modify_font_strikethrough(font, struckthrough)
+      if struckthrough
+        font[:strike] = {}
+      else
+        font[:strike] = nil
+      end
+      return font
+    end
+
+    # Determines if font exists
+    # If yes, return id of existing font
+    # If no, appends font to font array
+    def modify_font(workbook, font, old_font_id)
+      font_id = old_font_id
+      existing_font_id = find_font(workbook, font)
+      if !existing_font_id.nil?
+        font_id = existing_font_id
+        workbook.fonts[font_id][:count] += 1
+        workbook.fonts[old_font_id][:count] -= 1
+      elsif workbook.fonts[old_font_id.to_s][:count] > 1 || old_font_id == '0'
+        font_id = workbook.fonts.size.to_s
+        workbook.fonts[font_id] = {}
+        workbook.fonts[font_id][:font] = font
+        workbook.fonts[font_id][:count] = 1
+        workbook.fonts[old_font_id][:count] -= 1
+      else
+        workbook.fonts[font_id][:font] = font
+      end
+      return font_id
+    end
+
+    # This method checks to see if there is an equivalent xf that exists
+    def find_xf(workbook, xf)
+      workbook.cell_xfs[:xf].each_with_index {|xfs, index|
+        if xfs[:attributes][:borderId] == xf[:borderId] &&
+          xfs[:attributes][:xfId] == xf[:xfId] &&
+          xfs[:attributes][:fillId] == xf[:fillId] &&
+          xfs[:attributes][:numFmtId] == xf[:numFmtId] &&
+          xfs[:attributes][:fontId] == xf[:fontId]
+          return index
+        end
+      }
+      return nil
+    end
+
+    # Determines if xf exists
+    # If yes, return id of existing xf
+    # If no, appends xf to xf array
+    def modify_xf(workbook, xf)
+      existing_xf_id = find_xf(workbook, xf)
+      if !existing_xf_id.nil?
+        xf_id = existing_xf_id
+      else
+        if workbook.cell_xfs[:xf].is_a?Array
+          workbook.cell_xfs[:xf] << {:attributes=>xf}
+        else
+          workbook.cell_xfs[:xf] = [workbook.cell_xfs[:xf], {:attributes=>xf}]
+        end
         xf[:applyFont] = '1'
         workbook.cell_xfs[:attributes][:count] += 1
-        return workbook.cell_xfs[:xf].size-1 #returns new style_index
-      else
-        return style_index
+        xf_id = workbook.cell_xfs[:xf].size - 1
       end
+      return xf_id
     end
 
     #modifies fill array (copies, appends, adds color and solid attribute)
