@@ -47,7 +47,7 @@ module RubyXL
       @calc_chain         = nil #unnecessary?
       @num_strings        = 0 #num strings total
       @size               = 0 #num strings in shared_strings array
-      @date1904           = date1904
+      @date1904           = date1904 > 0
       @external_links     = nil
       @style_corrector    = nil
       @drawings           = nil
@@ -197,7 +197,7 @@ module RubyXL
         compare_date = DateTime.parse('December 31, 1899')
       end
       # add one day to compare date for erroneous 1900 leap year compatibility
-      date.ajd - (compare_date.ajd + 1)
+      date.ajd + 1 - compare_date.ajd
     end
 
     def num_to_date(num)
@@ -207,8 +207,8 @@ module RubyXL
       else
         compare_date = DateTime.parse('December 31, 1899')
       end
-      # add one day to compare date for erroneous 1900 leap year compatibility
-      compare_date + 1 + num
+      # subtract one day to compare date for erroneous 1900 leap year compatibility
+      compare_date - 1 + num
     end
 
     #gets style object from style array given index
