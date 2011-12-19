@@ -87,6 +87,8 @@ module RubyXL
       filename = ''
       if(filepath =~ /\/((.|\s)*)\/((.|\s)*)\.xls(x|m)$/)
         filename = $3.to_s()
+      else
+        raise "Only xlsx and xlsm files are supported. Unsupported type for file: #{filepath}"
       end
 
       #creates zip file, writes each type of file to zip folder
