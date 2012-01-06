@@ -60,8 +60,11 @@ class Worksheet < PrivateClass
 
       # makes array of hashes in table_hash[:table]
   	  # as well as hash of arrays in table_hash[header]
-  	  while !cell.nil? && !cell.value.nil?
-  		  table_hash[header] << cell.value
+      table_index = current_row - original_row
+  	  cell_test= (!cell.nil? && !cell.value.nil?)
+      while cell_test || !table_hash[:table][table_index].empty?
+
+  		  table_hash[header] << (cell_test ? cell.value : nil)
 
     		table_index = current_row - original_row
 
@@ -69,7 +72,7 @@ class Worksheet < PrivateClass
     		  table_hash[:table][table_index] = {}
     		end
 
-    		table_hash[:table][table_index][header] = cell.value
+    		table_hash[:table][table_index][header] = cell.value if cell_test
 
     		current_row += 1
     		if @sheet_data[current_row].nil?
@@ -77,6 +80,7 @@ class Worksheet < PrivateClass
   		  else
       		cell = @sheet_data[current_row][index]
     		end
+        cell_test= (!cell.nil? && !cell.value.nil?)
   	  end
 	  end
 

@@ -155,116 +155,136 @@ module RubyXL
       wb.worksheets[i] = Parser.create_matrix(wb, i, files)
       j = i+1
 
+      namespaces = files[j].root.namespaces()
       unless @data_only
-        hash = Hash.xml_node_to_hash(files[j].root)
-
-        wb.worksheets[i].sheet_view = hash[:sheetViews][:sheetView]
+        sheet_views_node= files[j].xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]',namespaces).first
+        wb.worksheets[i].sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
 
         ##col styles##
-        col_data = hash[:cols]
-        unless col_data.nil?
-          wb.worksheets[i].cols=col_data[:col]
+        cols_node_set = files[j].xpath('/xmlns:worksheet/xmlns:cols/xmlns:col',namespaces)
+        unless cols_node_set.empty?
+          wb.worksheets[i].cols= cols_node_set.map(&:attributes)
         end
         ##end col styles##
 
         ##merge_cells##
-        merge_data = hash[:mergeCells]
-        unless merge_data.nil?
-          wb.worksheets[i].merged_cells = merge_data[:mergeCell]
+        merge_cells_node = files[j].xpath('/xmlns:worksheet/xmlns:mergeCells[xmlns:mergeCell]',namespaces)
+        unless merge_cells_node.empty?
+          wb.worksheets[i].merged_cells = Hash.xml_node_to_hash(merge_cells_node.first)[:mergeCell]
         end
         ##end merge_cells##
 
         ##sheet_view pane##
-        pane_data = hash[:sheetViews][:sheetView][:pane]
+        pane_data = wb.worksheets[i].sheet_view[:pane]
         wb.worksheets[i].pane = pane_data
         ##end sheet_view pane##
 
         ##data_validation##
-        data_validation = hash[:dataValidations]
-        unless data_validation.nil?
-          data_validation = data_validation[:dataValidation]
+        data_validations_node = files[j].xpath('/xmlns:worksheet/xmlns:dataValidations[xmlns:dataValidation]',namespaces)
+        unless data_validations_node.empty?
+          wb.worksheets[i].validations = Hash.xml_node_to_hash(data_validations_node.first)[:dataValidation]
+        else
+          wb.worksheets[i].validations=nil
         end
-        wb.worksheets[i].validations = data_validation
         ##end data_validation##
 
         #extLst
-        wb.worksheets[i].extLst = hash[:extLst]
+        ext_list_node=files[j].xpath('/xmlns:worksheet/xmlns:extLst',namespaces)
+        unless ext_list_node.empty?
+          wb.worksheets[i].extLst = Hash.xml_node_to_hash(ext_list_node.first)
+        else
+          wb.worksheets[i].extLst=nil
+        end
         #extLst
 
         ##legacy drawing##
-        drawing = hash[:legacyDrawing]
-        wb.worksheets[i].legacy_drawing = drawing
+        legacy_drawing_node = files[j].xpath('/xmlns:worksheet/xmlns:legacyDrawing',namespaces)
+        unless legacy_drawing_node.empty?
+          wb.worksheets[i].legacy_drawing = Hash.xml_node_to_hash(legacy_drawing_node.first)
+        else
+          wb.worksheets[i].legacy_drawing = nil
+        end
         ##end legacy drawing
       end
 
-      row_data = files[j].css('sheetData row')
+      
+      row_data = files[j].xpath('/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]',namespaces)
+      row_data.each do |row|
+        unless @data_only
+          ##row styles##
+          row_style = '0'
+          row_attributes = row.attributes
+          unless row_attributes['s'].nil?
+            row_style = row_attributes['s'].value
+          end
 
-      if(row_data.to_s != "")
-        row_data.each do |row|
+          wb.worksheets[i].row_styles[row_attributes['r'].content] = { :style => row_style  }
+
+          unless row_attributes['ht'].content == ""
+            wb.worksheets[i].change_row_height(Integer(row_attributes['r'].content)-1,
+              Float(row_attributes['ht'].content))
+          end
+          ##end row styles##
+        end
+
+        c_row = row.search('./xmlns:c[xmlns:v]')
+        c_row.each do |value|
+          value_attributes= value.attributes
+          cell_index = Parser.convert_to_index(value_attributes['r'].content)
+          style_index = nil
+
+          data_type = value_attributes['t'].content if value_attributes['t']
+          element_hash ={}
+          value.children.each do |node|
+            element_hash["#{node.name()}_element"]=node
+          end
+          # v is the value element that is part of the cell
+          if element_hash["v_element"]
+            v_element_content = element_hash["v_element"].content
+          else
+            v_element_content=""
+          end
+          if v_element_content =="" #no data
+            cell_data = nil
+          elsif data_type == 's' #shared string
+            str_index = Integer(v_element_content)
+            cell_data = shared_strings[str_index].to_s
+          elsif data_type=='str' #raw string
+            cell_data = v_element_content
+          elsif data_type=='e' #error
+            cell_data = v_element_content
+          else# (value.css('v').to_s != "") && (value.css('v').children.to_s != "") #is number
+            data_type = ''
+            if(v_element_content =~ /\./) #is float
+              cell_data = Float(v_element_content)
+            else
+              cell_data = Integer(v_element_content)
+            end
+          end
+          cell_formula = nil
+          fmla_css = element_hash["f_element"]
+          if fmla_css && fmla_css.content
+            fmla_css_content= fmla_css.content
+            if(fmla_css_content != "")
+              cell_formula = fmla_css_content
+              cell_formula_attr = {}
+              fmla_css_attributes = fmla_css.attributes
+              cell_formula_attr['t'] = fmla_css_attributes['t'].content if fmla_css_attributes['t']
+              cell_formula_attr['ref'] = fmla_css_attributes['ref'].content if fmla_css_attributes['ref']
+              cell_formula_attr['si'] = fmla_css_attributes['si'].content if fmla_css_attributes['si']
+            end
+          end
 
           unless @data_only
-            ##row styles##
-            unless row.css('c').nil?
-              row_style = '0'
-              unless row.attribute('s').nil?
-                row_style = row.attribute('s').value.to_s
-              end
-
-              wb.worksheets[i].row_styles[row.attribute('r').to_s] = { :style => row_style.to_s  }
-
-              unless row.attribute('ht').to_s == ""
-                wb.worksheets[i].change_row_height(Integer(row.attribute('r').to_s)-1,
-                  Float(row.attribute('ht').to_s))
-              end
-            end
-            ##end row styles##
+            style_index = value['s'].to_i #nil goes to 0 (default)
+          else
+            style_index = 0
           end
 
-          row = row.css('c')
-          row.each do |value|
-            cell_index = Parser.convert_to_index(value.attribute('r').to_s)
-            style_index = nil
-
-            data_type = value.attribute('t').to_s
-
-            if (value.css('v').to_s == "") || (value.css('v').children.to_s == "") #no data
-              cell_data = nil
-            elsif data_type == 's' #shared string
-              str_index = Integer(value.css('v').children.to_s)
-              cell_data = shared_strings[str_index].to_s
-            elsif data_type=='str' #raw string
-              cell_data = value.css('v').children.to_s
-            elsif data_type=='e' #error
-              cell_data = value.css('v').children.to_s
-            else# (value.css('v').to_s != "") && (value.css('v').children.to_s != "") #is number
-              data_type = ''
-              if(value.css('v').children.to_s =~ /\./) #is float
-                cell_data = Float(value.css('v').children.to_s)
-              else
-                cell_data = Integer(value.css('v').children.to_s)
-              end
-            end
-            cell_formula = nil
-            fmla_css = value.css('f')
-            if(fmla_css.to_s != "")
-              cell_formula = fmla_css.children.to_s
-              cell_formula_attr = {}
-              cell_formula_attr['t'] = fmla_css.attribute('t').to_s if fmla_css.attribute('t')
-              cell_formula_attr['ref'] = fmla_css.attribute('ref').to_s if fmla_css.attribute('ref')
-              cell_formula_attr['si'] = fmla_css.attribute('si').to_s if fmla_css.attribute('si')
-            end
-
-            unless @data_only
-              style_index = value['s'].to_i #nil goes to 0 (default)
-            else
-              style_index = 0
-            end
-
-            wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]] =
-              Cell.new(wb.worksheets[i],cell_index[0],cell_index[1],cell_data,cell_formula,
-                data_type,style_index,cell_formula_attr)
-            cell = wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]]
-          end
+          wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]] =
+            Cell.new(wb.worksheets[i],cell_index[0],cell_index[1],cell_data,cell_formula,
+              data_type,style_index,cell_formula_attr)
+          cell = wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]]
         end
       end
     end
@@ -288,13 +308,13 @@ module RubyXL
 
       files = Hash.new
 
-      files['app'] = Nokogiri::XML.parse(File.read(File.join(dir_path,'docProps','app.xml')))
-      files['core'] = Nokogiri::XML.parse(File.read(File.join(dir_path,'docProps','core.xml')))
+      files['app'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','app.xml'),'r'))
+      files['core'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','core.xml'),'r'))
 
-      files['workbook'] = Nokogiri::XML.parse(File.read(File.join(dir_path,'xl','workbook.xml')))
+      files['workbook'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
 
       if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
-        files['sharedString'] = Nokogiri::XML.parse(File.read(File.join(dir_path,'xl','sharedStrings.xml')))
+        files['sharedString'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
       end
 
       unless @data_only
@@ -352,7 +372,7 @@ module RubyXL
           files['vbaProject'] = File.open(File.join(dir_path,"xl","vbaProject.bin"),'rb').read
         end
 
-        files['styles'] = Nokogiri::XML.parse(File.read(File.join(dir_path,'xl','styles.xml')))
+        files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
       end
 
       @num_sheets = files['workbook'].css('sheets').children.size
@@ -362,7 +382,7 @@ module RubyXL
       i=1
       1.upto(@num_sheets) do
         filename = 'sheet'+i.to_s
-        files[i] = Nokogiri::XML.parse(File.read(File.join(dir_path,'xl','worksheets',filename+'.xml')))
+        files[i] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','worksheets',filename+'.xml'),'r'))
         i=i+1
       end
 
