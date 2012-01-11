@@ -66,16 +66,10 @@ module Writer
         }
       end
       contents = builder.to_xml
-      p contents
       contents = contents.gsub(/\n/,'')
       contents = contents.gsub(/>(\s)+</,'><')
       contents = contents.gsub(/<!\[CDATA\[(.*)\]\]>/,'\1')
       contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-      puts '
-
-      '
-      puts contents
-
       contents
     end
   end
