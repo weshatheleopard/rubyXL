@@ -7,22 +7,29 @@ module RubyXL
 
   class Parser
     attr_reader :data_only, :num_sheets
-
+    @@parsed_column_hash ={}
     # converts cell string (such as "AA1") to matrix indices
     def Parser.convert_to_index(cell_string)
       index = Array.new(2)
       index[0]=-1
       index[1]=-1
       if(cell_string =~ /^([A-Z]+)(\d+)$/)
-        one = $1.to_s
-        row = Integer($2) - 1 #-1 for 0 indexing
+
+        one = $1
+        row = $2.to_i - 1 #-1 for 0 indexing
         col = 0
         i = 0
-        one = one.reverse #because of 26^i calculation
-        one.each_byte do |c|
-          int_val = c - 64 #converts A to 1
-          col += int_val * 26**(i)
-          i=i+1
+        if @@parsed_column_hash[one].nil?
+          puts "||#{one}||"
+          two = one.reverse #because of 26^i calculation
+          two.each_byte do |c|
+            int_val = c - 64 #converts A to 1
+            col += int_val * 26**(i)
+            i=i+1
+          end
+          @@parsed_column_hash[one] = col
+        else
+          col = @@parsed_column_hash[one]
         end
         col -= 1 #zer0 index
         index[0] = row

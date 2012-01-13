@@ -1,5 +1,6 @@
 module RubyXL
 class Worksheet < PrivateClass
+  include Enumerable
 
   attr_accessor :sheet_name, :sheet_data, :cols, :merged_cells, :pane,
     :validations, :sheet_view, :legacy_drawing, :extLst, :workbook, :row_styles
@@ -24,6 +25,10 @@ class Worksheet < PrivateClass
   # allows for easier access to sheet_data
   def [](row=0)
     return @sheet_data[row]
+  end
+
+  def each
+    @sheet_data.each {|i| yield i}
   end
 
   #returns 2d array of just the cell values (without style or formula information)
@@ -51,6 +56,8 @@ class Worksheet < PrivateClass
   	header_row.each_with_index do |header_cell, index|
       next if header_cell.nil? || header_cell.value.nil?
       header = header_cell.value.to_s
+      table_hash[:sorted_headers]||=[]
+      table_hash[:sorted_headers] << header
   	  table_hash[header] = []
 
   	  original_row = row_num + 1

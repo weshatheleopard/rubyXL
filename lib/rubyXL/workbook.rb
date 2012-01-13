@@ -13,11 +13,13 @@ require 'date'
 
 module RubyXL
   class Workbook
+    include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :num_fmts, :fonts, :fills,
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :shared_strings, :calc_chain,
       :num_strings, :size, :date1904, :external_links, :style_corrector, :drawings,
-      :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names
+      :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
+
 
     APPLICATION = 'Microsoft Macintosh Excel'
     APPVERSION  = '12.0000'
@@ -57,6 +59,7 @@ module RubyXL
       @colors             = nil
       @shared_strings_XML = nil
       @defined_names      = nil
+      @column_lookup_hash = {}
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')
@@ -73,6 +76,10 @@ module RubyXL
     # allows easier access to worksheets
     def [](worksheet)
       return worksheets[worksheet]
+    end
+
+    def each
+      worksheets.each{|i| yield i}
     end
 
     #filepath of xlsx file (including file itself)
@@ -212,6 +219,70 @@ module RubyXL
       end
       # subtract one day to compare date for erroneous 1900 leap year compatibility
       compare_date - 1 + num
+    end
+
+    def date_num_fmt?(num_fmt)
+      @num_fmt_date_hash ||= {}
+      if @num_fmt_date_hash[num_fmt].nil?
+        @num_fmt_date_hash[num_fmt] = is_date_format?(num_fmt)
+      end
+      return @num_fmt_date_hash[num_fmt]
+    end
+
+     def is_date_format?(num_fmt)
+      skip_chars = ['$', '-', '+', '/', '(', ')', ':', ' ']
+      num_chars = ['0', '#', '?']
+      non_date_formats = ['0.00E+00', '##0.0E+0', 'General', 'GENERAL', 'general', '@']
+      date_chars = ['y','m','d','h','s']
+
+      state = 0
+      s = ''
+      num_fmt.split(//).each do |c|
+        if state == 0
+          if c == '"'
+            state = 1
+          elsif ['\\', '_', '*'].include?(c)
+            state = 2
+          elsif skip_chars.include?(c)
+            next
+          else
+            s << c
+          end
+        elsif state == 1
+          if c == '"'
+            state = 0
+          end
+        elsif state == 2
+          state = 0
+        end
+      end
+      s.gsub!(/\[[^\]]*\]/, '')
+      if non_date_formats.include?(s)
+        return false
+      end
+      separator = ';'
+      got_sep = 0
+      date_count = 0
+      num_count = 0
+      s.split(//).each do |c|
+        if date_chars.include?(c)
+          date_count += 1
+        elsif num_chars.include?(c)
+          num_count += 1
+        elsif c == separator
+          got_sep = 1
+        end
+      end
+      if date_count > 0 && num_count == 0
+        return true
+      elsif num_count > 0 && date_count == 0
+        return false
+      elsif date_count
+        # ambiguous result
+      elsif got_sep == 0
+        # constant result
+      end
+      return date_count > num_count
     end
 
     #gets style object from style array given index
