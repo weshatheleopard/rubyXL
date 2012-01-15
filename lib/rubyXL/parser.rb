@@ -20,7 +20,6 @@ module RubyXL
         col = 0
         i = 0
         if @@parsed_column_hash[one].nil?
-          puts "||#{one}||"
           two = one.reverse #because of 26^i calculation
           two.each_byte do |c|
             int_val = c - 64 #converts A to 1
@@ -227,7 +226,7 @@ module RubyXL
 
           wb.worksheets[i].row_styles[row_attributes['r'].content] = { :style => row_style  }
 
-          unless row_attributes['ht'].content == ""
+          if !row_attributes['ht'].nil?  && !row_attributes['ht'].content.blank?
             wb.worksheets[i].change_row_height(Integer(row_attributes['r'].content)-1,
               Float(row_attributes['ht'].content))
           end
