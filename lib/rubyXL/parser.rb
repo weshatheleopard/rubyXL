@@ -167,9 +167,9 @@ module RubyXL
         wb.worksheets[i].sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
 
         ##col styles##
-        cols_node_set = files[j].xpath('/xmlns:worksheet/xmlns:cols/xmlns:col',namespaces)
+        cols_node_set = files[j].xpath('/xmlns:worksheet/xmlns:cols',namespaces)
         unless cols_node_set.empty?
-          wb.worksheets[i].cols= cols_node_set.map(&:attributes)
+          wb.worksheets[i].cols= Hash.xml_node_to_hash(cols_node_set.first)[:col]
         end
         ##end col styles##
 
@@ -233,7 +233,7 @@ module RubyXL
           ##end row styles##
         end
 
-        c_row = row.search('./xmlns:c[xmlns:v]')
+        c_row = row.search('./xmlns:c')
         c_row.each do |value|
           value_attributes= value.attributes
           cell_index = Parser.convert_to_index(value_attributes['r'].content)
