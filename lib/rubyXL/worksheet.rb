@@ -36,7 +36,7 @@ class Worksheet < PrivateClass
     return @sheet_data.map {|row| row.map {|c| if c.is_a?(Cell) then c.value else nil end}}
   end
 
-  def get_table(headers=[])
+  def get_table(headers=[],opts={})
     validate_workbook
 
     if !headers.is_a?(Array)
@@ -54,6 +54,7 @@ class Worksheet < PrivateClass
 
     header_row = @sheet_data[row_num]
   	header_row.each_with_index do |header_cell, index|
+      break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
       next if header_cell.nil? || header_cell.value.nil?
       header = header_cell.value.to_s
       table_hash[:sorted_headers]||=[]

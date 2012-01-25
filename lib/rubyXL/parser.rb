@@ -226,7 +226,7 @@ module RubyXL
 
           wb.worksheets[i].row_styles[row_attributes['r'].content] = { :style => row_style  }
 
-          if !row_attributes['ht'].nil?  && !row_attributes['ht'].content.blank?
+          if !row_attributes['ht'].nil?  && (!row_attributes['ht'].content.nil? || row_attributes['ht'].content.strip != "" )
             wb.worksheets[i].change_row_height(Integer(row_attributes['r'].content)-1,
               Float(row_attributes['ht'].content))
           end
