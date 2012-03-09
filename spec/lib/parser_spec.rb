@@ -32,8 +32,18 @@ describe RubyXL::Parser do
       lambda {@workbook2 = RubyXL::Parser.parse(@time_str+".xls")}.should raise_error
     end
 
+    it 'should not cause an error if an xlsx or xlsm workbook is not passed but the skip_filename_check option is used' do
+      filename = @time_str
+      FileUtils.cp(@file, filename)
+      
+      lambda {@workbook2 = RubyXL::Parser.parse(filename)}.should raise_error
+      lambda {@workbook2 = RubyXL::Parser.parse(filename, :skip_filename_check => true)}.should_not raise_error
+      
+      File.delete(filename)
+    end
+    
     it 'should only read the data and not any of the styles (for the sake of speed) when passed true' do
-      @workbook2 = RubyXL::Parser.parse(@file, true)
+      @workbook2 = RubyXL::Parser.parse(@file, :data_only => true)
 
       @workbook2.worksheets.size.should == @workbook.worksheets.size
       @workbook2[0].sheet_data.should == @workbook[0].sheet_data

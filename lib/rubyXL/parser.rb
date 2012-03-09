@@ -40,9 +40,13 @@ module RubyXL
 
     # data_only allows only the sheet data to be parsed, so as to speed up parsing
     # However, using this option will result in date-formatted cells being interpreted as numbers
-    def Parser.parse(file_path, data_only=false)
-      @data_only = data_only
-      files = Parser.decompress(file_path)
+    def Parser.parse(file_path, opts = {})
+      
+      # options handling
+      @data_only = !!opts[:data_only]
+      skip_filename_check = !!opts[:skip_filename_check]
+      
+      files = Parser.decompress(file_path, skip_filename_check)
       wb = Parser.fill_workbook(file_path, files)
 
       if(files['sharedString'] != nil)
@@ -295,14 +299,18 @@ module RubyXL
       end
     end
 
-    def Parser.decompress(file_path)
+    def Parser.decompress(file_path, skip_filename_check = false)
       #ensures it is an xlsx/xlsm file
       if(file_path =~ /(.+)\.xls(x|m)/)
         dir_path = $1.to_s
       else
-        raise 'Not .xlsx or .xlsm excel file'
+        if skip_filename_check
+          dir_path = file_path
+        else
+          raise 'Not .xlsx or .xlsm excel file'
+        end
       end
-
+      
       dir_path = File.join(File.dirname(dir_path), make_safe_name(Time.now.to_s))
       #copies excel file to zip file in same directory
       zip_path = dir_path + '.zip'
