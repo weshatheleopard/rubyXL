@@ -43,7 +43,7 @@ module RubyXL
     def Parser.parse(file_path, opts = {})
       
       # options handling
-      @data_only = !!opts[:data_only]
+      @data_only = opts.is_a?(TrueClass)||!!opts[:data_only]
       skip_filename_check = !!opts[:skip_filename_check]
       
       files = Parser.decompress(file_path, skip_filename_check)
