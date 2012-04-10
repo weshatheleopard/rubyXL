@@ -41,11 +41,11 @@ module RubyXL
     # data_only allows only the sheet data to be parsed, so as to speed up parsing
     # However, using this option will result in date-formatted cells being interpreted as numbers
     def Parser.parse(file_path, opts = {})
-      
+
       # options handling
       @data_only = opts.is_a?(TrueClass)||!!opts[:data_only]
       skip_filename_check = !!opts[:skip_filename_check]
-      
+
       files = Parser.decompress(file_path, skip_filename_check)
       wb = Parser.fill_workbook(file_path, files)
 
@@ -217,7 +217,7 @@ module RubyXL
         ##end legacy drawing
       end
 
-      
+
       row_data = files[j].xpath('/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]',namespaces)
       row_data.each do |row|
         unless @data_only
@@ -265,7 +265,7 @@ module RubyXL
             cell_data = v_element_content
           else# (value.css('v').to_s != "") && (value.css('v').children.to_s != "") #is number
             data_type = ''
-            if(v_element_content =~ /\./) #is float
+            if(v_element_content =~ /\./ or v_element_content =~ /\d+e\-?\d+/i) #is float
               cell_data = Float(v_element_content)
             else
               cell_data = Integer(v_element_content)
@@ -310,7 +310,7 @@ module RubyXL
           raise 'Not .xlsx or .xlsm excel file'
         end
       end
-      
+
       dir_path = File.join(File.dirname(dir_path), make_safe_name(Time.now.to_s))
       #copies excel file to zip file in same directory
       zip_path = dir_path + '.zip'
