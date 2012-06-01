@@ -99,7 +99,9 @@ module RubyXL
     #fills hashes for various styles
     def Parser.fill_styles(wb,style_hash)
       ###NUM FORMATS###
-      if style_hash[:numFmts][:attributes][:count]==1
+      if style_hash[:numFmts].nil?
+        style_hash[:numFmts] = {:attributes => {:count => 0}, :numFmt => []}
+      elsif style_hash[:numFmts][:attributes][:count]==1
         style_hash[:numFmts][:numFmt] = [style_hash[:numFmts][:numFmt]]
       end
       wb.num_fmts = style_hash[:numFmts]
