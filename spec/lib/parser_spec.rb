@@ -49,6 +49,13 @@ describe RubyXL::Parser do
       @workbook2[0].sheet_data.should == @workbook[0].sheet_data
       @workbook2[0].sheet_name.should == @workbook[0].sheet_name
     end
+
+    it 'should construct consistent number formats' do
+      @workbook2 = RubyXL::Parser.parse(@file)
+
+      @workbook2.num_fmts[:numFmt].should be_an(Array)
+      @workbook2.num_fmts[:numFmt].length.should == @workbook2.num_fmts[:attributes][:count]
+    end
   end
 
   after do
