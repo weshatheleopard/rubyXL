@@ -17,7 +17,10 @@ module RubyXL
       @formula_attributes = fmla_attr
     end
 
-    def value
+    def value(args = {})
+      raw_values = args.delete(:raw) || false
+      return @value if raw_values
+      
       if is_date?
         return @workbook.num_to_date(@value)
       else

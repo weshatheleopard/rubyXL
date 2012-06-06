@@ -32,8 +32,9 @@ class Worksheet < PrivateClass
   end
 
   #returns 2d array of just the cell values (without style or formula information)
-  def extract_data
-    return @sheet_data.map {|row| row.map {|c| if c.is_a?(Cell) then c.value else nil end}}
+  def extract_data(args = {})
+    raw_values = args.delete(:raw) || false
+    return @sheet_data.map {|row| row.map {|c| if c.is_a?(Cell) then c.value(:raw => raw_values) else nil end}}
   end
 
   def get_table(headers=[],opts={})
