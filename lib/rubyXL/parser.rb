@@ -342,6 +342,7 @@ module RubyXL
         if File.directory?(File.join(dir_path,'xl','externalLinks'))
           files['externalLinks'] = {}
           ext_links_path = File.join(dir_path,'xl','externalLinks')
+          FileUtils.mkdir_p(ext_links_path)
           files['externalLinks']['rels'] = []
           dir = Dir.new(ext_links_path).entries.reject {|f| [".", "..", ".DS_Store", "_rels"].include? f}
 
@@ -360,7 +361,7 @@ module RubyXL
         if File.directory?(File.join(dir_path,'xl','drawings'))
           files['drawings'] = {}
           drawings_path = File.join(dir_path,'xl','drawings','_rels')
-
+          FileUtils.mkdir_p(drawings_path)
           dir = Dir.new(drawings_path).entries.reject {|f| [".", "..", ".DS_Store"].include? f}
           dir.each_with_index do |draw,i|
             files['drawings'][i+1] = File.read(File.join(drawings_path,draw))
@@ -370,7 +371,7 @@ module RubyXL
         if File.directory?(File.join(dir_path,'xl','printerSettings'))
           files['printerSettings'] = {}
           printer_path = File.join(dir_path,'xl','printerSettings')
-
+          FileUtils.mkdir_p(printer_path)
           dir = Dir.new(printer_path).entries.reject {|f| [".","..",".DS_Store"].include? f}
 
           dir.each_with_index do |print, i|
@@ -381,7 +382,7 @@ module RubyXL
         if File.directory?(File.join(dir_path,"xl",'worksheets','_rels'))
           files['worksheetRels'] = {}
           worksheet_rels_path = File.join(dir_path,'xl','worksheets','_rels')
-
+          FileUtils.mkdir_p(worksheet_rels_path)
           dir = Dir.new(worksheet_rels_path).entries.reject {|f| [".","..",".DS_Store"].include? f}
           dir.each_with_index do |rel, i|
             files['worksheetRels'][i+1] = File.read(File.join(worksheet_rels_path,rel))
