@@ -30,9 +30,9 @@ module RubyXL
 
     def is_date?
       if !@value.is_a?(String)
-        if @workbook.num_fmts
+        if @workbook.num_fmts_by_id
           num_fmt_id = xf_id()[:numFmtId]
-          tmp_num_fmt = @workbook.num_fmts[:numFmt].select { |f| f[:attributes][:numFmtId] == num_fmt_id }[0]
+          tmp_num_fmt = @workbook.num_fmts_by_id[num_fmt_id]
           num_fmt = (tmp_num_fmt &&tmp_num_fmt[:attributes] && tmp_num_fmt[:attributes][:formatCode]) ? tmp_num_fmt[:attributes][:formatCode] : nil
           if num_fmt && workbook.date_num_fmt?(num_fmt)
             return true

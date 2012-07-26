@@ -1,4 +1,5 @@
 .DS_Store
 *.html
 *.gem
+*.swp
 lib/tests/

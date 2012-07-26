@@ -10,9 +10,7 @@ module RubyXL
     @@parsed_column_hash ={}
     # converts cell string (such as "AA1") to matrix indices
     def Parser.convert_to_index(cell_string)
-      index = Array.new(2)
-      index[0]=-1
-      index[1]=-1
+      index = [-1,-1]
       if(cell_string =~ /^([A-Z]+)(\d+)$/)
 
         one = $1
@@ -243,12 +241,19 @@ module RubyXL
           ##end row styles##
         end
 
-        c_row = row.search('./xmlns:c')
+        unless @data_only
+          c_row = row.search('./xmlns:c')
+        else
+          c_row = row.search('./xmlns:c[xmlns:v[text()]]')
+        end
         c_row.each do |value|
+          #attributes is from the excel cell(c) and is basically location information and style and type
           value_attributes= value.attributes
+          # r attribute contains the location like A1
           cell_index = Parser.convert_to_index(value_attributes['r'].content)
-          style_index = nil
+          style_index = 0
 
+          # t is optional and contains the type of the cell
           data_type = value_attributes['t'].content if value_attributes['t']
           element_hash ={}
           value.children.each do |node|
@@ -277,6 +282,7 @@ module RubyXL
               cell_data = Integer(v_element_content)
             end
           end
+          # f is the formula element
           cell_formula = nil
           fmla_css = element_hash["f_element"]
           if fmla_css && fmla_css.content
@@ -293,8 +299,6 @@ module RubyXL
 
           unless @data_only
             style_index = value['s'].to_i #nil goes to 0 (default)
-          else
-            style_index = 0
           end
 
           wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]] =

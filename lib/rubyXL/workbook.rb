@@ -15,7 +15,7 @@ module RubyXL
   class Workbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
-      :modified_at, :company, :application, :appversion, :num_fmts, :fonts, :fills,
+      :modified_at, :company, :application, :appversion, :num_fmts, :num_fmts_hash, :fonts, :fills,
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :shared_strings, :calc_chain,
       :num_strings, :size, :date1904, :external_links, :style_corrector, :drawings,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
@@ -39,6 +39,7 @@ module RubyXL
       @application        = application
       @appversion         = appversion
       @num_fmts           = nil
+      @num_fmts_hash      = nil
       @fonts              = nil
       @fills              = nil
       @borders            = nil
@@ -80,6 +81,20 @@ module RubyXL
 
     def each
       worksheets.each{|i| yield i}
+    end
+
+    def num_fmts_by_id
+      
+      return @num_fmts_hash unless @num_fmts_hash.nil?
+      if num_fmts
+        @num_fmts_hash={}
+        num_fmts[:numFmt].each do |num_fmt|
+          @num_fmts_hash[num_fmt[:attributes][:numFmtId]]=num_fmt
+        end
+        @num_fmts_hash
+      else
+        {}
+      end
     end
 
     #filepath of xlsx file (including file itself)

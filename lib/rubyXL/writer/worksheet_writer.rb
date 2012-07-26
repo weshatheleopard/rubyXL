@@ -171,6 +171,8 @@ module Writer
           xml.sheetCalcPr('fullCalcOnLoad'=>'1')
 
           unless @worksheet.merged_cells.nil? || @worksheet.merged_cells.size==0
+            #There is some kind of bug here that when merged_cells is sometimes a hash and not an array
+            #initial attempt at a fix fails in corrupted excel documents leaving as is for now.
             xml.mergeCells {
               @worksheet.merged_cells.each do |merged_cell|
                 xml.mergeCell('ref'=>merged_cell[:attributes][:ref].to_s)
