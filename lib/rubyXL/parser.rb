@@ -67,8 +67,7 @@ module RubyXL
           wb.shared_strings[string] = i
         end
       end
-
-      unless @data_only
+      #styles are needed for formatting reasons as that is how dates are determined
         styles = files['styles'].css('cellXfs xf')
         style_hash = Hash.xml_node_to_hash(files['styles'].root)
         fill_styles(wb,style_hash)
@@ -79,7 +78,6 @@ module RubyXL
         wb.printer_settings = files['printerSettings']
         wb.worksheet_rels = files['worksheetRels']
         wb.macros = files['vbaProject']
-      end
 
       #for each worksheet:
       #1. find the dimensions of the data matrix
@@ -297,9 +295,7 @@ module RubyXL
             end
           end
 
-          unless @data_only
-            style_index = value['s'].to_i #nil goes to 0 (default)
-          end
+          style_index = value['s'].to_i #nil goes to 0 (default)
 
           wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]] =
             Cell.new(wb.worksheets[i],cell_index[0],cell_index[1],cell_data,cell_formula,
@@ -396,10 +392,8 @@ module RubyXL
         if File.exist?(File.join(dir_path,'xl','vbaProject.bin'))
           files['vbaProject'] = File.open(File.join(dir_path,"xl","vbaProject.bin"),'rb').read
         end
-
-        files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
       end
-
+      files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
       @num_sheets = files['workbook'].css('sheets').children.size
       @num_sheets = Integer(@num_sheets)
 
