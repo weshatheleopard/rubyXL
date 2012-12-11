@@ -244,10 +244,11 @@ module RubyXL
       return @num_fmt_date_hash[num_fmt]
     end
 
-     def is_date_format?(num_fmt)
+    def is_date_format?(num_fmt)
+      num_fmt.downcase!
       skip_chars = ['$', '-', '+', '/', '(', ')', ':', ' ']
       num_chars = ['0', '#', '?']
-      non_date_formats = ['0.00E+00', '##0.0E+0', 'General', 'GENERAL', 'general', '@']
+      non_date_formats = ['0.00e+00', '##0.0e+0', 'general', '@']
       date_chars = ['y','m','d','h','s']
 
       state = 0
