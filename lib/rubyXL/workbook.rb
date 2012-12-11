@@ -84,17 +84,44 @@ module RubyXL
     end
 
     def num_fmts_by_id
-      
       return @num_fmts_hash unless @num_fmts_hash.nil?
-      if num_fmts
-        @num_fmts_hash={}
+      @num_fmts_hash={1=>{:attributes=>{:formatCode=>'0'}},
+2=>{:attributes=>{:formatCode=>'0.00'}},
+3=>{:attributes=>{:formatCode=>'#, ##0'}},
+4=>{:attributes=>{:formatCode=>'#, ##0.00'}},
+5=>{:attributes=>{:formatCode=>'$#, ##0_);($#, ##0)'}},
+6=>{:attributes=>{:formatCode=>'$#, ##0_);[Red]($#, ##0)'}},
+7=>{:attributes=>{:formatCode=>'$#, ##0.00_);($#, ##0.00)'}},
+8=>{:attributes=>{:formatCode=>'$#, ##0.00_);[Red]($#, ##0.00)'}},
+9=>{:attributes=>{:formatCode=>'0%'}},
+10=>{:attributes=>{:formatCode=>'0.00%'}},
+11=>{:attributes=>{:formatCode=>'0.00E+00'}},
+12=>{:attributes=>{:formatCode=>'# ?/?'}},
+13=>{:attributes=>{:formatCode=>'# ??/??'}},
+14=>{:attributes=>{:formatCode=>'m/d/yyyy'}},
+15=>{:attributes=>{:formatCode=>'d-mmm-yy'}},
+16=>{:attributes=>{:formatCode=>'d-mmm'}},
+17=>{:attributes=>{:formatCode=>'mmm-yy'}},
+18=>{:attributes=>{:formatCode=>'h:mm AM/PM'}},
+19=>{:attributes=>{:formatCode=>'h:mm:ss AM/PM'}},
+20=>{:attributes=>{:formatCode=>'h:mm'}},
+21=>{:attributes=>{:formatCode=>'h:mm:ss'}},
+22=>{:attributes=>{:formatCode=>'m/d/yyyy h:mm'}},
+37=>{:attributes=>{:formatCode=>'#, ##0_);(#, ##0)'}},
+38=>{:attributes=>{:formatCode=>'#, ##0_);[Red](#, ##0)'}},
+39=>{:attributes=>{:formatCode=>'#, ##0.00_);(#, ##0.00)'}},
+40=>{:attributes=>{:formatCode=>'#, ##0.00_);[Red](#, ##0.00)'}},
+45=>{:attributes=>{:formatCode=>'mm:ss'}},
+46=>{:attributes=>{:formatCode=>'[h]:mm:ss'}},
+47=>{:attributes=>{:formatCode=>'mm:ss.0'}},
+48=>{:attributes=>{:formatCode=>'##0.0E+0'}},
+49=>{:attributes=>{:formatCode=>'@'}}}
+      if num_fmts and num_fmts[:numFmt]
         num_fmts[:numFmt].each do |num_fmt|
           @num_fmts_hash[num_fmt[:attributes][:numFmtId]]=num_fmt
         end
-        @num_fmts_hash
-      else
-        {}
       end
+      return @num_fmts_hash
     end
 
     #filepath of xlsx file (including file itself)

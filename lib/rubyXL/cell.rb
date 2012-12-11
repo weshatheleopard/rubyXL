@@ -29,17 +29,17 @@ module RubyXL
     end
 
     def is_date?
+      number_format && workbook.date_num_fmt?(number_format)
+    end
+    
+    def number_format
       if !@value.is_a?(String)
         if @workbook.num_fmts_by_id
           num_fmt_id = xf_id()[:numFmtId]
           tmp_num_fmt = @workbook.num_fmts_by_id[num_fmt_id]
-          num_fmt = (tmp_num_fmt &&tmp_num_fmt[:attributes] && tmp_num_fmt[:attributes][:formatCode]) ? tmp_num_fmt[:attributes][:formatCode] : nil
-          if num_fmt && workbook.date_num_fmt?(num_fmt)
-            return true
-          end
+          return (tmp_num_fmt &&tmp_num_fmt[:attributes] && tmp_num_fmt[:attributes][:formatCode]) ? tmp_num_fmt[:attributes][:formatCode] : nil
         end
       end
-      return false
     end
 
     # changes fill color of cell
