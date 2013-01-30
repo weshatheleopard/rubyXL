@@ -79,6 +79,10 @@ module RubyXL
       return worksheets[worksheet]
     end
 
+    def create_worksheet(name)
+      worksheets << Worksheet.new(self, name)
+    end
+
     def each
       worksheets.each{|i| yield i}
     end
