@@ -307,15 +307,15 @@ module RubyXL
 
     def Parser.decompress(file_path, skip_filename_check = false)
       #ensures it is an xlsx/xlsm file
-      #if(file_path =~ /(.+)\.xls(x|m)/)
-      #  dir_path = $1.to_s
-      #else
-      #  if skip_filename_check
-      #    dir_path = file_path
-      #  else
-      #    raise 'Not .xlsx or .xlsm excel file'
-      #  end
-      #end
+      if(file_path =~ /(.+)\.xls(x|m)/)
+        dir_path = $1.to_s
+      else
+        if skip_filename_check
+          dir_path = file_path
+        else
+          raise 'Not .xlsx or .xlsm excel file'
+        end
+      end
 
       dir_path = File.join(File.dirname(dir_path), make_safe_name(Time.now.to_s))
       #copies excel file to zip file in same directory
