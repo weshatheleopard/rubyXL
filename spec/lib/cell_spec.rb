@@ -209,6 +209,8 @@ describe RubyXL::Cell do
 #        puts @cell.value
 #        puts Date.parse('April 20, 2012')
         @cell.value.should == Date.parse('April 20, 2012')
+        @cell.change_contents(35981)
+        @cell.value.should == Date.parse('July 5, 1998')
       end
     end
     context '1904-based dates' do
@@ -220,9 +222,8 @@ describe RubyXL::Cell do
 #        puts @cell.value
 #        puts Date.parse('April 20, 2012')
         @cell.value.should == Date.parse('April 20, 2012')
-        date = 0
-        @cell.change_contents(date)
-        @cell.value.should == Date.parse('January 1, 1904')
+        @cell.change_contents(34519)
+        @cell.value.should == Date.parse('July 5, 1998')
       end
     end
   end
