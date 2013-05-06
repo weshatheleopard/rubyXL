@@ -9,7 +9,13 @@ group :development do
   gem "shoulda", ">= 0"
   gem "bundler", "~> 1.0.0"
   gem "jeweler", "~> 1.6.0"
-  gem "rcov", ">= 0"
+
+  if RUBY_VERSION =~ /^1\.9/
+  	gem "simplecov", ">= 0"
+  else
+  	gem "rcov", ">= 0"
+  end
+
   gem "nokogiri", ">= 1.4.4"
   gem "rubyzip", ">= 0.9.4"
   gem "rspec", ">= 1.3.4"
