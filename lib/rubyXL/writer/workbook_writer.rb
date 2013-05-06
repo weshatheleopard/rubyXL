@@ -17,7 +17,7 @@ module Writer
     end
 
     def write()
-      builder = Nokogiri::XML::Builder.new do |xml|
+      builder = Nokogiri::XML::Builder.new(:encoding => "ISO-8859-1") do |xml|
         xml.workbook('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main",
         'xmlns:r'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships") {
           #attributes out of order here
