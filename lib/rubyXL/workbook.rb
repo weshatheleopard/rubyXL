@@ -118,7 +118,7 @@ module RubyXL
       #zips package and renames it to xlsx.
       zippath = File.join(dirpath, filename + '.zip')
       File.unlink(zippath) if File.exists?(zippath)
-      FileUtils.mkdir_p(File.join(dirpath,zippath))
+      FileUtils.mkdir_p(dirpath)
       Zip::ZipFile.open(zippath, Zip::ZipFile::CREATE) do |zipfile|
         writer = Writer::ContentTypesWriter.new(dirpath,self)
         zipfile.get_output_stream('[Content_Types].xml') {|f| f.puts(writer.write())}
