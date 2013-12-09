@@ -205,6 +205,12 @@ module RubyXL
       validate_vertical_alignment(alignment)
       @style_index = modify_alignment(@workbook,@style_index,false,alignment)
     end
+    # changes wrap of cell
+    def change_wrap_text(wrap=false)
+      validate_worksheet
+      validate_wrap_text(wrap)
+      @style_index = modify_wrap_text(@workbook,@style_index,wrap)
+    end
 
     # changes top border of cell
     def change_border_top(weight='thin')
@@ -334,6 +340,16 @@ module RubyXL
         return nil
       end
       xf_obj[:alignment][:attributes][:vertical].to_s
+    end
+
+    # returns cell's wrap
+    def wrap_text()
+      validate_worksheet
+      xf_obj = @workbook.get_style(@style_index)
+      if xf_obj[:alignment].nil? || xf_obj[:alignment][:attributes].nil?
+        return nil
+      end
+      (xf_obj[:alignment][:attributes][:wrapText]== "1")
     end
 
     # returns cell's top border

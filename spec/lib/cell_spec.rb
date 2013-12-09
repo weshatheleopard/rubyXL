@@ -127,6 +127,19 @@ describe RubyXL::Cell do
      end
   end
 
+  describe '.change_wrap' do
+    it 'should cause cell to wrap align as specified by the passed in value' do
+       @cell.change_wrap_text(true)
+       @cell.wrap_text.should == true
+     end
+
+     it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
+       lambda {
+         @cell.change_vertical_alignment('TEST')
+       }.should raise_error
+     end
+  end
+
   describe '.change_border_top' do
     it 'should cause cell to have border at top with specified weight' do
       @cell.change_border_top('thin')
