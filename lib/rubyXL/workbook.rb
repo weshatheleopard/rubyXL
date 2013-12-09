@@ -252,7 +252,7 @@ module RubyXL
 
       state = 0
       s = ''
-      num_fmt.split(//).each do |c|
+      num_fmt.to_s.split(//).each do |c|
         if state == 0
           if c == '"'
             state = 1
