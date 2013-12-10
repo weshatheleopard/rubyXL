@@ -10,7 +10,7 @@ group :development do
   gem "bundler"
   gem "jeweler"
 
-  if RUBY_VERSION =~ /^1\.9/
+  if RUBY_VERSION >= "1.9"
   	gem "simplecov", ">= 0"
   else
   	gem "rcov", ">= 0"
