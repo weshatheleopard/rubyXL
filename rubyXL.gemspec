@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{rubyXL}
+  s.name = "rubyXL"
   s.version = "1.2.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
-  s.date = %q{2012-08-07}
-  s.description = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
-  s.email = %q{bhagwat.vivek@gmail.com}
+  s.date = "2013-12-10"
+  s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
+  s.email = "bhagwat.vivek@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -23,11 +23,10 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "lib/.DS_Store",
     "lib/rubyXL.rb",
-    "lib/rubyXL/Hash.rb",
     "lib/rubyXL/cell.rb",
     "lib/rubyXL/color.rb",
+    "lib/rubyXL/hash.rb",
     "lib/rubyXL/parser.rb",
     "lib/rubyXL/private_class.rb",
     "lib/rubyXL/workbook.rb",
@@ -52,40 +51,39 @@ Gem::Specification.new do |s|
     "spec/lib/workbook_spec.rb",
     "spec/lib/worksheet_spec.rb"
   ]
-  s.homepage = %q{http://github.com/gilt/rubyXL}
+  s.homepage = "http://github.com/gilt/rubyXL"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
-  s.summary = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
+  s.rubygems_version = "1.8.23"
+  s.summary = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<shoulda>, [">= 0"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.6.0"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, [">= 0"])
+      s.add_development_dependency(%q<jeweler>, [">= 0"])
+      s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_development_dependency(%q<nokogiri>, [">= 1.4.4"])
-      s.add_development_dependency(%q<rubyzip>, [">= 0.9.4"])
+      s.add_development_dependency(%q<rubyzip>, [">= 1.0.0"])
       s.add_development_dependency(%q<rspec>, [">= 1.3.4"])
     else
       s.add_dependency(%q<shoulda>, [">= 0"])
-      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
-      s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<bundler>, [">= 0"])
+      s.add_dependency(%q<jeweler>, [">= 0"])
+      s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
-      s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
+      s.add_dependency(%q<rubyzip>, [">= 1.0.0"])
       s.add_dependency(%q<rspec>, [">= 1.3.4"])
     end
   else
     s.add_dependency(%q<shoulda>, [">= 0"])
-    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-    s.add_dependency(%q<jeweler>, ["~> 1.6.0"])
-    s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<bundler>, [">= 0"])
+    s.add_dependency(%q<jeweler>, [">= 0"])
+    s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 1.4.4"])
-    s.add_dependency(%q<rubyzip>, [">= 0.9.4"])
+    s.add_dependency(%q<rubyzip>, [">= 1.0.0"])
     s.add_dependency(%q<rspec>, [">= 1.3.4"])
   end
 end
