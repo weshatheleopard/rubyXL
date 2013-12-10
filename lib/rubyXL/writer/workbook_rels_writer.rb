@@ -42,10 +42,13 @@ module Writer
           xml.Relationship('Id'=>'rId'+i.to_s,
             'Type'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles",
             'Target'=>'styles.xml')
-          i+=1
-          xml.Relationship('Id'=>'rId'+i.to_s,
+
+          unless @workbook.shared_strings.nil?
+            i+=1
+            xml.Relationship('Id'=>'rId'+i.to_s,
             'Type'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings",
               'Target'=>'sharedStrings.xml')
+          end
         }
       end
       contents = builder.to_xml
