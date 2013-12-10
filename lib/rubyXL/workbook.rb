@@ -1,13 +1,13 @@
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','content_types_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','root_rels_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','app_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','core_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','theme_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','workbook_rels_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','workbook_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','styles_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','shared_strings_writer'))
-require File.expand_path(File.join(File.dirname(__FILE__),'writer','worksheet_writer'))
+require 'rubyXL/writer/content_types_writer'
+require 'rubyXL/writer/root_rels_writer'
+require 'rubyXL/writer/app_writer'
+require 'rubyXL/writer/core_writer'
+require 'rubyXL/writer/theme_writer'
+require 'rubyXL/writer/workbook_rels_writer'
+require 'rubyXL/writer/workbook_writer'
+require 'rubyXL/writer/styles_writer'
+require 'rubyXL/writer/shared_strings_writer'
+require 'rubyXL/writer/worksheet_writer'
 require 'rubyXL/zip'
 require 'date'
 
@@ -119,7 +119,7 @@ module RubyXL
       zippath = File.join(dirpath, filename + '.zip')
       File.unlink(zippath) if File.exists?(zippath)
       FileUtils.mkdir_p(dirpath)
-      Zip::ZipFile.open(zippath, Zip::ZipFile::CREATE) do |zipfile|
+      Zip::File.open(zippath, Zip::File::CREATE) do |zipfile|
         writer = Writer::ContentTypesWriter.new(dirpath,self)
         zipfile.get_output_stream('[Content_Types].xml') {|f| f.puts(writer.write())}
 
