@@ -32,17 +32,19 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
+if RUBY_VERSION < "1.9"
+	require 'rcov/rcovtask'
+	Rcov::RcovTask.new do |test|
+		test.libs << 'test'
+		test.pattern = 'test/**/test_*.rb'
+		test.verbose = true
+		test.rcov_opts << '--exclude "gems/*"'
+	end
 end
 
 task :default => :test
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
