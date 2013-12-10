@@ -400,14 +400,14 @@ module RubyXL
         end
 
         if col >= 26**(col_length-i)
-          int_val = col / 26**(col_length-i) #+1 for 0 indexing
-          int_val += 64 #converts 1 to A, etc.
+          int_val = (col / 26**(col_length-i)).floor #+1 for 0 indexing
 
-          col_string += int_val.chr
+          # Convert 1 to A, etc.
+          col_string += ('A'.ord + int_val - 1).chr
 
           #intval multiplier decrements by placeholder, essentially
           #a B subtracts more than an A this way.
-          col -= (int_val-64)*26**(col_length-i)
+          col -= int_val*26**(col_length-i)
         end
       end
       col_string+row_string
