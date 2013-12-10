@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'nokogiri'
 require 'zip'
-require File.expand_path(File.join(File.dirname(__FILE__),'Hash'))
+require 'rubyXL/hash'
 
 module RubyXL
 
