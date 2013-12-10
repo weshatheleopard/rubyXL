@@ -137,7 +137,11 @@ module Writer
                     xml.i
                   end
                   unless font[:u].nil?
-                    xml.u
+                    # XXX: This actually creates an element named 'u'.
+                    # This prevents a clash with ruby-units - the gem has a
+                    # Object#u method that would stop this call from ever
+                    # reaching Nokogiri.
+                    xml.u_
                   end
                   unless font[:strike].nil?
                     xml.strike
