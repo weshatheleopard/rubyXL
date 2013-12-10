@@ -45,10 +45,8 @@ class Worksheet < PrivateClass
     end
 
     row_num = find_first_row_with_content(headers)
-
-  	if row_num.nil?
-  		return nil
-  	end
+  	
+    return nil if row_num.nil?
 
   	table_hash = {}
   	table_hash[:table] = []
@@ -71,17 +69,17 @@ class Worksheet < PrivateClass
   	  # as well as hash of arrays in table_hash[header]
       table_index = current_row - original_row
   	  cell_test= (!cell.nil? && !cell.value.nil?)
-      while cell_test || !table_hash[:table][table_index].empty?
 
-  		  table_hash[header] << (cell_test ? cell.value : nil)
+      while cell_test || (table_hash[:table][table_index] && !table_hash[:table][table_index].empty?)
+
+  		  table_hash[header] << cell.value if cell_test
 
     		table_index = current_row - original_row
 
-    		if table_hash[:table][table_index].nil?
-    		  table_hash[:table][table_index] = {}
-    		end
-
-    		table_hash[:table][table_index][header] = cell.value if cell_test
+                if cell_test then
+                  table_hash[:table][table_index] ||= {}
+                  table_hash[:table][table_index][header] = cell.value 
+                end
 
     		current_row += 1
     		if @sheet_data[current_row].nil?
