@@ -18,7 +18,7 @@ module RubyXL
     end
 
     def validate_wrap_text(wrap)
-      if wrap == true || wrap == false
+      if wrap.is_a?(FalseClass) || wrap.is_a?(TrueClass)
         return true
       end
       raise 'Only true or false are valid wraps'
