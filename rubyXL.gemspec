@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "lib/.DS_Store",
     "lib/rubyXL.rb",
     "lib/rubyXL/Hash.rb",
     "lib/rubyXL/cell.rb",
