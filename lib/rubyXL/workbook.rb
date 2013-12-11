@@ -20,18 +20,16 @@ module RubyXL
       :num_strings, :size, :date1904, :external_links, :style_corrector, :drawings,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
 
-
     APPLICATION = 'Microsoft Macintosh Excel'
     APPVERSION  = '12.0000'
-    SHEET_NAME = 'Sheet1'
+
     def initialize(worksheets=[], filepath=nil, creator=nil, modifier=nil, created_at=nil,
                    company='', application=APPLICATION,
                    appversion=APPVERSION, date1904=0)
-      if worksheets.nil? || worksheets.empty?
-        @worksheets       = [Worksheet.new(self,SHEET_NAME)]
-      else
-        @worksheets       = worksheets
-      end
+
+      @worksheets = worksheets || []
+      @worksheets << Worksheet.new(self) if @worksheets.empty?
+
       @filepath           = filepath
       @creator            = creator
       @modifier           = modifier
@@ -74,9 +72,12 @@ module RubyXL
       fill_shared_strings()
     end
 
-    # allows easier access to worksheets
-    def [](worksheet)
-      return worksheets[worksheet]
+    # Finds worksheet by its name or numerical index
+    def [](ind)
+      case ind
+      when Integer then worksheets[ind]
+      when String  then worksheets.find { |ws| ws.sheet_name == ind }
+      end
     end
 
     # Create new simple worksheet and add it to the workbook worksheets

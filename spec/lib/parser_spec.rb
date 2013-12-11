@@ -2,8 +2,10 @@ require 'rubygems'
 require 'rubyXL'
 
 describe RubyXL::Parser do
+
   before do
-    @workbook = (RubyXL::Workbook.new)
+    @workbook = RubyXL::Workbook.new
+    @workbook.add_worksheet("Test Worksheet")
     @time_str = Time.now.to_s
     @file = @time_str + '.xlsx'
     @workbook.write(@file)

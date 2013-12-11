@@ -209,7 +209,7 @@ describe RubyXL::Cell do
     it 'should return the value of a date' do
       date = Date.parse('January 1, 2011')
       @cell.change_contents(date)
-      @cell.should_receive(:is_date?).any_number_of_times.and_return(true)
+      @cell.should_receive(:is_date?).at_least(1).and_return(true)
       @cell.value.should == date
     end
 
@@ -218,7 +218,7 @@ describe RubyXL::Cell do
       it 'should convert date numbers correctly' do
         date = 41019
         @cell.change_contents(date)
-        @cell.should_receive(:is_date?).any_number_of_times.and_return(true)
+        @cell.should_receive(:is_date?).at_least(1).and_return(true)
 #        puts @cell.value
 #        puts Date.parse('April 20, 2012')
         @cell.value.should == Date.parse('April 20, 2012')
@@ -231,7 +231,7 @@ describe RubyXL::Cell do
       it 'should convert date numbers correctly' do
         date = 39557
         @cell.change_contents(date)
-        @cell.should_receive(:is_date?).any_number_of_times.and_return(true)
+        @cell.should_receive(:is_date?).at_least(1).and_return(true)
 #        puts @cell.value
 #        puts Date.parse('April 20, 2012')
         @cell.value.should == Date.parse('April 20, 2012')
@@ -251,7 +251,7 @@ describe RubyXL::Cell do
     it 'should cause cell value to match a date that is passed in' do
       date = Date.parse('January 1, 2011')
       @cell.change_contents(date)
-      @cell.should_receive(:is_date?).any_number_of_times.and_return(true)
+      @cell.should_receive(:is_date?).at_least(1).and_return(true)
       @cell.value.should == date
       @cell.formula.should == nil
     end

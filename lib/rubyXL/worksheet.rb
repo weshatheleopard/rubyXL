@@ -5,10 +5,12 @@ class Worksheet < PrivateClass
   attr_accessor :sheet_name, :sheet_data, :cols, :merged_cells, :pane,
     :validations, :sheet_view, :legacy_drawing, :extLst, :workbook, :row_styles
 
+  SHEET_NAME_TEMPLATE = 'Sheet%d'
+
   def initialize(workbook, sheet_name = nil, sheet_data= [[nil]], cols=[], merged_cells=[])
     @workbook = workbook
 
-    @sheet_name = sheet_name || 'Sheet1'
+    @sheet_name = sheet_name || get_default_name
     @sheet_data = sheet_data
     @cols = cols
     @merged_cells = merged_cells
@@ -21,6 +23,17 @@ class Worksheet < PrivateClass
     @extLst = nil
     @legacy_drawing=nil
   end
+
+  def get_default_name
+    n = 0
+
+    begin
+      name = SHEET_NAME_TEMPLATE % (n += 1)
+    end until @workbook[name].nil?
+
+    name
+  end
+  private :get_default_name
 
   # allows for easier access to sheet_data
   def [](row=0)
