@@ -250,16 +250,19 @@ module RubyXL
       return @num_fmt_date_hash[num_fmt]
     end
 
-     def is_date_format?(num_fmt)
+    def is_date_format?(num_fmt)
+      num_fmt = num_fmt.downcase
       skip_chars = ['$', '-', '+', '/', '(', ')', ':', ' ']
       num_chars = ['0', '#', '?']
-      non_date_formats = ['0.00E+00', '##0.0E+0', 'General', 'GENERAL', 'general', '@']
+      non_date_formats = ['0.00e+00', '##0.0e+0', 'general', '@']
       date_chars = ['y','m','d','h','s']
 
       state = 0
       s = ''
+
       num_fmt.split(//).each do |c|
-        if state == 0
+        case state 
+        when 0 then
           if c == '"'
             state = 1
           elsif ['\\', '_', '*'].include?(c)
@@ -269,22 +272,22 @@ module RubyXL
           else
             s << c
           end
-        elsif state == 1
-          if c == '"'
-            state = 0
-          end
-        elsif state == 2
+        when 1 then
+          state = 0 if c == '"'
+        when 2 then
           state = 0
         end
       end
+
       s.gsub!(/\[[^\]]*\]/, '')
-      if non_date_formats.include?(s)
-        return false
-      end
+
+      return false if non_date_formats.include?(s)
+
       separator = ';'
       got_sep = 0
       date_count = 0
       num_count = 0
+
       s.split(//).each do |c|
         if date_chars.include?(c)
           date_count += 1
@@ -294,6 +297,7 @@ module RubyXL
           got_sep = 1
         end
       end
+
       if date_count > 0 && num_count == 0
         return true
       elsif num_count > 0 && date_count == 0
@@ -303,6 +307,7 @@ module RubyXL
       elsif got_sep == 0
         # constant result
       end
+
       return date_count > num_count
     end
 
