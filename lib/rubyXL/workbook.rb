@@ -79,6 +79,13 @@ module RubyXL
       return worksheets[worksheet]
     end
 
+    # Create new simple worksheet and add it to the workbook worksheets
+    #
+    # @param [String] The name for the new worksheet
+    def create_worksheet(name)
+      worksheets << Worksheet.new(self, name)
+    end
+
     def each
       worksheets.each{|i| yield i}
     end
@@ -240,60 +247,64 @@ module RubyXL
       return @num_fmt_date_hash[num_fmt]
     end
 
-     def is_date_format?(num_fmt)
-      skip_chars = ['$', '-', '+', '/', '(', ')', ':', ' ']
-      num_chars = ['0', '#', '?']
-      non_date_formats = ['0.00E+00', '##0.0E+0', 'General', 'GENERAL', 'general', '@']
-      date_chars = ['y','m','d','h','s']
+    def is_date_format?(num_fmt)
+      if num_fmt.class == String
+        skip_chars = ['$', '-', '+', '/', '(', ')', ':', ' ']
+        num_chars = ['0', '#', '?']
+        non_date_formats = ['0.00E+00', '##0.0E+0', 'General', 'GENERAL', 'general', '@']
+        date_chars = ['y','m','d','h','s']
 
-      state = 0
-      s = ''
-      num_fmt.split(//).each do |c|
-        if state == 0
-          if c == '"'
-            state = 1
-          elsif ['\\', '_', '*'].include?(c)
-            state = 2
-          elsif skip_chars.include?(c)
-            next
-          else
-            s << c
-          end
-        elsif state == 1
-          if c == '"'
+        state = 0
+        s = ''
+        num_fmt.split(//).each do |c|
+          if state == 0
+            if c == '"'
+              state = 1
+            elsif ['\\', '_', '*'].include?(c)
+              state = 2
+            elsif skip_chars.include?(c)
+              next
+            else
+              s << c
+            end
+          elsif state == 1
+            if c == '"'
+              state = 0
+            end
+          elsif state == 2
             state = 0
           end
-        elsif state == 2
-          state = 0
         end
-      end
-      s.gsub!(/\[[^\]]*\]/, '')
-      if non_date_formats.include?(s)
-        return false
-      end
-      separator = ';'
-      got_sep = 0
-      date_count = 0
-      num_count = 0
-      s.split(//).each do |c|
-        if date_chars.include?(c)
-          date_count += 1
-        elsif num_chars.include?(c)
-          num_count += 1
-        elsif c == separator
-          got_sep = 1
+        s.gsub!(/\[[^\]]*\]/, '')
+        if non_date_formats.include?(s)
+          return false
         end
+        separator = ';'
+        got_sep = 0
+        date_count = 0
+        num_count = 0
+        s.split(//).each do |c|
+          if date_chars.include?(c)
+            date_count += 1
+          elsif num_chars.include?(c)
+            num_count += 1
+          elsif c == separator
+            got_sep = 1
+          end
+        end
+        if date_count > 0 && num_count == 0
+          return true
+        elsif num_count > 0 && date_count == 0
+          return false
+        elsif date_count
+          # ambiguous result
+        elsif got_sep == 0
+          # constant result
+        end
+        return date_count > num_count
+      else
+        num_fmt.class == Date
       end
-      if date_count > 0 && num_count == 0
-        return true
-      elsif num_count > 0 && date_count == 0
-        return false
-      elsif date_count
-        # ambiguous result
-      elsif got_sep == 0
-        # constant result
-      end
-      return date_count > num_count
     end
 
     #gets style object from style array given index
