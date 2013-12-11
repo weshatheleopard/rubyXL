@@ -200,13 +200,31 @@ describe RubyXL::Cell do
       @cell.value.should == date
     end
 
-    it 'should convert date numbers correctly' do
-      date = 41019
-      @cell.change_contents(date)
-      @cell.should_receive(:is_date?).any_number_of_times.and_return(true)
-      puts @cell.value
-      puts Date.parse('April 20, 2012')
-      @cell.value.should == Date.parse('April 20, 2012')
+    context '1900-based dates' do
+      before(:each) { @workbook.date1904 = false }
+      it 'should convert date numbers correctly' do
+        date = 41019
+        @cell.change_contents(date)
+        @cell.should_receive(:is_date?).any_number_of_times.and_return(true)
+#        puts @cell.value
+#        puts Date.parse('April 20, 2012')
+        @cell.value.should == Date.parse('April 20, 2012')
+        @cell.change_contents(35981)
+        @cell.value.should == Date.parse('July 5, 1998')
+      end
+    end
+    context '1904-based dates' do
+      before(:each) { @workbook.date1904 = true }
+      it 'should convert date numbers correctly' do
+        date = 39557
+        @cell.change_contents(date)
+        @cell.should_receive(:is_date?).any_number_of_times.and_return(true)
+#        puts @cell.value
+#        puts Date.parse('April 20, 2012')
+        @cell.value.should == Date.parse('April 20, 2012')
+        @cell.change_contents(34519)
+        @cell.value.should == Date.parse('July 5, 1998')
+      end
     end
   end
 
