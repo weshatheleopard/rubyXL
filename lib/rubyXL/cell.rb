@@ -1,10 +1,13 @@
 module RubyXL
   class Cell < PrivateClass
+    SHARED_STRING = 's'
+    RAW_STRING = 'str'
+    ERROR = 'e'
 
     attr_accessor :row, :column, :datatype, :style_index, :formula, :worksheet
     attr_reader :workbook,:formula_attributes
 
-    def initialize(worksheet,row,column,value=nil,formula=nil,datatype='s',style_index=0, fmla_attr={})
+    def initialize(worksheet, row, column, value = nil, formula = nil, datatype = SHARED_STRING, style_index = 0, fmla_attr = {})
       @worksheet = worksheet
 
       @workbook = worksheet.workbook
@@ -185,13 +188,16 @@ module RubyXL
     # changes contents of cell, with formula option
     def change_contents(data, formula=nil)
       validate_worksheet
-      @datatype='str'
+      @datatype = RAW_STRING
+
       if data.is_a?(Date) || data.is_a?(DateTime)
         data = @workbook.date_to_num(data)
       end
+
       if (data.is_a?Integer) || (data.is_a?Float)
         @datatype = ''
       end
+
       @value=data
       @formula=formula
     end

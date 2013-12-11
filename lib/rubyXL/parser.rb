@@ -265,12 +265,12 @@ module RubyXL
           end
           if v_element_content =="" #no data
             cell_data = nil
-          elsif data_type == 's' #shared string
+          elsif data_type == RubyXL::Cell::SHARED_STRING
             str_index = Integer(v_element_content)
             cell_data = shared_strings[str_index].to_s
-          elsif data_type=='str' #raw string
+          elsif data_type == RubyXL::Cell::RAW_STRING
             cell_data = v_element_content
-          elsif data_type=='e' #error
+          elsif data_type == RubyXL::Cell::ERROR
             cell_data = v_element_content
           else# (value.css('v').to_s != "") && (value.css('v').children.to_s != "") #is number
             data_type = ''

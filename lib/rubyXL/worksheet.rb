@@ -445,10 +445,8 @@ class Worksheet < PrivateClass
       increase_rows(row)
     end
 
-    datatype = 'str'
-    unless formula.nil?
-      datatype = ''
-    end
+    datatype = (formula.nil?) ? RubyXL::Cell::RAW_STRING : ''
+
     if overwrite || @sheet_data[row][column].nil?
       @sheet_data[row][column] = Cell.new(self,row,column,data,formula,datatype)
 

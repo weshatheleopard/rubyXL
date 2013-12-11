@@ -426,7 +426,7 @@ module RubyXL
               row.each do |cell|
                 unless cell.nil? || cell.value.nil?
                   #if string not already seen, add it to hash
-                  if cell.datatype == 's'
+                  if cell.datatype == RubyXL::Cell::SHARED_STRING then
                     if string_hash[cell.value.to_s].nil?
                       string_hash[string_index]=cell.value.to_s
                       string_hash[cell.value.to_s]=string_index

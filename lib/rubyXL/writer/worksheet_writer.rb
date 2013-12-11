@@ -145,11 +145,11 @@ module Writer
                             xml.f('t'=>dat.formula_attributes['t'].to_s, 'ref'=>dat.formula_attributes['ref'], 'si'=>dat.formula_attributes['si']).nokogiri dat.formula
                           end
                         end
-                        if(dat.datatype == 's')
+                        if(dat.datatype == RubyXL::Cell::SHARED_STRING)
                           unless dat.value.nil? #empty cell, but has a style
                             xml.v @workbook.shared_strings[dat.value].to_s
                           end
-                        elsif(dat.datatype == 'str')
+                        elsif(dat.datatype == RubyXL::Cell::RAW_STRING)
                           xml.v dat.value.to_s
                         elsif(dat.datatype == '') #number
                           xml.v dat.value.to_s
