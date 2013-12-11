@@ -5,10 +5,10 @@ class Worksheet < PrivateClass
   attr_accessor :sheet_name, :sheet_data, :cols, :merged_cells, :pane,
     :validations, :sheet_view, :legacy_drawing, :extLst, :workbook, :row_styles
 
-  def initialize(workbook, sheet_name='Sheet1',sheet_data=[[nil]],cols=[], merged_cells=[])
+  def initialize(workbook, sheet_name = nil, sheet_data= [[nil]], cols=[], merged_cells=[])
     @workbook = workbook
 
-    @sheet_name = sheet_name
+    @sheet_name = sheet_name || 'Sheet1'
     @sheet_data = sheet_data
     @cols = cols
     @merged_cells = merged_cells

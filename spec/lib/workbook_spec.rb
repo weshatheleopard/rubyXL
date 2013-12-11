@@ -4,13 +4,14 @@ require 'rubyXL'
 describe RubyXL::Workbook do
   before do
     @workbook  = RubyXL::Workbook.new
-    @worksheet = RubyXL::Worksheet.new(@workbook)
-    @workbook.worksheets << @worksheet
+    @worksheet = @workbook.add_worksheet
+
     (0..10).each do |i|
       (0..10).each do |j|
         @worksheet.add_cell(i, j, "#{i}:#{j}")
       end
     end
+
     @cell = @worksheet[0][0]
   end
 

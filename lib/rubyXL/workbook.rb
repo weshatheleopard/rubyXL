@@ -82,8 +82,10 @@ module RubyXL
     # Create new simple worksheet and add it to the workbook worksheets
     #
     # @param [String] The name for the new worksheet
-    def add_worksheet(name)
-      worksheets << Worksheet.new(self, name)
+    def add_worksheet(name = nil)
+      new_worksheet = Worksheet.new(self, name)
+      worksheets << new_worksheet
+      new_worksheet
     end
 
     def each
