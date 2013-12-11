@@ -129,8 +129,8 @@ describe RubyXL::Cell do
 
   describe '.change_wrap' do
     it 'should cause cell to wrap align as specified by the passed in value' do
-       @cell.change_wrap_text(true)
-       @cell.wrap_text.should == true
+       @cell.change_text_wrap(true)
+       @cell.text_wrap.should == true
      end
 
      it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do

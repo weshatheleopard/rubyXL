@@ -205,11 +205,12 @@ module RubyXL
       validate_vertical_alignment(alignment)
       @style_index = modify_alignment(@workbook,@style_index,false,alignment)
     end
+
     # changes wrap of cell
-    def change_wrap_text(wrap=false)
+    def change_text_wrap(wrap=false)
       validate_worksheet
-      validate_wrap_text(wrap)
-      @style_index = modify_wrap_text(@workbook,@style_index,wrap)
+      validate_text_wrap(wrap)
+      @style_index = modify_text_wrap(@workbook,@style_index,wrap)
     end
 
     # changes top border of cell
@@ -343,7 +344,7 @@ module RubyXL
     end
 
     # returns cell's wrap
-    def wrap_text()
+    def text_wrap()
       validate_worksheet
       xf_obj = @workbook.get_style(@style_index)
       if xf_obj[:alignment].nil? || xf_obj[:alignment][:attributes].nil?
