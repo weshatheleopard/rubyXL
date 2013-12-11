@@ -79,7 +79,7 @@
 === Modifying
 
 ==== Adding Worksheets
-  workbook.worksheets << Worksheet.new('Sheet2')
+  workbook.add_worksheet('Sheet2')
 
 ==== Adding Cells
   workbook.worksheets[0].add_cell(0,0,'A1') #sets A1 to string "A1"

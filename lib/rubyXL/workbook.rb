@@ -79,6 +79,13 @@ module RubyXL
       return worksheets[worksheet]
     end
 
+    # Create new simple worksheet and add it to the workbook worksheets
+    #
+    # @param [String] The name for the new worksheet
+    def add_worksheet(name)
+      worksheets << Worksheet.new(self, name)
+    end
+
     def each
       worksheets.each{|i| yield i}
     end
