@@ -111,7 +111,7 @@ class Worksheet < PrivateClass
   def change_row_fill(row=0,rgb='ffffff')
     validate_workbook
     validate_nonnegative(row)
-    increase_rows(row)
+    ensure_cell_exists(row)
     Color.validate_color(rgb)
     if @row_styles[(Integer(row)+1).to_s].nil?
       @row_styles[(Integer(row)+1).to_s] = {}
@@ -209,7 +209,7 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(row)
 
-    increase_rows(row)
+    ensure_cell_exists(row)
 
     if height.to_i.to_s == height.to_s
       height = Integer(height)
@@ -342,7 +342,7 @@ class Worksheet < PrivateClass
   def change_column_width(col=0,width=13)
     validate_workbook
     validate_nonnegative(col)
-    increase_columns(col)
+    ensure_cell_exists(0, col)
 
     i = get_cols_index(col)
 
@@ -363,7 +363,7 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(col)
     Color.validate_color(color_index)
-    increase_columns(col)
+    ensure_cell_exists(0, col)
 
     i = get_cols_index(col)
 
@@ -439,11 +439,7 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(column)
-
-    unless @sheet_data.size > row && @sheet_data[row].size > column
-      increase_columns(column)
-      increase_rows(row)
-    end
+    ensure_cell_exists(row, column)
 
     datatype = (formula.nil?) ? RubyXL::Cell::RAW_STRING : ''
 
@@ -479,11 +475,8 @@ class Worksheet < PrivateClass
 
     validate_nonnegative(row)
     validate_nonnegative(column)
+    ensure_cell_exists(row, column)
 
-    unless @sheet_data.size > row && @sheet_data[row].size > column
-      increase_columns(column)
-      increase_rows(row)
-    end
     if overwrite || @sheet_data[row][column].nil?
       @sheet_data[row][column] = cell
     end
@@ -526,7 +519,7 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(row_index)
 
-    increase_rows(row_index)
+    ensure_cell_exists(row_index)
 
     @sheet_data.insert(row_index,Array.new(@sheet_data[row_index].size))
 
@@ -614,7 +607,7 @@ class Worksheet < PrivateClass
   def insert_column(col_index=0)
     validate_workbook
     validate_nonnegative(col_index)
-    increase_columns(col_index)
+    ensure_cell_exists(0, col_index)
 
     old_index = col_index > 0 ? col_index-1 : col_index+1
     old_col = @cols[get_cols_index(old_index)]
@@ -678,9 +671,7 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(col)
-
-    increase_rows(row)
-    increase_columns(col)
+    ensure_cell_exists(row, col)
 
     if shift && shift != :right && shift != :down
       raise 'invalid shift option'
@@ -1200,7 +1191,7 @@ class Worksheet < PrivateClass
   def change_row_font(row, change_type, arg, font, xf_id)
     validate_workbook
     validate_nonnegative(row)
-    increase_rows(row)
+    ensure_cell_exists(row)
 
     # Modify font array and retrieve new font id
     font_id = modify_font(@workbook, font, xf_id[:fontId].to_s)
@@ -1226,7 +1217,7 @@ class Worksheet < PrivateClass
   def change_column_font(col, change_type, arg, font, xf_id)
     validate_workbook
     validate_nonnegative(col)
-    increase_columns(col)
+    ensure_cell_exists(0, col)
 
     i = get_cols_index(col)
 
@@ -1289,21 +1280,25 @@ class Worksheet < PrivateClass
     end
   end
 
-  #increases number of rows until the array at index row is not nil
-  def increase_rows(row)
-    @sheet_data.size.upto(row) do
-      @sheet_data << Array.new(@sheet_data[0].size)
-    end
-  end
+  # Ensures that cell with +row_index+ and +col_index+ exists in
+  #  +sheet_data+ arrays, growing them up if necessary.
+  def ensure_cell_exists(row_index, col_index = 0)
+    # Writing anything to a cell in the array automatically creates all the members
+    # with lower indices, filling them with +nil+s. But, we can't just write +nil+
+    # to +col_index+ because it may be less than +size+! So we read from that index
+    # (if it didn't exist, we will get nil) and write right back.
+    @sheet_data.each { |r| r[col_index] = r[col_index] }
 
-  #increases number of columns until the array at index column is not nil
-  def increase_columns(column)
-    @sheet_data.each do |r|
-      r.size.upto(column) do
-        r << nil
-      end
-    end
-  end
+    col_size = @sheet_data[0].size
+
+    # Doing +.downto()+ here so the reallocation of row array has to only happen once,
+    # when it is extended to max size; after that, we will be writing into existing
+    # (but empty) members. Additional checks are not necessary, because if +row_index+
+    # is less than +size+, then +.downto()+ will not execute, and if it equals +size+,
+    # then the block will be invoked exactly once, which takes care of the case when
+    # +row_index+ is greater than the current max index by exactly 1.
+    row_index.downto(@sheet_data.size) { |r| @sheet_data[r] = Array.new(col_size) } 
+  end  
 
   # Helper method to get the font id for a style index
   def font_id(style_index)
@@ -1339,8 +1334,7 @@ class Worksheet < PrivateClass
   def change_row_alignment(row,alignment,is_horizontal)
     validate_workbook
     validate_nonnegative(row)
-
-    increase_rows(row)
+    ensure_cell_exists(row)
 
     if @row_styles[(row+1).to_s].nil?
       @row_styles[(row+1).to_s] = {}
@@ -1364,8 +1358,7 @@ class Worksheet < PrivateClass
   def change_column_alignment(col,alignment,is_horizontal)
     validate_workbook
     validate_nonnegative(col)
-
-    increase_columns(col)
+    ensure_cell_exists(0, col)
 
     i = get_cols_index(col)
 
@@ -1397,7 +1390,7 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(row)
     validate_border(weight)
-    increase_rows(row)
+    ensure_cell_exists(row)
 
     if @row_styles[(row+1).to_s].nil?
       @row_styles[(row+1).to_s]= {}
@@ -1434,8 +1427,7 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(col)
     validate_border(weight)
-
-    increase_columns(col)
+    ensure_cell_exists(0, col)
 
     i = get_cols_index(col)
     if @cols[i].nil?

@@ -330,7 +330,7 @@ module RubyXL
 
     # Converts +row+ and +col+ zero-based indexes into Excel-style cell reference
     # (0) A...Z, AA...AZ, BA... ...ZZ, AAA... ...AZZ, BAA... ...XFD (16383)
-    def Cell.convert_to_cell(row = 0, col = 0)
+    def self.convert_to_cell(row = 0, col = 0)
       raise 'Invalid input: cannot convert negative numbers' if row < 0 || col < 0
 
       str = ''
