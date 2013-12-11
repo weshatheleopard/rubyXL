@@ -328,40 +328,21 @@ module RubyXL
       return get_border(:diagonal)
     end
 
-    # returns Excel-style cell string from matrix indices
-    def Cell.convert_to_cell(row=0,col=0)
-      row_string = (row + 1).to_s #+1 for 0 indexing
-      col_string = ''
+    # Converts +row+ and +col+ zero-based indexes into Excel-style cell reference
+    # (0) A...Z, AA...AZ, BA... ...ZZ, AAA... ...AZZ, BAA... ...XFD (16383)
+    def Cell.convert_to_cell(row = 0, col = 0)
+      raise 'Invalid input: cannot convert negative numbers' if row < 0 || col < 0
 
-      if row < 0 || col < 0
-        raise 'Invalid input: cannot convert negative numbers'
+      str = ''
+
+      loop do
+        x = col % 26
+        str = ('A'.ord + x).chr + str
+        col = (col / 26).floor - 1
+        break if col < 0
       end
 
-      unless col == 0
-        col_length = 1+Integer(Math.log(col) / Math.log(26)) #opposite of 26**
-      else
-        col_length = 1
-      end
-
-      1.upto(col_length) do |i|
-
-        #for the last digit, 0 should mean A. easy way to do this.
-        if i == col_length
-          col+=1
-        end
-
-        if col >= 26**(col_length-i)
-          int_val = col / 26**(col_length-i) #+1 for 0 indexing
-          int_val += 64 #converts 1 to A, etc.
-
-          col_string += int_val.chr
-
-          #intval multiplier decrements by placeholder, essentially
-          #a B subtracts more than an A this way.
-          col -= (int_val-64)*26**(col_length-i)
-        end
-      end
-      col_string+row_string
+      str + (row + 1).to_s
     end
 
     def inspect

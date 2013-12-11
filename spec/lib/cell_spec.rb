@@ -406,11 +406,19 @@ describe RubyXL::Cell do
 
   describe '.convert_to_cell' do
     it 'should correctly return the "Excel Style" description of cells when given a row/column number' do
-      RubyXL::Cell.convert_to_cell(0,26).should == 'AA1'
+      RubyXL::Cell.convert_to_cell(0, 26).should == 'AA1'
+      RubyXL::Cell.convert_to_cell(999, 0).should == 'A1000'
+      RubyXL::Cell.convert_to_cell(0, 26).should == 'AA1'
+      RubyXL::Cell.convert_to_cell(0, 51).should == 'AZ1'
+      RubyXL::Cell.convert_to_cell(0, 52).should == 'BA1'
+      RubyXL::Cell.convert_to_cell(0, 77).should == 'BZ1'
+      RubyXL::Cell.convert_to_cell(0, 78).should == 'CA1'
+      RubyXL::Cell.convert_to_cell(0, 16383).should == 'XFD1'
     end
 
     it 'should cause an error if a negative argument is given' do
       lambda {RubyXL::Cell.convert_to_cell(-1,0)}.should raise_error
     end
+
   end
 end
