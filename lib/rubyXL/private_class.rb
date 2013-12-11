@@ -17,6 +17,13 @@ module RubyXL
       raise 'Only center, distributed, justify, top, and bottom are valid vertical alignments'
     end
 
+    def validate_wrap_text(wrap)
+      if wrap.is_a?(FalseClass) || wrap.is_a?(TrueClass)
+        return true
+      end
+      raise 'Only true or false are valid wraps'
+    end
+
     def validate_border(weight)
       if weight.to_s == '' || weight == 'thin' || weight == 'thick' || weight == 'hairline' || weight == 'medium'
         return true
@@ -234,6 +241,27 @@ module RubyXL
         xf_obj[:alignment][:attributes][:vertical] = alignment.to_s
       end
 
+      if workbook.cell_xfs[:xf].is_a?Array
+        workbook.cell_xfs[:xf] << deep_copy(xf_obj)
+      else
+        workbook.cell_xfs[:xf] = [workbook.cell_xfs[:xf], deep_copy(xf_obj)]
+      end
+
+      xf = workbook.get_style_attributes(workbook.cell_xfs[:xf].last)
+      xf[:applyAlignment] = '1'
+      workbook.cell_xfs[:attributes][:count] += 1
+      workbook.cell_xfs[:xf].size-1
+    end
+
+    def modify_wrap_text(workbook, style_index, wrapText=0)
+      old_xf_obj = workbook.get_style(style_index)
+
+      xf_obj = deep_copy(old_xf_obj)
+
+      if xf_obj[:alignment].nil? || xf_obj[:alignment][:attributes].nil?
+        xf_obj[:alignment] = {:attributes=>{:horizontal=>nil, :vertical=>nil, :wrapText => nil}}
+      end
+      xf_obj[:alignment][:attributes][:wrapText] = (wrapText ? "1" : "0")
       if workbook.cell_xfs[:xf].is_a?Array
         workbook.cell_xfs[:xf] << deep_copy(xf_obj)
       else
