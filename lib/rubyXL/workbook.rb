@@ -214,30 +214,22 @@ module RubyXL
       return filepath
     end
 
-    def date_to_num(date)
-      return nil if date.nil?
-      if @date1904
-        compare_date = DateTime.parse('January 1, 1904')
-        date.ajd - compare_date.ajd
+    def base_date
+      if @date1904 then
+        Date.new(1904, 1, 1)
       else
-        compare_date = DateTime.parse('December 31, 1899')
-        # add one day to compare date for erroneous 1900 leap year compatibility
-        # only for 1900 based dates!
-        date.ajd + 1 - compare_date.ajd
+        # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
+        Date.new(1899, 12, 31) - 1
       end
+    end
+    private :base_date
+
+    def date_to_num(date)
+      date && (date.ajd - base_date().ajd)
     end
 
     def num_to_date(num)
-      return nil if num.nil?
-      if @date1904
-        compare_date = DateTime.parse('January 1, 1904')
-        compare_date + num
-      else
-        compare_date = DateTime.parse('December 31, 1899')
-        # subtract one day to compare date for erroneous 1900 leap year compatibility
-        # only for 1900 based dates!
-        compare_date - 1 + num
-      end
+      num && (base_date + num)
     end
 
     def date_num_fmt?(num_fmt)
