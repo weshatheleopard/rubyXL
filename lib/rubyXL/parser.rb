@@ -47,27 +47,22 @@ module RubyXL
       files = Parser.decompress(file_path, skip_filename_check)
       wb = Parser.fill_workbook(file_path, files)
 
-      if(files['sharedString'] != nil)
-        sst = files['sharedString'].css('sst')
+      shared_string_file = files['sharedString']
+      unless shared_string_file.nil?
+        sst = shared_string_file.css('sst')
 
         # According to http://msdn.microsoft.com/en-us/library/office/gg278314.aspx,
         # these attributes may be either both missing, or both present. Need to validate.
         wb.shared_strings.count_attr = sst.attribute('count').value.to_i
         wb.shared_strings.unique_count_attr = sst.attribute('uniqueCount').value.to_i
 
-        files['sharedString'].css('si').each do |node|
-          unless node.css('r').empty?
-            text = node.css('r t').children.to_a.join
-            node.children.remove
-            node << "<t xml:space=\"preserve\">#{text}</t>"
-          end
-        end
+        # Note that the strings may contain text formatting, such as changing font color/properties
+        # in the middle of the string. We do not support that in this gem... at least yet!
+        # If you save the file, this formatting will be destoyed.
+        shared_string_file.css('si').each_with_index { |node, i|
+          wb.shared_strings.add(node.css('t').inject(''){ |s, c| s + c.text }, i)
+        }
 
-        string_nodes = files['sharedString'].css('si t')
-
-        string_nodes.each_with_index do |node,i|
-          wb.shared_strings.add(node.children.to_s, i)
-        end
       end
       #styles are needed for formatting reasons as that is how dates are determined
         styles = files['styles'].css('cellXfs xf')
