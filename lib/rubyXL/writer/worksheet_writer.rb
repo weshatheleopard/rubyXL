@@ -4,14 +4,14 @@ require 'nokogiri'
 module RubyXL
 module Writer
   class WorksheetWriter
-    attr_accessor :dirpath, :filepath, :sheet_num, :workbook, :worksheet
+    attr_accessor :dirpath, :filepath, :sheet_index, :workbook, :worksheet
 
-    def initialize(dirpath, wb, sheet_num=1)
+    def initialize(dirpath, wb, sheet_index = 1)
       @dirpath = dirpath
       @workbook = wb
-      @sheet_num = sheet_num
-      @worksheet = @workbook.worksheets[@sheet_num]
-      @filepath = dirpath + '/xl/worksheets/sheet'+(sheet_num+1).to_s()+'.xml'
+      @sheet_index = sheet_index
+      @worksheet = @workbook.worksheets[@sheet_index]
+      @filepath = dirpath + "/xl/worksheets/sheet#{sheet_index + 1}.xml"
     end
 
     def write()

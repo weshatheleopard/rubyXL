@@ -1,20 +1,10 @@
-# require File.expand_path(File.join(File.dirname(__FILE__),'workbook'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'worksheet'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'cell'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'color'))
 require 'rubygems'
 require 'nokogiri'
 
 module RubyXL
 module Writer
- class SharedStringsWriter
-    attr_accessor :dirpath, :filepath, :workbook
-
-    def initialize(dirpath,wb)
-      @dirpath = dirpath
-      @workbook = wb
-      @filepath = dirpath + '/xl/sharedStrings.xml'
-    end
+ class SharedStringsWriter < GenericWriter
+    FILEPATH = '/xl/sharedStrings.xml'
 
     def write()
       # Excel doesn't care much about the contents of sharedStrings.xml -- it will fill it in, but the file has to exist and have a root node.
@@ -25,6 +15,7 @@ module Writer
       end
       contents
     end
+
   end
 end
 end

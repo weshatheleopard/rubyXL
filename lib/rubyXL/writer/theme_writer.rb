@@ -4,14 +4,8 @@ require 'nokogiri'
 
 module RubyXL
 module Writer
-  class ThemeWriter
-    attr_accessor :dirpath, :filepath, :workbook
-
-    def initialize(dirpath, wb)
-      @dirpath = dirpath
-      @workbook = wb
-      @filepath = dirpath + '/xl/theme/theme1.xml'
-    end
+  class ThemeWriter < GenericWriter
+    FILEPATH = '/xl/theme/theme1.xml'
 
     def write()
 
@@ -333,11 +327,9 @@ module Writer
       <a:extraClrSchemeLst/>
       </a:theme>'
 
-      # file = File.new(@filepath, 'w+')
-      #     file.write(contents)
-      #     file.close
       contents
     end
+
   end
 end
 end

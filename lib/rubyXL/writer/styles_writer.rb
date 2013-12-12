@@ -3,14 +3,8 @@ require 'nokogiri'
 
 module RubyXL
 module Writer
-  class StylesWriter
-    attr_accessor :dirpath, :filepath, :workbook
-
-    def initialize(dirpath, wb)
-      @dirpath = dirpath
-      @workbook = wb
-      @filepath = @dirpath + '/xl/styles.xml'
-    end
+  class StylesWriter < GenericWriter
+    FILEPATH = '/xl/styles.xml'
 
     def write()
       font_id_corrector = {}

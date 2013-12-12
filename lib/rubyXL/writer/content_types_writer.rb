@@ -1,20 +1,10 @@
-# require File.expand_path(File.join(File.dirname(__FILE__),'workbook'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'worksheet'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'cell'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'color'))
 require 'rubygems'
 require 'nokogiri'
 
-
 module RubyXL
 module Writer
-  class ContentTypesWriter
-    attr_accessor :dirpath, :filepath, :workbook
-    def initialize(dirpath, wb)
-      @dirpath = dirpath
-      @workbook = wb
-      @filepath = dirpath + '/[Content_Types].xml'
-    end
+  class ContentTypesWriter < GenericWriter
+    FILEPATH = '/[Content_Types].xml'
 
     def write()
       builder = Nokogiri::XML::Builder.new do |xml|
@@ -72,6 +62,7 @@ module Writer
 
       contents
     end
+
   end
 end
 end

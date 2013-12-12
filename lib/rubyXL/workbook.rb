@@ -1,3 +1,4 @@
+require 'rubyXL/writer/generic_writer'
 require 'rubyXL/writer/content_types_writer'
 require 'rubyXL/writer/root_rels_writer'
 require 'rubyXL/writer/app_writer'

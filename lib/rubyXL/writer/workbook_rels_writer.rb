@@ -1,7 +1,3 @@
-# require File.expand_path(File.join(File.dirname(__FILE__),'workbook'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'worksheet'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'cell'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'color'))
 require 'rubygems'
 require 'nokogiri'
 
@@ -57,6 +53,7 @@ module Writer
       contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
       contents
     end
+
   end
 end
 end

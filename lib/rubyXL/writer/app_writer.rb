@@ -1,20 +1,10 @@
-# require File.expand_path(File.join(File.dirname(__FILE__),'workbook'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'worksheet'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'cell'))
-# require File.expand_path(File.join(File.dirname(__FILE__),'color'))
 require 'rubygems'
 require 'nokogiri'
 
 module RubyXL
 module Writer
-  class AppWriter
-    attr_accessor :dirpath, :filepath, :workbook
-
-    def initialize(dirpath, wb)
-      @dirpath = dirpath
-      @filepath = dirpath+'/docProps/app.xml'
-      @workbook = wb
-    end
+  class AppWriter < GenericWriter
+    FILEPATH = '/docProps/app.xml'
 
     def write()
 
@@ -49,14 +39,17 @@ module Writer
         }
       end
       contents = builder.to_xml
+
       if(contents =~ /xmlns:vt=\"(.*)\" xmlns=\"(.*)\"/)
         contents.sub(/xmlns:vt=\"(.*)\" xmlns=\"(.*)\"<A/,'xmlns="'+$2+'" xmlns:vt="'+$1+'"<A')
       end
+
       contents = contents.gsub(/\n/,'')
       contents = contents.gsub(/>(\s)+</,'><')
       contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
       contents
     end
+
   end
 end
 end
