@@ -6,6 +6,16 @@ describe RubyXL::Parser do
   before do
     @workbook = RubyXL::Workbook.new
     @workbook.add_worksheet("Test Worksheet")
+
+    ws = @workbook.add_worksheet("Escape Test")
+    ws.add_cell(0,0, "&")
+    ws.add_cell(0,1, "<")
+    ws.add_cell(0,2, ">")
+
+    ws.add_cell(1,0, "&")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1,1, "<")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1,2, ">")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+
     @time_str = Time.now.to_s
     @file = @time_str + '.xlsx'
     @workbook.write(@file)
@@ -58,6 +68,18 @@ describe RubyXL::Parser do
       @workbook2.num_fmts[:numFmt].should be_an(Array)
       @workbook2.num_fmts[:numFmt].length.should == @workbook2.num_fmts[:attributes][:count]
     end
+
+    it 'should unescape HTML entities properly' do
+      @workbook2 = RubyXL::Parser.parse(@file)
+      @workbook2["Escape Test"][0][0].value.should == "&"
+      @workbook2["Escape Test"][0][1].value.should == "<"
+      @workbook2["Escape Test"][0][2].value.should == ">"
+
+      @workbook2["Escape Test"][1][0].value.should == "&"
+      @workbook2["Escape Test"][1][1].value.should == "<"
+      @workbook2["Escape Test"][1][2].value.should == ">"
+    end
+
   end
 
   after do

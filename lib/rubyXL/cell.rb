@@ -387,11 +387,8 @@ module RubyXL
     end
 
     def validate_worksheet()
-      if !@worksheet.nil? && @worksheet[@row][@column] == self
-        return
-      else
-        raise "This cell #{self} is not in worksheet #{worksheet}"
-      end
+      return if @worksheet && @worksheet[@row][@column] == self
+      raise "This cell #{self} is not in worksheet #{worksheet}"
     end
 
     def xf_id()
