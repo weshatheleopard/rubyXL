@@ -48,8 +48,12 @@ module RubyXL
       wb = Parser.fill_workbook(file_path, files)
 
       if(files['sharedString'] != nil)
-        wb.num_strings = Integer(files['sharedString'].css('sst').attribute('count').value())
-        wb.size = Integer(files['sharedString'].css('sst').attribute('uniqueCount').value())
+        sst = files['sharedString'].css('sst')
+
+        # According to http://msdn.microsoft.com/en-us/library/office/gg278314.aspx,
+        # these attributes may be either both missing, or both present. Need to validate.
+        wb.shared_strings.count_attr = sst.attribute('count').value.to_i
+        wb.shared_strings.unique_count_attr = sst.attribute('uniqueCount').value.to_i
 
         files['sharedString'].css('si').each do |node|
           unless node.css('r').empty?
@@ -60,11 +64,9 @@ module RubyXL
         end
 
         string_nodes = files['sharedString'].css('si t')
-        wb.shared_strings = {}
+
         string_nodes.each_with_index do |node,i|
-          string = node.children.to_s
-          wb.shared_strings[i] = string
-          wb.shared_strings[string] = i
+          wb.shared_strings.add(node.children.to_s, i)
         end
       end
       #styles are needed for formatting reasons as that is how dates are determined

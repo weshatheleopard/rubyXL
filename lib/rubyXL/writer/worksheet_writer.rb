@@ -147,7 +147,7 @@ module Writer
                         end
                         if(dat.datatype == RubyXL::Cell::SHARED_STRING)
                           unless dat.value.nil? #empty cell, but has a style
-                            xml.v @workbook.shared_strings[dat.value].to_s
+                            xml.v @workbook.shared_strings.get_index(dat.value).to_s
                           end
                         elsif(dat.datatype == RubyXL::Cell::RAW_STRING)
                           xml.v dat.value.to_s

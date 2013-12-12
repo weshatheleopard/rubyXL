@@ -9,6 +9,7 @@ require 'rubyXL/writer/styles_writer'
 require 'rubyXL/writer/shared_strings_writer'
 require 'rubyXL/writer/worksheet_writer'
 require 'rubyXL/zip'
+require 'rubyXL/shared_strings'
 require 'date'
 
 module RubyXL
@@ -16,9 +17,11 @@ module RubyXL
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :num_fmts, :num_fmts_hash, :fonts, :fills,
-      :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :shared_strings, :calc_chain,
-      :num_strings, :size, :date1904, :external_links, :style_corrector, :drawings,
+      :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain,
+      :date1904, :external_links, :style_corrector, :drawings,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
+
+    attr_reader :shared_strings
 
     APPLICATION = 'Microsoft Macintosh Excel'
     APPVERSION  = '12.0000'
@@ -44,10 +47,8 @@ module RubyXL
       @cell_xfs           = nil
       @cell_style_xfs     = nil
       @cell_styles        = nil
-      @shared_strings     = nil
+      @shared_strings     = RubyXL::SharedStrings.new
       @calc_chain         = nil #unnecessary?
-      @num_strings        = 0 #num strings total
-      @size               = 0 #num strings in shared_strings array
       @date1904           = date1904 > 0
       @external_links     = nil
       @style_corrector    = nil
@@ -154,7 +155,7 @@ module RubyXL
         writer = Writer::StylesWriter.new(dirpath,self)
         zipfile.get_output_stream(File.join('xl','styles.xml')) {|f| f.puts(writer.write())}
 
-        unless @shared_strings.nil?
+        unless @shared_strings.empty?
           writer = Writer::SharedStringsWriter.new(dirpath,self)
           zipfile.get_output_stream(File.join('xl','sharedStrings.xml')) {|f| f.puts(writer.write())}
         end
@@ -420,38 +421,15 @@ module RubyXL
 
     #fills shared strings hash, contains each unique string
     def fill_shared_strings()
-      if @shared_strings.nil?
-        string_hash = {}
-        string_index = 0
-        @num_strings = 0
-        #fill hash for shared strings
-        @worksheets.each do |sheet|
-          unless sheet.nil?
-            sheet.sheet_data.each do |row|
-              row.each do |cell|
-                unless cell.nil? || cell.value.nil?
-                  #if string not already seen, add it to hash
-                  if cell.datatype == RubyXL::Cell::SHARED_STRING then
-                    if string_hash[cell.value.to_s].nil?
-                      string_hash[string_index]=cell.value.to_s
-                      string_hash[cell.value.to_s]=string_index
-                      string_index += 1
-                    end
-                    @num_strings += 1
-                  end
-                end
-              end
+      @worksheets.compact.each { |sheet|
+        sheet.sheet_data.each { |row|
+          row.each { |cell|
+            if cell && cell.value && cell.datatype == RubyXL::Cell::SHARED_STRING then
+              get_index(cell.value.to_s, :add_if_missing)
             end
-          end
-        end
-
-        if string_hash.empty?
-          @shared_strings = nil
-        else
-          @shared_strings = string_hash
-          @size = string_index
-        end
-      end
+          }
+        }
+      }
     end
 
     def validate_before_write

@@ -20,7 +20,7 @@ module Writer
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.Types('xmlns'=>"http://schemas.openxmlformats.org/package/2006/content-types") {
           xml.Default('Extension'=>'xml', 'ContentType'=>'application/xml')
-          unless @workbook.shared_strings.nil?
+          unless @workbook.shared_strings.empty?
             xml.Override('PartName'=>'/xl/sharedStrings.xml',
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
           end

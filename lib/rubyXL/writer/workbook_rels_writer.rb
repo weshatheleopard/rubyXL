@@ -43,7 +43,7 @@ module Writer
             'Type'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles",
             'Target'=>'styles.xml')
 
-          unless @workbook.shared_strings.nil?
+          unless @workbook.shared_strings.empty?
             i+=1
             xml.Relationship('Id'=>'rId'+i.to_s,
             'Type'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings",
