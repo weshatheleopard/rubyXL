@@ -7,7 +7,7 @@ module Writer
     FILEPATH = '/[Content_Types].xml'
 
     def write()
-      builder = Nokogiri::XML::Builder.new do |xml|
+      build_xml do |xml|
         xml.Types('xmlns'=>"http://schemas.openxmlformats.org/package/2006/content-types") {
           xml.Default('Extension'=>'xml', 'ContentType'=>'application/xml')
           unless @workbook.shared_strings.empty?
@@ -55,12 +55,6 @@ module Writer
         }
       end
 
-      contents = builder.to_xml
-      contents = contents.gsub(/\n/,'')
-      contents = contents.gsub(/>(\s)+</,'><')
-      contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-
-      contents
     end
 
   end

@@ -3,7 +3,7 @@ require 'nokogiri'
 
 module RubyXL
 module Writer
-  class WorksheetWriter
+  class WorksheetWriter < GenericWriter
     attr_accessor :dirpath, :filepath, :sheet_index, :workbook, :worksheet
 
     def initialize(dirpath, wb, sheet_index = 1)
@@ -15,7 +15,7 @@ module Writer
     end
 
     def write()
-      builder = Nokogiri::XML::Builder.new do |xml|
+      build_xml do |xml|
         xml.worksheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main",
         'xmlns:r'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships",
         'xmlns:mc'=>"http://schemas.openxmlformats.org/markup-compatibility/2006",
@@ -218,11 +218,6 @@ module Writer
           end
         }
       end
-      contents = builder.to_xml
-      contents = contents.gsub(/\n/,'')
-      contents = contents.gsub(/>(\s)+</,'><')
-      contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-      contents
     end
 
   end

@@ -7,7 +7,7 @@ module Writer
     FILEPATH = '/xl/workbook.xml'
 
     def write()
-      builder = Nokogiri::XML::Builder.new(:encoding => "utf-8") do |xml|
+      contents = build_xml do |xml|
         xml.workbook('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main",
         'xmlns:r'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships") {
           #attributes out of order here
@@ -55,12 +55,10 @@ module Writer
           }
         }
       end
-      contents = builder.to_xml
-      contents = contents.gsub(/\n/,'')
-      contents = contents.gsub(/>(\s)+</,'><')
-      contents = contents.gsub(/<!\[CDATA\[(.*)\]\]>/,'\1')
-      contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-      contents
+
+      # See comment above about CDATA. This needs to be implemented properly.
+      contents.gsub(/<!\[CDATA\[(.*)\]\]>/, '\1')
+
     end
 
   end

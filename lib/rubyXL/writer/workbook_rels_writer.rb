@@ -3,8 +3,7 @@ require 'nokogiri'
 
 module RubyXL
 module Writer
-  class WorkbookRelsWriter
-    attr_accessor :dirpath, :filepath, :workbook
+  class WorkbookRelsWriter < GenericWriter
 
     def initialize(dirpath, wb)
       @dirpath = dirpath
@@ -13,7 +12,7 @@ module Writer
 
     #all attributes out of order
     def write()
-      builder = Nokogiri::XML::Builder.new do |xml|
+      build_xml do |xml|
         xml.Relationships('xmlns'=>'http://schemas.openxmlformats.org/package/2006/relationships') {
           i = 1
           @workbook.worksheets.each do |sheet|
@@ -47,11 +46,6 @@ module Writer
           end
         }
       end
-      contents = builder.to_xml
-      contents = contents.gsub(/\n/,'')
-      contents = contents.gsub(/>(\s)+</,'><')
-      contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-      contents
     end
 
   end

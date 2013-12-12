@@ -8,7 +8,7 @@ module Writer
 
     def write()
 
-      builder = Nokogiri::XML::Builder.new do |xml|
+      contents = build_xml do |xml|
         xml.Properties('xmlns' => 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties',
         'xmlns:vt'=>'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes') {
           xml.Application @workbook.application
@@ -38,15 +38,11 @@ module Writer
           xml.AppVersion @workbook.appversion
         }
       end
-      contents = builder.to_xml
 
       if(contents =~ /xmlns:vt=\"(.*)\" xmlns=\"(.*)\"/)
         contents.sub(/xmlns:vt=\"(.*)\" xmlns=\"(.*)\"<A/,'xmlns="'+$2+'" xmlns:vt="'+$1+'"<A')
       end
 
-      contents = contents.gsub(/\n/,'')
-      contents = contents.gsub(/>(\s)+</,'><')
-      contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
       contents
     end
 

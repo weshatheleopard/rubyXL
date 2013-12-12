@@ -7,7 +7,7 @@ module Writer
     FILEPATH = '/docProps/core.xml'
 
     def write()
-      builder = Nokogiri::XML::Builder.new do |xml|
+      contents = build_xml do |xml|
         xml.coreProperties('xmlns:cp'=>"http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
         'xmlns:dc'=>"http://purl.org/dc/elements/1.1/", 'xmlns:dcterms'=>"http://purl.org/dc/terms/",
         'xmlns:dcmitype'=>"http://purl.org/dc/dcmitype/", 'xmlns:xsi'=>"http://www.w3.org/2001/XMLSchema-instance") {
@@ -21,10 +21,7 @@ module Writer
         }
       end
 
-      contents = builder.to_xml
       contents = contents.gsub(/coreProperties/,'cp:coreProperties')
-      contents = contents.gsub(/\n/,'')
-      contents = contents.gsub(/>(\s)+</,'><')
 
       #seems hack-y..
       contents = contents.gsub(/<dcterms:created xsi:type=\"dcterms:W3CDTF\"\/>/,
@@ -32,9 +29,7 @@ module Writer
       contents = contents.gsub(/<dcterms:modified xsi:type=\"dcterms:W3CDTF\"\/>/,
         '<dcterms:modified xsi:type="dcterms:W3CDTF">'+@workbook.modified_at+'</dcterms:modified>')
 
-      contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-
-      return contents
+      contents
     end
 
   end

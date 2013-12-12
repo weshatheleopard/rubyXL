@@ -12,7 +12,7 @@ module Writer
       border_id_corrector = {}
       style_id_corrector = {}
 
-      builder = Nokogiri::XML::Builder.new do |xml|
+      build_xml do |xml|
         xml.styleSheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main") {
           unless @workbook.num_fmts.nil? || @workbook.num_fmts[:attributes].nil?
             xml.numFmts('count'=>@workbook.num_fmts[:attributes][:count].to_s) {
@@ -352,11 +352,6 @@ module Writer
           end
         }
       end
-      contents = builder.to_xml
-      contents = contents.gsub(/\n/,'')
-      contents = contents.gsub(/>(\s)+</,'><')
-      contents = contents.sub(/<\?xml version=\"1.0\"\?>/,'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n")
-      contents
     end
 
     private
