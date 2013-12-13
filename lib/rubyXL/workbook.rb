@@ -110,18 +110,23 @@ module RubyXL
     end
 
     #filepath of xlsx file (including file itself)
-    def write(filepath=@filepath)
+    def write(filepath = @filepath)
       validate_before_write
+
       if !(filepath =~ /(.+)\.xls(x|m)/)
         raise "Only xlsx and xlsm files are supported. Unsupported type for file: #{filepath}"
       end
+
       dirpath = ''
       extension = 'xls'
+
       if(filepath =~ /((.|\s)*)\.xls(x|m)$/)
         dirpath = $1.to_s()
         extension += $3.to_s
       end
+
       filename = ''
+
       if(filepath =~ /\/((.|\s)*)\/((.|\s)*)\.xls(x|m)$/)
         filename = $3.to_s()
       end
@@ -132,33 +137,33 @@ module RubyXL
       File.unlink(zippath) if File.exists?(zippath)
       FileUtils.mkdir_p(dirpath)
       Zip::File.open(zippath, Zip::File::CREATE) do |zipfile|
-        writer = Writer::ContentTypesWriter.new(dirpath,self)
-        zipfile.get_output_stream('[Content_Types].xml') {|f| f.puts(writer.write())}
+        writer = Writer::ContentTypesWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
-        writer = Writer::RootRelsWriter.new(dirpath,self)
-        zipfile.get_output_stream(File.join('_rels','.rels')) {|f| f.puts(writer.write())}
+        writer = Writer::RootRelsWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
-        writer = Writer::AppWriter.new(dirpath,self)
-        zipfile.get_output_stream(File.join('docProps','app.xml')) {|f| f.puts(writer.write())}
+        writer = Writer::AppWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
-        writer = Writer::CoreWriter.new(dirpath,self)
-        zipfile.get_output_stream(File.join('docProps','core.xml')) {|f| f.puts(writer.write())}
+        writer = Writer::CoreWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
-        writer = Writer::ThemeWriter.new(dirpath,self)
-        zipfile.get_output_stream(File.join('xl','theme','theme1.xml')) {|f| f.puts(writer.write())}
+        writer = Writer::ThemeWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
-        writer = Writer::WorkbookRelsWriter.new(dirpath,self)
-        zipfile.get_output_stream(File.join('xl','_rels','workbook.xml.rels')) {|f| f.puts(writer.write())}
+        writer = Writer::WorkbookRelsWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
-        writer = Writer::WorkbookWriter.new(dirpath,self)
-        zipfile.get_output_stream(File.join('xl','workbook.xml')) {|f| f.puts(writer.write())}
+        writer = Writer::WorkbookWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
-        writer = Writer::StylesWriter.new(dirpath,self)
-        zipfile.get_output_stream(File.join('xl','styles.xml')) {|f| f.puts(writer.write())}
+        writer = Writer::StylesWriter.new(self)
+        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
 
         unless @shared_strings.empty?
-          writer = Writer::SharedStringsWriter.new(dirpath,self)
-          zipfile.get_output_stream(File.join('xl','sharedStrings.xml')) {|f| f.puts(writer.write())}
+          writer = Writer::SharedStringsWriter.new(self)
+          zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
         end
 
         #preserves external links (exactly, no modification allowed)
@@ -212,14 +217,16 @@ module RubyXL
           zipfile.get_output_stream(File.join('xl','vbaProject.bin')) {|f| f.puts(@macros)}
         end
 
-        @worksheets.each_with_index do |sheet,i|
-          writer = Writer::WorksheetWriter.new(dirpath,self,i)
-          zipfile.get_output_stream(File.join('xl','worksheets',"sheet#{i+1}.xml")) {|f| f.puts(writer.write())}
-        end
+        @worksheets.each_with_index { |sheet, i|
+          writer = Writer::WorksheetWriter.new(self, i)
+          zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
+        }
       end
 
-      FileUtils.cp(zippath,File.join(dirpath,filename+".#{extension}"))
-      FileUtils.cp(File.join(dirpath,filename+".#{extension}"),filepath)
+      full_file_path = File.join(dirpath, "#{filename}.#{extension}")
+      FileUtils.cp(zippath, full_file_path)
+      FileUtils.cp(full_file_path, filepath)
+
       if File.exist?(filepath)
         FileUtils.rm_rf(dirpath)
       end

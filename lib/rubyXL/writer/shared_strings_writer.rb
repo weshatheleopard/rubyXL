@@ -4,7 +4,10 @@ require 'nokogiri'
 module RubyXL
 module Writer
  class SharedStringsWriter < GenericWriter
-    FILEPATH = '/xl/sharedStrings.xml'
+
+    def filepath
+      File.join('xl', 'sharedStrings.xml')
+    end
 
     def write()
       # Excel doesn't care much about the contents of sharedStrings.xml -- it will fill it in, but the file has to exist and have a root node.

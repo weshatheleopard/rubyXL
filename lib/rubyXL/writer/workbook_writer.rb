@@ -4,7 +4,10 @@ require 'nokogiri'
 module RubyXL
 module Writer
   class WorkbookWriter < GenericWriter
-    FILEPATH = '/xl/workbook.xml'
+
+    def filepath
+      File.join('xl', 'workbook.xml')
+    end
 
     def write()
       contents = build_xml do |xml|

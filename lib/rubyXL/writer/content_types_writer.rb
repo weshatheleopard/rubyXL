@@ -4,7 +4,10 @@ require 'nokogiri'
 module RubyXL
 module Writer
   class ContentTypesWriter < GenericWriter
-    FILEPATH = '/[Content_Types].xml'
+
+    def filepath
+      '[Content_Types].xml'
+    end
 
     def write()
       build_xml do |xml|

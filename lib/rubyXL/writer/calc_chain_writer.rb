@@ -2,17 +2,20 @@ require 'rubygems'
 require 'nokogiri'
 
 module RubyXL
-module Writer
+  module Writer
 
-  #TODO
-  class CalcChainWriter < GenericWriter
-    FILEPATH = '/xl/calcChain.xml'
+    #TODO
+    class CalcChainWriter < GenericWriter
+      def filepath
+        File.join('xl', 'calcChain.xml')
+      end
 
-    def write()
-      contents = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+"\n"
-      contents
+      def write()
+        build_xml do |xml|
+          nil
+        end
+      end
     end
-  end
 
-end
+  end
 end

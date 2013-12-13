@@ -3,11 +3,11 @@ require 'nokogiri'
 
 module RubyXL
 module Writer
+
   class WorkbookRelsWriter < GenericWriter
 
-    def initialize(dirpath, wb)
-      @dirpath = dirpath
-      @workbook = wb
+    def filepath
+      File.join('xl', '_rels', 'workbook.xml.rels')
     end
 
     #all attributes out of order

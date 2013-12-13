@@ -4,7 +4,10 @@ require 'nokogiri'
 module RubyXL
 module Writer
   class StylesWriter < GenericWriter
-    FILEPATH = '/xl/styles.xml'
+
+    def filepath
+      File.join('xl', 'styles.xml')
+    end
 
     def write()
       font_id_corrector = {}

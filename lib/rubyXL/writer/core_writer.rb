@@ -4,7 +4,10 @@ require 'nokogiri'
 module RubyXL
 module Writer
   class CoreWriter < GenericWriter
-    FILEPATH = '/docProps/core.xml'
+
+    def filepath
+      File.join('docProps', 'core.xml')
+    end
 
     def write()
       contents = build_xml do |xml|

@@ -4,7 +4,10 @@ require 'nokogiri'
 module RubyXL
 module Writer
   class AppWriter < GenericWriter
-    FILEPATH = '/docProps/app.xml'
+
+    def filepath
+      File.join('docProps', 'app.xml')
+    end
 
     def write()
 
