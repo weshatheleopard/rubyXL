@@ -17,13 +17,13 @@ module Writer
             xml.Override('PartName'=>'/xl/sharedStrings.xml',
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
           end
-          if @workbook.macros.nil? && @workbook.drawings.empty?
+#          if @workbook.macros.nil? && @workbook.drawings.empty?
             xml.Override('PartName'=>'/xl/workbook.xml',
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
-          else
-            xml.Override('PartName'=>'/xl/workbook.xml',
-              'ContentType'=>"application/vnd.ms-excel.sheet.macroEnabled.main+xml")
-          end
+#          else
+#            xml.Override('PartName'=>'/xl/workbook.xml',
+#              'ContentType'=>"application/vnd.ms-excel.sheet.macroEnabled.main+xml")
+#          end
           xml.Override('PartName'=>"/xl/styles.xml",
             'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")
           xml.Default('Extension'=>'rels','ContentType'=>'application/vnd.openxmlformats-package.relationships+xml')
@@ -33,19 +33,23 @@ module Writer
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml")
             end
           end
+
           unless @workbook.macros.nil?
             xml.Override('PartName'=>'/xl/vbaProject.bin',
               'ContentType'=>'application/vnd.ms-office.vbaProject')
           end
-          unless @workbook.printer_settings.nil?
+
+          unless @workbook.printer_settings.empty?
             xml.Default('Extension'=>'bin',
               'ContentType'=>'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings')
           end
 
-          unless @workbook.drawings.empty?
-            xml.Default('Extension'=>'vml',
-              'ContentType'=>'application/vnd.openxmlformats-officedocument.vmlDrawing')
-          end
+          @workbook.drawings.each_pair { |k, v|
+            xml.Override('PartName' => "/#{@workbook.drawings.local_dir_path}/#{k}",
+              'ContentType' => 'application/vnd.openxmlformats-officedocument.drawing+xml')
+#            xml.Default('Extension'=>'vml',
+#              'ContentType'=>'application/vnd.openxmlformats-officedocument.vmlDrawing')
+          }
 
           xml.Override('PartName'=>'/xl/theme/theme1.xml',
             'ContentType'=>"application/vnd.openxmlformats-officedocument.theme+xml")

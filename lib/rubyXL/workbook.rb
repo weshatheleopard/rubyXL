@@ -154,7 +154,7 @@ module RubyXL
           1.upto(@external_links.size-1) do |i|
             zipfile.get_output_stream(
               File.join('xl','externalLinks',"externalLink#{i}.xml")) {|f|
-                f.puts(@external_links[i])
+                f << @external_links[i]
               }
           end
 
@@ -162,7 +162,7 @@ module RubyXL
             unless @external_links['rels'][i].nil?
               zipfile.get_output_stream(
                 File.join('xl','externalLinks','_rels',"externalLink#{i}.xml.rels")) {|f|
-                  f.puts(@external_links['rels'][i])
+                  f << @external_links['rels'][i]
                 }
             end
           end
@@ -175,13 +175,13 @@ module RubyXL
           1.upto(@worksheet_rels.size) do |i|
             zipfile.get_output_stream(
             File.join('xl','worksheets','_rels',"sheet#{i}.xml.rels")) {|f|
-              f.puts(@worksheet_rels[i])
+              f << @worksheet_rels[i]
             }
           end
         end
 
         unless @macros.nil?
-          zipfile.get_output_stream(File.join('xl','vbaProject.bin')) {|f| f.puts(@macros)}
+          zipfile.get_output_stream(File.join('xl','vbaProject.bin')) { |f| f << @macros }
         end
 
         @worksheets.each_index { |i| Writer::WorksheetWriter.new(self, i).add_to_zip(zipfile) }

@@ -1,5 +1,6 @@
 module RubyXL
   class GenericStorage < Hash
+    attr_reader :local_dir_path
 
     def initialize(local_dir_path)
       @local_dir_path = local_dir_path
@@ -19,7 +20,7 @@ module RubyXL
 
     def add_to_zip(zipfile)
       each_pair { |filename, data|
-        zipfile.get_output_stream(File.join(@local_dir_path, filename)) { |f| f.puts(data) }
+        zipfile.get_output_stream(File.join(@local_dir_path, filename)) { |f| f << data }
       }
     end
 
