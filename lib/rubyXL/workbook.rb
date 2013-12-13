@@ -136,34 +136,16 @@ module RubyXL
       zippath = File.join(dirpath, filename + '.zip')
       File.unlink(zippath) if File.exists?(zippath)
       FileUtils.mkdir_p(dirpath)
+
       Zip::File.open(zippath, Zip::File::CREATE) do |zipfile|
-        writer = Writer::ContentTypesWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
-        writer = Writer::RootRelsWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
-        writer = Writer::AppWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
-        writer = Writer::CoreWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
-        writer = Writer::ThemeWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
-        writer = Writer::WorkbookRelsWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
-        writer = Writer::WorkbookWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
-        writer = Writer::StylesWriter.new(self)
-        zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-
+        [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::AppWriter, 
+          Writer::CoreWriter, Writer::ThemeWriter, Writer::WorkbookRelsWriter,
+          Writer::WorkbookWriter, Writer::StylesWriter ].each { |writer_class|
+          writer_class.new(self).add_to_zip(zipfile)
+        }
+       
         unless @shared_strings.empty?
-          writer = Writer::SharedStringsWriter.new(self)
-          zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
+          Writer::SharedStringsWriter.new(self).add_to_zip(zipfile)
         end
 
         #preserves external links (exactly, no modification allowed)
@@ -175,6 +157,7 @@ module RubyXL
                 f.puts(@external_links[i])
               }
           end
+
           @external_links['rels'].each_index do |i|
             unless @external_links['rels'][i].nil?
               zipfile.get_output_stream(
@@ -217,10 +200,7 @@ module RubyXL
           zipfile.get_output_stream(File.join('xl','vbaProject.bin')) {|f| f.puts(@macros)}
         end
 
-        @worksheets.each_with_index { |sheet, i|
-          writer = Writer::WorksheetWriter.new(self, i)
-          zipfile.get_output_stream(writer.filepath) { |f| f.puts(writer.write()) }
-        }
+        @worksheets.each_index { |i| Writer::WorksheetWriter.new(self, i).add_to_zip(zipfile) }
       end
 
       full_file_path = File.join(dirpath, "#{filename}.#{extension}")

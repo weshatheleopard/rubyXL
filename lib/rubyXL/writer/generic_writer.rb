@@ -26,6 +26,10 @@ module Writer
       builder.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
     end
 
+    def add_to_zip(zipfile)
+      zipfile.get_output_stream(filepath) { |f| f << write }
+    end
+
   end
 end
 end
