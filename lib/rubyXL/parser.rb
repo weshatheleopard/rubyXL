@@ -2,6 +2,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'zip'
 require 'rubyXL/hash'
+require 'rubyXL/generic_storage'
 
 module RubyXL
 
@@ -335,54 +336,32 @@ module RubyXL
       end
 
       unless @data_only
+        ext_links_path = File.join(dir_path,'xl','externalLinks')
+
         #preserves external links
-        if File.directory?(File.join(dir_path,'xl','externalLinks'))
-          files['externalLinks'] = {}
-          ext_links_path = File.join(dir_path,'xl','externalLinks')
-          FileUtils.mkdir_p(ext_links_path)
-          files['externalLinks']['rels'] = []
-          dir = Dir.new(ext_links_path).entries.reject {|f| [".", "..", ".DS_Store", "_rels"].include? f}
+        if File.directory?(ext_links_path) then
+          files['externalLinks'] = { 'rels' => [] }
+          (Dir.new(ext_links_path).entries - ['.', '..', '.DS_Store', '_rels']).each_with_index { |link, i|
+            files['externalLinks'][i+1] = File.read(File.join(ext_links_path, link))
+          }
 
-          dir.each_with_index do |link,i|
-            files['externalLinks'][i+1] = File.read(File.join(ext_links_path,link))
-          end
-
-          if File.directory?(File.join(ext_links_path,'_rels'))
-            dir = Dir.new(File.join(ext_links_path,'_rels')).entries.reject{|f| [".","..",".DS_Store"].include? f}
-            dir.each_with_index do |rel,i|
-              files['externalLinks']['rels'][i+1] = File.read(File.join(ext_links_path,'_rels',rel))
-            end
+          if File.directory?(File.join(ext_links_path,'_rels')) then
+            (Dir.new(File.join(ext_links_path,'_rels')).entries - ['.', '..', '.DS_Store']).each_with_index { |rel, i|
+              files['externalLinks']['rels'][i+1] = File.read(File.join(ext_links_path, '_rels', rel))
+            }
           end
         end
 
-        if File.directory?(File.join(dir_path,'xl','drawings'))
-          files['drawings'] = {}
-          drawings_path = File.join(dir_path,'xl','drawings','_rels')
-          FileUtils.mkdir_p(drawings_path)
-          dir = Dir.new(drawings_path).entries.reject {|f| [".", "..", ".DS_Store"].include? f}
-          dir.each_with_index do |draw,i|
-            files['drawings'][i+1] = File.read(File.join(drawings_path,draw))
-          end
-        end
-
-        if File.directory?(File.join(dir_path,'xl','printerSettings'))
-          files['printerSettings'] = {}
-          printer_path = File.join(dir_path,'xl','printerSettings')
-          FileUtils.mkdir_p(printer_path)
-          dir = Dir.new(printer_path).entries.reject {|f| [".","..",".DS_Store"].include? f}
-
-          dir.each_with_index do |print, i|
-            files['printerSettings'][i+1] = File.open(File.join(printer_path,print), 'rb').read
-          end
-        end
+        files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load(dir_path)
+        files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).load(dir_path, 'rb')
 
         if File.directory?(File.join(dir_path,"xl",'worksheets','_rels'))
           files['worksheetRels'] = {}
           worksheet_rels_path = File.join(dir_path,'xl','worksheets','_rels')
           FileUtils.mkdir_p(worksheet_rels_path)
-          dir = Dir.new(worksheet_rels_path).entries.reject {|f| [".","..",".DS_Store"].include? f}
-          dir.each_with_index do |rel, i|
-            files['worksheetRels'][i+1] = File.read(File.join(worksheet_rels_path,rel))
+
+          (Dir.new(worksheet_rels_path).entries - ['.', '..', '.DS_Store']).each_with_index do |rel, i|
+            files['worksheetRels'][i + 1] = File.read(File.join(worksheet_rels_path, rel))
           end
         end
 
@@ -390,6 +369,7 @@ module RubyXL
           files['vbaProject'] = File.open(File.join(dir_path,"xl","vbaProject.bin"),'rb').read
         end
       end
+
       files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
       @num_sheets = files['workbook'].css('sheets').children.size
       @num_sheets = Integer(@num_sheets)

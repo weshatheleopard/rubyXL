@@ -53,9 +53,9 @@ module RubyXL
       @date1904           = date1904 > 0
       @external_links     = nil
       @style_corrector    = nil
-      @drawings           = nil
+      @drawings           = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
       @worksheet_rels     = nil
-      @printer_settings   = nil
+      @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings'))
       @macros             = nil
       @colors             = nil
       @shared_strings_XML = nil
@@ -168,24 +168,8 @@ module RubyXL
           end
         end
 
-        #preserves drawings (exactly, no modification allowed)
-        unless @drawings.nil?
-          1.upto(@drawings.size) do |i|
-            zipfile.get_output_stream(
-            File.join('xl','drawings',"vmlDrawing#{i}.vml")) {|f|
-              f.puts(@drawings[i])
-            }
-          end
-        end
-
-        unless @printer_settings.nil?
-          1.upto(@printer_settings.size) do |i|
-            zipfile.get_output_stream(
-            File.join('xl','printerSettings',"printerSettings#{i}.bin")) {|f|
-              f.puts(@printer_settings[i])
-            }
-          end
-        end
+        @drawings.add_to_zip(zipfile)
+        @printer_settings.add_to_zip(zipfile)
 
         unless @worksheet_rels.nil?
           1.upto(@worksheet_rels.size) do |i|

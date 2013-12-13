@@ -17,7 +17,7 @@ module Writer
             xml.Override('PartName'=>'/xl/sharedStrings.xml',
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml")
           end
-          if @workbook.macros.nil? && @workbook.drawings.nil?
+          if @workbook.macros.nil? && @workbook.drawings.empty?
             xml.Override('PartName'=>'/xl/workbook.xml',
               'ContentType'=>"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml")
           else
@@ -41,10 +41,12 @@ module Writer
             xml.Default('Extension'=>'bin',
               'ContentType'=>'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings')
           end
-          unless @workbook.drawings.nil?
+
+          unless @workbook.drawings.empty?
             xml.Default('Extension'=>'vml',
               'ContentType'=>'application/vnd.openxmlformats-officedocument.vmlDrawing')
           end
+
           xml.Override('PartName'=>'/xl/theme/theme1.xml',
             'ContentType'=>"application/vnd.openxmlformats-officedocument.theme+xml")
           @workbook.worksheets.each_with_index do |sheet,i|
