@@ -42,6 +42,7 @@ module Writer
         }
       end
 
+      # This block isn't doing anything, as results of contents.sub are not assigned to anything
       if(contents =~ /xmlns:vt=\"(.*)\" xmlns=\"(.*)\"/)
         contents.sub(/xmlns:vt=\"(.*)\" xmlns=\"(.*)\"<A/,'xmlns="'+$2+'" xmlns:vt="'+$1+'"<A')
       end
