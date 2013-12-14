@@ -2,54 +2,53 @@ require 'rubygems'
 require 'nokogiri'
 
 module RubyXL
-module Writer
-  class AppWriter < GenericWriter
+  module Writer
+    class AppWriter < GenericWriter
 
-    def filepath
-      File.join('docProps', 'app.xml')
-    end
-
-    def write()
-
-      contents = build_xml do |xml|
-        xml.Properties('xmlns' => 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties',
-        'xmlns:vt'=>'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes') {
-          xml.Application @workbook.application
-          xml.DocSecurity '0'
-          xml.ScaleCrop 'false'
-          xml.HeadingPairs {
-            xml['vt'].vector(:size => '2', :baseType => 'variant') {
-              xml['vt'].variant {
-                xml['vt'].lpstr 'Worksheets'
-              }
-              xml['vt'].variant {
-                xml['vt'].i4 @workbook.worksheets.size.to_s()
-              }
-            }
-          }
-          xml.TitlesOfParts {
-            xml['vt'].vector(:size=>@workbook.worksheets.size.to_s(), :baseType=>"lpstr") {
-              @workbook.worksheets.each do |sheet|
-                xml['vt'].lpstr sheet.sheet_name
-              end
-            }
-          }
-          xml.Company @workbook.company
-          xml.LinksUpToDate 'false'
-          xml.SharedDoc 'false'
-          xml.HyperlinksChanged 'false'
-          xml.AppVersion @workbook.appversion
-        }
+      def filepath
+        File.join('docProps', 'app.xml')
       end
 
-      # This block isn't doing anything, as results of contents.sub are not assigned to anything
-      if(contents =~ /xmlns:vt=\"(.*)\" xmlns=\"(.*)\"/)
-        contents.sub(/xmlns:vt=\"(.*)\" xmlns=\"(.*)\"<A/,'xmlns="'+$2+'" xmlns:vt="'+$1+'"<A')
+      def write()
+        render_xml do |xml|
+          xml << (xml.create_element('Properties',
+                  :xmlns => 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties',
+                  'xmlns:vt'=>'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes') { |root|
+
+            root << xml.create_element('Application', @workbook.application)
+            root << xml.create_element('DocSecurity', 0)
+            root << xml.create_element('ScaleCrop', false)
+
+            root << (xml.create_element('HeadingPairs') { |headings|
+              headings << (xml.create_element('vt:vector', :baseType => 'variant', :size => 2) { |vc|
+                vc << (xml.create_element('vt:variant',) { |v| 
+                  v << xml.create_element('vt:lpstr', 'Worksheets')
+                })
+
+                vc << (xml.create_element('vt:variant',) { |v|
+                  v << xml.create_element('vt:i4', @workbook.worksheets.size)
+                })
+              })
+            })
+
+            root << (xml.create_element('TitlesOfParts') { |titles|
+              titles << (xml.create_element('vt:vector', :baseType => 'lpstr',
+                           :size => @workbook.worksheets.size) { |v|
+                @workbook.worksheets.each { |sheet|
+                  v << (xml.create_element('vt:lpstr', sheet.sheet_name))
+                }
+              })
+            })
+
+            root << xml.create_element('Company', @workbook.company)
+            root << xml.create_element('LinksUpToDate', false)
+            root << xml.create_element('SharedDoc', false)
+            root << xml.create_element('HyperlinksChanged', false)
+            root << xml.create_element('AppVersion', @workbook.appversion)
+          })
+        end
       end
 
-      contents
     end
-
   end
-end
 end

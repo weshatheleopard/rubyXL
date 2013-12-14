@@ -16,14 +16,18 @@ module Writer
     end
 
     def build_xml
+      render_xml do |seed_xml|
+        builder = Nokogiri::XML::Builder.with(seed_xml) { |param| yield(param) }
+      end
+    end
+
+    def render_xml
       seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
       seed_xml.encoding = 'UTF-8'
-  
-      builder = Nokogiri::XML::Builder.with(seed_xml) do |param|
-                  yield(param)
-                end
 
-      builder.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
+      yield(seed_xml)
+
+      seed_xml.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
     end
 
     def add_to_zip(zipfile)
