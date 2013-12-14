@@ -19,7 +19,7 @@ module RubyXL
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :num_fmts, :num_fmts_hash, :fonts, :fills,
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain,
-      :date1904, :external_links, :style_corrector, :drawings,
+      :date1904, :external_links, :external_links_rels, :style_corrector, :drawings,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
 
     attr_reader :shared_strings
@@ -51,12 +51,13 @@ module RubyXL
       @shared_strings     = RubyXL::SharedStrings.new
       @calc_chain         = nil #unnecessary?
       @date1904           = date1904 > 0
-      @external_links     = nil
+      @external_links     = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
+      @external_links_rels= RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
       @style_corrector    = nil
       @drawings           = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
-      @worksheet_rels     = nil
+      @worksheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
       @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings'))
-      @macros             = nil
+      @macros             = RubyXL::GenericStorage.new('xl')
       @colors             = nil
       @shared_strings_XML = nil
       @defined_names      = nil
@@ -148,42 +149,12 @@ module RubyXL
           Writer::SharedStringsWriter.new(self).add_to_zip(zipfile)
         end
 
-        #preserves external links (exactly, no modification allowed)
-        unless @external_links.nil?
-          #-1 because of rels
-          1.upto(@external_links.size-1) do |i|
-            zipfile.get_output_stream(
-              File.join('xl','externalLinks',"externalLink#{i}.xml")) {|f|
-                f << @external_links[i]
-              }
-          end
-
-          @external_links['rels'].each_index do |i|
-            unless @external_links['rels'][i].nil?
-              zipfile.get_output_stream(
-                File.join('xl','externalLinks','_rels',"externalLink#{i}.xml.rels")) {|f|
-                  f << @external_links['rels'][i]
-                }
-            end
-          end
-        end
-
+        @external_links.add_to_zip(zipfile)
+        @external_links_rels.add_to_zip(zipfile)
         @drawings.add_to_zip(zipfile)
         @printer_settings.add_to_zip(zipfile)
-
-        unless @worksheet_rels.nil?
-          1.upto(@worksheet_rels.size) do |i|
-            zipfile.get_output_stream(
-            File.join('xl','worksheets','_rels',"sheet#{i}.xml.rels")) {|f|
-              f << @worksheet_rels[i]
-            }
-          end
-        end
-
-        unless @macros.nil?
-          zipfile.get_output_stream(File.join('xl','vbaProject.bin')) { |f| f << @macros }
-        end
-
+        @worksheet_rels.add_to_zip(zipfile)
+        @macros.add_to_zip(zipfile)
         @worksheets.each_index { |i| Writer::WorksheetWriter.new(self, i).add_to_zip(zipfile) }
       end
 

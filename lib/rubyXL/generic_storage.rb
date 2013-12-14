@@ -10,11 +10,17 @@ module RubyXL
     def load(root_dir, mode = 'r')
       dirpath = File.join(root_dir, @local_dir_path)
       if File.directory?(dirpath) then
-        (Dir.new(dirpath).entries - ['.', '..', '.DS_Store']).each { |filename|
+        (Dir.new(dirpath).entries - ['.', '..', '.DS_Store', '_rels']).each { |filename|
           self[filename] = File.open(File.join(dirpath, filename), mode).read
         }
       end
 
+      self
+    end
+
+    def load_file(root_dir, filename, mode = 'r')
+      filepath = File.join(root_dir, @local_dir_path, filename)
+      self[filename] = File.open(filepath, mode).read if File.readable?(filepath)
       self
     end
 

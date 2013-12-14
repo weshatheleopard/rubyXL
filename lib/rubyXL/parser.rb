@@ -66,24 +66,21 @@ module RubyXL
 
       end
       #styles are needed for formatting reasons as that is how dates are determined
-        styles = files['styles'].css('cellXfs xf')
-        style_hash = Hash.xml_node_to_hash(files['styles'].root)
-        fill_styles(wb,style_hash)
+      styles = files['styles'].css('cellXfs xf')
+      style_hash = Hash.xml_node_to_hash(files['styles'].root)
+      fill_styles(wb,style_hash)
 
-        #will be nil if these files do not exist
-        wb.external_links = files['externalLinks']
-        wb.drawings = files['drawings']
-        wb.printer_settings = files['printerSettings']
-        wb.worksheet_rels = files['worksheetRels']
-        wb.macros = files['vbaProject']
+      #will be nil if these files do not exist
+      wb.external_links = files['externalLinks']
+      wb.external_links_rels = files['externalLinksRels']
+      wb.drawings = files['drawings']
+      wb.printer_settings = files['printerSettings']
+      wb.worksheet_rels = files['worksheetRels']
+      wb.macros = files['vbaProject']
 
-      #for each worksheet:
-      #1. find the dimensions of the data matrix
-      #2. Fill in the matrix with data from worksheet/shared_string files
-      #3. Apply styles
-      wb.worksheets.each_index do |i|
-        Parser.fill_worksheet(wb,i,files,wb.shared_strings)
-      end
+      files['worksheets'].each_index { |i|
+        Parser.fill_worksheet(wb, i, files, wb.shared_strings)
+      }
 
       return wb
     end
@@ -158,27 +155,27 @@ module RubyXL
       end
     end
 
-    # i is the sheet number
+    # i is the sheet index
     # files is the hash which includes information for each worksheet
     # shared_strings has group of indexed strings which the cells reference
-    def Parser.fill_worksheet(wb,i,files,shared_strings)
+    def Parser.fill_worksheet(wb, i, files, shared_strings)
       wb.worksheets[i] = Parser.create_matrix(wb, i, files)
-      j = i+1
 
-      namespaces = files[j].root.namespaces()
+      worksheet_xml = files['worksheets'][i]
+      namespaces = worksheet_xml.root.namespaces()
       unless @data_only
-        sheet_views_node= files[j].xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]',namespaces).first
+        sheet_views_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]', namespaces).first
         wb.worksheets[i].sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
 
         ##col styles##
-        cols_node_set = files[j].xpath('/xmlns:worksheet/xmlns:cols',namespaces)
+        cols_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols',namespaces)
         unless cols_node_set.empty?
           wb.worksheets[i].cols= Hash.xml_node_to_hash(cols_node_set.first)[:col]
         end
         ##end col styles##
 
         ##merge_cells##
-        merge_cells_node = files[j].xpath('/xmlns:worksheet/xmlns:mergeCells[xmlns:mergeCell]',namespaces)
+        merge_cells_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells[xmlns:mergeCell]', namespaces)
         unless merge_cells_node.empty?
           wb.worksheets[i].merged_cells = Hash.xml_node_to_hash(merge_cells_node.first)[:mergeCell]
         end
@@ -190,7 +187,7 @@ module RubyXL
         ##end sheet_view pane##
 
         ##data_validation##
-        data_validations_node = files[j].xpath('/xmlns:worksheet/xmlns:dataValidations[xmlns:dataValidation]',namespaces)
+        data_validations_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations[xmlns:dataValidation]', namespaces)
         unless data_validations_node.empty?
           wb.worksheets[i].validations = Hash.xml_node_to_hash(data_validations_node.first)[:dataValidation]
         else
@@ -199,16 +196,16 @@ module RubyXL
         ##end data_validation##
 
         #extLst
-        ext_list_node=files[j].xpath('/xmlns:worksheet/xmlns:extLst',namespaces)
+        ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
         unless ext_list_node.empty?
           wb.worksheets[i].extLst = Hash.xml_node_to_hash(ext_list_node.first)
         else
-          wb.worksheets[i].extLst=nil
+          wb.worksheets[i].extLst = nil
         end
         #extLst
 
         ##legacy drawing##
-        legacy_drawing_node = files[j].xpath('/xmlns:worksheet/xmlns:legacyDrawing',namespaces)
+        legacy_drawing_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:legacyDrawing', namespaces)
         unless legacy_drawing_node.empty?
           wb.worksheets[i].legacy_drawing = Hash.xml_node_to_hash(legacy_drawing_node.first)
         else
@@ -217,8 +214,7 @@ module RubyXL
         ##end legacy drawing
       end
 
-
-      row_data = files[j].xpath('/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]',namespaces)
+      row_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]', namespaces)
       row_data.each do |row|
         unless @data_only
           ##row styles##
@@ -236,7 +232,6 @@ module RubyXL
           end
           ##end row styles##
         end
-
         unless @data_only
           c_row = row.search('./xmlns:c')
         else
@@ -248,7 +243,6 @@ module RubyXL
           # r attribute contains the location like A1
           cell_index = Parser.convert_to_index(value_attributes['r'].content)
           style_index = 0
-
           # t is optional and contains the type of the cell
           data_type = value_attributes['t'].content if value_attributes['t']
           element_hash ={}
@@ -261,7 +255,7 @@ module RubyXL
           else
             v_element_content=""
           end
-          if v_element_content =="" #no data
+          if v_element_content == "" # no data
             cell_data = nil
           elsif data_type == RubyXL::Cell::SHARED_STRING
             str_index = Integer(v_element_content)
@@ -278,6 +272,7 @@ module RubyXL
               cell_data = Integer(v_element_content)
             end
           end
+
           # f is the formula element
           cell_formula = nil
           fmla_css = element_hash["f_element"]
@@ -328,7 +323,6 @@ module RubyXL
 
       files['app'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','app.xml'),'r'))
       files['core'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','core.xml'),'r'))
-
       files['workbook'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
 
       if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
@@ -336,51 +330,22 @@ module RubyXL
       end
 
       unless @data_only
-        ext_links_path = File.join(dir_path,'xl','externalLinks')
-
-        #preserves external links
-        if File.directory?(ext_links_path) then
-          files['externalLinks'] = { 'rels' => [] }
-          (Dir.new(ext_links_path).entries - ['.', '..', '.DS_Store', '_rels']).each_with_index { |link, i|
-            files['externalLinks'][i+1] = File.read(File.join(ext_links_path, link))
-          }
-
-          if File.directory?(File.join(ext_links_path,'_rels')) then
-            (Dir.new(File.join(ext_links_path,'_rels')).entries - ['.', '..', '.DS_Store']).each_with_index { |rel, i|
-              files['externalLinks']['rels'][i+1] = File.read(File.join(ext_links_path, '_rels', rel))
-            }
-          end
-        end
-
+        files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load(dir_path)
+        files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load(dir_path)
         files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load(dir_path)
         files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).load(dir_path, 'rb')
-
-        if File.directory?(File.join(dir_path,"xl",'worksheets','_rels'))
-          files['worksheetRels'] = {}
-          worksheet_rels_path = File.join(dir_path,'xl','worksheets','_rels')
-          FileUtils.mkdir_p(worksheet_rels_path)
-
-          (Dir.new(worksheet_rels_path).entries - ['.', '..', '.DS_Store']).each_with_index do |rel, i|
-            files['worksheetRels'][i + 1] = File.read(File.join(worksheet_rels_path, rel))
-          end
-        end
-
-        if File.exist?(File.join(dir_path,'xl','vbaProject.bin'))
-          files['vbaProject'] = File.open(File.join(dir_path,"xl","vbaProject.bin"),'rb').read
-        end
+        files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load(dir_path)
+        files['vbaProject'] = RubyXL::GenericStorage.new('xl').load_file(dir_path, 'vbaProject.bin', 'rb')
       end
 
       files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
-      @num_sheets = files['workbook'].css('sheets').children.size
-      @num_sheets = Integer(@num_sheets)
 
-      #adds all worksheet xml files to files hash
-      i=1
-      1.upto(@num_sheets) do
-        filename = 'sheet'+i.to_s
-        files[i] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','worksheets',filename+'.xml'),'r'))
-        i=i+1
-      end
+      files['worksheets'] = []
+      files['workbook'].css('sheets sheet').each { |sheet|
+        sheet_id = sheet.attributes['sheetId'].value 
+        files['worksheets'][sheet_id.to_i - 1] = # In Excel, indices are 1-based
+          Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', 'worksheets', "sheet#{sheet_id}.xml")))
+      }
 
       FileUtils.rm_rf(dir_path)
 
@@ -388,7 +353,7 @@ module RubyXL
     end
 
     def Parser.fill_workbook(file_path, files)
-      wb = Workbook.new([nil],file_path)
+      wb = Workbook.new([nil], file_path)
 
       unless @data_only
         wb.creator = files['core'].css('dc|creator').children.to_s
@@ -405,16 +370,16 @@ module RubyXL
       wb.defined_names = files['workbook'].css('definedNames').to_s
       wb.date1904 = files['workbook'].css('workbookPr').attribute('date1904').to_s == '1'
 
-      wb.worksheets = Array.new(@num_sheets) #array of Worksheet objs
+      wb.worksheets = []
       wb
     end
 
     #sheet_names, dimensions
-    def Parser.create_matrix(wb,i, files)
+    def Parser.create_matrix(wb, i, files)
       sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
-      sheet = Worksheet.new(wb,sheet_names[i].to_s,[])
+      sheet = Worksheet.new(wb, sheet_names[i].text, [])
 
-      dimensions = files[i+1].css('dimension').attribute('ref').to_s
+      dimensions = files['worksheets'][i].css('dimension').attribute('ref').to_s
       if(dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/)
         index = convert_to_index($2)
 

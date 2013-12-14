@@ -26,20 +26,25 @@ module Writer
             xml.workbookView('xWindow'=>'-20', 'yWindow'=>'-20',
               'windowWidth'=>'21600','windowHeight'=>'13340','tabRatio'=>'500')
           }
+
           index = 0
-          xml.sheets {
-            @workbook.worksheets.each_with_index do |sheet,i|
-              xml.sheet('name'=>sheet.sheet_name, 'sheetId'=>(i+1).to_s(),
-              'r:id'=>'rId'+(i+1).to_s())
-              index = i+1
-            end
-          }
-          unless @workbook.external_links.nil?
-            xml.externalReferences {
-              index.upto(@workbook.external_links.size-1) do |id|
-                xml.externalReference('r:id'=>"rId#{id+index}")
-              end
+          xml.sheets do
+            @workbook.worksheets.each_with_index { |sheet, i|
+              xml.sheet('name'=> sheet.sheet_name,
+                        'sheetId' => (i + 1).to_s,
+                        'r:id'=> "rId#{i + 1}")
+              index = i + 1
             }
+          end
+
+          unless @workbook.external_links.empty?
+            xml.externalReferences do
+              # This doesn't quite make a lot of sense -- why we are starting with index and not 0?
+              # Need to check once I get the file with external links...
+              index.upto(@workbook.external_links.size - 1) { |id|
+                xml.externalReference('r:id' => "rId#{id + index}")
+              }
+            end
           end
 
           # nokogiri builder creates CDATA tag around content,
