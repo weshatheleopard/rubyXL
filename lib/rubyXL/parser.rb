@@ -330,12 +330,12 @@ module RubyXL
       end
 
       unless @data_only
-        files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load(dir_path)
-        files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load(dir_path)
-        files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load(dir_path)
-        files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).load(dir_path, 'rb')
-        files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load(dir_path)
-        files['vbaProject'] = RubyXL::GenericStorage.new('xl').load_file(dir_path, 'vbaProject.bin', 'rb')
+        files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
+        files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load_dir(dir_path)
+        files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load_dir(dir_path)
+        files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary.load_dir(dir_path)
+        files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load_dir(dir_path)
+        files['vbaProject'] = RubyXL::GenericStorage.new('xl').binary.load_file(dir_path, 'vbaProject.bin')
       end
 
       files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))

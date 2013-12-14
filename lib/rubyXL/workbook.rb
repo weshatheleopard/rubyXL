@@ -56,8 +56,8 @@ module RubyXL
       @style_corrector    = nil
       @drawings           = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
       @worksheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
-      @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings'))
-      @macros             = RubyXL::GenericStorage.new('xl')
+      @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
+      @macros             = RubyXL::GenericStorage.new('xl').binary
       @colors             = nil
       @shared_strings_XML = nil
       @defined_names      = nil
