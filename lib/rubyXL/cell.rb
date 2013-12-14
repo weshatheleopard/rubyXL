@@ -23,12 +23,8 @@ module RubyXL
     def value(args = {})
       raw_values = args.delete(:raw) || false
       return @value if raw_values
-      
-      if is_date?
-        return @workbook.num_to_date(@value)
-      else
-        return @value
-      end
+      return @workbook.num_to_date(@value) if is_date?
+      @value
     end
 
     def is_date?

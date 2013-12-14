@@ -97,17 +97,17 @@ module RubyXL
     end
 
     def num_fmts_by_id
-      
       return @num_fmts_hash unless @num_fmts_hash.nil?
-      if num_fmts
-        @num_fmts_hash={}
-        num_fmts[:numFmt].each do |num_fmt|
-          @num_fmts_hash[num_fmt[:attributes][:numFmtId]]=num_fmt
-        end
-        @num_fmts_hash
-      else
-        {}
+
+      @num_fmts_hash = {}
+
+      if num_fmts then
+        num_fmts[:numFmt].each { |num_fmt|
+          @num_fmts_hash[num_fmt[:attributes][:numFmtId]] = num_fmt
+        }
       end
+
+      @num_fmts_hash
     end
 
     #filepath of xlsx file (including file itself)
@@ -179,7 +179,7 @@ module RubyXL
     private :base_date
 
     def date_to_num(date)
-      date && (date.ajd - base_date().ajd)
+      date && (date.ajd - base_date().ajd).to_i
     end
 
     def num_to_date(num)
