@@ -31,7 +31,10 @@ module RubyXL
                    company='', application=APPLICATION,
                    appversion=APPVERSION, date1904=0)
 
+      # Order of sheets in the +worksheets+ array corresponds to the order of pages in Excel UI.
+      # SheetId's, rId's, etc. are completely unrelated to ordering.
       @worksheets = worksheets || []
+
       @worksheets << Worksheet.new(self) if @worksheets.empty?
 
       @filepath           = filepath

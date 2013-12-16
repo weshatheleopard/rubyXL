@@ -324,6 +324,7 @@ module RubyXL
       files['app'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','app.xml'),'r'))
       files['core'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','core.xml'),'r'))
       files['workbook'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
+      files['workbook_rels'] = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
 
       if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
         files['sharedString'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
@@ -341,10 +342,13 @@ module RubyXL
       files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
 
       files['worksheets'] = []
-      files['workbook'].css('sheets sheet').each { |sheet|
+      rels_doc = files['workbook_rels']
+
+      files['workbook'].css('sheets sheet').each_with_index { |sheet, ind|
         sheet_id = sheet.attributes['sheetId'].value 
-        files['worksheets'][sheet_id.to_i - 1] = # In Excel, indices are 1-based
-          Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', 'worksheets', "sheet#{sheet_id}.xml")))
+        sheet_rid = sheet.attributes['id'].value 
+        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
+        files['worksheets'][ind] = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
       }
 
       FileUtils.rm_rf(dir_path)
