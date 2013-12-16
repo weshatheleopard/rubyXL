@@ -11,31 +11,23 @@ module RubyXL
     @@parsed_column_hash ={}
     # converts cell string (such as "AA1") to matrix indices
     def Parser.convert_to_index(cell_string)
-      index = [-1,-1]
-      if(cell_string =~ /^([A-Z]+)(\d+)$/)
-
-        one = $1
-        row = $2.to_i - 1 #-1 for 0 indexing
-        col = 0
-        i = 0
-        if @@parsed_column_hash[one].nil?
-          two = one.reverse #because of 26^i calculation
-          two.each_byte do |c|
-            int_val = c - 64 #converts A to 1
-            col += int_val * 26**(i)
-            i=i+1
-          end
-          @@parsed_column_hash[one] = col
-        else
-          col = @@parsed_column_hash[one]
+      return [ -1, -1 ] unless cell_string =~ /^([A-Z]+)(\d+)$/
+      one = $1
+      col = 0
+      i = 0
+      if @@parsed_column_hash[one].nil?
+        two = one.reverse #because of 26^i calculation
+        two.each_byte do |c|
+          int_val = c - 64 #converts A to 1
+          col += int_val * 26**(i)
+          i=i+1
         end
-        col -= 1 #zer0 index
-        index[0] = row
-        index[1] = col
+        @@parsed_column_hash[one] = col
+      else
+        col = @@parsed_column_hash[one]
       end
-      return index
+      return [ $2.to_i - 1, col - 1 ] #zer0 index
     end
-
 
     # data_only allows only the sheet data to be parsed, so as to speed up parsing
     # However, using this option will result in date-formatted cells being interpreted as numbers
@@ -162,7 +154,7 @@ module RubyXL
       wb.worksheets[i] = Parser.create_matrix(wb, i, files)
 
       worksheet_xml = files['worksheets'][i]
-      namespaces = worksheet_xml.root.namespaces()
+      namespaces = worksheet_xml.root.namespaces
       unless @data_only
         sheet_views_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]', namespaces).first
         wb.worksheets[i].sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
@@ -385,13 +377,9 @@ module RubyXL
 
       dimensions = files['worksheets'][i].css('dimension').attribute('ref').to_s
       if(dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/)
-        index = convert_to_index($2)
-
-        rows = index[0]+1
-        cols = index[1]+1
-
-        #creates matrix filled with nils
-        rows.times {sheet.sheet_data << Array.new(cols)}
+        rows, cols = convert_to_index($2)
+        # Create empty arrays for workcells. Using +downto()+ here to avoid memory reallocation.
+        rows[0].downto(0) { |i| sheet.sheet_data[i] = Array.new(cols + 1) }
       else
         raise 'invalid file'
       end
