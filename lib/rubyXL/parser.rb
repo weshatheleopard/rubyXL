@@ -9,7 +9,7 @@ module RubyXL
   class Parser
     attr_reader :data_only, :num_sheets
 
-    # data_only allows only the sheet data to be parsed, so as to speed up parsing
+    # +:data_only+ allows only the sheet data to be parsed, so as to speed up parsing
     # However, using this option will result in date-formatted cells being interpreted as numbers
     def Parser.parse(file_path, opts = {})
 
@@ -356,12 +356,14 @@ module RubyXL
       sheet = Worksheet.new(wb, sheet_names[i].text, [])
 
       dimensions = files['worksheets'][i].css('dimension').attribute('ref').to_s
-      if(dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/)
+      if (dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/) then
         rows, cols = Cell.ref2ind($2)
-        # Create empty arrays for workcells. Using +downto()+ here to avoid memory reallocation.
-        rows[0].downto(0) { |i| sheet.sheet_data[i] = Array.new(cols + 1) }
+        # Create empty arrays for workcells. Using +downto()+ here so memory for +sheet_data[]+ is
+        # allocated on the first iteration (in case of +upto()+, +sheet_data[]+ would end up being
+        # reallocated on every iteration).
+        rows.downto(0) { |i| sheet.sheet_data[i] = Array.new(cols + 1) }
       else
-        raise 'invalid file'
+        raise 'Unable to determine worksheet dimensions'
       end
       sheet
     end
