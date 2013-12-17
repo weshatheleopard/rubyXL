@@ -420,5 +420,11 @@ describe RubyXL::Cell do
       lambda {RubyXL::Cell.convert_to_cell(-1,0)}.should raise_error
     end
 
+    it 'should correctly convert back and forth between "Excel Style" and index style cell references' do
+      0.upto(16383) do |n|
+        RubyXL::Parser.convert_to_index(RubyXL::Cell.convert_to_cell(n, 16383 - n)).should == [ n, 16383 - n ]
+      end
+    end
+
   end
 end

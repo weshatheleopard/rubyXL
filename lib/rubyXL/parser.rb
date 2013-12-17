@@ -8,26 +8,16 @@ module RubyXL
 
   class Parser
     attr_reader :data_only, :num_sheets
-    @@parsed_column_hash ={}
+
     # converts cell string (such as "AA1") to matrix indices
-    def Parser.convert_to_index(cell_string)
-      return [ -1, -1 ] unless cell_string =~ /^([A-Z]+)(\d+)$/
-      one = $1
+    def Parser.convert_to_index(str)
+      return [ -1, -1 ] unless str =~ /^([A-Z]+)(\d+)$/
       col = 0
-      i = 0
-      if @@parsed_column_hash[one].nil?
-        two = one.reverse #because of 26^i calculation
-        two.each_byte do |c|
-          int_val = c - 64 #converts A to 1
-          col += int_val * 26**(i)
-          i=i+1
-        end
-        @@parsed_column_hash[one] = col
-      else
-        col = @@parsed_column_hash[one]
-      end
-      return [ $2.to_i - 1, col - 1 ] #zer0 index
-    end
+
+      $1.each_byte { |chr| col = col * 26 + (chr - 64) }
+
+      [ $2.to_i - 1, col - 1 ] #zer0 index
+    end  
 
     # data_only allows only the sheet data to be parsed, so as to speed up parsing
     # However, using this option will result in date-formatted cells being interpreted as numbers
