@@ -23,16 +23,9 @@ module Writer
         'xmlns:mv'=>"urn:schemas-microsoft-com:mac:vml",
         'mc:Ignorable'=>'mv',
         'mc:PreserveAttributes'=>'mv:*') {
-          col = 0
-          @worksheet.sheet_data.each do |row|
-            if row.size > col
-              col = row.size
-            end
-          end
-          row = Integer(@worksheet.sheet_data.size)
-          dimension = 'A1:'
-          dimension += Cell.convert_to_cell(row-1,col-1)
-          xml.dimension('ref'=>dimension)
+          col = @worksheet.sheet_data.max_by{ |row| row.size }.size
+          row = @worksheet.sheet_data.size
+          xml.dimension('ref' => "A1:#{Cell.ind2ref(row - 1, col - 1)}")
           xml.sheetViews {
             view = @worksheet.sheet_view
             if view.nil? || view[:attributes].nil?
@@ -134,7 +127,7 @@ module Writer
                       #TODO do xml.c for all cases, inside specific.
                       # if dat.formula.nil?
                       dat.style_index = @workbook.style_corrector[dat.style_index.to_s]
-                      c_opts = {'r'=>Cell.convert_to_cell(i,j), 's'=>dat.style_index.to_s}
+                      c_opts = {'r'=>Cell.ind2ref(i,j), 's'=>dat.style_index.to_s}
                       unless dat.datatype.nil? || dat.datatype == ''
                         c_opts['t'] = dat.datatype
                       end
@@ -158,7 +151,7 @@ module Writer
                       }
                       #
                       # else
-                      #   xml.c('r'=>Cell.convert_to_cell(i,j)) {
+                      #   xml.c('r'=>Cell.ind2ref(i,j)) {
                       #     xml.v dat.value.to_s
                       #   }
                       # end #data.formula.nil?

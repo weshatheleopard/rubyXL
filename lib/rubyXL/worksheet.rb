@@ -423,16 +423,13 @@ class Worksheet < PrivateClass
   end
 
   # merges cells within a rectangular range
-  def merge_cells(row1=0,col1=0,row2=0,col2=0)
+  def merge_cells(row1=0, col1=0, row2=0, col2=0)
     validate_workbook
     @merged_cells << {
       :attributes => {
-        :ref => ''
+        :ref => "#{Cell.ind2ref(row1, col1)}:#{Cell.ind2ref(row2, col2)}"
       }
     }
-    cell1 = Cell.convert_to_cell(row1,col1)
-    cell2 = Cell.convert_to_cell(row2,col2)
-    @merged_cells.last[:attributes][:ref] = cell1+':'+cell2
   end
 
   def add_cell(row=0, column=0, data='', formula=nil,overwrite=true)

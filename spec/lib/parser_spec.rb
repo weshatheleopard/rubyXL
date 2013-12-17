@@ -21,16 +21,6 @@ describe RubyXL::Parser do
     @workbook.write(@file)
   end
 
-  describe '.convert_to_index' do
-    it 'should convert a well-formed Excel index into a pair of array indices' do
-      RubyXL::Parser.convert_to_index('AA1').should == [0, 26]
-    end
-
-    it 'should return [-1, -1] if the Excel index is not well-formed' do
-      RubyXL::Parser.convert_to_index('A1B').should == [-1, -1]
-    end
-  end
-
   describe '.parse' do
     it 'should parse a valid Excel xlsx or xlsm workbook correctly' do
       @workbook2 = RubyXL::Parser.parse(@file)

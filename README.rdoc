@@ -174,8 +174,8 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
 
 
 === Miscellaneous
-  Cell.convert_to_cell(0,0) == 'A1' #converts row and column index to Excel-style index
-  Parser.convert_to_index('A1') == [0,0] #converts Excel-style index to row and column index
+  Cell.ind2ref(0,0) == 'A1'   # Converts row and column index to Excel-style cell reference
+  Cell.ref2ind('A1') == [0,0] # Converts Excel-style cell reference to row and column index
 
 == For more information
 Take a look at the files in spec/lib/ for rspecs on most methods

@@ -9,16 +9,6 @@ module RubyXL
   class Parser
     attr_reader :data_only, :num_sheets
 
-    # converts cell string (such as "AA1") to matrix indices
-    def Parser.convert_to_index(str)
-      return [ -1, -1 ] unless str =~ /^([A-Z]+)(\d+)$/
-      col = 0
-
-      $1.each_byte { |chr| col = col * 26 + (chr - 64) }
-
-      [ $2.to_i - 1, col - 1 ] #zer0 index
-    end  
-
     # data_only allows only the sheet data to be parsed, so as to speed up parsing
     # However, using this option will result in date-formatted cells being interpreted as numbers
     def Parser.parse(file_path, opts = {})
@@ -223,7 +213,7 @@ module RubyXL
           #attributes is from the excel cell(c) and is basically location information and style and type
           value_attributes= value.attributes
           # r attribute contains the location like A1
-          cell_index = Parser.convert_to_index(value_attributes['r'].content)
+          cell_index = Cell.ref2ind(value_attributes['r'].content)
           style_index = 0
           # t is optional and contains the type of the cell
           data_type = value_attributes['t'].content if value_attributes['t']
@@ -367,7 +357,7 @@ module RubyXL
 
       dimensions = files['worksheets'][i].css('dimension').attribute('ref').to_s
       if(dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/)
-        rows, cols = convert_to_index($2)
+        rows, cols = Cell.ref2ind($2)
         # Create empty arrays for workcells. Using +downto()+ here to avoid memory reallocation.
         rows[0].downto(0) { |i| sheet.sheet_data[i] = Array.new(cols + 1) }
       else

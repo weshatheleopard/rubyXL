@@ -404,27 +404,31 @@ describe RubyXL::Cell do
     end
   end
 
-  describe '.convert_to_cell' do
+  describe '.ind2ref + .ref2ind' do
     it 'should correctly return the "Excel Style" description of cells when given a row/column number' do
-      RubyXL::Cell.convert_to_cell(0, 26).should == 'AA1'
-      RubyXL::Cell.convert_to_cell(999, 0).should == 'A1000'
-      RubyXL::Cell.convert_to_cell(0, 26).should == 'AA1'
-      RubyXL::Cell.convert_to_cell(0, 51).should == 'AZ1'
-      RubyXL::Cell.convert_to_cell(0, 52).should == 'BA1'
-      RubyXL::Cell.convert_to_cell(0, 77).should == 'BZ1'
-      RubyXL::Cell.convert_to_cell(0, 78).should == 'CA1'
-      RubyXL::Cell.convert_to_cell(0, 16383).should == 'XFD1'
+      RubyXL::Cell.ind2ref(0, 26).should == 'AA1'
+      RubyXL::Cell.ind2ref(99, 0).should == 'A100'
+      RubyXL::Cell.ind2ref(0, 26).should == 'AA1'
+      RubyXL::Cell.ind2ref(0, 51).should == 'AZ1'
+      RubyXL::Cell.ind2ref(0, 52).should == 'BA1'
+      RubyXL::Cell.ind2ref(0, 77).should == 'BZ1'
+      RubyXL::Cell.ind2ref(0, 78).should == 'CA1'
+      RubyXL::Cell.ind2ref(0, 16383).should == 'XFD1'
     end
 
     it 'should cause an error if a negative argument is given' do
-      lambda {RubyXL::Cell.convert_to_cell(-1,0)}.should raise_error
+      lambda {RubyXL::Cell.ind2ref(-1,0)}.should raise_error
     end
 
     it 'should correctly convert back and forth between "Excel Style" and index style cell references' do
       0.upto(16383) do |n|
-        RubyXL::Parser.convert_to_index(RubyXL::Cell.convert_to_cell(n, 16383 - n)).should == [ n, 16383 - n ]
+        RubyXL::Cell.ref2ind(RubyXL::Cell.ind2ref(n, 16383 - n)).should == [ n, 16383 - n ]
       end
     end
 
+    it 'should return [-1, -1] if the Excel index is not well-formed' do
+      RubyXL::Cell.ref2ind('A1B').should == [-1, -1]
+    end
   end
+
 end

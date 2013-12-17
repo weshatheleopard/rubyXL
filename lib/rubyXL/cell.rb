@@ -324,9 +324,9 @@ module RubyXL
       return get_border(:diagonal)
     end
 
-    # Converts +row+ and +col+ zero-based indexes into Excel-style cell reference
+    # Converts +row+ and +col+ zero-based indices to Excel-style cell reference
     # (0) A...Z, AA...AZ, BA... ...ZZ, AAA... ...AZZ, BAA... ...XFD (16383)
-    def self.convert_to_cell(row = 0, col = 0)
+    def self.ind2ref(row = 0, col = 0)
       raise 'Invalid input: cannot convert negative numbers' if row < 0 || col < 0
 
       str = ''
@@ -340,6 +340,16 @@ module RubyXL
 
       str + (row + 1).to_s
     end
+
+    # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
+    def self.ref2ind(str)
+      return [ -1, -1 ] unless str =~ /^([A-Z]+)(\d+)$/
+      col = 0
+
+      $1.each_byte { |chr| col = col * 26 + (chr - 64) }
+
+      [ $2.to_i - 1, col - 1 ]
+    end  
 
     def inspect
       str = "(#{@row},#{@column}): #{@value}" 
