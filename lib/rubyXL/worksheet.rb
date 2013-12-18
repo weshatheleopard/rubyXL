@@ -2,7 +2,7 @@ module RubyXL
 class Worksheet < PrivateClass
   include Enumerable
 
-  attr_accessor :sheet_name, :sheet_data, :cols, :merged_cells, :pane,
+  attr_accessor :sheet_name, :sheet_id, :sheet_data, :cols, :merged_cells, :pane,
     :validations, :sheet_view, :legacy_drawing, :extLst, :workbook, :row_styles
 
   SHEET_NAME_TEMPLATE = 'Sheet%d'
@@ -11,6 +11,7 @@ class Worksheet < PrivateClass
     @workbook = workbook
 
     @sheet_name = sheet_name || get_default_name
+    @sheet_id = nil
     @sheet_data = sheet_data
     @cols = cols
     @merged_cells = merged_cells

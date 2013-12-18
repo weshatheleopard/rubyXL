@@ -30,10 +30,10 @@ module Writer
           index = 0
           xml.sheets do
             @workbook.worksheets.each_with_index { |sheet, i|
-              xml.sheet('name'=> sheet.sheet_name,
-                        'sheetId' => (i + 1).to_s,
-                        'r:id'=> "rId#{i + 1}")
               index = i + 1
+              xml.sheet('name'=> sheet.sheet_name,
+                        'sheetId' => sheet.sheet_id || index,
+                        'r:id'=> "rId#{index}")
             }
           end
 

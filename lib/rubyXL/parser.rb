@@ -50,8 +50,10 @@ module RubyXL
       wb.worksheet_rels = files['worksheetRels']
       wb.macros = files['vbaProject']
 
-      files['worksheets'].each_index { |i|
-        Parser.fill_worksheet(wb, i, files, wb.shared_strings)
+      sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
+      files['workbook'].css('sheets sheet').each_with_index { |sheet_node, i|
+        wb.worksheets[i] = Parser.parse_worksheet(wb, files['worksheets'][i], sheet_names[i].text,
+                                                  sheet_node.attributes['sheetId'].value )
       }
 
       return wb
@@ -127,61 +129,65 @@ module RubyXL
       end
     end
 
-    # i is the sheet index
-    # files is the hash which includes information for each worksheet
-    # shared_strings has group of indexed strings which the cells reference
-    def Parser.fill_worksheet(wb, i, files, shared_strings)
-      wb.worksheets[i] = Parser.create_matrix(wb, i, files)
+    # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
+    def Parser.parse_worksheet(wb, worksheet_xml, worksheet_name, sheet_id)
+      worksheet = Worksheet.new(wb, worksheet_name)
+      worksheet.sheet_id = sheet_id
 
-      worksheet_xml = files['worksheets'][i]
+      dimensions = worksheet_xml.css('dimension').attribute('ref').to_s
+      raise 'Unable to determine worksheet dimensions' unless (dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/)
+      rows, cols = Cell.ref2ind($2)
+      # Create empty arrays for workcells. Using +downto()+ here so memory for +sheet_data[]+ is
+      # allocated on the first iteration (in case of +upto()+, +sheet_data[]+ would end up being
+      # reallocated on every iteration).
+      rows.downto(0) { |i| worksheet.sheet_data[i] = Array.new(cols + 1) }
+
       namespaces = worksheet_xml.root.namespaces
+
       unless @data_only
         sheet_views_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]', namespaces).first
-        wb.worksheets[i].sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
+        worksheet.sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
 
         ##col styles##
         cols_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols',namespaces)
         unless cols_node_set.empty?
-          wb.worksheets[i].cols= Hash.xml_node_to_hash(cols_node_set.first)[:col]
+          worksheet.cols = Hash.xml_node_to_hash(cols_node_set.first)[:col]
         end
         ##end col styles##
 
         ##merge_cells##
         merge_cells_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells[xmlns:mergeCell]', namespaces)
         unless merge_cells_node.empty?
-          wb.worksheets[i].merged_cells = Hash.xml_node_to_hash(merge_cells_node.first)[:mergeCell]
+          worksheet.merged_cells = Hash.xml_node_to_hash(merge_cells_node.first)[:mergeCell]
         end
         ##end merge_cells##
 
-        ##sheet_view pane##
-        pane_data = wb.worksheets[i].sheet_view[:pane]
-        wb.worksheets[i].pane = pane_data
-        ##end sheet_view pane##
+        worksheet.pane = worksheet.sheet_view[:pane]
 
         ##data_validation##
         data_validations_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations[xmlns:dataValidation]', namespaces)
         unless data_validations_node.empty?
-          wb.worksheets[i].validations = Hash.xml_node_to_hash(data_validations_node.first)[:dataValidation]
+          worksheet.validations = Hash.xml_node_to_hash(data_validations_node.first)[:dataValidation]
         else
-          wb.worksheets[i].validations=nil
+          worksheet.validations = nil
         end
         ##end data_validation##
 
         #extLst
         ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
         unless ext_list_node.empty?
-          wb.worksheets[i].extLst = Hash.xml_node_to_hash(ext_list_node.first)
+          worksheet.extLst = Hash.xml_node_to_hash(ext_list_node.first)
         else
-          wb.worksheets[i].extLst = nil
+          worksheet.extLst = nil
         end
         #extLst
 
         ##legacy drawing##
         legacy_drawing_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:legacyDrawing', namespaces)
         unless legacy_drawing_node.empty?
-          wb.worksheets[i].legacy_drawing = Hash.xml_node_to_hash(legacy_drawing_node.first)
+          worksheet.legacy_drawing = Hash.xml_node_to_hash(legacy_drawing_node.first)
         else
-          wb.worksheets[i].legacy_drawing = nil
+          worksheet.legacy_drawing = nil
         end
         ##end legacy drawing
       end
@@ -196,10 +202,10 @@ module RubyXL
             row_style = row_attributes['s'].value
           end
 
-          wb.worksheets[i].row_styles[row_attributes['r'].content] = { :style => row_style  }
+          worksheet.row_styles[row_attributes['r'].content] = { :style => row_style  }
 
           if !row_attributes['ht'].nil?  && (!row_attributes['ht'].content.nil? || row_attributes['ht'].content.strip != "" )
-            wb.worksheets[i].change_row_height(Integer(row_attributes['r'].content)-1,
+            worksheet.change_row_height(Integer(row_attributes['r'].content)-1,
               Float(row_attributes['ht'].content))
           end
           ##end row styles##
@@ -231,7 +237,7 @@ module RubyXL
             cell_data = nil
           elsif data_type == RubyXL::Cell::SHARED_STRING
             str_index = Integer(v_element_content)
-            cell_data = shared_strings[str_index].to_s
+            cell_data = wb.shared_strings[str_index].to_s
           elsif data_type == RubyXL::Cell::RAW_STRING
             cell_data = v_element_content
           elsif data_type == RubyXL::Cell::ERROR
@@ -262,12 +268,14 @@ module RubyXL
 
           style_index = value['s'].to_i #nil goes to 0 (default)
 
-          wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]] =
-            Cell.new(wb.worksheets[i],cell_index[0],cell_index[1],cell_data,cell_formula,
+          worksheet.sheet_data[cell_index[0]][cell_index[1]] =
+            Cell.new(worksheet,cell_index[0],cell_index[1],cell_data,cell_formula,
               data_type,style_index,cell_formula_attr)
-          cell = wb.worksheets[i].sheet_data[cell_index[0]][cell_index[1]]
+          cell = worksheet.sheet_data[cell_index[0]][cell_index[1]]
         end
       end
+
+      worksheet
     end
 
     def Parser.decompress(file_path, skip_filename_check = false)
@@ -317,7 +325,6 @@ module RubyXL
       rels_doc = files['workbook_rels']
 
       files['workbook'].css('sheets sheet').each_with_index { |sheet, ind|
-        sheet_id = sheet.attributes['sheetId'].value 
         sheet_rid = sheet.attributes['id'].value 
         sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
         files['worksheets'][ind] = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
@@ -350,24 +357,6 @@ module RubyXL
       wb
     end
 
-    #sheet_names, dimensions
-    def Parser.create_matrix(wb, i, files)
-      sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
-      sheet = Worksheet.new(wb, sheet_names[i].text, [])
-
-      dimensions = files['worksheets'][i].css('dimension').attribute('ref').to_s
-      if (dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/) then
-        rows, cols = Cell.ref2ind($2)
-        # Create empty arrays for workcells. Using +downto()+ here so memory for +sheet_data[]+ is
-        # allocated on the first iteration (in case of +upto()+, +sheet_data[]+ would end up being
-        # reallocated on every iteration).
-        rows.downto(0) { |i| sheet.sheet_data[i] = Array.new(cols + 1) }
-      else
-        raise 'Unable to determine worksheet dimensions'
-      end
-      sheet
-    end
-
     def Parser.safe_filename(name, allow_mb_chars=false)
       # "\w" represents [0-9A-Za-z_] plus any multi-byte char
       regexp = allow_mb_chars ? /[^\w]/ : /[^0-9a-zA-Z\_]/
@@ -382,3 +371,4 @@ module RubyXL
 
   end
 end
+
