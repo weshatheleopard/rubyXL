@@ -3,7 +3,8 @@ class Worksheet < PrivateClass
   include Enumerable
 
   attr_accessor :sheet_name, :sheet_id, :sheet_data, :cols, :merged_cells, :pane,
-    :validations, :sheet_view, :legacy_drawing, :extLst, :workbook, :row_styles
+                :validations, :sheet_view, :legacy_drawing, :extLst, :workbook,
+                :row_styles, :drawings
 
   SHEET_NAME_TEMPLATE = 'Sheet%d'
 
@@ -22,7 +23,8 @@ class Worksheet < PrivateClass
                                    }
                   }
     @extLst = nil
-    @legacy_drawing=nil
+    @legacy_drawing = nil
+    @drawings = []
   end
 
   def get_default_name

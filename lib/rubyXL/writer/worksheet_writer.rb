@@ -210,6 +210,11 @@ module Writer
               }
             }
           end
+
+          @worksheet.drawings.each { |d|
+            xml.drawing('r:id' => d)
+          }
+
         }
       end
     end
