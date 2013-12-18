@@ -10,29 +10,20 @@ module Writer
     end
 
     def write()
-      contents = build_xml do |xml|
-        xml.coreProperties('xmlns:cp'=>"http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
-        'xmlns:dc'=>"http://purl.org/dc/elements/1.1/", 'xmlns:dcterms'=>"http://purl.org/dc/terms/",
-        'xmlns:dcmitype'=>"http://purl.org/dc/dcmitype/", 'xmlns:xsi'=>"http://www.w3.org/2001/XMLSchema-instance") {
-          xml['dc'].creator @workbook.creator.to_s
-          xml['cp'].lastModifiedBy @workbook.modifier.to_s
-          xml['dcterms'].created('xsi:type' => 'dcterms:W3CDTF') do
-            @workbook.created_at
-          end
+      render_xml do |xml|
+        xml << (xml.create_element('cp:coreProperties', 
+                   'xmlns:cp' => 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties',
+                   'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+                   'xmlns:dcterms' => 'http://purl.org/dc/terms/',
+                   'xmlns:dcmitype' => 'http://purl.org/dc/dcmitype/',
+                   'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance') { |root|
 
-          xml['dcterms'].modified('xsi:type' => 'dcterms:W3CDTF')
-        }
+          root << xml.create_element('dc:creator',        @workbook.creator)
+          root << xml.create_element('cp:lastModifiedBy', @workbook.modifier)
+          root << xml.create_element('dcterms:created',  { 'xsi:type' => 'dcterms:W3CDTF' }, @workbook.created_at)
+          root << xml.create_element('dcterms:modified', { 'xsi:type' => 'dcterms:W3CDTF' }, @workbook.modified_at)
+        })
       end
-
-      contents = contents.gsub(/coreProperties/,'cp:coreProperties')
-
-      #seems hack-y..
-      contents = contents.gsub(/<dcterms:created xsi:type=\"dcterms:W3CDTF\"\/>/,
-        '<dcterms:created xsi:type="dcterms:W3CDTF">'+@workbook.created_at+'</dcterms:created>')
-      contents = contents.gsub(/<dcterms:modified xsi:type=\"dcterms:W3CDTF\"\/>/,
-        '<dcterms:modified xsi:type="dcterms:W3CDTF">'+@workbook.modified_at+'</dcterms:modified>')
-
-      contents
     end
 
   end
