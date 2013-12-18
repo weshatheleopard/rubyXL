@@ -157,10 +157,8 @@ module RubyXL
         ##end col styles##
 
         ##merge_cells##
-        merge_cells_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells[xmlns:mergeCell]', namespaces)
-        unless merge_cells_node.empty?
-          worksheet.merged_cells = Hash.xml_node_to_hash(merge_cells_node.first)[:mergeCell]
-        end
+        merge_cells_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells', namespaces)
+        worksheet.merged_cells = Hash.xml_node_to_hash_array(merge_cells_node.first)[:mergeCell]
         ##end merge_cells##
 
         worksheet.pane = worksheet.sheet_view[:pane]
