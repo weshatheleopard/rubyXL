@@ -208,7 +208,7 @@ class Worksheet < PrivateClass
     change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
   end
 
-  def change_row_height(row=0,height=10)
+  def change_row_height(row=0, height=10)
     validate_workbook
     validate_nonnegative(row)
 
@@ -1133,12 +1133,9 @@ class Worksheet < PrivateClass
   #validates Workbook, ensures that this worksheet is in @workbook
   def validate_workbook()
     unless @workbook.nil? || @workbook.worksheets.nil?
-      @workbook.worksheets.each do |sheet|
-        if sheet == self
-          return
-        end
-      end
+      return if @workbook.worksheets.include?(self)
     end
+
     raise "This worksheet #{self} is not in workbook #{@workbook}"
   end
 

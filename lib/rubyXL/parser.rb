@@ -52,8 +52,8 @@ module RubyXL
 
       sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
       files['workbook'].css('sheets sheet').each_with_index { |sheet_node, i|
-        wb.worksheets[i] = Parser.parse_worksheet(wb, files['worksheets'][i], sheet_names[i].text,
-                                                  sheet_node.attributes['sheetId'].value )
+        Parser.parse_worksheet(wb, i, files['worksheets'][i], sheet_names[i].text,
+                               sheet_node.attributes['sheetId'].value )
       }
 
       return wb
@@ -130,8 +130,9 @@ module RubyXL
     end
 
     # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
-    def Parser.parse_worksheet(wb, worksheet_xml, worksheet_name, sheet_id)
+    def Parser.parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)
       worksheet = Worksheet.new(wb, worksheet_name)
+      wb.worksheets[i] = worksheet # Due to "validate_workbook" issues. Should remove that validation eventually.
       worksheet.sheet_id = sheet_id
 
       dimensions = worksheet_xml.css('dimension').attribute('ref').to_s
