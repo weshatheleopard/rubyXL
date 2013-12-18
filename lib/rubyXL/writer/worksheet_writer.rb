@@ -25,47 +25,28 @@ module Writer
         'mc:PreserveAttributes'=>'mv:*') {
           col = @worksheet.sheet_data.max_by{ |row| row.size }.size
           row = @worksheet.sheet_data.size
+
           xml.dimension('ref' => "A1:#{Cell.ind2ref(row - 1, col - 1)}")
+
           xml.sheetViews {
-            view = @worksheet.sheet_view
-            if view.nil? || view[:attributes].nil?
-              xml.sheetView('tabSelected'=>1,'view'=>'normalLayout','workbookViewId'=>0)
-              raise 'end test' #TODO remove
-            else
-              view = view[:attributes]
-              if view[:view].nil?
-                view[:view] = 'normalLayout'
-              end
+            view = @worksheet.sheet_view || {}
+            view = view[:attributes] || {}
 
-              if view[:workbookViewId].nil?
-                view[:workbookViewId] = 0
-              end
-
-              if view[:zoomScale].nil? || view[:zoomScaleNormal].nil?
-                view[:zoomScale] = 100
-                view[:zoomScaleNormal] = 100
-              end
-
-              if view[:tabSelected].nil?
-                view[:tabSelected] = 1
-              end
-
-              xml.sheetView('tabSelected'=>view[:tabSelected],
-                            'view'=>view[:view],
-                            'workbookViewId'=>view[:workbookViewId],
-                            'zoomScale'=>view[:zoomScale],
-                            'zoomScaleNormal'=>view[:zoomScaleNormal]) {
-                #TODO
-                #can't be done unless I figure out a way to programmatically add attributes.
-                #(can't put xSplit with an invalid value)
-                # unless @worksheet.pane.nil?
-                  # xml.pane('state'=>@worksheet.pane[:state])
-                # end
-                  # unless view[:selection].nil?
-                    # xml.
-                  # end
-              }
-            end
+            xml.sheetView('tabSelected'     => view[:tabSelected]     || 1,
+                          'view'            => view[:view]            || 'normalLayout',
+                          'workbookViewId'  => view[:workbookViewId]  || 0,
+                          'zoomScale'       => view[:zoomScale]       || 100,
+                          'zoomScaleNormal' => view[:zoomScaleNormal] || 100) {
+            #TODO
+            #can't be done unless I figure out a way to programmatically add attributes.
+            #(can't put xSplit with an invalid value)
+            # unless @worksheet.pane.nil?
+              # xml.pane('state'=>@worksheet.pane[:state])
+            # end
+              # unless view[:selection].nil?
+                # xml.
+              # end
+            }
           }
           xml.sheetFormatPr('baseColWidth'=>'10','defaultRowHeight'=>'13')
 
