@@ -2,7 +2,7 @@ module RubyXL
 class Worksheet < PrivateClass
   include Enumerable
 
-  attr_accessor :sheet_name, :sheet_id, :sheet_data, :cols, :merged_cells, :pane,
+  attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_range_attributes, :merged_cells, :pane,
                 :validations, :sheet_view, :legacy_drawing, :extLst, :workbook,
                 :row_styles, :drawings
 
@@ -14,7 +14,7 @@ class Worksheet < PrivateClass
     @sheet_name = sheet_name || get_default_name
     @sheet_id = nil
     @sheet_data = sheet_data
-    @cols = cols
+    @column_range_attributes = cols
     @merged_cells = merged_cells
     @row_styles={}
     @sheet_view = {
@@ -37,6 +37,16 @@ class Worksheet < PrivateClass
     name
   end
   private :get_default_name
+
+  def cols
+    puts "WARNING: cols attribute depreciated (use column_range_attributes): #{caller.first}"
+    @column_range_attributes
+  end
+
+  def cols=(v)
+    puts "WARNING: cols attribute depreciated (use column_range_attributes): #{caller.first}"
+    @column_attributes = v
+  end
 
   # allows for easier access to sheet_data
   def [](row=0)
@@ -358,8 +368,8 @@ class Worksheet < PrivateClass
     end
 
     change_cols(i,col)
-    @cols.last[:attributes][:width] = width
-    @cols.last[:attributes][:customWidth] = '1'
+    @column_range_attributes.last[:attributes][:width] = width
+    @column_range_attributes.last[:attributes][:customWidth] = '1'
   end
 
   def change_column_fill(col=0, color_index='ffffff')
@@ -370,12 +380,12 @@ class Worksheet < PrivateClass
 
     i = get_cols_index(col)
 
-    if cols[i].nil?
+    if column_range_attributes[i].nil?
       style_index = 0
     else
       #just copies any style if there is none which already exists for this col
       #while it changes style/min/max, width *might* be preserved
-      style_index = Integer(@cols[i][:attributes][:style])
+      style_index = Integer(@column_range_attributes[i][:attributes][:style])
     end
 
     modify_fill(@workbook,style_index,color_index)
@@ -449,7 +459,7 @@ class Worksheet < PrivateClass
       if (data.is_a?Integer) || (data.is_a?Float)
         @sheet_data[row][column].datatype = ''
       end
-      col = @cols[get_cols_index(column)]
+      col = @column_range_attributes[get_cols_index(column)]
 
       if @row_styles[(row+1).to_s] != nil
         @sheet_data[row][column].style_index = @row_styles[(row+1).to_s][:style]
@@ -592,7 +602,7 @@ class Worksheet < PrivateClass
 
     #shift column styles
     #shift col styles 'left'
-    @cols.each do |col|
+    @column_range_attributes.each do |col|
       if Integer(col[:attributes][:min]) >= col_index
         col[:attributes][:min] = (Integer(col[:attributes][:min]) - 1).to_s
       end
@@ -610,7 +620,7 @@ class Worksheet < PrivateClass
     ensure_cell_exists(0, col_index)
 
     old_index = col_index > 0 ? col_index-1 : col_index+1
-    old_col = @cols[get_cols_index(old_index)]
+    old_col = @column_range_attributes[get_cols_index(old_index)]
     if old_index == 1
       old_col = nil
     end
@@ -636,15 +646,15 @@ class Worksheet < PrivateClass
 
     #copy over column-level styles
     new_col = change_cols(get_cols_index(old_index),old_index)
-    @cols[-1] = deep_copy(old_col)#-1 = last
+    @column_range_attributes[-1] = deep_copy(old_col)#-1 = last
 
-    new_col = @cols.last
-    if @cols.last.nil?
-      @cols.pop
+    new_col = @column_range_attributes.last
+    if @column_range_attributes.last.nil?
+      @column_range_attributes.pop
     end
 
     #shift col styles 'right'
-    @cols.each do |col|
+    @column_range_attributes.each do |col|
       if Integer(col[:attributes][:min]) > col_index
         col[:attributes][:min] = (1 + Integer(col[:attributes][:min])).to_s
       end
@@ -941,11 +951,11 @@ class Worksheet < PrivateClass
 
     cols_index = get_cols_index(col)
 
-    if @cols[cols_index].nil? || @cols[cols_index][:attributes].nil? || @cols[cols_index][:attributes][:width].to_s == ''
+    if @column_range_attributes[cols_index].nil? || @column_range_attributes[cols_index][:attributes].nil? || @column_range_attributes[cols_index][:attributes][:width].to_s == ''
       return 10
     end
 
-    return @cols[cols_index][:attributes][:width]
+    return @column_range_attributes[cols_index][:attributes][:width]
   end
 
   def get_column_fill(col=0)
@@ -1011,7 +1021,7 @@ class Worksheet < PrivateClass
   end
 
   def xf_attr_col(column)
-    col_style = @cols[get_cols_index(column)][:style]
+    col_style = @column_range_attributes[get_cols_index(column)][:style]
 	return @workbook.get_style_attributes(@workbook.get_style(Integer(col_style)))
   end
 
@@ -1142,9 +1152,9 @@ class Worksheet < PrivateClass
   # because cols is not ordered by col num, this actually gets
   # the index in the array based on which column is actually being asked for by the user
   def get_cols_index(col)
-    i = @cols.size - 1
+    i = @column_range_attributes.size - 1
 
-    @cols.reverse_each do |column|
+    @column_range_attributes.reverse_each do |column|
       if col >= (Integer(column[:attributes][:min])-1)
         if col <= (Integer(column[:attributes][:max])-1)
           break
@@ -1153,33 +1163,33 @@ class Worksheet < PrivateClass
       i -= 1
     end
     if i < 0
-      i = @cols.size #effectively nil
+      i = @column_range_attributes.size #effectively nil
     end
     i
   end
 
   def get_cols_style_index(col)
     cols_index = get_cols_index(col)
-    if cols_index == @cols.size
+    if cols_index == @column_range_attributes.size
       return 0
     end
-    return Integer(@cols[cols_index][:attributes][:style])
+    return Integer(@column_range_attributes[cols_index][:attributes][:style])
   end
 
   #change cols array
   def change_cols(i,col_index)
     style = '0'
-    if @cols[i].nil?
-      @cols << {:attributes=>{:style=>nil,:min=>nil,:max=>nil,:width=>nil,:customWidth=>nil}}
+    if @column_range_attributes[i].nil?
+      @column_range_attributes << {:attributes=>{:style=>nil,:min=>nil,:max=>nil,:width=>nil,:customWidth=>nil}}
     else
-      @cols << deep_copy(@cols[i])
-      style = @cols[i][:attributes][:style]
+      @column_range_attributes << deep_copy(@column_range_attributes[i])
+      style = @column_range_attributes[i][:attributes][:style]
     end
-    @cols.last[:attributes][:style] = style
-    @cols.last[:attributes][:min] = (Integer(col_index)+1).to_s
-    @cols.last[:attributes][:max] = (Integer(col_index)+1).to_s
-    @cols.last[:attributes][:width] = '10'
-    @cols.last[:attributes][:customWidth] = '0'
+    @column_range_attributes.last[:attributes][:style] = style
+    @column_range_attributes.last[:attributes][:min] = (Integer(col_index)+1).to_s
+    @column_range_attributes.last[:attributes][:max] = (Integer(col_index)+1).to_s
+    @column_range_attributes.last[:attributes][:width] = '10'
+    @column_range_attributes.last[:attributes][:customWidth] = '0'
   end
 
   # Helper method to update the row styles array
@@ -1320,11 +1330,11 @@ class Worksheet < PrivateClass
   # Helper method to get the style index for a column
   def get_col_style(col)
     i = get_cols_index(col)
-    if @cols[i].nil?
+    if @column_range_attributes[i].nil?
       @workbook.fonts['0'][:count] += 1
       return 0
     else
-      return Integer(@cols[i][:attributes][:style])
+      return Integer(@column_range_attributes[i][:attributes][:style])
     end
   end
 
@@ -1359,17 +1369,17 @@ class Worksheet < PrivateClass
 
     i = get_cols_index(col)
 
-    if @cols[i].nil?
+    if @column_range_attributes[i].nil?
       style_index = 0
     else
-      style_index = Integer(@cols[i][:attributes][:style])
+      style_index = Integer(@column_range_attributes[i][:attributes][:style])
     end
 
     style_index = modify_alignment(@workbook,style_index,is_horizontal,alignment)
 
     change_cols(i,col)
 
-    @cols[i][:attributes][:style] = style_index
+    @column_range_attributes[i][:attributes][:style] = style_index
 
     @sheet_data.each_with_index do |row,i|
       c = row[Integer(col)]
@@ -1427,10 +1437,10 @@ class Worksheet < PrivateClass
     ensure_cell_exists(0, col)
 
     i = get_cols_index(col)
-    if @cols[i].nil?
+    if @column_range_attributes[i].nil?
       style_index = 0
     else
-      style_index = Integer(@cols[i][:attributes][:style])
+      style_index = Integer(@column_range_attributes[i][:attributes][:style])
     end
 
     style_index = modify_border(@workbook,style_index)
