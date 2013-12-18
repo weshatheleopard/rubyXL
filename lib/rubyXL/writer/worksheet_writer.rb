@@ -169,6 +169,7 @@ module Writer
             #initial attempt at a fix fails in corrupted excel documents leaving as is for now.
             xml.mergeCells {
               @worksheet.merged_cells.each do |merged_cell|
+                merged_cell = Hash[*merged_cell] if merged_cell.is_a? Array
                 xml.mergeCell('ref'=>merged_cell[:attributes][:ref].to_s)
               end
             }
