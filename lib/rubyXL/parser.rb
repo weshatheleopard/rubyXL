@@ -192,7 +192,7 @@ module RubyXL
         ##end legacy drawing
 
         drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:drawing', namespaces)
-        worksheet.drawings = drawing_nodes.collect { |n| puts n.attributes['id'] }
+        worksheet.drawings = drawing_nodes.collect { |n| n.attributes['id'] }
       end
 
       row_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]', namespaces)
