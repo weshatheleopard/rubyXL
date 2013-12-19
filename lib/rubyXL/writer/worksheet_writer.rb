@@ -53,10 +53,6 @@ module Writer
           attrs = @worksheet.column_range_attributes
           unless attrs.nil? || attrs.empty?
             xml.cols {
-              if !attrs.is_a?(Array)
-                attrs = [attrs]
-              end
-
               attrs.each do |col|
                 # unless col[:attributes] == {}
                   xml.col('style' => @workbook.style_corrector[col[:attributes][:style].to_s].to_s,

@@ -152,7 +152,7 @@ module RubyXL
         ##col styles##
         cols_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols',namespaces)
         unless cols_node_set.empty?
-          worksheet.column_range_attributes = Hash.xml_node_to_hash(cols_node_set.first)[:col]
+          worksheet.column_range_attributes = Hash.xml_node_to_hash_array(cols_node_set.first)[:col]
         end
         ##end col styles##
 
