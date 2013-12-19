@@ -885,7 +885,7 @@ describe RubyXL::Worksheet do
   describe '.merge_cells' do
     it 'should merge cells in any valid range specified by indices' do
       @worksheet.merge_cells(0,0,1,1)
-      @worksheet.merged_cells.include?({:attributes=>{:ref=>"A1:B2"}}).should == true
+      @worksheet.merged_cells.should == ["A1:B2"]
     end
 
     it 'should cause an error if a negative number is passed' do

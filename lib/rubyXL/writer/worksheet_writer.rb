@@ -135,11 +135,10 @@ module Writer
 
           xml.sheetCalcPr('fullCalcOnLoad'=>'1')
 
-          unless @worksheet.merged_cells.nil? || @worksheet.merged_cells.empty?
-            xml.mergeCells {
-              @worksheet.merged_cells.each do |merged_cell|
-                xml.mergeCell('ref' => merged_cell[:attributes][:ref])
-              end
+          merged_cells = @worksheet.merged_cells
+          unless merged_cells.empty?
+            xml.mergeCells(:count => merged_cells.size) {
+              @worksheet.merged_cells.each { |ref| xml.mergeCell('ref' => ref) }
             }
           end
 
