@@ -329,26 +329,13 @@ module RubyXL
     def self.ind2ref(row = 0, col = 0)
       raise 'Invalid input: cannot convert negative numbers' if row < 0 || col < 0
 
-      str = ''
-
-      loop do
-        x = col % 26
-        str = ('A'.ord + x).chr + str
-        col = (col / 26).floor - 1
-        break if col < 0
-      end
-
-      str + (row + 1).to_s
+      RubyXL::ColumnRange.ind2ref(col) + (row + 1).to_s
     end
 
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
     def self.ref2ind(str)
       return [ -1, -1 ] unless str =~ /^([A-Z]+)(\d+)$/
-      col = 0
-
-      $1.each_byte { |chr| col = col * 26 + (chr - 64) }
-
-      [ $2.to_i - 1, col - 1 ]
+      [ $2.to_i - 1, RubyXL::ColumnRange.ref2ind($1) ]
     end  
 
     def inspect

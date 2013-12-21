@@ -50,16 +50,16 @@ module Writer
           }
           xml.sheetFormatPr('baseColWidth'=>'10','defaultRowHeight'=>'13')
 
-          attrs = @worksheet.column_range_attributes
-          unless attrs.nil? || attrs.empty?
+          ranges = @worksheet.column_ranges
+          unless ranges.nil? || ranges.empty?
             xml.cols {
-              attrs.each do |col|
+              ranges.each do |range|
                 # unless col[:attributes] == {}
-                  xml.col('style' => @workbook.style_corrector[col[:attributes][:style].to_s].to_s,
-                          'min'   => col[:attributes][:min],
-                          'max'   => col[:attributes][:max],
-                          'width' => col[:attributes][:width] || 10,
-                          'customWidth' => col[:attributes][:customWidth] || 0)
+                  xml.col('style' => @workbook.style_corrector[range.style_index.to_s].to_s,
+                          'min'   => range.min + 1,
+                          'max'   => range.max + 1,
+                          'width' => range.width || 10,
+                          'customWidth' => range.custom_width || 0)
                 # end
               end
             }

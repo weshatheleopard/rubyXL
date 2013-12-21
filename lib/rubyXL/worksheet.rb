@@ -2,7 +2,7 @@ module RubyXL
 class Worksheet < PrivateClass
   include Enumerable
 
-  attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_range_attributes, :merged_cells, :pane,
+  attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :merged_cells, :pane,
                 :validations, :sheet_view, :legacy_drawing, :extLst, :workbook,
                 :row_styles, :drawings
 
@@ -14,7 +14,7 @@ class Worksheet < PrivateClass
     @sheet_name = sheet_name || get_default_name
     @sheet_id = nil
     @sheet_data = sheet_data
-    @column_range_attributes = cols
+    @column_ranges = cols
     @merged_cells = merged_cells || []
     @row_styles={}
     @sheet_view = {
@@ -37,16 +37,6 @@ class Worksheet < PrivateClass
     name
   end
   private :get_default_name
-
-  def cols
-    puts "WARNING: cols attribute depreciated (use column_range_attributes): #{caller.first}"
-    @column_range_attributes
-  end
-
-  def cols=(v)
-    puts "WARNING: cols attribute depreciated (use column_range_attributes): #{caller.first}"
-    @column_attributes = v
-  end
 
   # allows for easier access to sheet_data
   def [](row=0)
@@ -352,24 +342,17 @@ class Worksheet < PrivateClass
     change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
   end
 
-  def change_column_width(col=0,width=13)
+  def change_column_width(col = 0, width = 13)
     validate_workbook
     validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
-    i = get_cols_index(col)
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'width' => width, 'customWidth' => 1 })
+  end
 
-    if width.to_i.to_s == width.to_s
-      width = Integer(width)
-    elsif width.to_f.to_s == width.to_s
-      width = Float(width)
-    else
-      raise 'You must enter a number for the width'
-    end
-
-    change_cols(i,col)
-    @column_range_attributes.last[:attributes][:width] = width
-    @column_range_attributes.last[:attributes][:customWidth] = '1'
+  def get_column_style_index(col)
+    range = RubyXL::ColumnRange.find(col, @column_ranges)
+    (range && range.style_index) || 0
   end
 
   def change_column_fill(col=0, color_index='ffffff')
@@ -378,39 +361,21 @@ class Worksheet < PrivateClass
     Color.validate_color(color_index)
     ensure_cell_exists(0, col)
 
-    i = get_cols_index(col)
+    new_style_index = modify_fill(@workbook, get_column_style_index(col), color_index)
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
-    if column_range_attributes[i].nil?
-      style_index = 0
-    else
-      #just copies any style if there is none which already exists for this col
-      #while it changes style/min/max, width *might* be preserved
-      style_index = Integer(@column_range_attributes[i][:attributes][:style])
-    end
-
-    modify_fill(@workbook,style_index,color_index)
-
-    change_cols(i,col)
-
-    @sheet_data.each_with_index do |row,i|
-      c = row[Integer(col)]
-      unless c.nil?
-        c.change_fill(color_index)
-      end
-    end
-
+    @sheet_data.each { |row|
+      c = row[col]
+      c.change_fill(color_index) if c
+    }
   end
 
   def change_column_horizontal_alignment(col=0,alignment='center')
-    validate_workbook
-    validate_nonnegative(col)
     validate_horizontal_alignment(alignment)
     change_column_alignment(col,alignment,true)
   end
 
   def change_column_vertical_alignment(col=0,alignment='center')
-    validate_workbook
-    validate_nonnegative(col)
     validate_vertical_alignment(alignment)
     change_column_alignment(col,alignment,false)
   end
@@ -455,12 +420,12 @@ class Worksheet < PrivateClass
       if (data.is_a?Integer) || (data.is_a?Float)
         @sheet_data[row][column].datatype = ''
       end
-      col = @column_range_attributes[get_cols_index(column)]
+      col = RubyXL::ColumnRange.find(column, @column_ranges)
 
       if @row_styles[(row+1).to_s] != nil
         @sheet_data[row][column].style_index = @row_styles[(row+1).to_s][:style]
       elsif col != nil
-        @sheet_data[row][column].style_index = col[:attributes][:style]
+        @sheet_data[row][column].style_index = col.style_index
       end
     end
 
@@ -596,81 +561,40 @@ class Worksheet < PrivateClass
       end
     end
 
-    #shift column styles
-    #shift col styles 'left'
-    @column_range_attributes.each do |col|
-      if Integer(col[:attributes][:min]) >= col_index
-        col[:attributes][:min] = (Integer(col[:attributes][:min]) - 1).to_s
-      end
-      if Integer(col[:attributes][:max]) >= col_index
-        col[:attributes][:max] = (Integer(col[:attributes][:max]) - 1).to_s
-      end
-    end
+    @column_ranges.each { |range| range.delete_column(col_index) }
   end
 
   # inserts column at col_index, pushes everything right, takes styles from column to left
   # USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
-  def insert_column(col_index=0)
+  def insert_column(col_index = 0)
     validate_workbook
     validate_nonnegative(col_index)
     ensure_cell_exists(0, col_index)
 
-    old_index = col_index > 0 ? col_index-1 : col_index+1
-    old_col = @column_range_attributes[get_cols_index(old_index)]
-    if old_index == 1
-      old_col = nil
-    end
+    old_range = col_index > 0 ? RubyXL::ColumnRange.find(col_index, @column_ranges) : RubyXL::ColumnRange.new
 
     #go through each cell in column
-    @sheet_data.each_with_index do |r,i|
-      #insert "column" in each row
-      r.insert(col_index, nil)
+    @sheet_data.each_with_index do |row, row_index|
+      old_cell = row[col_index]
+      new_cell = nil
 
-      #copy styles over to each cell
-      old_cell = r[old_index]
-      unless old_cell.nil?
-        #only add cell if style exists, not copying content
-        if old_cell.style_index != 0
-          if !old_col.nil? && old_cell.style_index.to_s != old_col[:attributes][:style].to_s
-            c = Cell.new(self,i,col_index)
-            c.style_index = old_cell.style_index
-            @sheet_data[i][col_index] = c
-          end
-        end
+      if old_cell && old_cell.style_index != 0 &&
+           old_range && old_range.style_index != old_cell.style_index.to_i then
+        new_cell = Cell.new(self, row_index, col_index)
+        new_cell.style_index = old_cell.style_index
       end
+
+      row.insert(col_index, new_cell)
     end
 
-    #copy over column-level styles
-    new_col = change_cols(get_cols_index(old_index),old_index)
-    @column_range_attributes[-1] = deep_copy(old_col)#-1 = last
-
-    new_col = @column_range_attributes.last
-    if @column_range_attributes.last.nil?
-      @column_range_attributes.pop
-    end
-
-    #shift col styles 'right'
-    @column_range_attributes.each do |col|
-      if Integer(col[:attributes][:min]) > col_index
-        col[:attributes][:min] = (1 + Integer(col[:attributes][:min])).to_s
-      end
-      if Integer(col[:attributes][:max]) > col_index
-        col[:attributes][:max] = (1 + Integer(col[:attributes][:max])).to_s
-      end
-    end
-    unless new_col.nil?
-      new_col[:attributes][:min] = (1 + Integer(new_col[:attributes][:min])).to_s
-      new_col[:attributes][:max] = (1 + Integer(new_col[:attributes][:max])).to_s
-    end
+    ColumnRange.insert_column(col_index, @column_ranges)
 
     #update column numbers
-    @sheet_data.each do |row|
-      (col_index+1).upto(row.size) do |j|
-        unless row[j].nil?
-          row[j].column += 1
-        end
-      end
-    end
+    @sheet_data.each { |row|
+      (col_index + 1).upto(row.size) { |col|
+        row[col].column = col unless row[col].nil?
+      }
+    }
   end
 
   def insert_cell(row=0,col=0,data=nil,formula=nil,shift=nil)
@@ -945,13 +869,9 @@ class Worksheet < PrivateClass
       return nil
     end
 
-    cols_index = get_cols_index(col)
+    range = RubyXL::ColumnRange.find(col, @column_ranges)
 
-    if @column_range_attributes[cols_index].nil? || @column_range_attributes[cols_index][:attributes].nil? || @column_range_attributes[cols_index][:attributes][:width].to_s == ''
-      return 10
-    end
-
-    return @column_range_attributes[cols_index][:attributes][:width]
+    (range && range.width) || 10
   end
 
   def get_column_fill(col=0)
@@ -1017,8 +937,7 @@ class Worksheet < PrivateClass
   end
 
   def xf_attr_col(column)
-    col_style = @column_range_attributes[get_cols_index(column)][:style]
-	return @workbook.get_style_attributes(@workbook.get_style(Integer(col_style)))
+    @workbook.get_style_attributes(@workbook.get_style(RubyXL::ColumnRange.find(column).style_index))
   end
 
   def get_row_bool(row,property)
@@ -1145,47 +1064,9 @@ class Worksheet < PrivateClass
     raise "This worksheet #{self} is not in workbook #{@workbook}"
   end
 
-  # because cols is not ordered by col num, this actually gets
-  # the index in the array based on which column is actually being asked for by the user
-  def get_cols_index(col)
-    i = @column_range_attributes.size - 1
-
-    @column_range_attributes.reverse_each do |column|
-      if col >= (Integer(column[:attributes][:min])-1)
-        if col <= (Integer(column[:attributes][:max])-1)
-          break
-        end
-      end
-      i -= 1
-    end
-    if i < 0
-      i = @column_range_attributes.size #effectively nil
-    end
-    i
-  end
-
   def get_cols_style_index(col)
-    cols_index = get_cols_index(col)
-    if cols_index == @column_range_attributes.size
-      return 0
-    end
-    return Integer(@column_range_attributes[cols_index][:attributes][:style])
-  end
-
-  #change cols array
-  def change_cols(i,col_index)
-    style = '0'
-    if @column_range_attributes[i].nil?
-      @column_range_attributes << {:attributes=>{:style=>nil,:min=>nil,:max=>nil,:width=>nil,:customWidth=>nil}}
-    else
-      @column_range_attributes << deep_copy(@column_range_attributes[i])
-      style = @column_range_attributes[i][:attributes][:style]
-    end
-    @column_range_attributes.last[:attributes][:style] = style
-    @column_range_attributes.last[:attributes][:min] = (Integer(col_index)+1).to_s
-    @column_range_attributes.last[:attributes][:max] = (Integer(col_index)+1).to_s
-    @column_range_attributes.last[:attributes][:width] = '10'
-    @column_range_attributes.last[:attributes][:customWidth] = '0'
+    range = RubyXL::ColumnRange.find(col, @column_ranges)
+    (range && range.style_index) || 0
   end
 
   # Helper method to update the row styles array
@@ -1222,8 +1103,6 @@ class Worksheet < PrivateClass
     validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
-    i = get_cols_index(col)
-
     # Modify font array and retrieve new font id
     font_id = modify_font(@workbook, font, xf_id[:fontId].to_s)
     # Get copy of xf object with modified font id
@@ -1232,9 +1111,10 @@ class Worksheet < PrivateClass
     # Modify xf array and retrieve new xf id
     modify_xf(@workbook, xf)
 
-    change_cols(i, col)
+#    new_style_index = modify_fill(@workbook, get_column_style_index(col), color_index)
+#    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
-    @sheet_data.each_with_index do |row, i|
+    @sheet_data.each do |row|
       c = row[col]
       unless c.nil?
         font_switch(c, change_type, arg)
@@ -1325,13 +1205,13 @@ class Worksheet < PrivateClass
 
   # Helper method to get the style index for a column
   def get_col_style(col)
-    i = get_cols_index(col)
-    if @column_range_attributes[i].nil?
-      @workbook.fonts['0'][:count] += 1
-      return 0
-    else
-      return Integer(@column_range_attributes[i][:attributes][:style])
-    end
+    range = RubyXL::ColumnRange.find(col, @column_ranges)
+
+    return range.style_index if range
+    
+    @workbook.fonts['0'][:count] += 1
+
+    0
   end
 
   def change_row_alignment(row,alignment,is_horizontal)
@@ -1363,30 +1243,18 @@ class Worksheet < PrivateClass
     validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
-    i = get_cols_index(col)
+    new_style_index = modify_alignment(@workbook, get_column_style_index(col), is_horizontal, alignment)
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
-    if @column_range_attributes[i].nil?
-      style_index = 0
-    else
-      style_index = Integer(@column_range_attributes[i][:attributes][:style])
-    end
-
-    style_index = modify_alignment(@workbook,style_index,is_horizontal,alignment)
-
-    change_cols(i,col)
-
-    @column_range_attributes[i][:attributes][:style] = style_index
-
-    @sheet_data.each_with_index do |row,i|
-      c = row[Integer(col)]
-      unless c.nil?
-        if is_horizontal
-          c.change_horizontal_alignment(alignment)
-        else
-          c.change_vertical_alignment(alignment)
-        end
+    @sheet_data.each { |row|
+      c = row[col]
+      next if c.nil?
+      if is_horizontal
+        c.change_horizontal_alignment(alignment)
+      else
+        c.change_vertical_alignment(alignment)
       end
-    end
+    }
   end
 
   def change_row_border(row, direction, weight)
@@ -1432,25 +1300,17 @@ class Worksheet < PrivateClass
     validate_border(weight)
     ensure_cell_exists(0, col)
 
-    i = get_cols_index(col)
-    if @column_range_attributes[i].nil?
-      style_index = 0
-    else
-      style_index = Integer(@column_range_attributes[i][:attributes][:style])
-    end
+    new_style_index = modify_border(@workbook, get_column_style_index(col))
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
-    style_index = modify_border(@workbook,style_index)
-
-    change_cols(i,col)
-
-    xf = @workbook.get_style_attributes(@workbook.get_style(style_index))
+    xf = @workbook.get_style_attributes(@workbook.get_style(new_style_index))
 
     if @workbook.borders[xf[:borderId]][:border][direction][:attributes].nil?
       @workbook.borders[xf[:borderId]][:border][direction][:attributes] = { :style => nil }
     end
     @workbook.borders[xf[:borderId]][:border][direction][:attributes][:style] = weight.to_s
 
-    @sheet_data.each_with_index do |row,i|
+    @sheet_data.each do |row|
       c = row[Integer(col)]
       unless c.nil?
         case direction

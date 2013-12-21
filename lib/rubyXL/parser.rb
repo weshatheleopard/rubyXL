@@ -149,12 +149,8 @@ module RubyXL
         sheet_views_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]', namespaces).first
         worksheet.sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
 
-        ##col styles##
-        cols_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols',namespaces)
-        unless cols_node_set.empty?
-          worksheet.column_range_attributes = Hash.xml_node_to_hash_array(cols_node_set.first)[:col]
-        end
-        ##end col styles##
+        col_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols/xmlns:col',namespaces)
+        worksheet.column_ranges = col_node_set.collect { |col_node| RubyXL::ColumnRange.new(col_node.attributes) }
 
         merged_cells_nodeset = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells/xmlns:mergeCell', namespaces)
         worksheet.merged_cells = merged_cells_nodeset.collect { |child| child.attributes['ref'].text }
