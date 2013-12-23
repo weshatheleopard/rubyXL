@@ -40,6 +40,12 @@ module RubyXL
       #styles are needed for formatting reasons as that is how dates are determined
       styles = files['styles'].css('cellXfs xf')
       style_hash = Hash.xml_node_to_hash(files['styles'].root)
+
+# Temporarily not used
+      fills = files['styles'].css('fills fill')
+      wb.fills2 = fills.collect { |node| RubyXL::Fill.parse(node) }
+# Temporarily not used
+
       fill_styles(wb,style_hash)
 
       #will be nil if these files do not exist

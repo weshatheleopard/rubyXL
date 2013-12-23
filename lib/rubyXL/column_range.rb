@@ -5,7 +5,6 @@ module RubyXL
     attr_accessor :min, :max, :width, :custom_width, :style_index
 
     def initialize(attrs = {})
-      # Doing to_s first to convert Nokogiri's XML::Attr to readable format
       @min            = get_attribute(attrs, 'min')
       @max            = get_attribute(attrs, 'max')
       @width          = get_attribute(attrs, 'width')
