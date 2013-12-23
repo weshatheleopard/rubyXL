@@ -43,7 +43,7 @@ module RubyXL
 
 # Temporarily not used
       fills = files['styles'].css('fills fill')
-      wb.fills2 = fills.collect { |node| RubyXL::Fill.parse(node) }
+#      wb.fills = fills.collect { |node| RubyXL::Fill.parse(node) }
 # Temporarily not used
 
       fill_styles(wb,style_hash)

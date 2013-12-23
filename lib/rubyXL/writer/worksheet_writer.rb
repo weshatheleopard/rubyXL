@@ -16,27 +16,31 @@ module Writer
     end
 
     def write()
-      build_xml do |xml|
-        xml.worksheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main",
-        'xmlns:r'=>"http://schemas.openxmlformats.org/officeDocument/2006/relationships",
-        'xmlns:mc'=>"http://schemas.openxmlformats.org/markup-compatibility/2006",
-        'xmlns:mv'=>"urn:schemas-microsoft-com:mac:vml",
-        'mc:Ignorable'=>'mv',
-        'mc:PreserveAttributes'=>'mv:*') {
+      render_xml do |xml|
+        xml << (xml.create_element('worksheet', 
+                  'xmlns'    => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
+                  'xmlns:r'  => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
+                  'xmlns:mc' => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
+                  'xmlns:mv' => 'urn:schemas-microsoft-com:mac:vml',
+                  'mc:Ignorable' => 'mv',
+                  'mc:PreserveAttributes' => 'mv:*') { |root|
+
           col = @worksheet.sheet_data.max_by{ |row| row.size }.size
           row = @worksheet.sheet_data.size
 
-          xml.dimension('ref' => "A1:#{Cell.ind2ref(row - 1, col - 1)}")
+          root << xml.create_element('dimension', { :ref => "A1:#{Cell.ind2ref(row - 1, col - 1)}" })
 
-          xml.sheetViews {
+          root << (xml.create_element('sheetViews') { |sheet_views|
             view = @worksheet.sheet_view || {}
             view = view[:attributes] || {}
 
-            xml.sheetView('tabSelected'     => view[:tabSelected]     || 1,
-                          'view'            => view[:view]            || 'normalLayout',
-                          'workbookViewId'  => view[:workbookViewId]  || 0,
-                          'zoomScale'       => view[:zoomScale]       || 100,
-                          'zoomScaleNormal' => view[:zoomScaleNormal] || 100) {
+            sheet_views << (xml.create_element('sheetView', { 
+                              :tabSelected     => view[:tabSelected]     || 1,
+                              :view            => view[:view]            || 'normalLayout',
+                              :workbookViewId  => view[:workbookViewId]  || 0,
+                              :zoomScale       => view[:zoomScale]       || 100,
+                              :zoomScaleNormal => view[:zoomScaleNormal] || 100 }) {
+
             #TODO
             #can't be done unless I figure out a way to programmatically add attributes.
             #(can't put xSplit with an invalid value)
@@ -46,147 +50,150 @@ module Writer
               # unless view[:selection].nil?
                 # xml.
               # end
-            }
-          }
-          xml.sheetFormatPr('baseColWidth'=>'10','defaultRowHeight'=>'13')
+
+            })
+          })
+
+          root << xml.create_element('sheetFormatPr', { :baseColWidth => 10, :defaultRowHeight => 13 })
 
           ranges = @worksheet.column_ranges
           unless ranges.nil? || ranges.empty?
-            xml.cols {
+            root << (xml.create_element('cols') { |cols|
               ranges.each do |range|
-                # unless col[:attributes] == {}
-                  xml.col('style' => @workbook.style_corrector[range.style_index.to_s].to_s,
-                          'min'   => range.min + 1,
-                          'max'   => range.max + 1,
-                          'width' => range.width || 10,
-                          'customWidth' => range.custom_width || 0)
-                # end
+                cols << (xml.create_element('col', {
+                          :style => @workbook.style_corrector[range.style_index.to_s].to_s,
+                          :min   => range.min + 1,
+                          :max   => range.max + 1,
+                          :width => range.width || 10,
+                          :customWidth => range.custom_width || 0 }))
               end
-            }
+            })
           end
 
-          xml.sheetData {
-            i=0
-            @worksheet.sheet_data.each_with_index do |row,i|
+          root << (xml.create_element('sheetData') { |data|
+            @worksheet.sheet_data.each_with_index { |row, i|
               #TODO fix this spans thing. could be 2:3 (not necessary)
               if @worksheet.row_styles[(i+1).to_s].nil?
                 @worksheet.row_styles[(i+1).to_s] = {}
                 @worksheet.row_styles[(i+1).to_s][:style] = '0'
               end
               custom_format = '1'
-              if @worksheet.row_styles[(i+1).to_s][:style] == '0'
+
+              if @worksheet.row_styles[(i+1).to_s][:style].to_s == '0'
                 custom_format = '0'
               end
 
               @worksheet.row_styles[(i+1).to_s][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style].to_s]
               row_opts = {
-                'r'=>(i+1).to_s,
-                'spans'=>'1:'+row.size.to_s,
-                'customFormat'=>custom_format
+                :r            => i + 1,
+                :spans        => "1:#{row.size}",
+                :customFormat => custom_format
               }
-              unless @worksheet.row_styles[(i+1).to_s][:style].to_s == ''
-                row_opts['s'] = @worksheet.row_styles[(i+1).to_s][:style].to_s
-              end
-              unless @worksheet.row_styles[(i+1).to_s][:height].to_s == ''
-                row_opts['ht'] = @worksheet.row_styles[(i+1).to_s][:height].to_s
-              end
-              unless @worksheet.row_styles[(i+1).to_s][:customheight].to_s == ''
-                row_opts['customHeight'] = @worksheet.row_styles[(i+1).to_s][:customHeight].to_s
-              end
-              xml.row(row_opts) {
-                row.each_with_index do |dat, j|
-                  unless dat.nil?
-                      #TODO do xml.c for all cases, inside specific.
-                      # if dat.formula.nil?
-                      dat.style_index = @workbook.style_corrector[dat.style_index.to_s]
-                      c_opts = {'r'=>Cell.ind2ref(i,j), 's'=>dat.style_index.to_s}
-                      unless dat.datatype.nil? || dat.datatype == ''
-                        c_opts['t'] = dat.datatype
-                      end
-                      xml.c(c_opts) {
-                        unless dat.formula.nil?
-                          if dat.formula_attributes.nil? || dat.formula_attributes.empty?
-                            xml.f dat.formula.to_s
-                          else
-                            xml.f('t'=>dat.formula_attributes['t'].to_s, 'ref'=>dat.formula_attributes['ref'], 'si'=>dat.formula_attributes['si']).nokogiri dat.formula
-                          end
-                        end
-                        if(dat.datatype == RubyXL::Cell::SHARED_STRING)
-                          unless dat.value.nil? #empty cell, but has a style
-                            xml.v @workbook.shared_strings.get_index(dat.value).to_s
-                          end
-                        elsif(dat.datatype == RubyXL::Cell::RAW_STRING)
-                          xml.v dat.value.to_s
-                        elsif(dat.datatype == '') #number
-                          xml.v dat.value.to_s
-                        end
-                      }
-                      #
-                      # else
-                      #   xml.c('r'=>Cell.ind2ref(i,j)) {
-                      #     xml.v dat.value.to_s
-                      #   }
-                      # end #data.formula.nil?
-                  end #unless dat.nil?
-                end #row.each_with_index
-              }
-            end
-          }
 
-          xml.sheetCalcPr('fullCalcOnLoad'=>'1')
+              unless @worksheet.row_styles[(i+1).to_s][:style].to_s == ''
+                row_opts[:s] = @worksheet.row_styles[(i+1).to_s][:style]
+              end
+
+              unless @worksheet.row_styles[(i+1).to_s][:height].to_s == ''
+                row_opts[:ht] = @worksheet.row_styles[(i+1).to_s][:height]
+              end
+
+              unless @worksheet.row_styles[(i+1).to_s][:customheight].to_s == ''
+                row_opts[:customHeight] = @worksheet.row_styles[(i+1).to_s][:customHeight]
+              end
+
+              data << (xml.create_element('row', row_opts) { |row_xml|
+                row.each_with_index { |cell, j|
+                  unless cell.nil?
+                    #TODO do xml.c for all cases, inside specific.
+                    # if cell.formula.nil?
+                    cell.style_index = @workbook.style_corrector[cell.style_index.to_s]
+                    c_opts = { :r => Cell.ind2ref(i, j), :s => cell.style_index.to_s }
+
+                    unless cell.datatype.nil? || cell.datatype == ''
+                      c_opts[:t] = cell.datatype
+                    end
+
+                    row_xml << (xml.create_element('c', c_opts) { |cell_xml|
+                      unless cell.formula.nil?
+                        cell_xml << xml.create_element('f', { 
+                            :t   => cell.formula_attributes['t'],
+                            :ref => cell.formula_attributes['ref'],
+                            :si  => cell.formula_attributes['si'] }, cell.formula )
+                      end
+
+                      cell_value = if (cell.datatype == RubyXL::Cell::SHARED_STRING) then
+                                     @workbook.shared_strings.get_index(cell.value).to_s
+                                   else cell.value
+                                   end
+
+                      cell_xml << xml.create_element('v', cell_value)
+                    })
+                  end #unless cell.nil?
+                } #row.each_with_index
+              })
+            }
+          })
+
+          root << xml.create_element('sheetCalcPr', { :fullCalcOnLoad => 1 })
 
           merged_cells = @worksheet.merged_cells
           unless merged_cells.empty?
-            xml.mergeCells(:count => merged_cells.size) {
-              @worksheet.merged_cells.each { |ref| xml.mergeCell('ref' => ref) }
+            root << xml.create_element('mergeCells', { :count => merged_cells.size }) { |mc|
+              @worksheet.merged_cells.each { |ref| mc << xml.create_element('mergeCell', { 'ref' => ref }) }
             }
           end
 
-          xml.phoneticPr('fontId'=>'1','type'=>'noConversion')
+          root << xml.create_element('phoneticPr', { :fontId => 1, :type => 'noConversion' })
 
           unless @worksheet.validations.nil?
-            xml.dataValidations('count'=>@worksheet.validations.size.to_s) {
-              @worksheet.validations.each do |validation|
-                xml.dataValidation('type'=>validation[:attributes][:type],
-                  'sqref'=>validation[:attributes][:sqref],
-                  'allowBlank'=>Integer(validation[:attributes][:allowBlank]).to_s,
-                  'showInputMessage'=>Integer(validation[:attributes][:showInputMessage]).to_s,
-                  'showErrorMessage'=>Integer(validation[:attributes][:showErrorMessage]).to_s) {
-                    unless validation[:formula1].nil?
-                      xml.formula1 validation[:formula1]
-                    end
-                  }
-              end
-            }
+            root << (xml.create_element('dataValidations', { :count =>@worksheet.validations.size }) { |vals|
+
+              @worksheet.validations.each { |validation|
+                attrs = validation[:attributes]
+
+                vals << (xml.create_element('dataValidation', {
+                           :type       => attrs[:type],
+                           :sqref      => attrs[:sqref],
+                           :allowBlank => Integer(attrs[:allowBlank]),
+                           :showInputMessage => Integer(attrs[:showInputMessage]),
+                           :showErrorMessage => Integer(attrs[:showErrorMessage]) }) { |val|
+ 
+                  unless validation[:formula1].nil?
+                    val << val.create_element(:formula1, validation[:formula1])
+                  end
+                })
+              }
+            })
           end
 
-          xml.pageMargins('left'=>'0.75','right'=>'0.75','top'=>'1',
-            'bottom'=>'1','header'=>'0.5','footer'=>'0.5')
-
-          xml.pageSetup('orientation'=>'portrait',
-            'horizontalDpi'=>'4294967292', 'verticalDpi'=>'4294967292')
+          root << xml.create_element('pageMargins', { :left => 0.75, :right => 0.75, :top => 1, :bottom => 1, 
+                                                      :header => 0.5, :footer => 0.5 })
+          root << xml.create_element('pageSetup', { :orientation => 'portrait',
+                                                    :horizontalDpi => 4294967292, :verticalDpi => 4294967292 })
 
           unless @worksheet.legacy_drawing.nil?
-            xml.legacyDrawing('r:id'=>@worksheet.legacy_drawing[:attributes][:id])
+            root << xml.create_element(:legacyDrawing, { 'r:id' => @worksheet.legacy_drawing[:attributes][:id] })
           end
 
           unless @worksheet.extLst.nil?
-            xml.extLst {
-              xml.ext('xmlns:mx'=>"http://schemas.microsoft.com/office/mac/excel/2008/main",
-              'uri'=>"http://schemas.microsoft.com/office/mac/excel/2008/main") {
-                xml['mx'].PLV('Mode'=>'1', 'OnePage'=>'0','WScale'=>'0')
-              }
-            }
+            root << (xml.create_element('extLst') { |extlst|
+              extlst << (xml.create_element('ext', {
+                          'xmlns:mx' => 'http://schemas.microsoft.com/office/mac/excel/2008/main',
+                          'uri'      => 'http://schemas.microsoft.com/office/mac/excel/2008/main' }) { |ext|
+                ext << xml.create_element('mx:PLV', { :Mode => 1, :OnePage => 0, :WScale => 0 })
+              })
+            })
           end
 
-          @worksheet.drawings.each { |d|
-            xml.drawing('r:id' => d)
-          }
+          @worksheet.drawings.each { |d| root << xml.create_element(:drawing, { 'r:id' => d }) }
 
-        }
+        })
       end
+
     end
 
-  end
+  end # class
+
 end
 end
