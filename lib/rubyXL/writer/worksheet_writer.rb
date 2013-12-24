@@ -186,7 +186,7 @@ module Writer
             })
           end
 
-          @worksheet.drawings.each { |d| root << xml.create_element(:drawing, { 'r:id' => d }) }
+          @worksheet.drawings.each { |d| root << xml.create_element('drawing', { 'r:id' => d }) }
 
         })
       end

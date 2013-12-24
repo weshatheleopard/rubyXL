@@ -11,9 +11,9 @@ module Writer
     end
 
     def write()
+      return @workbook.theme['theme1.xml'] unless @workbook.theme.empty?
 
-        # Note that this particular theme totall throws colors off. Need to figure it out eventually.
-
+      # Fallback theme. Note that this particular theme totall throws colors off. Need to figure it out eventually.
         contents = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
 <a:themeElements>

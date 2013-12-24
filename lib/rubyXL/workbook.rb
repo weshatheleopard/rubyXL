@@ -18,7 +18,7 @@ module RubyXL
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :num_fmts, :num_fmts_hash, :fonts, :fills,
-      :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain,
+      :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain, :theme,
       :date1904, :external_links, :external_links_rels, :style_corrector, :drawings,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
 
@@ -59,6 +59,7 @@ module RubyXL
       @style_corrector    = nil
       @drawings           = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
       @worksheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
+      @theme              = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros             = RubyXL::GenericStorage.new('xl').binary
       @colors             = nil

@@ -46,13 +46,13 @@ module RubyXL
 
       fill_styles(wb,style_hash)
 
-      #will be nil if these files do not exist
       wb.external_links = files['externalLinks']
       wb.external_links_rels = files['externalLinksRels']
       wb.drawings = files['drawings']
       wb.printer_settings = files['printerSettings']
       wb.worksheet_rels = files['worksheetRels']
       wb.macros = files['vbaProject']
+      wb.theme = files['theme']
 
       sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
       files['workbook'].css('sheets sheet').each_with_index { |sheet_node, i|
@@ -308,6 +308,7 @@ module RubyXL
         files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary.load_dir(dir_path)
         files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load_dir(dir_path)
         files['vbaProject'] = RubyXL::GenericStorage.new('xl').binary.load_file(dir_path, 'vbaProject.bin')
+        files['theme'] = RubyXL::GenericStorage.new(File.join('xl', 'theme')).load_file(dir_path, 'theme1.xml')
       end
 
       files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
