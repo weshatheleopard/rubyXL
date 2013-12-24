@@ -47,7 +47,7 @@ module RubyXL
       @num_fmts_hash      = nil
       @fonts              = nil
       @fills              = nil
-      @borders            = nil
+      @borders            = []
       @cell_xfs           = nil
       @cell_style_xfs     = nil
       @cell_styles        = nil
@@ -312,20 +312,10 @@ module RubyXL
                         }
                }
 
-      @fills = [ PatternFill.new(:pattern_type => 'none'), PatternFill.new(:pattern_type => 'gray125') ]
+      @fills = [ RubyXL::PatternFill.new(:pattern_type => 'none'),
+                 RubyXL::PatternFill.new(:pattern_type => 'gray125') ]
 
-      @borders = {
-                   '0' => {
-                            :border => {
-                                         :left => { },
-                                         :right => { },
-                                         :top => { },
-                                         :bottom => { },
-                                         :diagonal => { }
-                                       },
-                            :count => 1 #count = how many styles reference it
-                          }
-                 }
+      @borders = [ RubyXL::Border.new ]
 
       @cell_style_xfs = {
                         :attributes => {

@@ -350,20 +350,18 @@ module RubyXL
     def change_border(direction, weight)
       validate_worksheet
       validate_border(weight)
-      @style_index = modify_border(@workbook,@style_index)
-      if @workbook.borders[border_id()][:border][direction][:attributes].nil?
-        @workbook.borders[border_id()][:border][direction][:attributes] = { :style => nil }
-      end
-      @workbook.borders[border_id()][:border][direction][:attributes][:style] = weight.to_s
+      @style_index = modify_border(@workbook, @style_index)
+      border = @workbook.borders[border_id()]
+      border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
+      border.edges[direction.to_s].style = weight
     end
 
     def get_border(direction)
       validate_worksheet
 
-      if @workbook.borders[border_id()][:border][direction][:attributes].nil?
-        return nil
-      end
-      return @workbook.borders[border_id()][:border][direction][:attributes][:style]
+      border = @workbook.borders[border_id()]
+      edge = border.edges[direction.to_s]
+      edge && edge.style
     end
 
     def validate_workbook()
@@ -389,7 +387,7 @@ module RubyXL
     end
 
     def border_id()
-      xf_id()[:borderId].to_s
+      xf_id()[:borderId]
     end
 
     def font_id()

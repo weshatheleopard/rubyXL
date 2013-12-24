@@ -188,33 +188,33 @@ module RubyXL
     end
 
     def modify_border(workbook, style_index)
-      xf_obj = workbook.get_style(style_index)
-      xf = workbook.get_style_attributes(xf_obj)
+      xf = workbook.get_style_attributes(workbook.get_style(style_index))
 
-      border_id = Integer(xf[:borderId])
-      border = workbook.borders[border_id.to_s][:border]
-      if workbook.borders[border_id.to_s][:count] > 1 || border_id == 0 || border_id == 1
-        old_size = workbook.borders.size.to_s
-        workbook.borders[old_size] = {}
-        workbook.borders[old_size][:border] = deep_copy(border)
-        workbook.borders[old_size][:count] = 1
+      new_border_id = border_id = xf[:borderId]
 
-        border_id = old_size
+      border = workbook.borders[border_id]
 
-        if workbook.cell_xfs[:xf].is_a?Array
-          workbook.cell_xfs[:xf] << deep_copy(xf_obj)
-        else
-          workbook.cell_xfs[:xf] = [workbook.cell_xfs[:xf], deep_copy(xf_obj)]
-        end
+      # If the current border is used in more than one cell, we need to create a copy;
+      # otherwise we can modify it in place (with the exception of Special Border #0)
+      if border.count > 1 || border_id == 0
+        new_border_id = workbook.borders.size
+        border.count -= 1
+
+        workbook.cell_xfs[:xf] = [workbook.cell_xfs[:xf]] unless workbook.cell_xfs[:xf].is_a?(Array)
+        workbook.cell_xfs[:xf] << deep_copy({ :attributes => xf })
 
         xf = workbook.get_style_attributes(workbook.cell_xfs[:xf].last)
         xf[:borderId] = border_id
-        xf[:applyBorder] = '1'
+        xf[:applyBorder] = 1
         workbook.cell_xfs[:attributes][:count] += 1
-        return workbook.cell_xfs[:xf].size-1
-      else
-        return style_index
+        style_index =  workbook.cell_xfs[:xf].size-1
       end
+
+      new_border = RubyXL::Border.new()
+      new_border.count = 1
+      workbook.borders[new_border_id] = new_border
+        
+      return style_index
     end
 
     #is_horizontal is true when doing horizontal alignment,

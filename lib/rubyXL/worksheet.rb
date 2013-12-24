@@ -979,24 +979,15 @@ class Worksheet < PrivateClass
     end
   end
 
-  def get_row_border(row,border_direction)
+  def get_row_border(row, border_direction)
     validate_workbook
     validate_nonnegative(row)
 
-    if @sheet_data.size <= row || @row_styles[(row+1).to_s].nil?
-      return nil
-    end
+    return nil if @sheet_data.size <= row || @row_styles[(row+1).to_s].nil?
 
-    if @workbook.borders[xf_attr_row(row)[:borderId]].nil? && !@workbook.borders[xf_attr_row(row)[:borderId].to_s].nil?
-      @workbook.borders[xf_attr_row(row)[:borderId]] = deep_copy(@workbook.borders[xf_attr_row(row)[:borderId].to_s])
-      @workbook.borders.delete(xf_attr_row(row)[:borderId].to_s)
-    end
-
-    if @workbook.borders[xf_attr_row(row)[:borderId]][:border][border_direction][:attributes].nil?
-      return nil
-    end
-
-    return @workbook.borders[xf_attr_row(row)[:borderId]][:border][border_direction][:attributes][:style]
+    border = @workbook.borders[xf_attr_row(row)[:borderId]]
+    edge = border && border.edges[border_direction.to_s]
+    edge && edge.style
   end
 
   def get_column_bool(col,property)
@@ -1033,23 +1024,14 @@ class Worksheet < PrivateClass
   def get_column_border(col, border_direction)
     validate_workbook
     validate_nonnegative(col)
-    style_index = get_cols_style_index(col)
-    xf = @workbook.get_style_attributes(@workbook.get_style(style_index))
 
-    if @sheet_data[0].size <= col
-      return nil
-    end
+    return nil if @sheet_data[0].size <= col
 
-    if @workbook.borders[xf[:borderId]].nil? && !@workbook.borders[xf[:borderId].to_s].nil?
-      @workbook.borders[xf[:borderId]] = deep_copy(@workbook.borders[xf[:borderId].to_s])
-      @workbook.borders.delete(xf[:borderId].to_s)
-    end
+    xf = @workbook.get_style_attributes(@workbook.get_style(get_cols_style_index(col)))
 
-    if @workbook.borders[xf[:borderId]][:border][border_direction][:attributes].nil?
-      return nil
-    end
-
-    return @workbook.borders[xf[:borderId]][:border][border_direction][:attributes][:style]
+    border = @workbook.borders[xf[:borderId]]
+    edge = border && border.edges[border_direction.to_s]
+    edge && edge.style
   end
 
   def deep_copy(hash)
@@ -1268,34 +1250,27 @@ class Worksheet < PrivateClass
       @row_styles[(row+1).to_s]= {}
       @row_styles[(row+1).to_s][:style] = '0'
     end
-    @row_styles[(row+1).to_s][:style] = modify_border(@workbook,@row_styles[(row+1).to_s][:style])
+    @row_styles[(row+1).to_s][:style] = modify_border(@workbook, @row_styles[(row+1).to_s][:style])
 
-    if @workbook.borders[xf_attr_row(row)[:borderId]][:border][direction][:attributes].nil?
-      @workbook.borders[xf_attr_row(row)[:borderId]][:border][direction][:attributes] = { :style => nil }
-    end
-    @workbook.borders[xf_attr_row(row)[:borderId]][:border][direction][:attributes][:style] = weight.to_s
+    border = @workbook.borders[xf_attr_row(row)[:borderId]]
+    border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
+    border.edges[direction.to_s].style = weight
 
-    @sheet_data[row].each do |c|
-      unless c.nil?
-        case direction
-          when :top
-            c.change_border_top(weight)
-          when :left
-            c.change_border_left(weight)
-          when :right
-            c.change_border_right(weight)
-          when :bottom
-            c.change_border_bottom(weight)
-          when :diagonal
-            c.change_border_diagonal(weight)
-          else
-            raise 'invalid direction'
-        end
+    @sheet_data[row].each { |c|
+      next if c.nil?
+      case direction
+      when :top      then c.change_border_top(weight)
+      when :left     then c.change_border_left(weight)
+      when :right    then c.change_border_right(weight)
+      when :bottom   then c.change_border_bottom(weight)
+      when :diagonal then c.change_border_diagonal(weight)
+      else raise 'invalid direction'
       end
-    end
+    }
   end
 
-  def change_column_border(col,direction,weight)
+  def change_column_border(col, direction, weight)
+    col = Integer(col)
     validate_workbook
     validate_nonnegative(col)
     validate_border(weight)
@@ -1306,37 +1281,29 @@ class Worksheet < PrivateClass
 
     xf = @workbook.get_style_attributes(@workbook.get_style(new_style_index))
 
-    if @workbook.borders[xf[:borderId]][:border][direction][:attributes].nil?
-      @workbook.borders[xf[:borderId]][:border][direction][:attributes] = { :style => nil }
-    end
-    @workbook.borders[xf[:borderId]][:border][direction][:attributes][:style] = weight.to_s
+    border = @workbook.borders[xf[:borderId]]
+    border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
+    border.edges[direction.to_s].style = weight
 
-    @sheet_data.each do |row|
-      c = row[Integer(col)]
-      unless c.nil?
-        case direction
-          when :top
-            c.change_border_top(weight)
-          when :left
-            c.change_border_left(weight)
-          when :right
-            c.change_border_right(weight)
-          when :bottom
-            c.change_border_bottom(weight)
-          when :diagonal
-            c.change_border_diagonal(weight)
-          else
-            raise 'invalid direction'
-        end
+    @sheet_data.each { |row|
+      c = row[col]
+      next if c.nil?
+      case direction
+      when :top      then c.change_border_top(weight)
+      when :left     then c.change_border_left(weight)
+      when :right    then c.change_border_right(weight)
+      when :bottom   then c.change_border_bottom(weight)
+      when :diagonal then c.change_border_diagonal(weight)
+      else raise 'invalid direction'
       end
-    end
+    }
   end
 
   def add_cell_style(row,column)
     xf = @workbook.get_style_attributes(@workbook.get_style(@sheet_data[row][column].style_index))
     @workbook.fonts[xf[:fontId].to_s][:count] += 1
     @workbook.fills[xf[:fillId]].count += 1
-    @workbook.borders[xf[:borderId].to_s][:count] += 1
+    @workbook.borders[xf[:borderId]].count += 1
   end
 
   # finds first row which contains at least all strings in cells_content

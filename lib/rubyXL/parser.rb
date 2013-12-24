@@ -55,6 +55,9 @@ module RubyXL
         }
       end
 
+      borders = files['styles'].css('borders border')
+      wb.borders = borders.collect { |node| RubyXL::Border.parse(node) }
+
       fill_styles(wb,style_hash)
 
       wb.external_links = files['externalLinks']
@@ -96,15 +99,6 @@ module RubyXL
         wb.fonts[i.to_s] = {:font=>f,:count=>0}
       end
 
-      ###BORDERS###
-      wb.borders = {}
-      if style_hash[:borders][:attributes][:count] == 1
-        style_hash[:borders][:border] = [style_hash[:borders][:border]]
-      end
-
-      style_hash[:borders][:border].each_with_index do |b,i|
-        wb.borders[i.to_s] = {:border=>b, :count=>0}
-      end
 
       wb.cell_style_xfs = style_hash[:cellStyleXfs]
       wb.cell_xfs = style_hash[:cellXfs]
@@ -126,11 +120,12 @@ module RubyXL
           wb.fills[id].count += 1
         end
 
-        id = style[:attributes][:borderId].to_s
+        id = style[:attributes][:borderId]
         unless id.nil?
-          wb.borders[id][:count] += 1
+          wb.borders[id].count += 1
         end
       end
+
     end
 
     # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 

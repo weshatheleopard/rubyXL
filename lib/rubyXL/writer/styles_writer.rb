@@ -55,21 +55,15 @@ module Writer
             end
           }
 
-          #sets index to itself as init correction
-          #if items deleted, indexes adjusted
-          #that id 'corrects' to nil
           offset = 0
-
-          #default border should stay the same
-          border_id_corrector['0'] = 0
-          1.upto(@workbook.borders.size-1) do |i|
-            border_id_corrector[i.to_s] = i-offset
-            if @workbook.borders[i.to_s][:count] == 0
-              @workbook.borders[i.to_s] = nil
-              border_id_corrector[i.to_s] = nil
+          @workbook.borders.each_with_index { |border, i|
+            if (i == 0) || (border.count > 0) then # Keep special style #0 and all used styles
+              border_id_corrector[i] = i - offset
+            else # Remove all others
+              @workbook.borders[i] = border_id_corrector[i] = nil
               offset += 1
             end
-          end
+          }
 
           if !@workbook.cell_xfs[:xf].is_a?(Array)
             @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]]
@@ -164,100 +158,11 @@ module Writer
           }
 
           xml.fills('count' => @workbook.fills.size) {
-            @workbook.fills.each_with_index { |fill, i|
-              fill.build_xml(xml) unless fill.nil?
-            }
+            @workbook.fills.each { |fill| fill.build_xml(xml) unless fill.nil? }
           }
 
-          xml.borders('count'=>@workbook.borders.size) {
-            0.upto(@workbook.borders.size-1) do |i|
-              border = @workbook.borders[i.to_s]
-              unless border.nil?
-                border = border[:border]
-                xml.border {
-                  if border[:left][:attributes].nil?
-                    xml.left
-                  else
-                    xml.left('style'=>border[:left][:attributes][:style]) {
-                      unless border[:left][:color].nil?
-                        color = border[:left][:color][:attributes]
-                        unless color[:indexed].nil?
-                          xml.color('indexed'=>color[:indexed])
-                        else
-                          unless color[:rgb].nil?
-                            xml.color('rgb'=>color[:rgb])
-                          end
-                        end
-                      end
-                    }
-                  end
-                  if border[:right][:attributes].nil?
-                    xml.right
-                  else
-                    xml.right('style'=>border[:right][:attributes][:style]) {
-                      unless border[:right][:color].nil?
-                        color = border[:right][:color][:attributes]
-                        unless color[:indexed].nil?
-                          xml.color('indexed'=>color[:indexed])
-                        else
-                          unless color[:rgb].nil?
-                            xml.color('rgb'=>color[:rgb])
-                          end
-                        end
-                      end
-                    }
-                  end
-                  if border[:top][:attributes].nil?
-                    xml.top
-                  else
-                    xml.top('style'=>border[:top][:attributes][:style]) {
-                      unless border[:top][:color].nil?
-                        color = border[:top][:color][:attributes]
-                        unless color[:indexed].nil?
-                          xml.color('indexed'=>color[:indexed])
-                        else
-                          unless color[:rgb].nil?
-                            xml.color('rgb'=>color[:rgb])
-                          end
-                        end
-                      end
-                    }
-                  end
-                  if border[:bottom][:attributes].nil?
-                    xml.bottom
-                  else
-                    xml.bottom('style'=>border[:bottom][:attributes][:style]) {
-                      unless border[:bottom][:color].nil?
-                        color = border[:bottom][:color][:attributes]
-                        unless color[:indexed].nil?
-                          xml.color('indexed'=>color[:indexed])
-                        else
-                          unless color[:rgb].nil?
-                            xml.color('rgb'=>color[:rgb])
-                          end
-                        end
-                      end
-                    }
-                  end
-                  if border[:diagonal][:attributes].nil?
-                    xml.diagonal
-                  else
-                    xml.diagonal('style'=>border[:diagonal][:attributes][:style]) {
-                      unless border[:diagonal][:color].nil?
-                        color = border[:diagonal][:color][:attributes]
-                        unless color[:indexed].nil?
-                          xml.color('indexed'=>color[:indexed])
-                        else
-                          unless color[:rgb].nil?
-                            xml.color('rgb'=>color[:rgb])
-                          end
-                        end
-                      end
-                    }
-                  end
-                }
-              end #unless border.nil?
-            end #0.upto(size)
+          xml.borders('count' => @workbook.borders.size) {
+            @workbook.borders.each { |border| border.build_xml(xml) unless border.nil? }
           }
 
           xml.cellStyleXfs('count'=>@workbook.cell_style_xfs[:attributes][:count].to_s) {
@@ -266,7 +171,7 @@ module Writer
               xml.xf('numFmtId'=>style[:numFmtId].to_s,
               'fontId'=>font_id_corrector[style[:fontId].to_s].to_s,
               'fillId'=>fill_id_corrector[style[:fillId].to_s].to_s,
-              'borderId'=>border_id_corrector[style[:borderId].to_s].to_s)
+              'borderId'=> border_id_corrector[style[:borderId]])
             end
           }
 
@@ -277,7 +182,7 @@ module Writer
               xml.xf('numFmtId'=>xf[:numFmtId].to_s,
               'fontId'=>font_id_corrector[xf[:fontId].to_s].to_s,
               'fillId'=>fill_id_corrector[xf[:fillId]],
-              'borderId'=>border_id_corrector[xf[:borderId].to_s].to_s,
+              'borderId' => border_id_corrector[xf[:borderId]],
               'xfId'=>xf[:xfId].to_s,
               'applyFont'=>xf[:applyFont].to_i.to_s, #0 if nil
               'applyFill'=>xf[:applyFill].to_i.to_s,
