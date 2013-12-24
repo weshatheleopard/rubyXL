@@ -62,7 +62,7 @@ module RubyXL
       @theme              = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros             = RubyXL::GenericStorage.new('xl').binary
-      @colors             = nil
+      @colors             = {}
       @shared_strings_XML = nil
       @defined_names      = nil
       @column_lookup_hash = {}

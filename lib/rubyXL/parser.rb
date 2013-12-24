@@ -44,6 +44,17 @@ module RubyXL
       fills = files['styles'].css('fills fill')
       wb.fills = fills.collect { |node| RubyXL::Fill.parse(node) }
 
+      colors = files['styles'].css('colors').first
+
+      if colors then
+        colors.element_children.each { |color_type_node|
+          wb.colors[color_type_node.name] ||= []
+          color_type_node.element_children.each { |color_node|
+            wb.colors[color_type_node.name] << RubyXL::Color.parse(color_node)
+          }
+        }
+      end
+
       fill_styles(wb,style_hash)
 
       wb.external_links = files['externalLinks']
@@ -98,8 +109,6 @@ module RubyXL
       wb.cell_style_xfs = style_hash[:cellStyleXfs]
       wb.cell_xfs = style_hash[:cellXfs]
       wb.cell_styles = style_hash[:cellStyles]
-
-      wb.colors = style_hash[:colors]
 
       #fills out count information for each font, fill, and border
       if wb.cell_xfs[:xf].is_a?(::Hash)

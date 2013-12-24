@@ -305,25 +305,16 @@ module Writer
           xml.dxfs('count'=>'0')
           xml.tableStyles('count'=>'0', 'defaultTableStyle'=>'TableStyleMedium9')
 
-          unless @colors.nil?
+          unless @workbook.colors.empty?
             xml.colors {
-              unless @colors[:indexedColors].nil?
-                xml.indexedColors {
-                  @colors[:indexedColors].each do |rgb_color|
-                    xml.rgbColor rgb_color[:attributes][:rgb]
-                  end
+              @workbook.colors.each_pair { |k, v|
+                xml.send(k.to_sym) {
+                  v.each { |color| color.build_xml(xml) }
                 }
-              end
-
-              unless @colors[:mruColors].nil?
-                xml.mruColors {
-                  @colors[:mruColors].each do |color|
-                    xml.color color[:attributes][:rgb]
-                  end
-                }
-              end
+              }
             }
           end
+
         }
       end
     end
