@@ -48,8 +48,12 @@ module RubyXL
               })
             end
 
-#            @workbook.defined_names.each { |name| xml << name.write_xml(xml) }
-  
+            unless @workbook.defined_names.empty?
+              root << xml.create_element('definedNames') { |names|
+                @workbook.defined_names.each { |name| names << name.write_xml(xml) }
+              }
+            end
+                 
             #TODO see if this changes with formulas
             #attributes out of order here
             root << xml.create_element('calcPr', { :calcId => 130407, :concurrentCalc => 0 } )

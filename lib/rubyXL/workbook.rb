@@ -64,7 +64,7 @@ module RubyXL
       @macros             = RubyXL::GenericStorage.new('xl').binary
       @colors             = {}
       @shared_strings_XML = nil
-      @defined_names      = nil
+      @defined_names      = []
       @column_lookup_hash = {}
 
       begin

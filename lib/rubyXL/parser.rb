@@ -346,7 +346,10 @@ module RubyXL
       end
 
       wb.shared_strings_XML = files['sharedString'].to_s
-      wb.defined_names = files['workbook'].css('definedNames').to_s
+
+      defined_names = files['workbook'].css('definedNames definedName')
+      wb.defined_names = defined_names.collect { |node| RubyXL::DefinedName.parse(node) }
+
       wb.date1904 = files['workbook'].css('workbookPr').attribute('date1904').to_s == '1'
 
       wb.worksheets = []
