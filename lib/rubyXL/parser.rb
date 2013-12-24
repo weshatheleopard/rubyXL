@@ -41,10 +41,8 @@ module RubyXL
       styles = files['styles'].css('cellXfs xf')
       style_hash = Hash.xml_node_to_hash(files['styles'].root)
 
-# Temporarily not used
       fills = files['styles'].css('fills fill')
-#      wb.fills = fills.collect { |node| RubyXL::Fill.parse(node) }
-# Temporarily not used
+      wb.fills = fills.collect { |node| RubyXL::Fill.parse(node) }
 
       fill_styles(wb,style_hash)
 
@@ -87,16 +85,6 @@ module RubyXL
         wb.fonts[i.to_s] = {:font=>f,:count=>0}
       end
 
-      ###FILLS###
-      wb.fills = {}
-      if style_hash[:fills][:attributes][:count]==1
-        style_hash[:fills][:fill] = [style_hash[:fills][:fill]]
-      end
-
-      style_hash[:fills][:fill].each_with_index do |f,i|
-        wb.fills[i.to_s] = {:fill=>f,:count=>0}
-      end
-
       ###BORDERS###
       wb.borders = {}
       if style_hash[:borders][:attributes][:count] == 1
@@ -117,15 +105,16 @@ module RubyXL
       if wb.cell_xfs[:xf].is_a?(::Hash)
         wb.cell_xfs[:xf] = [wb.cell_xfs[:xf]]
       end
+
       wb.cell_xfs[:xf].each do |style|
         id = style[:attributes][:fontId].to_s
         unless id.nil?
           wb.fonts[id][:count] += 1
         end
 
-        id = style[:attributes][:fillId].to_s
+        id = style[:attributes][:fillId]
         unless id.nil?
-          wb.fills[id][:count] += 1
+          wb.fills[id].count += 1
         end
 
         id = style[:attributes][:borderId].to_s
@@ -369,6 +358,21 @@ module RubyXL
     def Parser.make_safe_name(name, allow_mb_chars=false)
       ext = safe_filename(File.extname(name), allow_mb_chars).gsub(/^_/, '.')
       "#{safe_filename(name.gsub(ext, ""), allow_mb_chars)}#{ext}".gsub(/\(/, '_').gsub(/\)/, '_').gsub(/__+/, '_').gsub(/^_/, '').gsub(/_$/, '')
+    end
+
+    def self.attr_int(node, attr_name) 
+      attr = node.attributes[attr_name]
+      attr && Integer(attr.value)
+    end
+
+    def self.attr_float(node, attr_name) 
+      attr = node.attributes[attr_name]
+      attr && Float(attr.value)
+    end
+
+    def self.attr_string(node, attr_name) 
+      attr = node.attributes[attr_name]
+      attr && attr.value
     end
 
   end

@@ -44,16 +44,16 @@ module Writer
           #STARTS AT 2 because excel is stupid
           #and it seems to hard code access the first
           #2 styles.............
-          fill_id_corrector['0']=0
-          fill_id_corrector['1']=1
-          2.upto(@workbook.fills.size-1) do |i|
-            fill_id_corrector[i.to_s] = i-offset
-            if @workbook.fills[i.to_s][:count] == 0
-              @workbook.fills[i.to_s] = nil
-              fill_id_corrector[i.to_s] = nil
+          fill_id_corrector[0] = 0
+          fill_id_corrector[1] = 1
+          2.upto(@workbook.fills.size - 1) { |i|
+            fill_id_corrector[i] = i-offset
+            if @workbook.fills[i].count == 0
+              @workbook.fills[i] = nil
+              fill_id_corrector[i] = nil
               offset += 1
             end
-          end
+          }
 
           #sets index to itself as init correction
           #if items deleted, indexes adjusted
@@ -74,9 +74,7 @@ module Writer
           if !@workbook.cell_xfs[:xf].is_a?(Array)
             @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]]
           end
-          
 
-          
           style_id_corrector['0']=0
           delete_list = []
           i = 1
@@ -165,37 +163,10 @@ module Writer
             end
           }
 
-          xml.fills('count'=>@workbook.fills.size) {
-            0.upto(@workbook.fills.size-1) do |i|
-              fill = @workbook.fills[i.to_s]
-              unless fill.nil?
-                fill = fill[:fill]
-                xml.fill {
-                  xml.patternFill('patternType'=>fill[:patternFill][:attributes][:patternType].to_s) {
-                    unless fill[:patternFill][:fgColor].nil?
-                      fgColor = fill[:patternFill][:fgColor][:attributes]
-                      unless fgColor[:indexed].nil?
-                        xml.fgColor('indexed'=>fgColor[:indexed].to_s)
-                      else
-                        unless fgColor[:rgb].nil?
-                          xml.fgColor('rgb'=>fgColor[:rgb])
-                        end
-                      end
-                    end
-                    unless fill[:patternFill][:bgColor].nil?
-                      bgColor = fill[:patternFill][:bgColor][:attributes]
-                      unless bgColor[:indexed].nil?
-                        xml.bgColor('indexed'=>bgColor[:indexed].to_s)
-                      else
-                        unless bgColor[:rgb].nil?
-                          xml.bgColor('rgb'=>bgColor[:rgb])
-                        end
-                      end
-                    end
-                  }
-                }
-              end
-            end
+          xml.fills('count' => @workbook.fills.size) {
+            @workbook.fills.each_with_index { |fill, i|
+              fill.build_xml(xml) unless fill.nil?
+            }
           }
 
           xml.borders('count'=>@workbook.borders.size) {
@@ -305,7 +276,7 @@ module Writer
 
               xml.xf('numFmtId'=>xf[:numFmtId].to_s,
               'fontId'=>font_id_corrector[xf[:fontId].to_s].to_s,
-              'fillId'=>fill_id_corrector[xf[:fillId].to_s].to_s,
+              'fillId'=>fill_id_corrector[xf[:fillId]],
               'borderId'=>border_id_corrector[xf[:borderId].to_s].to_s,
               'xfId'=>xf[:xfId].to_s,
               'applyFont'=>xf[:applyFont].to_i.to_s, #0 if nil

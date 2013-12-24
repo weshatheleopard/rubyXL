@@ -1,6 +1,14 @@
 module RubyXL
   class Color
-    attr_accessor :theme, :indexed, :tint, :rgb
+    attr_accessor :theme, :indexed, :tint, :rgb, :auto
+
+    def initialize(attrs = {})
+      @theme        = attrs['theme']
+      @indexed      = attrs['indexed']
+      @tint         = attrs['tint']
+      @rgb          = attrs['rgb']
+      @auto         = attrs['auto']
+    end
 
     #validates hex color code, no '#' allowed
     def self.validate_color(color)
@@ -11,22 +19,24 @@ module RubyXL
       end
     end
 
-    def self.parse(xml)
+    def self.parse(node)
       color = self.new
-
-      indexed = xml.attributes['indexed']
-      color.indexed = indexed && Integer(indexed.value)
-
-      theme = xml.attributes['theme']
-      color.theme = theme && Integer(theme.value)
-
-      tint = xml.attributes['tint']
-      color.tint = tint && Float(tint.value)
-
-      rgb = xml.attributes['rgb']
-      color.rgb = rgb && rgb.value
-
+      color.auto    = RubyXL::Parser.attr_int(node, 'auto')
+      color.indexed = RubyXL::Parser.attr_int(node, 'indexed')
+      color.theme   = RubyXL::Parser.attr_int(node, 'theme')
+      color.tint    = RubyXL::Parser.attr_float(node, 'tint')
+      color.rgb     = RubyXL::Parser.attr_string(node, 'rgb')
       color
+    end
+
+    def build_xml(xml, node_name = 'color')
+      attrs = {}
+      attrs[:auto]    = auto    if auto
+      attrs[:indexed] = indexed if indexed
+      attrs[:theme]   = theme   if theme
+      attrs[:tint]    = tint    if tint
+      attrs[:rgb]     = rgb     if rgb
+      xml.send(node_name, attrs)
     end
 
   end

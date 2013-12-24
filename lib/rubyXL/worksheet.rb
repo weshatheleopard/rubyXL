@@ -111,11 +111,12 @@ class Worksheet < PrivateClass
   end
 
   #changes color of fill in (zer0 indexed) row
-  def change_row_fill(row=0,rgb='ffffff')
+  def change_row_fill(row = 0, rgb = 'ffffff')
     validate_workbook
     validate_nonnegative(row)
     ensure_cell_exists(row)
     Color.validate_color(rgb)
+
     if @row_styles[(Integer(row)+1).to_s].nil?
       @row_styles[(Integer(row)+1).to_s] = {}
       @row_styles[(Integer(row)+1).to_s][:style] = '0'
@@ -1334,7 +1335,7 @@ class Worksheet < PrivateClass
   def add_cell_style(row,column)
     xf = @workbook.get_style_attributes(@workbook.get_style(@sheet_data[row][column].style_index))
     @workbook.fonts[xf[:fontId].to_s][:count] += 1
-    @workbook.fills[xf[:fillId].to_s][:count] += 1
+    @workbook.fills[xf[:fillId]].count += 1
     @workbook.borders[xf[:borderId].to_s][:count] += 1
   end
 

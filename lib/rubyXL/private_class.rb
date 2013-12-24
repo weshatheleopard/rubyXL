@@ -158,37 +158,33 @@ module RubyXL
     #modifies fill array (copies, appends, adds color and solid attribute)
     #then styles array (copies, appends)
     def modify_fill(workbook, style_index, rgb)
-      xf_obj = workbook.get_style(style_index)
-      xf = workbook.get_style_attributes(xf_obj)
-      #modify fill array
-      fill_id = xf[:fillId]
+      xf = workbook.get_style_attributes(workbook.get_style(style_index))
 
-      fill = workbook.fills[fill_id.to_s][:fill]
-      if workbook.fills[fill_id.to_s][:count] > 1 || fill_id == 0 || fill_id == 1
-        old_size = workbook.fills.size.to_s
-        workbook.fills[old_size] = {}
-        workbook.fills[old_size][:fill] = deep_copy(fill)
-        workbook.fills[old_size][:count] = 1
-        workbook.fills[fill_id.to_s][:count] -= 1
+      new_fill_id = fill_id = xf[:fillId]
 
-        change_wb_fill(workbook, old_size,rgb)
+      fill = workbook.fills[fill_id]
 
-        #modify styles array
-        fill_id = old_size
-        if workbook.cell_xfs[:xf].is_a?Array
-          workbook.cell_xfs[:xf] << deep_copy({:attributes=>xf})
-        else
-          workbook.cell_xfs[:xf] = [workbook.cell_xfs[:xf], deep_copy({:attributes=>xf})]
-        end
+      # If the current fill is used in more than one cell, we need to create a copy;
+      # otherwise we can modify it in place (with the exception of Special Fills #1 and #0)
+      if fill.count > 1 || fill_id == 0 || fill_id == 1
+        new_fill_id = workbook.fills.size
+        fill.count -= 1
+
+        workbook.cell_xfs[:xf] = [workbook.cell_xfs[:xf]] unless workbook.cell_xfs[:xf].is_a?(Array)
+        workbook.cell_xfs[:xf] << deep_copy({ :attributes => xf })
+
         xf = workbook.get_style_attributes(workbook.cell_xfs[:xf].last)
-        xf[:fillId] = fill_id
-        xf[:applyFill] = '1'
+        xf[:fillId] = new_fill_id
+        xf[:applyFill] = 1
         workbook.cell_xfs[:attributes][:count] += 1
-        return workbook.cell_xfs[:xf].size-1
-      else
-        change_wb_fill(workbook, fill_id.to_s,rgb)
-        return style_index
+        style_index = workbook.cell_xfs[:xf].size - 1
       end
+ 
+      new_fill = RubyXL::PatternFill.new('pattern_type' => 'solid', 'fg_color' => RubyXL::Color.new('rgb' => rgb))
+      new_fill.count = 1
+      workbook.fills[new_fill_id] = new_fill
+        
+      return style_index
     end
 
     def modify_border(workbook, style_index)
@@ -272,16 +268,6 @@ module RubyXL
     #returns non-shallow copy of hash
     def deep_copy(hash)
       Marshal.load(Marshal.dump(hash))
-    end
-
-    def change_wb_fill(workbook, fill_index, rgb)
-      if workbook.fills[fill_index][:fill][:patternFill][:fgColor].nil?
-        workbook.fills[fill_index][:fill][:patternFill][:fgColor] = {:attributes => {:rgb => ''}}
-      end
-      workbook.fills[fill_index][:fill][:patternFill][:fgColor][:attributes][:rgb] = rgb
-
-      #previously none, doesn't show fill
-      workbook.fills[fill_index][:fill][:patternFill][:attributes][:patternType] = 'solid'
     end
 
   end

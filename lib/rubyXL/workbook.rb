@@ -283,11 +283,9 @@ module RubyXL
     end
 
     def get_fill_color(xf_attributes)
-      if @fills[xf_attributes[:fillId]].nil? || @fills[xf_attributes[:fillId]][:fill].nil? || @fills[xf_attributes[:fillId]][:fill][:patternFill].nil? || @fills[xf_attributes[:fillId]][:fill][:patternFill][:fgColor].nil?
-        'ffffff' #white
-      else
-        @fills[xf_attributes[:fillId]][:fill][:patternFill][:fgColor][:attributes][:rgb]
-      end
+      fill = @fills[xf_attributes[:fillId]]
+      return 'ffffff' if fill.nil? || fill.fg_color.nil?
+      fill.fg_color.rgb
     end
 
 
@@ -313,19 +311,7 @@ module RubyXL
                         }
                }
 
-      @fills = {
-                 '0' => {
-                          :fill => {
-                                     :patternFill => { :attributes => { :patternType => "none" } }
-                                   },
-                  :count=>1} ,
-                 '1' => {
-                          :fill => {
-                                     :patternFill => { :attributes => { :patternType => "gray125" } }
-                                   },
-                          :count=>0
-                        }
-               }
+      @fills = [ PatternFill.new(:pattern_type => 'none'), PatternFill.new(:pattern_type => 'gray125') ]
 
       @borders = {
                    '0' => {
