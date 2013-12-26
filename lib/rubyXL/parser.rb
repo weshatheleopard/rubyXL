@@ -7,18 +7,28 @@ require 'rubyXL/generic_storage'
 module RubyXL
 
   class Parser
-    attr_reader :data_only, :num_sheets
+    def self.parse(file_path, opts = {})
+      self.new(opts).parse(file_path)
+    end
 
     # +:data_only+ allows only the sheet data to be parsed, so as to speed up parsing
     # However, using this option will result in date-formatted cells being interpreted as numbers
-    def Parser.parse(file_path, opts = {})
+    def initialize(opts = {})
+      @data_only = opts.is_a?(TrueClass) || opts[:data_only]
+      @skip_filename_check = opts[:skip_filename_check]
+    end
+
+    def data_only
+      @data_only = true
+      self
+    end
+
+    def parse(file_path, opts = {})
 
       # options handling
-      @data_only = opts.is_a?(TrueClass)||!!opts[:data_only]
-      skip_filename_check = !!opts[:skip_filename_check]
 
-      files = Parser.decompress(file_path, skip_filename_check)
-      wb = Parser.fill_workbook(file_path, files)
+      files = decompress(file_path)
+      wb = fill_workbook(file_path, files)
 
       shared_string_file = files['sharedString']
       unless shared_string_file.nil?
@@ -58,7 +68,7 @@ module RubyXL
       borders = files['styles'].css('borders border')
       wb.borders = borders.collect { |node| RubyXL::Border.parse(node) }
 
-      fill_styles(wb,style_hash)
+      fill_styles(wb, style_hash)
 
       wb.external_links = files['externalLinks']
       wb.external_links_rels = files['externalLinksRels']
@@ -70,7 +80,7 @@ module RubyXL
 
       sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
       files['workbook'].css('sheets sheet').each_with_index { |sheet_node, i|
-        Parser.parse_worksheet(wb, i, files['worksheets'][i], sheet_names[i].text,
+        parse_worksheet(wb, i, files['worksheets'][i], sheet_names[i].text,
                                sheet_node.attributes['sheetId'].value )
       }
 
@@ -80,7 +90,7 @@ module RubyXL
     private
 
     #fills hashes for various styles
-    def Parser.fill_styles(wb,style_hash)
+    def fill_styles(wb,style_hash)
       ###NUM FORMATS###
       if style_hash[:numFmts].nil?
         style_hash[:numFmts] = {:attributes => {:count => 0}, :numFmt => []}
@@ -129,7 +139,7 @@ module RubyXL
     end
 
     # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
-    def Parser.parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)
+    def parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)
       worksheet = Worksheet.new(wb, worksheet_name)
       wb.worksheets[i] = worksheet # Due to "validate_workbook" issues. Should remove that validation eventually.
       worksheet.sheet_id = sheet_id
@@ -144,7 +154,13 @@ module RubyXL
 
       namespaces = worksheet_xml.root.namespaces
 
-      unless @data_only
+      if @data_only
+        row_xpath = '/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]'
+        cell_xpath = './xmlns:c[xmlns:v[text()]]'
+      else
+        row_xpath = '/xmlns:worksheet/xmlns:sheetData/xmlns:row'
+        cell_xpath = './xmlns:c'
+
         sheet_views_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]', namespaces).first
         worksheet.sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
 
@@ -187,47 +203,39 @@ module RubyXL
         worksheet.drawings = drawing_nodes.collect { |n| n.attributes['id'] }
       end
 
-      row_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]', namespaces)
-      row_data.each do |row|
+      worksheet_xml.xpath(row_xpath, namespaces).each { |row|
         unless @data_only
           ##row styles##
-          row_style = '0'
           row_attributes = row.attributes
-          unless row_attributes['s'].nil?
-            row_style = row_attributes['s'].value
-          end
+          row_style = row_attributes['s'] && row_attributes['s'].value || '0'
 
           worksheet.row_styles[row_attributes['r'].content] = { :style => row_style  }
 
           if !row_attributes['ht'].nil?  && (!row_attributes['ht'].content.nil? || row_attributes['ht'].content.strip != "" )
-            worksheet.change_row_height(Integer(row_attributes['r'].content)-1,
-              Float(row_attributes['ht'].content))
+            worksheet.change_row_height(Integer(row_attributes['r'].value) - 1, Float(row_attributes['ht'].value))
           end
           ##end row styles##
         end
-        unless @data_only
-          c_row = row.search('./xmlns:c')
-        else
-          c_row = row.search('./xmlns:c[xmlns:v[text()]]')
-        end
-        c_row.each do |value|
+
+        row.search(cell_xpath).each { |value|
           #attributes is from the excel cell(c) and is basically location information and style and type
-          value_attributes= value.attributes
+          value_attributes = value.attributes
           # r attribute contains the location like A1
           cell_index = Cell.ref2ind(value_attributes['r'].content)
           style_index = 0
           # t is optional and contains the type of the cell
           data_type = value_attributes['t'].content if value_attributes['t']
           element_hash ={}
-          value.children.each do |node|
-            element_hash["#{node.name()}_element"]=node
-          end
+
+          value.children.each { |node| element_hash["#{node.name()}_element"] = node }
+
           # v is the value element that is part of the cell
           if element_hash["v_element"]
             v_element_content = element_hash["v_element"].content
           else
             v_element_content=""
           end
+
           if v_element_content == "" # no data
             cell_data = nil
           elsif data_type == RubyXL::Cell::SHARED_STRING
@@ -267,25 +275,24 @@ module RubyXL
             Cell.new(worksheet,cell_index[0],cell_index[1],cell_data,cell_formula,
               data_type,style_index,cell_formula_attr)
           cell = worksheet.sheet_data[cell_index[0]][cell_index[1]]
-        end
-      end
+        }
+      }
 
       worksheet
     end
 
-    def Parser.decompress(file_path, skip_filename_check = false)
+    def decompress(file_path)
+      dir_path = file_path
+
       #ensures it is an xlsx/xlsm file
-      if(file_path =~ /(.+)\.xls(x|m)/)
+      if (file_path =~ /(.+)\.xls(x|m)/) then
         dir_path = $1.to_s
       else
-        if skip_filename_check
-          dir_path = file_path
-        else
-          raise 'Not .xlsx or .xlsm excel file'
-        end
+        raise 'Not .xlsx or .xlsm excel file' unless @skip_filename_check
       end
 
-      dir_path = File.join(File.dirname(dir_path), make_safe_name(Time.now.to_s))
+      dir_path = File.join(File.dirname(dir_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
+
       #copies excel file to zip file in same directory
       zip_path = dir_path + '.zip'
 
@@ -331,7 +338,7 @@ module RubyXL
       return files
     end
 
-    def Parser.fill_workbook(file_path, files)
+    def fill_workbook(file_path, files)
       wb = Workbook.new([nil], file_path)
 
       unless @data_only
@@ -354,18 +361,6 @@ module RubyXL
 
       wb.worksheets = []
       wb
-    end
-
-    def Parser.safe_filename(name, allow_mb_chars=false)
-      # "\w" represents [0-9A-Za-z_] plus any multi-byte char
-      regexp = allow_mb_chars ? /[^\w]/ : /[^0-9a-zA-Z\_]/
-      name.gsub(regexp, "_")
-    end
-
-    # Turns the passed in string into something safe for a filename
-    def Parser.make_safe_name(name, allow_mb_chars=false)
-      ext = safe_filename(File.extname(name), allow_mb_chars).gsub(/^_/, '.')
-      "#{safe_filename(name.gsub(ext, ""), allow_mb_chars)}#{ext}".gsub(/\(/, '_').gsub(/\)/, '_').gsub(/__+/, '_').gsub(/^_/, '').gsub(/_$/, '')
     end
 
     def self.attr_int(node, attr_name) 
