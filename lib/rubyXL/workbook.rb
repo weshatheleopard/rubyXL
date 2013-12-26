@@ -19,7 +19,8 @@ module RubyXL
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :num_fmts, :num_fmts_hash, :fonts, :fills,
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain, :theme,
-      :date1904, :external_links, :external_links_rels, :style_corrector, :drawings,
+      :date1904, :external_links, :external_links_rels, :style_corrector,
+      :drawings, :drawings_rels, :charts, :chart_rels,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
 
     attr_reader :shared_strings
@@ -58,6 +59,9 @@ module RubyXL
       @external_links_rels= RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
       @style_corrector    = nil
       @drawings           = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
+      @drawings_rels      = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels'))
+      @charts             = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
+      @chart_rels         = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
       @worksheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
       @theme              = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
@@ -156,6 +160,9 @@ module RubyXL
         @external_links.add_to_zip(zipfile)
         @external_links_rels.add_to_zip(zipfile)
         @drawings.add_to_zip(zipfile)
+        @drawings_rels.add_to_zip(zipfile)
+        @charts.add_to_zip(zipfile)
+        @chart_rels.add_to_zip(zipfile)
         @printer_settings.add_to_zip(zipfile)
         @worksheet_rels.add_to_zip(zipfile)
         @macros.add_to_zip(zipfile)

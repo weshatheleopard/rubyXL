@@ -73,6 +73,9 @@ module RubyXL
       wb.external_links = files['externalLinks']
       wb.external_links_rels = files['externalLinksRels']
       wb.drawings = files['drawings']
+      wb.drawings_rels = files['drawingsRels']
+      wb.charts = files['charts']
+      wb.chart_rels = files['chartRels']
       wb.printer_settings = files['printerSettings']
       wb.worksheet_rels = files['worksheetRels']
       wb.macros = files['vbaProject']
@@ -316,6 +319,9 @@ module RubyXL
         files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
         files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load_dir(dir_path)
         files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load_dir(dir_path)
+        files['drawingsRels'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels')).load_dir(dir_path)
+        files['charts'] = RubyXL::GenericStorage.new(File.join('xl', 'charts')).load_dir(dir_path)
+        files['chartRels'] = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels')).load_dir(dir_path)
         files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary.load_dir(dir_path)
         files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load_dir(dir_path)
         files['vbaProject'] = RubyXL::GenericStorage.new('xl').binary.load_file(dir_path, 'vbaProject.bin')
