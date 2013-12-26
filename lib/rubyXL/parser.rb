@@ -28,7 +28,8 @@ module RubyXL
       # options handling
 
       files = decompress(file_path)
-      wb = fill_workbook(file_path, files)
+      wb = Workbook.new([], file_path)
+      fill_workbook(wb, files)
 
       shared_string_file = files['sharedString']
       unless shared_string_file.nil?
@@ -344,9 +345,7 @@ module RubyXL
       return files
     end
 
-    def fill_workbook(file_path, files)
-      wb = Workbook.new([nil], file_path)
-
+    def fill_workbook(wb, files)
       unless @data_only
         wb.creator = files['core'].css('dc|creator').children.to_s
         wb.modifier = files['core'].css('cp|last_modified_by').children.to_s
@@ -364,9 +363,6 @@ module RubyXL
       wb.defined_names = defined_names.collect { |node| RubyXL::DefinedName.parse(node) }
 
       wb.date1904 = files['workbook'].css('workbookPr').attribute('date1904').to_s == '1'
-
-      wb.worksheets = []
-      wb
     end
 
     def self.attr_int(node, attr_name) 
