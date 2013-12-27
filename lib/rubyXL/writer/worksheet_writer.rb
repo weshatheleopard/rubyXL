@@ -60,12 +60,15 @@ module Writer
           unless ranges.nil? || ranges.empty?
             root << (xml.create_element('cols') { |cols|
               ranges.each do |range|
-                cols << (xml.create_element('col', {
-                          :style => @workbook.style_corrector[range.style_index.to_s].to_s,
-                          :min   => range.min + 1,
-                          :max   => range.max + 1,
-                          :width => range.width || 10,
-                          :customWidth => range.custom_width || 0 }))
+
+                col_attrs = { :min   => range.min + 1,
+                              :max   => range.max + 1,
+                              :width => range.width || 10,
+                              :customWidth => range.custom_width || 0 }
+
+                style_index = @workbook.style_corrector[range.style_index.to_s]
+                col_attrs[:style] = style_index if style_index
+                cols << (xml.create_element('col', col_attrs))
               end
             })
           end

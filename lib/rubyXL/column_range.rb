@@ -5,16 +5,16 @@ module RubyXL
     attr_accessor :min, :max, :width, :custom_width, :style_index
 
     def initialize(attrs = {})
-      @min            = get_attribute(attrs, 'min')
-      @max            = get_attribute(attrs, 'max')
+      @min            = get_attribute(attrs, 'min') - 1 # Converting into 0-based 
+      @max            = get_attribute(attrs, 'max') - 1
       @width          = get_attribute(attrs, 'width')
-      @custom_width   = get_attribute(attrs, 'custom_width')
+      @custom_width   = get_attribute(attrs, 'customWidth')
       @style_index    = get_attribute(attrs, 'style')
     end
 
     def update_attrs(attrs)
       @width          = get_attribute(attrs, 'width')        || @width
-      @custom_width   = get_attribute(attrs, 'custom_width') || @custom_width
+      @custom_width   = get_attribute(attrs, 'customWidth') || @custom_width
       @style_index    = get_attribute(attrs, 'style')        || @style_index
     end
 
@@ -23,6 +23,7 @@ module RubyXL
       v = v.value if v.is_a?(Nokogiri::XML::Attr)
       case v
       when String then
+puts "incoming = #{v.inspect}, #{k.inspect}, #{attrs.inspect}"
         intval = v.to_i rescue nil
 
         case intval.to_s
