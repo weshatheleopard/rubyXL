@@ -54,13 +54,13 @@ module Writer
 
           @workbook.charts.each_pair { |k, v|
             case k
-            when /^chart\d*.xml$/ then puts "ch"
+            when /^chart\d*.xml$/ then
               xml.Override('PartName' => "/#{@workbook.charts.local_dir_path}/#{k}",
                 'ContentType' => 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml')
             when /^style\d*.xml$/ then 
               xml.Override('PartName' => "/#{@workbook.charts.local_dir_path}/#{k}",
                 'ContentType' => 'application/vnd.ms-office.chartstyle+xml')
-            when /^colors\d*.xml$/ then puts "col"
+            when /^colors\d*.xml$/ then
               xml.Override('PartName' => "/#{@workbook.charts.local_dir_path}/#{k}",
                 'ContentType' => 'application/vnd.ms-office.chartcolorstyle+xml')
             end
