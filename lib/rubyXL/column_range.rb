@@ -23,7 +23,6 @@ module RubyXL
       v = v.value if v.is_a?(Nokogiri::XML::Attr)
       case v
       when String then
-puts "incoming = #{v.inspect}, #{k.inspect}, #{attrs.inspect}"
         intval = v.to_i rescue nil
 
         case intval.to_s
