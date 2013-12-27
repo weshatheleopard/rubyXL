@@ -635,17 +635,6 @@ describe RubyXL::Worksheet do
       @worksheet.get_column_width(0).should == 30.0002
     end
 
-    it 'should make column width a number equivalent of the string passed if it is a string which is a number' do
-      @worksheet.change_column_width(0,'30.0002')
-      @worksheet.get_column_width(0).should == 30.0002
-    end
-
-    it 'should cause error if a string which is not a number' do
-      lambda {
-        @worksheet.change_column_width(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_width(-1,10)

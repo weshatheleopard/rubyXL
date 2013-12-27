@@ -5,36 +5,24 @@ module RubyXL
     attr_accessor :min, :max, :width, :custom_width, :style_index
 
     def initialize(attrs = {})
-      @min            = get_attribute(attrs, 'min') - 1 # Converting into 0-based 
-      @max            = get_attribute(attrs, 'max') - 1
-      @width          = get_attribute(attrs, 'width')
-      @custom_width   = get_attribute(attrs, 'customWidth')
-      @style_index    = get_attribute(attrs, 'style')
+      @min            = attrs['min']
+      @max            = attrs['max']
+      @width          = attrs['width']
+      @custom_width   = attrs['customWidth']
+      @style_index    = attrs['style']
     end
 
-    def update_attrs(attrs)
-      @width          = get_attribute(attrs, 'width')        || @width
-      @custom_width   = get_attribute(attrs, 'customWidth') || @custom_width
-      @style_index    = get_attribute(attrs, 'style')        || @style_index
-    end
+    def self.parse(xml)
+      range = self.new
+      gange.degree = xml.attributes['degree'].value
 
-    def get_attribute(attrs, k)
-      v = attrs[k]
-      v = v.value if v.is_a?(Nokogiri::XML::Attr)
-      case v
-      when String then
-        intval = v.to_i rescue nil
-
-        case intval.to_s
-        when '' then v     # The value was not numeric to begin with, so do not change it
-        when v then intval # The value converted right back into itself, which means it was integer.
-        else Float(v)      # It converted into an Integer fine, but it was not an integer, so must be float.
-        end
-      when NilClass then nil
-      else v
-      end
+      range.min          = RubyXL::Parser.attr_int(node, 'min') - 1
+      range.max          = RubyXL::Parser.attr_int(node, 'max') - 1
+      range.width        = RubyXL::Parser.attr_float(node, 'width')
+      range.custom_width = RubyXL::Parser.attr_int(node, 'customWidth')
+      range.style_index  = RubyXL::Parser.attr_int(node, 'style')
+      color
     end 
-    private :get_attribute
 
     def delete_column(col)
       self.min -=1 if min >= col
@@ -66,7 +54,10 @@ module RubyXL
         return new_range
       elsif old_range.min == col_index && 
               old_range.max == col_index then # Single column range, OK to change in place
-        old_range.update_attrs(attrs)
+
+        old_range.width = attrs['width'] if attrs['width']
+        old_range.custom_width = attrs['customWidth'] if attrs['customWidth']
+        old_range.style_index = attrs['style'] if attrs['style']
         return old_range
       else
         raise "Range splitting not implemented yet"
