@@ -14,10 +14,9 @@ module RubyXL
     end 
 
     def write_xml(xml)
-      xml << xml.create_element('definedName', { :name => name }, reference)
+      xml.create_element('definedName', { :name => name }, reference)
     end
 
   end
-
 
 end

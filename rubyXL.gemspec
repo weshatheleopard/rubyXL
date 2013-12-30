@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
-  s.date = "2013-12-18"
+  s.date = "2013-12-30"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
   s.email = "bhagwat.vivek@gmail.com"
   s.extra_rdoc_files = [
@@ -24,8 +24,12 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/rubyXL.rb",
+    "lib/rubyXL/border.rb",
     "lib/rubyXL/cell.rb",
     "lib/rubyXL/color.rb",
+    "lib/rubyXL/column_range.rb",
+    "lib/rubyXL/defined_name.rb",
+    "lib/rubyXL/fill.rb",
     "lib/rubyXL/generic_storage.rb",
     "lib/rubyXL/hash.rb",
     "lib/rubyXL/parser.rb",

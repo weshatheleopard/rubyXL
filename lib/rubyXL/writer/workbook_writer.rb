@@ -43,7 +43,7 @@ module RubyXL
                 # This doesn't quite make a lot of sense -- why we are starting with index and not 0?
                 # Need to check once I get the file with external links...
                 index.upto(@workbook.external_links.size - 1) { |id|
-                  refs << xml..create_element('externalReference', { 'r:id' => "rId#{id + index}" })
+                  refs << xml.create_element('externalReference', { 'r:id' => "rId#{id + index}" })
                 }
               })
             end

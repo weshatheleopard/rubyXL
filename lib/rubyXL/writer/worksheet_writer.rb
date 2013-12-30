@@ -30,29 +30,11 @@ module Writer
 
           root << xml.create_element('dimension', { :ref => "A1:#{Cell.ind2ref(row - 1, col - 1)}" })
 
-          root << (xml.create_element('sheetViews') { |sheet_views|
-            view = @worksheet.sheet_view || {}
-            view = view[:attributes] || {}
-
-            sheet_views << (xml.create_element('sheetView', { 
-                              :tabSelected     => view[:tabSelected]     || 1,
-                              :view            => view[:view]            || 'normalLayout',
-                              :workbookViewId  => view[:workbookViewId]  || 0,
-                              :zoomScale       => view[:zoomScale]       || 100,
-                              :zoomScaleNormal => view[:zoomScaleNormal] || 100 }) {
-
-            #TODO
-            #can't be done unless I figure out a way to programmatically add attributes.
-            #(can't put xSplit with an invalid value)
-            # unless @worksheet.pane.nil?
-              # xml.pane('state'=>@worksheet.pane[:state])
-            # end
-              # unless view[:selection].nil?
-                # xml.
-              # end
-
-            })
-          })
+          unless @worksheet.sheet_views.empty?
+            root << xml.create_element('sheetViews') { |sheet_views|
+              @worksheet.sheet_views.each { |sheet_view| sheet_views << sheet_view.write_xml(xml) }
+            }
+          end
 
           root << xml.create_element('sheetFormatPr', { :baseColWidth => 10, :defaultRowHeight => 13 })
 

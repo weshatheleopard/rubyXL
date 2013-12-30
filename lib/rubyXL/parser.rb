@@ -165,16 +165,16 @@ module RubyXL
         row_xpath = '/xmlns:worksheet/xmlns:sheetData/xmlns:row'
         cell_xpath = './xmlns:c'
 
-        sheet_views_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews[xmlns:sheetView]', namespaces).first
-        worksheet.sheet_view = Hash.xml_node_to_hash(sheet_views_node)[:sheetView]
+        sheet_views_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews/xmlns:sheetView', namespaces)
+        worksheet.sheet_views = sheet_views_nodes.collect { |node| RubyXL::SheetView.parse(node) }
 
         col_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols/xmlns:col',namespaces)
-        worksheet.column_ranges = col_node_set.collect { |col_node| RubyXL::ColumnRange.new(col_node.attributes) }
+        worksheet.column_ranges = col_node_set.collect { |col_node| RubyXL::ColumnRange.parse(col_node) }
 
         merged_cells_nodeset = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells/xmlns:mergeCell', namespaces)
         worksheet.merged_cells = merged_cells_nodeset.collect { |child| child.attributes['ref'].text }
 
-        worksheet.pane = worksheet.sheet_view[:pane]
+#        worksheet.pane = worksheet.sheet_view[:pane]
 
         ##data_validation##
         data_validations_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations[xmlns:dataValidation]', namespaces)

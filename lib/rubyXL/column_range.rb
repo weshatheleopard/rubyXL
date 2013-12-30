@@ -12,16 +12,14 @@ module RubyXL
       @style_index    = attrs['style']
     end
 
-    def self.parse(xml)
+    def self.parse(node)
       range = self.new
-      gange.degree = xml.attributes['degree'].value
-
       range.min          = RubyXL::Parser.attr_int(node, 'min') - 1
       range.max          = RubyXL::Parser.attr_int(node, 'max') - 1
       range.width        = RubyXL::Parser.attr_float(node, 'width')
       range.custom_width = RubyXL::Parser.attr_int(node, 'customWidth')
       range.style_index  = RubyXL::Parser.attr_int(node, 'style')
-      color
+      range
     end 
 
     def delete_column(col)
