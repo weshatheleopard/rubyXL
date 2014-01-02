@@ -49,6 +49,11 @@ module RubyXL
       !other.nil? && (@row_range == other.row_range) && (@col_range == other.col_range)
     end
 
+    def cover?(other)
+      !other.nil? && (@row_range.cover?(other.row_range.begin) && @row_range.cover?(other.row_range.end) && 
+                      @col_range.cover?(other.col_range.begin) && @col_range.cover?(other.col_range.end))
+    end
+
     def to_s
       if single_cell? then
         self.class.ind2ref(@row_range.begin, @col_range.begin)

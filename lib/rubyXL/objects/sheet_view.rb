@@ -113,9 +113,8 @@ module RubyXL
       if @active_cell_id.nil? && !@active_cell.nil? && @sqref.size > 1 then
         # But, things can be more complex:
         # <selection activeCell="E8" activeCellId="2" sqref="A4:B4 C6:D6 E8:F8"/>
-        # TODO: update activeCellId detection once Reference class is fully implemented.
         # Not using .reverse.each here to avoid memory reallocation.
-        @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref == @active_cell } 
+        @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
 
       attr_optional(:activeCellId, @active_cell_id)
