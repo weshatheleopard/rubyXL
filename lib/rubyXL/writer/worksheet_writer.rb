@@ -28,7 +28,7 @@ module Writer
           col = @worksheet.sheet_data.max_by{ |row| row.size }.size
           row = @worksheet.sheet_data.size
 
-          root << xml.create_element('dimension', { :ref => "A1:#{Cell.ind2ref(row - 1, col - 1)}" })
+          root << xml.create_element('dimension', { :ref => RubyXL::Reference.new(0, row - 1, 0, col - 1) })
 
           unless @worksheet.sheet_views.empty?
             root << xml.create_element('sheetViews') { |sheet_views|
@@ -93,7 +93,7 @@ module Writer
                     #TODO do xml.c for all cases, inside specific.
                     # if cell.formula.nil?
                     cell.style_index = @workbook.style_corrector[cell.style_index.to_s]
-                    c_opts = { :r => Cell.ind2ref(i, j), :s => cell.style_index.to_s }
+                    c_opts = { :r => RubyXL::Reference.ind2ref(i, j), :s => cell.style_index.to_s }
 
                     unless cell.datatype.nil? || cell.datatype == ''
                       c_opts[:t] = cell.datatype

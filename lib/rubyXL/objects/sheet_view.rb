@@ -1,6 +1,8 @@
 module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
   class SheetView
+    VALID_VIEW_MODES = [ 'normal', 'pageBreakPreview', 'pageLayout' ]
+
     include RubyXL::XMLhelper
 
     attr_accessor :tab_selected, :zoom_scale, :zoom_scale_normal, :workbook_view_id, :view,
@@ -21,7 +23,6 @@ module RubyXL
       sheetview.zoom_scale        = RubyXL::Parser.attr_int(node, 'zoomScale')
       sheetview.zoom_scale_normal = RubyXL::Parser.attr_int(node, 'zoomScaleNormal')
       sheetview.workbook_view_id  = RubyXL::Parser.attr_int(node, 'workbookViewId')
-      # Valid values: 'normal', 'pageBreakPreview', 'pageLayout'
       sheetview.view              = RubyXL::Parser.attr_string(node, 'view')
 
       node.element_children.each { |child_node|
@@ -52,6 +53,8 @@ module RubyXL
 
 
   class Pane
+    VALID_PANES = [ 'bottomRight', 'topRight', 'bottomLeft', 'topLeft' ]
+
     attr_accessor :x_split, :y_split, :top_left_cell, :active_pane
 
     def initialize
@@ -64,7 +67,6 @@ module RubyXL
       pane.x_split       = RubyXL::Parser.attr_int(node, 'xSplit')
       pane.y_split       = RubyXL::Parser.attr_int(node, 'ySplit')
       pane.top_left_cell = RubyXL::Parser.attr_string(node, 'topLeftCell')
-      # Valid values: [ 'bottomRight', 'topRight', 'bottomLeft', 'topLeft' ]
       pane.active_pane   = RubyXL::Parser.attr_string(node, 'activePane')
       pane
     end 
@@ -85,17 +87,19 @@ module RubyXL
       @pane = nil
       @sqref = []            # Array of references to the selected cells.
       @active_cell = nil
-      @active_cell_id = nil  # index of @active_cell in @sqref
+      @active_cell_id = nil  # 0-based index of @active_cell in @sqref
     end
 
     def self.parse(node)
       sel = self.new
 
+      sqref       = RubyXL::Parser.attr_string(node, 'sqref')
+      active_cell = RubyXL::Parser.attr_string(node, 'activeCell')
+
       sel.pane           = RubyXL::Parser.attr_string(node, 'pane')
-      sel.active_cell    = RubyXL::Parser.attr_string(node, 'activeCell')
+      sel.active_cell    = active_cell && RubyXL::Reference.new(active_cell)
       sel.active_cell_id = RubyXL::Parser.attr_int(node, 'activeCellId')
-      sqref              = RubyXL::Parser.attr_string(node, 'sqref')
-      sel.sqref          = sqref && sqref.split(' ')
+      sel.sqref          = sqref.split(' ').collect{ |str| RubyXL::Reference.new(str) } if sqref
       sel
     end 
 
@@ -106,10 +110,15 @@ module RubyXL
 
       # Normally, rindex of activeCellId in sqref:
       # <selection activeCell="E12" activeCellId="9" sqref="A4 B6 C8 D10 E12 A4 B6 C8 D10 E12"/>
-      # but, can be more complex:
-      # <selection activeCell="E8" activeCellId="2" sqref="A4:B4 C6:D6 E8:F8"/>
-      # TODO: update activeCellId detection once Reference class is implemented.
-      attr_optional(:activeCellId, @active_cell_id || @sqref.rindex(@active_cell)) 
+      if @active_cell_id.nil? && !@active_cell.nil? && @sqref.size > 1 then
+        # But, things can be more complex:
+        # <selection activeCell="E8" activeCellId="2" sqref="A4:B4 C6:D6 E8:F8"/>
+        # TODO: update activeCellId detection once Reference class is fully implemented.
+        # Not using .reverse.each here to avoid memory reallocation.
+        @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref == @active_cell } 
+      end
+
+      attr_optional(:activeCellId, @active_cell_id)
 
       if @sqref then
         @attrs[:sqref] = @sqref.join(' ')

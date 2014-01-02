@@ -400,7 +400,7 @@ class Worksheet < PrivateClass
   # merges cells within a rectangular range
   def merge_cells(row1 = 0, col1 = 0, row2 = 0, col2 = 0)
     validate_workbook
-    @merged_cells << "#{Cell.ind2ref(row1, col1)}:#{Cell.ind2ref(row2, col2)}"
+    @merged_cells << RubyXL::Reference.new(row1, row2, col1, col2)
   end
 
   def add_cell(row=0, column=0, data='', formula=nil,overwrite=true)

@@ -873,14 +873,8 @@ describe RubyXL::Worksheet do
 
   describe '.merge_cells' do
     it 'should merge cells in any valid range specified by indices' do
-      @worksheet.merge_cells(0,0,1,1)
-      @worksheet.merged_cells.should == ["A1:B2"]
-    end
-
-    it 'should cause an error if a negative number is passed' do
-      lambda {
-        @worksheet.merge_cells(0,0,-1,0)
-      }.should raise_error
+      @worksheet.merge_cells(0, 0, 1, 1)
+      @worksheet.merged_cells.collect{ |r| r.to_s }.should == ["A1:B2"]
     end
   end
 

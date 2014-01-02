@@ -147,14 +147,13 @@ module RubyXL
       worksheet = Worksheet.new(wb, worksheet_name)
       wb.worksheets[i] = worksheet # Due to "validate_workbook" issues. Should remove that validation eventually.
       worksheet.sheet_id = sheet_id
+      dimensions = RubyXL::Reference.new(worksheet_xml.css('dimension').attribute('ref').value)
+      cols = dimensions.last_col
 
-      dimensions = worksheet_xml.css('dimension').attribute('ref').to_s
-      raise 'Unable to determine worksheet dimensions' unless (dimensions =~ /^([A-Z]+\d+:)?([A-Z]+\d+)$/)
-      rows, cols = Cell.ref2ind($2)
       # Create empty arrays for workcells. Using +downto()+ here so memory for +sheet_data[]+ is
       # allocated on the first iteration (in case of +upto()+, +sheet_data[]+ would end up being
       # reallocated on every iteration).
-      rows.downto(0) { |i| worksheet.sheet_data[i] = Array.new(cols + 1) }
+      dimensions.last_row.downto(0) { |i| worksheet.sheet_data[i] = Array.new(cols + 1) }
 
       namespaces = worksheet_xml.root.namespaces
 
@@ -172,7 +171,7 @@ module RubyXL
         worksheet.column_ranges = col_node_set.collect { |col_node| RubyXL::ColumnRange.parse(col_node) }
 
         merged_cells_nodeset = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells/xmlns:mergeCell', namespaces)
-        worksheet.merged_cells = merged_cells_nodeset.collect { |child| child.attributes['ref'].text }
+        worksheet.merged_cells = merged_cells_nodeset.collect { |child| RubyXL::Reference.new(child.attributes['ref'].text) }
 
 #        worksheet.pane = worksheet.sheet_view[:pane]
 
@@ -225,7 +224,7 @@ module RubyXL
           #attributes is from the excel cell(c) and is basically location information and style and type
           value_attributes = value.attributes
           # r attribute contains the location like A1
-          cell_index = Cell.ref2ind(value_attributes['r'].content)
+          cell_index = RubyXL::Reference.ref2ind(value_attributes['r'].content)
           style_index = 0
           # t is optional and contains the type of the cell
           data_type = value_attributes['t'].content if value_attributes['t']
