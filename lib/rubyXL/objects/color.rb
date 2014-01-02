@@ -1,5 +1,7 @@
 module RubyXL
   class Color
+    include RubyXL::XMLhelper
+
     attr_accessor :theme, :indexed, :tint, :rgb, :auto
 
     def initialize(attrs = {})
@@ -30,13 +32,13 @@ module RubyXL
     end
 
     def build_xml(xml, node_name = 'color')
-      attrs = {}
-      attrs[:auto]    = auto    if auto
-      attrs[:indexed] = indexed if indexed
-      attrs[:theme]   = theme   if theme
-      attrs[:tint]    = tint    if tint
-      attrs[:rgb]     = rgb     if rgb
-      xml.send(node_name, attrs)
+      @attrs = {}
+      attr_optional(:auto,    @auto)
+      attr_optional(:indexed, @indexed)
+      attr_optional(:theme,   @theme)
+      attr_optional(:tint,    @tint)
+      attr_optional(:rgb,     @rgb)
+      xml.send(node_name, @attrs)
     end
 
   end
