@@ -53,11 +53,12 @@ module RubyXL
 
       node = xml.create_element('sheetView', attrs)
       node << pane.write_xml(xml) if @pane
-
-puts "===> #{@pane} ... #{pane.write_xml(xml).to_xml}" if @pane
-
-
-      xml << node
+      
+      @selections.each { |sel|
+        node << sel.write_xml(xml)
+      }
+      
+      node
     end
 
   end
@@ -75,6 +76,7 @@ puts "===> #{@pane} ... #{pane.write_xml(xml).to_xml}" if @pane
       pane.x_split       = RubyXL::Parser.attr_int(node, 'xSplit')
       pane.y_split       = RubyXL::Parser.attr_int(node, 'ySplit')
       pane.top_left_cell = RubyXL::Parser.attr_string(node, 'topLeftCell')
+      # Valid values: [ 'bottomRight', 'topRight', 'bottomLeft', 'topLeft' ]
       pane.active_pane   = RubyXL::Parser.attr_string(node, 'activePane')
       pane
     end 
