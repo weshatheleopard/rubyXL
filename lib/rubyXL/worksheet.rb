@@ -589,28 +589,28 @@ class Worksheet < PrivateClass
     }
   end
 
-  def insert_cell(row=0,col=0,data=nil,formula=nil,shift=nil)
+  def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(col)
     ensure_cell_exists(row, col)
 
-    if shift && shift != :right && shift != :down
-      raise 'invalid shift option'
-    end
-
-    if shift == :right
+    case shift
+    when nil then # No shifting at all
+    when :right then
       @sheet_data[row].insert(col,nil)
-      (row...(@sheet_data[row].size)).each do |index|
+      (row...(@sheet_data[row].size)).each { |index|
         if @sheet_data[row][index].is_a?(Cell)
           @sheet_data[row][index].column += 1
         end
-      end
-    elsif shift == :down
+      }
+    when :down then
       @sheet_data << Array.new(@sheet_data[row].size)
-      (@sheet_data.size-1).downto(row+1) do |index|
+      (@sheet_data.size-1).downto(row+1) { |index|
         @sheet_data[index][col] = @sheet_data[index-1][col]
-      end
+      }
+    else
+      raise 'invalid shift option'
     end
 
     return add_cell(row,col,data,formula)
@@ -619,39 +619,37 @@ class Worksheet < PrivateClass
   # by default, only sets cell to nil
   # if :left is specified, method will shift row contents to the right of the deleted cell to the left
   # if :up is specified, method will shift column contents below the deleted cell upward
-  def delete_cell(row=0,col=0,shift=nil)
+  def delete_cell(row=0, col=0, shift=nil)
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(col)
-    if @sheet_data.size <= row || @sheet_data[row].size <= col
-      return nil
-    end
+
+    return nil if @sheet_data.size <= row || @sheet_data[row].size <= col
 
     cell = @sheet_data[row][col]
-    @sheet_data[row][col]=nil
 
-    if shift && shift != :left && shift != :up
-      raise 'invalid shift option'
-    end
-
-    if shift == :left
+    case shift
+    when nil then
+      @sheet_data[row][col] = nil
+    when :left then
       @sheet_data[row].delete_at(col)
       @sheet_data[row] << nil
-      (col...(@sheet_data[row].size)).each do |index|
+      (col...(@sheet_data[row].size)).each { |index|
         if @sheet_data[row][index].is_a?(Cell)
           @sheet_data[row][index].column -= 1
         end
-      end
-    elsif shift == :up
-      (row...(@sheet_data.size-1)).each do |index|
+      }
+    when :up then
+      (row...(@sheet_data.size-1)).each { |index|
         @sheet_data[index][col] = @sheet_data[index+1][col]
         if @sheet_data[index][col].is_a?(Cell)
           @sheet_data[index][col].row -= 1
         end
-      end
-      if @sheet_data.last[col].is_a?(Cell)
-        @sheet_data.last[col].row -= 1
-      end
+      }
+
+      @sheet_data.last[col].row -= 1 if @sheet_data.last[col].is_a?(Cell)
+    else
+      raise 'invalid shift option'
     end
 
     return cell
