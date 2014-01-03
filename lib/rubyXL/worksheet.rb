@@ -36,11 +36,11 @@ class Worksheet < PrivateClass
 
   # allows for easier access to sheet_data
   def [](row=0)
-    return @sheet_data[row]
+    @sheet_data[row]
   end
 
   def each
-    @sheet_data.each {|i| yield i}
+    @sheet_data.each { |row| yield(row) }
   end
 
   #returns 2d array of just the cell values (without style or formula information)
@@ -49,61 +49,56 @@ class Worksheet < PrivateClass
     return @sheet_data.map {|row| row.map {|c| if c.is_a?(Cell) then c.value(:raw => raw_values) else nil end}}
   end
 
-  def get_table(headers=[],opts={})
+  def get_table(headers = [], opts = {})
     validate_workbook
 
-    if !headers.is_a?(Array)
-      headers = [headers]
-    end
-
+    headers = [headers] unless headers.is_a?(Array)
     row_num = find_first_row_with_content(headers)
   	
     return nil if row_num.nil?
 
-  	table_hash = {}
-  	table_hash[:table] = []
+    table_hash = {}
+    table_hash[:table] = []
 
     header_row = @sheet_data[row_num]
-  	header_row.each_with_index do |header_cell, index|
+    header_row.each_with_index { |header_cell, index|
       break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
       next if header_cell.nil? || header_cell.value.nil?
       header = header_cell.value.to_s
       table_hash[:sorted_headers]||=[]
       table_hash[:sorted_headers] << header
-  	  table_hash[header] = []
+      table_hash[header] = []
 
-  	  original_row = row_num + 1
-  	  current_row = original_row
+      original_row = row_num + 1
+      current_row = original_row
 
-  	  cell = @sheet_data[current_row][index]
+      cell = @sheet_data[current_row][index]
 
       # makes array of hashes in table_hash[:table]
-  	  # as well as hash of arrays in table_hash[header]
+      # as well as hash of arrays in table_hash[header]
       table_index = current_row - original_row
-  	  cell_test= (!cell.nil? && !cell.value.nil?)
+      cell_test = (!cell.nil? && !cell.value.nil?)
 
       while cell_test || (table_hash[:table][table_index] && !table_hash[:table][table_index].empty?)
+        table_hash[header] << cell.value if cell_test
+        table_index = current_row - original_row
 
-  		  table_hash[header] << cell.value if cell_test
+        if cell_test then
+          table_hash[:table][table_index] ||= {}
+          table_hash[:table][table_index][header] = cell.value 
+        end
 
-    		table_index = current_row - original_row
+        current_row += 1
+        if @sheet_data[current_row].nil? then
+          cell = nil
+        else
+          cell = @sheet_data[current_row][index]
+        end
+        cell_test = (!cell.nil? && !cell.value.nil?)
+      end
+    }
 
-                if cell_test then
-                  table_hash[:table][table_index] ||= {}
-                  table_hash[:table][table_index][header] = cell.value 
-                end
-
-    		current_row += 1
-    		if @sheet_data[current_row].nil?
-    		  cell = nil
-  		  else
-      		cell = @sheet_data[current_row][index]
-    		end
-        cell_test= (!cell.nil? && !cell.value.nil?)
-  	  end
-	  end
-
-	  return table_hash
+    return table_hash
   end
 
   #changes color of fill in (zer0 indexed) row
