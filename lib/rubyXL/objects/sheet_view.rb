@@ -1,29 +1,23 @@
 module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
-  class SheetView
-    VALID_VIEW_MODES = [ 'normal', 'pageBreakPreview', 'pageLayout' ]
+  class SheetView < OOXMLObject
+    define_attribute(:tab_selected,      :tabSelected,     :int,    true)
+    define_attribute(:zoom_scale,        :zoomScale,       :int,    true,  100)
+    define_attribute(:zoom_scale_normal, :zoomScaleNormal, :int,    true,  100)
+    define_attribute(:workbook_view_id,  :workbookViewId,  :int,    false, 0)
+    define_attribute(:view,              :view,            :string, true, 
+                       %w{ normal pageBreakPreview pageLayout })
 
-    include RubyXL::XMLhelper
-
-    attr_accessor :tab_selected, :zoom_scale, :zoom_scale_normal, :workbook_view_id, :view,
-                  :pane, :selections
+    attr_accessor :pane, :selections
 
     def initialize
-      @tab_selected     = @view = nil
-      @zoom_scale       = @zoom_scale_normal = 100
-      @workbook_view_id = 0
       @pane = nil
       @selections = []
+      super
     end
 
     def self.parse(node)
-      sheetview = self.new
-
-      sheetview.tab_selected      = RubyXL::Parser.attr_int(node, 'tabSelected')
-      sheetview.zoom_scale        = RubyXL::Parser.attr_int(node, 'zoomScale')
-      sheetview.zoom_scale_normal = RubyXL::Parser.attr_int(node, 'zoomScaleNormal')
-      sheetview.workbook_view_id  = RubyXL::Parser.attr_int(node, 'workbookViewId')
-      sheetview.view              = RubyXL::Parser.attr_string(node, 'view')
+      sheetview = super
 
       node.element_children.each { |child_node|
         case child_node.name
@@ -37,13 +31,7 @@ module RubyXL
     end 
 
     def write_xml(xml)
-      @attrs = { :workbookViewId  => @workbook_view_id } 
-      attr_optional(:tabSelected,     @tab_selected)
-      attr_optional(:view,            @view)
-      attr_optional(:zoomScale,       @zoom_scale)
-      attr_optional(:zoomScaleNormal, @zoom_scale_normal)
-
-      node = xml.create_element('sheetView', @attrs)
+      node = xml.create_element('sheetView', prepare_attributes)
       node << pane.write_xml(xml) if @pane
       @selections.each { |sel| node << sel.write_xml(xml) }
       node
@@ -53,9 +41,9 @@ module RubyXL
 
 
   class Pane
-    VALID_PANES = [ 'bottomRight', 'topRight', 'bottomLeft', 'topLeft' ]
-
-    attr_accessor :x_split, :y_split, :top_left_cell, :active_pane
+    attr_accessor :x_split, :y_split, :top_left_cell
+    attr_accessor :active_pane
+    VALID_PANES = %w{ bottomRight topRight bottomLeft topLeft }
 
     def initialize
       @x_split = @y_split = @top_left_cell = @active_pane = nil
@@ -79,35 +67,28 @@ module RubyXL
   end
 
 
-  class Selection
-    include XMLhelper
-    attr_accessor :pane, :active_cell, :active_cell_id, :sqref
+  class Selection < OOXMLObject
+    attr_accessor :sqref
+    define_attribute(:pane,           :pane,         :string, true, nil,
+                       %w{ bottomRight topRight bottomLeft topLeft })
+    define_attribute(:active_cell,    :activeCell,   :string, true)
+    define_attribute(:active_cell_id, :activeCellId, :int,    true) # 0-based index of @active_cell in @sqref
 
     def initialize
-      @pane = nil
+      super
       @sqref = []            # Array of references to the selected cells.
-      @active_cell = nil
-      @active_cell_id = nil  # 0-based index of @active_cell in @sqref
     end
 
     def self.parse(node)
-      sel = self.new
+      sel = super
 
-      sqref       = RubyXL::Parser.attr_string(node, 'sqref')
-      active_cell = RubyXL::Parser.attr_string(node, 'activeCell')
-
-      sel.pane           = RubyXL::Parser.attr_string(node, 'pane')
-      sel.active_cell    = active_cell && RubyXL::Reference.new(active_cell)
-      sel.active_cell_id = RubyXL::Parser.attr_int(node, 'activeCellId')
+      sel.active_cell    = RubyXL::Reference.new(sel.active_cell) if sel.active_cell
+      sqref = RubyXL::Parser.attr_string(node, 'sqref')
       sel.sqref          = sqref.split(' ').collect{ |str| RubyXL::Reference.new(str) } if sqref
       sel
     end 
 
     def write_xml(xml)
-      @attrs = {}
-      attr_optional(:pane,         @pane)
-      attr_optional(:activeCell,   @active_cell)
-
       # Normally, rindex of activeCellId in sqref:
       # <selection activeCell="E12" activeCellId="9" sqref="A4 B6 C8 D10 E12 A4 B6 C8 D10 E12"/>
       if @active_cell_id.nil? && !@active_cell.nil? && @sqref.size > 1 then
@@ -117,13 +98,13 @@ module RubyXL
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
 
-      attr_optional(:activeCellId, @active_cell_id)
+      attrs = prepare_attributes
 
       if @sqref then
-        @attrs[:sqref] = @sqref.join(' ')
+        attrs[:sqref] = @sqref.join(' ')
       end
 
-      xml.create_element('selection', @attrs)
+      xml.create_element('selection', attrs)
     end
 
   end

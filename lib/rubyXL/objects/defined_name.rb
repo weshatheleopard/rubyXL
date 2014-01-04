@@ -3,9 +3,6 @@ module RubyXL
   class DefinedName
     attr_accessor :name, :reference
 
-    def initialize(args = {})
-    end
-
     def self.parse(xml)
       defined_name = self.new
       defined_name.name = xml.attributes['name'].value

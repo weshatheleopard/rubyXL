@@ -131,24 +131,9 @@ module Writer
 
           root << xml.create_element('phoneticPr', { :fontId => 1, :type => 'noConversion' })
 
-          unless @worksheet.validations.nil?
-            root << (xml.create_element('dataValidations', { :count =>@worksheet.validations.size }) { |vals|
-
-              @worksheet.validations.each { |validation|
-                attrs = validation[:attributes]
-
-                vals << (xml.create_element('dataValidation', {
-                           :type       => attrs[:type],
-                           :sqref      => attrs[:sqref],
-                           :allowBlank => Integer(attrs[:allowBlank]),
-                           :showInputMessage => Integer(attrs[:showInputMessage]),
-                           :showErrorMessage => Integer(attrs[:showErrorMessage]) }) { |val|
- 
-                  unless validation[:formula1].nil?
-                    val << val.create_element(:formula1, validation[:formula1])
-                  end
-                })
-              }
+          unless @worksheet.validations.empty?
+            root << (xml.create_element('dataValidations', { :count => @worksheet.validations.size }) { |validations|
+              @worksheet.validations.each { |validation| validations << validation.write_xml(xml) }
             })
           end
 

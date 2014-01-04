@@ -175,14 +175,8 @@ module RubyXL
 
 #        worksheet.pane = worksheet.sheet_view[:pane]
 
-        ##data_validation##
-        data_validations_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations[xmlns:dataValidation]', namespaces)
-        unless data_validations_node.empty?
-          worksheet.validations = Hash.xml_node_to_hash(data_validations_node.first)[:dataValidation]
-        else
-          worksheet.validations = nil
-        end
-        ##end data_validation##
+        data_validations = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations/xmlns:dataValidation', namespaces)
+        worksheet.validations = data_validations.collect { |node| RubyXL::DataValidation.parse(node) }
 
         #extLst
         ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)

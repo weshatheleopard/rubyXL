@@ -21,6 +21,7 @@ class Worksheet < PrivateClass
     @extLst = nil
     @legacy_drawing = nil
     @drawings = []
+    @validations = []
   end
 
   def get_default_name
