@@ -19,7 +19,7 @@ module RubyXL
     define_attribute(:error,              :error,            :string, true)
     define_attribute(:prompt_title,       :promptTitle,      :string, true)
     define_attribute(:prompt,             :prompt,           :string, true)
-    define_attribute(:sqref,              :sqref,            :string)
+    define_attribute(:sqref,              :sqref,            :sqref)
 
     attr_accessor :formula1, :formula2
 

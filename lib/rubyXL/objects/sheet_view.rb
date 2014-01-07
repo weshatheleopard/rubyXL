@@ -40,51 +40,31 @@ module RubyXL
   end
 
 
-  class Pane
-    attr_accessor :x_split, :y_split, :top_left_cell
-    attr_accessor :active_pane
-    VALID_PANES = %w{ bottomRight topRight bottomLeft topLeft }
-
-    def initialize
-      @x_split = @y_split = @top_left_cell = @active_pane = nil
-    end
-
-    def self.parse(node)
-      pane = self.new
-
-      pane.x_split       = RubyXL::Parser.attr_int(node, 'xSplit')
-      pane.y_split       = RubyXL::Parser.attr_int(node, 'ySplit')
-      pane.top_left_cell = RubyXL::Parser.attr_string(node, 'topLeftCell')
-      pane.active_pane   = RubyXL::Parser.attr_string(node, 'activePane')
-      pane
-    end 
+  class Pane < OOXMLObject
+    define_attribute(:x_split,       :xSplit,      :int,    true)
+    define_attribute(:y_split,       :ySplit,      :int,    true)
+    define_attribute(:top_left_cell, :topLeftCell, :string,    true)
+    define_attribute(:active_pane,   :activePane,  :string, true, nil,
+                       %w{ bottomRight topRight bottomLeft topLeft })
 
     def write_xml(xml)
-      xml.create_element('pane', { :xSplit => @x_split, :ySplit => @y_split,
-                                   :topLeftCell => @top_left_cell, :activePane => @active_pane  } )
+      xml.create_element('pane', prepare_attributes)
     end
 
   end
 
 
   class Selection < OOXMLObject
-    attr_accessor :sqref
     define_attribute(:pane,           :pane,         :string, true, nil,
                        %w{ bottomRight topRight bottomLeft topLeft })
     define_attribute(:active_cell,    :activeCell,   :string, true)
     define_attribute(:active_cell_id, :activeCellId, :int,    true) # 0-based index of @active_cell in @sqref
-
-    def initialize
-      super
-      @sqref = []            # Array of references to the selected cells.
-    end
+    define_attribute(:sqref,          :sqref,        :sqref)        # Array of references to the selected cells.
 
     def self.parse(node)
       sel = super
 
-      sel.active_cell    = RubyXL::Reference.new(sel.active_cell) if sel.active_cell
-      sqref = RubyXL::Parser.attr_string(node, 'sqref')
-      sel.sqref          = sqref.split(' ').collect{ |str| RubyXL::Reference.new(str) } if sqref
+      sel.active_cell = RubyXL::Reference.new(sel.active_cell) if sel.active_cell
       sel
     end 
 
@@ -98,13 +78,7 @@ module RubyXL
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
 
-      attrs = prepare_attributes
-
-      if @sqref then
-        attrs[:sqref] = @sqref.join(' ')
-      end
-
-      xml.create_element('selection', attrs)
+      xml.create_element('selection', prepare_attributes)
     end
 
   end

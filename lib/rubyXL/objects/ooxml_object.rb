@@ -45,6 +45,7 @@ module RubyXL
               when :int    then attr && Integer(attr.value)
               when :float  then attr && Float(attr.value)
               when :string then attr && attr.value
+              when :sqref  then attr && RubyXL::Sqref.new(attr.value)
               end              
 
         obj.send("#{k}=", val)
@@ -63,7 +64,7 @@ module RubyXL
           next if v[:optional]
           val = v[:default]
         end
-        
+
         xml_attrs[v[:attr_name]] = val
       }
 

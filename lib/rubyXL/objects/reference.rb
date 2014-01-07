@@ -63,8 +63,11 @@ module RubyXL
     end
 
     def inspect
-      type = single_cell? ? 'SINGLE_CELL' : 'RANGE'
-      "#<#{self.class} (#{type}) @row_range=#{@row_range} @col_range=#{@col_range}>"
+      if single_cell? then
+        "#<#{self.class} @row=#{@row_range.begin} @col=#{@col_range.begin}>"
+      else
+        "#<#{self.class} @row_range=#{@row_range} @col_range=#{@col_range}>"
+      end
     end
 
     # Converts +row+ and +col+ zero-based indices to Excel-style cell reference
@@ -78,6 +81,18 @@ module RubyXL
       return [ -1, -1 ] unless str =~ /^([A-Z]+)(\d+)$/
       [ $2.to_i - 1, RubyXL::ColumnRange.ref2ind($1) ]
     end  
+
+  end
+
+  class Sqref < Array
+
+    def initialize(str)
+      str.split.each { |ref_str| self << RubyXL::Reference.new(ref_str) }
+    end
+
+    def to_s
+      self.collect{ |ref| ref.to_s }.join(' ')
+    end
 
   end
 end
