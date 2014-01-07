@@ -33,6 +33,7 @@ module RubyXL
     end
 
     def write_xml(xml)
+      before_write_xml if self.respond_to?(:before_write_xml)
       xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), prepare_attributes)
     end
 

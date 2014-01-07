@@ -65,7 +65,7 @@ module RubyXL
       sel
     end 
 
-    def write_xml(xml)
+    def before_write_xml
       # Normally, rindex of activeCellId in sqref:
       # <selection activeCell="E12" activeCellId="9" sqref="A4 B6 C8 D10 E12 A4 B6 C8 D10 E12"/>
       if @active_cell_id.nil? && !@active_cell.nil? && @sqref.size > 1 then
@@ -74,8 +74,6 @@ module RubyXL
         # Not using .reverse.each here to avoid memory reallocation.
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
-
-      super
     end
 
   end

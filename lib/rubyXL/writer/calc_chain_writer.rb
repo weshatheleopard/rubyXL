@@ -11,7 +11,7 @@ module RubyXL
       end
 
       def write()
-        build_xml do |xml|
+        render_xml do |xml|
           nil
         end
       end
