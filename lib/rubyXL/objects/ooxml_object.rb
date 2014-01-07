@@ -28,6 +28,14 @@ module RubyXL
       self.send(:attr_accessor, accessor)
     end
 
+    def self.define_element_name(v)
+      self.class_variable_set(:@@ooxml_tag_name, v)
+    end
+
+    def write_xml(xml)
+      xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), prepare_attributes)
+    end
+
     def initialize
       return super unless self.class.class_variable_defined?(:@@ooxml_attributes)
       attrs = self.class.class_variable_get(:@@ooxml_attributes)
@@ -46,6 +54,7 @@ module RubyXL
               when :float  then attr && Float(attr.value)
               when :string then attr && attr.value
               when :sqref  then attr && RubyXL::Sqref.new(attr.value)
+              when :ref    then attr && RubyXL::Reference.new(attr.value)
               end              
 
         obj.send("#{k}=", val)

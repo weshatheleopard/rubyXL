@@ -46,11 +46,7 @@ module RubyXL
     define_attribute(:top_left_cell, :topLeftCell, :string,    true)
     define_attribute(:active_pane,   :activePane,  :string, true, nil,
                        %w{ bottomRight topRight bottomLeft topLeft })
-
-    def write_xml(xml)
-      xml.create_element('pane', prepare_attributes)
-    end
-
+    define_element_name 'pane'
   end
 
 
@@ -60,6 +56,7 @@ module RubyXL
     define_attribute(:active_cell,    :activeCell,   :string, true)
     define_attribute(:active_cell_id, :activeCellId, :int,    true) # 0-based index of @active_cell in @sqref
     define_attribute(:sqref,          :sqref,        :sqref)        # Array of references to the selected cells.
+    define_element_name 'selection'
 
     def self.parse(node)
       sel = super
@@ -78,7 +75,7 @@ module RubyXL
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
 
-      xml.create_element('selection', prepare_attributes)
+      super
     end
 
   end
