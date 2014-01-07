@@ -34,7 +34,9 @@ module RubyXL
 
     def write_xml(xml)
       before_write_xml if self.respond_to?(:before_write_xml)
-      xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), prepare_attributes)
+      attrs = prepare_attributes
+      content = attrs.delete('_')
+      xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), attrs, content)
     end
 
     def initialize
@@ -48,15 +50,22 @@ module RubyXL
 
       self.class_variable_get(:@@ooxml_attributes).each_pair { |k, v|
 
-        attr = node.attributes[v[:attr_name]]
+        raw_value = if v[:attr_name] == '_' then node.text
+                    else
+                      attr = node.attributes[v[:attr_name]]
+                      attr && attr.value
+                    end
+                    
+        val = raw_value &&
+                case v[:attr_type]
+                when :int    then Integer(raw_value)
+                when :float  then Float(raw_value)
+                when :string then raw_value
+                when :sqref  then RubyXL::Sqref.new(raw_value)
+                when :ref    then RubyXL::Reference.new(raw_value)
+                when :bool   then raw_value.to_i == 1
+                end              
 
-        val = case v[:attr_type]
-              when :int    then attr && Integer(attr.value)
-              when :float  then attr && Float(attr.value)
-              when :string then attr && attr.value
-              when :sqref  then attr && RubyXL::Sqref.new(attr.value)
-              when :ref    then attr && RubyXL::Reference.new(attr.value)
-              end              
 
         obj.send("#{k}=", val)
       }
@@ -74,6 +83,12 @@ module RubyXL
           next if v[:optional]
           val = v[:default]
         end
+
+        val = val &&
+                case v[:attr_type]
+                when :bool then val ? '1' : '0'
+                else val
+                end
 
         xml_attrs[v[:attr_name]] = val
       }

@@ -28,22 +28,23 @@ module RubyXL
                                             :windowWidth => 21600, :windowHeight => 13340, :tabRatio => 500 })
             })
 
-            index = 0
+            index = 1
             root << (xml.create_element('sheets') { |sheet_xml|
               @workbook.worksheets.each_with_index { |sheet, i|
-                index = i + 1
                 sheet_xml << xml.create_element('sheet', { :name => sheet.sheet_name,
                                                            :sheetId => sheet.sheet_id || index, 
                                                            'r:id'=> "rId#{index}" })
+                index += 1
               }
             })
 
             unless @workbook.external_links.empty?
+
               root << (xml.create_element('externalReferences') { |refs|
-                # This doesn't quite make a lot of sense -- why we are starting with index and not 0?
-                # Need to check once I get the file with external links...
-                index.upto(@workbook.external_links.size - 1) { |id|
-                  refs << xml.create_element('externalReference', { 'r:id' => "rId#{id + index}" })
+                # Need to correlate these with WorkbookRelsWriter
+                @workbook.external_links.each_value { 
+                  refs << xml.create_element('externalReference', { 'r:id' => "rId#{index}" })
+                  index += 1
                 }
               })
             end
