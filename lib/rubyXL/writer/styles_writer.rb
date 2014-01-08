@@ -16,7 +16,7 @@ module Writer
       corrected_index = 0
 
       @workbook.fonts.each_with_index { |font, i|
-        if font[:count] > 0 || i == 0 then # Default font #0 should stay the same
+        if font.count > 0 || i == 0 then # Default font #0 should stay the same
           @font_id_corrector[i] = corrected_index
           corrected_index += 1
         end
@@ -97,49 +97,11 @@ module Writer
           @workbook.style_corrector = @style_id_corrector
 
           xml.fonts('count' => @workbook.fonts.size) {
+puts @workbook.fonts.inspect
+
             @workbook.fonts.each_with_index { |font, i|
               next if font.nil? || @font_id_corrector[i].nil?
-              font = font[:font]
-
-              xml.font {
-                xml.sz('val'=>font[:sz][:attributes][:val].to_s)
-                unless font[:b].nil?
-                  xml.b
-                end
-                unless font[:i].nil?
-                  xml.i
-                end
-                unless font[:u].nil?
-                  xml.u
-                end
-                unless font[:strike].nil?
-                  xml.strike
-                end
-
-                unless font[:color].nil?
-                  unless font[:color][:attributes][:indexed].nil?
-                    xml.color('indexed'=>font[:color][:attributes][:indexed])
-                  else
-                    unless font[:color][:attributes][:rgb].nil?
-                      xml.color('rgb'=>font[:color][:attributes][:rgb])
-                    else
-                      unless font[:color][:attributes][:theme].nil?
-                        xml.color('theme'=>font[:color][:attributes][:theme])
-                      end
-                    end
-                  end
-                end
-
-                unless font[:family].nil?
-                  xml.family('val'=>font[:family][:attributes][:val])
-                end
-
-                unless font[:scheme].nil?
-                  xml.scheme('val'=>font[:scheme][:attributes][:val])
-                end
-
-                xml.name('val'=>font[:name][:attributes][:val])
-              }
+              font.build_xml(xml)
             }
           }
 

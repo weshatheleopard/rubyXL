@@ -37,13 +37,13 @@ module RubyXL
     # This method checks to see if there is an equivalent font that exists
     def find_font(workbook, font)
       workbook.fonts.each_with_index {|f, font_id|
-        if f[:font][:i] == font[:i] &&
-          f[:font][:b] == font[:b] &&
-          f[:font][:u] == font[:u] &&
-          f[:font][:strike] == font[:strike] &&
-          f[:font][:name][:attributes][:val] == font[:name][:attributes][:val] &&
-          f[:font][:sz][:attributes][:val] == font[:sz][:attributes][:val] &&
-          (f[:font][:color] && f[:font][:color][:attributes][:rgb]) == (font[:color] && font[:color][:attributes][:rgb])
+        if (f.italic == font.italic &&
+          f.bold == font.bold &&
+          f.underlined == font.underlined &&
+          f.strikethrough == font.strikethrough &&
+          f.name == font.name &&
+          f.size == font.size &&
+          f.color == font.color) # TODO: need to write proper comparison
           return font_id
         end
       }
@@ -52,50 +52,32 @@ module RubyXL
 
     # Helper method to modify the font color
     def modify_font_color(font, font_color)
-      if font[:color].nil?
-        font[:color] = {:attributes => {:rgb => ''}}
-      end
-      font[:color][:attributes][:rgb] = font_color.to_s
+      font.color = RubyXL::Color.new if font.color.nil?
+      font.color.rgb = font_color.to_s
       return font
     end
 
     # Helper method to modify the font's italics settings
     def modify_font_italics(font, italicized)
-      if italicized
-        font[:i] = {}
-      else
-        font[:i] = nil
-      end
+      font.italic = italicized
       return font
     end
 
     # Helper method to modify the font's bold settings
     def modify_font_bold(font, bolded)
-      if bolded
-        font[:b] = {}
-      else
-        font[:b] = nil
-      end
+      font.bold = bolded
       return font
     end
 
     # Helper method to modify the font's underline settings
     def modify_font_underline(font, underlined)
-      if underlined
-        font[:u] = {}
-      else
-        font[:u] = nil
-      end
+      font.underlined = underlined
       return font
     end
 
     # Helper method to modify the font's strikethrough settings
     def modify_font_strikethrough(font, struckthrough)
-      if struckthrough
-        font[:strike] = {}
-      else
-        font[:strike] = nil
-      end
+      font.strikethrough = struckthrough
       return font
     end
 
@@ -106,15 +88,15 @@ module RubyXL
       font_id = old_font_id
       existing_font_id = find_font(workbook, font)
       if !existing_font_id.nil?
+
         font_id = existing_font_id
-        workbook.fonts[font_id][:count] += 1
-        workbook.fonts[old_font_id][:count] -= 1
-      elsif workbook.fonts[old_font_id][:count] > 1 || old_font_id == 0
+        workbook.fonts[font_id].count += 1
+        workbook.fonts[old_font_id].count -= 1
+      elsif workbook.fonts[old_font_id].count > 1 || old_font_id == 0
         font_id = workbook.fonts.size
-        workbook.fonts[font_id] = {}
-        workbook.fonts[font_id][:font] = font
-        workbook.fonts[font_id][:count] = 1
-        workbook.fonts[old_font_id][:count] -= 1
+        workbook.fonts[font_id] = font
+        workbook.fonts[font_id].count = 1
+        workbook.fonts[old_font_id].count -= 1
       else
         workbook.fonts[font_id][:font] = font
       end

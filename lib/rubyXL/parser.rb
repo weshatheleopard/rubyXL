@@ -69,6 +69,9 @@ module RubyXL
       borders = files['styles'].css('borders border')
       wb.borders = borders.collect { |node| RubyXL::Border.parse(node) }
 
+      fonts = files['styles'].css('fonts font')
+      wb.fonts = fonts.collect { |node| RubyXL::Font.parse(node) }
+
       fill_styles(wb, style_hash)
 
       wb.external_links = files['externalLinks']
@@ -103,14 +106,6 @@ module RubyXL
       end
       wb.num_fmts = style_hash[:numFmts]
 
-      ###FONTS###
-      wb.fonts = []
-      style_hash[:fonts][:font] = [style_hash[:fonts][:font]] unless style_hash[:fonts][:font].is_a?(Array)
-
-      style_hash[:fonts][:font].each_with_index { |f, i|
-        wb.fonts[i] = {:font=>f,:count=>0}
-      }
-
       wb.cell_style_xfs = style_hash[:cellStyleXfs]
       wb.cell_xfs = style_hash[:cellXfs]
       wb.cell_styles = style_hash[:cellStyles]
@@ -122,7 +117,7 @@ module RubyXL
 
       wb.cell_xfs[:xf].each do |style|
         id = Integer(style[:attributes][:fontId])
-        wb.fonts[id][:count] += 1 unless id.nil?
+        wb.fonts[id].count += 1 unless id.nil?
 
         id = style[:attributes][:fillId]
         wb.fills[id].count += 1 unless id.nil?

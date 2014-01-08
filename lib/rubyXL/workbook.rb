@@ -302,20 +302,15 @@ module RubyXL
     # Do not change. Excel requires that some of these styles be default,
     # and will simply assume that the 0 and 1 indexed fonts are the default values.
     def fill_styles()
-      @fonts = [ {
-                          :font => {
-                                     :sz   => { :attributes => { :val => 10 } },
-                                     :name => { :attributes => { :val => "Verdana" } }
-                                   },
-                          :count=>1
-                  }, {
-                          :font => {
-                                     :sz   => { :attributes => { :val => 8 } },
-                                     :name => { :attributes => { :val => "Verdana" } }
-                                   },
-                          :count=>0
-                        }
-               ]
+
+      f0 = RubyXL::Font.new
+      f1 = RubyXL::Font.new
+      f0.name = f1.name = 'Verdana'
+      f0.size = 10
+      f1.size = 8
+      f0.count = 1
+
+      @fonts = [ f0, f1 ]
 
       @fills = [ RubyXL::PatternFill.new(:pattern_type => 'none'),
                  RubyXL::PatternFill.new(:pattern_type => 'gray125') ]
