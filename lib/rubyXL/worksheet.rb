@@ -128,7 +128,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified name
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font[:name][:attributes][:val] = font_name.to_s
     # Update font and xf array
     change_row_font(row, Worksheet::NAME, font_name, font, xf_id)
@@ -139,7 +139,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified size
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font[:sz][:attributes][:val] = font_size
     # Update font and xf array
     change_row_font(row, Worksheet::SIZE, font_size, font, xf_id)
@@ -151,7 +151,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified color
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_color(font, font_color.to_s)
     # Update font and xf array
     change_row_font(row, Worksheet::COLOR, font_color, font, xf_id)
@@ -162,7 +162,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified italics settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_italics(font, italicized)
     # Update font and xf array
     change_row_font(row, Worksheet::ITALICS, italicized, font, xf_id)
@@ -173,7 +173,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified bold settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_bold(font, bolded)
     # Update font and xf array
     change_row_font(row, Worksheet::BOLD, bolded, font, xf_id)
@@ -184,7 +184,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified underline settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_underline(font, underlined)
     # Update font and xf array
     change_row_font(row, Worksheet::UNDERLINE, underlined, font, xf_id)
@@ -195,7 +195,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified strikethrough settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_strikethrough(font, struckthrough)
     # Update font and xf array
     change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
@@ -262,7 +262,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_col_style(col))
     # Get copy of font object with modified name
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font[:name][:attributes][:val] = font_name.to_s
     # Update font and xf array
     change_column_font(col, Worksheet::NAME, font_name, font, xf_id)
@@ -273,7 +273,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_col_style(col))
     # Get copy of font object with modified size
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font[:sz][:attributes][:val] = font_size
     # Update font and xf array
     change_column_font(col, Worksheet::SIZE, font_size, font, xf_id)
@@ -285,7 +285,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_col_style(col))
     # Get copy of font object with modified color
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_color(font, font_color.to_s)
     # Update font and xf array
     change_column_font(col, Worksheet::COLOR, font_color, font, xf_id)
@@ -296,7 +296,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_col_style(col))
     # Get copy of font object with modified italics settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_italics(font, italicized)
     # Update font and xf array
     change_column_font(col, Worksheet::ITALICS, italicized, font, xf_id)
@@ -307,7 +307,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_col_style(col))
     # Get copy of font object with modified bold settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_bold(font, bolded)
     # Update font and xf array
     change_column_font(col, Worksheet::BOLD, bolded, font, xf_id)
@@ -318,7 +318,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_col_style(col))
     # Get copy of font object with modified underline settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_underline(font, underlined)
     # Update font and xf array
     change_column_font(col, Worksheet::UNDERLINE, underlined, font, xf_id)
@@ -329,7 +329,7 @@ class Worksheet < PrivateClass
     # Get style object
     xf_id = xf_id(get_col_style(col))
     # Get copy of font object with modified strikethrough settings
-    font = deep_copy(@workbook.fonts[xf_id[:fontId].to_s][:font])
+    font = deep_copy(@workbook.fonts[xf_id[:fontId]][:font])
     font = modify_font_strikethrough(font, struckthrough)
     # Update font and xf array
     change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
@@ -687,7 +687,7 @@ class Worksheet < PrivateClass
 
     xf = xf_attr_row(row)
 
-    return @workbook.fonts[xf[:fontId].to_s][:font][:name][:attributes][:val]
+    return @workbook.fonts[xf[:fontId]][:font][:name][:attributes][:val]
   end
 
   def get_row_font_size(row=0)
@@ -704,7 +704,7 @@ class Worksheet < PrivateClass
 
     xf = xf_attr_row(row)
 
-    return @workbook.fonts[xf[:fontId].to_s][:font][:sz][:attributes][:val]
+    return @workbook.fonts[xf[:fontId]][:font][:sz][:attributes][:val]
   end
 
   def get_row_font_color(row=0)
@@ -721,7 +721,7 @@ class Worksheet < PrivateClass
 
     xf = xf_attr_row(row)
 
-    color = @workbook.fonts[xf[:fontId].to_s][:font][:color]
+    color = @workbook.fonts[xf[:fontId]][:font][:color]
 
     if color.nil? || color[:attributes].nil? || color[:attributes][:rgb].nil?
       return '000000'
@@ -800,7 +800,7 @@ class Worksheet < PrivateClass
 
     style_index = get_cols_style_index(col)
 
-    return @workbook.fonts[font_id( style_index ).to_s][:font][:name][:attributes][:val]
+    return @workbook.fonts[font_id( style_index )][:font][:name][:attributes][:val]
   end
 
   def get_column_font_size(col=0)
@@ -813,7 +813,7 @@ class Worksheet < PrivateClass
 
     style_index = get_cols_style_index(col)
 
-    return @workbook.fonts[font_id( style_index ).to_s][:font][:sz][:attributes][:val]
+    return @workbook.fonts[font_id( style_index )][:font][:sz][:attributes][:val]
   end
 
   def get_column_font_color(col=0)
@@ -826,7 +826,7 @@ class Worksheet < PrivateClass
 
     style_index = get_cols_style_index(col)
 
-    font = @workbook.fonts[font_id( style_index ).to_s][:font]
+    font = @workbook.fonts[font_id(style_index)][:font]
 
     if font[:color].nil? || font[:color][:attributes].nil? || font[:color][:attributes][:rgb].nil?
       return '000000'
@@ -945,7 +945,7 @@ class Worksheet < PrivateClass
 
     xf = xf_attr_row(row)
 
-    return !@workbook.fonts[xf[:fontId].to_s][:font][property].nil?
+    return !@workbook.fonts[xf[:fontId]][:font][property].nil?
   end
 
   def get_row_alignment(row,is_horizontal)
@@ -990,7 +990,7 @@ class Worksheet < PrivateClass
 
     style_index = get_cols_style_index(col)
 
-    return !@workbook.fonts[font_id( style_index ).to_s][:font][property].nil?
+    return !@workbook.fonts[font_id( style_index )][:font][property].nil?
   end
 
   def get_column_alignment(col, type)
@@ -1051,7 +1051,7 @@ class Worksheet < PrivateClass
     ensure_cell_exists(row)
 
     # Modify font array and retrieve new font id
-    font_id = modify_font(@workbook, font, xf_id[:fontId].to_s)
+    font_id = modify_font(@workbook, font, xf_id[:fontId])
     # Get copy of xf object with modified font id
     xf = deep_copy(xf_id)
     xf[:fontId] = Integer(font_id)
@@ -1077,7 +1077,7 @@ class Worksheet < PrivateClass
     ensure_cell_exists(0, col)
 
     # Modify font array and retrieve new font id
-    font_id = modify_font(@workbook, font, xf_id[:fontId].to_s)
+    font_id = modify_font(@workbook, font, xf_id[:fontId])
     # Get copy of xf object with modified font id
     xf = deep_copy(xf_id)
     xf[:fontId] = Integer(font_id)
@@ -1171,7 +1171,7 @@ class Worksheet < PrivateClass
     if @row_styles[(row+1).to_s].nil?
       @row_styles[(row+1).to_s] = {}
       @row_styles[(row+1).to_s][:style] = '0'
-      @workbook.fonts['0'][:count] += 1
+      @workbook.fonts[0][:count] += 1
     end
     return @row_styles[(row+1).to_s][:style]
   end
@@ -1182,7 +1182,7 @@ class Worksheet < PrivateClass
 
     return range.style_index if range
     
-    @workbook.fonts['0'][:count] += 1
+    @workbook.fonts[0][:count] += 1
 
     0
   end
@@ -1291,7 +1291,7 @@ class Worksheet < PrivateClass
 
   def add_cell_style(row,column)
     xf = @workbook.get_style_attributes(@workbook.get_style(@sheet_data[row][column].style_index))
-    @workbook.fonts[xf[:fontId].to_s][:count] += 1
+    @workbook.fonts[xf[:fontId]][:count] += 1
     @workbook.fills[xf[:fillId]].count += 1
     @workbook.borders[xf[:borderId]].count += 1
   end

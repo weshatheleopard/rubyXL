@@ -105,14 +105,11 @@ module RubyXL
 
       ###FONTS###
       wb.fonts = {}
-      if style_hash[:fonts][:attributes][:count]==1
-        style_hash[:fonts][:font] = [style_hash[:fonts][:font]]
-      end
+      style_hash[:fonts][:font] = [style_hash[:fonts][:font]] unless style_hash[:fonts][:font].is_a?(Array)
 
-      style_hash[:fonts][:font].each_with_index do |f,i|
-        wb.fonts[i.to_s] = {:font=>f,:count=>0}
-      end
-
+      style_hash[:fonts][:font].each_with_index { |f,i|
+        wb.fonts[i] = {:font=>f,:count=>0}
+      }
 
       wb.cell_style_xfs = style_hash[:cellStyleXfs]
       wb.cell_xfs = style_hash[:cellXfs]
@@ -124,7 +121,7 @@ module RubyXL
       end
 
       wb.cell_xfs[:xf].each do |style|
-        id = style[:attributes][:fontId].to_s
+        id = Integer(style[:attributes][:fontId])
         unless id.nil?
           wb.fonts[id][:count] += 1
         end

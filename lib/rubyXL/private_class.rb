@@ -109,8 +109,8 @@ module RubyXL
         font_id = existing_font_id
         workbook.fonts[font_id][:count] += 1
         workbook.fonts[old_font_id][:count] -= 1
-      elsif workbook.fonts[old_font_id.to_s][:count] > 1 || old_font_id == '0'
-        font_id = workbook.fonts.size.to_s
+      elsif workbook.fonts[old_font_id][:count] > 1 || old_font_id == 0
+        font_id = workbook.fonts.size
         workbook.fonts[font_id] = {}
         workbook.fonts[font_id][:font] = font
         workbook.fonts[font_id][:count] = 1
