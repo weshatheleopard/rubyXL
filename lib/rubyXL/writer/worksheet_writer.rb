@@ -48,7 +48,7 @@ module Writer
                               :width => range.width || 10,
                               :customWidth => range.custom_width || 0 }
 
-                style_index = @workbook.style_corrector[range.style_index.to_s]
+                style_index = @workbook.style_corrector[range.style_index]
                 col_attrs[:style] = style_index if style_index
                 cols << (xml.create_element('col', col_attrs))
               end
@@ -68,7 +68,7 @@ module Writer
                 custom_format = '0'
               end
 
-              @worksheet.row_styles[(i+1).to_s][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style].to_s]
+              @worksheet.row_styles[(i+1).to_s][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style]]
               row_opts = {
                 :r            => i + 1,
                 :spans        => "1:#{row.size}",
@@ -92,8 +92,8 @@ module Writer
                   unless cell.nil?
                     #TODO do xml.c for all cases, inside specific.
                     # if cell.formula.nil?
-                    cell.style_index = @workbook.style_corrector[cell.style_index.to_s]
-                    c_opts = { :r => RubyXL::Reference.ind2ref(i, j), :s => cell.style_index.to_s }
+                    cell.style_index = @workbook.style_corrector[cell.style_index]
+                    c_opts = { :r => RubyXL::Reference.ind2ref(i, j), :s => cell.style_index }
 
                     unless cell.datatype.nil? || cell.datatype == ''
                       c_opts[:t] = cell.datatype

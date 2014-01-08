@@ -10,12 +10,12 @@ module Writer
     end
 
     def write()
-      @border_id_corrector = {}
       @style_id_corrector = {}
 
       @font_id_corrector = []  # Relation "old_index -> corrected_index"
       corrected_index = 0
-      @workbook.fonts.each_with_index{ |font, i|
+
+      @workbook.fonts.each_with_index { |font, i|
         if font[:count] > 0 || i == 0 then # Default font #0 should stay the same
           @font_id_corrector[i] = corrected_index
           corrected_index += 1
@@ -31,6 +31,15 @@ module Writer
         end
       }
 
+      @border_id_corrector = []
+      corrected_index = 0
+      @workbook.borders.each_with_index { |border, i|
+        if (border.count > 0) || (i == 0) then # Keep special style #0 and all used styles
+          @border_id_corrector[i] = corrected_index
+          corrected_index += 1
+        end
+      }
+
       build_xml do |xml|
         xml.styleSheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main") {
           unless @workbook.num_fmts.nil? || @workbook.num_fmts[:attributes].nil?
@@ -42,17 +51,6 @@ module Writer
               end
             }
           end
-
-          offset = 0
-          @workbook.borders.each_with_index { |border, i|
-            if (i == 0) || (border.count > 0) then # Keep special style #0 and all used styles
-              @border_id_corrector[i] = i - offset
-            else # Remove all others
-              @workbook.borders[i] = @border_id_corrector[i] = nil
-              offset += 1
-            end
-          }
-
 
           @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]] unless @workbook.cell_xfs[:xf].is_a?(Array)
 
@@ -97,7 +95,6 @@ module Writer
           end
           
           @workbook.style_corrector = @style_id_corrector
-
 
           xml.fonts('count'=>@workbook.fonts.size) {
             0.upto(@workbook.fonts.size-1) do |i|
@@ -149,16 +146,16 @@ module Writer
           }
 
           xml.borders('count' => @workbook.borders.size) {
-            @workbook.borders.each { |border| border.build_xml(xml) unless border.nil? }
+            @workbook.borders.each_with_index { |border, i| border.build_xml(xml) unless @border_id_corrector[i].nil? }
           }
 
           xml.cellStyleXfs('count' => @workbook.cell_style_xfs[:attributes][:count]) {
             @workbook.cell_style_xfs[:xf].each do |style|
               style = @workbook.get_style_attributes(style)
-              xml.xf('numFmtId'=>style[:numFmtId].to_s,
-              'fontId'=> @font_id_corrector[style[:fontId]],
-              'fillId'=> @fill_id_corrector[style[:fillId]].to_s,
-              'borderId'=> @border_id_corrector[style[:borderId]])
+              xml.xf('numFmtId' => style[:numFmtId],
+              'fontId' => @font_id_corrector[style[:fontId]],
+              'fillId' => @fill_id_corrector[style[:fillId]],
+              'borderId' => @border_id_corrector[style[:borderId]])
             end
           }
 
@@ -166,7 +163,7 @@ module Writer
             @workbook.cell_xfs[:xf].each do |xf_obj|
               xf = @workbook.get_style_attributes(xf_obj)
 
-              xml.xf('numFmtId'=>xf[:numFmtId].to_s,
+              xml.xf('numFmtId' => xf[:numFmtId],
               'fontId'=> @font_id_corrector[xf[:fontId]],
               'fillId'=> @fill_id_corrector[xf[:fillId]],
               'borderId' => @border_id_corrector[xf[:borderId]],

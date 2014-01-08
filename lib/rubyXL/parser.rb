@@ -122,19 +122,13 @@ module RubyXL
 
       wb.cell_xfs[:xf].each do |style|
         id = Integer(style[:attributes][:fontId])
-        unless id.nil?
-          wb.fonts[id][:count] += 1
-        end
+        wb.fonts[id][:count] += 1 unless id.nil?
 
         id = style[:attributes][:fillId]
-        unless id.nil?
-          wb.fills[id].count += 1
-        end
+        wb.fills[id].count += 1 unless id.nil?
 
         id = style[:attributes][:borderId]
-        unless id.nil?
-          wb.borders[id].count += 1
-        end
+        wb.borders[id].count += 1 unless id.nil?
       end
 
     end

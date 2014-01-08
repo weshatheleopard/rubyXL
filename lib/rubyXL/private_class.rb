@@ -36,7 +36,7 @@ module RubyXL
 
     # This method checks to see if there is an equivalent font that exists
     def find_font(workbook, font)
-      workbook.fonts.each {|font_id, f|
+      workbook.fonts.each_with_index {|f, font_id|
         if f[:font][:i] == font[:i] &&
           f[:font][:b] == font[:b] &&
           f[:font][:u] == font[:u] &&
