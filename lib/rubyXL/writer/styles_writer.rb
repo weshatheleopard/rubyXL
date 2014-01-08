@@ -10,15 +10,23 @@ module Writer
     end
 
     def write()
-      @fill_id_corrector = {}
       @border_id_corrector = {}
       @style_id_corrector = {}
 
       @font_id_corrector = []  # Relation "old_index -> corrected_index"
       corrected_index = 0
-      @workbook.fonts.each_with_index { |font, i|
-        if @workbook.fonts[i][:count] > 0 || i == 0 then # Default font #0 should stay the same
+      @workbook.fonts.each_with_index{ |font, i|
+        if font[:count] > 0 || i == 0 then # Default font #0 should stay the same
           @font_id_corrector[i] = corrected_index
+          corrected_index += 1
+        end
+      }
+
+      @fill_id_corrector = []
+      corrected_index = 0
+      @workbook.fills.each_with_index { |fill, i|
+        if fill.count > 0 || i < 2 then # First 2 fills are hardcoded
+          @fill_id_corrector[i] = corrected_index
           corrected_index += 1
         end
       }
@@ -36,21 +44,6 @@ module Writer
           end
 
           offset = 0
-          #STARTS AT 2 because excel is stupid
-          #and it seems to hard code access the first
-          #2 styles.............
-          @fill_id_corrector[0] = 0
-          @fill_id_corrector[1] = 1
-          2.upto(@workbook.fills.size - 1) { |i|
-            @fill_id_corrector[i] = i-offset
-            if @workbook.fills[i].count == 0
-              @workbook.fills[i] = nil
-              @fill_id_corrector[i] = nil
-              offset += 1
-            end
-          }
-
-          offset = 0
           @workbook.borders.each_with_index { |border, i|
             if (i == 0) || (border.count > 0) then # Keep special style #0 and all used styles
               @border_id_corrector[i] = i - offset
@@ -60,9 +53,8 @@ module Writer
             end
           }
 
-          if !@workbook.cell_xfs[:xf].is_a?(Array)
-            @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]]
-          end
+
+          @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]] unless @workbook.cell_xfs[:xf].is_a?(Array)
 
           @style_id_corrector['0']=0
           delete_list = []
@@ -153,7 +145,7 @@ module Writer
           }
 
           xml.fills('count' => @workbook.fills.size) {
-            @workbook.fills.each { |fill| fill.build_xml(xml) unless fill.nil? }
+            @workbook.fills.each_with_index { |fill, i| fill.build_xml(xml) unless @fill_id_corrector[i].nil? }
           }
 
           xml.borders('count' => @workbook.borders.size) {
@@ -165,7 +157,7 @@ module Writer
               style = @workbook.get_style_attributes(style)
               xml.xf('numFmtId'=>style[:numFmtId].to_s,
               'fontId'=> @font_id_corrector[style[:fontId]],
-              'fillId'=>@fill_id_corrector[style[:fillId].to_s].to_s,
+              'fillId'=> @fill_id_corrector[style[:fillId]].to_s,
               'borderId'=> @border_id_corrector[style[:borderId]])
             end
           }
@@ -176,7 +168,7 @@ module Writer
 
               xml.xf('numFmtId'=>xf[:numFmtId].to_s,
               'fontId'=> @font_id_corrector[xf[:fontId]],
-              'fillId'=>@fill_id_corrector[xf[:fillId]],
+              'fillId'=> @fill_id_corrector[xf[:fillId]],
               'borderId' => @border_id_corrector[xf[:borderId]],
               'xfId'=>xf[:xfId].to_s,
               'applyFont'=>xf[:applyFont].to_i.to_s, #0 if nil

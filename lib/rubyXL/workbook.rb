@@ -46,7 +46,7 @@ module RubyXL
       @appversion         = appversion
       @num_fmts           = nil
       @num_fmts_hash      = nil
-      @fonts              = nil
+      @fonts              = []
       @fills              = nil
       @borders            = []
       @cell_xfs           = nil
