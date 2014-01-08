@@ -54,18 +54,18 @@ module Writer
 
           @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]] unless @workbook.cell_xfs[:xf].is_a?(Array)
 
-          @style_id_corrector['0']=0
+          @style_id_corrector[0] = 0
           delete_list = []
           i = 1
           while(i < @workbook.cell_xfs[:xf].size) do
-            if @style_id_corrector[i.to_s].nil?
-              @style_id_corrector[i.to_s]= i
+            if @style_id_corrector[i].nil?
+              @style_id_corrector[i]= i
             end
             # style correction commented out until bug is fixed
             j = i+1
             while(j < @workbook.cell_xfs[:xf].size) do
               if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
-                @style_id_corrector[j.to_s] = i
+                @style_id_corrector[j] = i
                 delete_list << j
               end
               j += 1
@@ -96,9 +96,8 @@ module Writer
           
           @workbook.style_corrector = @style_id_corrector
 
-          xml.fonts('count'=>@workbook.fonts.size) {
-            0.upto(@workbook.fonts.size-1) do |i|
-              font = @workbook.fonts[i]
+          xml.fonts('count' => @workbook.fonts.size) {
+            @workbook.fonts.each_with_index { |font, i|
               next if font.nil? || @font_id_corrector[i].nil?
                 font = font[:font]
 
@@ -129,16 +128,18 @@ module Writer
                       end
                     end
                   end
+
                   unless font[:family].nil?
-                    xml.family('val'=>font[:family][:attributes][:val].to_s)
-                  end
-                  unless font[:scheme].nil?
-                    xml.scheme('val'=>font[:scheme][:attributes][:val].to_s)
+                    xml.family('val'=>font[:family][:attributes][:val])
                   end
 
-                  xml.name('val'=>font[:name][:attributes][:val].to_s)
+                  unless font[:scheme].nil?
+                    xml.scheme('val'=>font[:scheme][:attributes][:val])
+                  end
+
+                  xml.name('val'=>font[:name][:attributes][:val])
               }
-            end
+            }
           }
 
           xml.fills('count' => @workbook.fills.size) {
