@@ -84,8 +84,8 @@ module Writer
             delete_index = delete_list[offset] - offset
 
             while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill              
-              if @style_id_corrector[i.to_s] == i
-                @style_id_corrector[i.to_s] -= offset# unless @style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
+              if @style_id_corrector[i] == i
+                @style_id_corrector[i] -= offset# unless @style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
               end
 
               i += 1
@@ -99,45 +99,46 @@ module Writer
           xml.fonts('count' => @workbook.fonts.size) {
             @workbook.fonts.each_with_index { |font, i|
               next if font.nil? || @font_id_corrector[i].nil?
-                font = font[:font]
+              font = font[:font]
 
-                xml.font {
-                  xml.sz('val'=>font[:sz][:attributes][:val].to_s)
-                  unless font[:b].nil?
-                    xml.b
-                  end
-                  unless font[:i].nil?
-                    xml.i
-                  end
-                  unless font[:u].nil?
-                    xml.u
-                  end
-                  unless font[:strike].nil?
-                    xml.strike
-                  end
-                  unless font[:color].nil?
-                    unless font[:color][:attributes][:indexed].nil?
-                      xml.color('indexed'=>font[:color][:attributes][:indexed])
+              xml.font {
+                xml.sz('val'=>font[:sz][:attributes][:val].to_s)
+                unless font[:b].nil?
+                  xml.b
+                end
+                unless font[:i].nil?
+                  xml.i
+                end
+                unless font[:u].nil?
+                  xml.u
+                end
+                unless font[:strike].nil?
+                  xml.strike
+                end
+
+                unless font[:color].nil?
+                  unless font[:color][:attributes][:indexed].nil?
+                    xml.color('indexed'=>font[:color][:attributes][:indexed])
+                  else
+                    unless font[:color][:attributes][:rgb].nil?
+                      xml.color('rgb'=>font[:color][:attributes][:rgb])
                     else
-                      unless font[:color][:attributes][:rgb].nil?
-                        xml.color('rgb'=>font[:color][:attributes][:rgb])
-                      else
-                        unless font[:color][:attributes][:theme].nil?
-                          xml.color('theme'=>font[:color][:attributes][:theme])
-                        end
+                      unless font[:color][:attributes][:theme].nil?
+                        xml.color('theme'=>font[:color][:attributes][:theme])
                       end
                     end
                   end
+                end
 
-                  unless font[:family].nil?
-                    xml.family('val'=>font[:family][:attributes][:val])
-                  end
+                unless font[:family].nil?
+                  xml.family('val'=>font[:family][:attributes][:val])
+                end
 
-                  unless font[:scheme].nil?
-                    xml.scheme('val'=>font[:scheme][:attributes][:val])
-                  end
+                unless font[:scheme].nil?
+                  xml.scheme('val'=>font[:scheme][:attributes][:val])
+                end
 
-                  xml.name('val'=>font[:name][:attributes][:val])
+                xml.name('val'=>font[:name][:attributes][:val])
               }
             }
           }
