@@ -3,9 +3,11 @@ module RubyXL
   class Font
     attr_accessor :count, :size, :name, :family, :color, :scheme, :bold, :italic, :underlined, :strikethrough
 
-    def initialize
+    def initialize(attrs = {})
       @count = 0
-      @size = @name = @family = @color = @scheme = nil
+      @size = attrs[:size]
+      @name = attrs[:name]
+      @family = @color = @scheme = nil
       @bold = @italic = @underlined = @strikethrough = false
     end
 

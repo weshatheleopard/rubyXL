@@ -39,10 +39,10 @@ module RubyXL
       xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), attrs, content)
     end
 
-    def initialize
+    def initialize(params = {})
       return super unless self.class.class_variable_defined?(:@@ooxml_attributes)
       attrs = self.class.class_variable_get(:@@ooxml_attributes)
-      attrs.each_key { |k| instance_variable_set("@#{k}", nil) }
+      attrs.each_key { |k| instance_variable_set("@#{k}", params[k]) }
     end
 
     def self.parse(node)

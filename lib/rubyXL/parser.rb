@@ -72,6 +72,9 @@ module RubyXL
       fonts = files['styles'].css('fonts font')
       wb.fonts = fonts.collect { |node| RubyXL::Font.parse(node) }
 
+      cell_styles = files['styles'].css('cellStyles cellStyle')
+      wb.cell_styles = cell_styles.collect { |node| RubyXL::CellStyle.parse(node) }
+
       fill_styles(wb, style_hash)
 
       wb.external_links = files['externalLinks']
@@ -108,7 +111,6 @@ module RubyXL
 
       wb.cell_style_xfs = style_hash[:cellStyleXfs]
       wb.cell_xfs = style_hash[:cellXfs]
-      wb.cell_styles = style_hash[:cellStyles]
 
       #fills out count information for each font, fill, and border
       if wb.cell_xfs[:xf].is_a?(::Hash)

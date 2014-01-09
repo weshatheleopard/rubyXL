@@ -51,7 +51,7 @@ module RubyXL
       @borders            = []
       @cell_xfs           = nil
       @cell_style_xfs     = nil
-      @cell_styles        = nil
+      @cell_styles        = []
       @shared_strings     = RubyXL::SharedStrings.new
       @calc_chain         = nil #unnecessary?
       @date1904           = date1904 > 0
@@ -303,14 +303,8 @@ module RubyXL
     # and will simply assume that the 0 and 1 indexed fonts are the default values.
     def fill_styles()
 
-      f0 = RubyXL::Font.new
-      f1 = RubyXL::Font.new
-      f0.name = f1.name = 'Verdana'
-      f0.size = 10
-      f1.size = 8
-      f0.count = 1
-
-      @fonts = [ f0, f1 ]
+      @fonts = [ RubyXL::Font.new({:name => 'Verdana', :size => 10 }),
+                 RubyXL::Font.new({:name => 'Verdana', :size => 8 }) ]
 
       @fills = [ RubyXL::PatternFill.new(:pattern_type => 'none'),
                  RubyXL::PatternFill.new(:pattern_type => 'gray125') ]
@@ -333,12 +327,8 @@ module RubyXL
                                  :attributes => { :numFmtId => 0, :fontId => 0, :fillId => 0, :borderId => 0, :xfId => 0 }
                                }
                       }
-      @cell_styles = {
-                      :cellStyle => {
-                                      :attributes => { :builtinId=>0, :name=>"Normal", :xfId=>0 }
-                                    },
-                      :attributes => { :count => 1 }
-                    }
+
+      @cell_styles = [ RubyXL::CellStyle.new({ :builtin_id => 0, :name => 'Normal', :xf_id => 0 }) ]
     end
 
 

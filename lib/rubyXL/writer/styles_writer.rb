@@ -40,6 +40,52 @@ module Writer
         end
       }
 
+      @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]] unless @workbook.cell_xfs[:xf].is_a?(Array)
+
+      @style_id_corrector[0] = 0
+      delete_list = []
+      i = 1
+      while(i < @workbook.cell_xfs[:xf].size) do
+        if @style_id_corrector[i].nil?
+          @style_id_corrector[i]= i
+        end
+        # style correction commented out until bug is fixed
+        j = i+1
+        while(j < @workbook.cell_xfs[:xf].size) do
+          if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
+            @style_id_corrector[j] = i
+            delete_list << j
+          end
+          j += 1
+        end
+        i += 1
+      end
+      
+      #go through delete list, if before delete_list index 0, offset 0, if before delete_list index 1, offset 1, etc.
+      delete_list.sort!
+
+      i = 1
+      offset = 0
+      offset_corrector = 0
+      delete_list << @workbook.cell_xfs[:xf].size
+      while offset < delete_list.size do
+        delete_index = delete_list[offset] - offset
+
+        while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill              
+          if @style_id_corrector[i] == i
+            @style_id_corrector[i] -= offset# unless @style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
+          end
+
+          i += 1
+        end
+        @workbook.cell_xfs[:xf].delete_at(delete_index)
+        offset += 1
+      end
+      
+      @workbook.style_corrector = @style_id_corrector
+
+
+
       build_xml do |xml|
         xml.styleSheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main") {
           unless @workbook.num_fmts.nil? || @workbook.num_fmts[:attributes].nil?
@@ -51,50 +97,6 @@ module Writer
               end
             }
           end
-
-          @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]] unless @workbook.cell_xfs[:xf].is_a?(Array)
-
-          @style_id_corrector[0] = 0
-          delete_list = []
-          i = 1
-          while(i < @workbook.cell_xfs[:xf].size) do
-            if @style_id_corrector[i].nil?
-              @style_id_corrector[i]= i
-            end
-            # style correction commented out until bug is fixed
-            j = i+1
-            while(j < @workbook.cell_xfs[:xf].size) do
-              if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
-                @style_id_corrector[j] = i
-                delete_list << j
-              end
-              j += 1
-            end
-            i += 1
-          end
-          
-          #go through delete list, if before delete_list index 0, offset 0, if before delete_list index 1, offset 1, etc.
-          delete_list.sort!
-
-          i = 1
-          offset = 0
-          offset_corrector = 0
-          delete_list << @workbook.cell_xfs[:xf].size
-          while offset < delete_list.size do
-            delete_index = delete_list[offset] - offset
-
-            while i <= delete_list[offset] do #if <= instead of <, fixes odd border but adds random cells with fill              
-              if @style_id_corrector[i] == i
-                @style_id_corrector[i] -= offset# unless @style_id_corrector[i.to_s].nil? #173 should equal 53, not 52?
-              end
-
-              i += 1
-            end
-            @workbook.cell_xfs[:xf].delete_at(delete_index)
-            offset += 1
-          end
-          
-          @workbook.style_corrector = @style_id_corrector
 
           xml.fonts('count' => @workbook.fonts.size) {
             @workbook.fonts.each_with_index { |font, i|
@@ -144,13 +146,10 @@ module Writer
               }
             end
           }
-          xml.cellStyles('count'=>@workbook.cell_styles[:attributes][:count]) {
 
-            @workbook.cell_styles[:cellStyle].each do |style|
-              style = @workbook.get_style_attributes(style)
-              xml.cellStyle('name'=>style[:name].to_s,
-              'xfId'=>style[:xfId].to_s,
-              'builtinId'=>style[:builtinId].to_s)
+          xml.cellStyles('count' => @workbook.cell_styles.size) {
+            @workbook.cell_styles.each do |style|
+              xml.cellStyle('name' => style.name, 'xfId' => style.xf_id, 'builtinId' => style.builtin_id)
             end
           }
           xml.dxfs('count'=>'0')
