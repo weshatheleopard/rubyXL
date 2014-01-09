@@ -746,7 +746,6 @@ class Worksheet < PrivateClass
     font && font.strikethrough
   end
 
-
   def get_row_height(row=0)
     validate_workbook
     validate_nonnegative(row)
@@ -771,85 +770,58 @@ class Worksheet < PrivateClass
   end
 
   def get_row_border_top(row=0)
-    return get_row_border(row,:top)
+    return get_row_border(row, :top)
   end
 
   def get_row_border_left(row=0)
-    return get_row_border(row,:left)
-  end
+    return get_row_border(row, :left)
+  end                         
 
   def get_row_border_right(row=0)
-    return get_row_border(row,:right)
+    return get_row_border(row, :right)
   end
 
   def get_row_border_bottom(row=0)
-    return get_row_border(row,:bottom)
+    return get_row_border(row, :bottom)
   end
 
-  def get_row_border_diagonal(row=0)
-    return get_row_border(row,:diagonal)
+  def get_row_border_diagonal(row = 0)
+    return get_row_border(row, :diagonal)
   end
 
-  def get_column_font_name(col=0)
-    validate_workbook
-    validate_nonnegative(col)
-
-    if @sheet_data[0].size <= col
-      return nil
-    end
-
-    style_index = get_cols_style_index(col)
-
-    return @workbook.fonts[font_id( style_index )].name
+  def get_column_font_name(col = 0)
+    font = column_font(col)
+    font && font.name
   end
 
-  def get_column_font_size(col=0)
-    validate_workbook
-    validate_nonnegative(col)
-
-    if @sheet_data[0].size <= col
-      return nil
-    end
-
-    style_index = get_cols_style_index(col)
-
-    return @workbook.fonts[font_id( style_index )].size
+  def get_column_font_size(col = 0)
+    font = column_font(col)
+    font && font.size
   end
 
-  def get_column_font_color(col=0)
-    validate_workbook
-    validate_nonnegative(col)
-
-    if @sheet_data[0].size <= col
-      return nil
-    end
-
-    style_index = get_cols_style_index(col)
-
-    font = @workbook.fonts[font_id(style_index)]
-
-    if font.color.nil? || font.color.rgb.nil?
-      return '000000'
-    end
-
-    return font.color.rgb
-
+  def get_column_font_color(col = 0)
+    font = column_font(col)
+    font && (font.color && font.color.rgb || '000000')
   end
 
-  def is_column_italicized(col=0)
-    get_column_bool(col,:i)
+  def is_column_italicized(col = 0)
+    font = column_font(col)
+    font && font.italic
   end
 
-  def is_column_bolded(col=0)
-    get_column_bool(col,:b)
+  def is_column_bolded(col = 0)
+    font = column_font(col)
+    font && font.bold
   end
 
-  def is_column_underlined(col=0)
-    get_column_bool(col,:u)
+  def is_column_underlined(col = 0)
+    font = column_font(col)
+    font && font.underlined
   end
 
-  def is_column_struckthrough(col=0)
-    get_column_bool(col,:strike)
+  def is_column_struckthrough(col = 0)
+    font = column_font(col)
+    font && font.strikethrough
   end
 
   def get_column_width(col=0)
@@ -972,17 +944,13 @@ class Worksheet < PrivateClass
     edge && edge.style
   end
 
-  def get_column_bool(col,property)
+  def column_font(col)
     validate_workbook
     validate_nonnegative(col)
 
-    if @sheet_data[0].size <= col
-      return nil
-    end
-
+    return nil if @sheet_data[0].size <= col
     style_index = get_cols_style_index(col)
-
-    return !@workbook.fonts[font_id( style_index )][:font][property].nil?
+    @workbook.fonts[xf_id(style_index)[:fontId]]
   end
 
   def get_column_alignment(col, type)
@@ -1079,12 +1047,10 @@ class Worksheet < PrivateClass
 #    new_style_index = modify_fill(@workbook, get_column_style_index(col), color_index)
 #    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
-    @sheet_data.each do |row|
+    @sheet_data.each { |row|
       c = row[col]
-      unless c.nil?
-        font_switch(c, change_type, arg)
-      end
-    end
+      font_switch(c, change_type, arg) unless c.nil?
+    }
   end
 
   #performs correct modification based on what type of change_type is specified

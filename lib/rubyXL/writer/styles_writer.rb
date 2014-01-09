@@ -97,8 +97,6 @@ module Writer
           @workbook.style_corrector = @style_id_corrector
 
           xml.fonts('count' => @workbook.fonts.size) {
-puts @workbook.fonts.inspect
-
             @workbook.fonts.each_with_index { |font, i|
               next if font.nil? || @font_id_corrector[i].nil?
               font.build_xml(xml)
