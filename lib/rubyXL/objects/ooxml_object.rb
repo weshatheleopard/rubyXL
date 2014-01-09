@@ -27,6 +27,16 @@ module RubyXL
 
       self.send(:attr_accessor, accessor)
     end
+    
+    def self.define_child_node(klass, child_node_name = nil )
+      if class_variable_defined?(:@@ooxml_child_nodes) then
+        child_nodes = self.class_variable_get(:@@ooxml_child_nodes)
+      else
+        child_nodes = self.class_variable_set(:@@ooxml_child_nodes, {})
+      end
+      
+      child_nodes[(child_node_name || klass.class_variable_get(:@@ooxml_tag_name)).to_sym] = klass
+    end
 
     def self.define_element_name(v)
       self.class_variable_set(:@@ooxml_tag_name, v)
@@ -36,13 +46,21 @@ module RubyXL
       before_write_xml if self.respond_to?(:before_write_xml)
       attrs = prepare_attributes
       content = attrs.delete('_')
-      xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), attrs, content)
+      elem = xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), attrs, content)
+      child_nodes = self.class.class_variable_get(:@@ooxml_child_nodes)
+      child_nodes.each_key { |k|
+        obj = self.send(k)
+        elem << obj.write_xml(xml) unless obj.nil?
+      }
+      elem
     end
 
     def initialize(params = {})
       return super unless self.class.class_variable_defined?(:@@ooxml_attributes)
       attrs = self.class.class_variable_get(:@@ooxml_attributes)
       attrs.each_key { |k| instance_variable_set("@#{k}", params[k]) }
+      child_nodes = self.class.class_variable_get(:@@ooxml_child_nodes)
+      child_nodes.each_key { |k| instance_variable_set("@#{k}", params[k]) }
     end
 
     def self.parse(node)
@@ -66,9 +84,19 @@ module RubyXL
                 when :bool   then raw_value.to_i == 1
                 end              
 
-
         obj.send("#{k}=", val)
       }
+      
+      if class_variable_defined?(:@@ooxml_child_nodes) then
+        known_child_nodes = self.class_variable_get(:@@ooxml_child_nodes)
+        
+        node.element_children.each { |child_node|
+          child_node_name = child_node.name
+          child_node_klass = known_child_nodes[child_node_name]
+          raise "Unknown child node: #{child_node_name}" unless child_node_klass
+          obj.send("#{child_node_name}=", klass.parse(child_node)
+        }
+      end
 
       obj
     end
