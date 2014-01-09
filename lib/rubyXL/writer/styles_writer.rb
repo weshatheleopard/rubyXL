@@ -86,6 +86,10 @@ module Writer
 
 
 
+
+
+
+
       build_xml do |xml|
         xml.styleSheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main") {
           unless @workbook.num_fmts.nil? || @workbook.num_fmts[:attributes].nil?
@@ -148,9 +152,10 @@ module Writer
           }
 
           xml.cellStyles('count' => @workbook.cell_styles.size) {
-            @workbook.cell_styles.each do |style|
+            @workbook.cell_styles.each { |style|
               xml.cellStyle('name' => style.name, 'xfId' => style.xf_id, 'builtinId' => style.builtin_id)
-            end
+              #cellStyle.write_xml(xml)
+            }
           }
           xml.dxfs('count'=>'0')
           xml.tableStyles('count'=>'0', 'defaultTableStyle'=>'TableStyleMedium9')

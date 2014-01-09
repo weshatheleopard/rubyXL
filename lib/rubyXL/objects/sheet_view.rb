@@ -1,11 +1,11 @@
 module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
   class SheetView < OOXMLObject
-    define_attribute(:tab_selected,      :tabSelected,     :int,    true)
-    define_attribute(:zoom_scale,        :zoomScale,       :int,    true,  100)
-    define_attribute(:zoom_scale_normal, :zoomScaleNormal, :int,    true,  100)
-    define_attribute(:workbook_view_id,  :workbookViewId,  :int,    false, 0)
-    define_attribute(:view,              :view,            :string, true, 
+    define_attribute(:tab_selected,      :tabSelected,     :int)
+    define_attribute(:zoom_scale,        :zoomScale,       :int,    false,  100)
+    define_attribute(:zoom_scale_normal, :zoomScaleNormal, :int,    false,  100)
+    define_attribute(:workbook_view_id,  :workbookViewId,  :int,    :required, 0)
+    define_attribute(:view,              :view,            :string, false, 
                        %w{ normal pageBreakPreview pageLayout })
 
     attr_accessor :pane, :selections
@@ -41,21 +41,21 @@ module RubyXL
 
 
   class Pane < OOXMLObject
-    define_attribute(:x_split,       :xSplit,      :int,    true)
-    define_attribute(:y_split,       :ySplit,      :int,    true)
-    define_attribute(:top_left_cell, :topLeftCell, :string,    true)
-    define_attribute(:active_pane,   :activePane,  :string, true, nil,
+    define_attribute(:x_split,       :xSplit,      :int)
+    define_attribute(:y_split,       :ySplit,      :int)
+    define_attribute(:top_left_cell, :topLeftCell, :string)
+    define_attribute(:active_pane,   :activePane,  :string, false, nil,
                        %w{ bottomRight topRight bottomLeft topLeft })
     define_element_name 'pane'
   end
 
 
   class Selection < OOXMLObject
-    define_attribute(:pane,           :pane,         :string, true, nil,
+    define_attribute(:pane,           :pane,         :string, false, nil,
                        %w{ bottomRight topRight bottomLeft topLeft })
-    define_attribute(:active_cell,    :activeCell,   :string, true)
-    define_attribute(:active_cell_id, :activeCellId, :int,    true) # 0-based index of @active_cell in @sqref
-    define_attribute(:sqref,          :sqref,        :sqref)        # Array of references to the selected cells.
+    define_attribute(:active_cell,    :activeCell,   :string)
+    define_attribute(:active_cell_id, :activeCellId, :int)              # 0-based index of @active_cell in @sqref
+    define_attribute(:sqref,          :sqref,        :sqref, :required) # Array of references to the selected cells.
     define_element_name 'selection'
 
     def self.parse(node)

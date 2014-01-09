@@ -101,10 +101,13 @@ module Writer
 
                     row_xml << (xml.create_element('c', c_opts) { |cell_xml|
                       unless cell.formula.nil?
-                        cell_xml << xml.create_element('f', { 
-                            :t   => cell.formula_attributes['t'],
-                            :ref => cell.formula_attributes['ref'],
-                            :si  => cell.formula_attributes['si'] }, cell.formula )
+
+                        attrs = {}
+                        attrs[:t] = cell.formula_attributes['t'] unless cell.formula_attributes['t'].nil?
+                        attrs[:ref] = cell.formula_attributes['ref'] unless cell.formula_attributes['ref'].nil?
+                        attrs[:si] = cell.formula_attributes['si'] unless cell.formula_attributes['si'].nil?
+
+                        cell_xml << xml.create_element('f', attrs, cell.formula)
                       end
 
                       cell_value = if (cell.datatype == RubyXL::Cell::SHARED_STRING) then
@@ -112,7 +115,7 @@ module Writer
                                    else cell.value
                                    end
 
-                      cell_xml << xml.create_element('v', cell_value)
+                      cell_xml << xml.create_element('v', cell_value) unless cell_value.nil?
                     })
                   end #unless cell.nil?
                 } #row.each_with_index

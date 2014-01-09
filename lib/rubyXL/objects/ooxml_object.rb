@@ -7,7 +7,7 @@ module RubyXL
     # while calling the setter/getter method addresses it in the context of descendant class, 
     # which is what we need.
 
-    def self.define_attribute(accessor, attr_name, attr_type, optional = false, default = nil, value_list = nil)
+    def self.define_attribute(accessor, attr_name, attr_type, required = false, default = nil, value_list = nil)
 
       if class_variable_defined?(:@@ooxml_attributes) then
         attrs = self.class_variable_get(:@@ooxml_attributes)
@@ -18,7 +18,7 @@ module RubyXL
       params = {
         :attr_name  => attr_name.to_s,
         :attr_type  => attr_type,
-        :optional   => optional, 
+        :optional   => !required, 
         :default    => default,
         :validation => value_list,
       }
