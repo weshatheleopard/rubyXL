@@ -47,7 +47,6 @@ module RubyXL
       super # TODO
     end
 =begin
-
 <xf numFmtId="14" fontId="60" fillId="11" borderId="22" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1">
 <alignment horizontal="left"/>
 <protection locked="0"/>
@@ -58,23 +57,18 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_alignment-1.html
   class Alignment < OOXMLObject
-=begin
-numFmtId	[0..1]	ssml:ST_NumFmtId	Number Format Id	
-fontId	[0..1]	ssml:ST_FontId	Font Id	
-fillId	[0..1]	ssml:ST_FillId	Fill Id	
-borderId	[0..1]	ssml:ST_BorderId	Border Id	
-xfId	[0..1]	ssml:ST_CellStyleXfId	Format Id	
-quotePrefix	[0..1]	xsd:boolean	Quote Prefix	Default value is "false".
-pivotButton	[0..1]	xsd:boolean	Pivot Button	Default value is "false".
-applyNumberFormat	[0..1]	xsd:boolean	Apply Number Format	
-applyFont	[0..1]	xsd:boolean	Apply Font	
-applyFill	[0..1]	xsd:boolean	Apply Fill	
-applyBorder	[0..1]	xsd:boolean	Apply Border	
-applyAlignment	[0..1]	xsd:boolean	Apply Alignment	
-applyProtection	[0..1]	xsd:boolean	Apply Protection
-=end
+    define_attribute(:horizontal,        :horizontal,      :string, false, nil,
+                       %w{general left center right fill justify centerContinuous distributed})
+    define_attribute(:vertical,          :vertical,        :string, false, nil,
+                       %w{top center bottom justify distributed})
+    define_attribute(:text_rotation,     :textRotation,    :int)
+    define_attribute(:wrap_text,         :wrapText,        :bool)
+    define_attribute(:indent,            :indent,          :int)
+    define_attribute(:relative_indent,   :relativeIndent,  :int)
+    define_attribute(:justify_last_line, :justifyLastLine, :bool)
+    define_attribute(:shrink_to_fit,     :shrinkToFit,     :bool)
+    define_attribute(:reading_order,     :readingOrder,    :int)
     define_element_name 'alignment'
-
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_protection-1.html
