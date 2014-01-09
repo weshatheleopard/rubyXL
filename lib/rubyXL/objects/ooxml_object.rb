@@ -1,3 +1,5 @@
+require 'pp'
+
 module RubyXL
   class OOXMLObject
 
@@ -6,36 +8,54 @@ module RubyXL
     # addressing variable by name creates it in the context of defining class,
     # while calling the setter/getter method addresses it in the context of descendant class, 
     # which is what we need.
-
-    def self.define_attribute(accessor, attr_name, attr_type, required = false, default = nil, value_list = nil)
-
-      if class_variable_defined?(:@@ooxml_attributes) then
-        attrs = self.class_variable_get(:@@ooxml_attributes)
+    def self.obtain_class_variable(var_name, default = {})
+      if class_variable_defined?(var_name) then 
+        self.class_variable_get(var_name)
       else
-        attrs = self.class_variable_set(:@@ooxml_attributes, {})
+        self.class_variable_set(var_name, default)
+      end
+    end
+
+    def obtain_class_variable(var_name, default = {})
+      self.class.obtain_class_variable(var_name, default)
+    end
+    private :obtain_class_variable
+
+    def self.define_attribute(attr_name, attr_type, extra_params = {})
+      attrs = obtain_class_variable(:@@ooxml_attributes)
+
+      accessor = extra_params[:accessor]
+      if accessor.nil? then 
+        accessor = attr_name.to_s
+        accessor.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+        accessor.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+        accessor.downcase!
+        accessor = accessor.to_sym
       end
 
-      params = {
+      attrs[accessor] = {
         :attr_name  => attr_name.to_s,
         :attr_type  => attr_type,
-        :optional   => !required, 
-        :default    => default,
-        :validation => value_list,
+        :optional   => !extra_params[:required], 
+        :default    => extra_params[:default],
+        :validation => extra_params[:values]
       }
-
-      attrs[accessor] = params
 
       self.send(:attr_accessor, accessor)
     end
     
-    def self.define_child_node(klass, child_node_name = nil )
-      if class_variable_defined?(:@@ooxml_child_nodes) then
-        child_nodes = self.class_variable_get(:@@ooxml_child_nodes)
-      else
-        child_nodes = self.class_variable_set(:@@ooxml_child_nodes, {})
-      end
-      
-      child_nodes[(child_node_name || klass.class_variable_get(:@@ooxml_tag_name)).to_sym] = klass
+    def self.define_child_node(klass, extra_params = {})
+      child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
+      child_node_name = (extra_params[:node_name] || klass.class_variable_get(:@@ooxml_tag_name)).to_s
+      accessor = (extra_params[:accessor] || child_node_name).to_sym
+
+      child_nodes[child_node_name] = { 
+        :class => klass,
+        :is_array => extra_params[:collection],
+        :accessor => accessor
+      }
+
+      self.send(:attr_accessor, accessor)
     end
 
     def self.define_element_name(v)
@@ -46,8 +66,8 @@ module RubyXL
       before_write_xml if self.respond_to?(:before_write_xml)
       attrs = prepare_attributes
       content = attrs.delete('_')
-      elem = xml.create_element(self.class.class_variable_get(:@@ooxml_tag_name), attrs, content)
-      child_nodes = self.class.class_variable_get(:@@ooxml_child_nodes)
+      elem = xml.create_element(obtain_class_variable(:@@ooxml_tag_name), attrs, content)
+      child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_key { |k|
         obj = self.send(k)
         elem << obj.write_xml(xml) unless obj.nil?
@@ -57,16 +77,22 @@ module RubyXL
 
     def initialize(params = {})
       return super unless self.class.class_variable_defined?(:@@ooxml_attributes)
-      attrs = self.class.class_variable_get(:@@ooxml_attributes)
-      attrs.each_key { |k| instance_variable_set("@#{k}", params[k]) }
-      child_nodes = self.class.class_variable_get(:@@ooxml_child_nodes)
-      child_nodes.each_key { |k| instance_variable_set("@#{k}", params[k]) }
+      obtain_class_variable(:@@ooxml_attributes).each_key { |k| instance_variable_set("@#{k}", params[k]) }
+      obtain_class_variable(:@@ooxml_child_nodes).each_pair { |k, v|
+        initial_value =
+          if params.has_key?(k) then params[k]
+          elsif v[:is_array] then []
+          else nil
+          end
+
+        instance_variable_set("@#{k}", initial_value)
+      }
     end
 
     def self.parse(node)
       obj = self.new
 
-      self.class_variable_get(:@@ooxml_attributes).each_pair { |k, v|
+      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
 
         raw_value = if v[:attr_name] == '_' then node.text
                     else
@@ -86,15 +112,15 @@ module RubyXL
 
         obj.send("#{k}=", val)
       }
-      
-      if class_variable_defined?(:@@ooxml_child_nodes) then
-        known_child_nodes = self.class_variable_get(:@@ooxml_child_nodes)
-        
+
+      known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
+
+      unless known_child_nodes.empty?
         node.element_children.each { |child_node|
           child_node_name = child_node.name
-          child_node_klass = known_child_nodes[child_node_name]
+          child_node_klass = known_child_nodes[child_node_name.to_sym][:class]
           raise "Unknown child node: #{child_node_name}" unless child_node_klass
-          obj.send("#{child_node_name}=", klass.parse(child_node)
+          obj.send("#{child_node_name}=", child_node_klass.parse(child_node))
         }
       end
 
@@ -104,7 +130,7 @@ module RubyXL
     def prepare_attributes
       xml_attrs = {}
 
-      self.class.class_variable_get(:@@ooxml_attributes).each_pair { |k, v|
+      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
         val = self.send(k)
 
         if val.nil? then

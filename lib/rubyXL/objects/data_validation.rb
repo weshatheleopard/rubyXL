@@ -1,25 +1,25 @@
 module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidation-1.html
   class DataValidation < OOXMLObject
-    define_attribute(:type,               :type,             :string, false, nil,
-                        %w{ whole decimal list date time textLength custom })
-    define_attribute(:error_style,        :errorStyle,       :string, false, nil,
-                        %w{ stop warning information })
-    define_attribute(:ime_mode,           :imeMode,          :string, false, nil,
-                        %w{ noControl off on disabled hiragana fullKatakana halfKatakana
+    define_attribute(:type,             :string, :default => 'none',
+                        :values => %w{ none whole decimal list date time textLength custom })
+    define_attribute(:errorStyle,       :string, :default => 'stop',
+                        :values => %w{ stop warning information })
+    define_attribute(:imeMode,          :string, :default => 'noControl',
+                        :values => %w{ noControl off on disabled hiragana fullKatakana halfKatakana
                             fullAlpha halfAlpha fullHangul halfHangul })
-    define_attribute(:operator,           :operator,         :string, false, nil,
-                        %w{ between notBetween equal notEqual lessThan lessThanOrEqual
+    define_attribute(:operator,         :string, :default => 'between',
+                        :values => %w{ between notBetween equal notEqual lessThan lessThanOrEqual
                             greaterThan greaterThanOrEqual })
-    define_attribute(:allow_blank,        :allowBlank,       :int)
-    define_attribute(:show_drop_down,     :showDropDown,     :int)
-    define_attribute(:show_input_message, :showInputMessage, :int)
-    define_attribute(:show_error_message, :showErrorMessage, :int)
-    define_attribute(:error_title,        :errorTitle,       :string)
-    define_attribute(:error,              :error,            :string)
-    define_attribute(:prompt_title,       :promptTitle,      :string)
-    define_attribute(:prompt,             :prompt,           :string)
-    define_attribute(:sqref,              :sqref,            :sqref,  :required)
+    define_attribute(:allowBlank,       :bool, :default => 'false')
+    define_attribute(:showDropDown,     :bool, :default => 'false')
+    define_attribute(:showInputMessage, :bool, :default => 'false')
+    define_attribute(:showErrorMessage, :bool, :default => 'false')
+    define_attribute(:errorTitle,       :string)
+    define_attribute(:error,            :string)
+    define_attribute(:promptTitle,      :string)
+    define_attribute(:prompt,           :string)
+    define_attribute(:sqref,            :sqref, :required => true)
 
     attr_accessor :formula1, :formula2
 

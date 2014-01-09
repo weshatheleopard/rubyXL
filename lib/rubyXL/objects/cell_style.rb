@@ -2,33 +2,59 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellStyle-1.html
   class CellStyle < OOXMLObject
-    define_attribute(:name,           :name,          :string)
-    define_attribute(:xf_id,          :xfId,          :int,    :required)
-    define_attribute(:builtin_id,     :builtinId,     :int)
-    define_attribute(:i_level,        :iLevel,        :int)
-    define_attribute(:hidden,         :hidden,        :bool)
-    define_attribute(:custom_builtin, :customBuiltin, :bool)
+    define_attribute(:name,          :string)
+    define_attribute(:xfId,          :int,  :required => true)
+    define_attribute(:builtinId,     :int)
+    define_attribute(:iLevel,        :int)
+    define_attribute(:hidden,        :bool)
+    define_attribute(:customBuiltin, :bool)
     define_element_name 'cellStyle'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_alignment-1.html
+  class Alignment < OOXMLObject
+    define_attribute(:horizontal,      :string,
+                       :values => %w{general left center right fill justify centerContinuous distributed})
+    define_attribute(:vertical,        :string,
+                       :values => %w{top center bottom justify distributed})
+    define_attribute(:textRotation,    :int)
+    define_attribute(:wrapText,        :bool)
+    define_attribute(:indent,          :int)
+    define_attribute(:relativeIndent,  :int)
+    define_attribute(:justifyLastLine, :bool)
+    define_attribute(:shrinkToFit,     :bool)
+    define_attribute(:readingOrder,    :int)
+    define_element_name 'alignment'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_protection-1.html
+  class Protection < OOXMLObject
+    define_attribute(:locked, :bool)
+    define_attribute(:hidden, :bool)
+    define_element_name 'protection'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_xf-1.html
   class XF < OOXMLObject
 
-    define_attribute(:num_fmt_id,          :numFmtId,          :int)
-    define_attribute(:font_id,             :fontId,            :int)
-    define_attribute(:fill_id,             :fillId,            :int)
-    define_attribute(:border_id,           :borderId,          :int)
-    define_attribute(:xf_id,               :xfId,              :int)
-    define_attribute(:quote_prefix,        :quotePrefix,       :bool, false)
-    define_attribute(:pivot_button,        :pivotButton,       :bool, false)
-    define_attribute(:apply_number_format, :applyNumberFormat, :bool)
-    define_attribute(:apply_font,          :applyFont,         :bool)
-    define_attribute(:apply_fill,          :applyFill,         :bool)
-    define_attribute(:apply_border,        :applyBorder,       :bool)
-    define_attribute(:apply_alignment,     :applyAlignment,    :bool)
-    define_attribute(:apply_protection,    :applyProtection,   :bool)
+    define_attribute(:numFmtId,          :int)
+    define_attribute(:fontId,            :int)
+    define_attribute(:fillId,            :int)
+    define_attribute(:borderId,          :int)
+    define_attribute(:xfId,              :int)
+    define_attribute(:quotePrefix,       :bool, :default => false )
+    define_attribute(:pivotButton,       :bool, :default => false )
+    define_attribute(:applyNumberFormat, :bool)
+    define_attribute(:applyFont,         :bool)
+    define_attribute(:applyFill,         :bool)
+    define_attribute(:applyBorder,       :bool)
+    define_attribute(:applyAlignment,    :bool)
+    define_attribute(:applyProtection,   :bool)
+    define_child_node(RubyXL::Alignment)
+    define_child_node(RubyXL::Protection)
     define_element_name 'xf'
 
+=begin
     def self.parse(node)
       xf = super
 
@@ -42,10 +68,7 @@ module RubyXL
 
       xf
     end 
-
-    def write_xml
-      super # TODO
-    end
+=end
 =begin
 <xf numFmtId="14" fontId="60" fillId="11" borderId="22" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1">
 <alignment horizontal="left"/>
@@ -53,30 +76,5 @@ module RubyXL
 </xf>
 =end
   end
-
-
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_alignment-1.html
-  class Alignment < OOXMLObject
-    define_attribute(:horizontal,        :horizontal,      :string, false, nil,
-                       %w{general left center right fill justify centerContinuous distributed})
-    define_attribute(:vertical,          :vertical,        :string, false, nil,
-                       %w{top center bottom justify distributed})
-    define_attribute(:text_rotation,     :textRotation,    :int)
-    define_attribute(:wrap_text,         :wrapText,        :bool)
-    define_attribute(:indent,            :indent,          :int)
-    define_attribute(:relative_indent,   :relativeIndent,  :int)
-    define_attribute(:justify_last_line, :justifyLastLine, :bool)
-    define_attribute(:shrink_to_fit,     :shrinkToFit,     :bool)
-    define_attribute(:reading_order,     :readingOrder,    :int)
-    define_element_name 'alignment'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_protection-1.html
-  class Protection < OOXMLObject
-    define_attribute(:locked, :locked, :bool)
-    define_attribute(:hidden, :hidden, :bool)
-    define_element_name 'protection'
-  end
-
 
 end
