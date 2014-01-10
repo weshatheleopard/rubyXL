@@ -27,8 +27,51 @@ module RubyXL
 
       # options handling
 
-      files = decompress(file_path)
       wb = Workbook.new([], file_path)
+
+      raise 'Not .xlsx or .xlsm excel file' unless @skip_filename_check ||
+                                              %w{.xlsx .xlsm}.include?(File.extname(file_path))
+
+      dir_path = File.join(File.dirname(file_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
+
+      MyZip.new.unzip(file_path, dir_path)
+
+      files = {}
+
+      files['app'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','app.xml'),'r'))
+      files['core'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','core.xml'),'r'))
+      files['workbook'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
+      files['workbook_rels'] = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
+
+      if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
+        files['sharedString'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
+      end
+
+      unless @data_only
+        files['media'] = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary.load_dir(dir_path)
+        files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
+        files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load_dir(dir_path)
+        files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load_dir(dir_path)
+        files['drawingsRels'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels')).load_dir(dir_path)
+        files['charts'] = RubyXL::GenericStorage.new(File.join('xl', 'charts')).load_dir(dir_path)
+        files['chartRels'] = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels')).load_dir(dir_path)
+        files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary.load_dir(dir_path)
+        files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load_dir(dir_path)
+        files['vbaProject'] = RubyXL::GenericStorage.new('xl').binary.load_file(dir_path, 'vbaProject.bin')
+        files['theme'] = RubyXL::GenericStorage.new(File.join('xl', 'theme')).load_file(dir_path, 'theme1.xml')
+      end
+
+      files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
+
+      files['worksheets'] = []
+      rels_doc = files['workbook_rels']
+
+      files['workbook'].css('sheets sheet').each_with_index { |sheet, ind|
+        sheet_rid = sheet.attributes['id'].value 
+        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
+        files['worksheets'][ind] = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
+      }
+
       fill_workbook(wb, files)
 
       shared_string_file = files['sharedString']
@@ -97,6 +140,8 @@ module RubyXL
         parse_worksheet(wb, i, files['worksheets'][i], sheet_node.attributes['name'].value,
                                sheet_node.attributes['sheetId'].value )
       }
+
+      FileUtils.rm_rf(dir_path)
 
       return wb
     end
@@ -254,67 +299,6 @@ module RubyXL
       }
 
       worksheet
-    end
-
-    def decompress(file_path)
-      dir_path = file_path
-
-      #ensures it is an xlsx/xlsm file
-      if (file_path =~ /(.+)\.xls(x|m)/) then
-        dir_path = $1.to_s
-      else
-        raise 'Not .xlsx or .xlsm excel file' unless @skip_filename_check
-      end
-
-      dir_path = File.join(File.dirname(dir_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
-
-      #copies excel file to zip file in same directory
-      zip_path = dir_path + '.zip'
-
-      FileUtils.cp(file_path,zip_path)
-
-      MyZip.new.unzip(zip_path,dir_path)
-      File.delete(zip_path)
-
-      files = Hash.new
-
-      files['app'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','app.xml'),'r'))
-      files['core'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','core.xml'),'r'))
-      files['workbook'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
-      files['workbook_rels'] = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
-
-      if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
-        files['sharedString'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
-      end
-
-      unless @data_only
-        files['media'] = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary.load_dir(dir_path)
-        files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
-        files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load_dir(dir_path)
-        files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load_dir(dir_path)
-        files['drawingsRels'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels')).load_dir(dir_path)
-        files['charts'] = RubyXL::GenericStorage.new(File.join('xl', 'charts')).load_dir(dir_path)
-        files['chartRels'] = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels')).load_dir(dir_path)
-        files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary.load_dir(dir_path)
-        files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load_dir(dir_path)
-        files['vbaProject'] = RubyXL::GenericStorage.new('xl').binary.load_file(dir_path, 'vbaProject.bin')
-        files['theme'] = RubyXL::GenericStorage.new(File.join('xl', 'theme')).load_file(dir_path, 'theme1.xml')
-      end
-
-      files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
-
-      files['worksheets'] = []
-      rels_doc = files['workbook_rels']
-
-      files['workbook'].css('sheets sheet').each_with_index { |sheet, ind|
-        sheet_rid = sheet.attributes['id'].value 
-        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
-        files['worksheets'][ind] = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
-      }
-
-      FileUtils.rm_rf(dir_path)
-
-      return files
     end
 
     def fill_workbook(wb, files)
