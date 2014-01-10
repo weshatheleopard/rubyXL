@@ -55,21 +55,6 @@ module RubyXL
     define_element_name 'xf'
 
 =begin
-    def self.parse(node)
-      xf = super
-
-      node.element_children.each { |child_node|
-        case child_node.name                 
-        when 'alignment'  then xf.alignment  = RubyXL::Alignment.parse(child_node)
-        when 'protection' then xf.protection = RubyXL::Protection.parse(child_node)
-        else raise "Node type #{child_node.name} not implemented"
-        end
-      }
-
-      xf
-    end 
-=end
-=begin
 <xf numFmtId="14" fontId="60" fillId="11" borderId="22" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1">
 <alignment horizontal="left"/>
 <protection locked="0"/>
