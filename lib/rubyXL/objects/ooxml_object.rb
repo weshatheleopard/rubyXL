@@ -112,7 +112,7 @@ module RubyXL
                 when :string then raw_value
                 when :sqref  then RubyXL::Sqref.new(raw_value)
                 when :ref    then RubyXL::Reference.new(raw_value)
-                when :bool   then raw_value.to_i == 1
+                when :bool   then ['1', 'true'].include?(raw_value)
                 end              
 
         obj.send("#{k}=", val)

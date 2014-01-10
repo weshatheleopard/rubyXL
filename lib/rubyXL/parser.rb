@@ -77,6 +77,7 @@ module RubyXL
 
       fill_styles(wb, Hash.xml_node_to_hash(files['styles'].root))
 
+      wb.media = files['media']
       wb.external_links = files['externalLinks']
       wb.external_links_rels = files['externalLinksRels']
       wb.drawings = files['drawings']
@@ -88,9 +89,12 @@ module RubyXL
       wb.macros = files['vbaProject']
       wb.theme = files['theme']
 
-      sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
+      # Not sure why they were getting sheet names from god knows where.
+      # There *may* have been a good reason behind it, so not tossing this code out entirely yet.
+      # sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
+
       files['workbook'].css('sheets sheet').each_with_index { |sheet_node, i|
-        parse_worksheet(wb, i, files['worksheets'][i], sheet_names[i].text,
+        parse_worksheet(wb, i, files['worksheets'][i], sheet_node.attributes['name'].value,
                                sheet_node.attributes['sheetId'].value )
       }
 
@@ -290,6 +294,7 @@ module RubyXL
       end
 
       unless @data_only
+        files['media'] = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary.load_dir(dir_path)
         files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
         files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load_dir(dir_path)
         files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load_dir(dir_path)

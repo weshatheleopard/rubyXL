@@ -34,11 +34,26 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
   class SheetView < OOXMLObject
-    define_attribute(:tabSelected,     :int)
-    define_attribute(:zoomScale,       :int, :default => 100 )
-    define_attribute(:zoomScaleNormal, :int, :default => 100 )
-    define_attribute(:workbookViewId,  :int, :required => true, :default => 0 )
-    define_attribute(:view,            :string, :values => %w{ normal pageBreakPreview pageLayout })
+    define_attribute(:windowProtection,         :bool, :default => false)
+    define_attribute(:showFormulas,             :bool, :default => false)
+    define_attribute(:showGridLines,            :bool, :default => true)
+    define_attribute(:showRowColHeaders,        :bool, :default => true)
+    define_attribute(:showZeros,                :bool, :default => true)
+    define_attribute(:rightToLeft,              :bool, :default => false)
+    define_attribute(:tabSelected,              :bool, :default => false)
+    define_attribute(:showRuler,                :bool, :default => true)
+    define_attribute(:showOutlineSymbols,       :bool, :default => true)
+    define_attribute(:defaultGridColor,         :bool, :default => true)
+    define_attribute(:showWhiteSpace,           :bool, :default => true)
+    define_attribute(:view,                     :string, :default => 'normal',
+                       :values => %w{ normal pageBreakPreview pageLayout })
+    define_attribute(:topLeftCell,              :ref)
+    define_attribute(:colorId,                  :int, :default => 64)
+    define_attribute(:zoomScale,                :int, :default => 100)
+    define_attribute(:zoomScaleNormal,          :bool, :default => 0)
+    define_attribute(:zoomScaleSheetLayoutView, :bool, :default => 0)
+    define_attribute(:zoomScalePageLayoutView,  :bool, :default => 0)
+    define_attribute(:workbookViewId,           :int, :required => true, :default => 0 )
     define_child_node(RubyXL::Pane)
     define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections )
     define_element_name 'sheetView'

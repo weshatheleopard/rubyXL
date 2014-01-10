@@ -19,7 +19,7 @@ module RubyXL
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :num_fmts, :fonts, :fills,
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain, :theme,
-      :date1904, :external_links, :external_links_rels, :style_corrector,
+      :date1904, :media, :external_links, :external_links_rels, :style_corrector,
       :drawings, :drawings_rels, :charts, :chart_rels,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
 
@@ -55,6 +55,7 @@ module RubyXL
       @shared_strings     = RubyXL::SharedStrings.new
       @calc_chain         = nil #unnecessary?
       @date1904           = date1904 > 0
+      @media              = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
       @external_links     = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
       @external_links_rels= RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
       @style_corrector    = nil
@@ -153,6 +154,7 @@ module RubyXL
           Writer::SharedStringsWriter.new(self).add_to_zip(zipfile)
         end
 
+        @media.add_to_zip(zipfile)
         @external_links.add_to_zip(zipfile)
         @external_links_rels.add_to_zip(zipfile)
         @drawings.add_to_zip(zipfile)
