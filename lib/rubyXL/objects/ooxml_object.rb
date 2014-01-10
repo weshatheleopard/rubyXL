@@ -68,9 +68,13 @@ module RubyXL
       content = attrs.delete('_')
       elem = xml.create_element(obtain_class_variable(:@@ooxml_tag_name), attrs, content)
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
-      child_nodes.each_key { |k|
-        obj = self.send(k)
-        elem << obj.write_xml(xml) unless obj.nil?
+      child_nodes.each_value { |child_node_params|
+        obj = self.send(child_node_params[:accessor])
+        unless obj.nil?
+          if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml) }
+          else elem << obj.write_xml(xml)
+          end
+        end
       }
       elem
     end
@@ -79,13 +83,14 @@ module RubyXL
       return super unless self.class.class_variable_defined?(:@@ooxml_attributes)
       obtain_class_variable(:@@ooxml_attributes).each_key { |k| instance_variable_set("@#{k}", params[k]) }
       obtain_class_variable(:@@ooxml_child_nodes).each_pair { |k, v|
+
         initial_value =
           if params.has_key?(k) then params[k]
           elsif v[:is_array] then []
           else nil
           end
 
-        instance_variable_set("@#{k}", initial_value)
+        instance_variable_set("@#{v[:accessor]}", initial_value)
       }
     end
 
@@ -118,9 +123,12 @@ module RubyXL
       unless known_child_nodes.empty?
         node.element_children.each { |child_node|
           child_node_name = child_node.name
-          child_node_klass = known_child_nodes[child_node_name.to_sym][:class]
-          raise "Unknown child node: #{child_node_name}" unless child_node_klass
-          obj.send("#{child_node_name}=", child_node_klass.parse(child_node))
+          child_node_params = known_child_nodes[child_node_name]
+          raise "Unknown child node: #{child_node_name}" if child_node_params.nil?
+          parsed_object = child_node_params[:class].parse(child_node)
+          if child_node_params[:is_array] then obj.send(child_node_params[:accessor]) << parsed_object
+          else obj.send("#{child_node_params[:accessor]}=", parsed_object)
+          end
         }
       end
 

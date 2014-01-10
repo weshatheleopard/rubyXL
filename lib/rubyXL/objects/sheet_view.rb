@@ -1,43 +1,4 @@
 module RubyXL
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
-  class SheetView < OOXMLObject
-    define_attribute(:tabSelected,     :int)
-    define_attribute(:zoomScale,       :int, :default => 100 )
-    define_attribute(:zoomScaleNormal, :int, :default => 100 )
-    define_attribute(:workbookViewId,  :int, :required => true, :default => 0 )
-    define_attribute(:view,            :string, :values => %w{ normal pageBreakPreview pageLayout })
-
-    attr_accessor :pane, :selections
-
-    def initialize
-      @pane = nil
-      @selections = []
-      super
-    end
-
-    def self.parse(node)
-      sheetview = super
-
-      node.element_children.each { |child_node|
-        case child_node.name
-        when 'pane' then sheetview.pane = RubyXL::Pane.parse(child_node)
-        when 'selection' then sheetview.selections << RubyXL::Selection.parse(child_node)
-        else raise "Node type #{child_node.name} not implemented"
-        end
-      }
-
-      sheetview
-    end 
-
-    def write_xml(xml)
-      node = xml.create_element('sheetView', prepare_attributes)
-      node << pane.write_xml(xml) if @pane
-      @selections.each { |sel| node << sel.write_xml(xml) }
-      node
-    end
-
-  end
-
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pane-1.html
   class Pane < OOXMLObject
     define_attribute(:xSplit,      :int)
@@ -54,17 +15,10 @@ module RubyXL
   class Selection < OOXMLObject
     define_attribute(:pane,         :string,
                        :values => %w{ bottomRight topRight bottomLeft topLeft })
-    define_attribute(:activeCell,   :string)
+    define_attribute(:activeCell,   :ref)
     define_attribute(:activeCellId, :int)   # 0-based index of @active_cell in @sqref
     define_attribute(:sqref,        :sqref) # Array of references to the selected cells.
     define_element_name 'selection'
-
-    def self.parse(node)
-      sel = super
-
-      sel.active_cell = RubyXL::Reference.new(sel.active_cell) if sel.active_cell
-      sel
-    end 
 
     def before_write_xml
       # Normally, rindex of activeCellId in sqref:
@@ -76,7 +30,18 @@ module RubyXL
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
     end
+  end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
+  class SheetView < OOXMLObject
+    define_attribute(:tabSelected,     :int)
+    define_attribute(:zoomScale,       :int, :default => 100 )
+    define_attribute(:zoomScaleNormal, :int, :default => 100 )
+    define_attribute(:workbookViewId,  :int, :required => true, :default => 0 )
+    define_attribute(:view,            :string, :values => %w{ normal pageBreakPreview pageLayout })
+    define_child_node(RubyXL::Pane)
+    define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections )
+    define_element_name 'sheetView'
   end
 
 end

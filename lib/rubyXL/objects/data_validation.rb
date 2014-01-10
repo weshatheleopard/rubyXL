@@ -21,33 +21,10 @@ module RubyXL
     define_attribute(:prompt,           :string)
     define_attribute(:sqref,            :sqref, :required => true)
 
-    attr_accessor :formula1, :formula2
 
-    def initialize
-      @formula1 = @formula2 = nil
-      super
-    end
-
-    def self.parse(node)
-      val = super
-
-      node.element_children.each { |child_node|
-        case child_node.name
-        when 'formula1' then val.formula1 = child_node.text
-        when 'formula2' then val.formula2 = child_node.text
-        else raise "Node type #{child_node.name} not implemented"
-        end
-      }
-
-      val
-    end 
-
-    def write_xml(xml)
-      node = xml.create_element('dataValidation', prepare_attributes)
-      node << xml.create_element('formula1', @formula1) unless formula1.nil?
-      node << xml.create_element('formula2', @formula2) unless formula2.nil?
-      node
-    end
+    define_child_node(RubyXL::Formula,  :node_name => :formula1)
+    define_child_node(RubyXL::Formula,  :node_name => :formula2)
+    define_element_name 'dataValidation'
 
   end
 
