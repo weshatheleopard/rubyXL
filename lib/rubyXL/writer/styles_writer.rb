@@ -85,19 +85,12 @@ module Writer
       @workbook.style_corrector = @style_id_corrector
 
 
-
-
-
-
-
       build_xml do |xml|
         xml.styleSheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main") {
-          unless @workbook.num_fmts.nil? || @workbook.num_fmts[:attributes].nil?
-            xml.numFmts('count'=>@workbook.num_fmts[:attributes][:count].to_s) {
-              @workbook.num_fmts[:numFmt].each do |fmt|
-                attributes = fmt[:attributes]
-                xml.numFmt('numFmtId'=>attributes[:numFmtId].to_s,
-                  'formatCode'=>attributes[:formatCode].to_s)
+          unless @workbook.num_fmts.empty?
+            xml.numFmts('count' => @workbook.num_fmts.size) {
+              @workbook.num_fmts.each do |fmt|
+                xml.numFmt('numFmtId' => fmt.num_fmt_id, 'formatCode' => fmt.format_code)
               end
             }
           end

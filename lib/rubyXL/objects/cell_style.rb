@@ -36,7 +36,6 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_xf-1.html
   class XF < OOXMLObject
-
     define_attribute(:numFmtId,          :int)
     define_attribute(:fontId,            :int)
     define_attribute(:fillId,            :int)
@@ -59,7 +58,21 @@ module RubyXL
 <alignment horizontal="left"/>
 <protection locked="0"/>
 </xf>
+
+<cellStyleXfs count="1">
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0"/>
+</cellStyleXfs>
+<cellXfs count="31">
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" quotePrefix="1"/>
 =end
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmt-1.html
+  class NumFmt < OOXMLObject
+    define_attribute(:numFmtId,   :int,    :required => true)
+    define_attribute(:formatCode, :string, :required => true)
+    define_element_name 'numFmt'
   end
 
 end

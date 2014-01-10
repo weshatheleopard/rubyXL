@@ -48,9 +48,6 @@ module RubyXL
         }
 
       end
-      #styles are needed for formatting reasons as that is how dates are determined
-      styles = files['styles'].css('cellXfs xf')
-      style_hash = Hash.xml_node_to_hash(files['styles'].root)
 
       fills = files['styles'].css('fills fill')
       wb.fills = fills.collect { |node| RubyXL::Fill.parse(node) }
@@ -75,7 +72,10 @@ module RubyXL
       cell_styles = files['styles'].css('cellStyles cellStyle')
       wb.cell_styles = cell_styles.collect { |node| RubyXL::CellStyle.parse(node) }
 
-      fill_styles(wb, style_hash)
+      num_fmts = files['styles'].css('numFmts numFmt')
+      wb.num_fmts = num_fmts.collect { |node| RubyXL::NumFmt.parse(node) }
+
+      fill_styles(wb, Hash.xml_node_to_hash(files['styles'].root))
 
       wb.external_links = files['externalLinks']
       wb.external_links_rels = files['externalLinksRels']
@@ -101,14 +101,6 @@ module RubyXL
 
     #fills hashes for various styles
     def fill_styles(wb,style_hash)
-      ###NUM FORMATS###
-      if style_hash[:numFmts].nil?
-        style_hash[:numFmts] = {:attributes => {:count => 0}, :numFmt => []}
-      elsif style_hash[:numFmts][:attributes][:count]==1
-        style_hash[:numFmts][:numFmt] = [style_hash[:numFmts][:numFmt]]
-      end
-      wb.num_fmts = style_hash[:numFmts]
-
       wb.cell_style_xfs = style_hash[:cellStyleXfs]
       wb.cell_xfs = style_hash[:cellXfs]
 

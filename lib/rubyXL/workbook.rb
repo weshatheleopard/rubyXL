@@ -17,7 +17,7 @@ module RubyXL
   class Workbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
-      :modified_at, :company, :application, :appversion, :num_fmts, :num_fmts_hash, :fonts, :fills,
+      :modified_at, :company, :application, :appversion, :num_fmts, :fonts, :fills,
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain, :theme,
       :date1904, :external_links, :external_links_rels, :style_corrector,
       :drawings, :drawings_rels, :charts, :chart_rels,
@@ -44,8 +44,8 @@ module RubyXL
       @company            = company
       @application        = application
       @appversion         = appversion
-      @num_fmts           = nil
-      @num_fmts_hash      = nil
+      @num_fmts           = []
+      @num_fmts_by_id     = nil
       @fonts              = []
       @fills              = nil
       @borders            = []
@@ -105,17 +105,13 @@ module RubyXL
     end
 
     def num_fmts_by_id
-      return @num_fmts_hash unless @num_fmts_hash.nil?
+      return @num_fmts_by_id unless @num_fmts_by_id.nil?
 
-      @num_fmts_hash = {}
+      @num_fmts_by_id = {}
 
-      if num_fmts then
-        num_fmts[:numFmt].each { |num_fmt|
-          @num_fmts_hash[num_fmt[:attributes][:numFmtId]] = num_fmt
-        }
-      end
+      num_fmts.each { |fmt| @num_fmts_by_id[fmt.num_fmt_id] = fmt }
 
-      @num_fmts_hash
+      @num_fmts_by_id
     end
 
     #filepath of xlsx file (including file itself)
