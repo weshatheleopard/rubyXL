@@ -62,17 +62,17 @@ module RubyXL
       self.class_variable_set(:@@ooxml_tag_name, v)
     end
 
-    def write_xml(xml)
+    def write_xml(xml, node_name_override = nil)
       before_write_xml if self.respond_to?(:before_write_xml)
       attrs = prepare_attributes
-      content = attrs.delete('_')
-      elem = xml.create_element(obtain_class_variable(:@@ooxml_tag_name), attrs, content)
+      element_text = attrs.delete('_')
+      elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
-      child_nodes.each_value { |child_node_params|
+      child_nodes.each_pair { |child_node_name, child_node_params|
         obj = self.send(child_node_params[:accessor])
         unless obj.nil?
           if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml) }
-          else elem << obj.write_xml(xml)
+          else elem << obj.write_xml(xml, child_node_name)
           end
         end
       }
