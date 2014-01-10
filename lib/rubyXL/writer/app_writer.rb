@@ -15,7 +15,7 @@ module RubyXL
                   :xmlns => 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties',
                   'xmlns:vt'=>'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes') { |root|
 
-            root << xml.create_element('Application', @workbook.application)
+            root << xml.create_element('Application', @workbook.application) unless @workbook.application.to_s.empty?
             root << xml.create_element('DocSecurity', 0)
             root << xml.create_element('ScaleCrop', false)
 
@@ -40,11 +40,11 @@ module RubyXL
               })
             })
 
-            root << xml.create_element('Company', @workbook.company)
+            root << xml.create_element('Company', @workbook.company) unless @workbook.company.to_s.empty?
             root << xml.create_element('LinksUpToDate', false)
             root << xml.create_element('SharedDoc', false)
             root << xml.create_element('HyperlinksChanged', false)
-            root << xml.create_element('AppVersion', @workbook.appversion)
+            root << xml.create_element('AppVersion', @workbook.appversion) unless @workbook.appversion.to_s.empty?
           })
         end
       end

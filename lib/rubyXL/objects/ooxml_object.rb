@@ -29,6 +29,7 @@ module RubyXL
         accessor = attr_name.to_s
         accessor.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
         accessor.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+        accessor.gsub!(':','_')
         accessor.downcase!
         accessor = accessor.to_sym
       end

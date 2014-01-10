@@ -171,14 +171,8 @@ module RubyXL
         end
         #extLst
 
-        ##legacy drawing##
-        legacy_drawing_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:legacyDrawing', namespaces)
-        unless legacy_drawing_node.empty?
-          worksheet.legacy_drawing = Hash.xml_node_to_hash(legacy_drawing_node.first)
-        else
-          worksheet.legacy_drawing = nil
-        end
-        ##end legacy drawing
+        legacy_drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:legacyDrawing', namespaces)
+        worksheet.legacy_drawings = legacy_drawing_nodes.collect { |node| RubyXL::LegacyDrawing.parse(node) }
 
         drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:drawing', namespaces)
         worksheet.drawings = drawing_nodes.collect { |n| n.attributes['id'] }

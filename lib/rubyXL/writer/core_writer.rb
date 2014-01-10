@@ -20,8 +20,14 @@ module Writer
 
           root << xml.create_element('dc:creator',        @workbook.creator)
           root << xml.create_element('cp:lastModifiedBy', @workbook.modifier)
-          root << xml.create_element('dcterms:created',  { 'xsi:type' => 'dcterms:W3CDTF' }, @workbook.created_at)
-          root << xml.create_element('dcterms:modified', { 'xsi:type' => 'dcterms:W3CDTF' }, @workbook.modified_at)
+
+          unless @workbook.created_at.to_s.empty?
+            root << xml.create_element('dcterms:created',  { 'xsi:type' => 'dcterms:W3CDTF' }, @workbook.created_at)
+          end
+
+          unless @workbook.modified_at.to_s.empty?
+            root << xml.create_element('dcterms:modified', { 'xsi:type' => 'dcterms:W3CDTF' }, @workbook.modified_at)
+          end
         })
       end
     end

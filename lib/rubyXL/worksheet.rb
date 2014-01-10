@@ -3,7 +3,7 @@ class Worksheet < PrivateClass
   include Enumerable
 
   attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :merged_cells, :pane,
-                :validations, :sheet_views, :legacy_drawing, :extLst, :workbook,
+                :validations, :sheet_views, :legacy_drawings, :extLst, :workbook,
                 :row_styles, :drawings
 
   SHEET_NAME_TEMPLATE = 'Sheet%d'
@@ -19,7 +19,7 @@ class Worksheet < PrivateClass
     @row_styles={}
     @sheet_views = [ RubyXL::SheetView.new ]
     @extLst = nil
-    @legacy_drawing = nil
+    @legacy_drawings = []
     @drawings = []
     @validations = []
   end

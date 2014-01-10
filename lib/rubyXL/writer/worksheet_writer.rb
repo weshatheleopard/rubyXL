@@ -145,9 +145,8 @@ module Writer
           root << xml.create_element('pageSetup', { :orientation => 'portrait',
                                                     :horizontalDpi => 4294967292, :verticalDpi => 4294967292 })
 
-          unless @worksheet.legacy_drawing.nil?
-            root << xml.create_element(:legacyDrawing, { 'r:id' => @worksheet.legacy_drawing[:attributes][:id] })
-          end
+
+          @worksheet.legacy_drawings.each { |drawing| root << drawing.write_xml(xml) }
 
           unless @worksheet.extLst.nil?
             root << (xml.create_element('extLst') { |extlst|

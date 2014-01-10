@@ -4,14 +4,6 @@ require 'nokogiri'
 
 module RubyXL
   class Hash < ::Hash
-    def self.from_xml(xml_io)
-      begin
-        result = Nokogiri::XML(xml_io)
-        return { result.root.name.to_sym => xml_node_to_hash(result.root)}
-      rescue Exception => e
-        # raise your custom exception here
-      end
-    end
 
     def self.xml_node_to_hash_array(node)
       return {} if node.nil?

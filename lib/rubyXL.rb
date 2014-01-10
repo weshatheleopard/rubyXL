@@ -14,6 +14,7 @@ require 'rubyXL/objects/cell_style'
 require 'rubyXL/objects/sheet_view'
 require 'rubyXL/objects/formula'
 require 'rubyXL/objects/data_validation'
+require 'rubyXL/objects/worksheet'
 require 'rubyXL/parser'
 
 module RubyXL

@@ -23,9 +23,14 @@ module RubyXL
             root << xml.create_element('Default', {
                       :Extension => 'rels',
                       :ContentType => 'application/vnd.openxmlformats-package.relationships+xml' })
+
             root << xml.create_element('Default', {
                       :Extension => 'xml',
                       :ContentType => 'application/xml' })
+
+            root << xml.create_element('Default', {
+                      :Extension => 'jpeg',
+                      :ContentType => 'image/jpeg' })
 
 #           if @workbook.macros.nil? && @workbook.drawings.empty?
             root << xml.create_element('Override', {
