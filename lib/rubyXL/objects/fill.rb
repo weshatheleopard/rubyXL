@@ -1,97 +1,80 @@
 module RubyXL
 
-  class Fill
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_gradientFill-1.html
+  class Stop < OOXMLObject
+    define_attribute(:position, :float)
+    define_child_node(RubyXL::Color)
+    define_element_name 'stop'
+
+    def build_xml(xml)
+      xml.stop(:position => position) {
+        color && color.build_xml(xml)
+      }
+    end
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_patternFill-1.html
+  class PatternFill < OOXMLObject
+    define_attribute(:patternType, :string, :values =>
+                       %w{ none solid mediumGray darkGray lightGray
+                           darkHorizontal darkVertical darkDown darkUp darkGrid darkTrellis
+                           lightHorizontal lightVertical lightDown lightUp lightGrid lightTrellis
+                           gray125 gray0625 })
+    define_child_node(RubyXL::Color, :node_name => :fgColor )
+    define_child_node(RubyXL::Color, :node_name => :bgColor )
+    define_element_name 'patternFill'
+
+    def build_xml(xml)
+      xml.patternFill(:patternType => pattern_type) {
+        fg_color && fg_color.build_xml(xml, 'fgColor')
+        bg_color && bg_color.build_xml(xml, 'bgColor')
+      }
+    end
+
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_gradientFill-1.html
+  class GradientFill < OOXMLObject
+    define_attribute(:type,   :string, :values => %w{ linear path }, :default => 'linear')
+    define_attribute(:degree, :float,  :default => 0)
+    define_attribute(:left,   :float,  :default => 0)
+    define_attribute(:right,  :float,  :default => 0)
+    define_attribute(:top,    :float,  :default => 0)
+    define_attribute(:bottom, :float,  :default => 0)
+    define_child_node(RubyXL::Stop, :collection => true)
+    define_element_name 'gradientFill'
+
+    def build_xml(xml)
+      xml.gradientFill(:degree => degree) {
+        stop.each { |s|
+          s.build_xml(xml)
+        }
+      }
+    end
+
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_fill-1.html
+  class Fill < OOXMLObject
     attr_accessor :count
 
-    def initialize(args = {})
+    define_child_node(RubyXL::PatternFill)
+    define_child_node(RubyXL::GradientFill)
+    define_element_name 'fill'
+
+    def initialize(*args)
+      super
       @count = 0
     end
 
-    def self.parse(xml)
-      node = xml.first_element_child
-      case node.name
-      when 'patternFill'  then RubyXL::PatternFill.parse(node)
-      when 'gradientFill' then RubyXL::GradientFill.parse(node)
-      else raise 'Unknown fill type'
-      end
-    end 
-
-  end
-
-
-  class PatternFill < Fill
-    attr_accessor :pattern_type, :fg_color, :bg_color
-
-    def initialize(attrs = {})
-      @pattern_type = attrs['pattern_type']
-      @fg_color     = attrs['fg_color']
-      @fb_color     = attrs['bg_color']
-      super
-    end
-
-    def self.parse(xml)
-      fill = self.new
-      fill.pattern_type = xml.attributes['patternType'].value
-
-      xml.element_children.each { |node|
-        case node.name
-        when 'fgColor' then fill.fg_color = RubyXL::Color.parse(node)
-        when 'bgColor' then fill.bg_color = RubyXL::Color.parse(node)
-        else raise "node name #{node.name} not supported yet"
-        end
-      }
-
-      fill
-    end
-
     def build_xml(xml)
       xml.fill {
-        xml.patternFill(:patternType => pattern_type) {
-          fg_color && fg_color.build_xml(xml, 'fgColor')
-          bg_color && bg_color.build_xml(xml, 'bgColor')
-        }
+        pattern_fill && pattern_fill.build_xml(xml)
+        gradient_fill && gradient_fill.build_xml(xml)
       }
     end
 
   end
 
-
-  class GradientFill < Fill
-    attr_accessor :degree, :stop0_color, :stop1_color
-
-    def self.parse(xml)
-      fill = self.new
-      fill.degree = xml.attributes['degree'].value
-
-      xml.element_children.each { |node|
-        case node.name
-        when 'stop' then
-          case node.attributes['position'].value
-          when '0' then fill.stop0_color = RubyXL::Color.parse(node.first_element_child)
-          when '1' then fill.stop1_color = RubyXL::Color.parse(node.first_element_child)
-          else raise "stop position #{node.attributes['position'].value} not supported yet"
-          end
-        else raise "node name #{node.name} not supported yet"
-        end
-      }
-
-      fill
-    end 
-
-    def build_xml(xml)
-      xml.fill {
-        xml.gradientFill(:degree => degree) {
-          if stop0_color then
-            xml.stop(:position => 0) { stop0_color.build_xml(xml) }
-          end
-
-          if stop1_color then
-            xml.stop(:position => 1) { stop1_color.build_xml(xml) }
-          end
-        }
-      }
-    end
-
-  end
 
 end

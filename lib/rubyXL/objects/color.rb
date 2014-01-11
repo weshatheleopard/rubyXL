@@ -1,15 +1,12 @@
 module RubyXL
-  class Color
 
-    attr_accessor :theme, :indexed, :tint, :rgb, :auto
-
-    def initialize(attrs = {})
-      @theme        = attrs['theme']
-      @indexed      = attrs['indexed']
-      @tint         = attrs['tint']
-      @rgb          = attrs['rgb']
-      @auto         = attrs['auto']
-    end
+  class Color < OOXMLObject
+    define_attribute(:auto,    :bool)
+    define_attribute(:indexed, :int)
+    define_attribute(:rgb,     :string)
+    define_attribute(:theme,   :int)
+    define_attribute(:tint,    :float)
+    define_element_name 'color'
 
     #validates hex color code, no '#' allowed
     def self.validate_color(color)
@@ -18,16 +15,6 @@ module RubyXL
       else
         raise 'invalid color'
       end
-    end
-
-    def self.parse(node)
-      color = self.new
-      color.auto    = RubyXL::Parser.attr_int(node, 'auto')
-      color.indexed = RubyXL::Parser.attr_int(node, 'indexed')
-      color.theme   = RubyXL::Parser.attr_int(node, 'theme')
-      color.tint    = RubyXL::Parser.attr_float(node, 'tint')
-      color.rgb     = RubyXL::Parser.attr_string(node, 'rgb')
-      color
     end
 
     def build_xml(xml, node_name = 'color')

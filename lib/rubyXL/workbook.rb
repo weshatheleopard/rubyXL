@@ -290,8 +290,9 @@ module RubyXL
 
     def get_fill_color(xf_attributes)
       fill = @fills[xf_attributes[:fillId]]
-      return 'ffffff' if fill.nil? || fill.fg_color.nil?
-      fill.fg_color.rgb
+      pattern = fill && fill.pattern_fill
+      color = pattern && pattern.fg_color
+      color && color.rgb || 'ffffff'
     end
 
 
@@ -301,11 +302,11 @@ module RubyXL
     # and will simply assume that the 0 and 1 indexed fonts are the default values.
     def fill_styles()
 
-      @fonts = [ RubyXL::Font.new({:name => 'Verdana', :size => 10 }),
-                 RubyXL::Font.new({:name => 'Verdana', :size => 8 }) ]
+      @fonts = [ RubyXL::Font.new(:name => 'Verdana', :size => 10 ),
+                 RubyXL::Font.new(:name => 'Verdana', :size => 8 ) ]
 
-      @fills = [ RubyXL::PatternFill.new(:pattern_type => 'none'),
-                 RubyXL::PatternFill.new(:pattern_type => 'gray125') ]
+      @fills = [ RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
+                 RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125')) ]
 
       @borders = [ RubyXL::Border.new ]
 
