@@ -24,15 +24,7 @@ module RubyXL
     def self.define_attribute(attr_name, attr_type, extra_params = {})
       attrs = obtain_class_variable(:@@ooxml_attributes)
 
-      accessor = extra_params[:accessor]
-      if accessor.nil? then 
-        accessor = attr_name.to_s
-        accessor.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
-        accessor.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
-        accessor.gsub!(':','_')
-        accessor.downcase!
-        accessor = accessor.to_sym
-      end
+      accessor = extra_params[:accessor] || accessorize(attr_name)
 
       attrs[accessor] = {
         :attr_name  => attr_name.to_s,
@@ -48,7 +40,7 @@ module RubyXL
     def self.define_child_node(klass, extra_params = {})
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_node_name = (extra_params[:node_name] || klass.class_variable_get(:@@ooxml_tag_name)).to_s
-      accessor = (extra_params[:accessor] || child_node_name).to_sym
+      accessor = (extra_params[:accessor] || accessorize(child_node_name)).to_sym
 
       child_nodes[child_node_name] = { 
         :class => klass,
@@ -81,12 +73,11 @@ module RubyXL
     end
 
     def initialize(params = {})
-      return super unless self.class.class_variable_defined?(:@@ooxml_attributes)
       obtain_class_variable(:@@ooxml_attributes).each_key { |k| instance_variable_set("@#{k}", params[k]) }
       obtain_class_variable(:@@ooxml_child_nodes).each_pair { |k, v|
 
         initial_value =
-          if params.has_key?(k) then params[k]
+          if params.has_key?(v[:accessor]) then params[v[:accessor]]
           elsif v[:is_array] then []
           else nil
           end
@@ -158,5 +149,15 @@ module RubyXL
 
       xml_attrs
     end
+
+    private
+    def self.accessorize(str)
+      acc = str.to_s.dup
+      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+      acc.gsub!(':','_')
+      acc.downcase.to_sym
+    end
+
   end
 end

@@ -103,7 +103,10 @@ module Writer
           }
 
           xml.fills('count' => @workbook.fills.size) {
-            @workbook.fills.each_with_index { |fill, i| fill.build_xml(xml) unless @fill_id_corrector[i].nil? }
+            @workbook.fills.each_with_index { |fill, i| 
+              next if @fill_id_corrector[i].nil?
+              fill.build_xml(xml)
+            }
           }
 
           xml.borders('count' => @workbook.borders.size) {

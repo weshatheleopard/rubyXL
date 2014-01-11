@@ -162,7 +162,8 @@ module RubyXL
         style_index = workbook.cell_xfs[:xf].size - 1
       end
  
-      new_fill = RubyXL::PatternFill.new('pattern_type' => 'solid', 'fg_color' => RubyXL::Color.new('rgb' => rgb))
+      new_fill = RubyXL::Fill.new(:pattern_fill => 
+                   RubyXL::PatternFill.new(:pattern_type => 'solid', :fg_color => RubyXL::Color.new(:rgb => rgb)))
       new_fill.count = 1
       workbook.fills[new_fill_id] = new_fill
         
