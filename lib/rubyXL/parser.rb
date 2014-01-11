@@ -38,43 +38,47 @@ module RubyXL
 
       files = {}
 
-      files['app'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','app.xml'),'r'))
-      files['core'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'docProps','core.xml'),'r'))
-      files['workbook'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
-      files['workbook_rels'] = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
+      workbook_file = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
+      rels_doc = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
 
       if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
-        files['sharedString'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
+        shared_string_file = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
       end
 
       unless @data_only
-        files['media'] = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary.load_dir(dir_path)
-        files['externalLinks'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
-        files['externalLinksRels'] = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load_dir(dir_path)
-        files['drawings'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load_dir(dir_path)
-        files['drawingsRels'] = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels')).load_dir(dir_path)
-        files['charts'] = RubyXL::GenericStorage.new(File.join('xl', 'charts')).load_dir(dir_path)
-        files['chartRels'] = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels')).load_dir(dir_path)
-        files['printerSettings'] = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary.load_dir(dir_path)
-        files['worksheetRels'] = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load_dir(dir_path)
-        files['vbaProject'] = RubyXL::GenericStorage.new('xl').binary.load_file(dir_path, 'vbaProject.bin')
-        files['theme'] = RubyXL::GenericStorage.new(File.join('xl', 'theme')).load_file(dir_path, 'theme1.xml')
+        wb.media = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary.load_dir(dir_path)
+        wb.external_links = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
+        wb.external_links_rels = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels')).load_dir(dir_path)
+        wb.drawings = RubyXL::GenericStorage.new(File.join('xl', 'drawings')).load_dir(dir_path)
+        wb.drawings_rels = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels')).load_dir(dir_path)
+        wb.charts = RubyXL::GenericStorage.new(File.join('xl', 'charts')).load_dir(dir_path)
+        wb.chart_rels = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels')).load_dir(dir_path)
+        wb.printer_settings = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary.load_dir(dir_path)
+        wb.worksheet_rels = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels')).load_dir(dir_path)
+        wb.macros = RubyXL::GenericStorage.new('xl').binary.load_file(dir_path, 'vbaProject.bin')
+        wb.theme = RubyXL::GenericStorage.new(File.join('xl', 'theme')).load_file(dir_path, 'theme1.xml')
+
+        core_file = Nokogiri::XML.parse(File.open(File.join(dir_path, 'docProps', 'core.xml'), 'r'))
+        wb.creator = core_file.css('dc|creator').children.to_s
+        wb.modifier = core_file.css('cp|last_modified_by').children.to_s
+        wb.created_at = core_file.css('dcterms|created').children.to_s
+        wb.modified_at = core_file.css('dcterms|modified').children.to_s
+
+        app_file = Nokogiri::XML.parse(File.open(File.join(dir_path, 'docProps', 'app.xml'), 'r'))
+        wb.company = app_file.css('Company').children.to_s
+        wb.application = app_file.css('Application').children.to_s
+        wb.appversion = app_file.css('AppVersion').children.to_s
       end
 
-      files['styles'] = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','styles.xml'),'r'))
+      styles_xml = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
 
-      files['worksheets'] = []
-      rels_doc = files['workbook_rels']
+      defined_names = workbook_file.css('definedNames definedName')
+      wb.defined_names = defined_names.collect { |node| RubyXL::DefinedName.parse(node) }
 
-      files['workbook'].css('sheets sheet').each_with_index { |sheet, ind|
-        sheet_rid = sheet.attributes['id'].value 
-        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
-        files['worksheets'][ind] = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
-      }
+      wb.date1904 = workbook_file.css('workbookPr').attribute('date1904').to_s == '1'
 
-      fill_workbook(wb, files)
+      wb.shared_strings_XML = shared_string_file.to_s
 
-      shared_string_file = files['sharedString']
       unless shared_string_file.nil?
         sst = shared_string_file.css('sst')
 
@@ -92,10 +96,10 @@ module RubyXL
 
       end
 
-      fills = files['styles'].css('fills fill')
+      fills = styles_xml.css('fills fill')
       wb.fills = fills.collect { |node| RubyXL::Fill.parse(node) }
 
-      colors = files['styles'].css('colors').first
+      colors = styles_xml.css('colors').first
 
       if colors then
         colors.element_children.each { |color_type_node|
@@ -106,38 +110,29 @@ module RubyXL
         }
       end
 
-      borders = files['styles'].css('borders border')
+      borders = styles_xml.css('borders border')
       wb.borders = borders.collect { |node| RubyXL::Border.parse(node) }
 
-      fonts = files['styles'].css('fonts font')
+      fonts = styles_xml.css('fonts font')
       wb.fonts = fonts.collect { |node| RubyXL::Font.parse(node) }
 
-      cell_styles = files['styles'].css('cellStyles cellStyle')
+      cell_styles = styles_xml.css('cellStyles cellStyle')
       wb.cell_styles = cell_styles.collect { |node| RubyXL::CellStyle.parse(node) }
 
-      num_fmts = files['styles'].css('numFmts numFmt')
+      num_fmts = styles_xml.css('numFmts numFmt')
       wb.num_fmts = num_fmts.collect { |node| RubyXL::NumFmt.parse(node) }
 
-      fill_styles(wb, Hash.xml_node_to_hash(files['styles'].root))
-
-      wb.media = files['media']
-      wb.external_links = files['externalLinks']
-      wb.external_links_rels = files['externalLinksRels']
-      wb.drawings = files['drawings']
-      wb.drawings_rels = files['drawingsRels']
-      wb.charts = files['charts']
-      wb.chart_rels = files['chartRels']
-      wb.printer_settings = files['printerSettings']
-      wb.worksheet_rels = files['worksheetRels']
-      wb.macros = files['vbaProject']
-      wb.theme = files['theme']
+      fill_styles(wb, Hash.xml_node_to_hash(styles_xml.root))
 
       # Not sure why they were getting sheet names from god knows where.
       # There *may* have been a good reason behind it, so not tossing this code out entirely yet.
-      # sheet_names = files['app'].css('TitlesOfParts vt|vector vt|lpstr').children
+      # sheet_names = app_file.css('TitlesOfParts vt|vector vt|lpstr').children
 
-      files['workbook'].css('sheets sheet').each_with_index { |sheet_node, i|
-        parse_worksheet(wb, i, files['worksheets'][i], sheet_node.attributes['name'].value,
+      workbook_file.css('sheets sheet').each_with_index { |sheet_node, i|
+        sheet_rid = sheet_node.attributes['id'].value 
+        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
+        worksheet_xml = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
+        parse_worksheet(wb, i, worksheet_xml, sheet_node.attributes['name'].value,
                                sheet_node.attributes['sheetId'].value )
       }
 
@@ -299,26 +294,6 @@ module RubyXL
       }
 
       worksheet
-    end
-
-    def fill_workbook(wb, files)
-      unless @data_only
-        wb.creator = files['core'].css('dc|creator').children.to_s
-        wb.modifier = files['core'].css('cp|last_modified_by').children.to_s
-        wb.created_at = files['core'].css('dcterms|created').children.to_s
-        wb.modified_at = files['core'].css('dcterms|modified').children.to_s
-
-        wb.company = files['app'].css('Company').children.to_s
-        wb.application = files['app'].css('Application').children.to_s
-        wb.appversion = files['app'].css('AppVersion').children.to_s
-      end
-
-      wb.shared_strings_XML = files['sharedString'].to_s
-
-      defined_names = files['workbook'].css('definedNames definedName')
-      wb.defined_names = defined_names.collect { |node| RubyXL::DefinedName.parse(node) }
-
-      wb.date1904 = files['workbook'].css('workbookPr').attribute('date1904').to_s == '1'
     end
 
     def self.attr_int(node, attr_name) 
