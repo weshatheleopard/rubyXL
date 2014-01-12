@@ -302,8 +302,8 @@ module RubyXL
     # and will simply assume that the 0 and 1 indexed fonts are the default values.
     def fill_styles()
 
-      @fonts = [ RubyXL::Font.new(:name => 'Verdana', :size => 10 ),
-                 RubyXL::Font.new(:name => 'Verdana', :size => 8 ) ]
+      @fonts = [ RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 10) ),
+                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 8) ) ]
 
       @fills = [ RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125')) ]

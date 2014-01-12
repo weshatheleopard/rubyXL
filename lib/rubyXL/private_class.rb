@@ -36,49 +36,8 @@ module RubyXL
 
     # This method checks to see if there is an equivalent font that exists
     def find_font(workbook, font)
-      workbook.fonts.each_with_index {|f, font_id|
-        if (f.italic == font.italic &&
-          f.bold == font.bold &&
-          f.underlined == font.underlined &&
-          f.strikethrough == font.strikethrough &&
-          f.name == font.name &&
-          f.size == font.size &&
-          f.color == font.color) # TODO: need to write proper comparison
-          return font_id
-        end
-      }
+      workbook.fonts.each_with_index {|f, font_id| return font_id if (f == font) }
       return nil
-    end
-
-    # Helper method to modify the font color
-    def modify_font_color(font, font_color)
-      font.color = RubyXL::Color.new if font.color.nil?
-      font.color.rgb = font_color.to_s
-      return font
-    end
-
-    # Helper method to modify the font's italics settings
-    def modify_font_italics(font, italicized)
-      font.italic = italicized
-      return font
-    end
-
-    # Helper method to modify the font's bold settings
-    def modify_font_bold(font, bolded)
-      font.bold = bolded
-      return font
-    end
-
-    # Helper method to modify the font's underline settings
-    def modify_font_underline(font, underlined)
-      font.underlined = underlined
-      return font
-    end
-
-    # Helper method to modify the font's strikethrough settings
-    def modify_font_strikethrough(font, struckthrough)
-      font.strikethrough = struckthrough
-      return font
     end
 
     # Determines if font exists

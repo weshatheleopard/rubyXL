@@ -97,7 +97,7 @@ new_xml=
           end
 
           root << (xml.create_element('fonts', :count => @workbook.fonts.size) { |fonts|
-#TODO#            @workbook.fonts.each_with_index { |font, i| fonts << font.write_xml(xml) unless @font_id_corrector[i].nil? }
+            @workbook.fonts.each_with_index { |font, i| fonts << font.write_xml(xml) unless @font_id_corrector[i].nil? }
           })
 
           root << (xml.create_element('fills', :count => @workbook.fills.size) { |fills|
