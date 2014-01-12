@@ -13,7 +13,7 @@ module RubyXL
         render_xml do |xml|
           xml << (xml.create_element('Properties',
                   :xmlns => 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties',
-                  'xmlns:vt'=>'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes') { |root|
+                  'xmlns:vt' => 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes') { |root|
 
             root << xml.create_element('Application', @workbook.application) unless @workbook.application.to_s.empty?
             root << xml.create_element('DocSecurity', 0)

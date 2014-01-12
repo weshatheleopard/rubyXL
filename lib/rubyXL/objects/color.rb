@@ -1,5 +1,6 @@
 module RubyXL
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_color-4.html
   class Color < OOXMLObject
     define_attribute(:auto,    :bool)
     define_attribute(:indexed, :int)

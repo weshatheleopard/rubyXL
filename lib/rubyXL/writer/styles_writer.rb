@@ -85,6 +85,98 @@ module Writer
       @workbook.style_corrector = @style_id_corrector
 
 
+
+
+new_xml= 
+      render_xml do |xml|
+        xml << (xml.create_element('styleSheet', :xmlns => "http://schemas.openxmlformats.org/spreadsheetml/2006/main") { |root|
+          unless @workbook.num_fmts.empty?
+            root << (xml.create_element('numFmts', :count => @workbook.num_fmts.size) { |numfmts|
+              @workbook.num_fmts.each { |numfmt| numfmts << numfmt.write_xml(xml) }
+            })
+          end
+
+          root << (xml.create_element('fonts', :count => @workbook.fonts.size) { |fonts|
+#TODO#            @workbook.fonts.each_with_index { |font, i| fonts << font.write_xml(xml) unless @font_id_corrector[i].nil? }
+          })
+
+          root << (xml.create_element('fills', :count => @workbook.fills.size) { |fills|
+            @workbook.fills.each_with_index { |fill, i| fills << fill.write_xml(xml) unless @fill_id_corrector[i].nil? }
+          })
+
+          root << (xml.create_element('borders', :count => @workbook.borders.size) { |borders|
+            @workbook.borders.each_with_index { |border, i| borders << border.write_xml(xml) unless @border_id_corrector[i].nil? }
+          })
+
+          root << (xml.create_element('cellStyleXfs', :count => @workbook.cell_style_xfs[:attributes][:count]) { |cxfs|
+            @workbook.cell_style_xfs[:xf].each { |style|
+              style = @workbook.get_style_attributes(style)
+              cxfs << xml.create_element('xf', :numFmtId  => style[:numFmtId],
+                                               :fontId => @font_id_corrector[style[:fontId]],
+                                               :fillId => @fill_id_corrector[style[:fillId]],
+                                               :borderId => @border_id_corrector[style[:borderId]])
+            }
+          })
+
+
+          root << (xml.create_element('cellXfs', :count => @workbook.cell_xfs[:xf].size) { |cxfs|
+            @workbook.cell_xfs[:xf].each { |xf_obj|
+              xf = @workbook.get_style_attributes(xf_obj)
+              cxfs << (xml.create_element('xf', :numFmtId => xf[:numFmtId],
+                                                :fontId => @font_id_corrector[xf[:fontId]],
+                                                :fillId => @fill_id_corrector[xf[:fillId]],
+                                                :borderId => @border_id_corrector[xf[:borderId]],
+                                                :xfId => xf[:xfId].to_s,
+                                                :applyFont => xf[:applyFont].to_i, #0 if nil
+                                                :applyFill => xf[:applyFill].to_i,
+                                                :applyAlignment => xf[:applyAlignment].to_i,
+                                                :applyNumberFormat => xf[:applyNumberFormat].to_i) { |xf_xml|
+
+                unless xf_obj.is_a?(Array)
+                  unless xf_obj[:alignment].nil?
+                    xf_xml << xml.create_element('alignment', :horizontal => xf_obj[:alignment][:attributes][:horizontal],
+                                                              :vertical => xf_obj[:alignment][:attributes][:vertical],
+                                                              :wrapText => xf_obj[:alignment][:attributes][:wrapText])
+                  end
+                end
+
+              })
+
+
+            }
+          })
+
+          root << (xml.create_element('cellStyles', :count => @workbook.cell_styles.size) { |cell_styles|
+            @workbook.cell_styles.each { |style|
+              cell_styles << style.write_xml(xml)
+            }
+          })
+
+          root << xml.create_element('dxfs', :count => 0)
+          root << xml.create_element('tableStyles', :count => 0, :defaultTableStyle => 'TableStyleMedium9')
+
+
+          unless @workbook.colors.empty?
+            root << (xml.create_element('colors') { |colors|
+              @workbook.colors.each { |color| colors << color.write_xml(xml) }
+            })
+          end
+
+        })
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+old_xml=
       build_xml do |xml|
         xml.styleSheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main") {
           unless @workbook.num_fmts.empty?
@@ -168,6 +260,11 @@ module Writer
 
         }
       end
+
+
+puts "old=> #{old_xml}\n#{new_xml}" if old_xml != new_xml
+
+old_xml
     end
 
     private
