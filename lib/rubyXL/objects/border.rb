@@ -21,11 +21,20 @@ module RubyXL
     define_child_node(RubyXL::BorderEdge, :node_name => :horizontal)
     define_element_name 'border'
 
-    attr_accessor :count, :edges
+    attr_accessor :count
 
     def initialize(args = {})
       super
       @count = 0
+    end
+
+    def get_edge_style(direction)
+      edge = self.send(direction)
+      edge && edge.style
+    end
+
+    def set_edge_style(direction, style)
+      self.send("#{direction}=", RubyXL::BorderEdge.new(:style => style))
     end
 
   end

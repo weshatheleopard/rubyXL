@@ -311,16 +311,14 @@ module RubyXL
       validate_border(weight)
       @style_index = modify_border(@workbook, @style_index)
       border = @workbook.borders[xf_id()[:borderId]]
-      border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
-      border.edges[direction.to_s].style = weight
+      border.set_edge_style(direction, weight)
     end
 
     def get_border(direction)
       validate_worksheet
 
       border = @workbook.borders[xf_id()[:borderId]]
-      edge = border.edges[direction.to_s]
-      edge && edge.style
+      border.get_edge_style(direction)
     end
 
     def validate_workbook()

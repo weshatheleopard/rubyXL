@@ -36,7 +36,7 @@ class Worksheet < PrivateClass
   private :get_default_name
 
   # allows for easier access to sheet_data
-  def [](row=0)
+  def [](row = 0)
     @sheet_data[row]
   end
 
@@ -124,7 +124,7 @@ class Worksheet < PrivateClass
   end
 
   # Changes font name of row
-  def change_row_font_name(row=0, font_name='Verdana')
+  def change_row_font_name(row = 0, font_name='Verdana')
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified name
@@ -135,7 +135,7 @@ class Worksheet < PrivateClass
   end
 
   # Changes font size of row
-  def change_row_font_size(row=0, font_size=10)
+  def change_row_font_size(row = 0, font_size=10)
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified size
@@ -146,7 +146,7 @@ class Worksheet < PrivateClass
   end
 
   # Changes font color of row
-  def change_row_font_color(row=0, font_color='000000')
+  def change_row_font_color(row = 0, font_color='000000')
     Color.validate_color(font_color)
     # Get style object
     xf_id = xf_id(get_row_style(row))
@@ -158,7 +158,7 @@ class Worksheet < PrivateClass
   end
 
   # Changes font italics settings of row
-  def change_row_italics(row=0, italicized=false)
+  def change_row_italics(row = 0, italicized=false)
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified italics settings
@@ -169,7 +169,7 @@ class Worksheet < PrivateClass
   end
 
   # Changes font bold settings of row
-  def change_row_bold(row=0, bolded=false)
+  def change_row_bold(row = 0, bolded=false)
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified bold settings
@@ -180,7 +180,7 @@ class Worksheet < PrivateClass
   end
 
   # Changes font underline settings of row
-  def change_row_underline(row=0, underlined=false)
+  def change_row_underline(row = 0, underlined=false)
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified underline settings
@@ -191,7 +191,7 @@ class Worksheet < PrivateClass
   end
 
   # Changes font strikethrough settings of row
-  def change_row_strikethrough(row=0, struckthrough=false)
+  def change_row_strikethrough(row = 0, struckthrough=false)
     # Get style object
     xf_id = xf_id(get_row_style(row))
     # Get copy of font object with modified strikethrough settings
@@ -201,7 +201,7 @@ class Worksheet < PrivateClass
     change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
   end
 
-  def change_row_height(row=0, height=10)
+  def change_row_height(row = 0, height=10)
     validate_workbook
     validate_nonnegative(row)
 
@@ -223,37 +223,37 @@ class Worksheet < PrivateClass
     @row_styles[(row+1).to_s][:customHeight] = '1'
   end
 
-  def change_row_horizontal_alignment(row=0,alignment='center')
+  def change_row_horizontal_alignment(row = 0,alignment='center')
     validate_workbook
     validate_nonnegative(row)
     validate_horizontal_alignment(alignment)
     change_row_alignment(row,alignment,true)
   end
 
-  def change_row_vertical_alignment(row=0,alignment='center')
+  def change_row_vertical_alignment(row = 0,alignment='center')
     validate_workbook
     validate_nonnegative(row)
     validate_vertical_alignment(alignment)
     change_row_alignment(row,alignment,false)
   end
 
-  def change_row_border_top(row=0,weight='thin')
+  def change_row_border_top(row = 0, weight = 'thin')
     change_row_border(row, :top, weight)
   end
 
-  def change_row_border_left(row=0,weight='thin')
+  def change_row_border_left(row = 0, weight = 'thin')
     change_row_border(row, :left, weight)
   end
 
-  def change_row_border_right(row=0,weight='thin')
+  def change_row_border_right(row = 0, weight = 'thin')
     change_row_border(row, :right, weight)
   end
 
-  def change_row_border_bottom(row=0,weight='thin')
+  def change_row_border_bottom(row = 0, weight = 'thin')
     change_row_border(row, :bottom, weight)
   end
 
-  def change_row_border_diagonal(row=0,weight='thin')
+  def change_row_border_diagonal(row = 0, weight = 'thin')
     change_row_border(row, :diagonal, weight)
   end
 
@@ -373,23 +373,23 @@ class Worksheet < PrivateClass
     change_column_alignment(col,alignment,false)
   end
 
-  def change_column_border_top(col=0,weight='thin')
+  def change_column_border_top(col=0,weight = 'thin')
     change_column_border(col,:top,weight)
   end
 
-  def change_column_border_left(col=0,weight='thin')
+  def change_column_border_left(col=0,weight = 'thin')
     change_column_border(col,:left,weight)
   end
 
-  def change_column_border_right(col=0,weight='thin')
+  def change_column_border_right(col=0,weight = 'thin')
     change_column_border(col,:right,weight)
   end
 
-  def change_column_border_bottom(col=0,weight='thin')
+  def change_column_border_bottom(col=0,weight = 'thin')
     change_column_border(col,:bottom,weight)
   end
 
-  def change_column_border_diagonal(col=0,weight='thin')
+  def change_column_border_diagonal(col=0,weight = 'thin')
     change_column_border(col,:diagonal,weight)
   end
 
@@ -399,7 +399,7 @@ class Worksheet < PrivateClass
     @merged_cells << RubyXL::Reference.new(row1, row2, col1, col2)
   end
 
-  def add_cell(row=0, column=0, data='', formula=nil,overwrite=true)
+  def add_cell(row = 0, column=0, data='', formula=nil,overwrite=true)
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(column)
@@ -620,7 +620,7 @@ class Worksheet < PrivateClass
   # by default, only sets cell to nil
   # if :left is specified, method will shift row contents to the right of the deleted cell to the left
   # if :up is specified, method will shift column contents below the deleted cell upward
-  def delete_cell(row=0, col=0, shift=nil)
+  def delete_cell(row = 0, col=0, shift=nil)
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(col)
@@ -656,7 +656,7 @@ class Worksheet < PrivateClass
     return cell
   end
 
-  def get_row_fill(row=0)
+  def get_row_fill(row = 0)
     validate_workbook
     validate_nonnegative(row)
 
@@ -673,7 +673,7 @@ class Worksheet < PrivateClass
     return @workbook.get_fill_color(xf)
   end
 
-  def get_row_font_name(row=0)
+  def get_row_font_name(row = 0)
     validate_workbook
     validate_nonnegative(row)
 
@@ -690,7 +690,7 @@ class Worksheet < PrivateClass
     return @workbook.fonts[xf[:fontId]].get_name
   end
 
-  def get_row_font_size(row=0)
+  def get_row_font_size(row = 0)
     validate_workbook
     validate_nonnegative(row)
 
@@ -707,7 +707,7 @@ class Worksheet < PrivateClass
     return @workbook.fonts[xf[:fontId]].get_size
   end
 
-  def get_row_font_color(row=0)
+  def get_row_font_color(row = 0)
     validate_workbook
     validate_nonnegative(row)
 
@@ -731,22 +731,22 @@ class Worksheet < PrivateClass
     font && font.is_italic
   end
 
-  def is_row_bolded(row=0)
+  def is_row_bolded(row = 0)
     font = row_font(row)
     font && font.is_bold
   end
 
-  def is_row_underlined(row=0)
+  def is_row_underlined(row = 0)
     font = row_font(row)
     font && font.is_underlined
   end
 
-  def is_row_struckthrough(row=0)
+  def is_row_struckthrough(row = 0)
     font = row_font(row)
     font && font.is_strikethrough
   end
 
-  def get_row_height(row=0)
+  def get_row_height(row = 0)
     validate_workbook
     validate_nonnegative(row)
 
@@ -761,27 +761,27 @@ class Worksheet < PrivateClass
     end
   end
 
-  def get_row_horizontal_alignment(row=0)
+  def get_row_horizontal_alignment(row = 0)
     return get_row_alignment(row,true)
   end
 
-  def get_row_vertical_alignment(row=0)
+  def get_row_vertical_alignment(row = 0)
     return get_row_alignment(row,false)
   end
 
-  def get_row_border_top(row=0)
+  def get_row_border_top(row = 0)
     return get_row_border(row, :top)
   end
 
-  def get_row_border_left(row=0)
+  def get_row_border_left(row = 0)
     return get_row_border(row, :left)
   end                         
 
-  def get_row_border_right(row=0)
+  def get_row_border_right(row = 0)
     return get_row_border(row, :right)
   end
 
-  def get_row_border_bottom(row=0)
+  def get_row_border_bottom(row = 0)
     return get_row_border(row, :bottom)
   end
 
@@ -940,8 +940,7 @@ class Worksheet < PrivateClass
     return nil if @sheet_data.size <= row || @row_styles[(row+1).to_s].nil?
 
     border = @workbook.borders[xf_attr_row(row)[:borderId]]
-    edge = border && border.edges[border_direction.to_s]
-    edge && edge.style
+    border && border.get_edge_style(border_direction)
   end
 
   def column_font(col)
@@ -980,8 +979,7 @@ class Worksheet < PrivateClass
     xf = @workbook.get_style_attributes(@workbook.get_style(get_cols_style_index(col)))
 
     border = @workbook.borders[xf[:borderId]]
-    edge = border && border.edges[border_direction.to_s]
-    edge && edge.style
+    border && border.get_edge_style(border_direction)
   end
 
   def deep_copy(hash)
@@ -1201,8 +1199,7 @@ class Worksheet < PrivateClass
     @row_styles[(row+1).to_s][:style] = modify_border(@workbook, @row_styles[(row+1).to_s][:style])
 
     border = @workbook.borders[xf_attr_row(row)[:borderId]]
-    border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
-    border.edges[direction.to_s].style = weight
+    border && border.set_edge_style(direction, weight)
 
     @sheet_data[row].each { |c|
       next if c.nil?
@@ -1230,8 +1227,7 @@ class Worksheet < PrivateClass
     xf = @workbook.get_style_attributes(@workbook.get_style(new_style_index))
 
     border = @workbook.borders[xf[:borderId]]
-    border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
-    border.edges[direction.to_s].style = weight
+    border.set_edge_style(direction, weight)
 
     @sheet_data.each { |row|
       c = row[col]
