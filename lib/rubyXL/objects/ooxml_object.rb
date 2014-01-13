@@ -140,7 +140,8 @@ module RubyXL
 
         val = val &&
                 case v[:attr_type]
-                when :bool then val ? '1' : '0'
+                when :bool  then val ? '1' : '0'
+                when :float then val.to_s.gsub(/\.0*$/, '') # Trim trailing zeroes
                 else val
                 end
 

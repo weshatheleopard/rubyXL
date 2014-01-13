@@ -84,10 +84,6 @@ module Writer
       
       @workbook.style_corrector = @style_id_corrector
 
-
-
-
-new_xml= 
       render_xml do |xml|
         xml << (xml.create_element('styleSheet', :xmlns => "http://schemas.openxmlformats.org/spreadsheetml/2006/main") { |root|
           unless @workbook.num_fmts.empty?
@@ -158,113 +154,17 @@ new_xml=
 
           unless @workbook.colors.empty?
             root << (xml.create_element('colors') { |colors|
-              @workbook.colors.each { |color| colors << color.write_xml(xml) }
+              @workbook.colors.each_pair { |color_type, color_array|
+                colors << (xml.create_element(color_type) { |type|
+                  color_array.each { |color| type << color.write_xml(xml) }
+                })
+              }
             })
           end
 
         })
       end
 
-
-
-
-
-
-
-
-
-
-
-
-old_xml=
-      build_xml do |xml|
-        xml.styleSheet('xmlns'=>"http://schemas.openxmlformats.org/spreadsheetml/2006/main") {
-          unless @workbook.num_fmts.empty?
-            xml.numFmts('count' => @workbook.num_fmts.size) {
-              @workbook.num_fmts.each do |fmt|
-                xml.numFmt('numFmtId' => fmt.num_fmt_id, 'formatCode' => fmt.format_code)
-              end
-            }
-          end
-
-          xml.fonts('count' => @workbook.fonts.size) {
-            @workbook.fonts.each_with_index { |font, i|
-              next if font.nil? || @font_id_corrector[i].nil?
-              font.build_xml(xml)
-            }
-          }
-
-          xml.fills('count' => @workbook.fills.size) {
-            @workbook.fills.each_with_index { |fill, i| 
-              next if @fill_id_corrector[i].nil?
-              fill.build_xml(xml)
-            }
-          }
-
-          xml.borders('count' => @workbook.borders.size) {
-            @workbook.borders.each_with_index { |border, i| border.build_xml(xml) unless @border_id_corrector[i].nil? }
-          }
-
-          xml.cellStyleXfs('count' => @workbook.cell_style_xfs[:attributes][:count]) {
-            @workbook.cell_style_xfs[:xf].each do |style|
-              style = @workbook.get_style_attributes(style)
-              xml.xf('numFmtId' => style[:numFmtId],
-              'fontId' => @font_id_corrector[style[:fontId]],
-              'fillId' => @fill_id_corrector[style[:fillId]],
-              'borderId' => @border_id_corrector[style[:borderId]])
-            end
-          }
-
-          xml.cellXfs('count'=>@workbook.cell_xfs[:xf].size) {
-            @workbook.cell_xfs[:xf].each do |xf_obj|
-              xf = @workbook.get_style_attributes(xf_obj)
-
-              xml.xf('numFmtId' => xf[:numFmtId],
-              'fontId'=> @font_id_corrector[xf[:fontId]],
-              'fillId'=> @fill_id_corrector[xf[:fillId]],
-              'borderId' => @border_id_corrector[xf[:borderId]],
-              'xfId'=>xf[:xfId].to_s,
-              'applyFont'=>xf[:applyFont].to_i.to_s, #0 if nil
-              'applyFill'=>xf[:applyFill].to_i.to_s,
-              'applyAlignment'=>xf[:applyAlignment].to_i.to_s,
-              'applyNumberFormat'=>xf[:applyNumberFormat].to_i.to_s) {
-                unless xf_obj.is_a?Array
-                  unless xf_obj[:alignment].nil?
-                    xml.alignment('horizontal'=>xf_obj[:alignment][:attributes][:horizontal].to_s,
-                                  'vertical'=>xf_obj[:alignment][:attributes][:vertical].to_s,
-                                  'wrapText'=>xf_obj[:alignment][:attributes][:wrapText].to_s)
-                  end
-                end
-              }
-            end
-          }
-
-          xml.cellStyles('count' => @workbook.cell_styles.size) {
-            @workbook.cell_styles.each { |style|
-              xml.cellStyle('name' => style.name, 'xfId' => style.xf_id, 'builtinId' => style.builtin_id)
-              #cellStyle.write_xml(xml)
-            }
-          }
-          xml.dxfs('count'=>'0')
-          xml.tableStyles('count'=>'0', 'defaultTableStyle'=>'TableStyleMedium9')
-
-          unless @workbook.colors.empty?
-            xml.colors {
-              @workbook.colors.each_pair { |k, v|
-                xml.send(k.to_sym) {
-                  v.each { |color| color.build_xml(xml) }
-                }
-              }
-            }
-          end
-
-        }
-      end
-
-
-puts "old=> #{old_xml}\n#{new_xml}" if old_xml != new_xml
-
-old_xml
     end
 
     private

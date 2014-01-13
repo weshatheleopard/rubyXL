@@ -18,16 +18,6 @@ module RubyXL
       end
     end
 
-    def build_xml(xml, node_name = 'color')
-      @attrs = {}
-      @attrs[:auto]    = @auto    unless @auto.nil?
-      @attrs[:indexed] = @indexed unless @indexed.nil?
-      @attrs[:theme]   = @theme   unless @theme.nil?
-      @attrs[:tint]    = @tint    unless @tint.nil?
-      @attrs[:rgb]     = @rgb     unless @rgb.nil?
-      xml.send(node_name, @attrs)
-    end
-
   end
 
 end

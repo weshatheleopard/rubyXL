@@ -49,20 +49,6 @@ module RubyXL
       new
     end
 
-    def build_xml(xml)
-      xml.font {
-        xml.sz(:val => sz && sz.val)
-        xml.b if b && b.val
-        xml.i if i && i.val
-        xml.u if u && u.val
-        xml.strike if strike && strike.val
-        @color.build_xml(xml) if @color
-        xml.family(:val => family.val) if family && family.val
-        xml.scheme(:val => scheme.val) if scheme && scheme.val
-        xml.name(:val => name.val) if name && name.val
-      }
-    end
-
     def ==(other)
      (!(self.i && self.i.val) == !(other.i && other.i.val)) &&
        (!(self.b && self.b.val) == !(other.b && other.b.val)) &&
