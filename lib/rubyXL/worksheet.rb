@@ -16,7 +16,7 @@ class Worksheet < PrivateClass
     @sheet_data = sheet_data
     @column_ranges = cols
     @merged_cells = merged_cells || []
-    @row_styles={}
+    @row_styles = []
     @sheet_views = [ RubyXL::SheetView.new ]
     @extLst = nil
     @legacy_drawings = []
@@ -433,15 +433,12 @@ class Worksheet < PrivateClass
     deleted = @sheet_data.delete_at(row_index)
     row_num = row_index+1
 
-    row_num.upto(@sheet_data.size) do |index|
-      @row_styles[(index-1)] = deep_copy(@row_styles[index])
-    end
-    @row_styles.delete(@sheet_data.size)
+    @row_styles.delete_at(row_index)
 
-    #change cell row numbers
-    (row_index...(@sheet_data.size-1)).each do |index|
-      @sheet_data[index].map {|c| c.row -= 1 if c}
-    end
+    # Change cell row numbers
+    row_index.upto(@sheet_data.size - 1) { |index|
+      @sheet_data[index].each{ |c| c.row -= 1 unless c.nil? }
+    }
 
     return deleted
   end
@@ -656,7 +653,7 @@ class Worksheet < PrivateClass
   def get_row_font_color(row = 0)
     font = row_font(row)
     color = font && font.color
-    (color && color.rgb) || '000000'
+    color && (color.rgb || '000000')
   end
 
   def is_row_italicized(row = 0)
@@ -796,23 +793,23 @@ class Worksheet < PrivateClass
   end
 
   def get_column_border_top(col=0)
-    return get_column_border(col,:top)
+    get_column_border(col, :top)
   end
 
   def get_column_border_left(col=0)
-    return get_column_border(col,:left)
+    get_column_border(col, :left)
   end
 
   def get_column_border_right(col=0)
-    return get_column_border(col,:right)
+    get_column_border(col, :right)
   end
 
   def get_column_border_bottom(col=0)
-    return get_column_border(col,:bottom)
+    get_column_border(col, :bottom)
   end
 
   def get_column_border_diagonal(col=0)
-    return get_column_border(col,:diagonal)
+    get_column_border(col, :diagonal)
   end
 
 
@@ -910,10 +907,6 @@ class Worksheet < PrivateClass
     border && border.get_edge_style(border_direction)
   end
 
-  def deep_copy(hash)
-    Marshal.load(Marshal.dump(hash))
-  end
-
   #validates Workbook, ensures that this worksheet is in @workbook
   def validate_workbook()
     unless @workbook.nil? || @workbook.worksheets.nil?
@@ -937,7 +930,7 @@ class Worksheet < PrivateClass
     ensure_cell_exists(row)
 
     xf = get_row_xf(row)
-    xf.font_id = workbook.register_new_font(font, xf.font_id)
+    xf.font_id = workbook.register_new_font(font, xf)
     xf.apply_font = 1
 
     @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
@@ -956,7 +949,7 @@ class Worksheet < PrivateClass
     ensure_cell_exists(0, col)
 
     # Modify font array and retrieve new font id
-    font_id = workbook.register_new_font(font, xf.font_id)
+    font_id = workbook.register_new_font(font, xf)
     # Get copy of xf object with modified font id
     xf = xf.dup
     xf.font_id = font_id
@@ -1107,7 +1100,7 @@ class Worksheet < PrivateClass
     border = @workbook.borders[xf.border_id].dup
     border.set_edge_style(direction, weight)
 
-    xf.border_id = workbook.register_new_border(border, xf.border_id)
+    xf.border_id = workbook.register_new_border(border, xf)
     xf.apply_border = 1
 
     @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
@@ -1136,7 +1129,7 @@ class Worksheet < PrivateClass
     xf = @workbook.cell_xfs[style_index].dup
     border = @workbook.borders[xf.border_id].dup
     border.set_edge_style(direction, weight)
-    xf.border_id = workbook.register_new_border(border, xf.border_id)
+    xf.border_id = workbook.register_new_border(border, xf)
     xf.apply_border = 1
 
     style_index = workbook.register_new_xf(xf, style_index)

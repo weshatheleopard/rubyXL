@@ -58,59 +58,37 @@ module RubyXL
     #then styles array (copies, appends)
     def modify_fill(workbook, style_index, rgb)
       xf = workbook.cell_xfs[style_index]
-
-      new_fill_id = fill_id = xf.fill_id
-
-      fill = workbook.fills[fill_id]
-
-      # If the current fill is used in more than one cell, we need to create a copy;
-      # otherwise we can modify it in place (with the exception of Special Fills #1 and #0)
-      if fill.count > 1 || fill_id == 0 || fill_id == 1
-        fill.count -= 1
-        new_fill_id = workbook.fills.size
-        style_index = workbook.cell_xfs.size
-        workbook.cell_xfs << RubyXL::XF.new(:fill_id => new_fill_id, :apply_fill => true)
-      end
- 
       new_fill = RubyXL::Fill.new(:pattern_fill => 
                    RubyXL::PatternFill.new(:pattern_type => 'solid', :fg_color => RubyXL::Color.new(:rgb => rgb)))
-      new_fill.count = 1
-      workbook.fills[new_fill_id] = new_fill
-        
-      style_index
+      new_xf = workbook.register_new_fill(new_fill, xf)
+      workbook.register_new_xf(new_xf, style_index)
     end
 
     #is_horizontal is true when doing horizontal alignment,
     #false when doing vertical alignment
     def modify_alignment(workbook, style_index, is_horizontal, alignment)
-      old_xf_obj = workbook.cell_xfs[style_index]
+      old_xf = workbook.cell_xfs[style_index]
 
-      xf= old_xf_obj.dup
+      xf = old_xf.dup
       xf.alignment ||= RubyXL::Alignment.new
 
-      if is_horizontal
-        xf.alignment.horizontal = alignment
-      else
-        xf.alignment.vertical = alignment
+      if is_horizontal then xf.alignment.horizontal = alignment
+      else                  xf.alignment.vertical   = alignment
       end
       xf.apply_alignment = true
 
-      new_index = workbook.cell_xfs.size
-      workbook.cell_xfs[new_index] = xf
-      new_index
+      workbook.register_new_xf(xf, style_index)
     end
 
     def modify_text_wrap(workbook, style_index, wrapText = false)
-      old_xf_obj = workbook.cell_xfs[style_index]
+      old_xf = workbook.cell_xfs[style_index]
 
-      xf_obj = old_xf_obj.dup
-      xf_obj.alignment ||= RubyXL::Alignment.new
-      xf_obj.alignment.wrap_text = wrapText
-      xf.apply_alignment true
+      xf = old_xf.dup
+      xf.alignment ||= RubyXL::Alignment.new
+      xf.alignment.wrap_text = wrapText
+      xf.apply_alignment = true
 
-      new_index = workbook.cell_xfs.size
-      workbook.cell_xfs[new_index] = xf
-      new_index
+      workbook.register_new_xf(xf, style_index)
     end
 
   end

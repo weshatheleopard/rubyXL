@@ -271,7 +271,29 @@ module RubyXL
       color && color.rgb || 'ffffff'
     end
 
-    def register_new_font(new_font, old_font_id)
+    def register_new_fill(new_fill, xf)
+      new_xf = xf.dup
+
+      old_fill_id = xf.fill_id
+
+      if fills[old_fill_id].count == 1 && old_fill_id > 2 then # Old fill not used anymore, just replace it
+        new_fill_id = old_fill_id
+      else
+        new_fill_id = fills.find_index { |x| x == new_fill } # Use existing fill, if it exists
+        new_fill_id ||= fills.size # If this fill has never existed before, add it to collection.
+      end
+
+      fills[old_fill_id].count -= 1
+      new_fill.count += 1
+      fills[new_fill_id] = new_fill
+
+      new_xf.apply_fill = true
+      new_xf.fill_id = new_fill_id
+      new_xf
+    end
+
+    def register_new_font(new_font, xf)
+      old_font_id = xf.font_id
       if fonts[old_font_id].count == 1 && old_font_id > 1 then # Old font not used anymore, just replace it
         new_font_id = old_font_id
       else
@@ -286,7 +308,8 @@ module RubyXL
       new_font_id
     end
 
-    def register_new_border(new_border, old_border_id)
+    def register_new_border(new_border, xf)
+      old_border_id = xf.border_id
       if borders[old_border_id].count == 1 && old_border_id > 0 then # Old border not used anymore, just replace it
         new_border_id = old_border_id
       else
