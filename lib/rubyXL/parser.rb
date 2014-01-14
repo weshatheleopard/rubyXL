@@ -195,14 +195,8 @@ module RubyXL
         data_validations = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations/xmlns:dataValidation', namespaces)
         worksheet.validations = data_validations.collect { |node| RubyXL::DataValidation.parse(node) }
 
-        #extLst
-        ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
-        unless ext_list_node.empty?
-          worksheet.extLst = Hash.xml_node_to_hash(ext_list_node.first)
-        else
-          worksheet.extLst = nil
-        end
-        #extLst
+# Currently  not working #TODO#
+#        ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
 
         legacy_drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:legacyDrawing', namespaces)
         worksheet.legacy_drawings = legacy_drawing_nodes.collect { |node| RubyXL::LegacyDrawing.parse(node) }
