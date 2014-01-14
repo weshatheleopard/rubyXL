@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'nokogiri'
-
 module RubyXL
 module Writer
   class WorksheetWriter < GenericWriter
@@ -48,8 +45,7 @@ module Writer
                               :width => range.width || 10,
                               :customWidth => range.custom_width || 0 }
 
-                style_index = @workbook.style_corrector[range.style_index]
-                col_attrs[:style] = style_index if style_index
+                col_attrs[:style] = range.style_index if range.style_index
                 cols << (xml.create_element('col', col_attrs))
               end
             })
@@ -68,7 +64,6 @@ module Writer
                 custom_format = '0'
               end
 
-              @worksheet.row_styles[(i+1)][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1)][:style]]
               row_opts = {
                 :r            => i + 1,
                 :spans        => "1:#{row.size}",
@@ -92,7 +87,6 @@ module Writer
                   unless cell.nil?
                     #TODO do xml.c for all cases, inside specific.
                     # if cell.formula.nil?
-                    cell.style_index = @workbook.style_corrector[cell.style_index]
                     c_opts = { :r => RubyXL::Reference.ind2ref(i, j), :s => cell.style_index }
 
                     unless cell.datatype.nil? || cell.datatype == ''
@@ -144,7 +138,6 @@ module Writer
                                                       :header => 0.5, :footer => 0.5 })
           root << xml.create_element('pageSetup', { :orientation => 'portrait',
                                                     :horizontalDpi => 4294967292, :verticalDpi => 4294967292 })
-
 
           @worksheet.legacy_drawings.each { |drawing| root << drawing.write_xml(xml) }
 

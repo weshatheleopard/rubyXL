@@ -231,80 +231,56 @@ class Worksheet < PrivateClass
 
   # Changes font name of column
   def change_column_font_name(col = 0, font_name = 'Verdana')
-    # Get style object
-    xf_id = @workbook.cell_xfs[get_col_style(col)]
-    # Get copy of font object with modified name
-    font = @workbook.fonts[xf_id.font_id].dup
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
     font.set_name(font_name)
-    # Update font and xf array
-    change_column_font(col, Worksheet::NAME, font_name, font, xf_id)
+    change_column_font(col, Worksheet::NAME, font_name, font, xf)
   end
 
   # Changes font size of column
   def change_column_font_size(col=0, font_size=10)
-    # Get style object
-    xf_id = @workbook.cell_xfs[get_col_style(col)]
-    # Get copy of font object with modified size
-    font = @workbook.fonts[xf_id.font_id].dup
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
     font.set_size(font_size)
-    # Update font and xf array
-    change_column_font(col, Worksheet::SIZE, font_size, font, xf_id)
+    change_column_font(col, Worksheet::SIZE, font_size, font, xf)
   end
 
   # Changes font color of column
   def change_column_font_color(col=0, font_color='000000')
     Color.validate_color(font_color)
-    # Get style object
-    xf_id = @workbook.cell_xfs[get_col_style(col)]
-    # Get copy of font object with modified color
-    font = @workbook.fonts[xf_id.font_id].dup
+
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
     font.set_rgb_color(font_color)
-    # Update font and xf array
-    change_column_font(col, Worksheet::COLOR, font_color, font, xf_id)
+    change_column_font(col, Worksheet::COLOR, font_color, font, xf)
   end
 
-  # Changes font italics settings of column
-  def change_column_italics(col=0, italicized=false)
-    # Get style object
-    xf_id = @workbook.cell_xfs[get_col_style(col)]
-    # Get copy of font object with modified italics settings
-    font = @workbook.fonts[xf_id.font_id].dup
+  def change_column_italics(col = 0, italicized = false)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
     font.set_italic(italicized)
-    # Update font and xf array
-    change_column_font(col, Worksheet::ITALICS, italicized, font, xf_id)
+    change_column_font(col, Worksheet::ITALICS, italicized, font, xf)
   end
 
-  # Changes font bold settings of column
-  def change_column_bold(col=0, bolded=false)
-    # Get style object
-    xf_id = @workbook.cell_xfs[get_col_style(col)]
-    # Get copy of font object with modified bold settings
-    font = @workbook.fonts[xf_id.font_id].dup
+  def change_column_bold(col = 0, bolded = false)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
     font.set_bold(bolded)
-    # Update font and xf array
-    change_column_font(col, Worksheet::BOLD, bolded, font, xf_id)
+    change_column_font(col, Worksheet::BOLD, bolded, font, xf)
   end
 
-  # Changes font underline settings of column
-  def change_column_underline(col=0, underlined=false)
-    # Get style object
-    xf = @workbook.cell_xfs[get_col_style(col)]
-    # Get copy of font object with modified underline settings
+  def change_column_underline(col = 0, underlined = false)
+    xf = get_col_xf(col)
     font = @workbook.fonts[xf.font_id].dup
     font.set_underline(underlined)
-    # Update font and xf array
     change_column_font(col, Worksheet::UNDERLINE, underlined, font, xf)
   end
 
-  # Changes font strikethrough settings of column
   def change_column_strikethrough(col=0, struckthrough=false)
-    # Get style object
-    xf_id = @workbook.cell_xfs[get_col_style(col)]
-    # Get copy of font object with modified strikethrough settings
-    font = @workbook.fonts[xf_id.font_id].dup
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
     font.set_strikethrough(struckthrough)
-    # Update font and xf array
-    change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
+    change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
   end
 
   def change_column_width(col = 0, width = 13)
@@ -770,18 +746,8 @@ class Worksheet < PrivateClass
   def get_column_fill(col=0)
     validate_workbook
     validate_nonnegative(col)
-
-    if @sheet_data[0].size <= col
-      return nil
-    end
-
-    style_index = get_cols_style_index(col)
-
-    if style_index == 0
-      return "ffffff" #default, white
-    end
-
-    return @workbook.get_fill_color(@workbook.cell_xfs[:xf][style_index][:attributes])
+    return nil if @sheet_data[0].size <= col
+    @workbook.get_fill_color(get_col_xf(col))
   end
 
   def get_column_horizontal_alignment(col=0)
@@ -829,10 +795,6 @@ class Worksheet < PrivateClass
     @workbook.cell_xfs[@row_styles[(row+1)][:style]]
   end
 
-  def xf_attr_col(column)
-    @workbook.cell_xfs[RubyXL::ColumnRange.find(column).style_index]
-  end
-
   def row_font(row)
     validate_workbook
     validate_nonnegative(row)
@@ -841,7 +803,7 @@ class Worksheet < PrivateClass
     @workbook.fonts[xf.font_id]
   end
 
-  def get_row_alignment(row,is_horizontal)
+  def get_row_alignment(row, is_horizontal)
     validate_workbook
     validate_nonnegative(row)
 
@@ -884,15 +846,8 @@ class Worksheet < PrivateClass
     validate_nonnegative(col)
 
     return nil if @sheet_data[0].size <= col
-
-    style_index = get_cols_style_index(col)
-
-    xf = @workbook.cell_xfs[style_index]
-    return nil if xf.alignment.nil?
-    return (case type
-           when :horizontial then xf.alignment.horizontial
-           when :vertical    then xf.alignment.vertical
-           end)
+    xf = @workbook.cell_xfs[get_cols_style_index(col)]
+    xf.alignment && xf.alignment.send(type)
   end
 
   def get_column_border(col, border_direction)
@@ -1039,12 +994,11 @@ class Worksheet < PrivateClass
   # Helper method to get the style index for a column
   def get_col_style(col)
     range = RubyXL::ColumnRange.find(col, @column_ranges)
+    (range && range.style_index) || 0
+  end
 
-    return range.style_index if range
-    
-    @workbook.fonts[0].count += 1
-
-    0
+  def get_col_xf(col)
+    @workbook.cell_xfs[get_col_style(col)]
   end
 
   def change_row_alignment(row,alignment,is_horizontal)

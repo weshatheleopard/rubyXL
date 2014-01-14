@@ -208,12 +208,13 @@ module RubyXL
         unless @data_only
           ##row styles##
           row_attributes = row.attributes
-          row_style = row_attributes['s'] && row_attributes['s'].value || '0'
+          row_style = row_attributes['s'] && Integer(row_attributes['s'].value) || 0
+          row_num = Integer(row_attributes['r'].content)
 
-          worksheet.row_styles[row_attributes['r'].content] = { :style => row_style  }
+          worksheet.row_styles[row_num] = { :style => row_style  }
 
           if !row_attributes['ht'].nil?  && (!row_attributes['ht'].content.nil? || row_attributes['ht'].content.strip != "" )
-            worksheet.change_row_height(Integer(row_attributes['r'].value) - 1, Float(row_attributes['ht'].value))
+            worksheet.change_row_height(row_num - 1, Float(row_attributes['ht'].value))
           end
           ##end row styles##
         end
