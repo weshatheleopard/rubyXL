@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'nokogiri'
 require 'zip'
-require 'rubyXL/hash'
 require 'rubyXL/generic_storage'
 
 module RubyXL

@@ -666,7 +666,7 @@ class Worksheet < PrivateClass
       return "ffffff" #default, white
     end
 
-    xf = xf_attr_row(row)
+    xf = get_row_xf(row)
 
     return @workbook.get_fill_color(xf)
   end
@@ -683,7 +683,7 @@ class Worksheet < PrivateClass
       return 'Verdana'
     end
 
-    xf = xf_attr_row(row)
+    xf = get_row_xf(row)
 
     return @workbook.fonts[xf.font_id].get_name
   end
@@ -700,7 +700,7 @@ class Worksheet < PrivateClass
       return '10'
     end
 
-    xf = xf_attr_row(row)
+    xf = get_row_xf(row)
 
     return @workbook.fonts[xf.font_id].get_size
   end
@@ -717,7 +717,7 @@ class Worksheet < PrivateClass
       return '000000'
     end
 
-    xf = xf_attr_row(row)
+    xf = get_row_xf(row)
 
     color = @workbook.fonts[xf.font_id].color
 
@@ -892,9 +892,9 @@ class Worksheet < PrivateClass
   Worksheet::STRIKETHROUGH = 6
 
   #row_styles is assumed to not be nil at specified row
-  def xf_attr_row(row)
-    row_style = @row_styles[(row+1)][:style]
-    @workbook.cell_xfs[row_style]
+  def get_row_xf(row)
+    @row_styles[(row+1)] ||= { :style => 0 }
+    @workbook.cell_xfs[@row_styles[(row+1)][:style]]
   end
 
   def xf_attr_col(column)
@@ -906,7 +906,7 @@ class Worksheet < PrivateClass
     validate_nonnegative(row)
     return nil if @sheet_data.size <= row
     return false if @row_styles[(row+1)].nil?
-    xf = xf_attr_row(row)
+    xf = get_row_xf(row)
     @workbook.fonts[xf.font_id]
   end
 
@@ -935,7 +935,7 @@ class Worksheet < PrivateClass
 
     return nil if @sheet_data.size <= row || @row_styles[(row+1)].nil?
 
-    border = @workbook.borders[xf_attr_row(row).border_id]
+    border = @workbook.borders[get_row_xf(row).border_id]
     border && border.get_edge_style(border_direction)
   end
 
@@ -1186,14 +1186,14 @@ class Worksheet < PrivateClass
     validate_border(weight)
     ensure_cell_exists(row)
 
-    if @row_styles[(row+1)].nil?
-      @row_styles[(row+1)]= {}
-      @row_styles[(row+1)][:style] = 0
-    end
-    @row_styles[(row+1)][:style] = modify_border(@workbook, @row_styles[(row+1)][:style])
+    xf = get_row_xf(row).dup
+    border = @workbook.borders[xf.border_id].dup
+    border.set_edge_style(direction, weight)
 
-    border = @workbook.borders[xf_attr_row(row).border_id]
-    border && border.set_edge_style(direction, weight)
+    xf.border_id = workbook.register_new_border(border, xf.border_id)
+    xf.apply_border = 1
+
+    @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
     @sheet_data[row].each { |c|
       next if c.nil?
