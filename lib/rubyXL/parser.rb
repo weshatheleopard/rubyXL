@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'nokogiri'
 require 'zip'
-require 'rubyXL/hash'
 require 'rubyXL/generic_storage'
 
 module RubyXL
@@ -122,7 +121,23 @@ module RubyXL
       num_fmts = styles_xml.css('numFmts numFmt')
       wb.num_fmts = num_fmts.collect { |node| RubyXL::NumFmt.parse(node) }
 
-      fill_styles(wb, Hash.xml_node_to_hash(styles_xml.root))
+      csxfs = styles_xml.css('cellStyleXfs xf')
+      wb.cell_style_xfs = csxfs.collect { |node| RubyXL::XF.parse(node) }
+
+      cxfs = styles_xml.css('cellXfs xf')
+      wb.cell_xfs = cxfs.collect { |node| RubyXL::XF.parse(node) }
+
+      #fills out count information for each font, fill, and border
+      wb.cell_xfs.each { |style|
+        id = style.font_id
+        wb.fonts[id].count += 1 #unless id.nil?
+
+        id = style.fill_id
+        wb.fills[id].count += 1 #unless id.nil?
+
+        id = style.border_id
+        wb.borders[id].count += 1 #unless id.nil?
+      }
 
       # Not sure why they were getting sheet names from god knows where.
       # There *may* have been a good reason behind it, so not tossing this code out entirely yet.
@@ -142,29 +157,6 @@ module RubyXL
     end
 
     private
-
-    #fills hashes for various styles
-    def fill_styles(wb,style_hash)
-      wb.cell_style_xfs = style_hash[:cellStyleXfs]
-      wb.cell_xfs = style_hash[:cellXfs]
-
-      #fills out count information for each font, fill, and border
-      if wb.cell_xfs[:xf].is_a?(::Hash)
-        wb.cell_xfs[:xf] = [wb.cell_xfs[:xf]]
-      end
-
-      wb.cell_xfs[:xf].each do |style|
-        id = Integer(style[:attributes][:fontId])
-        wb.fonts[id].count += 1 unless id.nil?
-
-        id = style[:attributes][:fillId]
-        wb.fills[id].count += 1 unless id.nil?
-
-        id = style[:attributes][:borderId]
-        wb.borders[id].count += 1 unless id.nil?
-      end
-
-    end
 
     # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
     def parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)
@@ -202,32 +194,30 @@ module RubyXL
         data_validations = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations/xmlns:dataValidation', namespaces)
         worksheet.validations = data_validations.collect { |node| RubyXL::DataValidation.parse(node) }
 
-        #extLst
-        ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
-        unless ext_list_node.empty?
-          worksheet.extLst = Hash.xml_node_to_hash(ext_list_node.first)
-        else
-          worksheet.extLst = nil
-        end
-        #extLst
+# Currently  not working #TODO#
+#        ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
 
         legacy_drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:legacyDrawing', namespaces)
         worksheet.legacy_drawings = legacy_drawing_nodes.collect { |node| RubyXL::LegacyDrawing.parse(node) }
 
         drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:drawing', namespaces)
         worksheet.drawings = drawing_nodes.collect { |n| n.attributes['id'] }
+
+        sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
+        worksheet.sheet_data2 = RubyXL::SheetData.parse(sheet_data.first)
       end
 
       worksheet_xml.xpath(row_xpath, namespaces).each { |row|
         unless @data_only
           ##row styles##
           row_attributes = row.attributes
-          row_style = row_attributes['s'] && row_attributes['s'].value || '0'
+          row_style = row_attributes['s'] && Integer(row_attributes['s'].value) || 0
+          row_num = Integer(row_attributes['r'].content)
 
-          worksheet.row_styles[row_attributes['r'].content] = { :style => row_style  }
+          worksheet.row_styles[row_num] = { :style => row_style  }
 
           if !row_attributes['ht'].nil?  && (!row_attributes['ht'].content.nil? || row_attributes['ht'].content.strip != "" )
-            worksheet.change_row_height(Integer(row_attributes['r'].value) - 1, Float(row_attributes['ht'].value))
+            worksheet.change_row_height(row_num - 1, Float(row_attributes['ht'].value))
           end
           ##end row styles##
         end
