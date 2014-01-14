@@ -1,5 +1,6 @@
 module RubyXL
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_color-4.html
   class Color < OOXMLObject
     define_attribute(:auto,    :bool)
     define_attribute(:indexed, :int)
@@ -15,16 +16,6 @@ module RubyXL
       else
         raise 'invalid color'
       end
-    end
-
-    def build_xml(xml, node_name = 'color')
-      @attrs = {}
-      @attrs[:auto]    = @auto    unless @auto.nil?
-      @attrs[:indexed] = @indexed unless @indexed.nil?
-      @attrs[:theme]   = @theme   unless @theme.nil?
-      @attrs[:tint]    = @tint    unless @tint.nil?
-      @attrs[:rgb]     = @rgb     unless @rgb.nil?
-      xml.send(node_name, @attrs)
     end
 
   end

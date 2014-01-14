@@ -16,7 +16,7 @@ class Worksheet < PrivateClass
     @sheet_data = sheet_data
     @column_ranges = cols
     @merged_cells = merged_cells || []
-    @row_styles={}
+    @row_styles = []
     @sheet_views = [ RubyXL::SheetView.new ]
     @extLst = nil
     @legacy_drawings = []
@@ -36,7 +36,7 @@ class Worksheet < PrivateClass
   private :get_default_name
 
   # allows for easier access to sheet_data
-  def [](row=0)
+  def [](row = 0)
     @sheet_data[row]
   end
 
@@ -109,12 +109,12 @@ class Worksheet < PrivateClass
     ensure_cell_exists(row)
     Color.validate_color(rgb)
 
-    if @row_styles[(Integer(row)+1).to_s].nil?
-      @row_styles[(Integer(row)+1).to_s] = {}
-      @row_styles[(Integer(row)+1).to_s][:style] = '0'
+    if @row_styles[(Integer(row)+1)].nil?
+      @row_styles[(Integer(row)+1)] = {}
+      @row_styles[(Integer(row)+1)][:style] = 0
     end
 
-    @row_styles[(Integer(row)+1).to_s][:style] = modify_fill(@workbook,Integer(@row_styles[(Integer(row)+1).to_s][:style]),rgb)
+    @row_styles[(Integer(row)+1)][:style] = modify_fill(@workbook,Integer(@row_styles[(Integer(row)+1)][:style]),rgb)
 
     @sheet_data[Integer(row)].each do |c|
       unless c.nil?
@@ -123,85 +123,57 @@ class Worksheet < PrivateClass
     end
   end
 
-  # Changes font name of row
-  def change_row_font_name(row=0, font_name='Verdana')
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified name
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font.name = font_name
-    # Update font and xf array
-    change_row_font(row, Worksheet::NAME, font_name, font, xf_id)
+  def change_row_font_name(row = 0, font_name = 'Verdana')
+    ensure_cell_exists(row)
+    font = row_font(row).dup
+    font.set_name(font_name)
+    change_row_font(row, Worksheet::NAME, font_name, font)
   end
 
-  # Changes font size of row
-  def change_row_font_size(row=0, font_size=10)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified size
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font.size = font_size
-    # Update font and xf array
-    change_row_font(row, Worksheet::SIZE, font_size, font, xf_id)
+  def change_row_font_size(row = 0, font_size=10)
+    ensure_cell_exists(row)
+    font = row_font(row).dup
+    font.set_size(font_size)
+    change_row_font(row, Worksheet::SIZE, font_size, font)
   end
 
-  # Changes font color of row
-  def change_row_font_color(row=0, font_color='000000')
+  def change_row_font_color(row = 0, font_color='000000')
+    ensure_cell_exists(row)
     Color.validate_color(font_color)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified color
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_color(font, font_color.to_s)
-    # Update font and xf array
-    change_row_font(row, Worksheet::COLOR, font_color, font, xf_id)
+    font = row_font(row).dup
+    font.set_rgb_color(font_color)
+    change_row_font(row, Worksheet::COLOR, font_color, font)
   end
 
-  # Changes font italics settings of row
-  def change_row_italics(row=0, italicized=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified italics settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_italics(font, italicized)
-    # Update font and xf array
-    change_row_font(row, Worksheet::ITALICS, italicized, font, xf_id)
+  def change_row_italics(row = 0, italicized=false)
+    ensure_cell_exists(row)
+    font = row_font(row).dup
+    font.set_italic(italicized)
+    change_row_font(row, Worksheet::ITALICS, italicized, font)
   end
 
-  # Changes font bold settings of row
-  def change_row_bold(row=0, bolded=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified bold settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_bold(font, bolded)
-    # Update font and xf array
-    change_row_font(row, Worksheet::BOLD, bolded, font, xf_id)
+  def change_row_bold(row = 0, bolded=false)
+    ensure_cell_exists(row)
+    font = row_font(row).dup
+    font.set_bold(bolded)
+    change_row_font(row, Worksheet::BOLD, bolded, font)
   end
 
-  # Changes font underline settings of row
-  def change_row_underline(row=0, underlined=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified underline settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_underline(font, underlined)
-    # Update font and xf array
-    change_row_font(row, Worksheet::UNDERLINE, underlined, font, xf_id)
+  def change_row_underline(row = 0, underlined=false)
+    ensure_cell_exists(row)
+    font = row_font(row).dup
+    font.set_underline(underlined)
+    change_row_font(row, Worksheet::UNDERLINE, underlined, font)
   end
 
-  # Changes font strikethrough settings of row
-  def change_row_strikethrough(row=0, struckthrough=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified strikethrough settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_strikethrough(font, struckthrough)
-    # Update font and xf array
-    change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
+  def change_row_strikethrough(row = 0, struckthrough=false)
+    ensure_cell_exists(row)
+    font = row_font(row).dup
+    font.set_strikethrough(struckthrough)
+    change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font)
   end
 
-  def change_row_height(row=0, height=10)
+  def change_row_height(row = 0, height=10)
     validate_workbook
     validate_nonnegative(row)
 
@@ -215,124 +187,100 @@ class Worksheet < PrivateClass
       raise 'You must enter a number for the height'
     end
 
-    if @row_styles[(row+1).to_s].nil?
-      @row_styles[(row+1).to_s] = {}
-      @row_styles[(row+1).to_s][:style] = '0'
+    if @row_styles[(row+1)].nil?
+      @row_styles[(row+1)] = {}
+      @row_styles[(row+1)][:style] = 0
     end
-    @row_styles[(row+1).to_s][:height] = height
-    @row_styles[(row+1).to_s][:customHeight] = '1'
+    @row_styles[(row+1)][:height] = height
+    @row_styles[(row+1)][:customHeight] = '1'
   end
 
-  def change_row_horizontal_alignment(row=0,alignment='center')
+  def change_row_horizontal_alignment(row = 0,alignment='center')
     validate_workbook
     validate_nonnegative(row)
     validate_horizontal_alignment(alignment)
     change_row_alignment(row,alignment,true)
   end
 
-  def change_row_vertical_alignment(row=0,alignment='center')
+  def change_row_vertical_alignment(row = 0,alignment='center')
     validate_workbook
     validate_nonnegative(row)
     validate_vertical_alignment(alignment)
     change_row_alignment(row,alignment,false)
   end
 
-  def change_row_border_top(row=0,weight='thin')
+  def change_row_border_top(row = 0, weight = 'thin')
     change_row_border(row, :top, weight)
   end
 
-  def change_row_border_left(row=0,weight='thin')
+  def change_row_border_left(row = 0, weight = 'thin')
     change_row_border(row, :left, weight)
   end
 
-  def change_row_border_right(row=0,weight='thin')
+  def change_row_border_right(row = 0, weight = 'thin')
     change_row_border(row, :right, weight)
   end
 
-  def change_row_border_bottom(row=0,weight='thin')
+  def change_row_border_bottom(row = 0, weight = 'thin')
     change_row_border(row, :bottom, weight)
   end
 
-  def change_row_border_diagonal(row=0,weight='thin')
+  def change_row_border_diagonal(row = 0, weight = 'thin')
     change_row_border(row, :diagonal, weight)
   end
 
   # Changes font name of column
   def change_column_font_name(col = 0, font_name = 'Verdana')
-    # Get style object
-    xf_id = xf_id(get_col_style(col))
-    # Get copy of font object with modified name
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font.name = font_name
-    # Update font and xf array
-    change_column_font(col, Worksheet::NAME, font_name, font, xf_id)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
+    font.set_name(font_name)
+    change_column_font(col, Worksheet::NAME, font_name, font, xf)
   end
 
   # Changes font size of column
   def change_column_font_size(col=0, font_size=10)
-    # Get style object
-    xf_id = xf_id(get_col_style(col))
-    # Get copy of font object with modified size
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font.size = font_size
-    # Update font and xf array
-    change_column_font(col, Worksheet::SIZE, font_size, font, xf_id)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
+    font.set_size(font_size)
+    change_column_font(col, Worksheet::SIZE, font_size, font, xf)
   end
 
   # Changes font color of column
   def change_column_font_color(col=0, font_color='000000')
     Color.validate_color(font_color)
-    # Get style object
-    xf_id = xf_id(get_col_style(col))
-    # Get copy of font object with modified color
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_color(font, font_color)
-    # Update font and xf array
-    change_column_font(col, Worksheet::COLOR, font_color, font, xf_id)
+
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
+    font.set_rgb_color(font_color)
+    change_column_font(col, Worksheet::COLOR, font_color, font, xf)
   end
 
-  # Changes font italics settings of column
-  def change_column_italics(col=0, italicized=false)
-    # Get style object
-    xf_id = xf_id(get_col_style(col))
-    # Get copy of font object with modified italics settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_italics(font, italicized)
-    # Update font and xf array
-    change_column_font(col, Worksheet::ITALICS, italicized, font, xf_id)
+  def change_column_italics(col = 0, italicized = false)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
+    font.set_italic(italicized)
+    change_column_font(col, Worksheet::ITALICS, italicized, font, xf)
   end
 
-  # Changes font bold settings of column
-  def change_column_bold(col=0, bolded=false)
-    # Get style object
-    xf_id = xf_id(get_col_style(col))
-    # Get copy of font object with modified bold settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_bold(font, bolded)
-    # Update font and xf array
-    change_column_font(col, Worksheet::BOLD, bolded, font, xf_id)
+  def change_column_bold(col = 0, bolded = false)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
+    font.set_bold(bolded)
+    change_column_font(col, Worksheet::BOLD, bolded, font, xf)
   end
 
-  # Changes font underline settings of column
-  def change_column_underline(col=0, underlined=false)
-    # Get style object
-    xf_id = xf_id(get_col_style(col))
-    # Get copy of font object with modified underline settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_underline(font, underlined)
-    # Update font and xf array
-    change_column_font(col, Worksheet::UNDERLINE, underlined, font, xf_id)
+  def change_column_underline(col = 0, underlined = false)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
+    font.set_underline(underlined)
+    change_column_font(col, Worksheet::UNDERLINE, underlined, font, xf)
   end
 
-  # Changes font strikethrough settings of column
   def change_column_strikethrough(col=0, struckthrough=false)
-    # Get style object
-    xf_id = xf_id(get_col_style(col))
-    # Get copy of font object with modified strikethrough settings
-    font = @workbook.fonts[xf_id[:fontId]].dup
-    font = modify_font_strikethrough(font, struckthrough)
-    # Update font and xf array
-    change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
+    xf = get_col_xf(col)
+    font = @workbook.fonts[xf.font_id].dup
+    font.set_strikethrough(struckthrough)
+    change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
   end
 
   def change_column_width(col = 0, width = 13)
@@ -373,23 +321,23 @@ class Worksheet < PrivateClass
     change_column_alignment(col,alignment,false)
   end
 
-  def change_column_border_top(col=0,weight='thin')
+  def change_column_border_top(col=0,weight = 'thin')
     change_column_border(col,:top,weight)
   end
 
-  def change_column_border_left(col=0,weight='thin')
+  def change_column_border_left(col=0,weight = 'thin')
     change_column_border(col,:left,weight)
   end
 
-  def change_column_border_right(col=0,weight='thin')
+  def change_column_border_right(col=0,weight = 'thin')
     change_column_border(col,:right,weight)
   end
 
-  def change_column_border_bottom(col=0,weight='thin')
+  def change_column_border_bottom(col=0,weight = 'thin')
     change_column_border(col,:bottom,weight)
   end
 
-  def change_column_border_diagonal(col=0,weight='thin')
+  def change_column_border_diagonal(col=0,weight = 'thin')
     change_column_border(col,:diagonal,weight)
   end
 
@@ -399,7 +347,7 @@ class Worksheet < PrivateClass
     @merged_cells << RubyXL::Reference.new(row1, row2, col1, col2)
   end
 
-  def add_cell(row=0, column=0, data='', formula=nil,overwrite=true)
+  def add_cell(row = 0, column=0, data='', formula=nil,overwrite=true)
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(column)
@@ -415,8 +363,8 @@ class Worksheet < PrivateClass
       end
       col = RubyXL::ColumnRange.find(column, @column_ranges)
 
-      if @row_styles[(row+1).to_s] != nil
-        @sheet_data[row][column].style_index = @row_styles[(row+1).to_s][:style]
+      if @row_styles[(row+1)] != nil
+        @sheet_data[row][column].style_index = @row_styles[(row+1)][:style]
       elsif col != nil
         @sheet_data[row][column].style_index = col.style_index
       end
@@ -461,18 +409,12 @@ class Worksheet < PrivateClass
     deleted = @sheet_data.delete_at(row_index)
     row_num = row_index+1
 
-    row_num.upto(@sheet_data.size) do |index|
-      @row_styles[(index-1).to_s] = deep_copy(@row_styles[index.to_s])
-    end
-    @row_styles.delete(@sheet_data.size.to_s)
+    @row_styles.delete_at(row_index)
 
-    #change row styles
-    # raise row_styles.inspect
-
-    #change cell row numbers
-    (row_index...(@sheet_data.size-1)).each do |index|
-      @sheet_data[index].map {|c| c.row -= 1 if c}
-    end
+    # Change cell row numbers
+    row_index.upto(@sheet_data.size - 1) { |index|
+      @sheet_data[index].each{ |c| c.row -= 1 unless c.nil? }
+    }
 
     return deleted
   end
@@ -500,10 +442,10 @@ class Worksheet < PrivateClass
       unless old_cell.nil?
         #only add cell if style exists, not copying content
 
-        if @row_styles[(row_num+1).to_s].nil?
-          @row_styles[(row_num+1).to_s] = {:style=>0}
+        if @row_styles[(row_num+1)].nil?
+          @row_styles[(row_num+1)] = {:style=>0}
         end
-        if old_cell.style_index != 0 && old_cell.style_index.to_s != @row_styles[(row_num+1).to_s][:style].to_s
+        if old_cell.style_index != 0 && old_cell.style_index != @row_styles[(row_num+1)][:style]
           c = Cell.new(self,row_index,i)
           c.style_index = old_cell.style_index
           @sheet_data[row_index][i] = c
@@ -513,12 +455,13 @@ class Worksheet < PrivateClass
 
     #copy row styles from row above, (or below if first row)
     (@row_styles.size+1).downto(row_num+1) do |i|
-      @row_styles[i.to_s] = @row_styles[(i-1).to_s]
+      @row_styles[i] = @row_styles[(i-1)]
     end
+
     if row_index > 0
-      @row_styles[row_num.to_s] = @row_styles[(row_num-1).to_s]
+      @row_styles[row_num] = @row_styles[(row_num-1)]
     else
-      @row_styles[row_num.to_s] = nil#@row_styles[(row_num+1).to_s]
+      @row_styles[row_num] = nil #@row_styles[(row_num+1).to_s]
     end
 
     #update row value for all rows below
@@ -620,7 +563,7 @@ class Worksheet < PrivateClass
   # by default, only sets cell to nil
   # if :left is specified, method will shift row contents to the right of the deleted cell to the left
   # if :up is specified, method will shift column contents below the deleted cell upward
-  def delete_cell(row=0, col=0, shift=nil)
+  def delete_cell(row = 0, col=0, shift=nil)
     validate_workbook
     validate_nonnegative(row)
     validate_nonnegative(col)
@@ -656,7 +599,7 @@ class Worksheet < PrivateClass
     return cell
   end
 
-  def get_row_fill(row=0)
+  def get_row_fill(row = 0)
     validate_workbook
     validate_nonnegative(row)
 
@@ -664,89 +607,52 @@ class Worksheet < PrivateClass
       return nil
     end
 
-    if @row_styles[(row+1).to_s].nil?
+    if @row_styles[(row+1)].nil?
       return "ffffff" #default, white
     end
 
-    xf = xf_attr_row(row)
+    xf = get_row_xf(row)
 
     return @workbook.get_fill_color(xf)
   end
 
-  def get_row_font_name(row=0)
-    validate_workbook
-    validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1).to_s].nil?
-      return 'Verdana'
-    end
-
-    xf = xf_attr_row(row)
-
-    return @workbook.fonts[xf[:fontId]].name
+  def get_row_font_name(row = 0)
+    font = row_font(row)
+    font && font.get_name
   end
 
-  def get_row_font_size(row=0)
-    validate_workbook
-    validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1).to_s].nil?
-      return '10'
-    end
-
-    xf = xf_attr_row(row)
-
-    return @workbook.fonts[xf[:fontId]].size
+  def get_row_font_size(row = 0)
+    font = row_font(row)
+    font && font.get_size
   end
 
-  def get_row_font_color(row=0)
-    validate_workbook
-    validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1).to_s].nil?
-      return '000000'
-    end
-
-    xf = xf_attr_row(row)
-
-    color = @workbook.fonts[xf[:fontId]].color
-
-    (color && color.rgb) || '000000'
+  def get_row_font_color(row = 0)
+    font = row_font(row)
+    color = font && font.color
+    color && (color.rgb || '000000')
   end
 
   def is_row_italicized(row = 0)
     font = row_font(row)
-    font && font.italic
+    font && font.is_italic
   end
 
-  def is_row_bolded(row=0)
+  def is_row_bolded(row = 0)
     font = row_font(row)
-    font && font.bold
+    font && font.is_bold
   end
 
-  def is_row_underlined(row=0)
+  def is_row_underlined(row = 0)
     font = row_font(row)
-    font && font.underlined
+    font && font.is_underlined
   end
 
-  def is_row_struckthrough(row=0)
+  def is_row_struckthrough(row = 0)
     font = row_font(row)
-    font && font.strikethrough
+    font && font.is_strikethrough
   end
 
-  def get_row_height(row=0)
+  def get_row_height(row = 0)
     validate_workbook
     validate_nonnegative(row)
 
@@ -754,34 +660,34 @@ class Worksheet < PrivateClass
       return nil
     end
 
-    if @row_styles[(row+1).to_s].nil?
+    if @row_styles[(row+1)].nil?
       return 13
     else
-      @row_styles[(row+1).to_s][:height]
+      @row_styles[(row+1)][:height]
     end
   end
 
-  def get_row_horizontal_alignment(row=0)
+  def get_row_horizontal_alignment(row = 0)
     return get_row_alignment(row,true)
   end
 
-  def get_row_vertical_alignment(row=0)
+  def get_row_vertical_alignment(row = 0)
     return get_row_alignment(row,false)
   end
 
-  def get_row_border_top(row=0)
+  def get_row_border_top(row = 0)
     return get_row_border(row, :top)
   end
 
-  def get_row_border_left(row=0)
+  def get_row_border_left(row = 0)
     return get_row_border(row, :left)
   end                         
 
-  def get_row_border_right(row=0)
+  def get_row_border_right(row = 0)
     return get_row_border(row, :right)
   end
 
-  def get_row_border_bottom(row=0)
+  def get_row_border_bottom(row = 0)
     return get_row_border(row, :bottom)
   end
 
@@ -791,17 +697,17 @@ class Worksheet < PrivateClass
 
   def get_column_font_name(col = 0)
     font = column_font(col)
-    font && font.name
+    font && font.get_name
   end
 
   def get_column_font_size(col = 0)
     font = column_font(col)
-    font && font.size
+    font && font.get_size
   end
 
   def get_column_font_color(col = 0)
     font = column_font(col)
-    font && (font.color && font.color.rgb || '000000')
+    font && (font.get_rgb_color || '000000')
   end
 
   def is_column_italicized(col = 0)
@@ -840,18 +746,8 @@ class Worksheet < PrivateClass
   def get_column_fill(col=0)
     validate_workbook
     validate_nonnegative(col)
-
-    if @sheet_data[0].size <= col
-      return nil
-    end
-
-    style_index = get_cols_style_index(col)
-
-    if style_index == 0
-      return "ffffff" #default, white
-    end
-
-    return @workbook.get_fill_color(@workbook.cell_xfs[:xf][style_index][:attributes])
+    return nil if @sheet_data[0].size <= col
+    @workbook.get_fill_color(get_col_xf(col))
   end
 
   def get_column_horizontal_alignment(col=0)
@@ -863,23 +759,23 @@ class Worksheet < PrivateClass
   end
 
   def get_column_border_top(col=0)
-    return get_column_border(col,:top)
+    get_column_border(col, :top)
   end
 
   def get_column_border_left(col=0)
-    return get_column_border(col,:left)
+    get_column_border(col, :left)
   end
 
   def get_column_border_right(col=0)
-    return get_column_border(col,:right)
+    get_column_border(col, :right)
   end
 
   def get_column_border_bottom(col=0)
-    return get_column_border(col,:bottom)
+    get_column_border(col, :bottom)
   end
 
   def get_column_border_diagonal(col=0)
-    return get_column_border(col,:diagonal)
+    get_column_border(col, :diagonal)
   end
 
 
@@ -894,42 +790,35 @@ class Worksheet < PrivateClass
   Worksheet::STRIKETHROUGH = 6
 
   #row_styles is assumed to not be nil at specified row
-  def xf_attr_row(row)
-    row_style = @row_styles[(row+1).to_s][:style]
-    return @workbook.get_style_attributes(@workbook.get_style(row_style))
-  end
-
-  def xf_attr_col(column)
-    @workbook.get_style_attributes(@workbook.get_style(RubyXL::ColumnRange.find(column).style_index))
+  def get_row_xf(row)
+    @row_styles[(row+1)] ||= { :style => 0 }
+    @workbook.cell_xfs[@row_styles[(row+1)][:style]]
   end
 
   def row_font(row)
     validate_workbook
     validate_nonnegative(row)
+    xf = get_row_xf(row)
     return nil if @sheet_data.size <= row
-    return false if @row_styles[(row+1).to_s].nil?
-    xf = xf_attr_row(row)
-    @workbook.fonts[xf[:fontId]]
+    @workbook.fonts[xf.font_id]
   end
 
-  def get_row_alignment(row,is_horizontal)
+  def get_row_alignment(row, is_horizontal)
     validate_workbook
     validate_nonnegative(row)
 
-    if @sheet_data.size <= row || @row_styles[(row+1).to_s].nil?
+    if @sheet_data.size <= row || @row_styles[(row+1)].nil?
       return nil
     end
 
-    xf_obj = @workbook.get_style(@row_styles[(row+1).to_s][:style])
+    xf_obj = @workbook.cell_xfs[@row_styles[(row+1)][:style]]
 
-    if xf_obj[:alignment].nil? || xf_obj[:alignment][:attributes].nil?
-      return nil
-    end
+    return nil if xf_obj.alignment.nil?
 
-    if is_horizontal
-      return xf_obj[:alignment][:attributes][:horizontal].to_s
+    if is_horizontal then
+      return xf_obj.alignment.horizontal
     else
-      return xf_obj[:alignment][:attributes][:vertical].to_s
+      return xf_obj.alignment.vertical
     end
   end
 
@@ -937,11 +826,10 @@ class Worksheet < PrivateClass
     validate_workbook
     validate_nonnegative(row)
 
-    return nil if @sheet_data.size <= row || @row_styles[(row+1).to_s].nil?
+    return nil if @sheet_data.size <= row || @row_styles[(row+1)].nil?
 
-    border = @workbook.borders[xf_attr_row(row)[:borderId]]
-    edge = border && border.edges[border_direction.to_s]
-    edge && edge.style
+    border = @workbook.borders[get_row_xf(row).border_id]
+    border && border.get_edge_style(border_direction)
   end
 
   def column_font(col)
@@ -950,25 +838,16 @@ class Worksheet < PrivateClass
 
     return nil if @sheet_data[0].size <= col
     style_index = get_cols_style_index(col)
-    @workbook.fonts[xf_id(style_index)[:fontId]]
+    @workbook.fonts[@workbook.cell_xfs[style_index].font_id]
   end
 
   def get_column_alignment(col, type)
     validate_workbook
     validate_nonnegative(col)
 
-    if @sheet_data[0].size <= col
-      return nil
-    end
-
-    style_index = get_cols_style_index(col)
-
-    xf_obj = @workbook.get_style(style_index)
-    if xf_obj[:alignment].nil?
-      return nil
-    end
-
-    return xf_obj[:alignment][:attributes][type]
+    return nil if @sheet_data[0].size <= col
+    xf = @workbook.cell_xfs[get_cols_style_index(col)]
+    xf.alignment && xf.alignment.send(type)
   end
 
   def get_column_border(col, border_direction)
@@ -977,15 +856,10 @@ class Worksheet < PrivateClass
 
     return nil if @sheet_data[0].size <= col
 
-    xf = @workbook.get_style_attributes(@workbook.get_style(get_cols_style_index(col)))
+    xf = @workbook.cell_xfs[get_cols_style_index(col)]
 
-    border = @workbook.borders[xf[:borderId]]
-    edge = border && border.edges[border_direction.to_s]
-    edge && edge.style
-  end
-
-  def deep_copy(hash)
-    Marshal.load(Marshal.dump(hash))
+    border = @workbook.borders[xf.border_id]
+    border && border.get_edge_style(border_direction)
   end
 
   #validates Workbook, ensures that this worksheet is in @workbook
@@ -1005,42 +879,35 @@ class Worksheet < PrivateClass
   # Helper method to update the row styles array
   # change_type - NAME or SIZE or COLOR etc
   # main method to change font, called from each separate font mutator method
-  def change_row_font(row, change_type, arg, font, xf_id)
+  def change_row_font(row, change_type, arg, font)
     validate_workbook
     validate_nonnegative(row)
     ensure_cell_exists(row)
 
-    # Modify font array and retrieve new font id
-    font_id = modify_font(@workbook, font, xf_id[:fontId])
-    # Get copy of xf object with modified font id
-    xf = deep_copy(xf_id)
-    xf[:fontId] = Integer(font_id)
-    # Modify xf array and retrieve new xf id
-    @row_styles[(row+1).to_s][:style] = modify_xf(@workbook, xf)
+    xf = get_row_xf(row)
+    xf.font_id = workbook.register_new_font(font, xf)
+    xf.apply_font = 1
 
-    if @sheet_data[row].nil?
-      @sheet_data[row] = []
-    end
+    @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
-    @sheet_data[Integer(row)].each do |c|
-      unless c.nil?
-        font_switch(c, change_type, arg)
-      end
-    end
+    @sheet_data[row] ||= []
+    @sheet_data[Integer(row)].each { |c|
+      font_switch(c, change_type, arg) unless c.nil?
+    }
   end
 
   # Helper method to update the fonts and cell styles array
   # main method to change font, called from each separate font mutator method
-  def change_column_font(col, change_type, arg, font, xf_id)
+  def change_column_font(col, change_type, arg, font, xf)
     validate_workbook
     validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
     # Modify font array and retrieve new font id
-    font_id = modify_font(@workbook, font, xf_id[:fontId])
+    font_id = workbook.register_new_font(font, xf)
     # Get copy of xf object with modified font id
-    xf = deep_copy(xf_id)
-    xf[:fontId] = Integer(font_id)
+    xf = xf.dup
+    xf.font_id = font_id
     # Modify xf array and retrieve new xf id
     modify_xf(@workbook, xf)
 
@@ -1114,35 +981,24 @@ class Worksheet < PrivateClass
     row_index.downto(@sheet_data.size) { |r| @sheet_data[r] = Array.new(col_size) } 
   end  
 
-  # Helper method to get the font id for a style index
-  def font_id(style_index)
-    xf_id(style_index)[:fontId]
-  end
-
-  # Helper method to get the style attributes for a style index
-  def xf_id(style_index)
-    @workbook.get_style_attributes(@workbook.get_style(style_index))
-  end
-
   # Helper method to get the style index for a row
   def get_row_style(row)
-    if @row_styles[(row+1).to_s].nil?
-      @row_styles[(row+1).to_s] = {}
-      @row_styles[(row+1).to_s][:style] = '0'
+    if @row_styles[(row+1)].nil?
+      @row_styles[(row+1)] = {}
+      @row_styles[(row+1)][:style] = 0
       @workbook.fonts[0].count += 1
     end
-    return @row_styles[(row+1).to_s][:style]
+    return @row_styles[(row+1)][:style]
   end
 
   # Helper method to get the style index for a column
   def get_col_style(col)
     range = RubyXL::ColumnRange.find(col, @column_ranges)
+    (range && range.style_index) || 0
+  end
 
-    return range.style_index if range
-    
-    @workbook.fonts[0].count += 1
-
-    0
+  def get_col_xf(col)
+    @workbook.cell_xfs[get_col_style(col)]
   end
 
   def change_row_alignment(row,alignment,is_horizontal)
@@ -1150,13 +1006,13 @@ class Worksheet < PrivateClass
     validate_nonnegative(row)
     ensure_cell_exists(row)
 
-    if @row_styles[(row+1).to_s].nil?
-      @row_styles[(row+1).to_s] = {}
-      @row_styles[(row+1).to_s][:style] = '0'
+    if @row_styles[(row+1)].nil?
+      @row_styles[(row+1)] = {}
+      @row_styles[(row+1)][:style] = 0
     end
 
-    @row_styles[(row+1).to_s][:style] =
-      modify_alignment(@workbook,@row_styles[(row+1).to_s][:style],is_horizontal,alignment)
+    @row_styles[(row+1)][:style] =
+      modify_alignment(@workbook,@row_styles[(row+1)][:style],is_horizontal,alignment)
 
     @sheet_data[row].each do |c|
       unless c.nil?
@@ -1194,15 +1050,14 @@ class Worksheet < PrivateClass
     validate_border(weight)
     ensure_cell_exists(row)
 
-    if @row_styles[(row+1).to_s].nil?
-      @row_styles[(row+1).to_s]= {}
-      @row_styles[(row+1).to_s][:style] = '0'
-    end
-    @row_styles[(row+1).to_s][:style] = modify_border(@workbook, @row_styles[(row+1).to_s][:style])
+    xf = get_row_xf(row).dup
+    border = @workbook.borders[xf.border_id].dup
+    border.set_edge_style(direction, weight)
 
-    border = @workbook.borders[xf_attr_row(row)[:borderId]]
-    border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
-    border.edges[direction.to_s].style = weight
+    xf.border_id = workbook.register_new_border(border, xf)
+    xf.apply_border = 1
+
+    @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
     @sheet_data[row].each { |c|
       next if c.nil?
@@ -1224,14 +1079,15 @@ class Worksheet < PrivateClass
     validate_border(weight)
     ensure_cell_exists(0, col)
 
-    new_style_index = modify_border(@workbook, get_column_style_index(col))
-    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
+    style_index = get_cols_style_index(col)
+    xf = @workbook.cell_xfs[style_index].dup
+    border = @workbook.borders[xf.border_id].dup
+    border.set_edge_style(direction, weight)
+    xf.border_id = workbook.register_new_border(border, xf)
+    xf.apply_border = 1
 
-    xf = @workbook.get_style_attributes(@workbook.get_style(new_style_index))
-
-    border = @workbook.borders[xf[:borderId]]
-    border.edges[direction.to_s] ||= RubyXL::BorderEdge.new
-    border.edges[direction.to_s].style = weight
+    style_index = workbook.register_new_xf(xf, style_index)
+    RubyXL::ColumnRange.update(col, @column_ranges, :style => style_index)
 
     @sheet_data.each { |row|
       c = row[col]
@@ -1248,10 +1104,10 @@ class Worksheet < PrivateClass
   end
 
   def add_cell_style(row,column)
-    xf = @workbook.get_style_attributes(@workbook.get_style(@sheet_data[row][column].style_index))
-    @workbook.fonts[xf[:fontId]].count += 1
-    @workbook.fills[xf[:fillId]].count += 1
-    @workbook.borders[xf[:borderId]].count += 1
+    xf = @workbook.cell_xfs[@sheet_data[row][column].style_index]
+    @workbook.fonts[xf.font_id].count += 1
+    @workbook.fills[xf.fill_id].count += 1
+    @workbook.borders[xf.border_id].count += 1
   end
 
   # finds first row which contains at least all strings in cells_content

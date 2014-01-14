@@ -49,8 +49,8 @@ module RubyXL
       @fonts              = []
       @fills              = nil
       @borders            = []
-      @cell_xfs           = nil
-      @cell_style_xfs     = nil
+      @cell_xfs           = []
+      @cell_style_xfs     = []
       @cell_styles        = []
       @shared_strings     = RubyXL::SharedStrings.new
       @calc_chain         = nil #unnecessary?
@@ -264,37 +264,76 @@ module RubyXL
       return date_count > num_count
     end
 
-    #gets style object from style array given index
-    def get_style(style_index)
-      if !@cell_xfs[:xf].is_a?Array
-        @cell_xfs[:xf] = [@cell_xfs[:xf]]
-      end
-
-      xf_obj = @cell_xfs[:xf]
-      if xf_obj.is_a?Array
-        xf_obj = xf_obj[Integer(style_index)]
-      end
-      xf_obj
-    end
-
-    #gets attributes of above style object
-    #necessary because can take the form of hash or array,
-    #based on odd behavior of Nokogiri
-    def get_style_attributes(xf_obj)
-      if xf_obj.is_a?Array
-        xf = xf_obj[1]
-      else
-        xf = xf_obj[:attributes]
-      end
-    end
-
-    def get_fill_color(xf_attributes)
-      fill = @fills[xf_attributes[:fillId]]
+    def get_fill_color(xf)
+      fill = @fills[xf.fill_id]
       pattern = fill && fill.pattern_fill
       color = pattern && pattern.fg_color
       color && color.rgb || 'ffffff'
     end
 
+    def register_new_fill(new_fill, xf)
+      new_xf = xf.dup
+
+      old_fill_id = xf.fill_id
+
+      if fills[old_fill_id].count == 1 && old_fill_id > 2 then # Old fill not used anymore, just replace it
+        new_fill_id = old_fill_id
+      else
+        new_fill_id = fills.find_index { |x| x == new_fill } # Use existing fill, if it exists
+        new_fill_id ||= fills.size # If this fill has never existed before, add it to collection.
+      end
+
+      fills[old_fill_id].count -= 1
+      new_fill.count += 1
+      fills[new_fill_id] = new_fill
+
+      new_xf.apply_fill = true
+      new_xf.fill_id = new_fill_id
+      new_xf
+    end
+
+    def register_new_font(new_font, xf)
+      old_font_id = xf.font_id
+      if fonts[old_font_id].count == 1 && old_font_id > 1 then # Old font not used anymore, just replace it
+        new_font_id = old_font_id
+      else
+        new_font_id = fonts.find_index { |x| x == new_font } # Use existing font, if it exists
+        new_font_id ||= fonts.size # If this font has never existed before, add it to collection.
+      end
+
+      fonts[old_font_id].count -= 1
+      new_font.count += 1
+      fonts[new_font_id] = new_font
+
+      new_font_id
+    end
+
+    def register_new_border(new_border, xf)
+      old_border_id = xf.border_id
+      if borders[old_border_id].count == 1 && old_border_id > 0 then # Old border not used anymore, just replace it
+        new_border_id = old_border_id
+      else
+        new_border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
+        new_border_id ||= borders.size # If this border has never existed before, add it to collection.
+      end
+
+      borders[old_border_id].count -= 1
+      new_border.count += 1
+      borders[new_border_id] = new_border
+
+      new_border_id
+    end
+
+    def register_new_xf(new_xf, old_style_index)
+      new_xf_id = cell_xfs.find_index { |xf| xf == new_xf } # Use existing XF, if it exists
+      new_xf_id ||= cell_xfs.size # If this XF has never existed before, add it to collection.
+
+      cell_xfs[old_style_index].count -= 1
+      new_xf.count += 1
+      cell_xfs[new_xf_id] = new_xf
+
+      new_xf_id
+    end
 
     private
 
@@ -302,31 +341,16 @@ module RubyXL
     # and will simply assume that the 0 and 1 indexed fonts are the default values.
     def fill_styles()
 
-      @fonts = [ RubyXL::Font.new(:name => 'Verdana', :size => 10 ),
-                 RubyXL::Font.new(:name => 'Verdana', :size => 8 ) ]
+      @fonts = [ RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 10) ),
+                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 8) ) ]
 
       @fills = [ RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125')) ]
 
       @borders = [ RubyXL::Border.new ]
 
-      @cell_style_xfs = {
-                        :attributes => {
-                                         :count => 1
-                                       },
-                        :xf => {
-                                 :attributes => { :numFmtId => 0, :fontId => 0, :fillId => 0, :borderId => 0 }
-                               }
-                      }
-      @cell_xfs = {
-                        :attributes => {
-                                         :count => 1
-                                       },
-                        :xf => {
-                                 :attributes => { :numFmtId => 0, :fontId => 0, :fillId => 0, :borderId => 0, :xfId => 0 }
-                               }
-                      }
-
+      @cell_style_xfs = [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ]
+      @cell_xfs = [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0) ]
       @cell_styles = [ RubyXL::CellStyle.new({ :builtin_id => 0, :name => 'Normal', :xf_id => 0 }) ]
     end
 
