@@ -58,33 +58,33 @@ module Writer
           root << (xml.create_element('sheetData') { |data|
             @worksheet.sheet_data.each_with_index { |row, i|
               #TODO fix this spans thing. could be 2:3 (not necessary)
-              if @worksheet.row_styles[(i+1).to_s].nil?
-                @worksheet.row_styles[(i+1).to_s] = {}
-                @worksheet.row_styles[(i+1).to_s][:style] = '0'
+              if @worksheet.row_styles[(i+1)].nil?
+                @worksheet.row_styles[(i+1)] = {}
+                @worksheet.row_styles[(i+1)][:style] = 0
               end
               custom_format = '1'
 
-              if @worksheet.row_styles[(i+1).to_s][:style].to_s == '0'
+              if @worksheet.row_styles[(i+1)][:style].to_s == '0'
                 custom_format = '0'
               end
 
-              @worksheet.row_styles[(i+1).to_s][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style]]
+              @worksheet.row_styles[(i+1)][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1)][:style]]
               row_opts = {
                 :r            => i + 1,
                 :spans        => "1:#{row.size}",
                 :customFormat => custom_format
               }
 
-              unless @worksheet.row_styles[(i+1).to_s][:style].to_s == ''
-                row_opts[:s] = @worksheet.row_styles[(i+1).to_s][:style]
+              unless @worksheet.row_styles[(i+1)][:style].to_s == ''
+                row_opts[:s] = @worksheet.row_styles[(i+1)][:style]
               end
 
-              unless @worksheet.row_styles[(i+1).to_s][:height].to_s == ''
-                row_opts[:ht] = @worksheet.row_styles[(i+1).to_s][:height]
+              unless @worksheet.row_styles[(i+1)][:height].to_s == ''
+                row_opts[:ht] = @worksheet.row_styles[(i+1)][:height]
               end
 
-              unless @worksheet.row_styles[(i+1).to_s][:customheight].to_s == ''
-                row_opts[:customHeight] = @worksheet.row_styles[(i+1).to_s][:customHeight]
+              unless @worksheet.row_styles[(i+1)][:customheight].to_s == ''
+                row_opts[:customHeight] = @worksheet.row_styles[(i+1)][:customHeight]
               end
 
               data << (xml.create_element('row', row_opts) { |row_xml|

@@ -33,16 +33,10 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fill-1.html
   class Fill < OOXMLObject
-    attr_accessor :count
-
     define_child_node(RubyXL::PatternFill)
     define_child_node(RubyXL::GradientFill)
     define_element_name 'fill'
-
-    def initialize(*args)
-      super
-      @count = 0
-    end
+    set_countable
   end
 
 end

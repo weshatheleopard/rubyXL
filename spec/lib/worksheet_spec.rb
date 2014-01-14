@@ -1047,7 +1047,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should insert a column at 0 without copying any styles, when passed 0 as column index' do
-      @worksheet.change_column_font_name(0,'Courier')
+      @worksheet.change_column_font_name(0, 'Courier')
       @worksheet.insert_column(0)
       @worksheet.get_column_font_name(0).should == 'Verdana' #not courier
     end

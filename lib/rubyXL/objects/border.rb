@@ -5,6 +5,10 @@ module RubyXL
     define_child_node(RubyXL::Color, :default => 'none', :values => 
                         %w{ none thin medium dashed dotted thick double hair
                             mediumDashed dashDot mediumDashDot dashDotDot slantDashDot } )
+
+    def ==(other)
+      style == other.style
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_border-2.html
@@ -20,13 +24,7 @@ module RubyXL
     define_child_node(RubyXL::BorderEdge, :node_name => :vertical)
     define_child_node(RubyXL::BorderEdge, :node_name => :horizontal)
     define_element_name 'border'
-
-    attr_accessor :count
-
-    def initialize(args = {})
-      super
-      @count = 0
-    end
+    set_countable
 
     def get_edge_style(direction)
       edge = self.send(direction)
@@ -35,6 +33,19 @@ module RubyXL
 
     def set_edge_style(direction, style)
       self.send("#{direction}=", RubyXL::BorderEdge.new(:style => style))
+    end
+
+    def ==(other)
+      (diagonal_up == other.diagonal_up) &&
+        (diagonal_down == other.diagonal_down) &&
+        (outline == other.outline) &&
+        (left == other.left) &&
+        (right == other.right) &&
+        (top == other.top) &&
+        (bottom == other.bottom) &&
+        (diagonal == other.diagonal) &&
+        (vertical == other.vertical) &&
+        (horizontal == other.horizontal)
     end
 
   end

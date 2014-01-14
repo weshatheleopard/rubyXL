@@ -122,7 +122,23 @@ module RubyXL
       num_fmts = styles_xml.css('numFmts numFmt')
       wb.num_fmts = num_fmts.collect { |node| RubyXL::NumFmt.parse(node) }
 
-      fill_styles(wb, Hash.xml_node_to_hash(styles_xml.root))
+      csxfs = styles_xml.css('cellStyleXfs xf')
+      wb.cell_style_xfs = csxfs.collect { |node| RubyXL::XF.parse(node) }
+
+      cxfs = styles_xml.css('cellXfs xf')
+      wb.cell_xfs = cxfs.collect { |node| RubyXL::XF.parse(node) }
+
+      #fills out count information for each font, fill, and border
+      wb.cell_xfs.each { |style|
+        id = style.font_id
+        wb.fonts[id].count += 1 #unless id.nil?
+
+        id = style.fill_id
+        wb.fills[id].count += 1 #unless id.nil?
+
+        id = style.border_id
+        wb.borders[id].count += 1 #unless id.nil?
+      }
 
       # Not sure why they were getting sheet names from god knows where.
       # There *may* have been a good reason behind it, so not tossing this code out entirely yet.
@@ -142,29 +158,6 @@ module RubyXL
     end
 
     private
-
-    #fills hashes for various styles
-    def fill_styles(wb,style_hash)
-      wb.cell_style_xfs = style_hash[:cellStyleXfs]
-      wb.cell_xfs = style_hash[:cellXfs]
-
-      #fills out count information for each font, fill, and border
-      if wb.cell_xfs[:xf].is_a?(::Hash)
-        wb.cell_xfs[:xf] = [wb.cell_xfs[:xf]]
-      end
-
-      wb.cell_xfs[:xf].each do |style|
-        id = Integer(style[:attributes][:fontId])
-        wb.fonts[id].count += 1 unless id.nil?
-
-        id = style[:attributes][:fillId]
-        wb.fills[id].count += 1 unless id.nil?
-
-        id = style[:attributes][:borderId]
-        wb.borders[id].count += 1 unless id.nil?
-      end
-
-    end
 
     # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
     def parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)

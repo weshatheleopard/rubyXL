@@ -35,19 +35,7 @@ module RubyXL
     define_child_node(RubyXL::StringValue,  :node_name => :vertAlign)
     define_child_node(RubyXL::StringValue,  :node_name => :scheme)
     define_element_name 'font'
-
-    attr_accessor :count
-
-    def initialize(attrs = {})
-      super
-      @count = 0
-    end
-
-    def dup
-      new = super
-      new.count = 1
-      new
-    end
+    set_countable
 
     def ==(other)
      (!(self.i && self.i.val) == !(other.i && other.i.val)) &&

@@ -40,19 +40,17 @@ module Writer
         end
       }
 
-      @workbook.cell_xfs[:xf] = [@workbook.cell_xfs[:xf]] unless @workbook.cell_xfs[:xf].is_a?(Array)
-
       @style_id_corrector[0] = 0
       delete_list = []
       i = 1
-      while(i < @workbook.cell_xfs[:xf].size) do
+      while(i < @workbook.cell_xfs.size) do
         if @style_id_corrector[i].nil?
           @style_id_corrector[i]= i
         end
         # style correction commented out until bug is fixed
         j = i+1
-        while(j < @workbook.cell_xfs[:xf].size) do
-          if hash_equal(@workbook.cell_xfs[:xf][i],@workbook.cell_xfs[:xf][j]) #check if this is working
+        while(j < @workbook.cell_xfs.size) do
+          if @workbook.cell_xfs[i] == @workbook.cell_xfs[j] #check if this is working
             @style_id_corrector[j] = i
             delete_list << j
           end
@@ -67,7 +65,7 @@ module Writer
       i = 1
       offset = 0
       offset_corrector = 0
-      delete_list << @workbook.cell_xfs[:xf].size
+      delete_list << @workbook.cell_xfs.size
       while offset < delete_list.size do
         delete_index = delete_list[offset] - offset
 
@@ -78,7 +76,7 @@ module Writer
 
           i += 1
         end
-        @workbook.cell_xfs[:xf].delete_at(delete_index)
+        @workbook.cell_xfs.delete_at(delete_index)
         offset += 1
       end
       
@@ -104,37 +102,35 @@ module Writer
             @workbook.borders.each_with_index { |border, i| borders << border.write_xml(xml) unless @border_id_corrector[i].nil? }
           })
 
-          root << (xml.create_element('cellStyleXfs', :count => @workbook.cell_style_xfs[:attributes][:count]) { |cxfs|
-            @workbook.cell_style_xfs[:xf].each { |style|
-              style = @workbook.get_style_attributes(style)
-              cxfs << xml.create_element('xf', :numFmtId  => style[:numFmtId],
-                                               :fontId => @font_id_corrector[style[:fontId]],
-                                               :fillId => @fill_id_corrector[style[:fillId]],
-                                               :borderId => @border_id_corrector[style[:borderId]])
+          root << (xml.create_element('cellStyleXfs', :count => @workbook.cell_style_xfs.count) { |cxfs|
+            @workbook.cell_style_xfs.each { |xf|
+              cxfs << xml.create_element('xf', :numFmtId  => xf.num_fmt_id,
+                                               :fontId => @font_id_corrector[xf.font_id],
+                                               :fillId => @fill_id_corrector[xf.fill_id],
+                                               :borderId => @border_id_corrector[xf.border_id])
             }
           })
 
 
-          root << (xml.create_element('cellXfs', :count => @workbook.cell_xfs[:xf].size) { |cxfs|
-            @workbook.cell_xfs[:xf].each { |xf_obj|
-              xf = @workbook.get_style_attributes(xf_obj)
-              cxfs << (xml.create_element('xf', :numFmtId => xf[:numFmtId],
-                                                :fontId => @font_id_corrector[xf[:fontId]],
-                                                :fillId => @fill_id_corrector[xf[:fillId]],
-                                                :borderId => @border_id_corrector[xf[:borderId]],
-                                                :xfId => xf[:xfId].to_s,
-                                                :applyFont => xf[:applyFont].to_i, #0 if nil
-                                                :applyFill => xf[:applyFill].to_i,
-                                                :applyAlignment => xf[:applyAlignment].to_i,
-                                                :applyNumberFormat => xf[:applyNumberFormat].to_i) { |xf_xml|
+          root << (xml.create_element('cellXfs', :count => @workbook.cell_xfs.size) { |cxfs|
+            @workbook.cell_xfs.each { |xf|
+              cxfs << (xml.create_element('xf', :numFmtId => xf.num_fmt_id,
+                                                :fontId => @font_id_corrector[xf.font_id],
+                                                :fillId => @fill_id_corrector[xf.fill_id],
+                                                :borderId => @border_id_corrector[xf.border_id],
+                                                :xfId => xf.xf_id,
+                                                :applyFont => xf.apply_font,
+                                                :applyFill => xf.apply_fill,
+                                                :applyAlignment => xf.apply_alignment,
+                                                :applyNumberFormat => xf.apply_number_format) { |xf_xml|
 
-                unless xf_obj.is_a?(Array)
-                  unless xf_obj[:alignment].nil?
-                    xf_xml << xml.create_element('alignment', :horizontal => xf_obj[:alignment][:attributes][:horizontal],
-                                                              :vertical => xf_obj[:alignment][:attributes][:vertical],
-                                                              :wrapText => xf_obj[:alignment][:attributes][:wrapText])
-                  end
+=begin
+                unless xf_obj[:alignment].nil?
+                  xf_xml << xml.create_element('alignment', :horizontal => xf_obj[:alignment][:attributes][:horizontal],
+                                                            :vertical => xf_obj[:alignment][:attributes][:vertical],
+                                                            :wrapText => xf_obj[:alignment][:attributes][:wrapText])
                 end
+=end
 
               })
 
