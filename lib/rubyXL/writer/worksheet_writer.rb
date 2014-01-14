@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'nokogiri'
-
 module RubyXL
 module Writer
   class WorksheetWriter < GenericWriter
@@ -48,8 +45,7 @@ module Writer
                               :width => range.width || 10,
                               :customWidth => range.custom_width || 0 }
 
-                style_index = @workbook.style_corrector[range.style_index]
-                col_attrs[:style] = style_index if style_index
+                col_attrs[:style] = range.style_index if range.style_index
                 cols << (xml.create_element('col', col_attrs))
               end
             })
@@ -58,33 +54,32 @@ module Writer
           root << (xml.create_element('sheetData') { |data|
             @worksheet.sheet_data.each_with_index { |row, i|
               #TODO fix this spans thing. could be 2:3 (not necessary)
-              if @worksheet.row_styles[(i+1).to_s].nil?
-                @worksheet.row_styles[(i+1).to_s] = {}
-                @worksheet.row_styles[(i+1).to_s][:style] = '0'
+              if @worksheet.row_styles[(i+1)].nil?
+                @worksheet.row_styles[(i+1)] = {}
+                @worksheet.row_styles[(i+1)][:style] = 0
               end
               custom_format = '1'
 
-              if @worksheet.row_styles[(i+1).to_s][:style].to_s == '0'
+              if @worksheet.row_styles[(i+1)][:style].to_s == '0'
                 custom_format = '0'
               end
 
-              @worksheet.row_styles[(i+1).to_s][:style] = @workbook.style_corrector[@worksheet.row_styles[(i+1).to_s][:style]]
               row_opts = {
                 :r            => i + 1,
                 :spans        => "1:#{row.size}",
                 :customFormat => custom_format
               }
 
-              unless @worksheet.row_styles[(i+1).to_s][:style].to_s == ''
-                row_opts[:s] = @worksheet.row_styles[(i+1).to_s][:style]
+              unless @worksheet.row_styles[(i+1)][:style].to_s == ''
+                row_opts[:s] = @worksheet.row_styles[(i+1)][:style]
               end
 
-              unless @worksheet.row_styles[(i+1).to_s][:height].to_s == ''
-                row_opts[:ht] = @worksheet.row_styles[(i+1).to_s][:height]
+              unless @worksheet.row_styles[(i+1)][:height].to_s == ''
+                row_opts[:ht] = @worksheet.row_styles[(i+1)][:height]
               end
 
-              unless @worksheet.row_styles[(i+1).to_s][:customheight].to_s == ''
-                row_opts[:customHeight] = @worksheet.row_styles[(i+1).to_s][:customHeight]
+              unless @worksheet.row_styles[(i+1)][:customheight].to_s == ''
+                row_opts[:customHeight] = @worksheet.row_styles[(i+1)][:customHeight]
               end
 
               data << (xml.create_element('row', row_opts) { |row_xml|
@@ -92,7 +87,6 @@ module Writer
                   unless cell.nil?
                     #TODO do xml.c for all cases, inside specific.
                     # if cell.formula.nil?
-                    cell.style_index = @workbook.style_corrector[cell.style_index]
                     c_opts = { :r => RubyXL::Reference.ind2ref(i, j), :s => cell.style_index }
 
                     unless cell.datatype.nil? || cell.datatype == ''
@@ -144,7 +138,6 @@ module Writer
                                                       :header => 0.5, :footer => 0.5 })
           root << xml.create_element('pageSetup', { :orientation => 'portrait',
                                                     :horizontalDpi => 4294967292, :verticalDpi => 4294967292 })
-
 
           @worksheet.legacy_drawings.each { |drawing| root << drawing.write_xml(xml) }
 

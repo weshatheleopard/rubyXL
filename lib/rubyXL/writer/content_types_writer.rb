@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'nokogiri'
-
 module RubyXL
   module Writer
     class ContentTypesWriter < GenericWriter

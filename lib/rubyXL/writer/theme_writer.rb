@@ -1,6 +1,4 @@
 # coding: utf-8
-require 'rubygems'
-require 'nokogiri'
 
 module RubyXL
 module Writer

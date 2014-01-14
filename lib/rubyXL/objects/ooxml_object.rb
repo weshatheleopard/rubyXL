@@ -55,6 +55,11 @@ module RubyXL
       self.class_variable_set(:@@ooxml_tag_name, v)
     end
 
+    def self.set_countable
+      self.class_variable_set(:@@ooxml_countable, true)
+      self.send(:attr_accessor, :count)
+    end
+
     def write_xml(xml, node_name_override = nil)
       before_write_xml if self.respond_to?(:before_write_xml)
       attrs = prepare_attributes
@@ -84,6 +89,8 @@ module RubyXL
 
         instance_variable_set("@#{v[:accessor]}", initial_value)
       }
+
+      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
 
     def self.parse(node)
@@ -127,6 +134,21 @@ module RubyXL
       obj
     end
 
+    def dup
+      new_copy = super
+      new_copy.count = 0 if obtain_class_variable(:@@ooxml_countable, false)
+      new_copy
+    end
+
+    private
+    def self.accessorize(str)
+      acc = str.to_s.dup
+      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+      acc.gsub!(':','_')
+      acc.downcase.to_sym
+    end
+
     def prepare_attributes
       xml_attrs = {}
 
@@ -140,7 +162,8 @@ module RubyXL
 
         val = val &&
                 case v[:attr_type]
-                when :bool then val ? '1' : '0'
+                when :bool  then val ? '1' : '0'
+                when :float then val.to_s.gsub(/\.0*$/, '') # Trim trailing zeroes
                 else val
                 end
 
@@ -148,15 +171,6 @@ module RubyXL
       }
 
       xml_attrs
-    end
-
-    private
-    def self.accessorize(str)
-      acc = str.to_s.dup
-      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
-      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
-      acc.gsub!(':','_')
-      acc.downcase.to_sym
     end
 
   end
