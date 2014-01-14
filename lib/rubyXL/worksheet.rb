@@ -123,82 +123,54 @@ class Worksheet < PrivateClass
     end
   end
 
-  # Changes font name of row
-  def change_row_font_name(row = 0, font_name='Verdana')
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified name
-    font = @workbook.fonts[xf_id.font_id].dup
+  def change_row_font_name(row = 0, font_name = 'Verdana')
+    ensure_cell_exists(row)
+    font = row_font(row).dup
     font.set_name(font_name)
-    # Update font and xf array
-    change_row_font(row, Worksheet::NAME, font_name, font, xf_id)
+    change_row_font(row, Worksheet::NAME, font_name, font)
   end
 
-  # Changes font size of row
   def change_row_font_size(row = 0, font_size=10)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified size
-    font = @workbook.fonts[xf_id.font_id].dup
+    ensure_cell_exists(row)
+    font = row_font(row).dup
     font.set_size(font_size)
-    # Update font and xf array
-    change_row_font(row, Worksheet::SIZE, font_size, font, xf_id)
+    change_row_font(row, Worksheet::SIZE, font_size, font)
   end
 
-  # Changes font color of row
   def change_row_font_color(row = 0, font_color='000000')
+    ensure_cell_exists(row)
     Color.validate_color(font_color)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified color
-    font = @workbook.fonts[xf_id.font_id].dup
+    font = row_font(row).dup
     font.set_rgb_color(font_color)
-    # Update font and xf array
-    change_row_font(row, Worksheet::COLOR, font_color, font, xf_id)
+    change_row_font(row, Worksheet::COLOR, font_color, font)
   end
 
-  # Changes font italics settings of row
   def change_row_italics(row = 0, italicized=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified italics settings
-    font = @workbook.fonts[xf_id.font_id].dup
+    ensure_cell_exists(row)
+    font = row_font(row).dup
     font.set_italic(italicized)
-    # Update font and xf array
-    change_row_font(row, Worksheet::ITALICS, italicized, font, xf_id)
+    change_row_font(row, Worksheet::ITALICS, italicized, font)
   end
 
-  # Changes font bold settings of row
   def change_row_bold(row = 0, bolded=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified bold settings
-    font = @workbook.fonts[xf_id.font_id].dup
+    ensure_cell_exists(row)
+    font = row_font(row).dup
     font.set_bold(bolded)
-    # Update font and xf array
-    change_row_font(row, Worksheet::BOLD, bolded, font, xf_id)
+    change_row_font(row, Worksheet::BOLD, bolded, font)
   end
 
-  # Changes font underline settings of row
   def change_row_underline(row = 0, underlined=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified underline settings
-    font = @workbook.fonts[xf_id.font_id].dup
+    ensure_cell_exists(row)
+    font = row_font(row).dup
     font.set_underline(underlined)
-    # Update font and xf array
-    change_row_font(row, Worksheet::UNDERLINE, underlined, font, xf_id)
+    change_row_font(row, Worksheet::UNDERLINE, underlined, font)
   end
 
-  # Changes font strikethrough settings of row
   def change_row_strikethrough(row = 0, struckthrough=false)
-    # Get style object
-    xf_id = xf_id(get_row_style(row))
-    # Get copy of font object with modified strikethrough settings
-    font = @workbook.fonts[xf_id.font_id].dup
+    ensure_cell_exists(row)
+    font = row_font(row).dup
     font.set_strikethrough(struckthrough)
-    # Update font and xf array
-    change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font, xf_id)
+    change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font)
   end
 
   def change_row_height(row = 0, height=10)
@@ -260,7 +232,7 @@ class Worksheet < PrivateClass
   # Changes font name of column
   def change_column_font_name(col = 0, font_name = 'Verdana')
     # Get style object
-    xf_id = xf_id(get_col_style(col))
+    xf_id = @workbook.cell_xfs[get_col_style(col)]
     # Get copy of font object with modified name
     font = @workbook.fonts[xf_id.font_id].dup
     font.set_name(font_name)
@@ -271,7 +243,7 @@ class Worksheet < PrivateClass
   # Changes font size of column
   def change_column_font_size(col=0, font_size=10)
     # Get style object
-    xf_id = xf_id(get_col_style(col))
+    xf_id = @workbook.cell_xfs[get_col_style(col)]
     # Get copy of font object with modified size
     font = @workbook.fonts[xf_id.font_id].dup
     font.set_size(font_size)
@@ -283,7 +255,7 @@ class Worksheet < PrivateClass
   def change_column_font_color(col=0, font_color='000000')
     Color.validate_color(font_color)
     # Get style object
-    xf_id = xf_id(get_col_style(col))
+    xf_id = @workbook.cell_xfs[get_col_style(col)]
     # Get copy of font object with modified color
     font = @workbook.fonts[xf_id.font_id].dup
     font.set_rgb_color(font_color)
@@ -294,7 +266,7 @@ class Worksheet < PrivateClass
   # Changes font italics settings of column
   def change_column_italics(col=0, italicized=false)
     # Get style object
-    xf_id = xf_id(get_col_style(col))
+    xf_id = @workbook.cell_xfs[get_col_style(col)]
     # Get copy of font object with modified italics settings
     font = @workbook.fonts[xf_id.font_id].dup
     font.set_italic(italicized)
@@ -305,7 +277,7 @@ class Worksheet < PrivateClass
   # Changes font bold settings of column
   def change_column_bold(col=0, bolded=false)
     # Get style object
-    xf_id = xf_id(get_col_style(col))
+    xf_id = @workbook.cell_xfs[get_col_style(col)]
     # Get copy of font object with modified bold settings
     font = @workbook.fonts[xf_id.font_id].dup
     font.set_bold(bolded)
@@ -316,18 +288,18 @@ class Worksheet < PrivateClass
   # Changes font underline settings of column
   def change_column_underline(col=0, underlined=false)
     # Get style object
-    xf_id = xf_id(get_col_style(col))
+    xf = @workbook.cell_xfs[get_col_style(col)]
     # Get copy of font object with modified underline settings
-    font = @workbook.fonts[xf_id.font_id].dup
+    font = @workbook.fonts[xf.font_id].dup
     font.set_underline(underlined)
     # Update font and xf array
-    change_column_font(col, Worksheet::UNDERLINE, underlined, font, xf_id)
+    change_column_font(col, Worksheet::UNDERLINE, underlined, font, xf)
   end
 
   # Changes font strikethrough settings of column
   def change_column_strikethrough(col=0, struckthrough=false)
     # Get style object
-    xf_id = xf_id(get_col_style(col))
+    xf_id = @workbook.cell_xfs[get_col_style(col)]
     # Get copy of font object with modified strikethrough settings
     font = @workbook.fonts[xf_id.font_id].dup
     font.set_strikethrough(struckthrough)
@@ -672,55 +644,18 @@ class Worksheet < PrivateClass
   end
 
   def get_row_font_name(row = 0)
-    validate_workbook
-    validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1)].nil?
-      return 'Verdana'
-    end
-
-    xf = get_row_xf(row)
-
-    return @workbook.fonts[xf.font_id].get_name
+    font = row_font(row)
+    font && font.get_name
   end
 
   def get_row_font_size(row = 0)
-    validate_workbook
-    validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1)].nil?
-      return '10'
-    end
-
-    xf = get_row_xf(row)
-
-    return @workbook.fonts[xf.font_id].get_size
+    font = row_font(row)
+    font && font.get_size
   end
 
   def get_row_font_color(row = 0)
-    validate_workbook
-    validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1)].nil?
-      return '000000'
-    end
-
-    xf = get_row_xf(row)
-
-    color = @workbook.fonts[xf.font_id].color
-
+    font = row_font(row)
+    color = font && font.color
     (color && color.rgb) || '000000'
   end
 
@@ -904,9 +839,8 @@ class Worksheet < PrivateClass
   def row_font(row)
     validate_workbook
     validate_nonnegative(row)
-    return nil if @sheet_data.size <= row
-    return false if @row_styles[(row+1)].nil?
     xf = get_row_xf(row)
+    return nil if @sheet_data.size <= row
     @workbook.fonts[xf.font_id]
   end
 
@@ -945,7 +879,7 @@ class Worksheet < PrivateClass
 
     return nil if @sheet_data[0].size <= col
     style_index = get_cols_style_index(col)
-    @workbook.fonts[xf_id(style_index).font_id]
+    @workbook.fonts[@workbook.cell_xfs[style_index].font_id]
   end
 
   def get_column_alignment(col, type)
@@ -997,28 +931,21 @@ class Worksheet < PrivateClass
   # Helper method to update the row styles array
   # change_type - NAME or SIZE or COLOR etc
   # main method to change font, called from each separate font mutator method
-  def change_row_font(row, change_type, arg, font, xf_id)
+  def change_row_font(row, change_type, arg, font)
     validate_workbook
     validate_nonnegative(row)
     ensure_cell_exists(row)
 
-    # Modify font array and retrieve new font id
-    font_id = @workbook.register_new_font(font, xf_id.font_id)
-    # Get copy of xf object with modified font id
-    xf = deep_copy(xf_id)
-    xf.font_id = Integer(font_id)
-    # Modify xf array and retrieve new xf id
-    @row_styles[(row+1)][:style] = modify_xf(@workbook, xf)
+    xf = get_row_xf(row)
+    xf.font_id = workbook.register_new_font(font, xf.font_id)
+    xf.apply_font = 1
 
-    if @sheet_data[row].nil?
-      @sheet_data[row] = []
-    end
+    @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
-    @sheet_data[Integer(row)].each do |c|
-      unless c.nil?
-        font_switch(c, change_type, arg)
-      end
-    end
+    @sheet_data[row] ||= []
+    @sheet_data[Integer(row)].each { |c|
+      font_switch(c, change_type, arg) unless c.nil?
+    }
   end
 
   # Helper method to update the fonts and cell styles array
@@ -1105,16 +1032,6 @@ class Worksheet < PrivateClass
     # +row_index+ is greater than the current max index by exactly 1.
     row_index.downto(@sheet_data.size) { |r| @sheet_data[r] = Array.new(col_size) } 
   end  
-
-  # Helper method to get the font id for a style index
-  def font_id(style_index)
-    xf_id(style_index).font_id
-  end
-
-  # Helper method to get the style attributes for a style index
-  def xf_id(style_index)
-    @workbook.cell_xfs[style_index]
-  end
 
   # Helper method to get the style index for a row
   def get_row_style(row)
