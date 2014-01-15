@@ -323,23 +323,23 @@ class Worksheet < PrivateClass
   end
 
   def change_column_border_top(col=0,weight = 'thin')
-    change_column_border(col,:top,weight)
+    change_column_border(col, :top, weight)
   end
 
   def change_column_border_left(col=0,weight = 'thin')
-    change_column_border(col,:left,weight)
+    change_column_border(col, :left, weight)
   end
 
   def change_column_border_right(col=0,weight = 'thin')
-    change_column_border(col,:right,weight)
+    change_column_border(col, :right, weight)
   end
 
   def change_column_border_bottom(col=0,weight = 'thin')
-    change_column_border(col,:bottom,weight)
+    change_column_border(col, :bottom, weight)
   end
 
   def change_column_border_diagonal(col=0,weight = 'thin')
-    change_column_border(col,:diagonal,weight)
+    change_column_border(col, :diagonal, weight)
   end
 
   # merges cells within a rectangular range
@@ -532,6 +532,7 @@ class Worksheet < PrivateClass
         row[col].column = col unless row[col].nil?
       }
     }
+
   end
 
   def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
@@ -713,22 +714,22 @@ class Worksheet < PrivateClass
 
   def is_column_italicized(col = 0)
     font = column_font(col)
-    font && font.italic
+    font && font.is_italic
   end
 
   def is_column_bolded(col = 0)
     font = column_font(col)
-    font && font.bold
+    font && font.is_bold
   end
 
   def is_column_underlined(col = 0)
     font = column_font(col)
-    font && font.underlined
+    font && font.is_underlined
   end
 
   def is_column_struckthrough(col = 0)
     font = column_font(col)
-    font && font.strikethrough
+    font && font.is_strikethrough
   end
 
   def get_column_width(col=0)
@@ -885,10 +886,7 @@ class Worksheet < PrivateClass
     validate_nonnegative(row)
     ensure_cell_exists(row)
 
-    xf = get_row_xf(row)
-    xf.font_id = workbook.register_new_font(font, xf)
-    xf.apply_font = 1
-
+    xf = workbook.register_new_font(font, get_row_xf(row))
     @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
     @sheet_data[row] ||= []
@@ -904,16 +902,9 @@ class Worksheet < PrivateClass
     validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
-    # Modify font array and retrieve new font id
-    font_id = workbook.register_new_font(font, xf)
-    # Get copy of xf object with modified font id
-    xf = xf.dup
-    xf.font_id = font_id
-    # Modify xf array and retrieve new xf id
-    modify_xf(@workbook, xf)
-
-#    new_style_index = modify_fill(@workbook, get_column_style_index(col), color_index)
-#    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
+    xf = workbook.register_new_font(font, xf)
+    new_style_index = workbook.register_new_xf(xf, get_col_style(col))
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]
@@ -1051,13 +1042,11 @@ class Worksheet < PrivateClass
     validate_border(weight)
     ensure_cell_exists(row)
 
-    xf = get_row_xf(row).dup
+    xf = get_row_xf(row)
     border = @workbook.borders[xf.border_id].dup
     border.set_edge_style(direction, weight)
 
-    xf.border_id = workbook.register_new_border(border, xf)
-    xf.apply_border = 1
-
+    xf = workbook.register_new_border(border, xf)
     @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
     @sheet_data[row].each { |c|
@@ -1079,16 +1068,14 @@ class Worksheet < PrivateClass
     validate_nonnegative(col)
     validate_border(weight)
     ensure_cell_exists(0, col)
-
-    style_index = get_cols_style_index(col)
-    xf = @workbook.cell_xfs[style_index].dup
+     
+    xf = get_col_xf(col)
     border = @workbook.borders[xf.border_id].dup
     border.set_edge_style(direction, weight)
-    xf.border_id = workbook.register_new_border(border, xf)
-    xf.apply_border = 1
 
-    style_index = workbook.register_new_xf(xf, style_index)
-    RubyXL::ColumnRange.update(col, @column_ranges, :style => style_index)
+    xf = workbook.register_new_border(border, get_col_xf(col))
+    new_style_index = workbook.register_new_xf(xf, get_col_style(col))
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]

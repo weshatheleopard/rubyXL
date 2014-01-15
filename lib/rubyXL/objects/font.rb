@@ -52,8 +52,7 @@ module RubyXL
     end
 
     def set_italic(val)
-      self.i ||= RubyXL::BooleanValue.new
-      self.i.val = val
+      self.i = RubyXL::BooleanValue.new(:val => val)
     end
 
     def is_bold
@@ -61,8 +60,7 @@ module RubyXL
     end
 
     def set_bold(val)
-      self.b ||= RubyXL::BooleanValue.new
-      self.b.val = val
+      self.b = RubyXL::BooleanValue.new(:val => val)
     end
 
     def is_underlined
@@ -70,8 +68,7 @@ module RubyXL
     end
 
     def set_underline(val)
-      self.u ||= RubyXL::BooleanValue.new
-      self.u.val = val
+      self.u = RubyXL::BooleanValue.new(:val => val)
     end
 
     def is_strikethrough
@@ -79,8 +76,7 @@ module RubyXL
     end
 
     def set_strikethrough(val)
-      self.strike ||= RubyXL::BooleanValue.new
-      self.strike.val = val
+      self.strike = RubyXL::BooleanValue.new(:val => val)
     end
 
     def get_name
@@ -88,8 +84,7 @@ module RubyXL
     end
 
     def set_name(val)
-      self.name ||= RubyXL::StringValue.new
-      self.name.val = val
+      self.name = RubyXL::StringValue.new(:val => val)
     end
 
     def get_size
@@ -97,8 +92,7 @@ module RubyXL
     end
 
     def set_size(val)
-      self.sz ||= RubyXL::FloatValue.new
-      self.sz.val = val
+      self.sz = RubyXL::FloatValue.new(:val => val)
     end
 
     def get_rgb_color

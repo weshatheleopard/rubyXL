@@ -107,9 +107,7 @@ module RubyXL
 
     # Helper method to update the font array and xf array
     def update_font_references(modified_font)
-      xf = get_cell_xf.dup
-      xf.font_id = @workbook.register_new_font(modified_font, xf)
-      xf.apply_font = 1
+      xf = @workbook.register_new_font(modified_font, get_cell_xf)
       @style_index = workbook.register_new_xf(xf, @style_index)
     end
 
@@ -284,10 +282,7 @@ module RubyXL
       border = get_cell_border.dup
       border.set_edge_style(direction, weight)
 
-      xf = get_cell_xf.dup
-      xf.border_id = workbook.register_new_border(border, xf)
-      xf.apply_border = 1
-
+      xf = workbook.register_new_border(border, get_cell_xf)
       @style_index = workbook.register_new_xf(xf, @style_index)
     end
 

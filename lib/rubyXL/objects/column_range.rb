@@ -28,8 +28,8 @@ module RubyXL
     end
 
     def insert_column(col)
-      self.min +=1 if min > col
-      self.max +=1 if max > col
+      self.min +=1 if min >= col
+      self.max +=1 if max >= col - 1
     end
 
     def self.insert_column(col_index, ranges)

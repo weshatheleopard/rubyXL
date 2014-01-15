@@ -54,25 +54,12 @@ module RubyXL
     define_element_name 'xf'
     set_countable
 
-=begin
-<xf numFmtId="14" fontId="60" fillId="11" borderId="22" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1">
-<alignment horizontal="left"/>
-<protection locked="0"/>
-</xf>
-
-<cellStyleXfs count="1">
-<xf numFmtId="0" fontId="0" fillId="0" borderId="0"/>
-</cellStyleXfs>
-<cellXfs count="31">
-<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
-<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" quotePrefix="1"/>
-=end
     def ==(other)
-      (self.border_id == other.border_id) &&
-        (self.xf_id == other.xf_id) &&
+      (self.num_fmt_id == other.num_fmt_id) &&
+        (self.font_id == other.font_id) &&
         (self.fill_id == other.fill_id) &&
-        (self.num_fmt_id == other.num_fmt_id) &&
-        (self.font_id == other.font_id)
+        (self.border_id == other.border_id) &&
+        (self.xf_id == other.xf_id)
     end
   end
 
