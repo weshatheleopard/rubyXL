@@ -4,24 +4,11 @@ module RubyXL
     RAW_STRING = 'str'
     ERROR = 'e'
 
-    attr_accessor :row, :column, :datatype, :style_index, :formula, :worksheet
-    attr_reader :formula_attributes
-
-=begin
-    def initialize(worksheet, row, column, value = nil, formula = nil, datatype = SHARED_STRING, style_index = 0)
-      @worksheet = worksheet
-      @row = row
-      @column = column
-      @datatype = datatype
-      @value = value
-      @formula=formula
-      @style_index = style_index
-    end
-=end
+    attr_accessor #:row, :column, 
+    attr_accessor :datatype, :style_index, :formula, :worksheet
 
     def value(args = {})
-      raw_values = args.delete(:raw) || false
-      return @value if raw_values
+      return @value if args[:raw]
       return workbook.num_to_date(@value) if is_date?
       @value
     end
@@ -36,7 +23,7 @@ module RubyXL
 
     def is_date?
       return false if @value.is_a?(String)
-      tmp_num_fmt = workbook.num_fmts_by_id[Integer(get_cell_xf.num_fmt_id)]
+      tmp_num_fmt = workbook.num_fmts_by_id[get_cell_xf.num_fmt_id]
       num_fmt = tmp_num_fmt && tmp_num_fmt.format_code
       num_fmt && workbook.date_num_fmt?(num_fmt)
     end
@@ -166,16 +153,13 @@ module RubyXL
       validate_worksheet
       @datatype = RAW_STRING
 
-      if data.is_a?(Date) || data.is_a?(DateTime)
-        data = workbook.date_to_num(data)
+      case data
+      when Date           then data = workbook.date_to_num(data)
+      when Integer, Float then @datatype = ''
       end
 
-      if (data.is_a?Integer) || (data.is_a?Float)
-        @datatype = ''
-      end
-
-      @value=data
-      @formula=formula
+      @value = data
+      @formula = formula
     end
 
     # returns if font is italicized
@@ -271,7 +255,7 @@ module RubyXL
     end
 
     def inspect
-      str = "(#{@row},#{@column}): #{@value}" 
+      str = "(#{row},#{column}): #{@value}" 
       str += " =#{@formula}" if @formula
       str += ", datatype = #{@datatype}, style_index = #{@style_index}"
       return str
@@ -297,8 +281,8 @@ module RubyXL
     def validate_workbook()
       unless workbook.nil? || workbook.worksheets.nil?
         workbook.worksheets.each do |sheet|
-          unless sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[@row].nil?
-            if sheet.sheet_data[@row][@column] == self
+          unless sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[row].nil?
+            if sheet.sheet_data[row][column] == self
               return
             end
           end
@@ -308,7 +292,7 @@ module RubyXL
     end
 
     def validate_worksheet()
-      return if @worksheet && @worksheet[@row][@column] == self
+      return if @worksheet && @worksheet[row][column] == self
       raise "This cell #{self} is not in worksheet #{worksheet}"
     end
 

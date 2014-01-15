@@ -19,6 +19,22 @@ module RubyXL
 #    define_child_node(RubyXL::RichText)  # is
     define_element_name 'c'
 
+    def row
+      r && r.first_row
+    end
+
+    def row=(v)
+      self.r = RubyXL::Reference.new(v, column || 0)
+    end
+
+    def column
+      r && r.first_col
+    end
+
+    def column=(v)
+      self.r = RubyXL::Reference.new(row || 0, v)
+    end
+
     include LegacyCell
   end
 
