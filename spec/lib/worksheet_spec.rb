@@ -467,7 +467,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_font_name' do
     it 'should cause column and cell font names to match string passed in' do
       @worksheet.change_column_font_name(0, 'Arial')
-#temporarily disabled#      @worksheet.get_column_font_name(0).should == 'Arial'
+      @worksheet.get_column_font_name(0).should == 'Arial'
       @worksheet[5][0].font_name.should == 'Arial'
     end
 
@@ -480,7 +480,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative' do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_font_name(11,'Arial')
-#temporarily disabled#      @worksheet.get_column_font_name(11).should == 'Arial'
+      @worksheet.get_column_font_name(11).should == 'Arial'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -488,7 +488,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_font_size' do
     it 'should make column and cell font sizes equal font number passed' do
       @worksheet.change_column_font_size(0, 20)
-#temporarily disabled#      @worksheet.get_column_font_size(0).should == 20
+      @worksheet.get_column_font_size(0).should == 20
       @worksheet[5][0].font_size.should == 20
     end
 
@@ -507,7 +507,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_font_size(11,20)
-#temporarily disabled#      @worksheet.get_column_font_size(11).should == 20
+      @worksheet.get_column_font_size(11).should == 20
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -515,7 +515,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_font_color' do
     it 'should make column and cell font colors equal to font color passed' do
       @worksheet.change_column_font_color(0, '0f0f0f')
-#temporarily disabled#      @worksheet.get_column_font_color(0).should == '0f0f0f'
+      @worksheet.get_column_font_color(0).should == '0f0f0f'
       @worksheet[5][0].font_color.should == '0f0f0f'
     end
 
@@ -540,7 +540,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_font_color(11,'0f0f0f')
-#temporarily disabled#      @worksheet.get_column_font_color(11).should == '0f0f0f'
+      @worksheet.get_column_font_color(11).should == '0f0f0f'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -548,7 +548,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_italics' do
     it 'should make column and cell fonts italicized when true is passed' do
       @worksheet.change_column_italics(0,true)
-#temporarily disabled#      @worksheet.is_column_italicized(0).should == true
+      @worksheet.is_column_italicized(0).should == true
       @worksheet[5][0].is_italicized.should == true
     end
 
@@ -561,7 +561,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_italics(11,true)
-#temporarily disabled#      @worksheet.is_column_italicized(11).should == true
+      @worksheet.is_column_italicized(11).should == true
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -569,7 +569,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_bold' do
     it 'should make column and cell fonts bolded when true is passed' do
       @worksheet.change_column_bold(0,true)
-#temporarily disabled#      @worksheet.is_column_bolded(0).should == true
+      @worksheet.is_column_bolded(0).should == true
       @worksheet[5][0].is_bolded.should == true
     end
 
@@ -582,7 +582,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_bold(11,true)
-#temporarily disabled#      @worksheet.is_column_bolded(11).should == true
+      @worksheet.is_column_bolded(11).should == true
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -590,7 +590,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_underline' do
     it 'should make column and cell fonts underlined when true is passed' do
       @worksheet.change_column_underline(0,true)
-#temporarily disabled#      @worksheet.is_column_underlined(0).should == true
+      @worksheet.is_column_underlined(0).should == true
       @worksheet[5][0].is_underlined.should == true
     end
 
@@ -603,7 +603,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_underline(11,true)
-#temporarily disabled#      @worksheet.is_column_underlined(11).should == true
+      @worksheet.is_column_underlined(11).should == true
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -611,7 +611,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_strikethrough' do
     it 'should make column and cell fonts struckthrough when true is passed' do
       @worksheet.change_column_strikethrough(0,true)
-#temporarily disabled#      @worksheet.is_column_struckthrough(0).should == true
+      @worksheet.is_column_struckthrough(0).should == true
       @worksheet[5][0].is_struckthrough.should == true
     end
 
@@ -624,7 +624,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_strikethrough(11,true)
-#temporarily disabled#      @worksheet.is_column_struckthrough(11).should == true
+      @worksheet.is_column_struckthrough(11).should == true
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -664,7 +664,7 @@ describe RubyXL::Worksheet do
 
   	it 'should make column and cell fill colors equal hex color code passed' do
   	  @worksheet.change_column_fill(0, '111111')
-#temporarily disabled#      @worksheet.get_column_fill(0).should == '111111'
+      @worksheet.get_column_fill(0).should == '111111'
       @worksheet[5][0].fill_color.should == '111111'
   	end
 
@@ -677,7 +677,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_fill(11,'111111')
-#temporarily disabled#      @worksheet.get_column_fill(11).should == '111111'
+      @worksheet.get_column_fill(11).should == '111111'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -739,7 +739,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_border_top' do
     it 'should cause column and cells within to have border at top of specified weight' do
       @worksheet.change_column_border_top(0, 'thin')
-#temporarily disabled#      @worksheet.get_column_border_top(0).should == 'thin'
+      @worksheet.get_column_border_top(0).should == 'thin'
       @worksheet[5][0].border_top.should == 'thin'
     end
 
@@ -758,7 +758,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_border_top(11,'thin')
-#temporarily disabled#      @worksheet.get_column_border_top(11).should == 'thin'
+      @worksheet.get_column_border_top(11).should == 'thin'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -766,7 +766,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_border_left' do
     it 'should cause column and cells within to have border at left of specified weight' do
       @worksheet.change_column_border_left(0, 'thin')
-#temporarily disabled#      @worksheet.get_column_border_left(0).should == 'thin'
+      @worksheet.get_column_border_left(0).should == 'thin'
       @worksheet[5][0].border_left.should == 'thin'
     end
 
@@ -785,7 +785,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative' do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_border_left(11,'thin')
-#temporarily disabled#      @worksheet.get_column_border_left(11).should == 'thin'
+      @worksheet.get_column_border_left(11).should == 'thin'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -793,7 +793,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_border_right' do
     it 'should cause column and cells within to have border at right of specified weight' do
       @worksheet.change_column_border_right(0, 'thin')
-#temporarily disabled#      @worksheet.get_column_border_right(0).should == 'thin'
+      @worksheet.get_column_border_right(0).should == 'thin'
       @worksheet[5][0].border_right.should == 'thin'
     end
 
@@ -812,7 +812,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_border_right(11,'thin')
-#temporarily disabled#      @worksheet.get_column_border_right(11).should == 'thin'
+      @worksheet.get_column_border_right(11).should == 'thin'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -820,7 +820,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_border_bottom' do
     it 'should cause column and cells within to have border at bottom of specified weight' do
       @worksheet.change_column_border_bottom(0, 'thin')
-#temporarily disabled#      @worksheet.get_column_border_bottom(0).should == 'thin'
+      @worksheet.get_column_border_bottom(0).should == 'thin'
       @worksheet[5][0].border_bottom.should == 'thin'
     end
 
@@ -839,7 +839,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_border_bottom(11,'thin')
-#temporarily disabled#      @worksheet.get_column_border_bottom(11).should == 'thin'
+      @worksheet.get_column_border_bottom(11).should == 'thin'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -847,7 +847,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_border_diagonal' do
     it 'should cause column and cells within to have border at diagonal of specified weight' do
       @worksheet.change_column_border_diagonal(0, 'thin')
-#temporarily disabled#      @worksheet.get_column_border_diagonal(0).should == 'thin'
+      @worksheet.get_column_border_diagonal(0).should == 'thin'
       @worksheet[5][0].border_diagonal.should == 'thin'
     end
 
@@ -866,7 +866,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative' do
       @worksheet.sheet_data[0].size.should == 11
       @worksheet.change_column_border_diagonal(11,'thin')
-#temporarily disabled#      @worksheet.get_column_border_diagonal(11).should == 'thin'
+      @worksheet.get_column_border_diagonal(11).should == 'thin'
       @worksheet.sheet_data[0].size.should == 12
     end
   end
@@ -1016,7 +1016,7 @@ describe RubyXL::Worksheet do
     it 'should delete a column at index specified, "pushing" styles "left"' do
       @worksheet.change_column_font_name(1,"Courier")
       @worksheet.delete_column(0)
-#temporarily disabled#      @worksheet.get_column_font_name(0).should == "Courier"
+      @worksheet.get_column_font_name(0).should == "Courier"
     end
 
     it 'should preserve (rather than fix) formulas that reference cells in "pushed left" columns' do
@@ -1043,7 +1043,7 @@ describe RubyXL::Worksheet do
     it 'should insert a column at index specified, copying styles from column to "left"' do
       @worksheet.change_column_font_name(0,'Courier')
       @worksheet.insert_column(1)
-#temporarily disabled#      @worksheet.get_column_font_name(1).should == 'Courier'
+      @worksheet.get_column_font_name(1).should == 'Courier'
     end
 
     it 'should insert a column at 0 without copying any styles, when passed 0 as column index' do
@@ -1452,7 +1452,7 @@ describe RubyXL::Worksheet do
   describe '.get_column_font_name' do
     it 'should correctly reflect font name for column' do
       @worksheet.change_column_font_name(0,'Courier')
-#temporarily disabled#      @worksheet.get_column_font_name(0).should == 'Courier'
+      @worksheet.get_column_font_name(0).should == 'Courier'
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1469,7 +1469,7 @@ describe RubyXL::Worksheet do
   describe '.get_column_font_size' do
      it 'should correctly reflect font size for column' do
        @worksheet.change_column_font_size(0,30)
-#temporarily disabled#      @worksheet.get_column_font_size(0).should == 30
+      @worksheet.get_column_font_size(0).should == 30
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1486,7 +1486,7 @@ describe RubyXL::Worksheet do
    describe '.get_column_font_color' do
      it 'should correctly reflect font color for column' do
        @worksheet.change_column_font_color(0,'0f0f0f')
-#temporarily disabled#      @worksheet.get_column_font_color(0).should == '0f0f0f'
+      @worksheet.get_column_font_color(0).should == '0f0f0f'
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1507,7 +1507,7 @@ describe RubyXL::Worksheet do
    describe '.is_column_italicized' do
      it 'should correctly return whether column is italicized' do
        @worksheet.change_column_italics(0,true)
-#temporarily disabled#      @worksheet.is_column_italicized(0).should == true
+      @worksheet.is_column_italicized(0).should == true
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1524,7 +1524,7 @@ describe RubyXL::Worksheet do
    describe '.is_column_bolded' do
      it 'should correctly return whether column is bolded' do
        @worksheet.change_column_bold(0,true)
-#temporarily disabled#      @worksheet.is_column_bolded(0).should == true
+      @worksheet.is_column_bolded(0).should == true
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1541,7 +1541,7 @@ describe RubyXL::Worksheet do
    describe '.is_column_underlined' do
      it 'should correctly return whether column is underlined' do
        @worksheet.change_column_underline(0,true)
-#temporarily disabled#      @worksheet.is_column_underlined(0).should == true
+      @worksheet.is_column_underlined(0).should == true
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1558,7 +1558,7 @@ describe RubyXL::Worksheet do
    describe '.is_column_struckthrough' do
      it 'should correctly return whether column is struckthrough' do
        @worksheet.change_column_strikethrough(0,true)
-#temporarily disabled#      @worksheet.is_column_struckthrough(0).should == true
+      @worksheet.is_column_struckthrough(0).should == true
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1600,7 +1600,7 @@ describe RubyXL::Worksheet do
 
      it 'should correctly reflect fill color if specified for column' do
        @worksheet.change_column_fill(0, '000000')
-#temporarily disabled#      @worksheet.get_column_fill(0).should == '000000'
+      @worksheet.get_column_fill(0).should == '000000'
      end
 
      it 'should return nil if a column which does not exist is passed in' do
@@ -1663,7 +1663,7 @@ describe RubyXL::Worksheet do
 
      it 'should return type of border that this column has on top' do
        @worksheet.change_column_border_top(0,'thin')
-#temporarily disabled#      @worksheet.get_column_border_top(0).should == 'thin'
+      @worksheet.get_column_border_top(0).should == 'thin'
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1684,7 +1684,7 @@ describe RubyXL::Worksheet do
 
      it 'should return type of border that this column has on left' do
        @worksheet.change_column_border_left(0,'thin')
-#temporarily disabled#      @worksheet.get_column_border_left(0).should == 'thin'
+      @worksheet.get_column_border_left(0).should == 'thin'
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1705,7 +1705,7 @@ describe RubyXL::Worksheet do
 
      it 'should return type of border that this column has on right' do
        @worksheet.change_column_border_right(0,'thin')
-#temporarily disabled#      @worksheet.get_column_border_right(0).should == 'thin'
+      @worksheet.get_column_border_right(0).should == 'thin'
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1726,7 +1726,7 @@ describe RubyXL::Worksheet do
 
      it 'should return type of border that this column has on bottom' do
        @worksheet.change_column_border_bottom(0,'thin')
-#temporarily disabled#      @worksheet.get_column_border_bottom(0).should == 'thin'
+      @worksheet.get_column_border_bottom(0).should == 'thin'
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1747,7 +1747,7 @@ describe RubyXL::Worksheet do
 
      it 'should return type of border that this column has on diagonal' do
        @worksheet.change_column_border_diagonal(0,'thin')
-#temporarily disabled#      @worksheet.get_column_border_diagonal(0).should == 'thin'
+      @worksheet.get_column_border_diagonal(0).should == 'thin'
      end
 
      it 'should cause error if a negative argument is passed in' do

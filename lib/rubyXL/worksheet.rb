@@ -525,12 +525,17 @@ class Worksheet < PrivateClass
 
     ColumnRange.insert_column(col_index, @column_ranges)
 
+puts "before: #{@column_ranges.inspect}"
+
     #update column numbers
     @sheet_data.each { |row|
       (col_index + 1).upto(row.size) { |col|
         row[col].column = col unless row[col].nil?
       }
     }
+
+puts @column_ranges.inspect
+
   end
 
   def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
@@ -712,22 +717,22 @@ class Worksheet < PrivateClass
 
   def is_column_italicized(col = 0)
     font = column_font(col)
-    font && font.italic
+    font && font.is_italic
   end
 
   def is_column_bolded(col = 0)
     font = column_font(col)
-    font && font.bold
+    font && font.is_bold
   end
 
   def is_column_underlined(col = 0)
     font = column_font(col)
-    font && font.underlined
+    font && font.is_underlined
   end
 
   def is_column_struckthrough(col = 0)
     font = column_font(col)
-    font && font.strikethrough
+    font && font.is_strikethrough
   end
 
   def get_column_width(col=0)
@@ -903,16 +908,13 @@ class Worksheet < PrivateClass
     validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
-    # Modify font array and retrieve new font id
     font_id = workbook.register_new_font(font, xf)
-    # Get copy of xf object with modified font id
     xf = xf.dup
     xf.font_id = font_id
-    # Modify xf array and retrieve new xf id
-    modify_xf(@workbook, xf)
+    xf.apply_font = true
 
-#    new_style_index = modify_fill(@workbook, get_column_style_index(col), color_index)
-#    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
+    new_style_index = workbook.register_new_xf(xf, get_col_style(col))
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]
