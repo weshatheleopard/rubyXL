@@ -14,7 +14,7 @@ class Worksheet < PrivateClass
     @sheet_name = sheet_name || get_default_name
     @sheet_id = nil
     @sheet_data = sheet_data
-    @sheet_data2 = nil
+    @sheet_data2 = RubyXL::SheetData.new
     @column_ranges = cols
     @merged_cells = merged_cells || []
     @row_styles = []
@@ -199,14 +199,12 @@ class Worksheet < PrivateClass
   def change_row_horizontal_alignment(row = 0,alignment='center')
     validate_workbook
     validate_nonnegative(row)
-    validate_horizontal_alignment(alignment)
     change_row_alignment(row,alignment,true)
   end
 
   def change_row_vertical_alignment(row = 0,alignment='center')
     validate_workbook
     validate_nonnegative(row)
-    validate_vertical_alignment(alignment)
     change_row_alignment(row,alignment,false)
   end
 
@@ -313,13 +311,11 @@ class Worksheet < PrivateClass
   end
 
   def change_column_horizontal_alignment(col=0,alignment='center')
-    validate_horizontal_alignment(alignment)
     change_column_alignment(col,alignment,true)
   end
 
   def change_column_vertical_alignment(col=0,alignment='center')
-    validate_vertical_alignment(alignment)
-    change_column_alignment(col,alignment,false)
+    change_column_alignment(col, alignment, false)
   end
 
   def change_column_border_top(col=0,weight = 'thin')
@@ -1039,7 +1035,6 @@ class Worksheet < PrivateClass
   def change_row_border(row, direction, weight)
     validate_workbook
     validate_nonnegative(row)
-    validate_border(weight)
     ensure_cell_exists(row)
 
     xf = get_row_xf(row)
@@ -1066,14 +1061,13 @@ class Worksheet < PrivateClass
     col = Integer(col)
     validate_workbook
     validate_nonnegative(col)
-    validate_border(weight)
     ensure_cell_exists(0, col)
      
     xf = get_col_xf(col)
     border = @workbook.borders[xf.border_id].dup
     border.set_edge_style(direction, weight)
 
-    xf = workbook.register_new_border(border, get_col_xf(col))
+    xf = workbook.register_new_border(border, xf)
     new_style_index = workbook.register_new_xf(xf, get_col_style(col))
     RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 

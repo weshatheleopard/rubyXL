@@ -114,21 +114,18 @@ module RubyXL
     # changes horizontal alignment of cell
     def change_horizontal_alignment(alignment='center')
       validate_worksheet
-      validate_horizontal_alignment(alignment)
       @style_index = modify_alignment(@workbook,@style_index,true,alignment)
     end
 
     # changes vertical alignment of cell
     def change_vertical_alignment(alignment='center')
       validate_worksheet
-      validate_vertical_alignment(alignment)
       @style_index = modify_alignment(@workbook,@style_index,false,alignment)
     end
 
     # changes wrap of cell
     def change_text_wrap(wrap=false)
       validate_worksheet
-      validate_text_wrap(wrap)
       @style_index = modify_text_wrap(@workbook,@style_index,wrap)
     end
 
@@ -277,7 +274,6 @@ module RubyXL
 
     def change_border(direction, weight)
       validate_worksheet
-      validate_border(weight)
 
       border = get_cell_border.dup
       border.set_edge_style(direction, weight)

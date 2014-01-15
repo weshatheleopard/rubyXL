@@ -282,11 +282,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].horizontal_alignment.should == 'center'
     end
 
-    it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_row_horizontal_alignment(0,'TEST')
-      }.should raise_error
-    end
 
     it 'should cause error if a negative argument is passed in' do
       lambda {
@@ -307,12 +302,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_row_vertical_alignment(0,'center')
       @worksheet.get_row_vertical_alignment(0).should == 'center'
       @worksheet[0][5].vertical_alignment.should == 'center'
-    end
-
-    it 'should cause error if nil, "center", "justify", "top", "bottom", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_row_vertical_alignment(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -336,12 +325,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].border_top.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_top(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_row_border_top(-1,'thin')
@@ -361,12 +344,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_row_border_left(0, 'thin')
       @worksheet.get_row_border_left(0).should == 'thin'
       @worksheet[0][5].border_left.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_left(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -390,12 +367,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].border_right.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_right(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_row_border_right(-1,'thin')
@@ -417,12 +388,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].border_bottom.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_bottom(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_row_border_bottom(-1,'thin')
@@ -442,12 +407,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_row_border_diagonal(0, 'thin')
       @worksheet.get_row_border_diagonal(0).should == 'thin'
       @worksheet[0][5].border_diagonal.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_diagonal(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -689,12 +648,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].horizontal_alignment.should == 'center'
     end
 
-    it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_column_horizontal_alignment(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_horizontal_alignment(-1,'center')
@@ -714,12 +667,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_vertical_alignment(0,'center')
       @worksheet.get_column_vertical_alignment(0).should == 'center'
       @worksheet[5][0].vertical_alignment.should == 'center'
-    end
-
-    it 'should cause error if nil, "center", "justify", "top", "bottom", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_column_vertical_alignment(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -743,12 +690,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].border_top.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_top(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_border_top(-1,'thin')
@@ -768,12 +709,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_border_left(0, 'thin')
       @worksheet.get_column_border_left(0).should == 'thin'
       @worksheet[5][0].border_left.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_left(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -797,12 +732,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].border_right.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_right(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_border_right(-1,'thin')
@@ -824,12 +753,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].border_bottom.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_bottom(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_border_bottom(-1,'thin')
@@ -849,12 +772,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_border_diagonal(0, 'thin')
       @worksheet.get_column_border_diagonal(0).should == 'thin'
       @worksheet[5][0].border_diagonal.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_diagonal(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do

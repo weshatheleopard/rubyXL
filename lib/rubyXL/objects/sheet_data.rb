@@ -38,12 +38,22 @@ module RubyXL
     define_attribute(:ph,           :bool,    :default => false)
     define_child_node(RubyXL::Cell2, :collection => true, :accessor => :cells)
     define_element_name 'row'
+
+    def [](ind)
+      cells[ind]
+    end
+
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetData-1.html
   class SheetData < OOXMLObject
     define_child_node(RubyXL::Row, :collection => true, :accessor => :rows)
     define_element_name 'sheetData'
+
+    def [](ind)
+      rows[ind]
+    end
+
   end
 
 end
