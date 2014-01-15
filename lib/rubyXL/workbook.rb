@@ -271,57 +271,52 @@ module RubyXL
       color && color.rgb || 'ffffff'
     end
 
-    def register_new_fill(new_fill, xf)
-      new_xf = xf.dup
+    def register_new_fill(new_fill, old_xf)
+      new_xf = old_xf.dup
 
-      old_fill_id = xf.fill_id
-
-      if fills[old_fill_id].count == 1 && old_fill_id > 2 then # Old fill not used anymore, just replace it
-        new_fill_id = old_fill_id
-      else
-        new_fill_id = fills.find_index { |x| x == new_fill } # Use existing fill, if it exists
-        new_fill_id ||= fills.size # If this fill has never existed before, add it to collection.
+      unless fills[old_xf.fill_id].count == 1 && old_xf.fill_id > 2 # If the old fill is not used anymore, just replace it
+        new_xf.fill_id = fills.find_index { |x| x == new_fill } # Use existing fill, if it exists
+        new_xf.fill_id ||= fills.size # If this fill has never existed before, add it to collection.
       end
 
-      fills[old_fill_id].count -= 1
+      fills[old_xf.fill_id].count -= 1
       new_fill.count += 1
-      fills[new_fill_id] = new_fill
+      fills[new_xf.fill_id] = new_fill
 
       new_xf.apply_fill = true
-      new_xf.fill_id = new_fill_id
       new_xf
     end
 
-    def register_new_font(new_font, xf)
-      old_font_id = xf.font_id
-      if fonts[old_font_id].count == 1 && old_font_id > 1 then # Old font not used anymore, just replace it
-        new_font_id = old_font_id
-      else
-        new_font_id = fonts.find_index { |x| x == new_font } # Use existing font, if it exists
-        new_font_id ||= fonts.size # If this font has never existed before, add it to collection.
+    def register_new_font(new_font, old_xf)
+      new_xf = old_xf.dup
+
+      unless fonts[old_xf.font_id].count == 1 && old_xf.font_id > 1 # If the old font is not used anymore, just replace it
+        new_xf.font_id = fonts.find_index { |x| x == new_font } # Use existing font, if it exists
+        new_xf.font_id ||= fonts.size # If this font has never existed before, add it to collection.
       end
 
-      fonts[old_font_id].count -= 1
+      fonts[old_xf.font_id].count -= 1
       new_font.count += 1
-      fonts[new_font_id] = new_font
+      fonts[new_xf.font_id] = new_font
 
-      new_font_id
+      new_xf.apply_font = true
+      new_xf
     end
 
-    def register_new_border(new_border, xf)
-      old_border_id = xf.border_id
-      if borders[old_border_id].count == 1 && old_border_id > 0 then # Old border not used anymore, just replace it
-        new_border_id = old_border_id
-      else
-        new_border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
-        new_border_id ||= borders.size # If this border has never existed before, add it to collection.
+    def register_new_border(new_border, old_xf)
+      new_xf = old_xf.dup
+
+      unless borders[old_xf.border_id].count == 1 && old_xf.border_id > 0 # If the old border not used anymore, just replace it
+        new_xf.border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
+        new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
       end
 
-      borders[old_border_id].count -= 1
+      borders[old_xf.border_id].count -= 1
       new_border.count += 1
-      borders[new_border_id] = new_border
+      borders[new_xf.border_id] = new_border
 
-      new_border_id
+      new_xf.apply_border = true
+      new_xf
     end
 
     def register_new_xf(new_xf, old_style_index)

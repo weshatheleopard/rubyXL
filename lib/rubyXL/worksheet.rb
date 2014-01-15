@@ -322,23 +322,23 @@ class Worksheet < PrivateClass
   end
 
   def change_column_border_top(col=0,weight = 'thin')
-    change_column_border(col,:top,weight)
+    change_column_border(col, :top, weight)
   end
 
   def change_column_border_left(col=0,weight = 'thin')
-    change_column_border(col,:left,weight)
+    change_column_border(col, :left, weight)
   end
 
   def change_column_border_right(col=0,weight = 'thin')
-    change_column_border(col,:right,weight)
+    change_column_border(col, :right, weight)
   end
 
   def change_column_border_bottom(col=0,weight = 'thin')
-    change_column_border(col,:bottom,weight)
+    change_column_border(col, :bottom, weight)
   end
 
   def change_column_border_diagonal(col=0,weight = 'thin')
-    change_column_border(col,:diagonal,weight)
+    change_column_border(col, :diagonal, weight)
   end
 
   # merges cells within a rectangular range
@@ -525,16 +525,12 @@ class Worksheet < PrivateClass
 
     ColumnRange.insert_column(col_index, @column_ranges)
 
-puts "before: #{@column_ranges.inspect}"
-
     #update column numbers
     @sheet_data.each { |row|
       (col_index + 1).upto(row.size) { |col|
         row[col].column = col unless row[col].nil?
       }
     }
-
-puts @column_ranges.inspect
 
   end
 
@@ -889,10 +885,7 @@ puts @column_ranges.inspect
     validate_nonnegative(row)
     ensure_cell_exists(row)
 
-    xf = get_row_xf(row)
-    xf.font_id = workbook.register_new_font(font, xf)
-    xf.apply_font = 1
-
+    xf = workbook.register_new_font(font, get_row_xf(row))
     @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
     @sheet_data[row] ||= []
@@ -908,11 +901,7 @@ puts @column_ranges.inspect
     validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
-    font_id = workbook.register_new_font(font, xf)
-    xf = xf.dup
-    xf.font_id = font_id
-    xf.apply_font = true
-
+    xf = workbook.register_new_font(font, xf)
     new_style_index = workbook.register_new_xf(xf, get_col_style(col))
     RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
@@ -1052,13 +1041,11 @@ puts @column_ranges.inspect
     validate_border(weight)
     ensure_cell_exists(row)
 
-    xf = get_row_xf(row).dup
+    xf = get_row_xf(row)
     border = @workbook.borders[xf.border_id].dup
     border.set_edge_style(direction, weight)
 
-    xf.border_id = workbook.register_new_border(border, xf)
-    xf.apply_border = 1
-
+    xf = workbook.register_new_border(border, xf)
     @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
 
     @sheet_data[row].each { |c|
@@ -1080,16 +1067,14 @@ puts @column_ranges.inspect
     validate_nonnegative(col)
     validate_border(weight)
     ensure_cell_exists(0, col)
-
-    style_index = get_cols_style_index(col)
-    xf = @workbook.cell_xfs[style_index].dup
+     
+    xf = get_col_xf(col)
     border = @workbook.borders[xf.border_id].dup
     border.set_edge_style(direction, weight)
-    xf.border_id = workbook.register_new_border(border, xf)
-    xf.apply_border = 1
 
-    style_index = workbook.register_new_xf(xf, style_index)
-    RubyXL::ColumnRange.update(col, @column_ranges, :style => style_index)
+    xf = workbook.register_new_border(border, get_col_xf(col))
+    new_style_index = workbook.register_new_xf(xf, get_col_style(col))
+    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]
