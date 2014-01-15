@@ -831,7 +831,14 @@ describe RubyXL::Worksheet do
 
   describe '.add_cell_obj' do
     it 'should add already created cell object to worksheet, even if a cell is already there (default)' do
-      new_cell = RubyXL::Cell.new(@worksheet,0,0,'TEST','B2')
+      new_cell = RubyXL::Cell.new
+      new_cell.worksheet = @worksheet
+      new_cell.row = 0
+      new_cell.column = 0
+      new_cell.raw_value = 'TEST'
+      new_cell.formula ='B2'
+      new_cell.style_index = 0
+
       @worksheet.add_cell_obj(new_cell)
       @worksheet[0][0].value.should_not == @old_cell_value
       @worksheet[0][0].formula.should_not == @old_cell_formula
@@ -840,7 +847,14 @@ describe RubyXL::Worksheet do
     end
 
     it 'should not add already created cell object to already occupied cell if overwrite is false' do
-      new_cell = RubyXL::Cell.new(@worksheet,0,0,'TEST','B2')
+      new_cell = RubyXL::Cell.new
+      new_cell.worksheet = @worksheet
+      new_cell.row = 0
+      new_cell.column = 0
+      new_cell.raw_value = 'TEST'
+      new_cell.formula ='B2'
+      new_cell.style_index = 0
+
       @worksheet.add_cell_obj(new_cell,false)
       @worksheet[0][0].value.should == @old_cell_value
       @worksheet[0][0].formula.should == @old_cell_formula
@@ -854,7 +868,13 @@ describe RubyXL::Worksheet do
 
     it 'should expand matrix to fit argument if nonnegative' do
       @worksheet.sheet_data.size.should == 11
-      new_cell = RubyXL::Cell.new(@worksheet,11,11,'TEST','B2')
+      new_cell = RubyXL::Cell.new
+      new_cell.worksheet = @worksheet
+      new_cell.row = 11
+      new_cell.column = 11
+      new_cell.raw_value = 'TEST'
+      new_cell.formula ='B2'
+      new_cell.style_index = 0
       @worksheet.add_cell_obj(new_cell)
       @worksheet.sheet_data.size.should == 12
     end

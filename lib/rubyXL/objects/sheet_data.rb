@@ -7,7 +7,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
-  class Cell2 < OOXMLObject
+  class Cell < OOXMLObject
     define_attribute(:r,   :ref)
     define_attribute(:s,   :integer)
     define_attribute(:t,   :string,  :default => 'n', :values => %w{ b n e s str inlineStr })
@@ -18,6 +18,8 @@ module RubyXL
     define_child_node(RubyXL::CellValue)
 #    define_child_node(RubyXL::RichText)  # is
     define_element_name 'c'
+
+    include LegacyCell
   end
 
 #TODO#<row r="1" spans="1:1" x14ac:dyDescent="0.25">
@@ -36,7 +38,7 @@ module RubyXL
     define_attribute(:thickTop,     :bool,    :default => false)
     define_attribute(:thickBot,     :bool,    :default => false)
     define_attribute(:ph,           :bool,    :default => false)
-    define_child_node(RubyXL::Cell2, :collection => true, :accessor => :cells)
+    define_child_node(RubyXL::Cell, :collection => true, :accessor => :cells)
     define_element_name 'row'
 
     def [](ind)

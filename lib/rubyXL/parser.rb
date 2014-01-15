@@ -276,10 +276,16 @@ module RubyXL
 
           style_index = value['s'].to_i #nil goes to 0 (default)
 
-          worksheet.sheet_data[cell_index[0]][cell_index[1]] =
-            Cell.new(worksheet,cell_index[0],cell_index[1],cell_data,cell_formula,
-              data_type,style_index,cell_formula_attr)
-          cell = worksheet.sheet_data[cell_index[0]][cell_index[1]]
+          c = Cell.new
+          c.worksheet = worksheet
+          c.row = cell_index[0]
+          c.column = cell_index[1]
+          c.raw_value = cell_data
+          c.datatype = data_type || RubyXL::Cell::SHARED_STRING
+          c.formula = cell_formula
+          c.style_index = style_index
+          # cell_formula_attr
+          worksheet.sheet_data[cell_index[0]][cell_index[1]] = c
         }
       }
 

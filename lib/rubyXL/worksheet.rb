@@ -339,14 +339,24 @@ class Worksheet
     @merged_cells << RubyXL::Reference.new(row1, row2, col1, col2)
   end
 
-  def add_cell(row = 0, column=0, data='', formula=nil,overwrite=true)
+  def add_cell(row = 0, column=0, data='', formula=nil, overwrite=true)
     validate_workbook
     ensure_cell_exists(row, column)
 
     datatype = (formula.nil?) ? RubyXL::Cell::RAW_STRING : ''
 
     if overwrite || @sheet_data[row][column].nil?
-      @sheet_data[row][column] = Cell.new(self,row,column,data,formula,datatype)
+      c = Cell.new
+      c.worksheet = self
+      c.row = row
+      c.column = column
+      c.raw_value = data
+      c.datatype = datatype || SHARED_STRING
+      c.formula = formula
+      c.style_index = 0
+
+      @sheet_data[row][column] = c
+
 
       if (data.is_a?Integer) || (data.is_a?Float)
         @sheet_data[row][column].datatype = ''
@@ -360,7 +370,7 @@ class Worksheet
       end
     end
 
-    add_cell_style(row,column)
+    add_cell_style(row, column)
 
     return @sheet_data[row][column]
   end
@@ -430,7 +440,11 @@ class Worksheet
           @row_styles[(row_num+1)] = {:style=>0}
         end
         if old_cell.style_index != 0 && old_cell.style_index != @row_styles[(row_num+1)][:style]
-          c = Cell.new(self,row_index,i)
+          c = Cell.new
+          c.worksheet = self
+          c.row = row_index
+          c.column = i
+          c.datatype = RubyXL::Cell::SHARED_STRING
           c.style_index = old_cell.style_index
           @sheet_data[row_index][i] = c
         end
@@ -495,15 +509,20 @@ class Worksheet
     #go through each cell in column
     @sheet_data.each_with_index do |row, row_index|
       old_cell = row[col_index]
-      new_cell = nil
+      c = nil
 
       if old_cell && old_cell.style_index != 0 &&
            old_range && old_range.style_index != old_cell.style_index.to_i then
-        new_cell = Cell.new(self, row_index, col_index)
-        new_cell.style_index = old_cell.style_index
+
+        c = Cell.new
+        c.worksheet = self
+        c.row = row_index
+        c.column = col_index
+        c.datatype = RubyXL::Cell::SHARED_STRING
+        c.style_index = old_cell.style_index
       end
 
-      row.insert(col_index, new_cell)
+      row.insert(col_index, c)
     end
 
     ColumnRange.insert_column(col_index, @column_ranges)
