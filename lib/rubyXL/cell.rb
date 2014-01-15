@@ -1,5 +1,5 @@
 module RubyXL
-  class Cell < PrivateClass
+  class Cell
     SHARED_STRING = 's'
     RAW_STRING = 'str'
     ERROR = 'e'
@@ -38,7 +38,7 @@ module RubyXL
     def change_fill(rgb='ffffff')
       validate_worksheet
       Color.validate_color(rgb)
-      @style_index = modify_fill(@workbook, @style_index,rgb)
+      @style_index = @workbook.modify_fill(@style_index,rgb)
     end
 
     # Changes font name of cell
@@ -114,19 +114,19 @@ module RubyXL
     # changes horizontal alignment of cell
     def change_horizontal_alignment(alignment='center')
       validate_worksheet
-      @style_index = modify_alignment(@workbook,@style_index,true,alignment)
+      @style_index = @workbook.modify_alignment(@style_index, true, alignment)
     end
 
     # changes vertical alignment of cell
     def change_vertical_alignment(alignment='center')
       validate_worksheet
-      @style_index = modify_alignment(@workbook,@style_index,false,alignment)
+      @style_index = @workbook.modify_alignment(@style_index, false, alignment)
     end
 
     # changes wrap of cell
     def change_text_wrap(wrap=false)
       validate_worksheet
-      @style_index = modify_text_wrap(@workbook,@style_index,wrap)
+      @style_index = @workbook.modify_text_wrap(@style_index, wrap)
     end
 
     # changes top border of cell

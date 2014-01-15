@@ -1,5 +1,5 @@
 module RubyXL
-class Worksheet < PrivateClass
+class Worksheet
   include Enumerable
 
   attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :merged_cells, :pane,
@@ -106,7 +106,6 @@ class Worksheet < PrivateClass
   #changes color of fill in (zer0 indexed) row
   def change_row_fill(row = 0, rgb = 'ffffff')
     validate_workbook
-    validate_nonnegative(row)
     ensure_cell_exists(row)
     Color.validate_color(rgb)
 
@@ -115,7 +114,7 @@ class Worksheet < PrivateClass
       @row_styles[(Integer(row)+1)][:style] = 0
     end
 
-    @row_styles[(Integer(row)+1)][:style] = modify_fill(@workbook,Integer(@row_styles[(Integer(row)+1)][:style]),rgb)
+    @row_styles[(Integer(row)+1)][:style] = @workbook.modify_fill(Integer(@row_styles[(Integer(row)+1)][:style]),rgb)
 
     @sheet_data[Integer(row)].each do |c|
       unless c.nil?
@@ -176,8 +175,6 @@ class Worksheet < PrivateClass
 
   def change_row_height(row = 0, height=10)
     validate_workbook
-    validate_nonnegative(row)
-
     ensure_cell_exists(row)
 
     if height.to_i.to_s == height.to_s
@@ -284,7 +281,6 @@ class Worksheet < PrivateClass
 
   def change_column_width(col = 0, width = 13)
     validate_workbook
-    validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
     RubyXL::ColumnRange.update(col, @column_ranges, { 'width' => width, 'customWidth' => 1 })
@@ -297,11 +293,10 @@ class Worksheet < PrivateClass
 
   def change_column_fill(col=0, color_index='ffffff')
     validate_workbook
-    validate_nonnegative(col)
     Color.validate_color(color_index)
     ensure_cell_exists(0, col)
 
-    new_style_index = modify_fill(@workbook, get_column_style_index(col), color_index)
+    new_style_index = @workbook.modify_fill(get_column_style_index(col), color_index)
     RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
     @sheet_data.each { |row|
@@ -346,8 +341,6 @@ class Worksheet < PrivateClass
 
   def add_cell(row = 0, column=0, data='', formula=nil,overwrite=true)
     validate_workbook
-    validate_nonnegative(row)
-    validate_nonnegative(column)
     ensure_cell_exists(row, column)
 
     datatype = (formula.nil?) ? RubyXL::Cell::RAW_STRING : ''
@@ -375,15 +368,11 @@ class Worksheet < PrivateClass
   def add_cell_obj(cell, overwrite=true)
     validate_workbook
 
-    if cell.nil?
-      return cell
-    end
+    return nil if cell.nil?
 
     row = cell.row
     column = cell.column
 
-    validate_nonnegative(row)
-    validate_nonnegative(column)
     ensure_cell_exists(row, column)
 
     if overwrite || @sheet_data[row][column].nil?
@@ -420,8 +409,6 @@ class Worksheet < PrivateClass
   #USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
   def insert_row(row_index=0)
     validate_workbook
-    validate_nonnegative(row_index)
-
     ensure_cell_exists(row_index)
 
     @sheet_data.insert(row_index,Array.new(@sheet_data[row_index].size))
@@ -501,7 +488,6 @@ class Worksheet < PrivateClass
   # USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
   def insert_column(col_index = 0)
     validate_workbook
-    validate_nonnegative(col_index)
     ensure_cell_exists(0, col_index)
 
     old_range = col_index > 0 ? RubyXL::ColumnRange.find(col_index, @column_ranges) : RubyXL::ColumnRange.new
@@ -533,8 +519,6 @@ class Worksheet < PrivateClass
 
   def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
     validate_workbook
-    validate_nonnegative(row)
-    validate_nonnegative(col)
     ensure_cell_exists(row, col)
 
     case shift
@@ -879,7 +863,6 @@ class Worksheet < PrivateClass
   # main method to change font, called from each separate font mutator method
   def change_row_font(row, change_type, arg, font)
     validate_workbook
-    validate_nonnegative(row)
     ensure_cell_exists(row)
 
     xf = workbook.register_new_font(font, get_row_xf(row))
@@ -895,7 +878,6 @@ class Worksheet < PrivateClass
   # main method to change font, called from each separate font mutator method
   def change_column_font(col, change_type, arg, font, xf)
     validate_workbook
-    validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
     xf = workbook.register_new_font(font, xf)
@@ -952,6 +934,9 @@ class Worksheet < PrivateClass
   # Ensures that cell with +row_index+ and +col_index+ exists in
   #  +sheet_data+ arrays, growing them up if necessary.
   def ensure_cell_exists(row_index, col_index = 0)
+    validate_nonnegative(row_index)
+    validate_nonnegative(col_index)
+
     # Writing anything to a cell in the array automatically creates all the members
     # with lower indices, filling them with +nil+s. But, we can't just write +nil+
     # to +col_index+ because it may be less than +size+! So we read from that index
@@ -1000,7 +985,7 @@ class Worksheet < PrivateClass
     end
 
     @row_styles[(row+1)][:style] =
-      modify_alignment(@workbook,@row_styles[(row+1)][:style],is_horizontal,alignment)
+      @workbook.modify_alignment(@row_styles[(row+1)][:style], is_horizontal, alignment)
 
     @sheet_data[row].each do |c|
       unless c.nil?
@@ -1015,10 +1000,9 @@ class Worksheet < PrivateClass
 
   def change_column_alignment(col,alignment,is_horizontal)
     validate_workbook
-    validate_nonnegative(col)
     ensure_cell_exists(0, col)
 
-    new_style_index = modify_alignment(@workbook, get_column_style_index(col), is_horizontal, alignment)
+    new_style_index = @workbook.modify_alignment(get_column_style_index(col), is_horizontal, alignment)
     RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
 
     @sheet_data.each { |row|
@@ -1034,7 +1018,6 @@ class Worksheet < PrivateClass
 
   def change_row_border(row, direction, weight)
     validate_workbook
-    validate_nonnegative(row)
     ensure_cell_exists(row)
 
     xf = get_row_xf(row)
@@ -1060,7 +1043,6 @@ class Worksheet < PrivateClass
   def change_column_border(col, direction, weight)
     col = Integer(col)
     validate_workbook
-    validate_nonnegative(col)
     ensure_cell_exists(0, col)
      
     xf = get_col_xf(col)
@@ -1106,6 +1088,11 @@ class Worksheet < PrivateClass
     end
     return nil
   end
+
+  def validate_nonnegative(row_or_col)
+    raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
+  end
+  private :validate_nonnegative
 
 end #end class
 end

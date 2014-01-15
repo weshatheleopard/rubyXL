@@ -1,5 +1,4 @@
 require 'rubyXL/workbook'
-require 'rubyXL/private_class'
 require 'rubyXL/worksheet'
 require 'rubyXL/cell'
 require 'rubyXL/objects/ooxml_object'

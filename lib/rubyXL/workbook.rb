@@ -330,12 +330,34 @@ module RubyXL
       new_xf_id
     end
 
+    def modify_text_wrap(style_index, wrap = false)
+      xf = cell_xfs[style_index].dup
+      xf.alignment = RubyXL::Alignment.new(:wrap_text => wrap, :apply_alignment => true)
+      register_new_xf(xf, style_index)
+    end
+
+    def modify_alignment(style_index, is_horizontal, alignment)
+      xf = cell_xfs[style_index].dup
+      xf.alignment = RubyXL::Alignment.new(:apply_alignment => true,
+                                           :horizontal => is_horizontal ? alignment : nil, 
+                                           :vertical   => is_horizontal ? nil : alignment)
+      register_new_xf(xf, style_index)
+    end
+
+    def modify_fill(style_index, rgb)
+      xf = cell_xfs[style_index].dup
+      new_fill = RubyXL::Fill.new(:pattern_fill => 
+                   RubyXL::PatternFill.new(:pattern_type => 'solid',
+                                           :fg_color => RubyXL::Color.new(:rgb => rgb)))
+      new_xf = register_new_fill(new_fill, xf)
+      register_new_xf(new_xf, style_index)
+    end
+
     private
 
     # Do not change. Excel requires that some of these styles be default,
     # and will simply assume that the 0 and 1 indexed fonts are the default values.
     def fill_styles()
-
       @fonts = [ RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 10) ),
                  RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 8) ) ]
 
