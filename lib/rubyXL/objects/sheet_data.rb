@@ -1,9 +1,25 @@
 module RubyXL
 
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_v-1.html
   class CellValue < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
     define_element_name 'v'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_t-1.html
+  class Text < OOXMLObject
+    define_attribute(:_, :string, :accessor => :value)
+    define_element_name 't'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_is-1.html
+  class RichText < OOXMLObject
+    define_child_node(RubyXL::Text)               # t
+#    define_child_node(RubyXL::RichTextRun)        # r
+#    define_child_node(RubyXL::PhoneticRun)        # rPh
+#    define_child_node(RubyXL::PhoneticProperties) # phoneticPr
+    define_element_name 'is'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
@@ -14,9 +30,9 @@ module RubyXL
     define_attribute(:cm,  :int)
     define_attribute(:vm,  :int)
     define_attribute(:ph,  :bool)
-#    define_child_node(RubyXL::CellFormula) # f 
-    define_child_node(RubyXL::CellValue)
-#    define_child_node(RubyXL::RichText)  # is
+    define_child_node(RubyXL::CellFormula) # f 
+    define_child_node(RubyXL::CellValue)   # v
+    define_child_node(RubyXL::RichText)    # is
     define_element_name 'c'
 
     def row
@@ -50,6 +66,11 @@ module RubyXL
     def style_index=(v)
       self.s = v
     end
+
+#                      cell_value = if (cell.datatype == RubyXL::Cell::SHARED_STRING) then
+#                                     @workbook.shared_strings.get_index(cell.value).to_s
+#                                   else cell.value
+#                                   end
 
     include LegacyCell
   end
