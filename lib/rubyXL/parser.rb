@@ -292,21 +292,6 @@ module RubyXL
       worksheet
     end
 
-    def self.attr_int(node, attr_name) 
-      attr = node.attributes[attr_name]
-      attr && Integer(attr.value)
-    end
-
-    def self.attr_float(node, attr_name) 
-      attr = node.attributes[attr_name]
-      attr && Float(attr.value)
-    end
-
-    def self.attr_string(node, attr_name) 
-      attr = node.attributes[attr_name]
-      attr && attr.value
-    end
-
   end
 end
 

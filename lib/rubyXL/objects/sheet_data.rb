@@ -35,6 +35,22 @@ module RubyXL
       self.r = RubyXL::Reference.new(row || 0, v)
     end
 
+    def datatype
+      t
+    end
+
+    def datatype=(v)
+      self.t = v
+    end
+
+#    def style_index
+#      s
+#    end
+#
+#    def style_index=(v)
+#      self.s = v
+#    end
+
     include LegacyCell
   end
 

@@ -282,7 +282,7 @@ class Worksheet
     validate_workbook
     ensure_cell_exists(0, col)
 
-    RubyXL::ColumnRange.update(col, @column_ranges, { 'width' => width, 'customWidth' => 1 })
+    RubyXL::ColumnRange.update(col, @column_ranges, { :width => width, :custom_width => 1 })
   end
 
   def get_column_style_index(col)
@@ -296,7 +296,8 @@ class Worksheet
     ensure_cell_exists(0, col)
 
     new_style_index = @workbook.modify_fill(get_column_style_index(col), color_index)
-    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
+
+    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]
@@ -342,24 +343,18 @@ class Worksheet
     validate_workbook
     ensure_cell_exists(row, column)
 
-    datatype = (formula.nil?) ? RubyXL::Cell::RAW_STRING : ''
-
     if overwrite || @sheet_data[row][column].nil?
       c = Cell.new
       c.worksheet = self
       c.row = row
       c.column = column
       c.raw_value = data
-      c.datatype = datatype || SHARED_STRING
+      c.datatype = (formula || data.is_a?(Numeric)) ? '' : RubyXL::Cell::RAW_STRING
       c.formula = formula
       c.style_index = 0
 
       @sheet_data[row][column] = c
 
-
-      if (data.is_a?Integer) || (data.is_a?Float)
-        @sheet_data[row][column].datatype = ''
-      end
       col = RubyXL::ColumnRange.find(column, @column_ranges)
 
       if @row_styles[(row+1)] != nil
@@ -511,7 +506,7 @@ class Worksheet
       c = nil
 
       if old_cell && old_cell.style_index != 0 &&
-           old_range && old_range.style_index != old_cell.style_index.to_i then
+           old_range && old_range.style != old_cell.style_index then
 
         c = Cell.new
         c.worksheet = self
@@ -873,7 +868,7 @@ class Worksheet
 
   def get_cols_style_index(col)
     range = RubyXL::ColumnRange.find(col, @column_ranges)
-    (range && range.style_index) || 0
+    (range && range.style) || 0
   end
 
   # Helper method to update the row styles array
@@ -900,7 +895,7 @@ class Worksheet
 
     xf = workbook.register_new_font(font, xf)
     new_style_index = workbook.register_new_xf(xf, get_col_style(col))
-    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
+    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]
@@ -985,7 +980,7 @@ class Worksheet
   # Helper method to get the style index for a column
   def get_col_style(col)
     range = RubyXL::ColumnRange.find(col, @column_ranges)
-    (range && range.style_index) || 0
+    (range && range.style) || 0
   end
 
   def get_col_xf(col)
@@ -1021,7 +1016,7 @@ class Worksheet
     ensure_cell_exists(0, col)
 
     new_style_index = @workbook.modify_alignment(get_column_style_index(col), is_horizontal, alignment)
-    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
+    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]
@@ -1069,7 +1064,7 @@ class Worksheet
 
     xf = workbook.register_new_border(border, xf)
     new_style_index = workbook.register_new_xf(xf, get_col_style(col))
-    RubyXL::ColumnRange.update(col, @column_ranges, { 'style' => new_style_index })
+    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
     @sheet_data.each { |row|
       c = row[col]

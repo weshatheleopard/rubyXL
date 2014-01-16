@@ -38,16 +38,7 @@ module Writer
           ranges = @worksheet.column_ranges
           unless ranges.nil? || ranges.empty?
             root << (xml.create_element('cols') { |cols|
-              ranges.each do |range|
-
-                col_attrs = { :min   => range.min + 1,
-                              :max   => range.max + 1,
-                              :width => range.width || 10,
-                              :customWidth => range.custom_width || 0 }
-
-                col_attrs[:style] = range.style_index if range.style_index
-                cols << (xml.create_element('col', col_attrs))
-              end
+              ranges.each { |range| cols << range.write_xml(xml) }
             })
           end
 

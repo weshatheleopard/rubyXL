@@ -1,33 +1,27 @@
 module RubyXL
 
-  class ColumnRange
-    # +min+ and +max+ are column 0-based indices, as opposed to Excel's 1-based column numbers
-    attr_accessor :min, :max, :width, :custom_width, :style_index
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_col-1.html
+  class ColumnRange < OOXMLObject
+    define_attribute(:min,          :int,     :required => true)
+    define_attribute(:max,          :int,     :required => true)
+    define_attribute(:width,        :float)
+    define_attribute(:style,        :int,     :default => 0)
+    define_attribute(:hidden,       :bool,    :default => false)
+    define_attribute(:bestFit,      :bool,    :default => false)
+    define_attribute(:customWidth,  :bool,    :default => false)
+    define_attribute(:phonetic,     :bool,    :default => false)
+    define_attribute(:outlineLevel, :int,     :default => 0)
+    define_attribute(:collapsed,    :bool,    :default => false)
+    define_element_name 'col'
 
-    def initialize(attrs = {})
-      @min            = attrs['min']
-      @max            = attrs['max']
-      @width          = attrs['width']
-      @custom_width   = attrs['customWidth']
-      @style_index    = attrs['style']
-    end
-
-    def self.parse(node)
-      range = self.new
-      range.min          = RubyXL::Parser.attr_int(node, 'min') - 1
-      range.max          = RubyXL::Parser.attr_int(node, 'max') - 1
-      range.width        = RubyXL::Parser.attr_float(node, 'width')
-      range.custom_width = RubyXL::Parser.attr_int(node, 'customWidth')
-      range.style_index  = RubyXL::Parser.attr_int(node, 'style')
-      range
-    end 
-
-    def delete_column(col)
+    def delete_column(col_index)
+      col = col_index + 1
       self.min -=1 if min >= col
       self.max -=1 if max >= col
     end
 
-    def insert_column(col)
+    def insert_column(col_index)
+      col = col_index + 1
       self.min +=1 if min >= col
       self.max +=1 if max >= col - 1
     end
@@ -37,25 +31,23 @@ module RubyXL
     end
 
     def include?(col_index)
-      (min..max).include?(col_index)
+      ((min-1)..(max-1)).include?(col_index)
     end
 
     # This method is used to change attributes on a column range, which may involve 
     # splitting existing column range into multiples.
     def self.update(col_index, ranges, attrs)
+      col_num = col_index + 1
 
       old_range = RubyXL::ColumnRange.find(col_index, ranges)
 
       if old_range.nil? then
-        new_range = RubyXL::ColumnRange.new(attrs.merge({ 'min' => col_index, 'max' => col_index }))
+        new_range = RubyXL::ColumnRange.new(attrs.merge({ :min => col_num, :max => col_num }))
         ranges << new_range
         return new_range
-      elsif old_range.min == col_index && 
-              old_range.max == col_index then # Single column range, OK to change in place
-
-        old_range.width = attrs['width'] if attrs['width']
-        old_range.custom_width = attrs['customWidth'] if attrs['customWidth']
-        old_range.style_index = attrs['style'] if attrs['style']
+      elsif old_range.min == col_num && 
+              old_range.max == col_num then # Single column range, OK to change in place
+        attrs.each_pair { |k, v| old_range.send("#{k}=", v) }
         return old_range
       else
         raise "Range splitting not implemented yet"

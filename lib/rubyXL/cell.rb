@@ -4,8 +4,7 @@ module RubyXL
     RAW_STRING = 'str'
     ERROR = 'e'
 
-    attr_accessor #:row, :column, 
-    attr_accessor :datatype, :style_index, :formula, :worksheet
+    attr_accessor :style_index, :formula, :worksheet
 
     def value(args = {})
       return @value if args[:raw]
@@ -151,11 +150,11 @@ module RubyXL
     # changes contents of cell, with formula option
     def change_contents(data, formula=nil)
       validate_worksheet
-      @datatype = RAW_STRING
+      self.datatype = RAW_STRING
 
       case data
       when Date           then data = workbook.date_to_num(data)
-      when Integer, Float then @datatype = ''
+      when Integer, Float then self.datatype = ''
       end
 
       @value = data
@@ -257,7 +256,7 @@ module RubyXL
     def inspect
       str = "(#{row},#{column}): #{@value}" 
       str += " =#{@formula}" if @formula
-      str += ", datatype = #{@datatype}, style_index = #{@style_index}"
+      str += ", datatype = #{self.datatype}, style_index = #{@style_index}"
       return str
     end
 
