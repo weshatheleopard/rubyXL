@@ -4,7 +4,7 @@ module RubyXL
     RAW_STRING = 'str'
     ERROR = 'e'
 
-    attr_accessor :style_index, :formula, :worksheet
+    attr_accessor :formula, :worksheet
 
     def value(args = {})
       return @value if args[:raw]
@@ -31,7 +31,7 @@ module RubyXL
     def change_fill(rgb='ffffff')
       validate_worksheet
       Color.validate_color(rgb)
-      @style_index = workbook.modify_fill(@style_index,rgb)
+      self.style_index = workbook.modify_fill(self.style_index,rgb)
     end
 
     # Changes font name of cell
@@ -101,25 +101,25 @@ module RubyXL
     # Helper method to update the font array and xf array
     def update_font_references(modified_font)
       xf = workbook.register_new_font(modified_font, get_cell_xf)
-      @style_index = workbook.register_new_xf(xf, @style_index)
+      self.style_index = workbook.register_new_xf(xf, self.style_index)
     end
 
     # changes horizontal alignment of cell
     def change_horizontal_alignment(alignment='center')
       validate_worksheet
-      @style_index = workbook.modify_alignment(@style_index, true, alignment)
+      self.style_index = workbook.modify_alignment(self.style_index, true, alignment)
     end
 
     # changes vertical alignment of cell
     def change_vertical_alignment(alignment='center')
       validate_worksheet
-      @style_index = workbook.modify_alignment(@style_index, false, alignment)
+      self.style_index = workbook.modify_alignment(self.style_index, false, alignment)
     end
 
     # changes wrap of cell
     def change_text_wrap(wrap=false)
       validate_worksheet
-      @style_index = workbook.modify_text_wrap(@style_index, wrap)
+      self.style_index = workbook.modify_text_wrap(self.style_index, wrap)
     end
 
     # changes top border of cell
@@ -256,7 +256,7 @@ module RubyXL
     def inspect
       str = "(#{row},#{column}): #{@value}" 
       str += " =#{@formula}" if @formula
-      str += ", datatype = #{self.datatype}, style_index = #{@style_index}"
+      str += ", datatype = #{self.datatype}, style_index = #{self.style_index}"
       return str
     end
 
@@ -269,7 +269,7 @@ module RubyXL
       border.set_edge_style(direction, weight)
 
       xf = workbook.register_new_border(border, get_cell_xf)
-      @style_index = workbook.register_new_xf(xf, @style_index)
+      self.style_index = workbook.register_new_xf(xf, self.style_index)
     end
 
     def get_border(direction)
@@ -296,11 +296,11 @@ module RubyXL
     end
 
     def get_cell_xf
-      workbook.cell_xfs[@style_index]
+      workbook.cell_xfs[self.style_index]
     end
 
     def get_cell_font
-      workbook.fonts[workbook.cell_xfs[@style_index].font_id]
+      workbook.fonts[workbook.cell_xfs[self.style_index].font_id]
     end
 
     def get_cell_border

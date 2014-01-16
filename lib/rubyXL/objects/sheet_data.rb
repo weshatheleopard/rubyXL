@@ -9,10 +9,10 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
   class Cell < OOXMLObject
     define_attribute(:r,   :ref)
-    define_attribute(:s,   :integer)
+    define_attribute(:s,   :int)
     define_attribute(:t,   :string,  :default => 'n', :values => %w{ b n e s str inlineStr })
-    define_attribute(:cm,  :integer)
-    define_attribute(:vm,  :integer)
+    define_attribute(:cm,  :int)
+    define_attribute(:vm,  :int)
     define_attribute(:ph,  :bool)
 #    define_child_node(RubyXL::CellFormula) # f 
     define_child_node(RubyXL::CellValue)
@@ -43,13 +43,13 @@ module RubyXL
       self.t = v
     end
 
-#    def style_index
-#      s
-#    end
-#
-#    def style_index=(v)
-#      self.s = v
-#    end
+    def style_index
+      s
+    end
+
+    def style_index=(v)
+      self.s = v
+    end
 
     include LegacyCell
   end
@@ -58,18 +58,18 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html
   class Row < OOXMLObject
-    define_attribute(:r,            :integer)
+    define_attribute(:r,            :int)
     define_attribute(:spans,        :string)
-    define_attribute(:s,            :integer)
-    define_attribute(:customFormat, :bool,    :default => false)
+    define_attribute(:s,            :int)
+    define_attribute(:customFormat, :bool,  :default => false)
     define_attribute(:ht,           :float)
-    define_attribute(:hidden,       :bool,    :default => false)
-    define_attribute(:customHeight, :bool,    :default => false)
-    define_attribute(:outlineLevel, :integer, :default => 0)
-    define_attribute(:collapsed,    :bool,    :default => false)
-    define_attribute(:thickTop,     :bool,    :default => false)
-    define_attribute(:thickBot,     :bool,    :default => false)
-    define_attribute(:ph,           :bool,    :default => false)
+    define_attribute(:hidden,       :bool,  :default => false)
+    define_attribute(:customHeight, :bool,  :default => false)
+    define_attribute(:outlineLevel, :int,   :default => 0)
+    define_attribute(:collapsed,    :bool,  :default => false)
+    define_attribute(:thickTop,     :bool,  :default => false)
+    define_attribute(:thickBot,     :bool,  :default => false)
+    define_attribute(:ph,           :bool,  :default => false)
     define_child_node(RubyXL::Cell, :collection => true, :accessor => :cells)
     define_element_name 'row'
 
