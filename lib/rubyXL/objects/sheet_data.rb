@@ -35,6 +35,10 @@ module RubyXL
     define_child_node(RubyXL::RichText)    # is
     define_element_name 'c'
 
+    def index_in_collection
+      r.col_range.begin - 1
+    end
+
     def row
       r && r.first_row
     end
@@ -93,6 +97,10 @@ module RubyXL
     define_attribute(:ph,           :bool,  :default => false)
     define_child_node(RubyXL::Cell, :collection => true, :accessor => :cells)
     define_element_name 'row'
+
+    def index_in_collection
+      r - 1
+    end
 
     def [](ind)
       cells[ind]

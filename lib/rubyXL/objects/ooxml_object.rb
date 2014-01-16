@@ -125,8 +125,16 @@ module RubyXL
           child_node_params = known_child_nodes[child_node_name]
           raise "Unknown child node: #{child_node_name}" if child_node_params.nil?
           parsed_object = child_node_params[:class].parse(child_node)
-          if child_node_params[:is_array] then obj.send(child_node_params[:accessor]) << parsed_object
-          else obj.send("#{child_node_params[:accessor]}=", parsed_object)
+          if child_node_params[:is_array] then
+            index = parsed_object.index_in_collection
+            collection = obj.send(child_node_params[:accessor])
+            if index.nil? then
+              collection << parsed_object
+            else
+              collection[index] = parsed_object
+            end
+          else
+            obj.send("#{child_node_params[:accessor]}=", parsed_object)
           end
         }
       end
@@ -138,6 +146,10 @@ module RubyXL
       new_copy = super
       new_copy.count = 0 if obtain_class_variable(:@@ooxml_countable, false)
       new_copy
+    end
+
+    def index_in_collection
+      nil
     end
 
     private
