@@ -74,36 +74,11 @@ module Writer
               end
 
               data << (xml.create_element('row', row_opts) { |row_xml|
-                row.each_with_index { |cell, j|
-                  unless cell.nil?
-                    #TODO do xml.c for all cases, inside specific.
-                    # if cell.formula.nil?
-                    c_opts = { :r => RubyXL::Reference.ind2ref(i, j), :s => cell.style_index }
-
-                    unless cell.datatype.nil? || cell.datatype == ''
-                      c_opts[:t] = cell.datatype
-                    end
-
-                    row_xml << (xml.create_element('c', c_opts) { |cell_xml|
-                      unless cell.formula.nil?
-
-                        attrs = {}
-                        attrs[:t] = cell.formula_attributes['t'] unless cell.formula_attributes['t'].nil?
-                        attrs[:ref] = cell.formula_attributes['ref'] unless cell.formula_attributes['ref'].nil?
-                        attrs[:si] = cell.formula_attributes['si'] unless cell.formula_attributes['si'].nil?
-
-                        cell_xml << xml.create_element('f', attrs, cell.formula)
-                      end
-
-                      cell_value = if (cell.datatype == RubyXL::Cell::SHARED_STRING) then
-                                     @workbook.shared_strings.get_index(cell.value).to_s
-                                   else cell.value
-                                   end
-
-                      cell_xml << xml.create_element('v', cell_value) unless cell_value.nil?
-                    })
-                  end #unless cell.nil?
-                } #row.each_with_index
+                row.each_with_index { |cell, row_index|
+                  next if cell.nil?
+                  cell.r ||= RubyXL::Reference.new(i, row_index)
+                  row_xml << cell.write_xml(xml)
+                }
               })
             }
           })
