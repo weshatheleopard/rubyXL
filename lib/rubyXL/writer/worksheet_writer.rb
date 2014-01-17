@@ -22,10 +22,29 @@ module Writer
                   'mc:Ignorable' => 'mv',
                   'mc:PreserveAttributes' => 'mv:*') { |root|
 
-          col = @worksheet.sheet_data.max_by{ |row| row.size }.size
-          row = @worksheet.sheet_data.size
+          min_row = RubyXL::Reference::ROW_MAX
+          min_col = RubyXL::Reference::COL_MAX
+          max_row = max_col = 0
 
-          root << xml.create_element('dimension', { :ref => RubyXL::Reference.new(0, row - 1, 0, col - 1) })
+          @worksheet.sheet_data.rows.each_with_index { |row, row_index|
+            next if row.nil?
+            row_has_cells = false # Row may have had all its cells deleted.
+
+            row.cells.each_with_index { |cell, col_index|
+              next if cell.nil?
+              row_has_cells = true
+              min_col = col_index if col_index < min_col
+              max_col = col_index if col_index > max_col
+            }
+
+            # TODO: check for other attributes, as row might have no cells, but row style.
+            if row_has_cells then 
+              min_row = row_index if row_index < min_row
+              max_row = row_index if row_index > min_row
+            end
+          }
+
+          root << xml.create_element('dimension', { :ref => RubyXL::Reference.new(min_row, max_row, min_col, max_col) })
 
           unless @worksheet.sheet_views.empty?
             root << xml.create_element('sheetViews') { |sheet_views|
@@ -43,7 +62,9 @@ module Writer
           end
 
           root << (xml.create_element('sheetData') { |data|
-            @worksheet.sheet_data.each_with_index { |row, i|
+            @worksheet.sheet_data.rows.each_with_index { |row, i|
+              next if row.nil?
+
               #TODO fix this spans thing. could be 2:3 (not necessary)
               if @worksheet.row_styles[(i+1)].nil?
                 @worksheet.row_styles[(i+1)] = {}
@@ -57,7 +78,7 @@ module Writer
 
               row_opts = {
                 :r            => i + 1,
-                :spans        => "1:#{row.size}",
+                :spans        => "1:#{row.cells.size}",
                 :customFormat => custom_format
               }
 
@@ -74,7 +95,7 @@ module Writer
               end
 
               data << (xml.create_element('row', row_opts) { |row_xml|
-                row.each_with_index { |cell, row_index|
+                row.cells.each_with_index { |cell, row_index|
                   next if cell.nil?
                   cell.r ||= RubyXL::Reference.new(i, row_index)
                   row_xml << cell.write_xml(xml)

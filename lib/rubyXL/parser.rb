@@ -166,11 +166,12 @@ module RubyXL
       dimensions = RubyXL::Reference.new(worksheet_xml.css('dimension').attribute('ref').value)
       cols = dimensions.last_col
 
+=begin
       # Create empty arrays for workcells. Using +downto()+ here so memory for +sheet_data[]+ is
       # allocated on the first iteration (in case of +upto()+, +sheet_data[]+ would end up being
       # reallocated on every iteration).
       dimensions.last_row.downto(0) { |i| worksheet.sheet_data[i] = Array.new(cols + 1) }
-
+=end
       namespaces = worksheet_xml.root.namespaces
 
       if @data_only
@@ -203,10 +204,12 @@ module RubyXL
         drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:drawing', namespaces)
         worksheet.drawings = drawing_nodes.collect { |n| n.attributes['id'] }
 
-        sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
-        worksheet.sheet_data2 = RubyXL::SheetData.parse(sheet_data.first)
       end
 
+      sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
+      worksheet.sheet_data = RubyXL::SheetData.parse(sheet_data.first)
+
+=begin
       worksheet_xml.xpath(row_xpath, namespaces).each { |row|
         unless @data_only
           ##row styles##
@@ -288,6 +291,7 @@ module RubyXL
           worksheet.sheet_data[cell_index[0]][cell_index[1]] = c
         }
       }
+=end
 
       worksheet
     end
