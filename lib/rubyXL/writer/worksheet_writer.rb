@@ -22,8 +22,7 @@ module Writer
                   'mc:Ignorable' => 'mv',
                   'mc:PreserveAttributes' => 'mv:*') { |root|
 
-          min_row = RubyXL::Reference::ROW_MAX
-          min_col = RubyXL::Reference::COL_MAX
+          min_row = min_col = nil
           max_row = max_col = 0
 
           @worksheet.sheet_data.rows.each_with_index { |row, row_index|
@@ -33,13 +32,13 @@ module Writer
             row.cells.each_with_index { |cell, col_index|
               next if cell.nil?
               row_has_cells = true
-              min_col = col_index if col_index < min_col
+              min_col = col_index if min_col.nil?
               max_col = col_index if col_index > max_col
             }
 
             # TODO: check for other attributes, as row might have no cells, but row style.
             if row_has_cells then 
-              min_row = row_index if row_index < min_row
+              min_row = row_index if min_row.nil?
               max_row = row_index if row_index > min_row
             end
           }
@@ -72,13 +71,13 @@ module Writer
               end
               custom_format = '1'
 
-              if @worksheet.row_styles[(i+1)][:style].to_s == '0'
+              if @worksheet.row_styles[(i+1)][:style].to_s == 0
                 custom_format = '0'
               end
 
               row_opts = {
                 :r            => i + 1,
-                :spans        => "1:#{row.cells.size}",
+                :spans        => "#{min_col + 1}:#{max_col + 1}",
                 :customFormat => custom_format
               }
 
