@@ -163,7 +163,11 @@ module RubyXL
       worksheet = Worksheet.new(wb, worksheet_name)
       wb.worksheets[i] = worksheet # Due to "validate_workbook" issues. Should remove that validation eventually.
       worksheet.sheet_id = sheet_id
-      dimensions = RubyXL::Reference.new(worksheet_xml.css('dimension').attribute('ref').value)
+
+      dimensions_node = worksheet_xml.css('dimension').first
+      return nil if dimensions_node.nil? # Temporary plug for Issue #76
+
+      dimensions = RubyXL::Reference.new(dimensions_node.attribute('ref').value)
       cols = dimensions.last_col
 
 =begin
