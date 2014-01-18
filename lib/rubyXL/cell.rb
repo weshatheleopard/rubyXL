@@ -103,6 +103,7 @@ module RubyXL
       xf = workbook.register_new_font(modified_font, get_cell_xf)
       self.style_index = workbook.register_new_xf(xf, self.style_index)
     end
+    private :update_font_references
 
     # changes horizontal alignment of cell
     def change_horizontal_alignment(alignment='center')
@@ -264,12 +265,7 @@ module RubyXL
 
     def change_border(direction, weight)
       validate_worksheet
-
-      border = get_cell_border.dup
-      border.set_edge_style(direction, weight)
-
-      xf = workbook.register_new_border(border, get_cell_xf)
-      self.style_index = workbook.register_new_xf(xf, self.style_index)
+      self.style_index = workbook.modify_border(self.style_index, direction, weight)
     end
 
     def get_border(direction)

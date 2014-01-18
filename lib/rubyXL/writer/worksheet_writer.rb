@@ -64,34 +64,15 @@ module Writer
             @worksheet.sheet_data.rows.each_with_index { |row, i|
               next if row.nil?
 
-              #TODO fix this spans thing. could be 2:3 (not necessary)
-              if @worksheet.row_styles[(i+1)].nil?
-                @worksheet.row_styles[(i+1)] = {}
-                @worksheet.row_styles[(i+1)][:style] = 0
-              end
-              custom_format = '1'
-
-              if @worksheet.row_styles[(i+1)][:style].to_s == 0
-                custom_format = '0'
-              end
-
               row_opts = {
                 :r            => i + 1,
                 :spans        => "#{min_col + 1}:#{max_col + 1}",
-                :customFormat => custom_format
+                :customFormat => row.custom_format || (row.s.to_i != 0)
               }
 
-              unless @worksheet.row_styles[(i+1)][:style].to_s == ''
-                row_opts[:s] = @worksheet.row_styles[(i+1)][:style]
-              end
-
-              unless @worksheet.row_styles[(i+1)][:height].to_s == ''
-                row_opts[:ht] = @worksheet.row_styles[(i+1)][:height]
-              end
-
-              unless @worksheet.row_styles[(i+1)][:customheight].to_s == ''
-                row_opts[:customHeight] = @worksheet.row_styles[(i+1)][:customHeight]
-              end
+              row_opts[:s] = row.s if row.s
+              row_opts[:ht] = row.ht if row.ht
+              row_opts[:customHeight] = row.custom_height if row.custom_height
 
               data << (xml.create_element('row', row_opts) { |row_xml|
                 row.cells.each_with_index { |cell, row_index|

@@ -4,20 +4,18 @@ class Worksheet
 
   attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :merged_cells, :pane,
                 :validations, :sheet_views, :legacy_drawings, :extLst, :workbook,
-                :row_styles, :drawings, :sheet_data2
+                :drawings
 
   SHEET_NAME_TEMPLATE = 'Sheet%d'
 
-  def initialize(workbook, sheet_name = nil, sheet_data= [[nil]], cols=[], merged_cells=[])
+  def initialize(workbook, sheet_name = nil)
     @workbook = workbook
 
     @sheet_name = sheet_name || get_default_name
     @sheet_id = nil
-    @sheet_data = sheet_data
-    @sheet_data2 = RubyXL::SheetData.new
-    @column_ranges = cols
+    @sheet_data = RubyXL::SheetData.new
+    @column_ranges = []
     @merged_cells = merged_cells || []
-    @row_styles = []
     @sheet_views = [ RubyXL::SheetView.new ]
     @extLst = nil
     @legacy_drawings = []
@@ -42,12 +40,12 @@ class Worksheet
   end
 
   def each
-    @sheet_data.each { |row| yield(row) }
+    @sheet_data.rows.each { |row| yield(row) }
   end
 
   #returns 2d array of just the cell values (without style or formula information)
   def extract_data(args = {})
-    @sheet_data.map {|row| row.map {|c| if c.is_a?(Cell) then c.value(args) else nil end}}
+    @sheet_data.rows.map {|row| row.cells.map {|c| if c.is_a?(Cell) then c.value(args) else nil end}}
   end
 
   def get_table(headers = [], opts = {})
@@ -62,7 +60,7 @@ class Worksheet
     table_hash[:table] = []
 
     header_row = @sheet_data[row_num]
-    header_row.each_with_index { |header_cell, index|
+    header_row.cells.each_with_index { |header_cell, index|
       break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
       next if header_cell.nil? || header_cell.value.nil?
       header = header_cell.value.to_s
@@ -73,7 +71,7 @@ class Worksheet
       original_row = row_num + 1
       current_row = original_row
 
-      cell = @sheet_data[current_row][index]
+      cell = @sheet_data.rows[current_row].cells[index]
 
       # makes array of hashes in table_hash[:table]
       # as well as hash of arrays in table_hash[header]
@@ -90,10 +88,10 @@ class Worksheet
         end
 
         current_row += 1
-        if @sheet_data[current_row].nil? then
+        if @sheet_data.rows[current_row].nil? then
           cell = nil
         else
-          cell = @sheet_data[current_row][index]
+          cell = @sheet_data.rows[current_row].cells[index]
         end
         cell_test = (!cell.nil? && !cell.value.nil?)
       end
@@ -103,23 +101,13 @@ class Worksheet
   end
 
   #changes color of fill in (zer0 indexed) row
-  def change_row_fill(row = 0, rgb = 'ffffff')
+  def change_row_fill(row_index = 0, rgb = 'ffffff')
     validate_workbook
-    ensure_cell_exists(row)
+    ensure_cell_exists(row_index)
     Color.validate_color(rgb)
 
-    if @row_styles[(Integer(row)+1)].nil?
-      @row_styles[(Integer(row)+1)] = {}
-      @row_styles[(Integer(row)+1)][:style] = 0
-    end
-
-    @row_styles[(Integer(row)+1)][:style] = @workbook.modify_fill(Integer(@row_styles[(Integer(row)+1)][:style]),rgb)
-
-    @sheet_data[Integer(row)].each do |c|
-      unless c.nil?
-        c.change_fill(rgb)
-      end
-    end
+    sheet_data.rows[row_index].s = @workbook.modify_fill(get_row_style(row_index), rgb)
+    @sheet_data[row_index].cells.each { |c| c.change_fill(rgb) unless c.nil? }
   end
 
   def change_row_font_name(row = 0, font_name = 'Verdana')
@@ -184,12 +172,8 @@ class Worksheet
       raise 'You must enter a number for the height'
     end
 
-    if @row_styles[(row+1)].nil?
-      @row_styles[(row+1)] = {}
-      @row_styles[(row+1)][:style] = 0
-    end
-    @row_styles[(row+1)][:height] = height
-    @row_styles[(row+1)][:customHeight] = '1'
+    sheet_data.rows[row].ht = height
+    sheet_data.rows[row].custom_height = true
   end
 
   def change_row_horizontal_alignment(row = 0,alignment='center')
@@ -299,7 +283,7 @@ class Worksheet
 
     RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
-    @sheet_data.each { |row|
+    @sheet_data.rows.each { |row|
       c = row[col]
       c.change_fill(color_index) if c
     }
@@ -343,7 +327,7 @@ class Worksheet
     validate_workbook
     ensure_cell_exists(row, column)
 
-    if overwrite || @sheet_data[row][column].nil?
+    if overwrite || @sheet_data.rows[row].cells[column].nil?
       c = Cell.new
       c.worksheet = self
       c.row = row
@@ -351,22 +335,16 @@ class Worksheet
       c.raw_value = data
       c.datatype = (formula || data.is_a?(Numeric)) ? '' : RubyXL::Cell::RAW_STRING
       c.formula = formula
-      c.style_index = 0
-
-      @sheet_data[row][column] = c
 
       col = RubyXL::ColumnRange.find(column, @column_ranges)
+      c.style_index = sheet_data.rows[row].s || (col && col.style_index) || 0
 
-      if @row_styles[(row+1)] != nil
-        @sheet_data[row][column].style_index = @row_styles[(row+1)][:style]
-      elsif col != nil
-        @sheet_data[row][column].style_index = col.style_index
-      end
+      @sheet_data.rows[row].cells[column] = c
     end
 
     add_cell_style(row, column)
 
-    return @sheet_data[row][column]
+    return @sheet_data.rows[row].cells[column]
   end
 
   def add_cell_obj(cell, overwrite=true)
@@ -379,31 +357,26 @@ class Worksheet
 
     ensure_cell_exists(row, column)
 
-    if overwrite || @sheet_data[row][column].nil?
-      @sheet_data[row][column] = cell
+    if overwrite || @sheet_data.rows[row].cells[column].nil?
+      @sheet_data.rows[row].cells[column] = cell
     end
 
-    add_cell_style(row,column)
+    add_cell_style(row, column)
 
-    return @sheet_data[row][column]
+    return @sheet_data.rows[row].cells[column]
   end
 
   def delete_row(row_index=0)
     validate_workbook
     validate_nonnegative(row_index)
+    return nil unless row_exists(row_index)
 
-    if row_index >= @sheet_data.size
-      return nil
-    end
-
-    deleted = @sheet_data.delete_at(row_index)
+    deleted = @sheet_data.rows.delete_at(row_index)
     row_num = row_index+1
-
-    @row_styles.delete_at(row_index)
 
     # Change cell row numbers
     row_index.upto(@sheet_data.size - 1) { |index|
-      @sheet_data[index].each{ |c| c.row -= 1 unless c.nil? }
+      @sheet_data[index].cells.each{ |c| c.row -= 1 unless c.nil? }
     }
 
     return deleted
@@ -411,83 +384,41 @@ class Worksheet
 
   #inserts row at row_index, pushes down, copies style from below (row previously at that index)
   #USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
-  def insert_row(row_index=0)
+  def insert_row(row_index = 0)
     validate_workbook
     ensure_cell_exists(row_index)
 
-    @sheet_data.insert(row_index,Array.new(@sheet_data[row_index].size))
+    old_row = @sheet_data.rows[row_index]
+    new_row = RubyXL::Row.new(:cells => Array.new(old_row.cells.size), :s => old_row.s)
 
-    row_num = row_index+1
-
-    #copy cell styles from row above, (or below if first row)
-    @sheet_data[row_index].each_index do |i|
-      if row_index > 0
-        old_cell = @sheet_data[row_index-1][i]
-      else
-        old_cell = @sheet_data[row_index+1][i]
-      end
-
-      unless old_cell.nil?
-        #only add cell if style exists, not copying content
-
-        if @row_styles[(row_num+1)].nil?
-          @row_styles[(row_num+1)] = {:style=>0}
-        end
-        if old_cell.style_index != 0 && old_cell.style_index != @row_styles[(row_num+1)][:style]
-          c = Cell.new
-          c.worksheet = self
-          c.row = row_index
-          c.column = i
-          c.datatype = RubyXL::Cell::SHARED_STRING
-          c.style_index = old_cell.style_index
-          @sheet_data[row_index][i] = c
-        end
-      end
-    end
-
-    #copy row styles from row above, (or below if first row)
-    (@row_styles.size+1).downto(row_num+1) do |i|
-      @row_styles[i] = @row_styles[(i-1)]
-    end
-
-    if row_index > 0
-      @row_styles[row_num] = @row_styles[(row_num-1)]
-    else
-      @row_styles[row_num] = nil #@row_styles[(row_num+1).to_s]
-    end
+    @sheet_data.rows.insert(row_index, new_row)
 
     #update row value for all rows below
-    (row_index+1).upto(@sheet_data.size-1) do |i|
-      row = @sheet_data[i]
-      row.each do |c|
-        unless c.nil?
-          c.row += 1
-        end
-      end
-    end
+    (row_index + 1).upto(@sheet_data.rows.size - 1) { |i|
+      row = @sheet_data.rows[i]
+      row.cells.each { |c|
+        c.row = i unless c.nil?
+      }
+    }
 
-    return @sheet_data[row_index]
+    return new_row
   end
 
   def delete_column(col_index=0)
     validate_workbook
     validate_nonnegative(col_index)
 
-    if col_index >= @sheet_data[0].size
-      return nil
-    end
+    return nil unless column_exists(col_index)
 
     #delete column
-    @sheet_data.map {|r| r.delete_at(col_index)}
+    @sheet_data.rows.each { |row| row.cells.delete_at(col_index) }
 
     #change column numbers for cells to right of deleted column
-    @sheet_data.each_with_index do |row,row_index|
-      (col_index...(row.size)).each do |index|
-        if @sheet_data[row_index][index].is_a?(Cell)
-          @sheet_data[row_index][index].column -= 1
-        end
-      end
-    end
+    @sheet_data.rows.each_with_index { |row, row_index|
+      row.cells.each_with_index { |c, col_index|
+        c.column -= 1 if c.is_a?(Cell)
+      }
+    }
 
     @column_ranges.each { |range| range.delete_column(col_index) }
   end
@@ -501,7 +432,7 @@ class Worksheet
     old_range = col_index > 0 ? RubyXL::ColumnRange.find(col_index, @column_ranges) : RubyXL::ColumnRange.new
 
     #go through each cell in column
-    @sheet_data.each_with_index do |row, row_index|
+    @sheet_data.rows.each_with_index { |row, row_index|
       old_cell = row[col_index]
       c = nil
 
@@ -516,18 +447,12 @@ class Worksheet
         c.style_index = old_cell.style_index
       end
 
-      row.insert(col_index, c)
-    end
+      row.insert_cell_shift_right(c, col_index)
+    }
 
     ColumnRange.insert_column(col_index, @column_ranges)
 
     #update column numbers
-    @sheet_data.each { |row|
-      (col_index + 1).upto(row.size) { |col|
-        row[col].column = col unless row[col].nil?
-      }
-    }
-
   end
 
   def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
@@ -537,16 +462,11 @@ class Worksheet
     case shift
     when nil then # No shifting at all
     when :right then
-      @sheet_data[row].insert(col,nil)
-      (row...(@sheet_data[row].size)).each { |index|
-        if @sheet_data[row][index].is_a?(Cell)
-          @sheet_data[row][index].column += 1
-        end
-      }
+      @sheet_data.rows[row].insert_cell_shift_right(nil, col)
     when :down then
-      @sheet_data << Array.new(@sheet_data[row].size)
+      @sheet_data.rows << RubyXL::Row.new(:cells => Array.new(@sheet_data.rows[row].size))
       (@sheet_data.size-1).downto(row+1) { |index|
-        @sheet_data[index][col] = @sheet_data[index-1][col]
+        @sheet_data.rows[index].cells[col] = @sheet_data.rows[index-1].cells[col]
       }
     else
       raise 'invalid shift option'
@@ -563,30 +483,20 @@ class Worksheet
     validate_nonnegative(row)
     validate_nonnegative(col)
 
-    return nil if @sheet_data.size <= row || @sheet_data[row].size <= col
+    return nil unless row_exists(row) && column_exists(col)
 
     cell = @sheet_data[row][col]
 
     case shift
     when nil then
-      @sheet_data[row][col] = nil
+      @sheet_data.rows[row].cells[col] = nil
     when :left then
-      @sheet_data[row].delete_at(col)
-      @sheet_data[row] << nil
-      (col...(@sheet_data[row].size)).each { |index|
-        if @sheet_data[row][index].is_a?(Cell)
-          @sheet_data[row][index].column -= 1
-        end
-      }
+      @sheet_data.rows[row].delete_cell_shift_left(col)
     when :up then
-      (row...(@sheet_data.size-1)).each { |index|
-        @sheet_data[index][col] = @sheet_data[index+1][col]
-        if @sheet_data[index][col].is_a?(Cell)
-          @sheet_data[index][col].row -= 1
-        end
+      (row...(@sheet_data.size - 1)).each { |index|
+        c = @sheet_data.rows[index].cells[col] = @sheet_data.rows[index + 1].cells[col]
+        c.row -= 1 if c.is_a?(Cell)
       }
-
-      @sheet_data.last[col].row -= 1 if @sheet_data.last[col].is_a?(Cell)
     else
       raise 'invalid shift option'
     end
@@ -597,18 +507,8 @@ class Worksheet
   def get_row_fill(row = 0)
     validate_workbook
     validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1)].nil?
-      return "ffffff" #default, white
-    end
-
-    xf = get_row_xf(row)
-
-    return @workbook.get_fill_color(xf)
+    return nil unless row_exists(row)
+    return @workbook.get_fill_color(get_row_xf(row))
   end
 
   def get_row_font_name(row = 0)
@@ -650,16 +550,9 @@ class Worksheet
   def get_row_height(row = 0)
     validate_workbook
     validate_nonnegative(row)
-
-    if @sheet_data.size <= row
-      return nil
-    end
-
-    if @row_styles[(row+1)].nil?
-      return 13
-    else
-      @row_styles[(row+1)][:height]
-    end
+    return nil unless row_exists(row)
+    row = sheet_data.rows[row]
+    row && row.ht || 13
   end
 
   def get_row_horizontal_alignment(row = 0)
@@ -728,20 +621,17 @@ class Worksheet
   def get_column_width(col=0)
     validate_workbook
     validate_nonnegative(col)
-
-    if @sheet_data[0].size <= col
-      return nil
-    end
+    return nil unless column_exists(col)
 
     range = RubyXL::ColumnRange.find(col, @column_ranges)
-
     (range && range.width) || 10
   end
 
   def get_column_fill(col=0)
     validate_workbook
     validate_nonnegative(col)
-    return nil if @sheet_data[0].size <= col
+    return nil unless column_exists(col)
+
     @workbook.get_fill_color(get_col_xf(col))
   end
 
@@ -784,36 +674,24 @@ class Worksheet
   Worksheet::UNDERLINE = 5
   Worksheet::STRIKETHROUGH = 6
 
-  #row_styles is assumed to not be nil at specified row
-  def get_row_xf(row)
-    @row_styles[(row+1)] ||= { :style => 0 }
-    @workbook.cell_xfs[@row_styles[(row+1)][:style]]
-  end
-
   def row_font(row)
     validate_workbook
     validate_nonnegative(row)
-    xf = get_row_xf(row)
-    return nil if @sheet_data.size <= row
-    @workbook.fonts[xf.font_id]
+    return nil unless row_exists(row)
+    @workbook.fonts[get_row_xf(row).font_id]
   end
 
   def get_row_alignment(row, is_horizontal)
     validate_workbook
     validate_nonnegative(row)
 
-    if @sheet_data.size <= row || @row_styles[(row+1)].nil?
-      return nil
-    end
+    return nil unless row_exists(row)
 
-    xf_obj = @workbook.cell_xfs[@row_styles[(row+1)][:style]]
-
+    xf_obj = get_row_xf(row)
     return nil if xf_obj.alignment.nil?
 
-    if is_horizontal then
-      return xf_obj.alignment.horizontal
-    else
-      return xf_obj.alignment.vertical
+    if is_horizontal then return xf_obj.alignment.horizontal
+    else                  return xf_obj.alignment.vertical
     end
   end
 
@@ -821,7 +699,7 @@ class Worksheet
     validate_workbook
     validate_nonnegative(row)
 
-    return nil if @sheet_data.size <= row || @row_styles[(row+1)].nil?
+    return nil unless row_exists(row)
 
     border = @workbook.borders[get_row_xf(row).border_id]
     border && border.get_edge_style(border_direction)
@@ -830,17 +708,16 @@ class Worksheet
   def column_font(col)
     validate_workbook
     validate_nonnegative(col)
+    return nil unless column_exists(col)
 
-    return nil if @sheet_data[0].size <= col
-    style_index = get_cols_style_index(col)
-    @workbook.fonts[@workbook.cell_xfs[style_index].font_id]
+    @workbook.fonts[@workbook.cell_xfs[get_cols_style_index(col)].font_id]
   end
 
   def get_column_alignment(col, type)
     validate_workbook
     validate_nonnegative(col)
+    return nil unless column_exists(col)
 
-    return nil if @sheet_data[0].size <= col
     xf = @workbook.cell_xfs[get_cols_style_index(col)]
     xf.alignment && xf.alignment.send(type)
   end
@@ -848,11 +725,9 @@ class Worksheet
   def get_column_border(col, border_direction)
     validate_workbook
     validate_nonnegative(col)
-
-    return nil if @sheet_data[0].size <= col
+    return nil unless column_exists(col)
 
     xf = @workbook.cell_xfs[get_cols_style_index(col)]
-
     border = @workbook.borders[xf.border_id]
     border && border.get_edge_style(border_direction)
   end
@@ -879,12 +754,9 @@ class Worksheet
     ensure_cell_exists(row)
 
     xf = workbook.register_new_font(font, get_row_xf(row))
-    @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
+    sheet_data.rows[row].s = workbook.register_new_xf(xf, get_row_style(row))
 
-    @sheet_data[row] ||= []
-    @sheet_data[Integer(row)].each { |c|
-      font_switch(c, change_type, arg) unless c.nil?
-    }
+    @sheet_data[row].cells.each { |c| font_switch(c, change_type, arg) unless c.nil? }
   end
 
   # Helper method to update the fonts and cell styles array
@@ -897,7 +769,7 @@ class Worksheet
     new_style_index = workbook.register_new_xf(xf, get_col_style(col))
     RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
-    @sheet_data.each { |row|
+    @sheet_data.rows.each { |row|
       c = row[col]
       font_switch(c, change_type, arg) unless c.nil?
     }
@@ -950,32 +822,29 @@ class Worksheet
     validate_nonnegative(row_index)
     validate_nonnegative(col_index)
 
+    existing_row_count = @sheet_data.rows.size
+
+    # Expand cell arrays in existing rows, if necessary.
     # Writing anything to a cell in the array automatically creates all the members
     # with lower indices, filling them with +nil+s. But, we can't just write +nil+
     # to +col_index+ because it may be less than +size+! So we read from that index
     # (if it didn't exist, we will get nil) and write right back.
-    @sheet_data.each { |r| r[col_index] = r[col_index] }
+    @sheet_data.rows.each { |r| r.cells[col_index] = r.cells[col_index] }
 
-    col_size = @sheet_data[0].size
+    first_row = @sheet_data.rows.first
+    col_size = [ first_row && first_row.cells.size || 0, col_index ].max
 
+    # Now create new rows with the required number of cells.
     # Doing +.downto()+ here so the reallocation of row array has to only happen once,
     # when it is extended to max size; after that, we will be writing into existing
     # (but empty) members. Additional checks are not necessary, because if +row_index+
     # is less than +size+, then +.downto()+ will not execute, and if it equals +size+,
     # then the block will be invoked exactly once, which takes care of the case when
     # +row_index+ is greater than the current max index by exactly 1.
-    row_index.downto(@sheet_data.size) { |r| @sheet_data[r] = Array.new(col_size) } 
+    row_index.downto(existing_row_count) { |r| 
+      @sheet_data.rows[r] = RubyXL::Row.new(:cells => Array.new(col_size) )
+    } 
   end  
-
-  # Helper method to get the style index for a row
-  def get_row_style(row)
-    if @row_styles[(row+1)].nil?
-      @row_styles[(row+1)] = {}
-      @row_styles[(row+1)][:style] = 0
-      @workbook.fonts[0].count += 1
-    end
-    return @row_styles[(row+1)][:style]
-  end
 
   # Helper method to get the style index for a column
   def get_col_style(col)
@@ -983,8 +852,17 @@ class Worksheet
     (range && range.style) || 0
   end
 
+  def get_row_style(row)
+    r = sheet_data.rows[row]
+    (r && r.s) || 0
+  end
+
   def get_col_xf(col)
     @workbook.cell_xfs[get_col_style(col)]
+  end
+
+  def get_row_xf(row)
+    @workbook.cell_xfs[get_row_style(row)]
   end
 
   def change_row_alignment(row,alignment,is_horizontal)
@@ -992,23 +870,14 @@ class Worksheet
     validate_nonnegative(row)
     ensure_cell_exists(row)
 
-    if @row_styles[(row+1)].nil?
-      @row_styles[(row+1)] = {}
-      @row_styles[(row+1)][:style] = 0
-    end
+    sheet_data.rows[row].s = @workbook.modify_alignment(get_row_style(row), is_horizontal, alignment)
 
-    @row_styles[(row+1)][:style] =
-      @workbook.modify_alignment(@row_styles[(row+1)][:style], is_horizontal, alignment)
-
-    @sheet_data[row].each do |c|
-      unless c.nil?
-        if is_horizontal
-          c.change_horizontal_alignment(alignment)
-        else
-          c.change_vertical_alignment(alignment)
-        end
+    @sheet_data[row].cells.each { |c|
+      next if c.nil?
+      if is_horizontal then c.change_horizontal_alignment(alignment)
+      else                  c.change_vertical_alignment(alignment)
       end
-    end
+    }
   end
 
   def change_column_alignment(col,alignment,is_horizontal)
@@ -1018,7 +887,7 @@ class Worksheet
     new_style_index = @workbook.modify_alignment(get_column_style_index(col), is_horizontal, alignment)
     RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
-    @sheet_data.each { |row|
+    @sheet_data.rows.each { |row|
       c = row[col]
       next if c.nil?
       if is_horizontal
@@ -1033,14 +902,9 @@ class Worksheet
     validate_workbook
     ensure_cell_exists(row)
 
-    xf = get_row_xf(row)
-    border = @workbook.borders[xf.border_id].dup
-    border.set_edge_style(direction, weight)
+    sheet_data.rows[row].s = @workbook.modify_border(get_row_style(row), direction, weight)
 
-    xf = workbook.register_new_border(border, xf)
-    @row_styles[(row+1)][:style] = workbook.register_new_xf(xf, @row_styles[(row+1)][:style])
-
-    @sheet_data[row].each { |c|
+    @sheet_data[row].cells.each { |c|
       next if c.nil?
       case direction
       when :top      then c.change_border_top(weight)
@@ -1054,20 +918,14 @@ class Worksheet
   end
 
   def change_column_border(col, direction, weight)
-    col = Integer(col)
     validate_workbook
     ensure_cell_exists(0, col)
-     
-    xf = get_col_xf(col)
-    border = @workbook.borders[xf.border_id].dup
-    border.set_edge_style(direction, weight)
 
-    xf = workbook.register_new_border(border, xf)
-    new_style_index = workbook.register_new_xf(xf, get_col_style(col))
+    new_style_index = @workbook.modify_border(get_col_style(col), direction, weight)
     RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
 
-    @sheet_data.each { |row|
-      c = row[col]
+    @sheet_data.rows.each { |row|
+      c = row.cells[col]
       next if c.nil?
       case direction
       when :top      then c.change_border_top(weight)
@@ -1081,7 +939,7 @@ class Worksheet
   end
 
   def add_cell_style(row,column)
-    xf = @workbook.cell_xfs[@sheet_data[row][column].style_index]
+    xf = @workbook.cell_xfs[@sheet_data.rows[row].cells[column].style_index]
     @workbook.fonts[xf.font_id].count += 1
     @workbook.fills[xf.fill_id].count += 1
     @workbook.borders[xf.border_id].count += 1
@@ -1092,13 +950,13 @@ class Worksheet
     validate_workbook
     index = nil
 
-    @sheet_data.each_with_index do |row, index|
+    @sheet_data.rows.each_with_index { |row, index|
       cells_content = cells_content.map { |header| header.to_s.downcase.strip }
-      original_cells_content = row.map { |cell| cell.nil? ? '' : cell.value.to_s.downcase.strip }
+      original_cells_content = row.cells.map { |cell| cell.nil? ? '' : cell.value.to_s.downcase.strip }
       if (cells_content & original_cells_content).size == cells_content.size
         return index
       end
-    end
+    }
     return nil
   end
 
@@ -1106,6 +964,15 @@ class Worksheet
     raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
   end
   private :validate_nonnegative
+
+  def column_exists(col)
+    @sheet_data.rows[0].cells.size > col
+  end
+
+  def row_exists(row)
+    @sheet_data.rows.size > row
+  end
+
 
 end #end class
 end

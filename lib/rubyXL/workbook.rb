@@ -303,22 +303,6 @@ module RubyXL
       new_xf
     end
 
-    def register_new_border(new_border, old_xf)
-      new_xf = old_xf.dup
-
-      unless borders[old_xf.border_id].count == 1 && old_xf.border_id > 0 # If the old border not used anymore, just replace it
-        new_xf.border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
-        new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
-      end
-
-      borders[old_xf.border_id].count -= 1
-      new_border.count += 1
-      borders[new_xf.border_id] = new_border
-
-      new_xf.apply_border = true
-      new_xf
-    end
-
     def register_new_xf(new_xf, old_style_index)
       new_xf_id = cell_xfs.find_index { |xf| xf == new_xf } # Use existing XF, if it exists
       new_xf_id ||= cell_xfs.size # If this XF has never existed before, add it to collection.
@@ -353,6 +337,27 @@ module RubyXL
       register_new_xf(new_xf, style_index)
     end
 
+    def modify_border(style_index, direction, weight)
+      old_xf = cell_xfs[style_index].dup
+      new_border = borders[old_xf.border_id].dup
+      new_border.set_edge_style(direction, weight)
+
+      new_xf = old_xf.dup
+
+      unless borders[old_xf.border_id].count == 1 && old_xf.border_id > 0 # If the old border not used anymore, just replace it
+        new_xf.border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
+        new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
+      end
+
+      borders[old_xf.border_id].count -= 1
+      new_border.count += 1
+      borders[new_xf.border_id] = new_border
+
+      new_xf.apply_border = true
+
+      register_new_xf(new_xf, style_index)
+    end
+
     private
 
     # Do not change. Excel requires that some of these styles be default,
@@ -375,8 +380,8 @@ module RubyXL
     #fills shared strings hash, contains each unique string
     def fill_shared_strings()
       @worksheets.compact.each { |sheet|
-        sheet.sheet_data.each { |row|
-          row.each { |cell|
+        sheet.sheet_data.rows.each { |row|
+          row.cells.each { |cell|
             if cell && cell.value && cell.datatype == RubyXL::Cell::SHARED_STRING then
               get_index(cell.value.to_s, :add_if_missing)
             end

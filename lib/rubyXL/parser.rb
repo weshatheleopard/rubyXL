@@ -164,18 +164,12 @@ module RubyXL
       wb.worksheets[i] = worksheet # Due to "validate_workbook" issues. Should remove that validation eventually.
       worksheet.sheet_id = sheet_id
 
-      dimensions_node = worksheet_xml.css('dimension').first
-      return nil if dimensions_node.nil? # Temporary plug for Issue #76
+      dimensions_node = worksheet_xml.css('dimension')
+      return nil if dimensions_node.empty? # Temporary plug for Issue #76
 
-      dimensions = RubyXL::Reference.new(dimensions_node.attribute('ref').value)
-      cols = dimensions.last_col
+# Technically, we don't even need dimensions anymore since we are not pre-creating the array.
+#      dimensions = RubyXL::Reference.new(dimensions_node.attribute('ref').value)
 
-=begin
-      # Create empty arrays for workcells. Using +downto()+ here so memory for +sheet_data[]+ is
-      # allocated on the first iteration (in case of +upto()+, +sheet_data[]+ would end up being
-      # reallocated on every iteration).
-      dimensions.last_row.downto(0) { |i| worksheet.sheet_data[i] = Array.new(cols + 1) }
-=end
       namespaces = worksheet_xml.root.namespaces
 
       if @data_only
@@ -212,90 +206,6 @@ module RubyXL
 
       sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
       worksheet.sheet_data = RubyXL::SheetData.parse(sheet_data.first)
-
-=begin
-      worksheet_xml.xpath(row_xpath, namespaces).each { |row|
-        unless @data_only
-          ##row styles##
-          row_attributes = row.attributes
-          row_style = row_attributes['s'] && Integer(row_attributes['s'].value) || 0
-          row_num = Integer(row_attributes['r'].content)
-
-          worksheet.row_styles[row_num] = { :style => row_style  }
-
-          if !row_attributes['ht'].nil?  && (!row_attributes['ht'].content.nil? || row_attributes['ht'].content.strip != "" )
-            worksheet.change_row_height(row_num - 1, Float(row_attributes['ht'].value))
-          end
-          ##end row styles##
-        end
-
-        row.search(cell_xpath).each { |value|
-          #attributes is from the excel cell(c) and is basically location information and style and type
-          value_attributes = value.attributes
-          # r attribute contains the location like A1
-          cell_index = RubyXL::Reference.ref2ind(value_attributes['r'].content)
-          style_index = 0
-          # t is optional and contains the type of the cell
-          data_type = value_attributes['t'].content if value_attributes['t']
-          element_hash ={}
-
-          value.children.each { |node| element_hash["#{node.name()}_element"] = node }
-
-          # v is the value element that is part of the cell
-          if element_hash["v_element"]
-            v_element_content = element_hash["v_element"].content
-          else
-            v_element_content=""
-          end
-
-          if v_element_content == "" # no data
-            cell_data = nil
-          elsif data_type == RubyXL::Cell::SHARED_STRING
-            str_index = Integer(v_element_content)
-            cell_data = wb.shared_strings[str_index].to_s
-          elsif data_type == RubyXL::Cell::RAW_STRING
-            cell_data = v_element_content
-          elsif data_type == RubyXL::Cell::ERROR
-            cell_data = v_element_content
-          else# (value.css('v').to_s != "") && (value.css('v').children.to_s != "") #is number
-            data_type = ''
-            if(v_element_content =~ /\./ or v_element_content =~ /\d+e\-?\d+/i) #is float
-              cell_data = Float(v_element_content)
-            else
-              cell_data = Integer(v_element_content)
-            end
-          end
-
-          # f is the formula element
-          cell_formula = nil
-          fmla_css = element_hash["f_element"]
-          if fmla_css && fmla_css.content
-            fmla_css_content= fmla_css.content
-            if(fmla_css_content != "")
-              cell_formula = fmla_css_content
-              cell_formula_attr = {}
-              fmla_css_attributes = fmla_css.attributes
-              cell_formula_attr['t'] = fmla_css_attributes['t'].content if fmla_css_attributes['t']
-              cell_formula_attr['ref'] = fmla_css_attributes['ref'].content if fmla_css_attributes['ref']
-              cell_formula_attr['si'] = fmla_css_attributes['si'].content if fmla_css_attributes['si']
-            end
-          end
-
-          style_index = value['s'].to_i #nil goes to 0 (default)
-
-          c = Cell.new
-          c.worksheet = worksheet
-          c.row = cell_index[0]
-          c.column = cell_index[1]
-          c.raw_value = cell_data
-          c.datatype = data_type || RubyXL::Cell::SHARED_STRING
-          c.formula = cell_formula
-          c.style_index = style_index
-          # cell_formula_attr
-          worksheet.sheet_data[cell_index[0]][cell_index[1]] = c
-        }
-      }
-=end
 
       worksheet
     end

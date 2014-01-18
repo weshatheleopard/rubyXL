@@ -106,6 +106,27 @@ module RubyXL
       cells[ind]
     end
 
+    def size
+      cells.size
+    end
+
+    def insert_cell_shift_right(c, col_index)
+      cells.insert(col_index, c)
+      col_index.upto(cells.size) { |col|
+        cell = cells[col]
+        next if cell.nil?
+        cell.column = col
+      }
+    end
+
+    def delete_cell_shift_left(col_index)
+      cells.delete_at(col_index)
+      col_index.upto(cells.size) { |col|
+        cell = cells[col]
+        next if cell.nil?
+        cell.column = col
+      }
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetData-1.html
@@ -115,6 +136,10 @@ module RubyXL
 
     def [](ind)
       rows[ind]
+    end
+
+    def size
+      rows.size
     end
 
   end
