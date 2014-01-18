@@ -382,19 +382,29 @@ class Worksheet
     return deleted
   end
 
-  #inserts row at row_index, pushes down, copies style from below (row previously at that index)
+  # Inserts row at row_index, pushes down, copies style from the row above (that's what Excel 2013 does!)
   #USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
   def insert_row(row_index = 0)
     validate_workbook
     ensure_cell_exists(row_index)
 
-    old_row = @sheet_data.rows[row_index]
-    new_row = RubyXL::Row.new(:cells => Array.new(old_row.cells.size), :s => old_row.s)
+    if row_index == 0 then
+      old_row = nil
+      new_cells = Array.new(@sheet_data.rows[0].cells.size)
+    else
+      old_row = @sheet_data.rows[row_index - 1] 
+      new_cells = old_row.cells.collect { |c| 
+                                          if c.nil? then nil
+                                          else RubyXL::Cell.new(:s => c.s)
+                                          end }
+    end
+
+    new_row = RubyXL::Row.new(:cells => new_cells, :s => old_row && old_row.s)
 
     @sheet_data.rows.insert(row_index, new_row)
 
     #update row value for all rows below
-    (row_index + 1).upto(@sheet_data.rows.size - 1) { |i|
+    row_index.upto(@sheet_data.rows.size - 1) { |i|
       row = @sheet_data.rows[i]
       row.cells.each { |c|
         c.row = i unless c.nil?
