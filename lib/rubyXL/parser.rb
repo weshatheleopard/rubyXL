@@ -151,7 +151,7 @@ module RubyXL
                                sheet_node.attributes['sheetId'].value )
       }
 
-      FileUtils.rm_rf(dir_path)
+      FileUtils.remove_entry_secure(dir_path)
 
       return wb
     end
