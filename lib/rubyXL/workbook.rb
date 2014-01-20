@@ -119,61 +119,33 @@ module RubyXL
     def write(filepath = @filepath)
       validate_before_write
 
-      if !(filepath =~ /(.+)\.xls(x|m)/)
-        raise "Only xlsx and xlsm files are supported. Unsupported type for file: #{filepath}"
+      extension = File.extname(filepath)
+      unless %w{.xlsx .xlsm}.include?(extension)
+        raise "Only xlsx and xlsm files are supported. Unsupported extension: #{extension}"
       end
 
-      dirpath = ''
-      extension = 'xls'
+      dirpath  = File.dirname(filepath)
+      temppath = File.join(dirpath, Dir::Tmpname.make_tmpname([ File.basename(filepath), '.tmp' ], nil))
+      FileUtils.mkdir_p(temppath)
+      zippath  = File.join(temppath, 'file.zip')
 
-      if(filepath =~ /((.|\s)*)\.xls(x|m)$/)
-        dirpath = $1.to_s()
-        extension += $3.to_s
-      end
+      Zip::File.open(zippath, Zip::File::CREATE) { |zipfile|
+        [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::AppWriter, Writer::CoreWriter,
+          Writer::ThemeWriter, Writer::WorkbookRelsWriter, Writer::WorkbookWriter, Writer::StylesWriter
+        ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
+        
+        Writer::SharedStringsWriter.new(self).add_to_zip(zipfile) unless @shared_strings.empty?
 
-      filename = ''
+        [ @media, @external_links, @external_links_rels,
+          @drawings, @drawings_rels, @charts, @chart_rels,
+          @printer_settings, @worksheet_rels, @macros ].each { |s| s.add_to_zip(zipfile) }
 
-      if(filepath =~ /\/((.|\s)*)\/((.|\s)*)\.xls(x|m)$/)
-        filename = $3.to_s()
-      end
-
-      #creates zip file, writes each type of file to zip folder
-      #zips package and renames it to xlsx.
-      zippath = File.join(dirpath, filename + '.zip')
-      File.unlink(zippath) if File.exists?(zippath)
-      FileUtils.mkdir_p(dirpath)
-
-      Zip::File.open(zippath, Zip::File::CREATE) do |zipfile|
-        [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::AppWriter, 
-          Writer::CoreWriter, Writer::ThemeWriter, Writer::WorkbookRelsWriter,
-          Writer::WorkbookWriter, Writer::StylesWriter ].each { |writer_class|
-          writer_class.new(self).add_to_zip(zipfile)
-        }
-       
-        unless @shared_strings.empty?
-          Writer::SharedStringsWriter.new(self).add_to_zip(zipfile)
-        end
-
-        @media.add_to_zip(zipfile)
-        @external_links.add_to_zip(zipfile)
-        @external_links_rels.add_to_zip(zipfile)
-        @drawings.add_to_zip(zipfile)
-        @drawings_rels.add_to_zip(zipfile)
-        @charts.add_to_zip(zipfile)
-        @chart_rels.add_to_zip(zipfile)
-        @printer_settings.add_to_zip(zipfile)
-        @worksheet_rels.add_to_zip(zipfile)
-        @macros.add_to_zip(zipfile)
         @worksheets.each_index { |i| Writer::WorksheetWriter.new(self, i).add_to_zip(zipfile) }
-      end
+      }
 
-      full_file_path = File.join(dirpath, "#{filename}.#{extension}")
-      FileUtils.cp(zippath, full_file_path)
-      FileUtils.cp(full_file_path, filepath)
+      FileUtils.mv(zippath, filepath)
+      FileUtils.rm_rf(temppath) if File.exist?(filepath)
 
-      if File.exist?(filepath)
-        FileUtils.rm_rf(dirpath)
-      end
       return filepath
     end
 
