@@ -61,7 +61,7 @@ module RubyXL
     end
 
     def write_xml(xml, node_name_override = nil)
-      before_write_xml if self.respond_to?(:before_write_xml)
+      before_write_xml
       attrs = prepare_attributes
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
@@ -69,7 +69,7 @@ module RubyXL
       child_nodes.each_pair { |child_node_name, child_node_params|
         obj = self.send(child_node_params[:accessor])
         unless obj.nil?
-          if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml) }
+          if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml) unless item.nil? }
           else elem << obj.write_xml(xml, child_node_name)
           end
         end
@@ -150,6 +150,10 @@ module RubyXL
 
     def index_in_collection
       nil
+    end
+
+    def before_write_xml
+      nil # Subclass provided filter
     end
 
     private

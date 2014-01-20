@@ -134,6 +134,27 @@ module RubyXL
     define_child_node(RubyXL::Row, :collection => true, :accessor => :rows)
     define_element_name 'sheetData'
 
+    def before_write_xml # This method may need to be moved higher in the hierarchy
+      rows.each_with_index { |row, row_index|
+        next if row.nil? || row.cells.empty?
+
+        first_nonempty = nil
+        last_nonempty = 0
+
+        row.cells.each_with_index { |cell, col_index|
+          next if cell.nil?
+          cell.r = RubyXL::Reference.new(row_index, col_index)
+
+          first_nonempty = col_index if first_nonempty.nil?
+          last_nonempty = col_index
+        }
+
+        row.r = row_index + 1
+        row.spans = "#{first_nonempty + 1}:#{last_nonempty + 1}"
+        row.custom_format = (row.s.to_i != 0)
+      }
+    end
+
     def [](ind)
       rows[ind]
     end

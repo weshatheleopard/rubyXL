@@ -60,29 +60,7 @@ module Writer
             })
           end
 
-          root << (xml.create_element('sheetData') { |data|
-            @worksheet.sheet_data.rows.each_with_index { |row, i|
-              next if row.nil?
-
-              row_opts = {
-                :r            => i + 1,
-                :spans        => "#{min_col + 1}:#{max_col + 1}",
-                :customFormat => row.custom_format || (row.s.to_i != 0)
-              }
-
-              row_opts[:s] = row.s if row.s
-              row_opts[:ht] = row.ht if row.ht
-              row_opts[:customHeight] = row.custom_height if row.custom_height
-
-              data << (xml.create_element('row', row_opts) { |row_xml|
-                row.cells.each_with_index { |cell, row_index|
-                  next if cell.nil?
-                  cell.r ||= RubyXL::Reference.new(i, row_index)
-                  row_xml << cell.write_xml(xml)
-                }
-              })
-            }
-          })
+          root << @worksheet.sheet_data.write_xml(xml)
 
           root << xml.create_element('sheetCalcPr', { :fullCalcOnLoad => 1 })
 
