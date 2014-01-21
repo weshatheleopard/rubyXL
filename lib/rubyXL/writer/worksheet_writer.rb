@@ -14,6 +14,9 @@ module Writer
 
     def write()
       render_xml do |xml|
+        xml << @worksheet.write_xml(xml)
+
+=begin
         xml << (xml.create_element('worksheet', 
                   'xmlns'    => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
                   'xmlns:r'  => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
@@ -99,8 +102,9 @@ module Writer
           @worksheet.drawings.each { |d| root << xml.create_element('drawing', { 'r:id' => d }) }
 
         })
-      end
+=end
 
+      end
     end
 
   end # class

@@ -3,7 +3,7 @@ module LegacyWorksheet
   include Enumerable
 
   attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :merged_cells, :pane,
-                :validations, :sheet_views, :legacy_drawings, :extLst, :workbook,
+                :validations, :legacy_drawings, :extLst, :workbook,
                 :drawings
 
   def initialize(params = {})
@@ -13,8 +13,6 @@ module LegacyWorksheet
     @sheet_id = nil
     @sheet_data = RubyXL::SheetData.new
     @column_ranges = []
-    @merged_cells = merged_cells || []
-    @sheet_views = [ RubyXL::SheetView.new ]
     @extLst = nil
     @legacy_drawings = []
     @drawings = []

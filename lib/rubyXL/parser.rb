@@ -160,17 +160,20 @@ module RubyXL
 
     # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
     def parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)
-      worksheet = Worksheet.new(:workbook => wb, :name => worksheet_name)
-      wb.worksheets[i] = worksheet # Due to "validate_workbook" issues. Should remove that validation eventually.
+      worksheet = RubyXL::Worksheet.parse(worksheet_xml.root)
+      worksheet.workbook = wb
+      worksheet.sheet_name = worksheet_name
+      wb.worksheets[i] = worksheet
       worksheet.sheet_id = sheet_id
 
-      dimensions_node = worksheet_xml.css('dimension')
-      return nil if dimensions_node.empty? # Temporary plug for Issue #76
+#      dimensions_node = worksheet_xml.css('dimension')
+#      return nil if dimensions_node.empty? # Temporary plug for Issue #76
 
 # Technically, we don't even need dimensions anymore since we are not pre-creating the array.
 #      dimensions = RubyXL::Reference.new(dimensions_node.attribute('ref').value)
-
-      namespaces = worksheet_xml.root.namespaces
+#
+#      namespaces = worksheet_xml.root.namespaces
+=begin
 
       if @data_only
         row_xpath = '/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]'
@@ -180,7 +183,7 @@ module RubyXL
         cell_xpath = './xmlns:c'
 
         sheet_views_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews/xmlns:sheetView', namespaces)
-        worksheet.sheet_views = sheet_views_nodes.collect { |node| RubyXL::SheetView.parse(node) }
+        worksheet.sheet_views2 = sheet_views_nodes.collect { |node| RubyXL::SheetView.parse(node) }
 
         col_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols/xmlns:col',namespaces)
         worksheet.column_ranges = col_node_set.collect { |col_node| RubyXL::ColumnRange.parse(col_node) }
@@ -203,12 +206,12 @@ module RubyXL
         worksheet.drawings = drawing_nodes.collect { |n| n.attributes['id'] }
 
       end
+=end
 
-      sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
-      worksheet.sheet_data = RubyXL::SheetData.parse(sheet_data.first)
 
-      test = RubyXL::Worksheet.parse(worksheet_xml.root)
-      test.workbook = wb
+#      sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
+#      worksheet.sheet_data = RubyXL::SheetData.parse(sheet_data.first)
+
 
       worksheet
     end
