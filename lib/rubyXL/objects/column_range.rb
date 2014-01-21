@@ -77,4 +77,9 @@ module RubyXL
 
   end
 
+  class ColumnRanges < OOXMLObject
+    define_child_node(RubyXL::ColumnRange, :collection => true)
+    define_element_name 'cols'
+  end
+
 end

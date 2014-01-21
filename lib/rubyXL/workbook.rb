@@ -25,6 +25,7 @@ module RubyXL
 
     attr_reader :shared_strings
 
+    SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
     APPVERSION  = '12.0000'
 
@@ -36,7 +37,7 @@ module RubyXL
       # SheetId's, rId's, etc. are completely unrelated to ordering.
       @worksheets = worksheets || []
 
-      @worksheets << Worksheet.new(self) if @worksheets.empty?
+      @worksheets << add_worksheet if @worksheets.empty?
 
       @filepath           = filepath
       @creator            = creator
@@ -96,7 +97,15 @@ module RubyXL
     #
     # @param [String] The name for the new worksheet
     def add_worksheet(name = nil)
-      new_worksheet = Worksheet.new(self, name)
+      if name.nil? then
+        n = 0
+
+        begin
+          name = SHEET_NAME_TEMPLATE % (n += 1)
+        end until self[name].nil?
+      end
+
+      new_worksheet = Worksheet.new(:workbook => self, :name => name || get_default_name)
       worksheets << new_worksheet
       new_worksheet
     end

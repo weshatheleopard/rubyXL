@@ -160,7 +160,7 @@ module RubyXL
 
     # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
     def parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)
-      worksheet = Worksheet.new(wb, worksheet_name)
+      worksheet = Worksheet.new(:workbook => wb, :name => worksheet_name)
       wb.worksheets[i] = worksheet # Due to "validate_workbook" issues. Should remove that validation eventually.
       worksheet.sheet_id = sheet_id
 
@@ -206,6 +206,9 @@ module RubyXL
 
       sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
       worksheet.sheet_data = RubyXL::SheetData.parse(sheet_data.first)
+
+      test = RubyXL::Worksheet.parse(worksheet_xml.root)
+      test.workbook = wb
 
       worksheet
     end

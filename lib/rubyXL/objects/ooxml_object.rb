@@ -48,6 +48,10 @@ module RubyXL
         :accessor => accessor
       }
 
+      if extra_params[:collection] == :with_count then
+        define_attribute(:count, :int, :required => true)
+      end
+
       self.send(:attr_accessor, accessor)
     end
 
@@ -153,6 +157,11 @@ module RubyXL
     end
 
     def before_write_xml
+      child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
+      child_nodes.each_pair { |child_node_name, child_node_params|
+        self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
+      }
+
       nil # Subclass provided filter
     end
 

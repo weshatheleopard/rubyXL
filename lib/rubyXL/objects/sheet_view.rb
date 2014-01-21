@@ -59,4 +59,10 @@ module RubyXL
     define_element_name 'sheetView'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-3.html
+  class SheetViews < OOXMLObject
+    define_child_node(RubyXL::SheetView, :collection => true, :accessor => :sheet_views)
+    define_element_name 'sheetViews'
+  end
+
 end

@@ -1,17 +1,15 @@
 module RubyXL
-class Worksheet
+module LegacyWorksheet
   include Enumerable
 
   attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :merged_cells, :pane,
                 :validations, :sheet_views, :legacy_drawings, :extLst, :workbook,
                 :drawings
 
-  SHEET_NAME_TEMPLATE = 'Sheet%d'
-
-  def initialize(workbook, sheet_name = nil)
-    @workbook = workbook
-
-    @sheet_name = sheet_name || get_default_name
+  def initialize(params = {})
+    super
+    @workbook = params[:workbook]
+#TODO: reenable#    @sheet_name = sheet_name
     @sheet_id = nil
     @sheet_data = RubyXL::SheetData.new
     @column_ranges = []
@@ -22,17 +20,6 @@ class Worksheet
     @drawings = []
     @validations = []
   end
-
-  def get_default_name
-    n = 0
-
-    begin
-      name = SHEET_NAME_TEMPLATE % (n += 1)
-    end until @workbook[name].nil?
-
-    name
-  end
-  private :get_default_name
 
   # allows for easier access to sheet_data
   def [](row = 0)
@@ -676,13 +663,13 @@ class Worksheet
 
   private
 
-  Worksheet::NAME = 0
-  Worksheet::SIZE = 1
-  Worksheet::COLOR = 2
-  Worksheet::ITALICS = 3
-  Worksheet::BOLD = 4
-  Worksheet::UNDERLINE = 5
-  Worksheet::STRIKETHROUGH = 6
+  NAME = 0
+  SIZE = 1
+  COLOR = 2
+  ITALICS = 3
+  BOLD = 4
+  UNDERLINE = 5
+  STRIKETHROUGH = 6
 
   def row_font(row)
     validate_workbook
