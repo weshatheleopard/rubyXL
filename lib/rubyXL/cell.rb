@@ -7,21 +7,17 @@ module RubyXL
     attr_accessor :formula, :worksheet
 
     def value(args = {})
-      return @value if args[:raw]
-      return workbook.num_to_date(@value) if is_date?
-      @value
+      return raw_value if args[:raw]
+      return workbook.num_to_date(raw_value) if is_date?
+      raw_value
     end
 
     def workbook
       @worksheet.workbook
     end
 
-    def raw_value=(v)
-      @value = v
-    end
-
     def is_date?
-      return false if @value.is_a?(String)
+      return false if raw_value.is_a?(String)
       tmp_num_fmt = workbook.num_fmts_by_id[get_cell_xf.num_fmt_id]
       num_fmt = tmp_num_fmt && tmp_num_fmt.format_code
       num_fmt && workbook.date_num_fmt?(num_fmt)
@@ -158,7 +154,7 @@ module RubyXL
       when Integer, Float then self.datatype = ''
       end
 
-      @value = data
+      self.raw_value = data
       @formula = formula
     end
 
@@ -255,7 +251,7 @@ module RubyXL
     end
 
     def inspect
-      str = "#<#{self.class}(#{row},#{column}): #{@value}" 
+      str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}" 
       str += " =#{@formula}" if @formula
       str += ", datatype = #{self.datatype}, style_index = #{self.style_index}>"
       return str

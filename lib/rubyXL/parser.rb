@@ -147,58 +147,18 @@ module RubyXL
         sheet_rid = sheet_node.attributes['id'].value 
         sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
         worksheet_xml = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
-        parse_worksheet(wb, i, worksheet_xml, sheet_node.attributes['name'].value,
-                               sheet_node.attributes['sheetId'].value )
+
+        worksheet = RubyXL::Worksheet.parse(worksheet_xml.root)
+        worksheet.sheet_data.rows.each { |r| r && r.cells.each { |c| c.worksheet = worksheet unless c.nil? } }
+        wb.worksheets[i] = worksheet
+        worksheet.workbook = wb
+        worksheet.sheet_name = sheet_node.attributes['name'].value
+        worksheet.sheet_id = sheet_node.attributes['sheetId'].value
       }
 
       FileUtils.remove_entry_secure(dir_path)
 
       return wb
-    end
-
-    private
-
-    # Parse the incoming +worksheet_xml+ into a new +Worksheet+ object 
-    def parse_worksheet(wb, i, worksheet_xml, worksheet_name, sheet_id)
-      worksheet = RubyXL::Worksheet.parse(worksheet_xml.root)
-      worksheet.workbook = wb
-      worksheet.sheet_name = worksheet_name
-      wb.worksheets[i] = worksheet
-      worksheet.sheet_id = sheet_id
-
-#      dimensions_node = worksheet_xml.css('dimension')
-#      return nil if dimensions_node.empty? # Temporary plug for Issue #76
-
-# Technically, we don't even need dimensions anymore since we are not pre-creating the array.
-#      dimensions = RubyXL::Reference.new(dimensions_node.attribute('ref').value)
-#
-#      namespaces = worksheet_xml.root.namespaces
-=begin
-
-      if @data_only
-        row_xpath = '/xmlns:worksheet/xmlns:sheetData/xmlns:row[xmlns:c[xmlns:v]]'
-        cell_xpath = './xmlns:c[xmlns:v[text()]]'
-      else
-        row_xpath = '/xmlns:worksheet/xmlns:sheetData/xmlns:row'
-        cell_xpath = './xmlns:c'
-
-        col_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols/xmlns:col',namespaces)
-        worksheet.column_ranges = col_node_set.collect { |col_node| RubyXL::ColumnRange.parse(col_node) }
-
-        merged_cells_nodeset = worksheet_xml.xpath('/xmlns:worksheet/xmlns:mergeCells/xmlns:mergeCell', namespaces)
-        worksheet.merged_cells = merged_cells_nodeset.collect { |child| RubyXL::Reference.new(child.attributes['ref'].text) }
-
-#        worksheet.pane = worksheet.sheet_view[:pane]
-
-        data_validations = worksheet_xml.xpath('/xmlns:worksheet/xmlns:dataValidations/xmlns:dataValidation', namespaces)
-        worksheet.validations = data_validations.collect { |node| RubyXL::DataValidation.parse(node) }
-
-# Currently  not working #TODO#
-#        ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
-
-      end
-=end
-      worksheet
     end
 
   end

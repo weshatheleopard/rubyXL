@@ -2,9 +2,7 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
-  attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :pane,
-                :validations, :legacy_drawings, :extLst, :workbook,
-                :drawings
+  attr_accessor :sheet_name, :sheet_id, :sheet_data, :validations, :extLst, :workbook
 
   def initialize(params = {})
     super
@@ -12,10 +10,8 @@ module LegacyWorksheet
     @sheet_name = params[:sheet_name]
     @sheet_id   = params[:sheet_id]
     @sheet_data = RubyXL::SheetData.new
-    @column_ranges = []
+    self.cols = RubyXL::ColumnRanges.new
     @extLst = nil
-    @legacy_drawings = []
-    @drawings = []
     @validations = []
   end
 
@@ -251,11 +247,11 @@ module LegacyWorksheet
     validate_workbook
     ensure_cell_exists(0, col)
 
-    RubyXL::ColumnRange.update(col, @column_ranges, { :width => width, :custom_width => 1 })
+    RubyXL::ColumnRange.update(col, cols.column_ranges, { :width => width, :custom_width => 1 })
   end
 
   def get_column_style_index(col)
-    range = RubyXL::ColumnRange.find(col, @column_ranges)
+    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
     (range && range.style_index) || 0
   end
 
@@ -266,7 +262,7 @@ module LegacyWorksheet
 
     new_style_index = @workbook.modify_fill(get_column_style_index(col), color_index)
 
-    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
+    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
     @sheet_data.rows.each { |row|
       c = row[col]
@@ -323,7 +319,7 @@ module LegacyWorksheet
       c.datatype = (formula || data.is_a?(Numeric)) ? '' : RubyXL::Cell::RAW_STRING
       c.formula = formula
 
-      col = RubyXL::ColumnRange.find(column, @column_ranges)
+      col = RubyXL::ColumnRange.find(column, cols.column_ranges)
       c.style_index = sheet_data.rows[row].s || (col && col.style_index) || 0
 
       @sheet_data.rows[row].cells[column] = c
@@ -417,7 +413,7 @@ module LegacyWorksheet
       }
     }
 
-    @column_ranges.each { |range| range.delete_column(col_index) }
+    cols.column_ranges.each { |range| range.delete_column(col_index) }
   end
 
   # inserts column at col_index, pushes everything right, takes styles from column to left
@@ -426,7 +422,7 @@ module LegacyWorksheet
     validate_workbook
     ensure_cell_exists(0, col_index)
 
-    old_range = col_index > 0 ? RubyXL::ColumnRange.find(col_index, @column_ranges) : RubyXL::ColumnRange.new
+    old_range = col_index > 0 ? RubyXL::ColumnRange.find(col_index, cols.column_ranges) : RubyXL::ColumnRange.new
 
     #go through each cell in column
     @sheet_data.rows.each_with_index { |row, row_index|
@@ -447,7 +443,7 @@ module LegacyWorksheet
       row.insert_cell_shift_right(c, col_index)
     }
 
-    ColumnRange.insert_column(col_index, @column_ranges)
+    ColumnRange.insert_column(col_index, cols.column_ranges)
 
     #update column numbers
   end
@@ -620,7 +616,7 @@ module LegacyWorksheet
     validate_nonnegative(col)
     return nil unless column_exists(col)
 
-    range = RubyXL::ColumnRange.find(col, @column_ranges)
+    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
     (range && range.width) || 10
   end
 
@@ -739,7 +735,7 @@ module LegacyWorksheet
   end
 
   def get_cols_style_index(col)
-    range = RubyXL::ColumnRange.find(col, @column_ranges)
+    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
     (range && range.style) || 0
   end
 
@@ -764,7 +760,7 @@ module LegacyWorksheet
 
     xf = workbook.register_new_font(font, xf)
     new_style_index = workbook.register_new_xf(xf, get_col_style(col))
-    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
+    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
     @sheet_data.rows.each { |row|
       c = row[col]
@@ -845,7 +841,7 @@ module LegacyWorksheet
 
   # Helper method to get the style index for a column
   def get_col_style(col)
-    range = RubyXL::ColumnRange.find(col, @column_ranges)
+    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
     (range && range.style) || 0
   end
 
@@ -882,7 +878,7 @@ module LegacyWorksheet
     ensure_cell_exists(0, col)
 
     new_style_index = @workbook.modify_alignment(get_column_style_index(col), is_horizontal, alignment)
-    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
+    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
     @sheet_data.rows.each { |row|
       c = row[col]
@@ -919,7 +915,7 @@ module LegacyWorksheet
     ensure_cell_exists(0, col)
 
     new_style_index = @workbook.modify_border(get_col_style(col), direction, weight)
-    RubyXL::ColumnRange.update(col, @column_ranges, { :style => new_style_index })
+    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
     @sheet_data.rows.each { |row|
       c = row.cells[col]

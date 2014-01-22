@@ -29,8 +29,8 @@ module RubyXL
     define_attribute(:cm,  :int)
     define_attribute(:vm,  :int)
     define_attribute(:ph,  :bool)
-    define_child_node(RubyXL::CellFormula) # f 
-    define_child_node(RubyXL::CellValue)   # v
+    define_child_node(RubyXL::CellFormula, :accessor => :formula_container)
+    define_child_node(RubyXL::CellValue,   :accessor => :value_container) 
     define_child_node(RubyXL::RichText)    # is
     define_element_name 'c'
 
@@ -69,6 +69,17 @@ module RubyXL
     def style_index=(v)
       self.s = v
     end
+
+    def raw_value
+      value_container && value_container.value
+    end
+
+    def raw_value=(v)
+      self.value_container ||= RubyXL::CellValue.new
+      value_container.value = v
+    end
+
+
 
 #                      cell_value = if (cell.datatype == RubyXL::Cell::SHARED_STRING) then
 #                                     @workbook.shared_strings.get_index(cell.value).to_s

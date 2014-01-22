@@ -46,8 +46,6 @@ module Writer
           root << xml.create_element('pageSetup', { :orientation => 'portrait',
                                                     :horizontalDpi => 4294967292, :verticalDpi => 4294967292 })
 
-          @worksheet.legacy_drawings.each { |drawing| root << drawing.write_xml(xml) }
-
           unless @worksheet.extLst.nil?
             root << (xml.create_element('extLst') { |extlst|
               extlst << (xml.create_element('ext', {
@@ -57,8 +55,6 @@ module Writer
               })
             })
           end
-
-          @worksheet.drawings.each { |d| root << xml.create_element('drawing', { 'r:id' => d }) }
 
         })
 =end

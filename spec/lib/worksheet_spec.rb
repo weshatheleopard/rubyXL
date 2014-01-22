@@ -1702,23 +1702,23 @@ describe RubyXL::Worksheet do
   describe '@column_range' do
     it 'should properly handle range addition and modification' do
       # Ranges should be empty for brand new worskeet
-      @worksheet.column_ranges.size.should == 0
+      @worksheet.cols.column_ranges.size.should == 0
 
       # Range should be created if the column has not been touched before
       @worksheet.change_column_width(0, 30)
       @worksheet.get_column_width(0).should == 30
-      @worksheet.column_ranges.size.should == 1
+      @worksheet.cols.column_ranges.size.should == 1
 
       # Range should be reused if the column has not been touched before
       @worksheet.change_column_width(0, 20)
       @worksheet.get_column_width(0).should == 20
-      @worksheet.column_ranges.size.should == 1
+      @worksheet.cols.column_ranges.size.should == 1
 
       # Creation of the new range should not affect previously changed columns
       @worksheet.change_column_width(1, 999)
       @worksheet.get_column_width(1).should == 999
       @worksheet.get_column_width(0).should == 20
-      @worksheet.column_ranges.size.should == 2
+      @worksheet.cols.column_ranges.size.should == 2
     end
 
   end

@@ -17,7 +17,7 @@ describe RubyXL::Parser do
     ws.add_cell(1,2, ">")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
 
     @time_str = Time.now.to_s
-    @file = @time_str + '.xlsx'
+    @file = "#{@time_str}.xlsx"
     @workbook.write(@file)
   end
 
@@ -26,12 +26,13 @@ describe RubyXL::Parser do
       @workbook2 = RubyXL::Parser.parse(@file)
 
       @workbook2.worksheets.size.should == @workbook.worksheets.size
-      @workbook2[0].sheet_data.should == @workbook[0].sheet_data
-      @workbook2[0].sheet_name.should == @workbook[0].sheet_name
+      @workbook2.worksheets.each_index { |i|
+        @workbook2[i].extract_data.should == @workbook[i].extract_data
+      }
     end
 
     it 'should cause an error if an xlsx or xlsm workbook is not passed' do
-      lambda {@workbook2 = RubyXL::Parser.parse(@time_str+".xls")}.should raise_error
+      lambda {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.should raise_error
     end
 
     it 'should not cause an error if an xlsx or xlsm workbook is not passed but the skip_filename_check option is used' do
@@ -48,8 +49,8 @@ describe RubyXL::Parser do
       @workbook2 = RubyXL::Parser.parse(@file, :data_only => true)
 
       @workbook2.worksheets.size.should == @workbook.worksheets.size
-      @workbook2[0].sheet_data.should == @workbook[0].sheet_data
-      @workbook2[0].sheet_name.should == @workbook[0].sheet_name
+      @workbook2[0].extract_data.should == @workbook[0].extract_data
+      @workbook2[0].extract_data.should == @workbook[0].extract_data
     end
 
     it 'should construct consistent number formats' do
