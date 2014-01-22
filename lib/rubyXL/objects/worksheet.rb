@@ -2,12 +2,6 @@ module RubyXL
 
   # Eventually, the entire code for Worksheet will be moved here. One small step at a time!
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_legacyDrawing-1.html
-  class LegacyDrawing < OOXMLObject
-    define_attribute(:'r:id',            :string, :required => true)
-    define_element_name 'legacyDrawing'
-  end
-
   # http://www.schemacentral.com/sc/ooxml/e-ssml_outlinePr-1.html
   class OutlineProperties < OOXMLObject
     define_attribute(:applyStyles,        :bool, :default => false)
@@ -98,11 +92,13 @@ module RubyXL
     define_element_name 'pageSetup'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_drawing-1.html
-  class Drawing < OOXMLObject
-    define_attribute(:'r:id',            :string)
-    define_attribute(:id,            :string)
-    define_element_name 'drawing'
+  class RID < OOXMLObject
+    define_attribute(:'r:id',            :string, :required => true)
+  end
+
+  class TableParts < OOXMLObject
+    define_child_node(RubyXL::RID, :collection => :countable, :node_name => :table_part)
+    define_element_name 'tableParts'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_mergeCell-1.html
@@ -228,6 +224,22 @@ module RubyXL
     define_element_name 'cfRule'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_brk-1.html
+  class Break < OOXMLObject
+    define_attribute(:id,  :int,  :default => 0)
+    define_attribute(:min, :int,  :default => 0)
+    define_attribute(:max, :int,  :default => 0)
+    define_attribute(:man, :bool, :default => false)
+    define_attribute(:pt,  :bool, :default => false)
+    define_element_name 'brk'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_rowBreaks-1.html
+  class BreakList < OOXMLObject
+    define_attribute(:manualBreakCount, :int, :default => 0)
+    define_child_node(RubyXL::Break, :collection => :countable)
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
   class PhoneticProperties < OOXMLObject
     define_attribute(:pivot, :bool, :default => false)
@@ -262,20 +274,20 @@ module RubyXL
     define_child_node(RubyXL::PageMargins)
     define_child_node(RubyXL::PageSetup)
     define_child_node(RubyXL::HeaderFooterSettings)
-#    ssml:rowBreaks [0..1]    Horizontal Page Breaks
-#    ssml:colBreaks [0..1]    Vertical Page Breaks
+    define_child_node(RubyXL::BreakList, :node_name => :rowBreaks)
+    define_child_node(RubyXL::BreakList, :node_name => :colBreaks)
 #    ssml:customProperties [0..1]    Custom Properties
 #    ssml:cellWatches [0..1]    Cell Watch Items
 #    ssml:ignoredErrors [0..1]    Ignored Errors
 #    ssml:smartTags [0..1]    Smart Tags
-    define_child_node(RubyXL::Drawing)
-#    ssml:legacyDrawing [0..1]    Legacy Drawing
-#    ssml:legacyDrawingHF [0..1]    Legacy Drawing Header Footer
-#    ssml:picture [0..1]    Background Image
+    define_child_node(RubyXL::RID, :node_name => :drawing)
+    define_child_node(RubyXL::RID, :node_name => :legacyDrawing)
+    define_child_node(RubyXL::RID, :node_name => :legacyDrawingHF)
+    define_child_node(RubyXL::RID, :node_name => :picture)
 #    ssml:oleObjects [0..1]    OLE Objects
 #    ssml:controls [0..1]    Embedded Controls
 #    ssml:webPublishItems [0..1]    Web Publishing Items
-#    ssml:tableParts [0..1]    Table Parts
+    define_child_node(RubyXL::TableParts)
 #    ssml:extLst [0..1]    Future Feature Storage Area
     define_element_name 'worksheet'
     set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
