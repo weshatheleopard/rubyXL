@@ -4,8 +4,8 @@ require 'rubyXL'
 describe RubyXL::Worksheet do
   before do
     @workbook  = RubyXL::Workbook.new
-    @worksheet = RubyXL::Worksheet.new(@workbook)
-    @workbook.worksheets << @worksheet
+    @worksheet = @workbook.add_worksheet
+
     (0..10).each do |i|
       (0..10).each do |j|
         @worksheet.add_cell(i, j, "#{i}:#{j}")
@@ -791,7 +791,7 @@ describe RubyXL::Worksheet do
   describe '.merge_cells' do
     it 'should merge cells in any valid range specified by indices' do
       @worksheet.merge_cells(0, 0, 1, 1)
-      @worksheet.merged_cells.collect{ |r| r.to_s }.should == ["A1:B2"]
+      @worksheet.merged_cells.collect{ |r| r.ref.to_s }.should == ["A1:B2"]
     end
   end
 

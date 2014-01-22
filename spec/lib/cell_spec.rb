@@ -5,7 +5,7 @@ describe RubyXL::Cell do
 
   before do
     @workbook  = RubyXL::Workbook.new
-    @worksheet = RubyXL::Worksheet.new(@workbook)
+    @worksheet = @workbook.add_worksheet('Test Worksheet')
     @workbook.worksheets << @worksheet
     (0..10).each do |i|
       (0..10).each do |j|

@@ -35,9 +35,8 @@ module RubyXL
 
       # Order of sheets in the +worksheets+ array corresponds to the order of pages in Excel UI.
       # SheetId's, rId's, etc. are completely unrelated to ordering.
-      @worksheets = worksheets || []
-
-      @worksheets << add_worksheet if @worksheets.empty?
+      @worksheets = worksheets
+      add_worksheet if @worksheets.empty?
 
       @filepath           = filepath
       @creator            = creator
@@ -105,7 +104,7 @@ module RubyXL
         end until self[name].nil?
       end
 
-      new_worksheet = Worksheet.new(:workbook => self, :name => name || get_default_name)
+      new_worksheet = Worksheet.new(:workbook => self, :sheet_name => name || get_default_name)
       worksheets << new_worksheet
       new_worksheet
     end

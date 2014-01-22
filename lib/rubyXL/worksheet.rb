@@ -2,15 +2,15 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
-  attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :merged_cells, :pane,
+  attr_accessor :sheet_name, :sheet_id, :sheet_data, :column_ranges, :pane,
                 :validations, :legacy_drawings, :extLst, :workbook,
                 :drawings
 
   def initialize(params = {})
     super
-    @workbook = params[:workbook]
-#TODO: reenable#    @sheet_name = sheet_name
-    @sheet_id = nil
+    @workbook   = params[:workbook]
+    @sheet_name = params[:sheet_name]
+    @sheet_id   = params[:sheet_id]
     @sheet_data = RubyXL::SheetData.new
     @column_ranges = []
     @extLst = nil
@@ -305,7 +305,9 @@ module LegacyWorksheet
   # merges cells within a rectangular range
   def merge_cells(row1 = 0, col1 = 0, row2 = 0, col2 = 0)
     validate_workbook
-    @merged_cells << RubyXL::Reference.new(row1, row2, col1, col2)
+
+    self.merged_cells_list ||= RubyXL::MergedCells.new
+    merged_cells_list.merge_cell << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(row1, row2, col1, col2))
   end
 
   def add_cell(row = 0, column = 0, data='', formula=nil, overwrite=true)

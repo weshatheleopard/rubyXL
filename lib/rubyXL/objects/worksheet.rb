@@ -8,6 +8,22 @@ module RubyXL
     define_element_name 'legacyDrawing'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_outlinePr-1.html
+  class OutlineProperties < OOXMLObject
+    define_attribute(:applyStyles,        :bool, :default => false)
+    define_attribute(:summaryBelow,       :bool, :default => true)
+    define_attribute(:summaryRight,       :bool, :default => true)
+    define_attribute(:showOutlineSymbols, :bool, :default => true)
+    define_element_name 'outlinePr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pageSetUpPr-1.html
+  class PageSetupProperties < OOXMLObject
+    define_attribute(:autoPageBreaks, :bool, :default => true)
+    define_attribute(:fitToPage,      :bool, :default => false)
+    define_element_name 'pageSetUpPr'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetPr-3.html
   class WorksheetProperties < OOXMLObject
     define_attribute(:syncHorizontal,                    :bool, :default => false)
@@ -19,9 +35,9 @@ module RubyXL
     define_attribute(:codeName,                          :string)
     define_attribute(:filterMode,                        :bool, :default => false)
     define_attribute(:enableFormatConditionsCalculation, :bool, :default => true)
-#    define_child_node(RubyXL::TabColor)
-#    define_child_node(RubyXL::OutlineProperties)
-#    define_child_node(RubyXL::PageSetupProperties)
+    define_child_node(RubyXL::Color, :node_name => :tabColor)
+    define_child_node(RubyXL::OutlineProperties)
+    define_child_node(RubyXL::PageSetupProperties)
     define_element_name 'sheetPr'
   end
 
@@ -57,26 +73,26 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pageSetup-1.html
   class PageSetup < OOXMLObject
-    define_attribute(:paperSize,          :int, :default => 1)
-    define_attribute(:scale,              :int, :default => 100)
-    define_attribute(:firstPageNumber,    :int, :default => 1)
-    define_attribute(:fitToWidth,         :int, :default => 1)
-    define_attribute(:fitToHeight,        :int, :default => 1)
+    define_attribute(:paperSize,          :int,    :default => 1)
+    define_attribute(:scale,              :int,    :default => 100)
+    define_attribute(:firstPageNumber,    :int,    :default => 1)
+    define_attribute(:fitToWidth,         :int,    :default => 1)
+    define_attribute(:fitToHeight,        :int,    :default => 1)
     define_attribute(:pageOrder,          :string, :default => 'downThenOver',
                        :values => %w{ downThenOver overThenDown })
     define_attribute(:orientation,        :string, :default => 'default',
                        :values => %w{ default portrait landscape })
-    define_attribute(:usePrinterDefaults, :bool, :default => true)
-    define_attribute(:blackAndWhite,      :bool, :default => false)
-    define_attribute(:draft,              :bool, :default => false)
+    define_attribute(:usePrinterDefaults, :bool,   :default => true)
+    define_attribute(:blackAndWhite,      :bool,   :default => false)
+    define_attribute(:draft,              :bool,   :default => false)
     define_attribute(:cellComments,       :string, :default => 'none',
                        :values => %w{ none asDisplayed atEnd })
-    define_attribute(:useFirstPageNumber, :bool, :default => false)
-    define_attribute(:errors,             :string,    :default => 'displayed',
+    define_attribute(:useFirstPageNumber, :bool,   :default => false)
+    define_attribute(:errors,             :string, :default => 'displayed',
                        :values => %w{ displayed blank dash NA })
-    define_attribute(:horizontalDpi,      :int,  :default => 600)
-    define_attribute(:verticalDpi,        :int,  :default => 600)
-    define_attribute(:copies,             :int,  :default => 1)
+    define_attribute(:horizontalDpi,      :int,    :default => 600)
+    define_attribute(:verticalDpi,        :int,    :default => 600)
+    define_attribute(:copies,             :int,    :default => 1)
 
     define_attribute(:'r:id',            :string)
     define_element_name 'pageSetup'
@@ -85,6 +101,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_drawing-1.html
   class Drawing < OOXMLObject
     define_attribute(:'r:id',            :string)
+    define_attribute(:id,            :string)
     define_element_name 'drawing'
   end
 
@@ -100,6 +117,75 @@ module RubyXL
     define_element_name 'mergeCells'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_printOptions-1.html
+  class PrintOptions < OOXMLObject
+    define_attribute(:horizontalCentered, :bool, :default => false)
+    define_attribute(:verticalCentered,   :bool, :default => false)
+    define_attribute(:headings,           :bool, :default => false)
+    define_attribute(:gridLines,          :bool, :default => false)
+    define_attribute(:gridLinesSet,       :bool, :default => true)
+    define_element_name 'printOptions'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_headerFooter-1.html
+  class HeaderFooterSettings < OOXMLObject
+    define_attribute(:differentOddEven, :bool, :default => false)
+    define_attribute(:differentFirst,   :bool, :default => false)
+    define_attribute(:scaleWithDoc,     :bool, :default => true)
+    define_attribute(:alignWithMargins, :bool, :default => true)
+    define_child_node(RubyXL::StringValue, :node_name => :oddHeader)
+    define_child_node(RubyXL::StringValue, :node_name => :oddFooter)
+    define_child_node(RubyXL::StringValue, :node_name => :evenHeader)
+    define_child_node(RubyXL::StringValue, :node_name => :evenFooter)
+    define_child_node(RubyXL::StringValue, :node_name => :firstHeader)
+    define_child_node(RubyXL::StringValue, :node_name => :firstFooter)
+    define_element_name 'headerFooter'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetCalcPr-1.html
+  class SheetCalculationProperties < OOXMLObject
+    define_attribute(:fullCalcOnLoad, :bool, :default => false)
+    define_element_name 'sheetCalcPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_protectedRange-1.html
+  class ProtectedRange < OOXMLObject
+    define_attribute(:password,           :string)
+    define_attribute(:sqref,              :sqref, :required => true)
+    define_attribute(:name,               :string, :required => true)
+    define_attribute(:securityDescriptor, :string)
+    define_element_name 'protectedRange'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_protectedRanges-1.html
+  class ProtectedRanges < OOXMLObject
+    define_child_node(RubyXL::ProtectedRange, :collection => true)
+    define_element_name 'protectedRanges'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetProtection-1.html
+  class SheetProtection < OOXMLObject
+    define_attribute(:password,            :string)
+    define_attribute(:sheet,               :bool, :default => false)
+    define_attribute(:objects,             :bool, :default => false)
+    define_attribute(:scenarios,           :bool, :default => false)
+    define_attribute(:formatCells,         :bool, :default => true)
+    define_attribute(:formatColumns,       :bool, :default => true)
+    define_attribute(:formatRows,          :bool, :default => true)
+    define_attribute(:insertColumns,       :bool, :default => true)
+    define_attribute(:insertRows,          :bool, :default => true)
+    define_attribute(:insertHyperlinks,    :bool, :default => true)
+    define_attribute(:deleteColumns,       :bool, :default => true)
+    define_attribute(:deleteRows,          :bool, :default => true)
+    define_attribute(:selectLockedCells,   :bool, :default => false)
+    define_attribute(:sort,                :bool, :default => true)
+    define_attribute(:autoFilter,          :bool, :default => true)
+    define_attribute(:pivotTables,         :bool, :default => true)
+    define_attribute(:selectUnlockedCells, :bool, :default => false)
+    define_element_name 'sheetProtection'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLObject
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
@@ -107,23 +193,23 @@ module RubyXL
     define_child_node(RubyXL::WorksheetFormatProperties)
     define_child_node(RubyXL::ColumnRanges)
     define_child_node(RubyXL::SheetData)
-#    ssml:sheetCalcPr [0..1]    Sheet Calculation Properties
-#    ssml:sheetProtection [0..1]    Sheet Protection
-#    ssml:protectedRanges [0..1]    Protected Ranges
+    define_child_node(RubyXL::SheetCalculationProperties)
+    define_child_node(RubyXL::SheetProtection)
+    define_child_node(RubyXL::ProtectedRanges)
 #    ssml:scenarios [0..1]    Scenarios
 #    ssml:autoFilter [0..1]    AutoFilter
 #    ssml:sortState [0..1]    Sort State
 #    ssml:dataConsolidate [0..1]    Data Consolidate
 #    ssml:customSheetViews [0..1]    Custom Sheet Views
-    define_child_node(RubyXL::MergedCells)
+    define_child_node(RubyXL::MergedCells, :accessor => :merged_cells_list)
 #    ssml:phoneticPr [0..1]    Phonetic Properties
 #    ssml:conditionalFormatting [0..*]    Conditional Formatting
     define_child_node(RubyXL::DataValidations)
 #    ssml:hyperlinks [0..1]    Hyperlinks
-#    ssml:printOptions [0..1]    Print Options
+    define_child_node(RubyXL::PrintOptions)
     define_child_node(RubyXL::PageMargins)
     define_child_node(RubyXL::PageSetup)
-#    ssml:headerFooter [0..1]    Header Footer Settings
+    define_child_node(RubyXL::HeaderFooterSettings)
 #    ssml:rowBreaks [0..1]    Horizontal Page Breaks
 #    ssml:colBreaks [0..1]    Vertical Page Breaks
 #    ssml:customProperties [0..1]    Custom Properties
@@ -140,8 +226,18 @@ module RubyXL
 #    ssml:tableParts [0..1]    Table Parts
 #    ssml:extLst [0..1]    Future Feature Storage Area
     define_element_name 'worksheet'
+    set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
+                   'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
+                   'xmlns:mc'    => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
+                   'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac')
+
+    def merged_cells
+      (merged_cells_list && merged_cells_list.merge_cell) || []
+    end
 
     include LegacyWorksheet
+
+
   end
 
 end

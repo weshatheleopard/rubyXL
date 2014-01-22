@@ -25,9 +25,10 @@ module RubyXL
       attrs = obtain_class_variable(:@@ooxml_attributes)
 
       accessor = extra_params[:accessor] || accessorize(attr_name)
+      attr_name = attr_name.to_s
 
-      attrs[accessor] = {
-        :attr_name  => attr_name.to_s,
+      attrs[attr_name] = {
+        :accessor   => accessor,
         :attr_type  => attr_type,
         :optional   => !extra_params[:required], 
         :default    => extra_params[:default],
@@ -64,6 +65,10 @@ module RubyXL
       self.send(:attr_accessor, :count)
     end
 
+    def self.set_namespaces(namespace_hash)
+      self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
+    end
+
     def write_xml(xml, node_name_override = nil)
       before_write_xml
       attrs = prepare_attributes
@@ -82,8 +87,11 @@ module RubyXL
     end
 
     def initialize(params = {})
-      obtain_class_variable(:@@ooxml_attributes).each_key { |k| instance_variable_set("@#{k}", params[k]) }
-      obtain_class_variable(:@@ooxml_child_nodes).each_pair { |k, v|
+      obtain_class_variable(:@@ooxml_attributes).each_value { |v|
+        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
+      }
+
+      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
 
         initial_value =
           if params.has_key?(v[:accessor]) then params[v[:accessor]]
@@ -97,28 +105,38 @@ module RubyXL
       instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
 
+    def self.process_attribute(obj, raw_value, params)
+      val = raw_value &&
+              case params[:attr_type]
+              when :int    then Integer(raw_value)
+              when :float  then Float(raw_value)
+              when :string then raw_value
+              when :sqref  then RubyXL::Sqref.new(raw_value)
+              when :ref    then RubyXL::Reference.new(raw_value)
+              when :bool   then ['1', 'true'].include?(raw_value)
+              end              
+      obj.send("#{params[:accessor]}=", val)
+    end
+    private_class_method :process_attribute
+
     def self.parse(node)
       obj = self.new
 
-      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
+      known_attributes = obtain_class_variable(:@@ooxml_attributes)
 
-        raw_value = if v[:attr_name] == '_' then node.text
-                    else
-                      attr = node.attributes[v[:attr_name]]
-                      attr && attr.value
+      content_params = known_attributes['_']
+      process_attribute(obj, node.text, content_params) if content_params
+   
+      node.attributes.each_pair { |attr_name, attr|
+        attr_name = if attr.namespace then "#{attr.namespace.prefix}:#{attr.name}"
+                    else attr.name
                     end
-                    
-        val = raw_value &&
-                case v[:attr_type]
-                when :int    then Integer(raw_value)
-                when :float  then Float(raw_value)
-                when :string then raw_value
-                when :sqref  then RubyXL::Sqref.new(raw_value)
-                when :ref    then RubyXL::Reference.new(raw_value)
-                when :bool   then ['1', 'true'].include?(raw_value)
-                end              
 
-        obj.send("#{k}=", val)
+        attr_params = known_attributes[attr_name]
+
+        next if attr_params.nil?
+        # raise "Unknown attribute: #{attr_name}" if attr_params.nil?
+        process_attribute(obj, attr.value, attr_params)
       }
 
       known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
@@ -175,10 +193,10 @@ module RubyXL
     end
 
     def prepare_attributes
-      xml_attrs = {}
+      xml_attrs = obtain_class_variable(:@@ooxml_namespaces).dup
 
       obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
-        val = self.send(k)
+        val = self.send(v[:accessor])
 
         if val.nil? then
           next if v[:optional]
@@ -192,7 +210,7 @@ module RubyXL
                 else val
                 end
 
-        xml_attrs[v[:attr_name]] = val
+        xml_attrs[k] = val
       }
 
       xml_attrs
