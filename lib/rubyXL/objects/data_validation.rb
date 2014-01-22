@@ -1,7 +1,7 @@
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidation-1.html
-  class ValidationFormula < OOXMLObject
+  class Formula < OOXMLObject
     define_attribute(:_,                 :string, :accessor => :expression)
     define_element_name 'f'
   end
@@ -28,8 +28,8 @@ module RubyXL
     define_attribute(:prompt,           :string)
     define_attribute(:sqref,            :sqref, :required => true)
 
-    define_child_node(RubyXL::ValidationFormula, :node_name => :formula1)
-    define_child_node(RubyXL::ValidationFormula, :node_name => :formula2)
+    define_child_node(RubyXL::Formula, :node_name => :formula1)
+    define_child_node(RubyXL::Formula, :node_name => :formula2)
     define_element_name 'dataValidation'
 
   end

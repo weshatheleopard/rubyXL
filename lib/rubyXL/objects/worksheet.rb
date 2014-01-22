@@ -48,15 +48,15 @@ module RubyXL
   end
 
   class WorksheetFormatProperties < OOXMLObject
-    define_attribute(:baseColWidth,     :int,  :default => 8)
+    define_attribute(:baseColWidth,     :int,   :default => 8)
     define_attribute(:defaultColWidth,  :float)
-    define_attribute(:defaultRowHeight, :float)
-    define_attribute(:customHeight,     :bool, :default => false)
-    define_attribute(:zeroHeight,       :bool, :default => false)
-    define_attribute(:thickTop,         :bool, :default => false)
-    define_attribute(:thickBottom,      :bool, :default => false)
-    define_attribute(:outlineLevelRow,  :int,  :default => 0)
-    define_attribute(:outlineLevelCol,  :int,  :default => 0)
+    define_attribute(:defaultRowHeight, :float, :required => true)
+    define_attribute(:customHeight,     :bool,  :default => false)
+    define_attribute(:zeroHeight,       :bool,  :default => false)
+    define_attribute(:thickTop,         :bool,  :default => false)
+    define_attribute(:thickBottom,      :bool,  :default => false)
+    define_attribute(:outlineLevelRow,  :int,   :default => 0)
+    define_attribute(:outlineLevelCol,  :int,   :default => 0)
     define_element_name 'sheetFormatPr'
   end
 
@@ -185,6 +185,58 @@ module RubyXL
     define_element_name 'sheetProtection'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_phoneticPr-1.html
+  class PhoneticProperties < OOXMLObject
+    define_attribute(:fontId,          :int,    :required => true)
+    define_attribute(:type,             :string, :default => 'fullwidthKatakana',
+                        :values => %w{ halfwidthKatakana fullwidthKatakana Hiragana noConversion })
+    define_attribute(:alignment,        :string, :default => 'left',
+                        :values => %w{ noControl left center distributed })
+    define_element_name 'phoneticPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_cfRule-1.html
+  class ConditionalFormattingRule < OOXMLObject
+    define_attribute(:type,         :string, :values =>
+                       %w{ expression cellIs colorScale dataBar iconSet top10 uniqueValues
+                           duplicateValues containsText notContainsText beginsWith
+                           endsWith containsBlanks notContainsBlanks containsErrors
+                           notContainsErrors timePeriod aboveAverage })
+    define_attribute(:dxfId,        :int)
+    define_attribute(:priority,     :int,    :required => 1)
+    define_attribute(:stopIfTrue,   :bool,   :default  => false)
+    define_attribute(:aboveAverage, :bool,   :default  => true)
+    define_attribute(:percent,      :bool,   :default  => false)
+    define_attribute(:bottom,       :bool,   :default  => false)
+    define_attribute(:operator,     :string, :values =>
+                       %w{ lessThan lessThanOrEqual equal notEqual greaterThanOrEqual greaterThan
+                           between notBetween containsText notContains beginsWith endsWith })
+    define_attribute(:text,         :string)
+    define_attribute(:timePeriod,   :string, :values =>
+                       %w{ today yesterday tomorrow last7Days thisMonth
+                           lastMonth nextMonth thisWeek lastWeek nextWeek })
+    define_attribute(:rank,         :int)
+    define_attribute(:stdDev,       :int)
+    define_attribute(:equalAverage, :bool,   :default  => false)
+
+
+    define_child_node(RubyXL::Formula, :collection => true)
+#    ssml:colorScale [0..1]    Color Scale
+#    ssml:dataBar [0..1]    Data Bar
+#    ssml:iconSet [0..1]    Icon Set
+#    ssml:extLst [0..1]    Future Feature Storage Area
+    define_element_name 'cfRule'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
+  class PhoneticProperties < OOXMLObject
+    define_attribute(:pivot, :bool, :default => false)
+    define_attribute(:sqref, :sqref)
+    define_child_node(RubyXL::ConditionalFormattingRule, :collection => true)
+#    ssml:extLst [0..1]    Future Feature Storage Area
+    define_element_name 'conditionalFormatting'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -202,8 +254,8 @@ module RubyXL
 #    ssml:dataConsolidate [0..1]    Data Consolidate
 #    ssml:customSheetViews [0..1]    Custom Sheet Views
     define_child_node(RubyXL::MergedCells, :accessor => :merged_cells_list)
-#    ssml:phoneticPr [0..1]    Phonetic Properties
-#    ssml:conditionalFormatting [0..*]    Conditional Formatting
+    define_child_node(RubyXL::PhoneticProperties)
+    define_child_node(RubyXL::ConditionalFormattingRule)
     define_child_node(RubyXL::DataValidations)
 #    ssml:hyperlinks [0..1]    Hyperlinks
     define_child_node(RubyXL::PrintOptions)
@@ -229,7 +281,8 @@ module RubyXL
     set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
                    'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
                    'xmlns:mc'    => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
-                   'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac')
+                   'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
+                   'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
 
     def merged_cells
       (merged_cells_list && merged_cells_list.merge_cell) || []

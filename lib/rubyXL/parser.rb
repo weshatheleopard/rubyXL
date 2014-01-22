@@ -182,9 +182,6 @@ module RubyXL
         row_xpath = '/xmlns:worksheet/xmlns:sheetData/xmlns:row'
         cell_xpath = './xmlns:c'
 
-        sheet_views_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetViews/xmlns:sheetView', namespaces)
-        worksheet.sheet_views2 = sheet_views_nodes.collect { |node| RubyXL::SheetView.parse(node) }
-
         col_node_set = worksheet_xml.xpath('/xmlns:worksheet/xmlns:cols/xmlns:col',namespaces)
         worksheet.column_ranges = col_node_set.collect { |col_node| RubyXL::ColumnRange.parse(col_node) }
 
@@ -199,20 +196,8 @@ module RubyXL
 # Currently  not working #TODO#
 #        ext_list_node = worksheet_xml.xpath('/xmlns:worksheet/xmlns:extLst', namespaces)
 
-        legacy_drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:legacyDrawing', namespaces)
-        worksheet.legacy_drawings = legacy_drawing_nodes.collect { |node| RubyXL::LegacyDrawing.parse(node) }
-
-        drawing_nodes = worksheet_xml.xpath('/xmlns:worksheet/xmlns:drawing', namespaces)
-        worksheet.drawings = drawing_nodes.collect { |n| n.attributes['id'] }
-
       end
 =end
-
-
-#      sheet_data = worksheet_xml.xpath('/xmlns:worksheet/xmlns:sheetData', namespaces)
-#      worksheet.sheet_data = RubyXL::SheetData.parse(sheet_data.first)
-
-
       worksheet
     end
 

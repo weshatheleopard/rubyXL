@@ -17,14 +17,6 @@ module Writer
         xml << @worksheet.write_xml(xml)
 
 =begin
-        xml << (xml.create_element('worksheet', 
-                  'xmlns'    => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-                  'xmlns:r'  => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-                  'xmlns:mc' => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
-                  'xmlns:mv' => 'urn:schemas-microsoft-com:mac:vml',
-                  'mc:Ignorable' => 'mv',
-                  'mc:PreserveAttributes' => 'mv:*') { |root|
-
           min_row = min_col = nil
           max_row = max_col = 0
 
@@ -47,41 +39,8 @@ module Writer
           }
 
           root << xml.create_element('dimension', { :ref => RubyXL::Reference.new(min_row, max_row, min_col, max_col) })
-
-          unless @worksheet.sheet_views.empty?
-            root << xml.create_element('sheetViews') { |sheet_views|
-              @worksheet.sheet_views.each { |sheet_view| sheet_views << sheet_view.write_xml(xml) }
-            }
-          end
-
           root << xml.create_element('sheetFormatPr', { :baseColWidth => 10, :defaultRowHeight => 13 })
-
-          ranges = @worksheet.column_ranges
-          unless ranges.nil? || ranges.empty?
-            root << (xml.create_element('cols') { |cols|
-              ranges.each { |range| cols << range.write_xml(xml) }
-            })
-          end
-
-          root << @worksheet.sheet_data.write_xml(xml)
-
           root << xml.create_element('sheetCalcPr', { :fullCalcOnLoad => 1 })
-
-          merged_cells = @worksheet.merged_cells
-          unless merged_cells.empty?
-            root << xml.create_element('mergeCells', { :count => merged_cells.size }) { |mc|
-              @worksheet.merged_cells.each { |ref| mc << xml.create_element('mergeCell', { 'ref' => ref }) }
-            }
-          end
-
-          root << xml.create_element('phoneticPr', { :fontId => 1, :type => 'noConversion' })
-
-          unless @worksheet.validations.empty?
-            root << (xml.create_element('dataValidations', { :count => @worksheet.validations.size }) { |validations|
-              @worksheet.validations.each { |validation| validations << validation.write_xml(xml) }
-            })
-          end
-
           root << xml.create_element('pageMargins', { :left => 0.75, :right => 0.75, :top => 1, :bottom => 1, 
                                                       :header => 0.5, :footer => 0.5 })
           root << xml.create_element('pageSetup', { :orientation => 'portrait',

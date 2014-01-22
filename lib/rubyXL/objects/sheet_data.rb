@@ -1,6 +1,5 @@
 module RubyXL
 
-
   # http://www.schemacentral.com/sc/ooxml/e-ssml_v-1.html
   class CellValue < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
