@@ -39,4 +39,10 @@ module RubyXL
     set_countable
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_fills-1.html
+  class Fills < OOXMLObject
+    define_child_node(RubyXL::Fill, :collection => :with_count)
+    define_element_name 'fills'
+  end
+
 end

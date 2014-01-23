@@ -97,7 +97,7 @@ module RubyXL
   end
 
   class TableParts < OOXMLObject
-    define_child_node(RubyXL::RID, :collection => :countable, :node_name => :table_part)
+    define_child_node(RubyXL::RID, :collection => :with_count, :node_name => :table_part)
     define_element_name 'tableParts'
   end
 
@@ -220,7 +220,7 @@ module RubyXL
 #    ssml:colorScale [0..1]    Color Scale
 #    ssml:dataBar [0..1]    Data Bar
 #    ssml:iconSet [0..1]    Icon Set
-#    ssml:extLst [0..1]    Future Feature Storage Area
+    define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'cfRule'
   end
 
@@ -237,7 +237,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_rowBreaks-1.html
   class BreakList < OOXMLObject
     define_attribute(:manualBreakCount, :int, :default => 0)
-    define_child_node(RubyXL::Break, :collection => :countable)
+    define_child_node(RubyXL::Break, :collection => :with_count)
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
@@ -245,7 +245,7 @@ module RubyXL
     define_attribute(:pivot, :bool, :default => false)
     define_attribute(:sqref, :sqref)
     define_child_node(RubyXL::ConditionalFormattingRule, :collection => true)
-#    ssml:extLst [0..1]    Future Feature Storage Area
+    define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'conditionalFormatting'
   end
 
@@ -288,7 +288,7 @@ module RubyXL
 #    ssml:controls [0..1]    Embedded Controls
 #    ssml:webPublishItems [0..1]    Web Publishing Items
     define_child_node(RubyXL::TableParts)
-#    ssml:extLst [0..1]    Future Feature Storage Area
+    define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'worksheet'
     set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
                    'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',

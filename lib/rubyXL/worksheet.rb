@@ -2,14 +2,14 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
-  attr_accessor :sheet_name, :sheet_id, :sheet_data, :validations, :extLst, :workbook
+  attr_accessor :sheet_name, :sheet_id, :validations, :extLst, :workbook
 
   def initialize(params = {})
     super
     @workbook   = params[:workbook]
     @sheet_name = params[:sheet_name]
     @sheet_id   = params[:sheet_id]
-    @sheet_data = RubyXL::SheetData.new
+    self.sheet_data = RubyXL::SheetData.new
     self.cols = RubyXL::ColumnRanges.new
     @extLst = nil
     @validations = []
@@ -17,16 +17,16 @@ module LegacyWorksheet
 
   # allows for easier access to sheet_data
   def [](row = 0)
-    @sheet_data[row]
+    sheet_data[row]
   end
 
   def each
-    @sheet_data.rows.each { |row| yield(row) }
+    sheet_data.rows.each { |row| yield(row) }
   end
 
   #returns 2d array of just the cell values (without style or formula information)
   def extract_data(args = {})
-    @sheet_data.rows.map {|row| row.cells.map {|c| if c.is_a?(Cell) then c.value(args) else nil end}}
+    sheet_data.rows.map {|row| row.cells.map {|c| if c.is_a?(Cell) then c.value(args) else nil end}}
   end
 
   def get_table(headers = [], opts = {})
@@ -40,7 +40,7 @@ module LegacyWorksheet
     table_hash = {}
     table_hash[:table] = []
 
-    header_row = @sheet_data[row_num]
+    header_row = sheet_data[row_num]
     header_row.cells.each_with_index { |header_cell, index|
       break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
       next if header_cell.nil? || header_cell.value.nil?
@@ -52,7 +52,7 @@ module LegacyWorksheet
       original_row = row_num + 1
       current_row = original_row
 
-      cell = @sheet_data.rows[current_row].cells[index]
+      cell = sheet_data.rows[current_row].cells[index]
 
       # makes array of hashes in table_hash[:table]
       # as well as hash of arrays in table_hash[header]
@@ -69,10 +69,10 @@ module LegacyWorksheet
         end
 
         current_row += 1
-        if @sheet_data.rows[current_row].nil? then
+        if sheet_data.rows[current_row].nil? then
           cell = nil
         else
-          cell = @sheet_data.rows[current_row].cells[index]
+          cell = sheet_data.rows[current_row].cells[index]
         end
         cell_test = (!cell.nil? && !cell.value.nil?)
       end
@@ -88,7 +88,7 @@ module LegacyWorksheet
     Color.validate_color(rgb)
 
     sheet_data.rows[row_index].s = @workbook.modify_fill(get_row_style(row_index), rgb)
-    @sheet_data[row_index].cells.each { |c| c.change_fill(rgb) unless c.nil? }
+    sheet_data[row_index].cells.each { |c| c.change_fill(rgb) unless c.nil? }
   end
 
   def change_row_font_name(row = 0, font_name = 'Verdana')
@@ -264,7 +264,7 @@ module LegacyWorksheet
 
     RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
-    @sheet_data.rows.each { |row|
+    sheet_data.rows.each { |row|
       c = row[col]
       c.change_fill(color_index) if c
     }
@@ -310,7 +310,7 @@ module LegacyWorksheet
     validate_workbook
     ensure_cell_exists(row, column)
 
-    if overwrite || @sheet_data.rows[row].cells[column].nil?
+    if overwrite || sheet_data.rows[row].cells[column].nil?
       c = Cell.new
       c.worksheet = self
       c.row = row
@@ -322,12 +322,12 @@ module LegacyWorksheet
       col = RubyXL::ColumnRange.find(column, cols.column_ranges)
       c.style_index = sheet_data.rows[row].s || (col && col.style_index) || 0
 
-      @sheet_data.rows[row].cells[column] = c
+      sheet_data.rows[row].cells[column] = c
     end
 
     add_cell_style(row, column)
 
-    return @sheet_data.rows[row].cells[column]
+    sheet_data.rows[row].cells[column]
   end
 
   def add_cell_obj(cell, overwrite=true)
@@ -340,13 +340,13 @@ module LegacyWorksheet
 
     ensure_cell_exists(row, column)
 
-    if overwrite || @sheet_data.rows[row].cells[column].nil?
-      @sheet_data.rows[row].cells[column] = cell
+    if overwrite || sheet_data.rows[row].cells[column].nil?
+      sheet_data.rows[row].cells[column] = cell
     end
 
     add_cell_style(row, column)
 
-    return @sheet_data.rows[row].cells[column]
+    sheet_data.rows[row].cells[column]
   end
 
   def delete_row(row_index=0)
@@ -354,12 +354,12 @@ module LegacyWorksheet
     validate_nonnegative(row_index)
     return nil unless row_exists(row_index)
 
-    deleted = @sheet_data.rows.delete_at(row_index)
+    deleted = sheet_data.rows.delete_at(row_index)
     row_num = row_index+1
 
     # Change cell row numbers
-    row_index.upto(@sheet_data.size - 1) { |index|
-      @sheet_data[index].cells.each{ |c| c.row -= 1 unless c.nil? }
+    row_index.upto(sheet_data.size - 1) { |index|
+      sheet_data[index].cells.each{ |c| c.row -= 1 unless c.nil? }
     }
 
     return deleted
@@ -373,9 +373,9 @@ module LegacyWorksheet
 
     if row_index == 0 then
       old_row = nil
-      new_cells = Array.new(@sheet_data.rows[0].cells.size)
+      new_cells = Array.new(sheet_data.rows[0].cells.size)
     else
-      old_row = @sheet_data.rows[row_index - 1] 
+      old_row = sheet_data.rows[row_index - 1] 
       new_cells = old_row.cells.collect { |c| 
                                           if c.nil? then nil
                                           else RubyXL::Cell.new(:s => c.s)
@@ -384,14 +384,12 @@ module LegacyWorksheet
 
     new_row = RubyXL::Row.new(:cells => new_cells, :s => old_row && old_row.s)
 
-    @sheet_data.rows.insert(row_index, new_row)
+    sheet_data.rows.insert(row_index, new_row)
 
     #update row value for all rows below
-    row_index.upto(@sheet_data.rows.size - 1) { |i|
-      row = @sheet_data.rows[i]
-      row.cells.each { |c|
-        c.row = i unless c.nil?
-      }
+    row_index.upto(sheet_data.rows.size - 1) { |i|
+      row = sheet_data.rows[i]
+      row.cells.each { |c| c.row = i unless c.nil? }
     }
 
     return new_row
@@ -404,10 +402,10 @@ module LegacyWorksheet
     return nil unless column_exists(col_index)
 
     #delete column
-    @sheet_data.rows.each { |row| row.cells.delete_at(col_index) }
+    sheet_data.rows.each { |row| row.cells.delete_at(col_index) }
 
     #change column numbers for cells to right of deleted column
-    @sheet_data.rows.each_with_index { |row, row_index|
+    sheet_data.rows.each_with_index { |row, row_index|
       row.cells.each_with_index { |c, col_index|
         c.column -= 1 if c.is_a?(Cell)
       }
@@ -425,7 +423,7 @@ module LegacyWorksheet
     old_range = col_index > 0 ? RubyXL::ColumnRange.find(col_index, cols.column_ranges) : RubyXL::ColumnRange.new
 
     #go through each cell in column
-    @sheet_data.rows.each_with_index { |row, row_index|
+    sheet_data.rows.each_with_index { |row, row_index|
       old_cell = row[col_index]
       c = nil
 
@@ -455,11 +453,11 @@ module LegacyWorksheet
     case shift
     when nil then # No shifting at all
     when :right then
-      @sheet_data.rows[row].insert_cell_shift_right(nil, col)
+      sheet_data.rows[row].insert_cell_shift_right(nil, col)
     when :down then
-      @sheet_data.rows << RubyXL::Row.new(:cells => Array.new(@sheet_data.rows[row].size))
-      (@sheet_data.size-1).downto(row+1) { |index|
-        @sheet_data.rows[index].cells[col] = @sheet_data.rows[index-1].cells[col]
+      sheet_data.rows << RubyXL::Row.new(:cells => Array.new(sheet_data.rows[row].size))
+      (sheet_data.size - 1).downto(row+1) { |index|
+        sheet_data.rows[index].cells[col] = sheet_data.rows[index-1].cells[col]
       }
     else
       raise 'invalid shift option'
@@ -478,16 +476,16 @@ module LegacyWorksheet
 
     return nil unless row_exists(row) && column_exists(col)
 
-    cell = @sheet_data[row][col]
+    cell = sheet_data[row][col]
 
     case shift
     when nil then
-      @sheet_data.rows[row].cells[col] = nil
+      sheet_data.rows[row].cells[col] = nil
     when :left then
-      @sheet_data.rows[row].delete_cell_shift_left(col)
+      sheet_data.rows[row].delete_cell_shift_left(col)
     when :up then
-      (row...(@sheet_data.size - 1)).each { |index|
-        c = @sheet_data.rows[index].cells[col] = @sheet_data.rows[index + 1].cells[col]
+      (row...(sheet_data.size - 1)).each { |index|
+        c = sheet_data.rows[index].cells[col] = sheet_data.rows[index + 1].cells[col]
         c.row -= 1 if c.is_a?(Cell)
       }
     else
@@ -749,7 +747,7 @@ module LegacyWorksheet
     xf = workbook.register_new_font(font, get_row_xf(row))
     sheet_data.rows[row].s = workbook.register_new_xf(xf, get_row_style(row))
 
-    @sheet_data[row].cells.each { |c| font_switch(c, change_type, arg) unless c.nil? }
+    sheet_data[row].cells.each { |c| font_switch(c, change_type, arg) unless c.nil? }
   end
 
   # Helper method to update the fonts and cell styles array
@@ -762,7 +760,7 @@ module LegacyWorksheet
     new_style_index = workbook.register_new_xf(xf, get_col_style(col))
     RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
-    @sheet_data.rows.each { |row|
+    sheet_data.rows.each { |row|
       c = row[col]
       font_switch(c, change_type, arg) unless c.nil?
     }
@@ -815,16 +813,16 @@ module LegacyWorksheet
     validate_nonnegative(row_index)
     validate_nonnegative(col_index)
 
-    existing_row_count = @sheet_data.rows.size
+    existing_row_count = sheet_data.rows.size
 
     # Expand cell arrays in existing rows, if necessary.
     # Writing anything to a cell in the array automatically creates all the members
     # with lower indices, filling them with +nil+s. But, we can't just write +nil+
     # to +col_index+ because it may be less than +size+! So we read from that index
     # (if it didn't exist, we will get nil) and write right back.
-    @sheet_data.rows.each { |r| r.cells[col_index] = r.cells[col_index] }
+    sheet_data.rows.each { |r| r.cells[col_index] = r.cells[col_index] }
 
-    first_row = @sheet_data.rows.first
+    first_row = sheet_data.rows.first
     col_size = [ first_row && first_row.cells.size || 0, col_index ].max
 
     # Now create new rows with the required number of cells.
@@ -835,7 +833,7 @@ module LegacyWorksheet
     # then the block will be invoked exactly once, which takes care of the case when
     # +row_index+ is greater than the current max index by exactly 1.
     row_index.downto(existing_row_count) { |r| 
-      @sheet_data.rows[r] = RubyXL::Row.new(:cells => Array.new(col_size) )
+      sheet_data.rows[r] = RubyXL::Row.new(:cells => Array.new(col_size) )
     } 
   end  
 
@@ -865,7 +863,7 @@ module LegacyWorksheet
 
     sheet_data.rows[row].s = @workbook.modify_alignment(get_row_style(row), is_horizontal, alignment)
 
-    @sheet_data[row].cells.each { |c|
+    sheet_data[row].cells.each { |c|
       next if c.nil?
       if is_horizontal then c.change_horizontal_alignment(alignment)
       else                  c.change_vertical_alignment(alignment)
@@ -880,7 +878,7 @@ module LegacyWorksheet
     new_style_index = @workbook.modify_alignment(get_column_style_index(col), is_horizontal, alignment)
     RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
-    @sheet_data.rows.each { |row|
+    sheet_data.rows.each { |row|
       c = row[col]
       next if c.nil?
       if is_horizontal
@@ -897,7 +895,7 @@ module LegacyWorksheet
 
     sheet_data.rows[row].s = @workbook.modify_border(get_row_style(row), direction, weight)
 
-    @sheet_data[row].cells.each { |c|
+    sheet_data[row].cells.each { |c|
       next if c.nil?
       case direction
       when :top      then c.change_border_top(weight)
@@ -917,7 +915,7 @@ module LegacyWorksheet
     new_style_index = @workbook.modify_border(get_col_style(col), direction, weight)
     RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
 
-    @sheet_data.rows.each { |row|
+    sheet_data.rows.each { |row|
       c = row.cells[col]
       next if c.nil?
       case direction
@@ -932,7 +930,7 @@ module LegacyWorksheet
   end
 
   def add_cell_style(row,column)
-    xf = @workbook.cell_xfs[@sheet_data.rows[row].cells[column].style_index]
+    xf = @workbook.cell_xfs[sheet_data.rows[row].cells[column].style_index]
     @workbook.fonts[xf.font_id].count += 1
     @workbook.fills[xf.fill_id].count += 1
     @workbook.borders[xf.border_id].count += 1
@@ -943,7 +941,7 @@ module LegacyWorksheet
     validate_workbook
     index = nil
 
-    @sheet_data.rows.each_with_index { |row, index|
+    sheet_data.rows.each_with_index { |row, index|
       cells_content = cells_content.map { |header| header.to_s.downcase.strip }
       original_cells_content = row.cells.map { |cell| cell.nil? ? '' : cell.value.to_s.downcase.strip }
       if (cells_content & original_cells_content).size == cells_content.size
@@ -959,11 +957,11 @@ module LegacyWorksheet
   private :validate_nonnegative
 
   def column_exists(col)
-    @sheet_data.rows[0].cells.size > col
+    sheet_data.rows[0].cells.size > col
   end
 
   def row_exists(row)
-    @sheet_data.rows.size > row
+    sheet_data.rows.size > row
   end
 
 

@@ -21,7 +21,7 @@ module RubyXL
       :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain, :theme,
       :date1904, :media, :external_links, :external_links_rels, :style_corrector,
       :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :column_lookup_hash
+      :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :stylesheet
 
     attr_reader :shared_strings
 
@@ -70,7 +70,7 @@ module RubyXL
       @colors             = {}
       @shared_strings_XML = nil
       @defined_names      = []
-      @column_lookup_hash = {}
+      @stylesheet         = RubyXL::Stylesheet.new
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')

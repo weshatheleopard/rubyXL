@@ -139,6 +139,10 @@ module RubyXL
         wb.borders[id].count += 1 #unless id.nil?
       }
 
+      wb.stylesheet = RubyXL::Stylesheet.parse(styles_xml.root)
+
+
+
       # Not sure why they were getting sheet names from god knows where.
       # There *may* have been a good reason behind it, so not tossing this code out entirely yet.
       # sheet_names = app_file.css('TitlesOfParts vt|vector vt|lpstr').children

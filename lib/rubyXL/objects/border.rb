@@ -50,4 +50,10 @@ module RubyXL
 
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_borders-1.html
+  class Borders < OOXMLObject
+    define_child_node(RubyXL::Border, :collection => :with_count)
+    define_element_name 'borders'
+  end
+
 end
