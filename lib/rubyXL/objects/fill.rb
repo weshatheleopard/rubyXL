@@ -40,8 +40,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fills-1.html
-  class Fills < OOXMLObject
-    define_child_node(RubyXL::Fill, :collection => :with_count)
+  class FillContainer < OOXMLObject
+    define_child_node(RubyXL::Fill, :collection => :with_count, :accessor => :fills)
     define_element_name 'fills'
   end
 

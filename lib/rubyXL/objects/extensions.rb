@@ -3,12 +3,13 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_ext-1.html
   class Extension < OOXMLObject
     define_attribute(:uri, :string)
-    define_element_name 'extLst'
+    define_element_name 'ext'
     attr_accessor :raw_xml
 
     def self.parse(node)
       obj = new
-      raw_xml = node.to_xml
+      obj.raw_xml = node.to_xml
+      obj
     end
 
     def write_xml(xml, node_name_override = nil)

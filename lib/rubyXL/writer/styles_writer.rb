@@ -9,6 +9,8 @@ module RubyXL
       def write()
 
         render_xml do |xml|
+          xml << @workbook.stylesheet.write_xml(xml)
+=begin
           xml << (xml.create_element('styleSheet', :xmlns => "http://schemas.openxmlformats.org/spreadsheetml/2006/main") { |root|
             unless @workbook.num_fmts.empty?
               root << (xml.create_element('numFmts', :count => @workbook.num_fmts.size) { |numfmts|
@@ -55,8 +57,8 @@ module RubyXL
             end
 
           })
+=end
         end
-
       end
 
     end

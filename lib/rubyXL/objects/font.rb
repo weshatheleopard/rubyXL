@@ -106,8 +106,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fonts-1.html
-  class Fonts < OOXMLObject
-    define_child_node(RubyXL::Font, :collection => :with_count)
+  class FontContainer < OOXMLObject
+    define_child_node(RubyXL::Font, :collection => :with_count, :accessor => :fonts)
     define_element_name 'fonts'
   end
 

@@ -95,8 +95,7 @@ module RubyXL
 
       end
 
-      fills = styles_xml.css('fills fill')
-      wb.fills = fills.collect { |node| RubyXL::Fill.parse(node) }
+      wb.stylesheet = RubyXL::Stylesheet.parse(styles_xml.root)
 
       colors = styles_xml.css('colors').first
 
@@ -109,12 +108,6 @@ module RubyXL
         }
       end
 
-      borders = styles_xml.css('borders border')
-      wb.borders = borders.collect { |node| RubyXL::Border.parse(node) }
-
-      fonts = styles_xml.css('fonts font')
-      wb.fonts = fonts.collect { |node| RubyXL::Font.parse(node) }
-
       cell_styles = styles_xml.css('cellStyles cellStyle')
       wb.cell_styles = cell_styles.collect { |node| RubyXL::CellStyle.parse(node) }
 
@@ -123,9 +116,6 @@ module RubyXL
 
       csxfs = styles_xml.css('cellStyleXfs xf')
       wb.cell_style_xfs = csxfs.collect { |node| RubyXL::XF.parse(node) }
-
-      cxfs = styles_xml.css('cellXfs xf')
-      wb.cell_xfs = cxfs.collect { |node| RubyXL::XF.parse(node) }
 
       #fills out count information for each font, fill, and border
       wb.cell_xfs.each { |style|
@@ -138,10 +128,6 @@ module RubyXL
         id = style.border_id
         wb.borders[id].count += 1 #unless id.nil?
       }
-
-      wb.stylesheet = RubyXL::Stylesheet.parse(styles_xml.root)
-
-
 
       # Not sure why they were getting sheet names from god knows where.
       # There *may* have been a good reason behind it, so not tossing this code out entirely yet.

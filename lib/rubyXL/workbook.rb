@@ -17,8 +17,8 @@ module RubyXL
   class Workbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
-      :modified_at, :company, :application, :appversion, :num_fmts, :fonts, :fills,
-      :borders, :cell_xfs, :cell_style_xfs, :cell_styles, :calc_chain, :theme,
+      :modified_at, :company, :application, :appversion, :num_fmts,
+      :cell_style_xfs, :cell_styles, :calc_chain, :theme,
       :date1904, :media, :external_links, :external_links_rels, :style_corrector,
       :drawings, :drawings_rels, :charts, :chart_rels,
       :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :stylesheet
@@ -46,10 +46,6 @@ module RubyXL
       @appversion         = appversion
       @num_fmts           = []
       @num_fmts_by_id     = nil
-      @fonts              = []
-      @fills              = nil
-      @borders            = []
-      @cell_xfs           = []
       @cell_style_xfs     = []
       @cell_styles        = []
       @shared_strings     = RubyXL::SharedStrings.new
@@ -70,7 +66,32 @@ module RubyXL
       @colors             = {}
       @shared_strings_XML = nil
       @defined_names      = []
-      @stylesheet         = RubyXL::Stylesheet.new
+      @stylesheet         = RubyXL::Stylesheet.new(
+                              :cell_xfs => RubyXL::CellXFs.new(
+                                :xfs => [ 
+                                  RubyXL::XF.new(
+                                    :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
+                                  )
+                                ]
+                              ),
+                              :font_container => RubyXL::FontContainer.new(
+                                :fonts => [ 
+                                  RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+                                                   :sz => RubyXL::FloatValue.new(:val => 10) ),
+                                  RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+                                                   :sz => RubyXL::FloatValue.new(:val => 8) )
+                                ]
+                              ),
+                              :fill_container => RubyXL::FillContainer.new(
+                                :fills => [
+                                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
+                                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125'))
+                                ]
+                              ),
+                              :border_container => RubyXL::BorderContainer.new(
+                                :borders => [ RubyXL::Border.new ]
+                              )
+                            )
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')
@@ -245,7 +266,7 @@ module RubyXL
     end
 
     def get_fill_color(xf)
-      fill = @fills[xf.fill_id]
+      fill = fills[xf.fill_id]
       pattern = fill && fill.pattern_fill
       color = pattern && pattern.fg_color
       color && color.rgb || 'ffffff'
@@ -338,21 +359,28 @@ module RubyXL
       register_new_xf(new_xf, style_index)
     end
 
+    def cell_xfs # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.cell_xfs.xfs
+    end
+
+    def fonts # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.font_container.fonts
+    end
+
+    def fills # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.fill_container.fills
+    end
+
+    def borders # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.border_container.borders
+    end
+
     private
 
     # Do not change. Excel requires that some of these styles be default,
     # and will simply assume that the 0 and 1 indexed fonts are the default values.
     def fill_styles()
-      @fonts = [ RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 10) ),
-                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'), :sz => RubyXL::FloatValue.new(:val => 8) ) ]
-
-      @fills = [ RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
-                 RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125')) ]
-
-      @borders = [ RubyXL::Border.new ]
-
       @cell_style_xfs = [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ]
-      @cell_xfs = [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0) ]
       @cell_styles = [ RubyXL::CellStyle.new({ :builtin_id => 0, :name => 'Normal', :xf_id => 0 }) ]
     end
 
@@ -373,5 +401,6 @@ module RubyXL
     def validate_before_write
       ## TODO CHECK IF STYLE IS OK if not raise
     end
+  
   end
 end

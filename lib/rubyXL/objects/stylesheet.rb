@@ -8,7 +8,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmts-1.html
-  class NumberFormats < OOXMLObject
+  class NumberFormatContainer < OOXMLObject
     define_child_node(RubyXL::NumberFormat, :collection => :with_count)
     define_element_name 'numFmts'
   end
@@ -21,7 +21,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellXfs-1.html
   class CellXFs < OOXMLObject
-    define_child_node(RubyXL::XF, :collection => :with_count)
+    define_child_node(RubyXL::XF, :collection => :with_count, :accessor => :xfs)
     define_element_name 'cellXfs'
   end
 
@@ -75,10 +75,10 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html
   class Stylesheet < OOXMLObject
-    define_child_node(RubyXL::NumberFormats)
-    define_child_node(RubyXL::Fonts)
-    define_child_node(RubyXL::Fills)
-    define_child_node(RubyXL::Borders)
+    define_child_node(RubyXL::NumberFormatContainer)
+    define_child_node(RubyXL::FontContainer,   :accessor => :font_container)
+    define_child_node(RubyXL::FillContainer,   :accessor => :fill_container)
+    define_child_node(RubyXL::BorderContainer, :accessor => :border_container)
     define_child_node(RubyXL::CellStyleXFs)
     define_child_node(RubyXL::CellXFs)
     define_child_node(RubyXL::CellStyles)
