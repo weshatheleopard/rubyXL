@@ -17,11 +17,10 @@ module RubyXL
   class Workbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
-      :modified_at, :company, :application, :appversion, :num_fmts,
-      :cell_style_xfs, :cell_styles, :calc_chain, :theme,
+      :modified_at, :company, :application, :appversion, :calc_chain, :theme,
       :date1904, :media, :external_links, :external_links_rels, :style_corrector,
       :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :printer_settings, :macros, :colors, :shared_strings_XML, :defined_names, :stylesheet
+      :worksheet_rels, :printer_settings, :macros, :shared_strings_XML, :defined_names, :stylesheet
 
     attr_reader :shared_strings
 
@@ -44,10 +43,7 @@ module RubyXL
       @company            = company
       @application        = application
       @appversion         = appversion
-      @num_fmts           = []
-      @num_fmts_by_id     = nil
       @cell_style_xfs     = []
-      @cell_styles        = []
       @shared_strings     = RubyXL::SharedStrings.new
       @calc_chain         = nil #unnecessary?
       @date1904           = date1904 > 0
@@ -63,45 +59,17 @@ module RubyXL
       @theme              = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros             = RubyXL::GenericStorage.new('xl').binary
-      @colors             = {}
       @shared_strings_XML = nil
       @defined_names      = []
-      @stylesheet         = RubyXL::Stylesheet.new(
-                              :cell_xfs => RubyXL::CellXFs.new(
-                                :xfs => [ 
-                                  RubyXL::XF.new(
-                                    :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
-                                  )
-                                ]
-                              ),
-                              :font_container => RubyXL::FontContainer.new(
-                                :fonts => [ 
-                                  RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-                                                   :sz => RubyXL::FloatValue.new(:val => 10) ),
-                                  RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-                                                   :sz => RubyXL::FloatValue.new(:val => 8) )
-                                ]
-                              ),
-                              :fill_container => RubyXL::FillContainer.new(
-                                :fills => [
-                                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
-                                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125'))
-                                ]
-                              ),
-                              :border_container => RubyXL::BorderContainer.new(
-                                :borders => [ RubyXL::Border.new ]
-                              )
-                            )
+      @stylesheet         = RubyXL::Stylesheet.default
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')
       rescue
-        t = Time.now
-        @created_at       = t.strftime('%Y-%m-%dT%TZ')
+        @created_at       = Time.now.strftime('%Y-%m-%dT%TZ')
       end
       @modified_at        = @created_at
 
-      fill_styles()
       fill_shared_strings()
     end
 
@@ -132,16 +100,6 @@ module RubyXL
 
     def each
       worksheets.each{|i| yield i}
-    end
-
-    def num_fmts_by_id
-      return @num_fmts_by_id unless @num_fmts_by_id.nil?
-
-      @num_fmts_by_id = {}
-
-      num_fmts.each { |fmt| @num_fmts_by_id[fmt.num_fmt_id] = fmt }
-
-      @num_fmts_by_id
     end
 
     #filepath of xlsx file (including file itself)
@@ -376,14 +334,6 @@ module RubyXL
     end
 
     private
-
-    # Do not change. Excel requires that some of these styles be default,
-    # and will simply assume that the 0 and 1 indexed fonts are the default values.
-    def fill_styles()
-      @cell_style_xfs = [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ]
-      @cell_styles = [ RubyXL::CellStyle.new({ :builtin_id => 0, :name => 'Normal', :xf_id => 0 }) ]
-    end
-
 
     #fills shared strings hash, contains each unique string
     def fill_shared_strings()

@@ -97,26 +97,6 @@ module RubyXL
 
       wb.stylesheet = RubyXL::Stylesheet.parse(styles_xml.root)
 
-      colors = styles_xml.css('colors').first
-
-      if colors then
-        colors.element_children.each { |color_type_node|
-          wb.colors[color_type_node.name] ||= []
-          color_type_node.element_children.each { |color_node|
-            wb.colors[color_type_node.name] << RubyXL::Color.parse(color_node)
-          }
-        }
-      end
-
-      cell_styles = styles_xml.css('cellStyles cellStyle')
-      wb.cell_styles = cell_styles.collect { |node| RubyXL::CellStyle.parse(node) }
-
-      num_fmts = styles_xml.css('numFmts numFmt')
-      wb.num_fmts = num_fmts.collect { |node| RubyXL::NumFmt.parse(node) }
-
-      csxfs = styles_xml.css('cellStyleXfs xf')
-      wb.cell_style_xfs = csxfs.collect { |node| RubyXL::XF.parse(node) }
-
       #fills out count information for each font, fill, and border
       wb.cell_xfs.each { |style|
         id = style.font_id
