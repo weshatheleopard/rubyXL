@@ -243,29 +243,24 @@ module LegacyWorksheet
     change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
   end
 
-  def change_column_width(col = 0, width = 13)
+  def change_column_width(column_index = 0, width = 13)
     validate_workbook
-    ensure_cell_exists(0, col)
+    ensure_cell_exists(0, column_index)
 
-    RubyXL::ColumnRange.update(col, cols.column_ranges, { :width => width, :custom_width => 1 })
+    range = cols.get_range(column_index)
+    range.width = width
+    range.custom_width = true
   end
 
-  def get_column_style_index(col)
-    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
-    (range && range.style_index) || 0
-  end
-
-  def change_column_fill(col=0, color_index='ffffff')
+  def change_column_fill(column_index = 0, color_index='ffffff')
     validate_workbook
     Color.validate_color(color_index)
-    ensure_cell_exists(0, col)
+    ensure_cell_exists(0, column_index)
 
-    new_style_index = @workbook.modify_fill(get_column_style_index(col), color_index)
-
-    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
+    cols.get_range(column_index).style = @workbook.modify_fill(get_col_style(column_index), color_index)
 
     sheet_data.rows.each { |row|
-      c = row[col]
+      c = row[column_index]
       c.change_fill(color_index) if c
     }
   end
@@ -319,8 +314,8 @@ module LegacyWorksheet
       c.datatype = (formula || data.is_a?(Numeric)) ? '' : RubyXL::Cell::RAW_STRING
       c.formula = formula
 
-      col = RubyXL::ColumnRange.find(column, cols.column_ranges)
-      c.style_index = sheet_data.rows[row].s || (col && col.style_index) || 0
+      range = cols && cols.find(column)
+      c.style_index = sheet_data.rows[row].s || (range && range.style_index) || 0
 
       sheet_data.rows[row].cells[column] = c
     end
@@ -395,36 +390,36 @@ module LegacyWorksheet
     return new_row
   end
 
-  def delete_column(col_index=0)
+  def delete_column(column_index = 0)
     validate_workbook
-    validate_nonnegative(col_index)
+    validate_nonnegative(column_index)
 
-    return nil unless column_exists(col_index)
+    return nil unless column_exists(column_index)
 
     #delete column
-    sheet_data.rows.each { |row| row.cells.delete_at(col_index) }
+    sheet_data.rows.each { |row| row.cells.delete_at(column_index) }
 
     #change column numbers for cells to right of deleted column
     sheet_data.rows.each_with_index { |row, row_index|
-      row.cells.each_with_index { |c, col_index|
+      row.cells.each_with_index { |c, column_index|
         c.column -= 1 if c.is_a?(Cell)
       }
     }
 
-    cols.column_ranges.each { |range| range.delete_column(col_index) }
+    cols.column_ranges.each { |range| range.delete_column(column_index) }
   end
 
-  # inserts column at col_index, pushes everything right, takes styles from column to left
+  # inserts column at +column_index+, pushes everything right, takes styles from column to left
   # USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
-  def insert_column(col_index = 0)
+  def insert_column(column_index = 0)
     validate_workbook
-    ensure_cell_exists(0, col_index)
+    ensure_cell_exists(0, column_index)
 
-    old_range = col_index > 0 ? RubyXL::ColumnRange.find(col_index, cols.column_ranges) : RubyXL::ColumnRange.new
+    old_range = cols.get_range(column_index)
 
     #go through each cell in column
     sheet_data.rows.each_with_index { |row, row_index|
-      old_cell = row[col_index]
+      old_cell = row[column_index]
       c = nil
 
       if old_cell && old_cell.style_index != 0 &&
@@ -433,17 +428,17 @@ module LegacyWorksheet
         c = Cell.new
         c.worksheet = self
         c.row = row_index
-        c.column = col_index
+        c.column = column_index
         c.datatype = RubyXL::Cell::SHARED_STRING
         c.style_index = old_cell.style_index
       end
 
-      row.insert_cell_shift_right(c, col_index)
+      row.insert_cell_shift_right(c, column_index)
     }
 
-    ColumnRange.insert_column(col_index, cols.column_ranges)
+    cols.insert_column(column_index)
 
-    #update column numbers
+    # TODO: update column numbers
   end
 
   def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
@@ -609,12 +604,12 @@ module LegacyWorksheet
     font && font.is_strikethrough
   end
 
-  def get_column_width(col=0)
+  def get_column_width(column_index = 0)
     validate_workbook
-    validate_nonnegative(col)
-    return nil unless column_exists(col)
+    validate_nonnegative(column_index)
+    return nil unless column_exists(column_index)
 
-    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
+    range = cols.find(column_index)
     (range && range.width) || 10
   end
 
@@ -732,8 +727,8 @@ module LegacyWorksheet
     raise "This worksheet #{self} is not in workbook #{@workbook}"
   end
 
-  def get_cols_style_index(col)
-    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
+  def get_cols_style_index(column_index)
+    range = cols.find(column_index)
     (range && range.style) || 0
   end
 
@@ -752,16 +747,16 @@ module LegacyWorksheet
 
   # Helper method to update the fonts and cell styles array
   # main method to change font, called from each separate font mutator method
-  def change_column_font(col, change_type, arg, font, xf)
+  def change_column_font(column_index, change_type, arg, font, xf)
     validate_workbook
-    ensure_cell_exists(0, col)
+    ensure_cell_exists(0, column_index)
 
     xf = workbook.register_new_font(font, xf)
-    new_style_index = workbook.register_new_xf(xf, get_col_style(col))
-    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
+
+    cols.get_range(column_index).style = workbook.register_new_xf(xf, get_col_style(column_index))
 
     sheet_data.rows.each { |row|
-      c = row[col]
+      c = row[column_index]
       font_switch(c, change_type, arg) unless c.nil?
     }
   end
@@ -807,23 +802,23 @@ module LegacyWorksheet
     end
   end
 
-  # Ensures that cell with +row_index+ and +col_index+ exists in
+  # Ensures that cell with +row_index+ and +column_index+ exists in
   #  +sheet_data+ arrays, growing them up if necessary.
-  def ensure_cell_exists(row_index, col_index = 0)
+  def ensure_cell_exists(row_index, column_index = 0)
     validate_nonnegative(row_index)
-    validate_nonnegative(col_index)
+    validate_nonnegative(column_index)
 
     existing_row_count = sheet_data.rows.size
 
     # Expand cell arrays in existing rows, if necessary.
     # Writing anything to a cell in the array automatically creates all the members
     # with lower indices, filling them with +nil+s. But, we can't just write +nil+
-    # to +col_index+ because it may be less than +size+! So we read from that index
+    # to +column_index+ because it may be less than +size+! So we read from that index
     # (if it didn't exist, we will get nil) and write right back.
-    sheet_data.rows.each { |r| r.cells[col_index] = r.cells[col_index] }
+    sheet_data.rows.each { |r| r.cells[column_index] = r.cells[column_index] }
 
     first_row = sheet_data.rows.first
-    col_size = [ first_row && first_row.cells.size || 0, col_index ].max
+    col_size = [ first_row && first_row.cells.size || 0, column_index ].max
 
     # Now create new rows with the required number of cells.
     # Doing +.downto()+ here so the reallocation of row array has to only happen once,
@@ -838,8 +833,8 @@ module LegacyWorksheet
   end  
 
   # Helper method to get the style index for a column
-  def get_col_style(col)
-    range = RubyXL::ColumnRange.find(col, cols.column_ranges)
+  def get_col_style(column_index)
+    range = cols.find(column_index)
     (range && range.style) || 0
   end
 
@@ -848,8 +843,8 @@ module LegacyWorksheet
     (r && r.s) || 0
   end
 
-  def get_col_xf(col)
-    @workbook.cell_xfs[get_col_style(col)]
+  def get_col_xf(column_index)
+    @workbook.cell_xfs[get_col_style(column_index)]
   end
 
   def get_row_xf(row)
@@ -871,15 +866,14 @@ module LegacyWorksheet
     }
   end
 
-  def change_column_alignment(col,alignment,is_horizontal)
+  def change_column_alignment(column_index, alignment, is_horizontal)
     validate_workbook
-    ensure_cell_exists(0, col)
+    ensure_cell_exists(0, column_index)
 
-    new_style_index = @workbook.modify_alignment(get_column_style_index(col), is_horizontal, alignment)
-    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
+    cols.get_range(column_index).style = @workbook.modify_alignment(get_col_style(column_index), is_horizontal, alignment)
 
     sheet_data.rows.each { |row|
-      c = row[col]
+      c = row[column_index]
       next if c.nil?
       if is_horizontal
         c.change_horizontal_alignment(alignment)
@@ -908,15 +902,14 @@ module LegacyWorksheet
     }
   end
 
-  def change_column_border(col, direction, weight)
+  def change_column_border(column_index, direction, weight)
     validate_workbook
-    ensure_cell_exists(0, col)
+    ensure_cell_exists(0, column_index)
 
-    new_style_index = @workbook.modify_border(get_col_style(col), direction, weight)
-    RubyXL::ColumnRange.update(col, cols.column_ranges, { :style => new_style_index })
+    cols.get_range(column_index).style = @workbook.modify_border(get_col_style(column_index), direction, weight)
 
     sheet_data.rows.each { |row|
-      c = row.cells[col]
+      c = row.cells[column_index]
       next if c.nil?
       case direction
       when :top      then c.change_border_top(weight)

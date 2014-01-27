@@ -26,53 +26,8 @@ module RubyXL
       self.max +=1 if max >= col - 1
     end
 
-    def self.insert_column(col_index, ranges)
-      ranges.each { |range| range.insert_column(col_index) }
-    end
-
     def include?(col_index)
       ((min-1)..(max-1)).include?(col_index)
-    end
-
-    # This method is used to change attributes on a column range, which may involve 
-    # splitting existing column range into multiples.
-    def self.update(col_index, ranges, attrs)
-      col_num = col_index + 1
-
-      old_range = RubyXL::ColumnRange.find(col_index, ranges)
-
-      if old_range.nil? then
-        new_range = RubyXL::ColumnRange.new(attrs.merge({ :min => col_num, :max => col_num }))
-        ranges << new_range
-        return new_range
-      elsif old_range.min == col_num && 
-              old_range.max == col_num then # Single column range, OK to change in place
-        attrs.each_pair { |k, v| old_range.send("#{k}=", v) }
-        return old_range
-      else
-        raise "Range splitting not implemented yet"
-      end
-    end
-
-    def self.find(col_index, ranges)
-      ranges.find { |range| range.include?(col_index) }
-    end
-
-    def self.ref2ind(ref)
-      col = 0
-      ref.each_byte { |chr| col = col * 26 + (chr - 64) }
-      col - 1
-    end
-
-    def self.ind2ref(ind)
-      str = ''
-
-      loop do
-        x = ind % 26
-        str = ('A'.ord + x).chr + str
-        ind = (ind / 26).floor - 1
-        return str if ind < 0
-      end
     end
 
   end
@@ -80,6 +35,34 @@ module RubyXL
   class ColumnRanges < OOXMLObject
     define_child_node(RubyXL::ColumnRange, :collection => true, :accessor => :column_ranges)
     define_element_name 'cols'
+
+    # Locate an existing column range, make a new one if not found,
+    # or split existing column range into multiples.
+    def get_range(col_index)
+      col_num = col_index + 1
+
+      old_range = self.find(col_index)
+
+      if old_range.nil? then
+        new_range = RubyXL::ColumnRange.new(:min => col_num, :max => col_num)
+        self.column_ranges << new_range
+        return new_range
+      elsif old_range.min == col_num && 
+              old_range.max == col_num then # Single column range, OK to change in place
+        return old_range
+      else
+        raise "Range splitting not implemented yet"
+      end
+    end
+
+    def find(col_index)
+      column_ranges && column_ranges.find { |range| range.include?(col_index) }
+    end
+
+    def insert_column(col_index)
+      column_ranges && column_ranges.each { |range| range.insert_column(col_index) }
+    end
+
   end
 
 end
