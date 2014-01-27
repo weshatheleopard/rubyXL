@@ -54,6 +54,11 @@ module RubyXL
   class BorderContainer < OOXMLObject
     define_child_node(RubyXL::Border, :collection => :with_count, :accessor => :borders)
     define_element_name 'borders'
+
+    def self.defaults
+      self.new(:borders => [ RubyXL::Border.new ])
+    end
+
   end
 
 end

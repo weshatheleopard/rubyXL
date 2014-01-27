@@ -109,6 +109,15 @@ module RubyXL
   class FontContainer < OOXMLObject
     define_child_node(RubyXL::Font, :collection => :with_count, :accessor => :fonts)
     define_element_name 'fonts'
+
+    def self.defaults
+      self.new(:fonts => [ 
+                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+                                  :sz => RubyXL::FloatValue.new(:val => 10) ),
+                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+                                  :sz => RubyXL::FloatValue.new(:val => 8) )
+               ])
+    end
   end
 
 end

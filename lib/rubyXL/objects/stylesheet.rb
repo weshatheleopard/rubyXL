@@ -17,18 +17,34 @@ module RubyXL
   class CellStyleXFContainer < OOXMLObject
     define_child_node(RubyXL::XF, :collection => :with_count, :accessor => :cell_style_xfs)
     define_element_name 'cellStyleXfs'
+
+    def self.defaults
+      self.new(:cell_style_xfs => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ])
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellXfs-1.html
   class CellXFs < OOXMLObject
     define_child_node(RubyXL::XF, :collection => :with_count, :accessor => :xfs)
     define_element_name 'cellXfs'
+
+    def self.defaults
+      self.new(:xfs => [ 
+                 RubyXL::XF.new(
+                   :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
+                 )
+               ])
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellStyles-1.html
   class CellStyleContainer < OOXMLObject
     define_child_node(RubyXL::CellStyle, :collection => :with_count, :accessor => :cell_styles)
     define_element_name 'cellStyles'
+
+    def self.defaults
+      self.new(:cell_styles => [ RubyXL::CellStyle.new(:builtin_id => 0, :name => 'Normal', :xf_id => 0) ])
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dxf-1.html
@@ -99,37 +115,12 @@ module RubyXL
     end
 
     def self.default
-      self.new(:cell_xfs => RubyXL::CellXFs.new(
-                 :xfs => [ 
-                   RubyXL::XF.new(
-                     :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
-                   )
-                 ]
-               ),
-               :font_container => RubyXL::FontContainer.new(
-                 :fonts => [ 
-                   RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-                                    :sz => RubyXL::FloatValue.new(:val => 10) ),
-                   RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-                                    :sz => RubyXL::FloatValue.new(:val => 8) )
-                 ]
-               ),
-               :fill_container => RubyXL::FillContainer.new(
-                 :fills => [
-                   RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
-                   RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125'))
-                 ]
-               ),
-               :border_container => RubyXL::BorderContainer.new(
-                 :borders => [ RubyXL::Border.new ]
-               ),
-               :cell_style_container => RubyXL::CellStyleContainer.new(
-                 :cell_styles => [ RubyXL::CellStyle.new(:builtin_id => 0, :name => 'Normal', :xf_id => 0) ]
-               ),
-               :cell_style_xf_container => RubyXL::CellStyleXFContainer.new(
-                 :cell_style_xfs => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ]
-               )
-             )
+      self.new(:cell_xfs => RubyXL::CellXFs.defaults,
+               :font_container => RubyXL::FontContainer.defaults,
+               :fill_container => RubyXL::FillContainer.defaults,
+               :border_container => RubyXL::BorderContainer.defaults, 
+               :cell_style_container => RubyXL::CellStyleContainer.defaults,
+               :cell_style_xf_container => RubyXL::CellStyleXFContainer.defaults)
     end
 
     def number_format(format_id)
