@@ -29,6 +29,7 @@ module RubyXL
         # Not using .reverse.each here to avoid memory reallocation.
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
+      true
     end
   end
 

@@ -70,7 +70,7 @@ module RubyXL
     end
 
     def write_xml(xml, node_name_override = nil)
-      before_write_xml
+      return '' unless before_write_xml
       attrs = prepare_attributes
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
@@ -180,7 +180,7 @@ module RubyXL
         self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
       }
 
-      nil # Subclass provided filter
+      true # Subclass provided filter
     end
 
     private

@@ -63,6 +63,10 @@ module RubyXL
       column_ranges && column_ranges.each { |range| range.insert_column(col_index) }
     end
 
+    def before_write_xml
+      !(column_ranges.nil? || column_ranges.empty?)
+    end
+
   end
 
 end

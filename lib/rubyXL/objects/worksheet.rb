@@ -296,6 +296,51 @@ module RubyXL
                    'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
                    'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
 
+    def before_write_xml # This method may need to be moved higher in the hierarchy
+      first_nonempty_row = nil
+      last_nonempty_row = 0
+      first_nonempty_column = nil
+      last_nonempty_column = 0
+
+      if sheet_data then
+        sheet_data.rows.each_with_index { |row, row_index|
+          next if row.nil? || row.cells.empty?
+
+          first_nonempty_cell = nil
+          last_nonempty_cell = 0
+
+          row.cells.each_with_index { |cell, col_index|
+            next if cell.nil?
+            cell.r = RubyXL::Reference.new(row_index, col_index)
+
+            first_nonempty_cell ||= col_index
+            last_nonempty_cell = col_index
+          }
+
+          if first_nonempty_cell then # If there's nothing in this row, then +first_nonempty_cell+ will be +nil+.
+            last_nonempty_row = row_index
+            first_nonempty_row ||= row_index
+
+            first_nonempty_column ||= first_nonempty_cell
+            last_nonempty_column = last_nonempty_cell if last_nonempty_cell > last_nonempty_column
+          end
+
+          row.r = row_index + 1
+          row.spans = "#{first_nonempty_cell + 1}:#{last_nonempty_cell + 1}"
+          row.custom_format = (row.s.to_i != 0)
+        }
+
+        if first_nonempty_row then
+          self.dimension ||= RubyXL::WorksheetDimensions.new
+          self.dimension.ref = RubyXL::Reference.new(first_nonempty_row, last_nonempty_row,
+                                                     first_nonempty_column, last_nonempty_column)
+        end
+
+      end
+
+      true
+    end
+
     def merged_cells
       (merged_cells_list && merged_cells_list.merge_cell) || []
     end
