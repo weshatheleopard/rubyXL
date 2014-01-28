@@ -16,7 +16,6 @@ module RubyXL
     define_attribute(:val, :float, :required => true)
   end
 
-
   # http://www.schemacentral.com/sc/ooxml/e-ssml_font-1.html
   class Font < OOXMLObject
     define_child_node(RubyXL::StringValue,  :node_name => :name)
@@ -35,7 +34,7 @@ module RubyXL
     define_child_node(RubyXL::StringValue,  :node_name => :vertAlign)
     define_child_node(RubyXL::StringValue,  :node_name => :scheme)
     define_element_name 'font'
-    set_countable
+    set_countable # TODO: phase put, eventually.
 
     def ==(other)
      (!(self.i && self.i.val) == !(other.i && other.i.val)) &&
@@ -104,6 +103,21 @@ module RubyXL
       self.color = RubyXL::Color.new(:rgb => font_color.to_s)
     end
 
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_fonts-1.html
+  class FontContainer < OOXMLObject
+    define_child_node(RubyXL::Font, :collection => :with_count, :accessor => :fonts)
+    define_element_name 'fonts'
+
+    def self.defaults
+      self.new(:fonts => [ 
+                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+                                  :sz => RubyXL::FloatValue.new(:val => 10) ),
+                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+                                  :sz => RubyXL::FloatValue.new(:val => 8) )
+               ])
+    end
   end
 
 end

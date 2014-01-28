@@ -5,7 +5,7 @@ describe RubyXL::Cell do
 
   before do
     @workbook  = RubyXL::Workbook.new
-    @worksheet = RubyXL::Worksheet.new(@workbook)
+    @worksheet = @workbook.add_worksheet('Test Worksheet')
     @workbook.worksheets << @worksheet
     (0..10).each do |i|
       (0..10).each do |j|
@@ -106,24 +106,12 @@ describe RubyXL::Cell do
        @cell.change_horizontal_alignment('center')
        @cell.horizontal_alignment.should == 'center'
      end
-
-     it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
-       lambda {
-         @cell.change_horizontal_alignment('TEST')
-       }.should raise_error
-     end
   end
 
   describe '.change_vertical_alignment' do
     it 'should cause cell to vertically align as specified by the passed in string' do
        @cell.change_vertical_alignment('center')
        @cell.vertical_alignment.should == 'center'
-     end
-
-     it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
-       lambda {
-         @cell.change_vertical_alignment('TEST')
-       }.should raise_error
      end
   end
 
@@ -132,24 +120,12 @@ describe RubyXL::Cell do
        @cell.change_text_wrap(true)
        @cell.text_wrap.should == true
      end
-
-     it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
-       lambda {
-         @cell.change_vertical_alignment('TEST')
-       }.should raise_error
-     end
   end
 
   describe '.change_border_top' do
     it 'should cause cell to have border at top with specified weight' do
       @cell.change_border_top('thin')
       @cell.border_top.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @cell.change_border_top('TEST')
-      }.should raise_error
     end
   end
 
@@ -158,24 +134,12 @@ describe RubyXL::Cell do
       @cell.change_border_left('thin')
       @cell.border_left.should == 'thin'
     end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @cell.change_border_left('TEST')
-      }.should raise_error
-    end
   end
 
   describe '.change_border_right' do
     it 'should cause cell to have border at right with specified weight' do
       @cell.change_border_right('thin')
       @cell.border_right.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @cell.change_border_right('TEST')
-      }.should raise_error
     end
   end
 
@@ -184,24 +148,12 @@ describe RubyXL::Cell do
       @cell.change_border_bottom('thin')
       @cell.border_bottom.should == 'thin'
     end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @cell.change_border_bottom('TEST')
-      }.should raise_error
-    end
   end
 
   describe '.change_border_diagonal' do
     it 'should cause cell to have border at diagonal with specified weight' do
       @cell.change_border_diagonal('thin')
       @cell.border_diagonal.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @cell.change_border_diagonal('TEST')
-      }.should raise_error
     end
   end
 

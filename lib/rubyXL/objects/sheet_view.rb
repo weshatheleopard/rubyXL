@@ -29,6 +29,7 @@ module RubyXL
         # Not using .reverse.each here to avoid memory reallocation.
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
       end
+      true
     end
   end
 
@@ -57,6 +58,12 @@ module RubyXL
     define_child_node(RubyXL::Pane)
     define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections )
     define_element_name 'sheetView'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-3.html
+  class SheetViews < OOXMLObject
+    define_child_node(RubyXL::SheetView, :collection => true, :accessor => :sheet_views)
+    define_element_name 'sheetViews'
   end
 
 end

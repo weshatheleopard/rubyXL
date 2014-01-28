@@ -1,35 +1,24 @@
 module RubyXL
-  class Cell < PrivateClass
+  module LegacyCell
     SHARED_STRING = 's'
     RAW_STRING = 'str'
     ERROR = 'e'
 
-    attr_accessor :row, :column, :datatype, :style_index, :formula, :worksheet
-    attr_reader :workbook,:formula_attributes
-
-    def initialize(worksheet, row, column, value = nil, formula = nil, datatype = SHARED_STRING, style_index = 0, fmla_attr = {})
-      @worksheet = worksheet
-
-      @workbook = worksheet.workbook
-      @row = row
-      @column = column
-      @datatype = datatype
-      @value = value
-      @formula=formula
-      @style_index = style_index
-      @formula_attributes = fmla_attr
-    end
+    attr_accessor :formula, :worksheet
 
     def value(args = {})
-      raw_values = args.delete(:raw) || false
-      return @value if raw_values
-      return @workbook.num_to_date(@value) if is_date?
-      @value
+      return raw_value if args[:raw]
+      return workbook.num_to_date(raw_value) if is_date?
+      raw_value
+    end
+
+    def workbook
+      @worksheet.workbook
     end
 
     def is_date?
-      return false if @value.is_a?(String)
-      tmp_num_fmt = @workbook.num_fmts_by_id[Integer(get_cell_xf.num_fmt_id)]
+      return false if raw_value.is_a?(String)
+      tmp_num_fmt = workbook.stylesheet.number_format(get_cell_xf.num_fmt_id)
       num_fmt = tmp_num_fmt && tmp_num_fmt.format_code
       num_fmt && workbook.date_num_fmt?(num_fmt)
     end
@@ -38,7 +27,7 @@ module RubyXL
     def change_fill(rgb='ffffff')
       validate_worksheet
       Color.validate_color(rgb)
-      @style_index = modify_fill(@workbook, @style_index,rgb)
+      self.style_index = workbook.modify_fill(self.style_index,rgb)
     end
 
     # Changes font name of cell
@@ -107,29 +96,27 @@ module RubyXL
 
     # Helper method to update the font array and xf array
     def update_font_references(modified_font)
-      xf = @workbook.register_new_font(modified_font, get_cell_xf)
-      @style_index = workbook.register_new_xf(xf, @style_index)
+      xf = workbook.register_new_font(modified_font, get_cell_xf)
+      self.style_index = workbook.register_new_xf(xf, self.style_index)
     end
+    private :update_font_references
 
     # changes horizontal alignment of cell
     def change_horizontal_alignment(alignment='center')
       validate_worksheet
-      validate_horizontal_alignment(alignment)
-      @style_index = modify_alignment(@workbook,@style_index,true,alignment)
+      self.style_index = workbook.modify_alignment(self.style_index, true, alignment)
     end
 
     # changes vertical alignment of cell
     def change_vertical_alignment(alignment='center')
       validate_worksheet
-      validate_vertical_alignment(alignment)
-      @style_index = modify_alignment(@workbook,@style_index,false,alignment)
+      self.style_index = workbook.modify_alignment(self.style_index, false, alignment)
     end
 
     # changes wrap of cell
     def change_text_wrap(wrap=false)
       validate_worksheet
-      validate_text_wrap(wrap)
-      @style_index = modify_text_wrap(@workbook,@style_index,wrap)
+      self.style_index = workbook.modify_text_wrap(self.style_index, wrap)
     end
 
     # changes top border of cell
@@ -160,18 +147,15 @@ module RubyXL
     # changes contents of cell, with formula option
     def change_contents(data, formula=nil)
       validate_worksheet
-      @datatype = RAW_STRING
+      self.datatype = RAW_STRING
 
-      if data.is_a?(Date) || data.is_a?(DateTime)
-        data = @workbook.date_to_num(data)
+      case data
+      when Date           then data = workbook.date_to_num(data)
+      when Integer, Float then self.datatype = ''
       end
 
-      if (data.is_a?Integer) || (data.is_a?Float)
-        @datatype = ''
-      end
-
-      @value=data
-      @formula=formula
+      self.raw_value = data
+      @formula = formula
     end
 
     # returns if font is italicized
@@ -214,7 +198,7 @@ module RubyXL
     # returns cell's fill color
     def fill_color()
       validate_worksheet
-      return @workbook.get_fill_color(get_cell_xf)
+      return workbook.get_fill_color(get_cell_xf)
     end
 
     # returns cell's horizontal alignment
@@ -267,9 +251,9 @@ module RubyXL
     end
 
     def inspect
-      str = "(#{@row},#{@column}): #{@value}" 
+      str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}" 
       str += " =#{@formula}" if @formula
-      str += ", datatype = #{@datatype}, style_index = #{@style_index}"
+      str += ", datatype = #{self.datatype}, style_index = #{self.style_index}>"
       return str
     end
 
@@ -277,13 +261,7 @@ module RubyXL
 
     def change_border(direction, weight)
       validate_worksheet
-      validate_border(weight)
-
-      border = get_cell_border.dup
-      border.set_edge_style(direction, weight)
-
-      xf = workbook.register_new_border(border, get_cell_xf)
-      @style_index = workbook.register_new_xf(xf, @style_index)
+      self.style_index = workbook.modify_border(self.style_index, direction, weight)
     end
 
     def get_border(direction)
@@ -292,34 +270,34 @@ module RubyXL
     end
 
     def validate_workbook()
-      unless @workbook.nil? || @workbook.worksheets.nil?
-        @workbook.worksheets.each do |sheet|
-          unless sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[@row].nil?
-            if sheet.sheet_data[@row][@column] == self
+      unless workbook.nil? || workbook.worksheets.nil?
+        workbook.worksheets.each do |sheet|
+          unless sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[row].nil?
+            if sheet.sheet_data[row][column] == self
               return
             end
           end
         end
       end
-      raise "This cell #{self} is not in workbook #{@workbook}"
+      raise "This cell #{self} is not in workbook #{workbook}"
     end
 
     def validate_worksheet()
-      return if @worksheet && @worksheet[@row][@column] == self
+      return if @worksheet && @worksheet[row][column] == self
       raise "This cell #{self} is not in worksheet #{worksheet}"
     end
 
     def get_cell_xf
-      @workbook.cell_xfs[@style_index]
+      workbook.cell_xfs[self.style_index]
     end
 
     def get_cell_font
-      @workbook.fonts[@workbook.cell_xfs[@style_index].font_id]
+      workbook.fonts[workbook.cell_xfs[self.style_index].font_id]
     end
 
     def get_cell_border
-      @workbook.borders[get_cell_xf.border_id]
+      workbook.borders[get_cell_xf.border_id]
     end
-
   end
 end
+

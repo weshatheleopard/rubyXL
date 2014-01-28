@@ -39,4 +39,17 @@ module RubyXL
     set_countable
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_fills-1.html
+  class FillContainer < OOXMLObject
+    define_child_node(RubyXL::Fill, :collection => :with_count, :accessor => :fills)
+    define_element_name 'fills'
+
+    def self.defaults
+      self.new(:fills => [
+                 RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
+                 RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125'))
+               ])
+    end
+  end
+
 end

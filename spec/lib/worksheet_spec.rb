@@ -4,8 +4,8 @@ require 'rubyXL'
 describe RubyXL::Worksheet do
   before do
     @workbook  = RubyXL::Workbook.new
-    @worksheet = RubyXL::Worksheet.new(@workbook)
-    @workbook.worksheets << @worksheet
+    @worksheet = @workbook.add_worksheet
+
     (0..10).each do |i|
       (0..10).each do |j|
         @worksheet.add_cell(i, j, "#{i}:#{j}")
@@ -282,11 +282,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].horizontal_alignment.should == 'center'
     end
 
-    it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_row_horizontal_alignment(0,'TEST')
-      }.should raise_error
-    end
 
     it 'should cause error if a negative argument is passed in' do
       lambda {
@@ -307,12 +302,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_row_vertical_alignment(0,'center')
       @worksheet.get_row_vertical_alignment(0).should == 'center'
       @worksheet[0][5].vertical_alignment.should == 'center'
-    end
-
-    it 'should cause error if nil, "center", "justify", "top", "bottom", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_row_vertical_alignment(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -336,12 +325,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].border_top.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_top(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_row_border_top(-1,'thin')
@@ -361,12 +344,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_row_border_left(0, 'thin')
       @worksheet.get_row_border_left(0).should == 'thin'
       @worksheet[0][5].border_left.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_left(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -390,12 +367,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].border_right.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_right(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_row_border_right(-1,'thin')
@@ -417,12 +388,6 @@ describe RubyXL::Worksheet do
       @worksheet[0][5].border_bottom.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_bottom(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_row_border_bottom(-1,'thin')
@@ -442,12 +407,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_row_border_diagonal(0, 'thin')
       @worksheet.get_row_border_diagonal(0).should == 'thin'
       @worksheet[0][5].border_diagonal.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_row_border_diagonal(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -689,12 +648,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].horizontal_alignment.should == 'center'
     end
 
-    it 'should cause error if nil, "center", "justify", "left", "right", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_column_horizontal_alignment(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_horizontal_alignment(-1,'center')
@@ -714,12 +667,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_vertical_alignment(0,'center')
       @worksheet.get_column_vertical_alignment(0).should == 'center'
       @worksheet[5][0].vertical_alignment.should == 'center'
-    end
-
-    it 'should cause error if nil, "center", "justify", "top", "bottom", or "distributed" is not passed' do
-      lambda {
-        @worksheet.change_column_vertical_alignment(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -743,12 +690,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].border_top.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_top(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_border_top(-1,'thin')
@@ -768,12 +709,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_border_left(0, 'thin')
       @worksheet.get_column_border_left(0).should == 'thin'
       @worksheet[5][0].border_left.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_left(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -797,12 +732,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].border_right.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_right(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_border_right(-1,'thin')
@@ -822,12 +751,6 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_border_bottom(0, 'thin')
       @worksheet.get_column_border_bottom(0).should == 'thin'
       @worksheet[5][0].border_bottom.should == 'thin'
-    end
-
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_bottom(0,'TEST')
-      }.should raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -851,12 +774,6 @@ describe RubyXL::Worksheet do
       @worksheet[5][0].border_diagonal.should == 'thin'
     end
 
-    it 'should cause error if nil, "thin", "thick", "hairline", or "medium" is not passed' do
-      lambda {
-        @worksheet.change_column_border_diagonal(0,'TEST')
-      }.should raise_error
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_column_border_diagonal(-1,'thin')
@@ -874,7 +791,7 @@ describe RubyXL::Worksheet do
   describe '.merge_cells' do
     it 'should merge cells in any valid range specified by indices' do
       @worksheet.merge_cells(0, 0, 1, 1)
-      @worksheet.merged_cells.collect{ |r| r.to_s }.should == ["A1:B2"]
+      @worksheet.merged_cells.collect{ |r| r.ref.to_s }.should == ["A1:B2"]
     end
   end
 
@@ -914,7 +831,14 @@ describe RubyXL::Worksheet do
 
   describe '.add_cell_obj' do
     it 'should add already created cell object to worksheet, even if a cell is already there (default)' do
-      new_cell = RubyXL::Cell.new(@worksheet,0,0,'TEST','B2')
+      new_cell = RubyXL::Cell.new
+      new_cell.worksheet = @worksheet
+      new_cell.row = 0
+      new_cell.column = 0
+      new_cell.raw_value = 'TEST'
+      new_cell.formula ='B2'
+      new_cell.style_index = 0
+
       @worksheet.add_cell_obj(new_cell)
       @worksheet[0][0].value.should_not == @old_cell_value
       @worksheet[0][0].formula.should_not == @old_cell_formula
@@ -923,7 +847,14 @@ describe RubyXL::Worksheet do
     end
 
     it 'should not add already created cell object to already occupied cell if overwrite is false' do
-      new_cell = RubyXL::Cell.new(@worksheet,0,0,'TEST','B2')
+      new_cell = RubyXL::Cell.new
+      new_cell.worksheet = @worksheet
+      new_cell.row = 0
+      new_cell.column = 0
+      new_cell.raw_value = 'TEST'
+      new_cell.formula ='B2'
+      new_cell.style_index = 0
+
       @worksheet.add_cell_obj(new_cell,false)
       @worksheet[0][0].value.should == @old_cell_value
       @worksheet[0][0].formula.should == @old_cell_formula
@@ -937,7 +868,13 @@ describe RubyXL::Worksheet do
 
     it 'should expand matrix to fit argument if nonnegative' do
       @worksheet.sheet_data.size.should == 11
-      new_cell = RubyXL::Cell.new(@worksheet,11,11,'TEST','B2')
+      new_cell = RubyXL::Cell.new
+      new_cell.worksheet = @worksheet
+      new_cell.row = 11
+      new_cell.column = 11
+      new_cell.raw_value = 'TEST'
+      new_cell.formula ='B2'
+      new_cell.style_index = 0
       @worksheet.add_cell_obj(new_cell)
       @worksheet.sheet_data.size.should == 12
     end
@@ -1765,23 +1702,23 @@ describe RubyXL::Worksheet do
   describe '@column_range' do
     it 'should properly handle range addition and modification' do
       # Ranges should be empty for brand new worskeet
-      @worksheet.column_ranges.size.should == 0
+      @worksheet.cols.column_ranges.size.should == 0
 
       # Range should be created if the column has not been touched before
       @worksheet.change_column_width(0, 30)
       @worksheet.get_column_width(0).should == 30
-      @worksheet.column_ranges.size.should == 1
+      @worksheet.cols.column_ranges.size.should == 1
 
       # Range should be reused if the column has not been touched before
       @worksheet.change_column_width(0, 20)
       @worksheet.get_column_width(0).should == 20
-      @worksheet.column_ranges.size.should == 1
+      @worksheet.cols.column_ranges.size.should == 1
 
       # Creation of the new range should not affect previously changed columns
       @worksheet.change_column_width(1, 999)
       @worksheet.get_column_width(1).should == 999
       @worksheet.get_column_width(0).should == 20
-      @worksheet.column_ranges.size.should == 2
+      @worksheet.cols.column_ranges.size.should == 2
     end
 
   end
