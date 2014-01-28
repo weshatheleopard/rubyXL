@@ -17,6 +17,7 @@ require 'rubyXL/objects/data_validation'
 require 'rubyXL/objects/sheet_data'
 require 'rubyXL/objects/stylesheet'
 require 'rubyXL/objects/worksheet'
+require 'rubyXL/objects/workbook'
 require 'rubyXL/parser'
 
 module RubyXL

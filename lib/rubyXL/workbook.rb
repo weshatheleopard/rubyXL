@@ -14,7 +14,7 @@ require 'rubyXL/shared_strings'
 require 'date'
 
 module RubyXL
-  class Workbook
+  module LegacyWorkbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :calc_chain, :theme,

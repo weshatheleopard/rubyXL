@@ -13,7 +13,7 @@ module RubyXL
     end
 
     def write_xml(xml, node_name_override = nil)
-      xml << self.raw_xml
+      self.raw_xml
     end
 
   end

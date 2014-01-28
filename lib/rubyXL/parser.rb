@@ -71,6 +71,8 @@ module RubyXL
 
       styles_xml = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
 
+#      wb = RubyXL::Workbook.parse(workbook_file.root)
+
       defined_names = workbook_file.css('definedNames definedName')
       wb.defined_names = defined_names.collect { |node| RubyXL::DefinedName.parse(node) }
 

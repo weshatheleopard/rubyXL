@@ -347,7 +347,6 @@ module RubyXL
 
     include LegacyWorksheet
 
-
   end
 
 end
