@@ -39,6 +39,8 @@ module RubyXL
 
       if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
         shared_string_file = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
+        wb.shared_strings_XML = shared_string_file.to_s
+        wb.shared_strings_file = RubyXL::SharedStringsTable.parse(shared_string_file)
       end
 
       unless @data_only
@@ -66,10 +68,6 @@ module RubyXL
         wb.appversion = app_file.css('AppVersion').children.to_s
       end
 
-      styles_xml = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
-
-      wb.shared_strings_XML = shared_string_file.to_s
-
       unless shared_string_file.nil?
         sst = shared_string_file.css('sst')
 
@@ -87,7 +85,7 @@ module RubyXL
 
       end
 
-      wb.stylesheet = RubyXL::Stylesheet.parse(styles_xml.root)
+      wb.stylesheet = RubyXL::Stylesheet.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
 
       #fills out count information for each font, fill, and border
       wb.cell_xfs.each { |style|
@@ -108,9 +106,7 @@ module RubyXL
       workbook_file.css('sheets sheet').each_with_index { |sheet_node, i|
         sheet_rid = sheet_node.attributes['id'].value 
         sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
-        worksheet_xml = Nokogiri::XML.parse(File.read(File.join(dir_path, 'xl', sheet_file_path)))
-
-        worksheet = RubyXL::Worksheet.parse(worksheet_xml.root)
+        worksheet = RubyXL::Worksheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
         worksheet.sheet_data.rows.each { |r| r && r.cells.each { |c| c.worksheet = worksheet unless c.nil? } }
         wb.worksheets[i] = worksheet
         worksheet.workbook = wb

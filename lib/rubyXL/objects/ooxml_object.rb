@@ -120,6 +120,8 @@ module RubyXL
     private_class_method :process_attribute
 
     def self.parse(node)
+      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
+
       if node.is_a?(Nokogiri::XML::Document) then
 #        @namespaces = node.namespaces
         node = node.root
@@ -133,7 +135,7 @@ module RubyXL
 
       content_params = known_attributes['_']
       process_attribute(obj, node.text, content_params) if content_params
-   
+
       node.attributes.each_pair { |attr_name, attr|
         attr_name = if attr.namespace then "#{attr.namespace.prefix}:#{attr.name}"
                     else attr.name

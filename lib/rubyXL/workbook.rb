@@ -19,7 +19,8 @@ module RubyXL
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :printer_settings, :macros, :shared_strings_XML, :stylesheet
+      :worksheet_rels, :printer_settings, :macros, :shared_strings_XML,
+      :stylesheet, :shared_strings_file
 
     attr_reader :shared_strings
 
@@ -58,6 +59,7 @@ module RubyXL
       @macros             = RubyXL::GenericStorage.new('xl').binary
       @shared_strings_XML = nil
       @stylesheet         = RubyXL::Stylesheet.default
+      @shared_strings_file = nil
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')
