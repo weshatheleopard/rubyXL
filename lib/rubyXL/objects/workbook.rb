@@ -151,7 +151,7 @@ module RubyXL
   class Workbook < OOXMLObject
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
-    define_child_node(RubyXL::WorkbookProperties)
+    define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
     define_child_node(RubyXL::Sheets)
@@ -177,6 +177,17 @@ module RubyXL
                    'xmlns:x15' => 'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main')
 
     include LegacyWorkbook
+
+    def date1904
+      workbook_properties && workbook_properties.date1904
+    end
+
+    def date1904=(v)
+      self.workbook_properties ||= RubyXL::WorkbookProperties.new
+      workbook_properties.date1904 = v
+    end
+
+
   end
 
 

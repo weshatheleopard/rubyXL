@@ -68,8 +68,6 @@ module RubyXL
 
       styles_xml = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
 
-      wb.date1904 = workbook_file.css('workbookPr').attribute('date1904').to_s == '1'
-
       wb.shared_strings_XML = shared_string_file.to_s
 
       unless shared_string_file.nil?

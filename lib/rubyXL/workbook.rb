@@ -17,9 +17,8 @@ module RubyXL
   module LegacyWorkbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
-      :modified_at, :company, :application, :appversion, :calc_chain, :theme,
-      :date1904, :media, :external_links, :external_links_rels, :style_corrector,
-      :drawings, :drawings_rels, :charts, :chart_rels,
+      :modified_at, :company, :application, :appversion, :theme,
+      :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
       :worksheet_rels, :printer_settings, :macros, :shared_strings_XML, :stylesheet
 
     attr_reader :shared_strings
@@ -44,14 +43,11 @@ module RubyXL
       @company            = company
       @application        = application
       @appversion         = appversion
-      @cell_style_xfs     = []
       @shared_strings     = RubyXL::SharedStrings.new
-      @calc_chain         = nil #unnecessary?
-      @date1904           = date1904 > 0
+      self.date1904       = date1904 > 0
       @media              = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
       @external_links     = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
       @external_links_rels= RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
-      @style_corrector    = nil
       @drawings           = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
       @drawings_rels      = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels'))
       @charts             = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
@@ -137,7 +133,7 @@ module RubyXL
     end
 
     def base_date
-      if @date1904 then
+      if date1904 then 
         Date.new(1904, 1, 1)
       else
         # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
