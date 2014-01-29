@@ -1,3 +1,5 @@
+require 'rubyXL/objects/text'
+
 module RubyXL
 
   # Eventually, the entire code for Worksheet will be moved here. One small step at a time!
@@ -181,16 +183,6 @@ module RubyXL
     define_element_name 'sheetProtection'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_phoneticPr-1.html
-  class PhoneticProperties < OOXMLObject
-    define_attribute(:fontId,          :int,    :required => true)
-    define_attribute(:type,             :string, :default => 'fullwidthKatakana',
-                        :values => %w{ halfwidthKatakana fullwidthKatakana Hiragana noConversion })
-    define_attribute(:alignment,        :string, :default => 'left',
-                        :values => %w{ noControl left center distributed })
-    define_element_name 'phoneticPr'
-  end
-
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cfRule-1.html
   class ConditionalFormattingRule < OOXMLObject
     define_attribute(:type,         :string, :values =>
@@ -241,7 +233,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
-  class PhoneticProperties < OOXMLObject
+  class ConditionalFormatting < OOXMLObject
     define_attribute(:pivot, :bool, :default => false)
     define_attribute(:sqref, :sqref)
     define_child_node(RubyXL::ConditionalFormattingRule, :collection => true)

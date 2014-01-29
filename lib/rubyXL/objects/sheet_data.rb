@@ -1,24 +1,11 @@
+require 'rubyXL/objects/text'
+
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_v-1.html
   class CellValue < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
     define_element_name 'v'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_t-1.html
-  class Text < OOXMLObject
-    define_attribute(:_, :string, :accessor => :value)
-    define_element_name 't'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_is-1.html
-  class RichText < OOXMLObject
-    define_child_node(RubyXL::Text)               # t
-#    define_child_node(RubyXL::RichTextRun)        # r
-#    define_child_node(RubyXL::PhoneticRun)        # rPh
-#    define_child_node(RubyXL::PhoneticProperties) # phoneticPr
-    define_element_name 'is'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
