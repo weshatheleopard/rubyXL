@@ -1,7 +1,9 @@
+require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/extensions'
+
 module RubyXL
 
   # Eventually, the entire code for Workbook will be moved here.
-
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fileVersion-1.html
   class FileVersion < OOXMLObject

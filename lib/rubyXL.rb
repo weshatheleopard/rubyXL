@@ -1,8 +1,6 @@
 require 'rubyXL/workbook'
 require 'rubyXL/worksheet'
 require 'rubyXL/cell'
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/reference'
 require 'rubyXL/objects/column_range'
 require 'rubyXL/objects/color'

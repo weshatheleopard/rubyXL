@@ -1,3 +1,5 @@
+require 'rubyXL/objects/ooxml_object'
+
 module RubyXL
 
   class BooleanValue < OOXMLObject

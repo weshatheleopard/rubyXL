@@ -1,3 +1,5 @@
+require 'rubyXL/objects/ooxml_object'
+
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidation-1.html

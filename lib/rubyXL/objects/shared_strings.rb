@@ -1,4 +1,6 @@
+require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/text'
+require 'rubyXL/objects/extensions'
 
 module RubyXL
 

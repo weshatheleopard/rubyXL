@@ -1,3 +1,6 @@
+require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/extensions'
+
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmt-1.html
