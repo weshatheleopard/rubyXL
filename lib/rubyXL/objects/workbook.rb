@@ -124,7 +124,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_definedName-2.html
   class DefinedNames < OOXMLObject
-    define_child_node(RubyXL::DefinedName, :collection => true)
+    define_child_node(RubyXL::DefinedName, :collection => true, :accessor => :defined_names)
     define_element_name 'definedNames'
   end
 
@@ -157,7 +157,7 @@ module RubyXL
     define_child_node(RubyXL::Sheets)
 #    ssml:functionGroups [0..1]    Function Groups
 #    ssml:externalReferences [0..1]    External References
-    define_child_node(RubyXL::DefinedNames)
+    define_child_node(RubyXL::DefinedNames, :accessor => :defined_name_container)
     define_child_node(RubyXL::CalculationProperties)
 #    ssml:oleSize [0..1]    OLE Size
 #    ssml:customWorkbookViews [0..1]    Custom Workbook Views
@@ -168,6 +168,7 @@ module RubyXL
 #    ssml:fileRecoveryPr [0..*]    File Recovery Properties
 #    ssml:webPublishObjects [0..1]    Web Publish Objects
     define_child_node(RubyXL::ExtensionStorageArea)
+    define_child_node(RubyXL::AlternateContent)
 
     define_element_name 'workbook'
     set_namespaces('xmlns'     => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',

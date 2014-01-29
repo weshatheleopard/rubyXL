@@ -120,6 +120,13 @@ module RubyXL
     private_class_method :process_attribute
 
     def self.parse(node)
+      if node.is_a?(Nokogiri::XML::Document) then
+#        @namespaces = node.namespaces
+        node = node.root
+#        ignorable_attr = node.attributes['Ignorable']
+#        @ignorables << ignorable_attr.value if ignorable_attr
+      end
+
       obj = self.new
 
       known_attributes = obtain_class_variable(:@@ooxml_attributes)

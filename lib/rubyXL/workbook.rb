@@ -20,7 +20,7 @@ module RubyXL
       :modified_at, :company, :application, :appversion, :calc_chain, :theme,
       :date1904, :media, :external_links, :external_links_rels, :style_corrector,
       :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :printer_settings, :macros, :shared_strings_XML, :defined_names, :stylesheet
+      :worksheet_rels, :printer_settings, :macros, :shared_strings_XML, :stylesheet
 
     attr_reader :shared_strings
 
@@ -31,6 +31,7 @@ module RubyXL
     def initialize(worksheets=[], filepath=nil, creator=nil, modifier=nil, created_at=nil,
                    company='', application=APPLICATION,
                    appversion=APPVERSION, date1904=0)
+      super()
 
       # Order of sheets in the +worksheets+ array corresponds to the order of pages in Excel UI.
       # SheetId's, rId's, etc. are completely unrelated to ordering.
@@ -60,7 +61,6 @@ module RubyXL
       @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros             = RubyXL::GenericStorage.new('xl').binary
       @shared_strings_XML = nil
-      @defined_names      = []
       @stylesheet         = RubyXL::Stylesheet.default
 
       begin

@@ -23,11 +23,6 @@ module RubyXL
     end
 
     def parse(file_path, opts = {})
-
-      # options handling
-
-      wb = Workbook.new([], file_path)
-
       raise 'Not .xlsx or .xlsm excel file' unless @skip_filename_check ||
                                               %w{.xlsx .xlsm}.include?(File.extname(file_path))
 
@@ -35,9 +30,11 @@ module RubyXL
 
       MyZip.new.unzip(file_path, dir_path)
 
-      files = {}
+      workbook_file = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'workbook.xml'), 'r'))
 
-      workbook_file = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','workbook.xml'),'r'))
+      wb = RubyXL::Workbook.parse(workbook_file)
+      wb.filepath = file_path
+
       rels_doc = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
 
       if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
@@ -70,11 +67,6 @@ module RubyXL
       end
 
       styles_xml = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
-
-#      wb = RubyXL::Workbook.parse(workbook_file.root)
-
-      defined_names = workbook_file.css('definedNames definedName')
-      wb.defined_names = defined_names.collect { |node| RubyXL::DefinedName.parse(node) }
 
       wb.date1904 = workbook_file.css('workbookPr').attribute('date1904').to_s == '1'
 

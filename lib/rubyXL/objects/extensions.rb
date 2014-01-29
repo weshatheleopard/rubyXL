@@ -1,9 +1,7 @@
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_ext-1.html
-  class Extension < OOXMLObject
-    define_attribute(:uri, :string)
-    define_element_name 'ext'
+  class RawOOXML < OOXMLObject
     attr_accessor :raw_xml
 
     def self.parse(node)
@@ -15,13 +13,22 @@ module RubyXL
     def write_xml(xml, node_name_override = nil)
       self.raw_xml
     end
+  end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_ext-1.html
+  class Extension < RawOOXML
+    define_attribute(:uri, :string)
+    define_element_name 'ext'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_extLst-1.html
   class ExtensionStorageArea < OOXMLObject
     define_child_node(RubyXL::Extension, :collection => true)
     define_element_name 'extLst'
+  end
+
+  class AlternateContent < RawOOXML
+    define_element_name 'AlternateContent'
   end
 
 end

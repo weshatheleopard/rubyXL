@@ -46,9 +46,9 @@ module RubyXL
               })
             end
 
-            unless @workbook.defined_names.empty?
+            if @workbook.defined_name_container && !@workbook.defined_name_container.defined_names.empty? then
               root << xml.create_element('definedNames') { |names|
-                @workbook.defined_names.each { |name| names << name.write_xml(xml) }
+                @workbook.defined_name_container.defined_names.each { |name| names << name.write_xml(xml) }
               }
             end
                  
