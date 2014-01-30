@@ -100,6 +100,18 @@ module RubyXL
     define_element_name 'sheets'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_externalReference-1.html
+  class ExternalReference < OOXMLObject
+    define_attribute(:'r:id', :string, :required => true)
+    define_element_name 'externalReference'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_externalReferences-1.html
+  class ExternalReferences < OOXMLObject
+    define_child_node(RubyXL::ExternalReference, :collection => true, :accessor => :ext_refs)
+    define_element_name 'externalReferences'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_definedName-2.html
   class DefinedName < OOXMLObject
     define_attribute(:name,              :string, :required => true)
@@ -156,10 +168,10 @@ module RubyXL
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
-    define_child_node(RubyXL::Sheets, :accessor => :worksheet_container)
+    define_child_node(RubyXL::Sheets,             :accessor => :worksheet_container)
 #    ssml:functionGroups [0..1]    Function Groups
-#    ssml:externalReferences [0..1]    External References
-    define_child_node(RubyXL::DefinedNames, :accessor => :defined_name_container)
+    define_child_node(RubyXL::ExternalReferences, :accessor => :ext_ref_container)
+    define_child_node(RubyXL::DefinedNames,       :accessor => :defined_name_container)
     define_child_node(RubyXL::CalculationProperties)
 #    ssml:oleSize [0..1]    OLE Size
 #    ssml:customWorkbookViews [0..1]    Custom Workbook Views

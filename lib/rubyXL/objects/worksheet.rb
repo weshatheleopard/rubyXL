@@ -185,6 +185,46 @@ module RubyXL
     define_element_name 'sheetProtection'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_cfvo-1.html
+  class ConditionalFormatValue < OOXMLObject
+    define_attribute(:type, :string, :required => true, :values =>
+                       %w{ num percent max min formula percentile })
+    define_attribute(:val,  :string)
+    define_attribute(:gte,  :bool,   :default => true)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'cfvo'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_colorScale-1.html
+  class ColorScale < OOXMLObject
+    define_child_node(RubyXL::ConditionalFormatValue, :collection => true, :accessor => :cfvo)
+    define_child_node(RubyXL::Color)
+    define_element_name 'colorScale'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataBar-1.html
+  class DataBar < OOXMLObject
+    define_attribute(:minLength, :int,  :default => 10)
+    define_attribute(:maxLength, :int,  :default => 90)
+    define_attribute(:showValue, :bool, :default => true)
+    define_child_node(RubyXL::ConditionalFormatValue, :collection => true, :accessor => :cfvo)
+    define_child_node(RubyXL::Color)
+    define_element_name 'dataBar'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_iconSet-1.html
+  class IconSet < OOXMLObject
+    define_attribute(:type,      :string, :required => true, :default => '3TrafficLights1', :values =>
+                       %w{ 3Arrows 3ArrowsGray 3Flags 3TrafficLights1 3TrafficLights2
+                           3Signs 3Symbols 3Symbols2 4Arrows 4ArrowsGray 4RedToBlack
+                           4Rating 4TrafficLights 5Arrows 5ArrowsGray 5Rating 5Quarters })
+    define_attribute(:showValue, :bool,   :default => true)
+    define_attribute(:percent,   :bool,   :default => true)
+    define_attribute(:reverse,   :bool,   :default => false)
+    define_child_node(RubyXL::ConditionalFormatValue, :collection => true, :accessor => :cfvo)
+    define_element_name 'iconSet'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cfRule-1.html
   class ConditionalFormattingRule < OOXMLObject
     define_attribute(:type,         :string, :values =>
@@ -209,11 +249,10 @@ module RubyXL
     define_attribute(:stdDev,       :int)
     define_attribute(:equalAverage, :bool,   :default  => false)
 
-
     define_child_node(RubyXL::Formula, :collection => true)
-#    ssml:colorScale [0..1]    Color Scale
-#    ssml:dataBar [0..1]    Data Bar
-#    ssml:iconSet [0..1]    Icon Set
+    define_child_node(RubyXL::ColorScale)
+    define_child_node(RubyXL::DataBar)
+    define_child_node(RubyXL::IconSet)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'cfRule'
   end
@@ -243,6 +282,36 @@ module RubyXL
     define_element_name 'conditionalFormatting'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_inputCells-1.html
+  class InputCells < OOXMLObject
+    define_attribute(:r,        :ref,    :required => true)
+    define_attribute(:deleted,  :bool,   :default => false)
+    define_attribute(:undone,   :bool,   :default => false)
+    define_attribute(:val,      :string, :required => true)
+    define_attribute(:numFmtId, :int)
+    define_element_name 'inputCells'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_scenario-1.html
+  class Scenario < OOXMLObject
+    define_attribute(:name,    :string)
+    define_attribute(:locked,  :bool, :default => false)
+    define_attribute(:hidden,  :bool, :default => false)
+    define_attribute(:user,    :string)
+    define_attribute(:comment, :string)
+    define_child_node(RubyXL::InputCells, :collection => :with_count)
+    define_element_name 'scenario'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_scenarios-1.html
+  class ScenarioContainer < OOXMLObject
+    define_attribute(:current, :int)
+    define_attribute(:show,    :int)
+    define_attribute(:sqref,   :sqref)
+    define_child_node(RubyXL::Scenario, :collection => true, :accessor => :scenarios)
+    define_element_name 'scenarios'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -254,7 +323,7 @@ module RubyXL
     define_child_node(RubyXL::SheetCalculationProperties)
     define_child_node(RubyXL::SheetProtection)
     define_child_node(RubyXL::ProtectedRanges)
-#    ssml:scenarios [0..1]    Scenarios
+    define_child_node(RubyXL::ScenarioContainer)
 #    ssml:autoFilter [0..1]    AutoFilter
 #    ssml:sortState [0..1]    Sort State
 #    ssml:dataConsolidate [0..1]    Data Consolidate
