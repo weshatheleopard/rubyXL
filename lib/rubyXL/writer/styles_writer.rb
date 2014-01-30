@@ -6,10 +6,8 @@ module RubyXL
         File.join('xl', 'styles.xml')
       end
 
-      def write()
-        render_xml do |xml|
-          xml << @workbook.stylesheet.write_xml(xml)
-        end
+      def ooxml_object
+        @workbook.stylesheet
       end
 
     end

@@ -22,6 +22,12 @@ module RubyXL
       @index_by_content = {}
     end
 
+    def before_write_xml
+      super
+      self.unique_count = self.count
+      true
+    end
+
     def [](index)
       strings[index]
     end

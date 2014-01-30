@@ -98,4 +98,3 @@ module RubyXL
 
   end
 end
-

@@ -28,6 +28,14 @@ module RubyXL
         zipfile.get_output_stream(filepath) { |f| f << write }
       end
 
+      def ooxml_object
+        nil
+      end
+
+      def write
+        render_xml { |xml| xml << ooxml_object.write_xml(xml) }
+      end
+
     end
   end
 end

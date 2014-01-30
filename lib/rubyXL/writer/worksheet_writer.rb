@@ -12,9 +12,9 @@ module Writer
       File.join('xl', 'worksheets', "sheet#{@sheet_index + 1}.xml")
     end
 
-    def write()
-      render_xml do |xml|
-        xml << @worksheet.write_xml(xml)
+    def ooxml_object
+      @worksheet
+    end
 
 =begin
           root << xml.create_element('sheetFormatPr', { :baseColWidth => 10, :defaultRowHeight => 13 })
@@ -33,12 +33,7 @@ module Writer
               })
             })
           end
-
-        })
 =end
-
-      end
-    end
 
   end # class
 
