@@ -1,6 +1,10 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/text'
+require 'rubyXL/objects/formula'
+require 'rubyXL/objects/sheet_view'
+require 'rubyXL/objects/sheet_data'
+require 'rubyXL/objects/data_validation'
 
 module RubyXL
 
@@ -92,7 +96,7 @@ module RubyXL
     define_attribute(:verticalDpi,        :int,    :default => 600)
     define_attribute(:copies,             :int,    :default => 1)
 
-    define_attribute(:'r:id',            :string)
+    define_attribute(:'r:id',             :string)
     define_element_name 'pageSetup'
   end
 
@@ -248,8 +252,7 @@ module RubyXL
     define_attribute(:rank,         :int)
     define_attribute(:stdDev,       :int)
     define_attribute(:equalAverage, :bool,   :default  => false)
-
-    define_child_node(RubyXL::Formula, :collection => true)
+    define_child_node(RubyXL::Formula, :collection => true, :node_name => :formula, :accessor => :formulas)
     define_child_node(RubyXL::ColorScale)
     define_child_node(RubyXL::DataBar)
     define_child_node(RubyXL::IconSet)
@@ -277,7 +280,7 @@ module RubyXL
   class ConditionalFormatting < OOXMLObject
     define_attribute(:pivot, :bool, :default => false)
     define_attribute(:sqref, :sqref)
-    define_child_node(RubyXL::ConditionalFormattingRule, :collection => true)
+    define_child_node(RubyXL::ConditionalFormattingRule, :collection => true, :accessor => :cf_rules)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'conditionalFormatting'
   end
@@ -312,6 +315,73 @@ module RubyXL
     define_element_name 'scenarios'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_ignoredError-1.html
+  class IgnoredError < OOXMLObject
+    define_attribute(:sqref,              :sqref, :required => true)
+    define_attribute(:pivot,              :bool,  :default  => false)
+    define_attribute(:evalError,          :bool,  :default  => false)
+    define_attribute(:twoDigitTextYear,   :bool,  :default  => false)
+    define_attribute(:numberStoredAsText, :bool,  :default  => false)
+    define_attribute(:formula,            :bool,  :default  => false)
+    define_attribute(:formulaRange,       :bool,  :default  => false)
+    define_attribute(:unlockedFormula,    :bool,  :default  => false)
+    define_attribute(:emptyCellReference, :bool,  :default  => false)
+    define_attribute(:listDataValidation, :bool,  :default  => false)
+    define_attribute(:calculatedColumn,   :bool,  :default  => false)
+    define_element_name 'ignoredError'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_ignoredErrors-1.html
+  class IgnoredErrorContainer < OOXMLObject
+    define_child_node(RubyXL::IgnoredError, :collection => true, :accessor => :scenarios)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'ignoredErrors'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sortCondition-1.html
+  class SortCondition < OOXMLObject
+    define_attribute(:descending, :bool,   :default  => false)
+    define_attribute(:sortBy,     :string, :default => 'value',
+                       :values => %w{ value cellColor fontColor icon })
+    define_attribute(:ref,        :ref,    :required => true)
+    define_attribute(:customList, :string)
+    define_attribute(:dxfId,      :int)
+    define_attribute(:iconSet,    :string, :required => true, :default => '3Arrows', :values =>
+                       %w{ 3Arrows 3ArrowsGray 3Flags 3TrafficLights1 3TrafficLights2
+                           3Signs 3Symbols 3Symbols2 4Arrows 4ArrowsGray 4RedToBlack
+                           4Rating 4TrafficLights 5Arrows 5ArrowsGray 5Rating 5Quarters })
+    define_attribute(:iconId,     :int)
+    define_element_name 'sortCondition'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sortState-2.html
+  class SortState < OOXMLObject
+    define_attribute(:columnSort,    :bool,   :default  => false)
+    define_attribute(:caseSensitive, :bool,   :default  => false)
+    define_attribute(:sortMethod,    :string, :default => 'none',
+                       :values => %w{ stroke pinYin none })
+    define_attribute(:ref,           :ref,    :required => true)
+    define_child_node(RubyXL::SortCondition,  :colection => true)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'sortState'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_hyperlink-1.html
+  class Hyperlink < OOXMLObject
+    define_attribute(:ref,      :ref,    :required => true)
+    define_attribute(:'r:id',   :string)
+    define_attribute(:location, :string)
+    define_attribute(:tooltip,  :string)
+    define_attribute(:display,  :string)
+    define_element_name 'hyperlink'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_hyperlinks-1.html
+  class HyperlinkContainer < OOXMLObject
+    define_child_node(RubyXL::Hyperlink, :colection => true, :accessor => :hyperlinks)
+    define_element_name 'hyperlinks'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -325,14 +395,14 @@ module RubyXL
     define_child_node(RubyXL::ProtectedRanges)
     define_child_node(RubyXL::ScenarioContainer)
 #    ssml:autoFilter [0..1]    AutoFilter
-#    ssml:sortState [0..1]    Sort State
+    define_child_node(RubyXL::SortState)
 #    ssml:dataConsolidate [0..1]    Data Consolidate
 #    ssml:customSheetViews [0..1]    Custom Sheet Views
     define_child_node(RubyXL::MergedCells, :accessor => :merged_cells_list)
     define_child_node(RubyXL::PhoneticProperties)
-    define_child_node(RubyXL::ConditionalFormattingRule)
+    define_child_node(RubyXL::ConditionalFormatting)
     define_child_node(RubyXL::DataValidations)
-#    ssml:hyperlinks [0..1]    Hyperlinks
+    define_child_node(RubyXL::HyperlinkContainer)
     define_child_node(RubyXL::PrintOptions)
     define_child_node(RubyXL::PageMargins)
     define_child_node(RubyXL::PageSetup)
@@ -341,7 +411,7 @@ module RubyXL
     define_child_node(RubyXL::BreakList, :node_name => :colBreaks)
 #    ssml:customProperties [0..1]    Custom Properties
 #    ssml:cellWatches [0..1]    Cell Watch Items
-#    ssml:ignoredErrors [0..1]    Ignored Errors
+    define_child_node(RubyXL::IgnoredErrorContainer)
 #    ssml:smartTags [0..1]    Smart Tags
     define_child_node(RubyXL::RID, :node_name => :drawing)
     define_child_node(RubyXL::RID, :node_name => :legacyDrawing)

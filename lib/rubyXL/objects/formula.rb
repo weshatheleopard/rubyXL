@@ -3,7 +3,8 @@ require 'rubyXL/objects/ooxml_object'
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_f-1.html
-  class CellFormula < OOXMLObject
+  class Formula < OOXMLObject
+    define_attribute(:_,    :string, :accessor => :expression)
     define_attribute(:t,    :string, :default => 'normal', :values =>
                        %w{ normal array dataTable shared })
     define_attribute(:aca,  :bool,   :default => false)

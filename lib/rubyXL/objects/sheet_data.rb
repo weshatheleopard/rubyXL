@@ -1,5 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/text'
+require 'rubyXL/objects/formula'
 
 module RubyXL
 
@@ -17,8 +18,8 @@ module RubyXL
     define_attribute(:cm,  :int)
     define_attribute(:vm,  :int)
     define_attribute(:ph,  :bool)
-    define_child_node(RubyXL::CellFormula, :accessor => :formula_container)
-    define_child_node(RubyXL::CellValue,   :accessor => :value_container) 
+    define_child_node(RubyXL::Formula,   :accessor => :formula)
+    define_child_node(RubyXL::CellValue, :accessor => :value_container) 
     define_child_node(RubyXL::RichText)    # is
     define_element_name 'c'
 

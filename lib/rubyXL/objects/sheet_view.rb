@@ -53,7 +53,7 @@ module RubyXL
     define_attribute(:topLeftCell,              :ref)
     define_attribute(:colorId,                  :int, :default => 64)
     define_attribute(:zoomScale,                :int, :default => 100)
-    define_attribute(:zoomScaleNormal,          :bool, :default => 0)
+    define_attribute(:zoomScaleNormal,          :int, :default => 0)
     define_attribute(:zoomScaleSheetLayoutView, :bool, :default => 0)
     define_attribute(:zoomScalePageLayoutView,  :bool, :default => 0)
     define_attribute(:workbookViewId,           :int, :required => true, :default => 0 )

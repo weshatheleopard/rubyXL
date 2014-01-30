@@ -1,4 +1,8 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/cell_style'
+require 'rubyXL/objects/font'
+require 'rubyXL/objects/fill'
+require 'rubyXL/objects/border'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
