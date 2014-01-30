@@ -5,8 +5,14 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_t-1.html
   class Text < OOXMLObject
-    define_attribute(:_, :string, :accessor => :value)
+    define_attribute(:_,           :string, :accessor => :value)
+    define_attribute(:'xml:space', :string)
     define_element_name 't'
+
+    def before_write_xml
+      self.xml_space = (value && (/^\s+/.match(value) || /\s+$/.match(value))) ? 'preserve' : nil
+      true
+    end
 
     def to_s
       value.to_s

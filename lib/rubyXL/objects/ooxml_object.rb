@@ -71,7 +71,26 @@ module RubyXL
 
     def write_xml(xml, node_name_override = nil)
       return '' unless before_write_xml
-      attrs = prepare_attributes
+      attrs = obtain_class_variable(:@@ooxml_namespaces).dup
+
+      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
+        val = self.send(v[:accessor])
+
+        if val.nil? then
+          next if v[:optional]
+          val = v[:default]
+        end
+
+        val = val &&
+                case v[:attr_type]
+                when :bool  then val ? '1' : '0'
+                when :float then val.to_s.gsub(/\.0*$/, '') # Trim trailing zeroes
+                else val
+                end
+
+        attrs[k] = val
+      }
+
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
@@ -199,30 +218,6 @@ module RubyXL
       acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
       acc.gsub!(':','_')
       acc.downcase.to_sym
-    end
-
-    def prepare_attributes
-      xml_attrs = obtain_class_variable(:@@ooxml_namespaces).dup
-
-      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
-        val = self.send(v[:accessor])
-
-        if val.nil? then
-          next if v[:optional]
-          val = v[:default]
-        end
-
-        val = val &&
-                case v[:attr_type]
-                when :bool  then val ? '1' : '0'
-                when :float then val.to_s.gsub(/\.0*$/, '') # Trim trailing zeroes
-                else val
-                end
-
-        xml_attrs[k] = val
-      }
-
-      xml_attrs
     end
 
   end
