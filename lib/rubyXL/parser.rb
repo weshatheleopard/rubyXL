@@ -37,10 +37,9 @@ module RubyXL
 
       rels_doc = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
 
-      if(File.exist?(File.join(dir_path,'xl','sharedStrings.xml')))
-        shared_string_file = Nokogiri::XML.parse(File.open(File.join(dir_path,'xl','sharedStrings.xml'),'r'))
-        wb.shared_strings_XML = shared_string_file.to_s
-        wb.shared_strings_file = RubyXL::SharedStringsTable.parse(shared_string_file)
+      shared_strings_path = File.join(dir_path, 'xl', 'sharedStrings.xml')
+      if File.exist?(shared_strings_path) then
+        wb.shared_strings_container = RubyXL::SharedStringsTable.parse(File.open(shared_strings_path, 'r'))
       end
 
       unless @data_only
@@ -68,23 +67,6 @@ module RubyXL
         wb.appversion = app_file.css('AppVersion').children.to_s
       end
 
-      unless shared_string_file.nil?
-        sst = shared_string_file.css('sst')
-
-        # According to http://msdn.microsoft.com/en-us/library/office/gg278314.aspx,
-        # these attributes may be either both missing, or both present. Need to validate.
-        wb.shared_strings.count_attr = sst.attribute('count').value.to_i
-        wb.shared_strings.unique_count_attr = sst.attribute('uniqueCount').value.to_i
-
-        # Note that the strings may contain text formatting, such as changing font color/properties
-        # in the middle of the string. We do not support that in this gem... at least yet!
-        # If you save the file, this formatting will be destoyed.
-        shared_string_file.css('si').each_with_index { |node, i|
-          wb.shared_strings.add(node.css('t').inject(''){ |s, c| s + c.text }, i)
-        }
-
-      end
-
       wb.stylesheet = RubyXL::Stylesheet.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
 
       #fills out count information for each font, fill, and border
@@ -99,19 +81,14 @@ module RubyXL
         wb.borders[id].count += 1 #unless id.nil?
       }
 
-      # Not sure why they were getting sheet names from god knows where.
-      # There *may* have been a good reason behind it, so not tossing this code out entirely yet.
-      # sheet_names = app_file.css('TitlesOfParts vt|vector vt|lpstr').children
-
-      workbook_file.css('sheets sheet').each_with_index { |sheet_node, i|
-        sheet_rid = sheet_node.attributes['id'].value 
-        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet_rid}]").first.attributes['Target']
+      wb.worksheet_container.sheets.each_with_index { |sheet, i|
+        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet.r_id}]").first.attributes['Target']
         worksheet = RubyXL::Worksheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
         worksheet.sheet_data.rows.each { |r| r && r.cells.each { |c| c.worksheet = worksheet unless c.nil? } }
-        wb.worksheets[i] = worksheet
         worksheet.workbook = wb
-        worksheet.sheet_name = sheet_node.attributes['name'].value
-        worksheet.sheet_id = sheet_node.attributes['sheetId'].value
+        worksheet.sheet_name = sheet.name
+        worksheet.sheet_id = sheet.sheet_id
+        wb.worksheets[i] = worksheet
       }
 
       FileUtils.remove_entry_secure(dir_path)

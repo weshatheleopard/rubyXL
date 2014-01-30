@@ -96,7 +96,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheets-1.html
   class Sheets < OOXMLObject
-    define_child_node(RubyXL::Sheet, :collection => true)
+    define_child_node(RubyXL::Sheet, :collection => true, :accessor => :sheets)
     define_element_name 'sheets'
   end
 
@@ -156,7 +156,7 @@ module RubyXL
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
-    define_child_node(RubyXL::Sheets)
+    define_child_node(RubyXL::Sheets, :accessor => :worksheet_container)
 #    ssml:functionGroups [0..1]    Function Groups
 #    ssml:externalReferences [0..1]    External References
     define_child_node(RubyXL::DefinedNames, :accessor => :defined_name_container)

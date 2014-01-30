@@ -78,7 +78,7 @@ module RubyXL
       child_nodes.each_pair { |child_node_name, child_node_params|
         obj = self.send(child_node_params[:accessor])
         unless obj.nil?
-          if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml) unless item.nil? }
+          if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
           else elem << obj.write_xml(xml, child_node_name)
           end
         end

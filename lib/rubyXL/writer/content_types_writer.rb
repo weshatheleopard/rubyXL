@@ -52,7 +52,7 @@ module RubyXL
                       :PartName    => '/xl/styles.xml',
                       :ContentType => 'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml' })
 
-            unless @workbook.shared_strings.empty?
+            unless @workbook.shared_strings_container.empty?
               root << xml.create_element('Override', {
                         :PartName    => '/xl/sharedStrings.xml',
                         :ContentType => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml' })

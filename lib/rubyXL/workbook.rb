@@ -10,7 +10,6 @@ require 'rubyXL/writer/styles_writer'
 require 'rubyXL/writer/shared_strings_writer'
 require 'rubyXL/writer/worksheet_writer'
 require 'rubyXL/zip'
-require 'rubyXL/shared_strings'
 require 'date'
 
 module RubyXL
@@ -19,10 +18,8 @@ module RubyXL
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
       :modified_at, :company, :application, :appversion, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :printer_settings, :macros, :shared_strings_XML,
-      :stylesheet, :shared_strings_file
-
-    attr_reader :shared_strings
+      :worksheet_rels, :printer_settings, :macros,
+      :stylesheet, :shared_strings_container
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -44,7 +41,7 @@ module RubyXL
       @company            = company
       @application        = application
       @appversion         = appversion
-      @shared_strings     = RubyXL::SharedStrings.new
+      @shared_strings_container = RubyXL::SharedStringsTable.new
       self.date1904       = date1904 > 0
       @media              = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
       @external_links     = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
@@ -57,9 +54,7 @@ module RubyXL
       @theme              = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros             = RubyXL::GenericStorage.new('xl').binary
-      @shared_strings_XML = nil
       @stylesheet         = RubyXL::Stylesheet.default
-      @shared_strings_file = nil
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')
@@ -67,8 +62,6 @@ module RubyXL
         @created_at       = Time.now.strftime('%Y-%m-%dT%TZ')
       end
       @modified_at        = @created_at
-
-      fill_shared_strings()
     end
 
     # Finds worksheet by its name or numerical index
@@ -119,7 +112,7 @@ module RubyXL
           Writer::ThemeWriter, Writer::WorkbookRelsWriter, Writer::WorkbookWriter, Writer::StylesWriter
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
         
-        Writer::SharedStringsWriter.new(self).add_to_zip(zipfile) unless @shared_strings.empty?
+        Writer::SharedStringsWriter.new(self).add_to_zip(zipfile) unless @shared_strings_container.empty?
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,
@@ -333,6 +326,7 @@ module RubyXL
 
     private
 
+=begin
     #fills shared strings hash, contains each unique string
     def fill_shared_strings()
       @worksheets.compact.each { |sheet|
@@ -345,6 +339,7 @@ module RubyXL
         }
       }
     end
+=end
 
     def validate_before_write
       ## TODO CHECK IF STYLE IS OK if not raise

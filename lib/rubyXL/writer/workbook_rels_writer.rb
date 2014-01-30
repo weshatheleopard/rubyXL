@@ -21,7 +21,7 @@ module RubyXL
 
         rels << [ 'theme/theme1.xml', 'theme' ]
         rels << [ 'styles.xml', 'styles' ]
-        rels << [ 'sharedStrings.xml', 'sharedStrings' ] unless @workbook.shared_strings.empty?
+        rels << [ 'sharedStrings.xml', 'sharedStrings' ] unless @workbook.shared_strings_container.empty?
 
         render_xml do |xml|
           xml << (xml.create_element('Relationships',

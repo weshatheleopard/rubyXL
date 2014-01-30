@@ -1,22 +1,7 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/container_nodes'
 
 module RubyXL
-
-  class BooleanValue < OOXMLObject
-    define_attribute(:val, :bool, :required => true, :default => true)
-  end
-
-  class StringValue < OOXMLObject
-    define_attribute(:val, :string, :required => true)
-  end
-
-  class IntegerValue < OOXMLObject
-    define_attribute(:val, :int, :required => true)
-  end
-
-  class FloatValue < OOXMLObject
-    define_attribute(:val, :float, :required => true)
-  end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_font-1.html
   class Font < OOXMLObject
