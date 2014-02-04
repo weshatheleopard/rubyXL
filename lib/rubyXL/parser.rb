@@ -22,18 +22,24 @@ module RubyXL
       self
     end
 
-    def parse(file_path, opts = {})
+    def parse(xl_file_path, opts = {})
       raise 'Not .xlsx or .xlsm excel file' unless @skip_filename_check ||
-                                              %w{.xlsx .xlsm}.include?(File.extname(file_path))
+                                              %w{.xlsx .xlsm}.include?(File.extname(xl_file_path))
 
-      dir_path = File.join(File.dirname(file_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
+      dir_path = File.join(File.dirname(xl_file_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
 
-      MyZip.new.unzip(file_path, dir_path)
+      Zip::File.open(xl_file_path) { |zip_file|
+        zip_file.each { |f|
+          fpath = File.join(dir_path, f.name)
+          FileUtils.mkdir_p(File.dirname(fpath))
+          zip_file.extract(f, fpath) unless File.exist?(fpath)
+        }
+      }
 
       workbook_file = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'workbook.xml'), 'r'))
 
       wb = RubyXL::Workbook.parse(workbook_file)
-      wb.filepath = file_path
+      wb.filepath = xl_file_path
 
       rels_doc = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
 
