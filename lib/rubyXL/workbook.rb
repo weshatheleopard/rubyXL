@@ -7,7 +7,6 @@ require 'rubyXL/writer/theme_writer'
 require 'rubyXL/writer/workbook_rels_writer'
 require 'rubyXL/writer/workbook_writer'
 require 'rubyXL/writer/styles_writer'
-require 'rubyXL/writer/shared_strings_writer'
 require 'rubyXL/writer/worksheet_writer'
 require 'rubyXL/zip'
 require 'date'
@@ -117,8 +116,7 @@ module RubyXL
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
 
         calculation_chain && calculation_chain.add_to_zip(zipfile)
-        
-        Writer::SharedStringsWriter.new(self).add_to_zip(zipfile) unless @shared_strings_container.empty?
+        shared_strings_container && shared_strings_container.add_to_zip(zipfile)
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,

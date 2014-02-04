@@ -25,7 +25,7 @@ module RubyXL
     def before_write_xml
       super
       self.unique_count = self.count
-      true
+      self.count > 0
     end
 
     def [](index)
@@ -46,6 +46,10 @@ module RubyXL
       index = @index_by_content[str]
       index = add(str) if index.nil? && add_if_missing
       index 
+    end
+
+    def self.filepath
+      File.join('xl', 'sharedStrings.xml')
     end
 
   end

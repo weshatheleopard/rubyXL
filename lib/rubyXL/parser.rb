@@ -37,11 +37,6 @@ module RubyXL
 
       rels_doc = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
 
-      shared_strings_path = File.join(dir_path, 'xl', 'sharedStrings.xml')
-      if File.exist?(shared_strings_path) then
-        wb.shared_strings_container = RubyXL::SharedStringsTable.parse(File.open(shared_strings_path, 'r'))
-      end
-
       unless @data_only
         wb.media = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary.load_dir(dir_path)
         wb.external_links = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks')).load_dir(dir_path)
@@ -65,6 +60,7 @@ module RubyXL
         wb.calculation_chain = RubyXL::CalculationChain.parse_file(dir_path)
       end
 
+      wb.shared_strings_container = RubyXL::SharedStringsTable.parse_file(dir_path)
       wb.stylesheet = RubyXL::Stylesheet.parse_file(dir_path)
 
       #fills out count information for each font, fill, and border

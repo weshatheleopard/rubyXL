@@ -73,7 +73,9 @@ module RubyXL
       if xml.nil? then
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
         seed_xml.encoding = 'UTF-8'
-        seed_xml << self.write_xml(seed_xml)
+        result = self.write_xml(seed_xml)
+        return result if result == ''
+        seed_xml << result
         return seed_xml.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
       end
 
