@@ -30,7 +30,7 @@ module RubyXL
   end
 
   class AlternateContent < RawOOXML
-    define_element_name 'AlternateContent'
+    define_element_name 'mc:AlternateContent'
   end
 
 end

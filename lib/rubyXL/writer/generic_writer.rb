@@ -29,11 +29,11 @@ module RubyXL
       end
 
       def ooxml_object
-        nil
+        raise 'Subclass responsebility'
       end
 
       def write
-        render_xml { |xml| xml << ooxml_object.write_xml(xml) }
+        ooxml_object.write_xml
       end
 
     end

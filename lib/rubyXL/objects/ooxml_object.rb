@@ -69,8 +69,16 @@ module RubyXL
       self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
     end
 
-    def write_xml(xml, node_name_override = nil)
+    def write_xml(xml = nil, node_name_override = nil)
+      if xml.nil? then
+        seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
+        seed_xml.encoding = 'UTF-8'
+        seed_xml << self.write_xml(seed_xml)
+        return seed_xml.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
+      end
+
       return '' unless before_write_xml
+
       attrs = obtain_class_variable(:@@ooxml_namespaces).dup
 
       obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
@@ -171,7 +179,12 @@ module RubyXL
 
       unless known_child_nodes.empty?
         node.element_children.each { |child_node|
-          child_node_name = child_node.name
+
+          child_node_name = if child_node.namespace.prefix then
+                              "#{child_node.namespace.prefix}:#{child_node.name}"
+                            else child_node.name 
+                            end
+
           child_node_params = known_child_nodes[child_node_name]
           raise "Unknown child node: #{child_node_name}" if child_node_params.nil?
           parsed_object = child_node_params[:class].parse(child_node)

@@ -61,10 +61,8 @@ module RubyXL
         wb.created_at = core_file.css('dcterms|created').children.to_s
         wb.modified_at = core_file.css('dcterms|modified').children.to_s
 
-        app_file = Nokogiri::XML.parse(File.open(File.join(dir_path, 'docProps', 'app.xml'), 'r'))
-        wb.company = app_file.css('Company').children.to_s
-        wb.application = app_file.css('Application').children.to_s
-        wb.appversion = app_file.css('AppVersion').children.to_s
+        wb.document_properties = RubyXL::DocumentProperties.parse(File.open(File.join(dir_path, 'docProps', 'app.xml'), 'r'))
+
       end
 
       wb.stylesheet = RubyXL::Stylesheet.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))

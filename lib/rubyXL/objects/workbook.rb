@@ -201,8 +201,33 @@ module RubyXL
       workbook_properties.date1904 = v
     end
 
+    def company
+      self.document_properties.company && self.document_properties.company.value
+    end
+
+    def company=(v)
+      self.document_properties.company ||= StringNode.new
+      self.document_properties.company.value = v
+    end
+
+    def application
+      self.document_properties.application && self.document_properties.application.value
+    end
+
+    def application=(v)
+      self.document_properties.application ||= StringNode.new
+      self.document_properties.application.value = v
+    end
+
+    def appversion
+      self.document_properties.app_version && self.document_properties.app_version.value
+    end
+
+    def appversion=(v)
+      self.document_properties.app_version ||= StringNode.new
+      self.document_properties.app_version.value = v
+    end
 
   end
-
 
 end

@@ -15,11 +15,11 @@ require 'date'
 module RubyXL
   module LegacyWorkbook
     include Enumerable
-    attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at,
-      :modified_at, :company, :application, :appversion, :theme,
+    attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at, :modified_at, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
       :worksheet_rels, :printer_settings, :macros,
-      :stylesheet, :shared_strings_container
+      :stylesheet, :shared_strings_container, :document_properties
+      
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -35,26 +35,27 @@ module RubyXL
       @worksheets = worksheets
       add_worksheet if @worksheets.empty?
 
-      @filepath           = filepath
-      @creator            = creator
-      @modifier           = modifier
-      @company            = company
-      @application        = application
-      @appversion         = appversion
+      @filepath            = filepath
+      @creator             = creator
+      @modifier            = modifier
       @shared_strings_container = RubyXL::SharedStringsTable.new
-      self.date1904       = date1904 > 0
-      @media              = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
-      @external_links     = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
-      @external_links_rels= RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
-      @drawings           = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
-      @drawings_rels      = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels'))
-      @charts             = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
-      @chart_rels         = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
-      @worksheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
-      @theme              = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
-      @printer_settings   = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
-      @macros             = RubyXL::GenericStorage.new('xl').binary
-      @stylesheet         = RubyXL::Stylesheet.default
+      self.date1904        = date1904 > 0
+      @media               = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
+      @external_links      = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
+      @external_links_rels = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
+      @drawings            = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
+      @drawings_rels       = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels'))
+      @charts              = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
+      @chart_rels          = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
+      @worksheet_rels      = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
+      @theme               = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
+      @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
+      @macros              = RubyXL::GenericStorage.new('xl').binary
+      @stylesheet          = RubyXL::Stylesheet.default
+      @document_properties = RubyXL::DocumentProperties.new
+      self.company         = company
+      self.application     = application
+      self.appversion      = appversion
 
       begin
         @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')

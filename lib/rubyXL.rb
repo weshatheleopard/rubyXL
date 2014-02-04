@@ -7,6 +7,7 @@ require 'rubyXL/objects/stylesheet'
 require 'rubyXL/objects/shared_strings'
 require 'rubyXL/objects/worksheet'
 require 'rubyXL/objects/workbook'
+require 'rubyXL/objects/document_properties'
 require 'rubyXL/parser'
 
 module RubyXL
