@@ -25,7 +25,9 @@ module RubyXL
       end
 
       def add_to_zip(zipfile)
-        zipfile.get_output_stream(filepath) { |f| f << write }
+        output = write
+        return if output.nil?
+        zipfile.get_output_stream(filepath) { |f| f << output }
       end
 
       def ooxml_object
@@ -33,7 +35,7 @@ module RubyXL
       end
 
       def write
-        ooxml_object.write_xml
+        ooxml_object && ooxml_object.write_xml
       end
 
     end

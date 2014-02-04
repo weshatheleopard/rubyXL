@@ -17,9 +17,9 @@ module RubyXL
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at, :modified_at, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :printer_settings, :macros,
-      :stylesheet, :shared_strings_container, :document_properties
-      
+      :worksheet_rels, :printer_settings, :macros
+
+    attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -38,7 +38,6 @@ module RubyXL
       @filepath            = filepath
       @creator             = creator
       @modifier            = modifier
-      @shared_strings_container = RubyXL::SharedStringsTable.new
       self.date1904        = date1904 > 0
       @media               = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
       @external_links      = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
@@ -51,8 +50,12 @@ module RubyXL
       @theme               = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros              = RubyXL::GenericStorage.new('xl').binary
-      @stylesheet          = RubyXL::Stylesheet.default
-      @document_properties = RubyXL::DocumentProperties.new
+
+      @shared_strings_container = RubyXL::SharedStringsTable.new
+      @stylesheet               = RubyXL::Stylesheet.default
+      @document_properties      = RubyXL::DocumentProperties.new
+      @calculation_chain        = nil
+
       self.company         = company
       self.application     = application
       self.appversion      = appversion
@@ -112,6 +115,8 @@ module RubyXL
         [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::AppWriter, Writer::CoreWriter,
           Writer::ThemeWriter, Writer::WorkbookRelsWriter, Writer::WorkbookWriter, Writer::StylesWriter
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
+
+        calculation_chain && calculation_chain.add_to_zip(zipfile)
         
         Writer::SharedStringsWriter.new(self).add_to_zip(zipfile) unless @shared_strings_container.empty?
 

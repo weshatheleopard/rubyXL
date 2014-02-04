@@ -126,6 +126,10 @@ module RubyXL
       @format_hash = nil
     end
 
+    def self.filepath
+      File.join('xl', 'styles.xml')
+    end
+
     def self.default
       self.new(:cell_xfs => RubyXL::CellXFs.defaults,
                :font_container => RubyXL::FontContainer.defaults,

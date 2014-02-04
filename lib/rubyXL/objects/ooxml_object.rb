@@ -226,6 +226,22 @@ module RubyXL
       true 
     end
 
+    def add_to_zip(zipfile)
+      xml_string = write_xml
+      return if xml_string.empty?
+      zipfile.get_output_stream(self.class.filepath) { |f| f << xml_string }
+    end
+
+    def self.filepath
+      raise 'Subclass responsebility'
+    end
+
+    def self.parse_file(dirpath)
+      full_path = File.join(dirpath, filepath)
+      return nil unless File.exist?(full_path)
+      parse(File.open(full_path, 'r'))
+    end
+
     private
     def self.accessorize(str)
       acc = str.to_s.dup

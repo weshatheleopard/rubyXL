@@ -61,11 +61,11 @@ module RubyXL
         wb.created_at = core_file.css('dcterms|created').children.to_s
         wb.modified_at = core_file.css('dcterms|modified').children.to_s
 
-        wb.document_properties = RubyXL::DocumentProperties.parse(File.open(File.join(dir_path, 'docProps', 'app.xml'), 'r'))
-
+        wb.document_properties = RubyXL::DocumentProperties.parse_file(dir_path)
+        wb.calculation_chain = RubyXL::CalculationChain.parse_file(dir_path)
       end
 
-      wb.stylesheet = RubyXL::Stylesheet.parse(File.open(File.join(dir_path, 'xl', 'styles.xml'), 'r'))
+      wb.stylesheet = RubyXL::Stylesheet.parse_file(dir_path)
 
       #fills out count information for each font, fill, and border
       wb.cell_xfs.each { |style|
