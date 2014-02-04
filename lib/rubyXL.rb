@@ -9,6 +9,7 @@ require 'rubyXL/objects/worksheet'
 require 'rubyXL/objects/calculation_chain'
 require 'rubyXL/objects/workbook'
 require 'rubyXL/objects/document_properties'
+require 'rubyXL/objects/relationships'
 require 'rubyXL/parser'
 
 module RubyXL

@@ -3,7 +3,6 @@ require 'rubyXL/writer/content_types_writer'
 require 'rubyXL/writer/root_rels_writer'
 require 'rubyXL/writer/core_writer'
 require 'rubyXL/writer/theme_writer'
-require 'rubyXL/writer/workbook_rels_writer'
 require 'rubyXL/writer/workbook_writer'
 require 'rubyXL/writer/styles_writer'
 require 'rubyXL/writer/worksheet_writer'
@@ -15,7 +14,8 @@ module RubyXL
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
       :worksheet_rels, :printer_settings, :macros
 
-    attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain
+    attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
+                  :relationship_container
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -50,6 +50,7 @@ module RubyXL
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
       @document_properties      = RubyXL::DocumentProperties.new
+      @relationship_container   = RubyXL::WorkbookRelationships.new
       @calculation_chain        = nil
 
       self.company         = company
@@ -109,12 +110,14 @@ module RubyXL
 
       Zip::File.open(zippath, Zip::File::CREATE) { |zipfile|
         [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::CoreWriter,
-          Writer::ThemeWriter, Writer::WorkbookRelsWriter, Writer::WorkbookWriter, Writer::StylesWriter
+          Writer::ThemeWriter, Writer::WorkbookWriter, Writer::StylesWriter
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
 
         calculation_chain && calculation_chain.add_to_zip(zipfile)
         shared_strings_container && shared_strings_container.add_to_zip(zipfile)
         document_properties.add_to_zip(zipfile)
+        relationship_container.workbook = self
+        relationship_container.add_to_zip(zipfile)
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,

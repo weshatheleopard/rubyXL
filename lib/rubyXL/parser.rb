@@ -41,7 +41,7 @@ module RubyXL
       wb = RubyXL::Workbook.parse(workbook_file)
       wb.filepath = xl_file_path
 
-      rels_doc = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', '_rels', 'workbook.xml.rels'), 'r'))
+      wb.relationship_container = RubyXL::WorkbookRelationships.parse_file(dir_path)
 
       unless @data_only
         wb.media = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary.load_dir(dir_path)
@@ -82,7 +82,7 @@ module RubyXL
       }
 
       wb.worksheet_container.sheets.each_with_index { |sheet, i|
-        sheet_file_path = rels_doc.css("Relationships Relationship[Id=#{sheet.r_id}]").first.attributes['Target']
+        sheet_file_path = wb.relationship_container.find_by_rid(sheet.r_id).target
         worksheet = RubyXL::Worksheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
         worksheet.sheet_data.rows.each { |r| r && r.cells.each { |c| c.worksheet = worksheet unless c.nil? } }
         worksheet.workbook = wb
