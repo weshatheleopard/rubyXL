@@ -6,6 +6,10 @@ require 'rubyXL/writer/theme_writer'
 require 'rubyXL/writer/workbook_writer'
 require 'rubyXL/writer/styles_writer'
 require 'rubyXL/writer/worksheet_writer'
+require 'tmpdir'
+
+require 'rubygems'
+require 'zip'
 
 module RubyXL
   module LegacyWorkbook
