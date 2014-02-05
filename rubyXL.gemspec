@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "rubyXL"
-  s.version = "2.0.0"
+  s.version = "2.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
-  s.date = "2014-01-16"
+  s.date = "2014-02-05"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
   s.email = "bhagwat.vivek@gmail.com"
   s.extra_rdoc_files = [
@@ -27,36 +27,39 @@ Gem::Specification.new do |s|
     "lib/rubyXL/cell.rb",
     "lib/rubyXL/generic_storage.rb",
     "lib/rubyXL/objects/border.rb",
+    "lib/rubyXL/objects/calculation_chain.rb",
     "lib/rubyXL/objects/cell_style.rb",
     "lib/rubyXL/objects/color.rb",
     "lib/rubyXL/objects/column_range.rb",
+    "lib/rubyXL/objects/container_nodes.rb",
     "lib/rubyXL/objects/data_validation.rb",
-    "lib/rubyXL/objects/defined_name.rb",
+    "lib/rubyXL/objects/document_properties.rb",
+    "lib/rubyXL/objects/extensions.rb",
     "lib/rubyXL/objects/fill.rb",
     "lib/rubyXL/objects/font.rb",
     "lib/rubyXL/objects/formula.rb",
     "lib/rubyXL/objects/ooxml_object.rb",
     "lib/rubyXL/objects/reference.rb",
+    "lib/rubyXL/objects/relationships.rb",
+    "lib/rubyXL/objects/shared_strings.rb",
+    "lib/rubyXL/objects/sheet_data.rb",
     "lib/rubyXL/objects/sheet_view.rb",
+    "lib/rubyXL/objects/stylesheet.rb",
+    "lib/rubyXL/objects/text.rb",
+    "lib/rubyXL/objects/theme.rb",
+    "lib/rubyXL/objects/workbook.rb",
     "lib/rubyXL/objects/worksheet.rb",
     "lib/rubyXL/parser.rb",
-    "lib/rubyXL/private_class.rb",
-    "lib/rubyXL/shared_strings.rb",
     "lib/rubyXL/workbook.rb",
     "lib/rubyXL/worksheet.rb",
-    "lib/rubyXL/writer/app_writer.rb",
-    "lib/rubyXL/writer/calc_chain_writer.rb",
     "lib/rubyXL/writer/content_types_writer.rb",
     "lib/rubyXL/writer/core_writer.rb",
     "lib/rubyXL/writer/generic_writer.rb",
     "lib/rubyXL/writer/root_rels_writer.rb",
-    "lib/rubyXL/writer/shared_strings_writer.rb",
     "lib/rubyXL/writer/styles_writer.rb",
     "lib/rubyXL/writer/theme_writer.rb",
-    "lib/rubyXL/writer/workbook_rels_writer.rb",
     "lib/rubyXL/writer/workbook_writer.rb",
     "lib/rubyXL/writer/worksheet_writer.rb",
-    "lib/rubyXL/zip.rb",
     "rdoc/created.rid",
     "rdoc/fonts.css",
     "rdoc/fonts/Lato-Light.ttf",
@@ -101,6 +104,7 @@ Gem::Specification.new do |s|
     "spec/lib/cell_spec.rb",
     "spec/lib/color_spec.rb",
     "spec/lib/parser_spec.rb",
+    "spec/lib/reference_spec.rb",
     "spec/lib/workbook_spec.rb",
     "spec/lib/worksheet_spec.rb"
   ]

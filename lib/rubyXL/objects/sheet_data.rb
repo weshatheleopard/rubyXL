@@ -13,8 +13,8 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
   class Cell < OOXMLObject
     define_attribute(:r,   :ref)
-    define_attribute(:s,   :int)
-    define_attribute(:t,   :string,  :default => 'n', :values => %w{ b n e s str inlineStr })
+    define_attribute(:s,   :int,    :accessor => :style_index)
+    define_attribute(:t,   :string, :accessor => :datatype, :default => 'n', :values => %w{ b n e s str inlineStr })
     define_attribute(:cm,  :int)
     define_attribute(:vm,  :int)
     define_attribute(:ph,  :bool)
@@ -43,22 +43,6 @@ module RubyXL
       self.r = RubyXL::Reference.new(row || 0, v)
     end
 
-    def datatype
-      t
-    end
-
-    def datatype=(v)
-      self.t = v
-    end
-
-    def style_index
-      s
-    end
-
-    def style_index=(v)
-      self.s = v
-    end
-
     def raw_value
       value_container && value_container.value
     end
@@ -68,12 +52,16 @@ module RubyXL
       value_container.value = v
     end
 
-
-
-#                      cell_value = if (cell.datatype == RubyXL::Cell::SHARED_STRING) then
-#                                     @workbook.shared_strings.get_index(cell.value).to_s
-#                                   else cell.value
-#                                   end
+    def value(args = {})
+      return raw_value if args[:raw]
+      return workbook.num_to_date(raw_value) if is_date?
+      case datatype
+      when RubyXL::Cell::SHARED_STRING then
+        workbook.shared_strings_container[raw_value.to_i]
+      else 
+        raw_value
+      end
+    end
 
     include LegacyCell
   end

@@ -96,8 +96,6 @@ module RubyXL
 
     #filepath of xlsx file (including file itself)
     def write(filepath = @filepath)
-      validate_before_write
-
       extension = File.extname(filepath)
       unless %w{.xlsx .xlsm}.include?(extension)
         raise "Only xlsx and xlsm files are supported. Unsupported extension: #{extension}"
@@ -314,7 +312,7 @@ module RubyXL
     end
 
     def cell_xfs # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.cell_xfs.xfs
+      stylesheet.cell_xf_container.xfs
     end
 
     def fonts # Stylesheet should be pre-filled with defaults on initialize()
@@ -346,9 +344,5 @@ module RubyXL
     end
 =end
 
-    def validate_before_write
-      ## TODO CHECK IF STYLE IS OK if not raise
-    end
-  
   end
 end

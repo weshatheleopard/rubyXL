@@ -373,7 +373,7 @@ module LegacyWorksheet
       old_row = sheet_data.rows[row_index - 1] 
       new_cells = old_row.cells.collect { |c| 
                                           if c.nil? then nil
-                                          else RubyXL::Cell.new(:s => c.s)
+                                          else RubyXL::Cell.new(:style_index => c.style_index)
                                           end }
     end
 

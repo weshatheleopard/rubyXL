@@ -31,7 +31,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellXfs-1.html
-  class CellXFs < OOXMLObject
+  class CellXFContainer < OOXMLObject
     define_child_node(RubyXL::XF, :collection => :with_count, :accessor => :xfs)
     define_element_name 'cellXfs'
 
@@ -108,7 +108,7 @@ module RubyXL
     define_child_node(RubyXL::FillContainer,         :accessor => :fill_container)
     define_child_node(RubyXL::BorderContainer,       :accessor => :border_container)
     define_child_node(RubyXL::CellStyleXFContainer,  :accessor => :cell_style_xf_container)
-    define_child_node(RubyXL::CellXFs)
+    define_child_node(RubyXL::CellXFContainer,       :accessor => :cell_xf_container)
     define_child_node(RubyXL::CellStyleContainer,    :accessor => :cell_style_container)
     define_child_node(RubyXL::DXFs)
     define_child_node(RubyXL::TableStyles)
@@ -131,11 +131,11 @@ module RubyXL
     end
 
     def self.default
-      self.new(:cell_xfs => RubyXL::CellXFs.defaults,
-               :font_container => RubyXL::FontContainer.defaults,
-               :fill_container => RubyXL::FillContainer.defaults,
-               :border_container => RubyXL::BorderContainer.defaults, 
-               :cell_style_container => RubyXL::CellStyleContainer.defaults,
+      self.new(:cell_xf_container       => RubyXL::CellXFContainer.defaults,
+               :font_container          => RubyXL::FontContainer.defaults,
+               :fill_container          => RubyXL::FillContainer.defaults,
+               :border_container        => RubyXL::BorderContainer.defaults, 
+               :cell_style_container    => RubyXL::CellStyleContainer.defaults,
                :cell_style_xf_container => RubyXL::CellStyleXFContainer.defaults)
     end
 

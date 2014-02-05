@@ -6,12 +6,6 @@ module RubyXL
 
     attr_accessor :formula, :worksheet
 
-    def value(args = {})
-      return raw_value if args[:raw]
-      return workbook.num_to_date(raw_value) if is_date?
-      raw_value
-    end
-
     def workbook
       @worksheet.workbook
     end
