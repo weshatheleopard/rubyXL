@@ -11,7 +11,7 @@ module RubyXL
     end
 
     def is_date?
-      return false if raw_value.is_a?(String)
+      return false unless raw_value =~ /^\d+$/ # Only fully numeric values can be dates
       tmp_num_fmt = workbook.stylesheet.number_format(get_cell_xf.num_fmt_id)
       num_fmt = tmp_num_fmt && tmp_num_fmt.format_code
       num_fmt && workbook.date_num_fmt?(num_fmt)

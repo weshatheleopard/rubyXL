@@ -54,12 +54,13 @@ module RubyXL
 
     def value(args = {})
       return raw_value if args[:raw]
-      return workbook.num_to_date(raw_value) if is_date?
       case datatype
       when RubyXL::Cell::SHARED_STRING then
         workbook.shared_strings_container[raw_value.to_i]
       else 
-        raw_value
+        if is_date? then workbook.num_to_date(raw_value.to_i)
+        else raw_value
+        end
       end
     end
 
