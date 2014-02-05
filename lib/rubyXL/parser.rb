@@ -30,7 +30,7 @@ module RubyXL
 
       dir_path = File.join(File.dirname(xl_file_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
 
-      Zip::File.open(xl_file_path) { |zip_file|
+      ::Zip::File.open(xl_file_path) { |zip_file|
         zip_file.each { |f|
           fpath = File.join(dir_path, f.name)
           FileUtils.mkdir_p(File.dirname(fpath))
