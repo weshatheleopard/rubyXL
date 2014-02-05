@@ -1,4 +1,5 @@
 require 'rubygems'
+gem 'rubyzip'
 require 'nokogiri'
 require 'tmpdir'
 require 'zip'
