@@ -12,9 +12,9 @@ module RubyXL
 
     def is_date?
       return false unless raw_value =~ /^\d+$/ # Only fully numeric values can be dates
-      tmp_num_fmt = workbook.stylesheet.number_format(get_cell_xf.num_fmt_id)
+      tmp_num_fmt = get_number_format
       num_fmt = tmp_num_fmt && tmp_num_fmt.format_code
-      num_fmt && workbook.date_num_fmt?(num_fmt)
+      num_fmt && num_fmt.is_date_format?
     end
 
     # changes fill color of cell
@@ -292,6 +292,11 @@ module RubyXL
     def get_cell_border
       workbook.borders[get_cell_xf.border_id]
     end
+
+    def get_number_format
+      workbook.stylesheet.get_number_format_by_id(get_cell_xf.num_fmt_id)
+    end
+
   end
 end
 

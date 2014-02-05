@@ -12,12 +12,113 @@ module RubyXL
     define_attribute(:numFmtId,   :int,    :required => true)
     define_attribute(:formatCode, :string, :required => true)
     define_element_name 'numFmt'
+
+    def is_date_format?
+      num_fmt = format_code.downcase
+      skip_chars = ['$', '-', '+', '/', '(', ')', ':', ' ']
+      num_chars = ['0', '#', '?']
+      non_date_formats = ['0.00e+00', '##0.0e+0', 'general', '@']
+      date_chars = ['y','m','d','h','s']
+
+      state = 0
+      s = ''
+
+      num_fmt.split(//).each do |c|
+        case state 
+        when 0 then
+          if c == '"'
+            state = 1
+          elsif ['\\', '_', '*'].include?(c)
+            state = 2
+          elsif skip_chars.include?(c)
+            next
+          else
+            s << c
+          end
+        when 1 then
+          state = 0 if c == '"'
+        when 2 then
+          state = 0
+        end
+      end
+
+      s.gsub!(/\[[^\]]*\]/, '')
+
+      return false if non_date_formats.include?(s)
+
+      separator = ';'
+      got_sep = 0
+      date_count = 0
+      num_count = 0
+
+      s.split(//).each do |c|
+        if date_chars.include?(c)
+          date_count += 1
+        elsif num_chars.include?(c)
+          num_count += 1
+        elsif c == separator
+          got_sep = 1
+        end
+      end
+
+      if date_count > 0 && num_count == 0
+        return true
+      elsif num_count > 0 && date_count == 0
+        return false
+      elsif date_count
+        # ambiguous result
+      elsif got_sep == 0
+        # constant result
+      end
+
+      return date_count > num_count
+
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmts-1.html
   class NumberFormatContainer < OOXMLObject
     define_child_node(RubyXL::NumberFormat, :collection => :with_count, :accessor => :number_formats)
     define_element_name 'numFmts'
+
+    DEFAULT_NUMBER_FORMATS = self.new(:number_formats => [
+      RubyXL::NumberFormat.new(:num_fmt_id => 1, :format_code => '0'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 2, :format_code => '0.00'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 3, :format_code => '#, ##0'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 4, :format_code => '#, ##0.00'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 5, :format_code => '$#, ##0_);($#, ##0)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 6, :format_code => '$#, ##0_);[Red]($#, ##0)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 7, :format_code => '$#, ##0.00_);($#, ##0.00)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 8, :format_code => '$#, ##0.00_);[Red]($#, ##0.00)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 9, :format_code => '0%'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 10, :format_code => '0.00%'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 11, :format_code => '0.00E+00'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 12, :format_code => '# ?/?'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 13, :format_code => '# ??/??'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 14, :format_code => 'm/d/yyyy'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 15, :format_code => 'd-mmm-yy'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 16, :format_code => 'd-mmm'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 17, :format_code => 'mmm-yy'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 18, :format_code => 'h:mm AM/PM'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 19, :format_code => 'h:mm:ss AM/PM'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 20, :format_code => 'h:mm'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 21, :format_code => 'h:mm:ss'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 22, :format_code => 'm/d/yyyy h:mm'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 37, :format_code => '#, ##0_);(#, ##0)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 38, :format_code => '#, ##0_);[Red](#, ##0)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 39, :format_code => '#, ##0.00_);(#, ##0.00)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 40, :format_code => '#, ##0.00_);[Red](#, ##0.00)'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 45, :format_code => 'mm:ss'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 46, :format_code => '[h]:mm:ss'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 47, :format_code => 'mm:ss.0'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 48, :format_code => '##0.0E+0'),
+      RubyXL::NumberFormat.new(:num_fmt_id => 49, :format_code => '@')
+    ])
+
+    def find_by_format_id(format_id)
+      number_formats.find { |fmt| fmt.num_fmt_id == format_id }
+    end
+
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellStyleXfs-1.html
@@ -139,12 +240,12 @@ module RubyXL
                :cell_style_xf_container => RubyXL::CellStyleXFContainer.defaults)
     end
 
-    def number_format(format_id)
-      if @format_hash.nil? then
-        @format_hash = {}
-        if number_format_container then
-          number_format_container.number_formats.each { |fmt| @format_hash[fmt.num_fmt_id] = fmt }
-        end
+    def get_number_format_by_id(format_id)
+      @format_hash ||= {}
+      
+      if @format_hash[format_id].nil? then
+        @format_hash[format_id] = NumberFormatContainer::DEFAULT_NUMBER_FORMATS.find_by_format_id(format_id) ||
+                                    (number_format_container && number_format_container.find_by_format_id(format_id))
       end
 
       @format_hash[format_id]

@@ -53,21 +53,4 @@ describe RubyXL::Workbook do
     end
   end
 
-  describe '.is_date_format?' do
-
-    it 'should return true if number format = dd// yy// mm' do
-      @workbook.is_date_format?('dd// yy// mm').should == true
-    end  
-
-    it 'should return true if number format = DD// YY// MM (uppercase)' do
-      @workbook.is_date_format?('DD// YY// MM').should == true
-    end  
-
-    it 'should return false if number format = @' do
-      @workbook.is_date_format?('@').should == false
-      @workbook.is_date_format?('general').should == false
-      @workbook.is_date_format?('0.00e+00').should == false
-    end  
-  end
-
 end
