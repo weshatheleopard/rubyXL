@@ -12,26 +12,33 @@ require 'rubyXL/objects/document_properties'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/parser'
 
-if ::Object.const_defined?(:Zip) then
-  if ::Zip.const_defined?(:File) then
-    #puts "DEBUG: RubyZip detected"
-    ::RubyZip = ::Zip
+require 'zip'
+
+# I do not appreciate the following hackery, but you have the developers of +zip+ and +rubyzip+
+# gems to thank for it, as they *both* have choosen to call their projects' base classes +Zip+,
+# and as a result, if +rubyXL+ is used in the project that also utilizes +zip+, it fails to work
+# properly as it picks up the wrong class. So I have no choice but to do the cleanup of their mess
+# in my code.
+unless ::Object.const_defined?(:RubyZip, false)
+  if ::Object.const_defined?(:Zip, false) then
+    if ::Zip.const_defined?(:File, false) then
+      # puts "DEBUG: RubyZip detected"
+      ::RubyZip = ::Zip
+    else
+      # puts "DEBUG: Conflicting Zip detected"
+      zip_backup = ::Zip
+      ::Zip = nil
+      require 'rubygems'
+      gem 'rubyzip', :require => 'zip'
+      ::RubyZip = ::Zip
+      ::Zip = zip_backup
+    end
   else
-    #puts "DEBUG: Conflicting Zip detected"
-    zip_backup = ::Zip
-    ::Zip = nil
+    # puts "DEBUG: Zip not detected at all"
     require 'rubygems'
-    gem 'rubyzip'
-    require 'zip'
+    gem 'rubyzip', :require => 'zip'
     ::RubyZip = ::Zip
-    ::Zip = zip_backup
   end
-else
-  #puts "DEBUG: No Zip detected"
-  require 'rubygems'
-  gem 'rubyzip'
-  require 'zip'
-  ::RubyZip = ::Zip
 end
 
 module RubyXL
