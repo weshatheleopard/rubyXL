@@ -30,29 +30,29 @@ module RubyXL
 
     # Defines an attribute of OOXML object.
     # === Parameters
-    # * +attribute_name+ - Name of the element attribute as seen in the source XML. Can be either "String" or :Symbol
-    #   * Special attibute name '_' (underscore) denotes the value of the element rather than attribute.
+    # * +attribute_name+ - Name of the element attribute as seen in the source XML. Can be either <tt>"String"</tt> or <tt>:Symbol</tt>
+    #   * Special attibute name <tt>'_'</tt> (underscore) denotes the value of the element rather than attribute.
     # * +attribute_type+ - Specifies the conversion type for the attribute when parsing. Available options are:
-    #   * :int - Integer
-    #   * :float - Float
-    #   * :string - String (no conversion)
-    #   * :sqref - RubyXL::Sqref
-    #   * :ref - RubyXL::Reference
-    #   * :bool - Boolean ("1" and "true" convert to +true+, others to +false+)
+    #   * +:int+ - <tt>Integer</tt>
+    #   * +:float+ - <tt>Float</tt>
+    #   * +:string+ - <tt>String</tt> (no conversion)
+    #   * +:sqref+ - RubyXL::Sqref
+    #   * +:ref+ - RubyXL::Reference
+    #   * +:bool+ - <tt>Boolean</tt> ("1" and "true" convert to +true+, others to +false+)
     # * +extra_parameters+ - Hash of optional parameters as follows:
-    #   * :accessor - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
-    #   * :default - Value this attribute defaults to if not explicitly provided.
-    #   * :required - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, +:default+ is written instead.
-    #   * :values - List of acceptable values for this attribute (curently not used).
+    #   * +:accessor+ - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
+    #   * +:default+ - Value this attribute defaults to if not explicitly provided.
+    #   * +:required+ - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, +:default+ is written instead.
+    #   * +:values+ - List of acceptable values for this attribute (curently not used).
     # ==== Examples
     #   define_attribute(:outline, :bool, :default => true)
-    # A Boolean attribute 'outline' with default value +true+ will be accessible by calling +obj.outline+
+    # A <tt>Boolean</tt> attribute 'outline' with default value +true+ will be accessible by calling +obj.outline+
     #   define_attribute(:uniqueCount,  :int)
-    # An Integer attribute 'uniqueCount' accessible as +obj.unique_count+
+    # An <tt>Integer</tt> attribute 'uniqueCount' accessible as +obj.unique_count+
     #   define_attribute(:_,  :string, :accessor => :expression)
-    # The value of the element will be accessible as a String by calling +obj.expression+
+    # The value of the element will be accessible as a <tt>String</tt> by calling +obj.expression+
     #   define_attribute(:errorStyle, :string, :default => 'stop', :values => %w{ stop warning information })
-    # A String attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are "stop", "warning", "information"
+    # A <tt>String</tt> attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are <tt>"stop"</tt>, <tt>"warning"</tt>, <tt>"information"</tt>
     def self.define_attribute(attr_name, attr_type, extra_params = {})
       attrs = obtain_class_variable(:@@ooxml_attributes)
 
@@ -70,6 +70,26 @@ module RubyXL
       self.send(:attr_accessor, accessor)
     end
     
+    # Defines a child node of OOXML object.
+    # === Parameters
+    # * +klass+ - Class (descendant of RubyXL::OOXMLObject) of the child nodes. Child node objects will be produced by calling +parse+ method of that class.
+    # * +extra_parameters+ - Hash of optional parameters as follows:
+    #   * +:accessor+ - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
+    #   * +:node_name+ - Node name for the child node, in case it does not match the one defined by the +klass+.
+    #   * +:collection+ - Whether the child node should be treated as a single node or a collection of nodes:
+    #     * +false+ (default) - child node is directly accessible through the respective accessor;
+    #     * +true+ - a collection of child nodes is accessed as +Array+ through the respective accessor;
+    #     * +:with_count+ - same as +true+, but in addition, the attribute +count+ is defined on the current object, that will be automatically set to the number of elements in the collection at the start of +write_xml+ call.
+    # ==== Examples
+    #   define_child_node(RubyXL::Alignment)
+    # Define a singular child node parsed by the RubyXL::BorderEdge.parse() and accessed by the default <tt>obj.alignment</tt> accessor
+    #   define_child_node(RubyXL::Hyperlink, :colection => true, :accessor => :hyperlinks)
+    # Define an array of nodes accessed by <tt>obj.hyperlinks</tt> accessor, each of which will be parsed by the RubyXL::Hyperlink.parse()
+    #   define_child_node(RubyXL::BorderEdge, :node_name => :left)
+    #   define_child_node(RubyXL::BorderEdge, :node_name => :right)
+    # Use class RubyXL::BorderEdge when parsing both the elements <tt><left ...></tt> and <tt><right ...></tt> elements.
+    #   define_child_node(RubyXL::Font, :collection => :with_count, :accessor => :fonts)
+    # Upon writing of the object this was defined on, its <tt>count</tt> attribute will be set to the count of nodes in <tt>fonts</tt> array
     def self.define_child_node(klass, extra_params = {})
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_node_name = (extra_params[:node_name] || klass.class_variable_get(:@@ooxml_tag_name)).to_s

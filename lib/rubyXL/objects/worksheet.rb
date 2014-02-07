@@ -333,7 +333,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_ignoredErrors-1.html
   class IgnoredErrorContainer < OOXMLObject
-    define_child_node(RubyXL::IgnoredError, :collection => true, :accessor => :scenarios)
+    define_child_node(RubyXL::IgnoredError, :collection => true, :accessor => :ignored_errors)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'ignoredErrors'
   end

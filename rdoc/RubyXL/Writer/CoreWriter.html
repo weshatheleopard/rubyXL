@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class RubyXL::Writer::CoreWriter - rubyXL 2.1.1</title>
+
+<link href="../../fonts.css" rel="stylesheet">
+<link href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script src="../../js/jquery.js"></script>
+<script src="../../js/navigation.js"></script>
+<script src="../../js/search_index.js"></script>
+<script src="../../js/search.js"></script>
+<script src="../../js/searcher.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link">GenericWriter
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-filepath">#filepath</a>
+    
+    <li ><a href="#method-i-write">#write</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-RubyXL::Writer::CoreWriter">
+  <h1 id="class-RubyXL::Writer::CoreWriter" class="class">
+    class RubyXL::Writer::CoreWriter
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-filepath" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">filepath</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="filepath-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/writer/core_writer.rb, line 5</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">filepath</span>
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'docProps'</span>, <span class="ruby-string">'core.xml'</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-write" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">write</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="write-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/writer/core_writer.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">write</span>()
+  <span class="ruby-identifier">render_xml</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">xml</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">xml</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'cp:coreProperties'</span>, 
+               <span class="ruby-string">'xmlns:cp'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://schemas.openxmlformats.org/package/2006/metadata/core-properties'</span>,
+               <span class="ruby-string">'xmlns:dc'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://purl.org/dc/elements/1.1/'</span>,
+               <span class="ruby-string">'xmlns:dcterms'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://purl.org/dc/terms/'</span>,
+               <span class="ruby-string">'xmlns:dcmitype'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://purl.org/dc/dcmitype/'</span>,
+               <span class="ruby-string">'xmlns:xsi'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://www.w3.org/2001/XMLSchema-instance'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">root</span><span class="ruby-operator">|</span>
+
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'dc:creator'</span>,        <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">creator</span>)
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'cp:lastModifiedBy'</span>, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modifier</span>)
+
+      <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'dcterms:created'</span>,  { <span class="ruby-string">'xsi:type'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'dcterms:W3CDTF'</span> }, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">created_at</span>)
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modified_at</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'dcterms:modified'</span>, { <span class="ruby-string">'xsi:type'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'dcterms:W3CDTF'</span> }, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modified_at</span>)
+      <span class="ruby-keyword">end</span>
+    })
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
