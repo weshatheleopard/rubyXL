@@ -1,7 +1,7 @@
-
-
 *.DS_Store
 *.html
 *.gem
 *.swp
+*.xlsx
+.bundle
 lib/tests/
