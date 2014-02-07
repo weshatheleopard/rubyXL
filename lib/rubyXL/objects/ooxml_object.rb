@@ -1,5 +1,3 @@
-require 'pp'
-
 module RubyXL
 
   # Parent class for defining OOXML based objects (not unlike Rails' +ActiveRecord+!)
@@ -108,10 +106,18 @@ module RubyXL
       self.send(:attr_accessor, accessor)
     end
 
-    def self.define_element_name(v)
-      self.class_variable_set(:@@ooxml_tag_name, v)
+    # Defines the name of the element that represents the current OOXML object. Should only be used once per object.
+    # In case of different objects represented by the same class in different parts of OOXML tree, +:node_name+ 
+    # extra parameter can be used to override the default element name.
+    # === Parameters
+    # * +element_name+
+    # ==== Examples
+    #   define_element_name 'externalReference'
+    def self.define_element_name(element_name)
+      self.class_variable_set(:@@ooxml_tag_name, element_name)
     end
 
+    # #TODO# This method will eventually be obsoleted.
     def self.set_countable
       self.class_variable_set(:@@ooxml_countable, true)
       self.send(:attr_accessor, :count)
@@ -127,6 +133,16 @@ module RubyXL
       self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
     end
 
+    # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
+    # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
+    # returns +false+, an empty string is returned (rather than +nil+, so Nokogiri::XML's <tt>&lt;&lt;</tt> operator
+    # can be used without additional +nil+ checking)
+    # === Parameters
+    # * +xml+ - Base Nokogiri::XML object used for building. If omitted, a blank document will be generated.
+    # * +node_name_override+ - if present, is used instead of the default element name for this object provided by +define_element_name+
+    # ==== Examples
+    #   obj.write_xml
+    # Creates a new Nokogiti::XML and 
     def write_xml(xml = nil, node_name_override = nil)
       if xml.nil? then
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
@@ -191,20 +207,6 @@ module RubyXL
 
       instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
-
-    def self.process_attribute(obj, raw_value, params)
-      val = raw_value &&
-              case params[:attr_type]
-              when :int    then Integer(raw_value)
-              when :float  then Float(raw_value)
-              when :string then raw_value
-              when :sqref  then RubyXL::Sqref.new(raw_value)
-              when :ref    then RubyXL::Reference.new(raw_value)
-              when :bool   then ['1', 'true'].include?(raw_value)
-              end              
-      obj.send("#{params[:accessor]}=", val)
-    end
-    private_class_method :process_attribute
 
     def self.parse(node)
       node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
@@ -271,6 +273,9 @@ module RubyXL
       new_copy
     end
 
+    # Prototype method. For sparse collections (+Rows+, +Cells+, etc.) must return index at which this object
+    # is expected to reside in the collection. If +nil+ is returned, then object is simply added 
+    # to the end of the collection.
     def index_in_collection
       nil
     end
@@ -292,10 +297,14 @@ module RubyXL
       zipfile.get_output_stream(self.class.filepath) { |f| f << xml_string }
     end
 
+    # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
+    # is located within the <tt>.xslx</tt> zip-file
     def self.filepath
       raise 'Subclass responsebility'
     end
 
+    # Prototype method. Generates the top-level OOXML object by parsing its XML file from the temporary
+    # directory containing the unzipped contents of <tt>.xslx</tt>
     def self.parse_file(dirpath)
       full_path = File.join(dirpath, filepath)
       return nil unless File.exist?(full_path)
@@ -309,6 +318,19 @@ module RubyXL
       acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
       acc.gsub!(':','_')
       acc.downcase.to_sym
+    end
+
+    def self.process_attribute(obj, raw_value, params)
+      val = raw_value &&
+              case params[:attr_type]
+              when :int    then Integer(raw_value)
+              when :float  then Float(raw_value)
+              when :string then raw_value
+              when :sqref  then RubyXL::Sqref.new(raw_value)
+              when :ref    then RubyXL::Reference.new(raw_value)
+              when :bool   then ['1', 'true'].include?(raw_value)
+              end              
+      obj.send("#{params[:accessor]}=", val)
     end
 
   end
