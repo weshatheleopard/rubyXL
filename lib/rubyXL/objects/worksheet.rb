@@ -382,6 +382,29 @@ module RubyXL
     define_element_name 'hyperlinks'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_filterColumn-1.html
+#TODO#   class AutoFilterColumn < OOXMLObject
+  class AutoFilterColumn < RawOOXML
+# FIXME
+    define_element_name 'filterColumn'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sortState-1.html
+#TODO#   class SortState < OOXMLObject
+  class SortState < RawOOXML
+# FIXME
+    define_element_name 'sortState'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_autoFilter-2.html
+  class AutoFilter < OOXMLObject
+    define_attribute(:ref, :ref)
+    define_child_node(RubyXL::AutoFilterColumn)
+    define_child_node(RubyXL::SortState)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'autoFilter'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -394,7 +417,7 @@ module RubyXL
     define_child_node(RubyXL::SheetProtection)
     define_child_node(RubyXL::ProtectedRanges)
     define_child_node(RubyXL::ScenarioContainer)
-#    ssml:autoFilter [0..1]    AutoFilter
+    define_child_node(RubyXL::AutoFilter)
     define_child_node(RubyXL::SortState)
 #    ssml:dataConsolidate [0..1]    Data Consolidate
 #    ssml:customSheetViews [0..1]    Custom Sheet Views
