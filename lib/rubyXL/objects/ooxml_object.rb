@@ -4,7 +4,6 @@ module RubyXL
   # Most importantly, provides functionality of parsing such objects from XML,
   # and marshalling them to XML.
   class OOXMLObject
-
     # Get the value of a [sub]class variable if it exists, or create the respective variable
     # with the passed-in +default+ (or +{}+, if not specified)
     # 
@@ -121,16 +120,6 @@ module RubyXL
     def self.set_countable
       self.class_variable_set(:@@ooxml_countable, true)
       self.send(:attr_accessor, :count)
-    end
-
-    # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
-    # === Parameters
-    # * +namespace_hash+ - Hash of namespaces in the form of <tt>"prefix" => "url"</tt>
-    # ==== Examples
-    #   set_namespaces('xmlns'   => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-    #                  'xmlns:r' => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
-    def self.set_namespaces(namespace_hash)
-      self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
     end
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
@@ -291,26 +280,6 @@ module RubyXL
       true 
     end
 
-    def add_to_zip(zipfile)
-      xml_string = write_xml
-      return if xml_string.empty?
-      zipfile.get_output_stream(self.class.filepath) { |f| f << xml_string }
-    end
-
-    # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
-    # is located within the <tt>.xslx</tt> zip-file
-    def self.filepath
-      raise 'Subclass responsebility'
-    end
-
-    # Prototype method. Generates the top-level OOXML object by parsing its XML file from the temporary
-    # directory containing the unzipped contents of <tt>.xslx</tt>
-    def self.parse_file(dirpath)
-      full_path = File.join(dirpath, filepath)
-      return nil unless File.exist?(full_path)
-      parse(File.open(full_path, 'r'))
-    end
-
     private
     def self.accessorize(str)
       acc = str.to_s.dup
@@ -334,4 +303,46 @@ module RubyXL
     end
 
   end
+
+  # Extension class providing functionality for top-level OOXML objects that are represented by
+  # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
+
+  class OOXMLTopLevelObject < OOXMLObject
+    # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
+    # is located within the <tt>.xslx</tt> zip container.
+    def self.filepath
+      raise 'Subclass responsebility'
+    end
+
+    # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
+    # === Parameters
+    # * +namespace_hash+ - Hash of namespaces in the form of <tt>"prefix" => "url"</tt>
+    # ==== Examples
+    #   set_namespaces('xmlns'   => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
+    #                  'xmlns:r' => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
+    def self.set_namespaces(namespace_hash)
+      self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
+    end
+
+    # Generates the top-level OOXML object by parsing its XML file from the temporary
+    # directory containing the unzipped contents of <tt>.xslx</tt>
+    # === Parameters
+    # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
+    def self.parse_file(dirpath)
+      full_path = File.join(dirpath, filepath)
+      return nil unless File.exist?(full_path)
+      parse(File.open(full_path, 'r'))
+    end
+
+    # Saves the contents of the object as XML to respective location in <tt>.xslx</tt> zip container.
+    # === Parameters
+    # * +zipfile+ - ::Zip::File to which the resulting XNMML should be added.
+    def add_to_zip(zipfile)
+      xml_string = write_xml
+      return if xml_string.empty?
+      zipfile.get_output_stream(self.class.filepath) { |f| f << xml_string }
+    end
+
+  end
+
 end

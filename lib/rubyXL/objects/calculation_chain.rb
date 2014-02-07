@@ -14,7 +14,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html
-  class CalculationChain < OOXMLObject
+  class CalculationChain < OOXMLTopLevelObject
     define_child_node(RubyXL::CalculationChainCell, :collection => true, :accessor => :cells)
     define_child_node(RubyXL::ExtensionStorageArea)
 

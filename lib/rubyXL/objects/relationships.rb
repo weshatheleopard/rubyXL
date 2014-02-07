@@ -10,7 +10,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html
-  class WorkbookRelationships < OOXMLObject
+  class WorkbookRelationships < OOXMLTopLevelObject
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
     set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/package/2006/relationships')

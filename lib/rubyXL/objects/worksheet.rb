@@ -356,7 +356,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
-  class Worksheet < OOXMLObject
+  class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
     define_child_node(RubyXL::SheetViews)

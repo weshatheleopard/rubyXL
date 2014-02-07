@@ -162,7 +162,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
-  class Workbook < OOXMLObject
+  class Workbook < OOXMLTopLevelObject
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)

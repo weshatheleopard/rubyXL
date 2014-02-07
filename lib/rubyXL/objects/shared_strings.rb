@@ -5,7 +5,7 @@ require 'rubyXL/objects/extensions'
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html
-  class SharedStringsTable < OOXMLObject
+  class SharedStringsTable < OOXMLTopLevelObject
     # According to http://msdn.microsoft.com/en-us/library/office/gg278314.aspx,
     # +count+ and +uniqueCount+ may be either both missing, or both present. Need to validate.
     define_attribute(:uniqueCount,  :int)

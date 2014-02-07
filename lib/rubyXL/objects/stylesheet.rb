@@ -159,7 +159,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html
-  class Stylesheet < OOXMLObject
+  class Stylesheet < OOXMLTopLevelObject
     define_child_node(RubyXL::NumberFormatContainer, :accessor => :number_format_container)
     define_child_node(RubyXL::FontContainer,         :accessor => :font_container)
     define_child_node(RubyXL::FillContainer,         :accessor => :fill_container)
