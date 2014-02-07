@@ -10,7 +10,7 @@ module RubyXL
     define_element_name 't'
 
     def before_write_xml
-      self.xml_space = (value && (/^\s+/.match(value) || /\s+$/.match(value))) ? 'preserve' : nil
+      self.xml_space = (value && ((value =~ /^\s/) || (value =~ /\s$/)) || value.include?("\n")) ? 'preserve' : nil
       true
     end
 
