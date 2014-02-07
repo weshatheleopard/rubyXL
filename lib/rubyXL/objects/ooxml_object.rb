@@ -1,12 +1,19 @@
 require 'pp'
 
 module RubyXL
+
+  # Parent class for defining OOXML based objects (not unlike Rails' +ActiveRecord+!)
+  # Most importantly, provides functionality of parsing such objects from XML,
+  # and marshalling them to XML.
   class OOXMLObject
 
-    # Throughout this class, setting class variables through explicit method calls rather
-    # than by directly addressing the name of the variable because of context issues:
-    # addressing variable by name creates it in the context of defining class,
-    # while calling the setter/getter method addresses it in the context of descendant class, 
+    # Get the value of a [sub]class variable if it exists, or create the respective variable
+    # with the passed-in +default+ (or +{}+, if not specified)
+    # 
+    # Throughout this class, we are setting class variables through explicit method calls
+    # rather than by directly addressing the name of the variable because of context issues:
+    # addressing variable by name creates it in the context of defining class, while calling
+    # the setter/getter method addresses it in the context of descendant class, 
     # which is what we need.
     def self.obtain_class_variable(var_name, default = {})
       if class_variable_defined?(var_name) then 
@@ -21,6 +28,31 @@ module RubyXL
     end
     private :obtain_class_variable
 
+    # Defines an attribute of OOXML object.
+    # === Parameters
+    # * +attribute_name+ - Name of the element attribute as seen in the source XML. Can be either "String" or :Symbol
+    #   * Special attibute name '_' (underscore) denotes the value of the element rather than attribute.
+    # * +attribute_type+ - Specifies the conversion type for the attribute when parsing. Available options are:
+    #   * :int - Integer
+    #   * :float - Float
+    #   * :string - String (no conversion)
+    #   * :sqref - RubyXL::Sqref
+    #   * :ref - RubyXL::Reference
+    #   * :bool - Boolean ("1" and "true" convert to +true+, others to +false+)
+    # * +extra_parameters+ - Hash of optional parameters as follows:
+    #   * :accessor - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
+    #   * :default - Value this attribute defaults to if not explicitly provided.
+    #   * :required - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, +:default+ is written instead.
+    #   * :values - List of acceptable values for this attribute (curently not used).
+    # ==== Examples
+    #   define_attribute(:outline, :bool, :default => true)
+    # A Boolean attribute 'outline' with default value +true+ will be accessible by calling +obj.outline+
+    #   define_attribute(:uniqueCount,  :int)
+    # An Integer attribute 'uniqueCount' accessible as +obj.unique_count+
+    #   define_attribute(:_,  :string, :accessor => :expression)
+    # The value of the element will be accessible as a String by calling +obj.expression+
+    #   define_attribute(:errorStyle, :string, :default => 'stop', :values => %w{ stop warning information })
+    # A String attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are "stop", "warning", "information"
     def self.define_attribute(attr_name, attr_type, extra_params = {})
       attrs = obtain_class_variable(:@@ooxml_attributes)
 
@@ -32,7 +64,7 @@ module RubyXL
         :attr_type  => attr_type,
         :optional   => !extra_params[:required], 
         :default    => extra_params[:default],
-        :validation => extra_params[:values]
+        :valies     => extra_params[:values]
       }
 
       self.send(:attr_accessor, accessor)
@@ -65,6 +97,12 @@ module RubyXL
       self.send(:attr_accessor, :count)
     end
 
+    # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
+    # === Parameters
+    # * +namespace_hash+ - Hash of namespaces in the form of <tt>"prefix" => "url"</tt>
+    # ==== Examples
+    #   set_namespaces('xmlns'   => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
+    #                  'xmlns:r' => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
     def self.set_namespaces(namespace_hash)
       self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
     end
