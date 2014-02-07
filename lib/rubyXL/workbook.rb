@@ -7,9 +7,7 @@ require 'rubyXL/writer/workbook_writer'
 require 'rubyXL/writer/styles_writer'
 require 'rubyXL/writer/worksheet_writer'
 require 'tmpdir'
-
-require 'rubygems'
-gem 'rubyzip'
+require 'zip'
 
 module RubyXL
   module LegacyWorkbook
@@ -110,7 +108,7 @@ module RubyXL
       FileUtils.mkdir_p(temppath)
       zippath  = File.join(temppath, 'file.zip')
 
-      ::RubyZip::File.open(zippath, ::RubyZip::File::CREATE) { |zipfile|
+      ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
         [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::CoreWriter,
           Writer::ThemeWriter, Writer::WorkbookWriter, Writer::StylesWriter
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }

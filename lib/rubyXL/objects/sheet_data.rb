@@ -86,6 +86,8 @@ module RubyXL
     define_child_node(RubyXL::Cell, :collection => true, :accessor => :cells)
     define_element_name 'row'
 
+    attr_accessor :worksheet
+
     def index_in_collection
       r - 1
     end
@@ -114,6 +116,18 @@ module RubyXL
         next if cell.nil?
         cell.column = col
       }
+    end
+
+    def xf
+      @worksheet.workbook.cell_xfs[self.s || 0]
+    end
+
+    def get_fill_color
+      @worksheet.workbook.get_fill_color(xf)
+    end
+
+    def get_font
+      @worksheet.workbook.fonts[xf.font_id]
     end
   end
 

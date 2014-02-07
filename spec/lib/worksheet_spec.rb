@@ -47,7 +47,7 @@ describe RubyXL::Worksheet do
   end
 
   describe '.change_row_fill' do
-  	it 'should raise error if hex color code not passed' do
+    it 'should raise error if hex color code not passed' do
   	  lambda {
   	    @worksheet.change_row_fill(0, 'G')
   	  }.should raise_error
@@ -59,13 +59,13 @@ describe RubyXL::Worksheet do
       }.should raise_error
     end
 
-  	it 'should make row and cell fill colors equal hex color code passed' do
-  	  @worksheet.change_row_fill(0, '111111')
+    it 'should make row and cell fill colors equal hex color code passed' do
+      @worksheet.change_row_fill(0, '111111')
       @worksheet.get_row_fill(0).should == '111111'
       @worksheet[0][5].fill_color.should == '111111'
-  	end
+    end
 
-  	it 'should cause error if a negative argument is passed in' do
+    it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.change_row_fill(-1,'111111')
       }.should raise_error
@@ -829,57 +829,6 @@ describe RubyXL::Worksheet do
     end
   end
 
-  describe '.add_cell_obj' do
-    it 'should add already created cell object to worksheet, even if a cell is already there (default)' do
-      new_cell = RubyXL::Cell.new
-      new_cell.worksheet = @worksheet
-      new_cell.row = 0
-      new_cell.column = 0
-      new_cell.raw_value = 'TEST'
-      new_cell.formula ='B2'
-      new_cell.style_index = 0
-
-      @worksheet.add_cell_obj(new_cell)
-      @worksheet[0][0].value.should_not == @old_cell_value
-      @worksheet[0][0].formula.should_not == @old_cell_formula
-      @worksheet[0][0].value.should == 'TEST'
-      @worksheet[0][0].formula.should == 'B2'
-    end
-
-    it 'should not add already created cell object to already occupied cell if overwrite is false' do
-      new_cell = RubyXL::Cell.new
-      new_cell.worksheet = @worksheet
-      new_cell.row = 0
-      new_cell.column = 0
-      new_cell.raw_value = 'TEST'
-      new_cell.formula ='B2'
-      new_cell.style_index = 0
-
-      @worksheet.add_cell_obj(new_cell,false)
-      @worksheet[0][0].value.should == @old_cell_value
-      @worksheet[0][0].formula.should == @old_cell_formula
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.add_cell_obj(-1)
-      }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      @worksheet.sheet_data.size.should == 11
-      new_cell = RubyXL::Cell.new
-      new_cell.worksheet = @worksheet
-      new_cell.row = 11
-      new_cell.column = 11
-      new_cell.raw_value = 'TEST'
-      new_cell.formula ='B2'
-      new_cell.style_index = 0
-      @worksheet.add_cell_obj(new_cell)
-      @worksheet.sheet_data.size.should == 12
-    end
-  end
-
   describe '.delete_row' do
     it 'should delete a row at index specified, "pushing" everything else "up"' do
       @worksheet.delete_row(0)
@@ -1090,24 +1039,12 @@ describe RubyXL::Worksheet do
     it 'should return nil if a row which does not exist is passed in' do
       @worksheet.get_row_fill(11).should be_nil
     end
-
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.get_row_fill(-1)
-      }.should raise_error
-    end
   end
 
   describe '.get_row_font_name' do
     it 'should correctly reflect font name for row' do
       @worksheet.change_row_font_name(0,'Courier')
       @worksheet.get_row_font_name(0).should == 'Courier'
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.get_row_font_name(-1)
-      }.should raise_error
     end
 
     it 'should return nil if a (nonnegative) row which does not exist is passed in' do
@@ -1121,12 +1058,6 @@ describe RubyXL::Worksheet do
       @worksheet.get_row_font_size(0).should == 30
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.get_row_font_size(-1)
-      }.should raise_error
-    end
-
     it 'should return nil if a (nonnegative) row which does not exist is passed in' do
       @worksheet.get_row_font_size(11).should be_nil
     end
@@ -1136,12 +1067,6 @@ describe RubyXL::Worksheet do
     it 'should correctly reflect font color for row' do
       @worksheet.change_row_font_color(0,'0f0f0f')
       @worksheet.get_row_font_color(0).should == '0f0f0f'
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.get_row_font_color(-1)
-      }.should raise_error
     end
 
     it 'should return nil if a (nonnegative) row which does not exist is passed in' do
@@ -1155,12 +1080,6 @@ describe RubyXL::Worksheet do
       @worksheet.is_row_italicized(0).should == true
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.is_row_italicized(-1)
-      }.should raise_error
-    end
-
     it 'should return nil if a (nonnegative) row which does not exist is passed in' do
       @worksheet.is_row_italicized(11).should be_nil
     end
@@ -1170,12 +1089,6 @@ describe RubyXL::Worksheet do
     it 'should correctly return whether row is bolded' do
       @worksheet.change_row_bold(0,true)
       @worksheet.is_row_bolded(0).should == true
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.is_row_bolded(-1)
-      }.should raise_error
     end
 
     it 'should return nil if a (nonnegative) row which does not exist is passed in' do
@@ -1189,12 +1102,6 @@ describe RubyXL::Worksheet do
       @worksheet.is_row_underlined(0).should == true
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.is_row_underlined(-1)
-      }.should raise_error
-    end
-
     it 'should return nil if a (nonnegative) row which does not exist is passed in' do
       @worksheet.is_row_underlined(11).should be_nil
     end
@@ -1204,12 +1111,6 @@ describe RubyXL::Worksheet do
     it 'should correctly return whether row is struckthrough' do
       @worksheet.change_row_strikethrough(0,true)
       @worksheet.is_row_struckthrough(0).should == true
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.is_row_struckthrough(-1)
-      }.should raise_error
     end
 
     it 'should return nil if a (nonnegative) row which does not exist is passed in' do

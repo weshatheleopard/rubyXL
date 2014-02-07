@@ -4,11 +4,10 @@
   gem install rubyXL
 
 == To Use:
-  require 'rubyXL' #assuming rubygems is already required
+  require 'rubyXL' # Assuming rubygems is already required
 
 === Parsing an existing workbook
   workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
-
 
 === Creating a new Workbook
   workbook = RubyXL::Workbook.new
@@ -16,54 +15,64 @@
 === Accessing
 
 ==== Accessing a Worksheet
-  workbook.worksheets[0] #returns first worksheet
-  workbook[0] #returns first worksheet
+  workbook.worksheets[0] # Returns first worksheet
+  workbook[0]            # Returns first worksheet
+  workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
 
-==== Accessing Only the Values
-  workbook.worksheets[0].extract_data #produces a 2d array which consists only of the values (instead of the Cell objects which include other variables)
+==== Accessing just the values
+  worksheet = workbook[0]
+  worksheet.extract_data  # Produces a simple rectangular array that consists only of cell values (rather than the Cell objects)
 
 ==== Accessing a Row (Array of Cells)
-  workbook[0].sheet_data[0] #returns first row in first worksheet
-  workbook[0][0] #returns first row in first worksheet
+  worksheet = workbook[0]
+  worksheet.sheet_data[0] # Returns first row of the worksheet
+  worksheet[0]            # Returns first row of the worksheet
 
-==== Accessing a Cell
-  workbook[0].sheet_data[0][0] #returns A1 in first worksheet
-  workbook[0][0][0] #returns A1 in first worksheet
+==== Accessing a Cell object
+  worksheet = workbook[0]
+  worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
+  worksheet[0][0]            # Returns cell A1 in the worksheet
 
-==== Accessing Cell properties
-  workbook[0][0][0].is_struckthrough() #returns if A1 is struckthrough, other boolean properties have same syntax
-  workbook[0][0][0].font_name #returns font name for A1
-  workbook[0][0][0].font_size #returns font size for A1
-  workbook[0][0][0].font_color #returns font color for A1
-  workbook[0][0][0].fill_color #returns fill color for A1
-  workbook[0][0][0].horizontal_alignment #returns horizontal alignment for A1 (or nil if it does not exist)
-  workbook[0][0][0].vertical_alignment #returns vertical alignment for A1 (or nil if it does not exist)
-  workbook[0][0][0].border_top #returns type of border on top of A1 (nil if none exists), other directions have same syntax
+==== Wrappers for accessing Cell properties
+  cell = workbook[0][0][0]
+  cell.is_struckthrough  # Returns +true+ if the cell is struckthrough, other boolean properties have same syntax
+  cell.font_name
+  cell.font_size
+  cell.font_color
+  cell.fill_color
+  cell.horizontal_alignment
+  cell.vertical_alignment
+  cell.border_top
 
-==== Accessing row properties
-  workbook[0].get_row_fill(0) #returns fill color for first row
-  workbook[0].get_row_font_name(0) #returns font name for first row
-  workbook[0].get_row_font_size(0) #returns font size for first row
-  workbook[0].get_row_font_color(0) #returns font color for first row
-  workbook[0].is_row_underlined(0) #returns if first row is italicized, other boolean properties have same syntax
-  workbook[0].get_row_height(0) #returns height of first row
-  workbook[0].get_row_horizontal_alignment(0) #returns horizontal alignment of first row (nil if none exists)
-  workbook[0].get_row_vertical_alignment(0) #returns vertical alignment of first row (nil if none exists)
-  workbook[0].get_row_border_right(0) #returns weight of right border of first row (nil if none exists), other directions have the same syntax
+==== Wrappers for accessing Row properties 
+Please note: these methods are being phased out in favor of the OOXML object model.
+  worksheet = workbook[0]
+  worksheet.get_row_fill(0)
+  worksheet.get_row_font_name(0)
+  worksheet.get_row_font_size(0)
+  worksheet.get_row_font_color(0)
+  worksheet.is_row_underlined(0)
+  worksheet.get_row_height(0)
+  worksheet.get_row_horizontal_alignment(0)
+  worksheet.get_row_vertical_alignment(0)
+  worksheet.get_row_border_right(0)
 
 ==== Accessing column properties
-  workbook[0].get_column_fill(0) #returns fill color for first column
-  workbook[0].get_column_font_name(0) #returns font name for first column
-  workbook[0].get_column_font_size(0) #returns font size for first column
-  workbook[0].get_column_font_color(0) #returns font color for first column
-  workbook[0].is_column_underlined(0) #returns if first column is italicized, other boolean properties have same syntax
-  workbook[0].get_column_height(0) #returns height of first column
-  workbook[0].get_column_horizontal_alignment(0) #returns horizontal alignment of first column (nil if none exists)
-  workbook[0].get_column_vertical_alignment(0) #returns vertical alignment of first column (nil if none exists)
-  workbook[0].get_column_border_right(0) #returns weight of right border of first column (nil if none exists), other directions have the same syntax
+Please note: these methods are being phased out in favor of the OOXML object model.
+  worksheet = workbook[0]
+  worksheet.get_column_fill(0)
+  worksheet.get_column_font_name(0)
+  worksheet.get_column_font_size(0)
+  worksheet.get_column_font_color(0)
+  worksheet.is_column_underlined(0)
+  worksheet.get_column_height(0)
+  worksheet.get_column_horizontal_alignment(0)
+  worksheet.get_column_vertical_alignment(0)
+  worksheet.get_column_border_right(0)
 
 ==== Table identification
-  workbook[0].get_table(["NAME", "AGE", "HEIGHT"]) #returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
+  worksheet = workbook[0]
+  worksheet.get_table(["NAME", "AGE", "HEIGHT"]) # Returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
   #it returns the following structure
   {
    :Name=>["John", "Jane", "Joe"], 
@@ -79,103 +88,101 @@
 === Modifying
 
 ==== Adding Worksheets
-  workbook.add_worksheet('Sheet2')
+  worlsheet = workbook.add_worksheet('Sheet2')
 
 ==== Adding Cells
-  workbook.worksheets[0].add_cell(0,0,'A1') #sets A1 to string "A1"
-  workbook.worksheets[0].add_cell(0,1,'','A1') #sets B1 to value of A1
+  worksheet.add_cell(0, 0, 'A1')      # Sets cell A1 to string "A1"
+  worksheet.add_cell(0, 1, '', 'A1')  # Sets formula in the cell B1 to '=A1'
  
-  workbook.worksheets[0].add_cell_obj(Cell.new(1,0,'blah')) #sets A2 to 'blah'
-
 ==== Changing Cells
-  workbook.worksheets[0][0][0].change_contents("", workbook.worksheets[0][0][0].formula) #sets A1 to empty string, preserves formula
+  worksheet[0][0].change_contents("", worksheet[0][0].formula) # Sets value of cell A1 to empty string, preserves formula
 
 ==== Changing Fonts
-  workbook.worksheets[0].sheet_data[0][0].change_font_bold(true) #sets A1 to bold
-  workbook.worksheets[0].change_row_font_italics(0,true) #makes first row italicized
-  workbook.worksheets[0].change_column_font_name(0,'Courier') #makes first column have font Courier
+  worksheet.sheet_data[0][0].change_font_bold(true) # Makes A1 bold
+  worksheet.change_row_italics(0,true)              # Makes first row italicized
+  worksheet.change_column_font_name(0, 'Courier')   # Makes first column have font Courier
 
 ==== Changing Fills	
-  workbook.worksheets[0].sheet_data[0][0].change_fill('0ba53d') #sets A1 to have fill #0ba53d
-  workbook.worksheets[0].change_row_fill(0, '0ba53d') #sets first row to have fill #0ba53d
-  workbook.worksheets[0].change_column_fill(0, '0ba53d') #sets first column to have fill #0ba53d
+  worksheet.sheet_data[0][0].change_fill('0ba53d')  # Sets A1 to have fill #0ba53d
+  worksheet.change_row_fill(0, '0ba53d')            # Sets first row to have fill #0ba53d
+  worksheet.change_column_fill(0, '0ba53d')         # Sets first column to have fill #0ba53d
 
 ==== Changing Borders
   # Possible weights: hairline, thin, medium, thick
   # Possible "directions": top, bottom, left, right, diagonal
-  workbook.worksheets[0].sheet_data[0][0].change_border_top('thin') #sets A1 to have a top, thin border
-  workbook.worksheets[0].change_row_border_left(0, 'hairline') #sets first row to have a left, hairline border
-  workbook.worksheets[0].change_column_border_diagonal(0, 'medium') #sets first column to have diagonal, medium border
+  worksheet.sheet_data[0][0].change_border_top('thin') # Sets A1 to have a top, thin border
+  worksheet.change_row_border_left(0, 'hairline')      # Sets first row to have a left, hairline border
+  worksheet.change_column_border_diagonal(0, 'medium') # Sets first column to have diagonal, medium border
 
 ==== Changing Alignment
 ===== Horizontal
 center, distributed, justify, left, right
-  workbook.worksheets[0].sheet_data[0][0].change_horizontal_alignment('center') #sets A1 to be centered
-  workbook.worksheets[0].change_row_horizontal_alignment(0,'justify') #sets first row to be justified
-  workbook.worksheets[0].change_column_horizontal_alignment(0,'right'), #sets first column to be right-aligned
+  worksheet.sheet_data[0][0].change_horizontal_alignment('center') # Sets A1 to be centered
+  worksheet.change_row_horizontal_alignment(0, 'justify')          # Sets first row to be justified
+  worksheet.change_column_horizontal_alignment(0, 'right')         # Sets first column to be right-aligned
 
 ===== Vertical
 bottom, center, distributed, top
-  workbook.worksheets[0].sheet_data[0][0].change_vertical_alignment('bottom') #sets A1 to be bottom aligned
-  workbook.worksheets[0].change_row_vertical_alignment(0,'distributed') #sets first row to be distributed vertically
-  workbook.worksheets[0].change_column_vertical_alignment(0,'top') #sets first column to be top aligned
+  worksheet.sheet_data[0][0].change_vertical_alignment('bottom')  # Sets A1 to be bottom aligned
+  worksheet.change_row_vertical_alignment(0, 'distributed')       # Sets first row to be distributed vertically
+  worksheet.change_column_vertical_alignment(0, 'top')            # Sets first column to be top aligned
 
 ==== Changing Row Height
-  workbook.worksheets[0].change_row_height(0,30) #sets first row to be of height 30
+  worksheet.change_row_height(0, 30)  # Sets first row height to 30
 
 ==== Changing Column Width
-  workbook.worksheets[0].change_column_width(0,30) #sets first column to be of width 30
+  worksheet.change_column_width(0, 30)  # Sets first column width to 30
 
 ==== Merging Cells
-  workbook.worksheets[0].merge_cells(0,0,1,1) #merges A1:B2
+  worksheet.merge_cells(0, 0, 1, 1)  # Merges A1:B2
 
 ==== Insert Row
 This method will insert a row at specified index, pushing all rows below it down. It also copies styles from row above.
 
 WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted rows
-  workbook.worksheets[0].insert_row(1)
+  worksheet.insert_row(1)
 
 ==== Insert Column
 This method will insert a column at specified index, pushing all columns to the right of it one to the right. It also copies styles from column to the left
 
 WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted columns
-  workbook.worksheets[0].insert_column(1)
+  worksheet.insert_column(1)
 
 ==== Delete Row
 This method will delete a row at specified index, pushing all rows below it up.
 
 WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted rows
-  workbook.worksheets[0].delete_row(1)
+  worksheet.delete_row(1)
 
 ==== Delete Column
 This method will delete a column at specified index, pushing all columns to the right of it left.
 
 WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted columns
- workbook.worksheets[0].delete_column(1)
+  worksheet.delete_column(1)
 
 ==== Insert Cell
 This method will insert a cell at specified position. It takes a :right or :down option, to shift cells either left or down upon inserting (nil means replacing the cell)
 
 WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted cells
-  workbook.worksheets[0].insert_cell(0,0,"blah",formula=nil,:right) #inserts cell at A1, shifts cells in first row right
-  workbook.worksheets[0].insert_cell(0,0,"blah",formula=nil,:down) #inserts cell at A1, shifts cells in first column down
-  workbook.worksheets[0].insert_cell(0,0,"blah") #inserts cell at A1, shifts nothing
+  worksheet.insert_cell(0, 0, "blah", formula = nil, :right)  # Inserts cell at A1, shifts cells in first row right
+  worksheet.insert_cell(0, 0, "blah", formula = nil, :down)   # Inserts cell at A1, shifts cells in first column down
+  worksheet.insert_cell(0, 0, "blah")                         # Inserts cell at A1, shifts nothing
 
 ==== Delete Cell
 This method will delete a cell at specified position. It takes a :left or :up option, to shift cells either up or left upon deletion (nil means simply deleting the cell contents)
 
 WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted cells
-  workbook.worksheets[0].delete_cell(0,0,:left) #deletes A1, shifts contents of first row left
-  workbook.worksheets[0].delete_cell(0,0,:up) #deletes A1, shifts contents of first column up
-  workbook.worksheets[0].delete_cell(0,0) #deletes A1, does not shift cells
+  worksheet.delete_cell(0, 0, :left)  # Deletes A1, shifts contents of first row left
+  worksheet.delete_cell(0, 0, :up)    # Deletes A1, shifts contents of first column up
+  worksheet.delete_cell(0, 0)         # Deletes A1, does not shift cells
 
 === Writing
   workbook.write("path/to/desired/Excel/file.xlsx")
 
 
 === Miscellaneous
-  Cell.ind2ref(0,0) == 'A1'   # Converts row and column index to Excel-style cell reference
-  Cell.ref2ind('A1') == [0,0] # Converts Excel-style cell reference to row and column index
+  Reference.ind2ref(0,0) == 'A1'    # Converts row and column index to Excel-style cell reference
+  Reference.ref2ind('A1') == [0, 0] # Converts Excel-style cell reference to row and column index
 
 == For more information
 Take a look at the files in spec/lib/ for rspecs on most methods
@@ -192,6 +199,5 @@ Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Copyright
 
-Copyright (c) 2011 Vivek Bhagwat. See LICENSE.txt for
-further details.
-
+Copyright (c) 2011 Vivek Bhagwat, 2013-2014 Wesha.
+See LICENSE.txt for further details.

@@ -28,7 +28,7 @@ module RubyXL
 
       dir_path = File.join(File.dirname(xl_file_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
 
-      ::RubyZip::File.open(xl_file_path) { |zip_file|
+      ::Zip::File.open(xl_file_path) { |zip_file|
         zip_file.each { |f|
           fpath = File.join(dir_path, f.name)
           FileUtils.mkdir_p(File.dirname(fpath))
@@ -84,7 +84,11 @@ module RubyXL
       wb.worksheet_container.sheets.each_with_index { |sheet, i|
         sheet_file_path = wb.relationship_container.find_by_rid(sheet.r_id).target
         worksheet = RubyXL::Worksheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
-        worksheet.sheet_data.rows.each { |r| r && r.cells.each { |c| c.worksheet = worksheet unless c.nil? } }
+        worksheet.sheet_data.rows.each { |r|
+          next if r.nil?
+          r.worksheet = worksheet
+          r.cells.each { |c| c.worksheet = worksheet unless c.nil? }
+        }
         worksheet.workbook = wb
         worksheet.sheet_name = sheet.name
         worksheet.sheet_id = sheet.sheet_id

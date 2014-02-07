@@ -171,8 +171,6 @@ describe RubyXL::Cell do
         date = 41019
         @cell.change_contents(date)
         @cell.should_receive(:is_date?).at_least(1).and_return(true)
-#        puts @cell.value
-#        puts Date.parse('April 20, 2012')
         @cell.value.should == Date.parse('April 20, 2012')
         @cell.change_contents(35981)
         @cell.value.should == Date.parse('July 5, 1998')
@@ -184,8 +182,6 @@ describe RubyXL::Cell do
         date = 39557
         @cell.change_contents(date)
         @cell.should_receive(:is_date?).at_least(1).and_return(true)
-#        puts @cell.value
-#        puts Date.parse('April 20, 2012')
         @cell.value.should == Date.parse('April 20, 2012')
         @cell.change_contents(34519)
         @cell.value.should == Date.parse('July 5, 1998')

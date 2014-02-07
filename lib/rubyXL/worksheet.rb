@@ -26,7 +26,9 @@ module LegacyWorksheet
 
   #returns 2d array of just the cell values (without style or formula information)
   def extract_data(args = {})
-    sheet_data.rows.map {|row| row.cells.map {|c| if c.is_a?(Cell) then c.value(args) else nil end}}
+    sheet_data.rows.map { |row| 
+      row && row.cells.map { |c| c && c.value(args) }
+    }
   end
 
   def get_table(headers = [], opts = {})
@@ -34,7 +36,6 @@ module LegacyWorksheet
 
     headers = [headers] unless headers.is_a?(Array)
     row_num = find_first_row_with_content(headers)
-  	
     return nil if row_num.nil?
 
     table_hash = {}
@@ -52,7 +53,8 @@ module LegacyWorksheet
       original_row = row_num + 1
       current_row = original_row
 
-      cell = sheet_data.rows[current_row].cells[index]
+      row = sheet_data.rows[current_row]
+      cell = row && row.cells[index]
 
       # makes array of hashes in table_hash[:table]
       # as well as hash of arrays in table_hash[header]
@@ -80,6 +82,23 @@ module LegacyWorksheet
 
     return table_hash
   end
+
+  # finds first row which contains at least all strings in cells_content
+  def find_first_row_with_content(cells_content)
+    validate_workbook
+
+    sheet_data.rows.each_with_index { |row, index|
+      next if row.nil?
+      cells_content = cells_content.map { |header| header.to_s.strip.downcase }
+      original_cells_content = row.cells.map { |cell| (cell && cell.value).to_s.strip.downcase }
+
+      if (cells_content & original_cells_content).size == cells_content.size
+        return index
+      end
+    }
+    return nil
+  end
+  private :find_first_row_with_content
 
   #changes color of fill in (zer0 indexed) row
   def change_row_fill(row_index = 0, rgb = 'ffffff')
@@ -301,12 +320,18 @@ module LegacyWorksheet
     merged_cells_list.merge_cell << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(row1, row2, col1, col2))
   end
 
-  def add_cell(row = 0, column = 0, data='', formula=nil, overwrite=true)
+  def add_row(row = 0, params = {})
+    new_row = RubyXL::Row.new(params)
+    new_row.worksheet = self
+    sheet_data.rows[row] = new_row
+  end
+
+  def add_cell(row = 0, column = 0, data = '', formula = nil, overwrite = true)
     validate_workbook
     ensure_cell_exists(row, column)
 
     if overwrite || sheet_data.rows[row].cells[column].nil?
-      c = Cell.new
+      c = RubyXL::Cell.new
       c.worksheet = self
       c.row = row
       c.column = column
@@ -318,25 +343,6 @@ module LegacyWorksheet
       c.style_index = sheet_data.rows[row].s || (range && range.style_index) || 0
 
       sheet_data.rows[row].cells[column] = c
-    end
-
-    add_cell_style(row, column)
-
-    sheet_data.rows[row].cells[column]
-  end
-
-  def add_cell_obj(cell, overwrite=true)
-    validate_workbook
-
-    return nil if cell.nil?
-
-    row = cell.row
-    column = cell.column
-
-    ensure_cell_exists(row, column)
-
-    if overwrite || sheet_data.rows[row].cells[column].nil?
-      sheet_data.rows[row].cells[column] = cell
     end
 
     add_cell_style(row, column)
@@ -377,9 +383,8 @@ module LegacyWorksheet
                                           end }
     end
 
-    new_row = RubyXL::Row.new(:cells => new_cells, :s => old_row && old_row.s)
-
-    sheet_data.rows.insert(row_index, new_row)
+    sheet_data.rows.insert(row_index, nil)
+    new_row = add_row(row_index, :cells => new_cells, :s => old_row && old_row.s)
 
     #update row value for all rows below
     row_index.upto(sheet_data.rows.size - 1) { |i|
@@ -450,7 +455,7 @@ module LegacyWorksheet
     when :right then
       sheet_data.rows[row].insert_cell_shift_right(nil, col)
     when :down then
-      sheet_data.rows << RubyXL::Row.new(:cells => Array.new(sheet_data.rows[row].size))
+      add_row(sheet_data.size, :cells => Array.new(sheet_data.rows[row].size))
       (sheet_data.size - 1).downto(row+1) { |index|
         sheet_data.rows[index].cells[col] = sheet_data.rows[index-1].cells[col]
       }
@@ -491,20 +496,15 @@ module LegacyWorksheet
   end
 
   def get_row_fill(row = 0)
-    validate_workbook
-    validate_nonnegative(row)
-    return nil unless row_exists(row)
-    return @workbook.get_fill_color(get_row_xf(row))
+    (row = sheet_data.rows[row]) && row.get_fill_color
   end
 
   def get_row_font_name(row = 0)
-    font = row_font(row)
-    font && font.get_name
+    (font = row_font(row)) && font.get_name
   end
 
   def get_row_font_size(row = 0)
-    font = row_font(row)
-    font && font.get_size
+    (font = row_font(row)) && font.get_size
   end
 
   def get_row_font_color(row = 0)
@@ -514,23 +514,19 @@ module LegacyWorksheet
   end
 
   def is_row_italicized(row = 0)
-    font = row_font(row)
-    font && font.is_italic
+    (font = row_font(row)) && font.is_italic
   end
 
   def is_row_bolded(row = 0)
-    font = row_font(row)
-    font && font.is_bold
+    (font = row_font(row)) && font.is_bold
   end
 
   def is_row_underlined(row = 0)
-    font = row_font(row)
-    font && font.is_underlined
+    (font = row_font(row)) && font.is_underlined
   end
 
   def is_row_struckthrough(row = 0)
-    font = row_font(row)
-    font && font.is_strikethrough
+    (font = row_font(row)) && font.is_strikethrough
   end
 
   def get_row_height(row = 0)
@@ -542,11 +538,11 @@ module LegacyWorksheet
   end
 
   def get_row_horizontal_alignment(row = 0)
-    return get_row_alignment(row,true)
+    return get_row_alignment(row, true)
   end
 
   def get_row_vertical_alignment(row = 0)
-    return get_row_alignment(row,false)
+    return get_row_alignment(row, false)
   end
 
   def get_row_border_top(row = 0)
@@ -661,10 +657,7 @@ module LegacyWorksheet
   STRIKETHROUGH = 6
 
   def row_font(row)
-    validate_workbook
-    validate_nonnegative(row)
-    return nil unless row_exists(row)
-    @workbook.fonts[get_row_xf(row).font_id]
+    (row = sheet_data.rows[row]) && row.get_font
   end
 
   def get_row_alignment(row, is_horizontal)
@@ -828,7 +821,7 @@ module LegacyWorksheet
     # then the block will be invoked exactly once, which takes care of the case when
     # +row_index+ is greater than the current max index by exactly 1.
     row_index.downto(existing_row_count) { |r| 
-      sheet_data.rows[r] = RubyXL::Row.new(:cells => Array.new(col_size) )
+      add_row(r, :cells => Array.new(col_size))
     } 
   end  
 
@@ -927,21 +920,6 @@ module LegacyWorksheet
     @workbook.fonts[xf.font_id].count += 1
     @workbook.fills[xf.fill_id].count += 1
     @workbook.borders[xf.border_id].count += 1
-  end
-
-  # finds first row which contains at least all strings in cells_content
-  def find_first_row_with_content(cells_content)
-    validate_workbook
-    index = nil
-
-    sheet_data.rows.each_with_index { |row, index|
-      cells_content = cells_content.map { |header| header.to_s.downcase.strip }
-      original_cells_content = row.cells.map { |cell| cell.nil? ? '' : cell.value.to_s.downcase.strip }
-      if (cells_content & original_cells_content).size == cells_content.size
-        return index
-      end
-    }
-    return nil
   end
 
   def validate_nonnegative(row_or_col)
