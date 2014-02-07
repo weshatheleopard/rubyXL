@@ -140,9 +140,21 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_colors-1.html
+  class IndexedColorContainer < OOXMLObject
+    define_child_node(RubyXL::Color, :collection => :true, :accessor => :indexed_colors, :node_name => :rgbColor)
+    define_element_name 'indexedColors'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_mruColors-1.html
+  class MRUColorContainer < OOXMLObject
+    define_child_node(RubyXL::Color, :collection => :true, :accessor => :mru_colors)
+    define_element_name 'mruColors'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_colors-1.html
   class Colors < OOXMLObject
-    define_child_node(RubyXL::ColorSet, :node_name => 'indexedColors')
-    define_child_node(RubyXL::ColorSet, :node_name => 'mruColors')
+    define_child_node(RubyXL::IndexedColorContainer, :accessor => :indexed_color_container)
+    define_child_node(RubyXL::MRUColorContainer)
     define_element_name 'colors'
   end
 
