@@ -383,9 +383,9 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customSheetView-1.html
   class CustomSheetView < OOXMLObject
-    define_attribute(:guid,           :string, :required => true}
-    define_attribute(:scale,          :int,    :default => 100}
-    define_attribute(:colorId,        :int,    :default => 64}
+    define_attribute(:guid,           :string, :required => true)
+    define_attribute(:scale,          :int,    :default => 100)
+    define_attribute(:colorId,        :int,    :default => 64)
     define_attribute(:showPageBreaks, :bool,   :default => false)
     define_attribute(:showFormulas,   :bool,   :default => false)
     define_attribute(:showGridLines,  :bool,   :default => true)
@@ -402,7 +402,7 @@ module RubyXL
                        %w{ visible hidden veryHidden } )
     define_attribute(:filterUnique,   :bool,   :default => false)
     define_attribute(:view,           :string, :default => 'normal', :values =>
-                       :values => %w{ normal pageBreakPreview pageLayout })
+                       %w{ normal pageBreakPreview pageLayout })
     define_attribute(:showRuler,      :bool,   :default => true)
     define_attribute(:topLeftCell,    :ref)
     define_child_node(RubyXL::Pane)
