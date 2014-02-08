@@ -58,7 +58,7 @@ module RubyXL
     define_element_name 'workbookProtection'
   end
 
-
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookView-1.html
   class WorkbookView < OOXMLObject
     define_attribute(:visibility,             :string, :default => 'visible', :values =>
                        %w{ visible hidden veryHidden } )

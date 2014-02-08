@@ -96,7 +96,6 @@ module RubyXL
     define_attribute(:horizontalDpi,      :int,    :default => 600)
     define_attribute(:verticalDpi,        :int,    :default => 600)
     define_attribute(:copies,             :int,    :default => 1)
-
     define_attribute(:'r:id',             :string)
     define_element_name 'pageSetup'
   end
@@ -355,6 +354,76 @@ module RubyXL
     define_element_name 'hyperlinks'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataRef-1.html
+  class DataConsolidationReference < OOXMLObject
+    define_attribute(:ref,    :ref)
+    define_attribute(:name,   :string)
+    define_attribute(:sheet,  :string)
+    define_attribute(:'r:id', :string)
+    define_element_name 'dataRef'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataRefs-1.html
+  class DataConsolidationReferences < OOXMLObject
+    define_child_node(RubyXL::DataConsolidationReference, :collection => :with_count, :accessor => :data_cons_ref)
+    define_element_name 'dataRefs'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataConsolidate-1.html
+  class DataConsolidate < OOXMLObject
+    define_attribute(:function,   :string, :default => 'sum', :values =>
+                       %w{ average count countNums max min
+                           product stdDev stdDevp sum var varp })
+    define_attribute(:leftLabels, :bool, :default => false)
+    define_attribute(:topLabels,  :bool, :default => false)
+    define_attribute(:link,       :bool, :default => false)
+    define_child_node(RubyXL::DataConsolidationReferences, :accessor => :data_cons_ref_container)
+    define_element_name 'dataConsolidate'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_customSheetView-1.html
+  class CustomSheetView < OOXMLObject
+    define_attribute(:guid,           :string, :required => true}
+    define_attribute(:scale,          :int,    :default => 100}
+    define_attribute(:colorId,        :int,    :default => 64}
+    define_attribute(:showPageBreaks, :bool,   :default => false)
+    define_attribute(:showFormulas,   :bool,   :default => false)
+    define_attribute(:showGridLines,  :bool,   :default => true)
+    define_attribute(:showRowCol,     :bool,   :default => true)
+    define_attribute(:outlineSymbols, :bool,   :default => true)
+    define_attribute(:zeroValues,     :bool,   :default => true)
+    define_attribute(:fitToPage,      :bool,   :default => false)
+    define_attribute(:printArea,      :bool,   :default => false)
+    define_attribute(:filter,         :bool,   :default => false)
+    define_attribute(:showAutoFilter, :bool,   :default => false)
+    define_attribute(:hiddenRows,     :bool,   :default => false)
+    define_attribute(:hiddenColumns,  :bool,   :default => false)
+    define_attribute(:state,          :string, :default => 'visible', :values =>
+                       %w{ visible hidden veryHidden } )
+    define_attribute(:filterUnique,   :bool,   :default => false)
+    define_attribute(:view,           :string, :default => 'normal', :values =>
+                       :values => %w{ normal pageBreakPreview pageLayout })
+    define_attribute(:showRuler,      :bool,   :default => true)
+    define_attribute(:topLeftCell,    :ref)
+    define_child_node(RubyXL::Pane)
+    define_child_node(RubyXL::Selection)
+    define_child_node(RubyXL::BreakList, :node_name => :rowBreaks)
+    define_child_node(RubyXL::BreakList, :node_name => :colBreaks)
+    define_child_node(RubyXL::PageMargins)
+    define_child_node(RubyXL::PrintOptions)
+    define_child_node(RubyXL::PageSetup)
+    define_child_node(RubyXL::HeaderFooterSettings)
+    define_child_node(RubyXL::AutoFilter)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'customSheetView'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_customSheetViews-1.html
+  class CustomSheetViews < OOXMLObject
+    define_child_node(RubyXL::CustomSheetView, :collection => true, :accessor => :custom_sheet_view)
+    define_element_name 'customSheetViews'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -369,8 +438,8 @@ module RubyXL
     define_child_node(RubyXL::ScenarioContainer)
     define_child_node(RubyXL::AutoFilter)
     define_child_node(RubyXL::SortState)
-#    ssml:dataConsolidate [0..1]    Data Consolidate
-#    ssml:customSheetViews [0..1]    Custom Sheet Views
+    define_child_node(RubyXL::DataConsolidate)
+    define_child_node(RubyXL::CustomSheetViews, :accessor => :custom_sheet_view_container)
     define_child_node(RubyXL::MergedCells, :accessor => :merged_cells_list)
     define_child_node(RubyXL::PhoneticProperties)
     define_child_node(RubyXL::ConditionalFormatting)
