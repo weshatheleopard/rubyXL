@@ -59,6 +59,10 @@ module RubyXL
         workbook.shared_strings_container[raw_value.to_i]
       else 
         if is_date? then workbook.num_to_date(raw_value.to_i)
+        elsif raw_value.is_a?(String) && (raw_value =~ /^-?\d+(\.\d+(?:e[+-]\d+)?)?$/i) # Numeric
+          if $1 then raw_value.to_f
+          else raw_value.to_i
+          end
         else raw_value
         end
       end

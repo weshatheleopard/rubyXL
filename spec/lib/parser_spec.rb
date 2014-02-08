@@ -8,13 +8,25 @@ describe RubyXL::Parser do
     @workbook.add_worksheet("Test Worksheet")
 
     ws = @workbook.add_worksheet("Escape Test")
-    ws.add_cell(0,0, "&")
-    ws.add_cell(0,1, "<")
-    ws.add_cell(0,2, ">")
+    ws.add_cell(0, 0, "&")
+    ws.add_cell(0, 1, "<")
+    ws.add_cell(0, 2, ">")
+    ws.add_cell(0, 3, "")
 
-    ws.add_cell(1,0, "&")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
-    ws.add_cell(1,1, "<")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
-    ws.add_cell(1,2, ">")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1, 0, "&")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1, 1, "<")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1, 2, ">")#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1, 3, "")
+
+    ws.add_cell(2, 0, 0)
+    ws.add_cell(2, 1, 12345)
+    ws.add_cell(2, 2, 123.456e78)
+    ws.add_cell(2, 3, 123.456e-78)
+
+    ws.add_cell(3, 0, -0)
+    ws.add_cell(3, 1, -12345)
+    ws.add_cell(3, 2, -123.456e78)
+    ws.add_cell(3, 3, -123.456e-78)
 
     @time_str = Time.now.to_s
     @file = "#{@time_str}.xlsx"
