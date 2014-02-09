@@ -90,7 +90,7 @@ module RubyXL
     define_attribute(:sheetId,         :int, :required => true)
     define_attribute(:state,             :string, :default => 'visible', :values =>
                        %w{ visible hidden veryHidden } )
-    define_attribute(:'r:id',            :string, :required => true)
+    define_attribute(:'r:id',          :string, :required => true)
     define_element_name 'sheet'
   end
 
@@ -142,6 +142,19 @@ module RubyXL
     define_element_name 'definedNames'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCache-1.html
+  class PivotCache < OOXMLObject
+    define_attribute(:cacheId, :int,    :required => true)
+    define_attribute(:'r:id',  :string, :required => true)
+    define_element_name 'pivotCache'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCaches-1.html
+  class PivotCaches < OOXMLObject
+    define_child_node(RubyXL::DefinedName, :collection => true, :accessor => :pivot_caches)
+    define_element_name 'pivotCaches'
+  end
+
   class CalculationProperties < OOXMLObject
     define_attribute(:calcId,   :int)
     define_attribute(:calcMode,              :string, :default => 'auto', :values =>
@@ -175,7 +188,7 @@ module RubyXL
     define_child_node(RubyXL::CalculationProperties)
 #    ssml:oleSize [0..1]    OLE Size
 #    ssml:customWorkbookViews [0..1]    Custom Workbook Views
-#    ssml:pivotCaches [0..1]    PivotCaches
+    define_child_node(RubyXL::PivotCaches, :accessor => :pivot_cache_container)
 #    ssml:smartTagPr [0..1]    Smart Tag Properties
 #    ssml:smartTagTypes [0..1]    Smart Tag Types
 #    ssml:webPublishing [0..1]    Web Publishing Properties
