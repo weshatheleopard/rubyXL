@@ -151,8 +151,23 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCaches-1.html
   class PivotCaches < OOXMLObject
-    define_child_node(RubyXL::DefinedName, :collection => true, :accessor => :pivot_caches)
+    define_child_node(RubyXL::PivotCache, :collection => true, :accessor => :pivot_caches)
     define_element_name 'pivotCaches'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCaches-1.html
+  class WebPublishingProperties < OOXMLObject
+    define_attribute(:css,              :bool,   :default => true)
+    define_attribute(:thicket,          :bool,   :default => true)
+    define_attribute(:longFileNames,    :bool,   :default => true)
+    define_attribute(:vml,              :bool,   :default => false)
+    define_attribute(:allowPng,         :bool,   :default => false)
+    define_attribute(:targetScreenSize, :string, :default => '800x600', :values =>
+                       %w{ 544x376 640x480 720x512 800x600 1024x768 1152x882
+                           1152x900 1280x1024 1600x1200 1800x1440 1920x1200 } )
+    define_attribute(:dpi,              :int,    :default => 96)
+    define_attribute(:codePage,         :int)
+    define_element_name 'webPublishing'
   end
 
   class CalculationProperties < OOXMLObject
@@ -191,7 +206,7 @@ module RubyXL
     define_child_node(RubyXL::PivotCaches, :accessor => :pivot_cache_container)
 #    ssml:smartTagPr [0..1]    Smart Tag Properties
 #    ssml:smartTagTypes [0..1]    Smart Tag Types
-#    ssml:webPublishing [0..1]    Web Publishing Properties
+    define_child_node(RubyXL::WebPublishingProperties)
 #    ssml:fileRecoveryPr [0..*]    File Recovery Properties
 #    ssml:webPublishObjects [0..1]    Web Publish Objects
     define_child_node(RubyXL::ExtensionStorageArea)
