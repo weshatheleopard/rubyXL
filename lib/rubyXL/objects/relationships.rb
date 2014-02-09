@@ -2,6 +2,10 @@ require 'rubyXL/objects/ooxml_object'
 
 module RubyXL
 
+  class RID < OOXMLObject
+    define_attribute(:'r:id',            :string, :required => true)
+  end
+
   class Relationship < OOXMLObject
     define_attribute(:Id,     :string)
     define_attribute(:Type,   :string)

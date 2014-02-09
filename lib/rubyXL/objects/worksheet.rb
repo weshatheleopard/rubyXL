@@ -1,5 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
+require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
 require 'rubyXL/objects/sheet_view'
@@ -63,17 +64,6 @@ module RubyXL
     define_element_name 'sheetFormatPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pageMargins-1.html
-  class PageMargins < OOXMLObject
-    define_attribute(:left,   :float, :required => true)
-    define_attribute(:right,  :float, :required => true)
-    define_attribute(:top,    :float, :required => true)
-    define_attribute(:bottom, :float, :required => true)
-    define_attribute(:header, :float, :required => true)
-    define_attribute(:footer, :float, :required => true)
-    define_element_name 'pageMargins'
-  end
-
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pageSetup-1.html
   class PageSetup < OOXMLObject
     define_attribute(:paperSize,          :int,    :default => 1)
@@ -98,10 +88,6 @@ module RubyXL
     define_attribute(:copies,             :int,    :default => 1)
     define_attribute(:'r:id',             :string)
     define_element_name 'pageSetup'
-  end
-
-  class RID < OOXMLObject
-    define_attribute(:'r:id',            :string, :required => true)
   end
 
   class TableParts < OOXMLObject
@@ -168,7 +154,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetProtection-1.html
-  class SheetProtection < OOXMLObject
+  class WorksheetProtection < OOXMLObject
     define_attribute(:password,            :string)
     define_attribute(:sheet,               :bool, :default => false)
     define_attribute(:objects,             :bool, :default => false)
@@ -428,12 +414,12 @@ module RubyXL
   class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
-    define_child_node(RubyXL::SheetViews)
+    define_child_node(RubyXL::WorksheetViews, :accessor => :sheet_view_container)
     define_child_node(RubyXL::WorksheetFormatProperties)
     define_child_node(RubyXL::ColumnRanges)
     define_child_node(RubyXL::SheetData)
     define_child_node(RubyXL::SheetCalculationProperties)
-    define_child_node(RubyXL::SheetProtection)
+    define_child_node(RubyXL::WorksheetProtection)
     define_child_node(RubyXL::ProtectedRanges)
     define_child_node(RubyXL::ScenarioContainer)
     define_child_node(RubyXL::AutoFilter)

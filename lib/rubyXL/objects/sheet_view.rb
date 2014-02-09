@@ -1,6 +1,18 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/extensions'
 
 module RubyXL
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pageMargins-1.html
+  class PageMargins < OOXMLObject
+    define_attribute(:left,   :float, :required => true)
+    define_attribute(:right,  :float, :required => true)
+    define_attribute(:top,    :float, :required => true)
+    define_attribute(:bottom, :float, :required => true)
+    define_attribute(:header, :float, :required => true)
+    define_attribute(:footer, :float, :required => true)
+    define_element_name 'pageMargins'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pane-1.html
   class Pane < OOXMLObject
     define_attribute(:xSplit,      :int)
@@ -36,7 +48,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
-  class SheetView < OOXMLObject
+  class WorksheetView < OOXMLObject
     define_attribute(:windowProtection,         :bool,   :default => false)
     define_attribute(:showFormulas,             :bool,   :default => false)
     define_attribute(:showGridLines,            :bool,   :default => true)
@@ -59,12 +71,32 @@ module RubyXL
     define_attribute(:workbookViewId,           :int,    :required => true, :default => 0 )
     define_child_node(RubyXL::Pane)
     define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections )
+#ssml:pivotSelection [0..4]    PivotTable Selection
+    define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetView'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-3.html
-  class SheetViews < OOXMLObject
-    define_child_node(RubyXL::SheetView, :collection => true, :accessor => :sheet_views)
+  class WorksheetViews < OOXMLObject
+    define_child_node(RubyXL::WorksheetView, :collection => true, :accessor => :sheet_views)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'sheetViews'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-2.html
+  class ChartsheetView < OOXMLObject
+    define_attribute(:tabSelected,    :bool,  :default => false)
+    define_attribute(:zoomScale,      :int,   :default => 100)
+    define_attribute(:workbookViewId, :int,   :required => true, :default => 0 )
+    define_attribute(:zoomToFit,      :bool,  :default => false)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'sheetView'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-4.html
+  class ChartsheetViews < OOXMLObject
+    define_child_node(RubyXL::ChartsheetView, :collection => true, :accessor => :sheet_views)
+    define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetViews'
   end
 
