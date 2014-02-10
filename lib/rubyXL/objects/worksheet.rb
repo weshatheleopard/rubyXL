@@ -410,6 +410,20 @@ module RubyXL
     define_element_name 'customSheetViews'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_control-1.html
+  class EmbeddedControl < OOXMLObject
+    define_attribute(:shapeId, :int,    :required => :true)
+    define_attribute(:'r:id',  :string, :required => :true)
+    define_attribute(:name,    :string)
+    define_element_name 'control'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_controls-1.html
+  class EmbeddedControls < OOXMLObject
+    define_child_node(RubyXL::EmbeddedControl, :collection => true, :accessor => :controls)
+    define_element_name 'controls'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -426,7 +440,7 @@ module RubyXL
     define_child_node(RubyXL::SortState)
     define_child_node(RubyXL::DataConsolidate)
     define_child_node(RubyXL::CustomSheetViews, :accessor => :custom_sheet_view_container)
-    define_child_node(RubyXL::MergedCells, :accessor => :merged_cells_list)
+    define_child_node(RubyXL::MergedCells,      :accessor => :merged_cells_list)
     define_child_node(RubyXL::PhoneticProperties)
     define_child_node(RubyXL::ConditionalFormatting)
     define_child_node(RubyXL::DataValidations)
@@ -446,7 +460,7 @@ module RubyXL
     define_child_node(RubyXL::RID, :node_name => :legacyDrawingHF)
     define_child_node(RubyXL::RID, :node_name => :picture)
 #    ssml:oleObjects [0..1]    OLE Objects
-#    ssml:controls [0..1]    Embedded Controls
+    define_child_node(RubyXL::EmbeddedControls, :accessor => :controls_container)
 #    ssml:webPublishItems [0..1]    Web Publishing Items
     define_child_node(RubyXL::TableParts)
     define_child_node(RubyXL::ExtensionStorageArea)

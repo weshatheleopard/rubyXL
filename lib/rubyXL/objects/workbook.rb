@@ -155,7 +155,22 @@ module RubyXL
     define_element_name 'pivotCaches'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCaches-1.html
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_oleSize-1.html
+  class OLESize < OOXMLObject
+    define_attribute(:ref, :ref, :required => true)
+    define_element_name 'oleSize'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_fileRecoveryPr-1.html
+  class FileRecoveryProperties < OOXMLObject
+    define_attribute(:autoRecover,     :bool, :default => true)
+    define_attribute(:crashSave,       :bool, :default => false)
+    define_attribute(:dataExtractLoad, :bool, :default => false)
+    define_attribute(:repairLoad,      :bool, :default => false)
+    define_element_name 'fileRecoveryPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishing-1.html
   class WebPublishingProperties < OOXMLObject
     define_attribute(:css,              :bool,   :default => true)
     define_attribute(:thicket,          :bool,   :default => true)
@@ -170,8 +185,9 @@ module RubyXL
     define_element_name 'webPublishing'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_calcPr-1.html
   class CalculationProperties < OOXMLObject
-    define_attribute(:calcId,   :int)
+    define_attribute(:calcId,                :int)
     define_attribute(:calcMode,              :string, :default => 'auto', :values =>
                        %w{ manual auto autoNoTable } )
     define_attribute(:fullCalcOnLoad,        :bool,   :default => false)
@@ -201,13 +217,13 @@ module RubyXL
     define_child_node(RubyXL::ExternalReferences, :accessor => :ext_ref_container)
     define_child_node(RubyXL::DefinedNames,       :accessor => :defined_name_container)
     define_child_node(RubyXL::CalculationProperties)
-#    ssml:oleSize [0..1]    OLE Size
+    define_child_node(RubyXL::OLESize)
 #    ssml:customWorkbookViews [0..1]    Custom Workbook Views
     define_child_node(RubyXL::PivotCaches, :accessor => :pivot_cache_container)
 #    ssml:smartTagPr [0..1]    Smart Tag Properties
 #    ssml:smartTagTypes [0..1]    Smart Tag Types
     define_child_node(RubyXL::WebPublishingProperties)
-#    ssml:fileRecoveryPr [0..*]    File Recovery Properties
+    define_child_node(RubyXL::FileRecoveryProperties)
 #    ssml:webPublishObjects [0..1]    Web Publish Objects
     define_child_node(RubyXL::ExtensionStorageArea)
     define_child_node(RubyXL::AlternateContent)
