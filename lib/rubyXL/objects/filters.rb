@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
@@ -11,17 +12,14 @@ module RubyXL
     define_attribute(:hour,   :int)
     define_attribute(:minute, :int)
     define_attribute(:second, :int)
-    define_attribute(:dateTimeGrouping, :string, :values =>
-                       %w{ year month day hour minute second })
+    define_attribute(:dateTimeGrouping, :string, :values => RubyXL::ST_DateTimeGrouping)
     define_element_name 'dateGroupItem'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_filters-1.html
   class FilterContainer < OOXMLObject
     define_attribute(:blank,        :bool,  :default  => false)
-    define_attribute(:calendarType, :string, :default => 'none', :values =>
-                       %w{ none gregorian gregorianUs japan taiwan korea hijri thai hebrew
-                           gregorianMeFrench gregorianArabic gregorianXlitEnglish gregorianXlitFrench })
+    define_attribute(:calendarType, :string, :default => 'none', :values => RubyXL::ST_CalendarType)
     define_child_node(RubyXL::StringValue,    :node_name => :filter, :collection => true, :accessor => :filters)
     define_child_node(RubyXL::DateGroupItem, :collection => true, :accessor => :date_group_items)
     define_element_name 'filters'
@@ -38,8 +36,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customFilter-1.html
   class CustomFilter < OOXMLObject
-    define_attribute(:operator, :string, :default => 'equal', :values =>
-                       %w{ equal lessThan lessThanOrEqual notEqual greaterThanOrEqual greaterThan })
+    define_attribute(:operator, :string, :default => 'equal', :values => RubyXL::ST_FilterOperator)
     define_attribute(:val, :string)
     define_element_name 'customFilter'
   end
@@ -53,11 +50,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dynamicFilter-1.html
   class DynamicFilter < OOXMLObject
-    define_attribute(:type,   :string, :required => true, :values =>
-                       %w{ null aboveAverage belowAverage tomorrow today yesterday
-                           nextWeek thisWeek lastWeek nextMonth thisMonth lastMonth
-                           nextQuarter thisQuarter lastQuarter nextYear thisYear lastYear
-                           yearToDate Q1 Q2 Q3 Q4 M1 M2 M3 M4 M5 M6 M7 M8 M9 M10 M11 M12 })
+    define_attribute(:type,   :string, :required => true, :values => RubyXL::ST_DynamicFilterType)
     define_attribute(:val,    :float)
     define_attribute(:maxVal, :float)
     define_element_name 'dynamicFilter'
@@ -72,10 +65,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_iconFilter-1.html
   class IconFilter < OOXMLObject
-    define_attribute(:iconSet, :string, :values =>
-                       %w{ 3Arrows 3ArrowsGray 3Flags 3TrafficLights1 3TrafficLights2
-                           3Signs 3Symbols 3Symbols2 4Arrows 4ArrowsGray 4RedToBlack
-                           4Rating 4TrafficLights 5Arrows 5ArrowsGray 5Rating 5Quarters })
+    define_attribute(:iconSet, :string, :values => RubyXL::ST_IconSetType)
     define_attribute(:iconId,  :int)
     define_element_name 'iconFilter'
   end
@@ -98,15 +88,12 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sortCondition-1.html
   class SortCondition < OOXMLObject
     define_attribute(:descending, :bool,   :default  => false)
-    define_attribute(:sortBy,     :string, :default => 'value',
-                       :values => %w{ value cellColor fontColor icon })
+    define_attribute(:sortBy,     :string, :default => 'value', :values => RubyXL::ST_SortBy)
     define_attribute(:ref,        :ref,    :required => true)
     define_attribute(:customList, :string)
     define_attribute(:dxfId,      :int)
-    define_attribute(:iconSet,    :string, :required => true, :default => '3Arrows', :values =>
-                       %w{ 3Arrows 3ArrowsGray 3Flags 3TrafficLights1 3TrafficLights2
-                           3Signs 3Symbols 3Symbols2 4Arrows 4ArrowsGray 4RedToBlack
-                           4Rating 4TrafficLights 5Arrows 5ArrowsGray 5Rating 5Quarters })
+    define_attribute(:iconSet,    :string, :required => true, :default => '3Arrows',
+                       :values => RubyXL::ST_IconSetType)
     define_attribute(:iconId,     :int)
     define_element_name 'sortCondition'
   end
@@ -115,8 +102,7 @@ module RubyXL
   class SortState < OOXMLObject
     define_attribute(:columnSort,    :bool,   :default  => false)
     define_attribute(:caseSensitive, :bool,   :default  => false)
-    define_attribute(:sortMethod,    :string, :default => 'none',
-                       :values => %w{ stroke pinYin none })
+    define_attribute(:sortMethod,    :string, :default => 'none', :values => RubyXL::ST_SortMethod)
     define_attribute(:ref,           :ref,    :required => true)
     define_child_node(RubyXL::SortCondition,  :colection => true)
     define_child_node(RubyXL::ExtensionStorageArea)

@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 
 module RubyXL
 
@@ -78,9 +79,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-docPropsVTypes_vector.html
   class Vector < OOXMLObject
-    define_attribute(:baseType, :string, :required => true, :values => 
-                       %w{ variant i1 i2 i4 i8 ui1 ui2 ui4 ui8 r4 r8
-                           lpstr lpwstr bstr date filetime bool cy error clsid cf })
+    define_attribute(:baseType, :string, :required => true, :values => RubyXL::ST_VectorBaseType)
     define_attribute(:size,     :int, :required => true)
     define_child_node(RubyXL::Variant,     :collection => true, :node_name => 'vt:variant')
     define_child_node(RubyXL::IntegerNode, :collection => true, :node_name => 'vt:i1')

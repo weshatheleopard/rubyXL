@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/container_nodes'
 
 module RubyXL
@@ -62,10 +63,10 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_phoneticPr-1.html
   class PhoneticProperties < OOXMLObject
     define_attribute(:fontId,    :int,    :required => true)
-    define_attribute(:type,      :string, :default => 'fullwidthKatakana',
-                        :values => %w{ halfwidthKatakana fullwidthKatakana Hiragana noConversion })
+    define_attribute(:type,      :string, :default => 'fullwidthKatakana', 
+                        :values => RubyXL::ST_PhoneticType)
     define_attribute(:alignment, :string, :default => 'left',
-                        :values => %w{ noControl left center distributed })
+                        :values => RubyXL::ST_PhoneticAlignment)
     define_element_name 'phoneticPr'
   end
 

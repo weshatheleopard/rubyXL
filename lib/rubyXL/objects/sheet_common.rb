@@ -6,8 +6,7 @@ module RubyXL
   class WebPublishingItem < OOXMLObject
     define_attribute(:id,              :int,    :required => :true)
     define_attribute(:divId,           :int,    :required => :true)
-    define_attribute(:sourceType,      :string, :required => :true, :values =>
-                       %w{ sheet printArea autoFilter range chart pivotTable query label })
+    define_attribute(:sourceType,      :string, :required => :true, :values => RubyXL::ST_WebSourceType)
     define_attribute(:sourceRef,       :ref)
     define_attribute(:sourceObject,    :string)
     define_attribute(:destinationFile, :string, :required => :true)

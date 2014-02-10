@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/sheet_common'
@@ -72,17 +73,17 @@ module RubyXL
     define_attribute(:fitToWidth,         :int,    :default => 1)
     define_attribute(:fitToHeight,        :int,    :default => 1)
     define_attribute(:pageOrder,          :string, :default => 'downThenOver',
-                       :values => %w{ downThenOver overThenDown })
+                       :values => RubyXL::ST_PageOrder)
     define_attribute(:orientation,        :string, :default => 'default',
-                       :values => %w{ default portrait landscape })
+                       :values => RubyXL::ST_Orientation)
     define_attribute(:usePrinterDefaults, :bool,   :default => true)
     define_attribute(:blackAndWhite,      :bool,   :default => false)
     define_attribute(:draft,              :bool,   :default => false)
     define_attribute(:cellComments,       :string, :default => 'none',
-                       :values => %w{ none asDisplayed atEnd })
+                       :values => RubyXL::ST_CellComments)
     define_attribute(:useFirstPageNumber, :bool,   :default => false)
     define_attribute(:errors,             :string, :default => 'displayed',
-                       :values => %w{ displayed blank dash NA })
+                       :values => RubyXL::ST_PrintError)
     define_attribute(:horizontalDpi,      :int,    :default => 600)
     define_attribute(:verticalDpi,        :int,    :default => 600)
     define_attribute(:copies,             :int,    :default => 1)
@@ -162,8 +163,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cfvo-1.html
   class ConditionalFormatValue < OOXMLObject
-    define_attribute(:type, :string, :required => true, :values =>
-                       %w{ num percent max min formula percentile })
+    define_attribute(:type, :string, :required => true, :values => RubyXL::ST_CfvoType)
     define_attribute(:val,  :string)
     define_attribute(:gte,  :bool,   :default => true)
     define_child_node(RubyXL::ExtensionStorageArea)
@@ -189,10 +189,8 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_iconSet-1.html
   class IconSet < OOXMLObject
-    define_attribute(:type,      :string, :required => true, :default => '3TrafficLights1', :values =>
-                       %w{ 3Arrows 3ArrowsGray 3Flags 3TrafficLights1 3TrafficLights2
-                           3Signs 3Symbols 3Symbols2 4Arrows 4ArrowsGray 4RedToBlack
-                           4Rating 4TrafficLights 5Arrows 5ArrowsGray 5Rating 5Quarters })
+    define_attribute(:type,      :string, :required => true, :default => '3TrafficLights1',
+                       :values => RubyXL::ST_IconSetType)
     define_attribute(:showValue, :bool,   :default => true)
     define_attribute(:percent,   :bool,   :default => true)
     define_attribute(:reverse,   :bool,   :default => false)
@@ -202,24 +200,16 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cfRule-1.html
   class ConditionalFormattingRule < OOXMLObject
-    define_attribute(:type,         :string, :values =>
-                       %w{ expression cellIs colorScale dataBar iconSet top10 uniqueValues
-                           duplicateValues containsText notContainsText beginsWith
-                           endsWith containsBlanks notContainsBlanks containsErrors
-                           notContainsErrors timePeriod aboveAverage })
+    define_attribute(:type,         :string, :values => RubyXL::ST_CfType)
     define_attribute(:dxfId,        :int)
     define_attribute(:priority,     :int,    :required => 1)
     define_attribute(:stopIfTrue,   :bool,   :default  => false)
     define_attribute(:aboveAverage, :bool,   :default  => true)
     define_attribute(:percent,      :bool,   :default  => false)
     define_attribute(:bottom,       :bool,   :default  => false)
-    define_attribute(:operator,     :string, :values =>
-                       %w{ lessThan lessThanOrEqual equal notEqual greaterThanOrEqual greaterThan
-                           between notBetween containsText notContains beginsWith endsWith })
+    define_attribute(:operator,     :string, :values => RubyXL::ST_ConditionalFormattingOperator)
     define_attribute(:text,         :string)
-    define_attribute(:timePeriod,   :string, :values =>
-                       %w{ today yesterday tomorrow last7Days thisMonth
-                           lastMonth nextMonth thisWeek lastWeek nextWeek })
+    define_attribute(:timePeriod,   :string, :values => RubyXL::ST_TimePeriod)
     define_attribute(:rank,         :int)
     define_attribute(:stdDev,       :int)
     define_attribute(:equalAverage, :bool,   :default  => false)
@@ -328,11 +318,9 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObject-1.html
   class OLEObject < OOXMLObject
     define_attribute(:progId,    :string)
-    define_attribute(:dvAspect,  :string, :default => 'DVASPECT_CONTENT', :values =>
-                       %w{ DVASPECT_CONTENT DVASPECT_ICON })
+    define_attribute(:dvAspect,  :string, :default => 'DVASPECT_CONTENT', :values => RubyXL::ST_DvAspect)
     define_attribute(:link, :string)
-    define_attribute(:oleUpdate, :string, :values =>
-                       %w{ OLEUPDATE_ALWAYS OLEUPDATE_ONCALL })
+    define_attribute(:oleUpdate, :string, :values => RubyXL::ST_OleUpdate)
     define_attribute(:autoLoad,  :bool, :default => false)
     define_attribute(:shapeId,   :int, :required => true)
     define_attribute(:'r:id',    :string)
@@ -362,9 +350,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataConsolidate-1.html
   class DataConsolidate < OOXMLObject
-    define_attribute(:function,   :string, :default => 'sum', :values =>
-                       %w{ average count countNums max min
-                           product stdDev stdDevp sum var varp })
+    define_attribute(:function,   :string, :default => 'sum', :values => RubyXL::ST_DataConsolidateFunction)
     define_attribute(:leftLabels, :bool, :default => false)
     define_attribute(:topLabels,  :bool, :default => false)
     define_attribute(:link,       :bool, :default => false)
@@ -377,17 +363,14 @@ module RubyXL
     define_attribute(:xSplit,      :int)
     define_attribute(:ySplit,      :int)
     define_attribute(:topLeftCell, :string)
-    define_attribute(:activePane,  :string, :default => 'topLeft',
-                       :values => %w{ bottomRight topRight bottomLeft topLeft })
-    define_attribute(:state,       :string, :default=> 'split',
-                       :values => %w{ split frozen frozenSplit })
+    define_attribute(:activePane,  :string, :default => 'topLeft', :values => RubyXL::ST_Pane)
+    define_attribute(:state,       :string, :default=> 'split', :values => RubyXL::ST_PaneState)
     define_element_name 'pane'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_selection-1.html
   class Selection < OOXMLObject
-    define_attribute(:pane,         :string,
-                       :values => %w{ bottomRight topRight bottomLeft topLeft })
+    define_attribute(:pane,         :string, :values => RubyXL::ST_Pane)
     define_attribute(:activeCell,   :ref)
     define_attribute(:activeCellId, :int)   # 0-based index of @active_cell in @sqref
     define_attribute(:sqref,        :sqref) # Array of references to the selected cells.
@@ -423,11 +406,11 @@ module RubyXL
     define_attribute(:showAutoFilter, :bool,   :default => false)
     define_attribute(:hiddenRows,     :bool,   :default => false)
     define_attribute(:hiddenColumns,  :bool,   :default => false)
-    define_attribute(:state,          :string, :default => 'visible', :values =>
-                       %w{ visible hidden veryHidden } )
+    define_attribute(:state,          :string, :default => 'visible',
+                       :values => RubyXL::ST_Visibility)
     define_attribute(:filterUnique,   :bool,   :default => false)
-    define_attribute(:view,           :string, :default => 'normal', :values =>
-                       %w{ normal pageBreakPreview pageLayout })
+    define_attribute(:view,           :string, :default => 'normal',
+                       :values => RubyXL::ST_SheetViewType)
     define_attribute(:showRuler,      :bool,   :default => true)
     define_attribute(:topLeftCell,    :ref)
     define_child_node(RubyXL::Pane)
@@ -517,6 +500,83 @@ module RubyXL
     define_element_name 'customProperties'
   end
 
+  class FieldItem < OOXMLObject
+    define_attribute(:v, :int, :required => true)
+    define_element_name 'x'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_references-1.html
+  class PivotReference < OOXMLObject
+    define_attribute(:field,           :int)
+    define_attribute(:selected,        :bool,   :default => true)
+    define_attribute(:byPosition,      :bool,   :default => false)
+    define_attribute(:relative,        :bool,   :default => false)
+    define_attribute(:defaultSubtotal, :bool,   :default => false)
+    define_attribute(:sumSubtotal,     :bool,   :default => false)
+    define_attribute(:countASubtotal,  :bool,   :default => false)
+    define_attribute(:avgSubtotal,     :bool,   :default => false)
+    define_attribute(:maxSubtotal,     :bool,   :default => false)
+    define_attribute(:minSubtotal,     :bool,   :default => false)
+    define_attribute(:productSubtotal, :bool,   :default => false)
+    define_attribute(:countSubtotal,   :bool,   :default => false)
+    define_attribute(:stdDevSubtotal,  :bool,   :default => false)
+    define_attribute(:stdDevPSubtotal, :bool,   :default => false)
+    define_attribute(:varSubtotal,     :bool,   :default => false)
+    define_attribute(:varPSubtotal,    :bool,   :default => false)
+    define_child_node(RubyXL::FieldItem, :collection => :with_count, :accessor => :field_items)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'references'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_references-1.html
+  class PivotReferenceContainer < OOXMLObject
+    define_child_node(RubyXL::PivotReference, :collection => :with_count, :accessor => :pivot_references)
+    define_element_name 'references'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotArea-4.html
+  class PivotArea < OOXMLObject
+    define_attribute(:field,         :int)
+    define_attribute(:type,          :string, :default => 'normal',
+                       :values => RubyXL::ST_PivotAreaType)
+    define_attribute(:dataOnly,      :bool,   :default => true)
+    define_attribute(:labelOnly,     :bool,   :default => false)
+    define_attribute(:grandRow,      :bool,   :default => false)
+    define_attribute(:grandCol,      :bool,   :default => false)
+    define_attribute(:cacheIndex,    :bool,   :default => false)
+    define_attribute(:outline,       :bool,   :default => true)
+    define_attribute(:offset,        :ref)
+    define_attribute(:collapsedLevelsAreSubtotals, :bool,   :default => false)
+    define_attribute(:axis,          :string, :values  => RubyXL::ST_Axis)
+    define_attribute(:fieldPosition, :int,    :default => 0)
+    define_child_node(RubyXL::PivotReferenceContainer, :accessor => :pivot_reference_container)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'pivotArea'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotSelection-1.html
+  class PivotTableSelection < OOXMLObject
+    define_attribute(:pane,        :string, :default => 'topLeft', :values => RubyXL::ST_Pane)
+    define_attribute(:showHeader,  :bool,   :default => false)
+    define_attribute(:label,       :bool,   :default => false)
+    define_attribute(:data,        :bool,   :default => false)
+    define_attribute(:extendable,  :bool,   :default => false)
+    define_attribute(:count,       :int,    :default => 0)
+    define_attribute(:axis,        :string, :values => RubyXL::ST_Axis)
+    define_attribute(:dimension,   :int,    :default => 0)
+    define_attribute(:start,       :int,    :default => 0)
+    define_attribute(:min,         :int,    :default => 0)
+    define_attribute(:max,         :int,    :default => 0)
+    define_attribute(:activeRow,   :int,    :default => 0)
+    define_attribute(:activeCol,   :int,    :default => 0)
+    define_attribute(:previousRow, :int,    :default => 0)
+    define_attribute(:previousCol, :int,    :default => 0)
+    define_attribute(:click,       :int,    :default => 0)
+    define_attribute(:'r:id',      :string)
+    define_child_node(RubyXL::PivotArea)
+    define_element_name 'pivotSelection'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
   class WorksheetView < OOXMLObject
     define_attribute(:windowProtection,         :bool,   :default => false)
@@ -531,7 +591,7 @@ module RubyXL
     define_attribute(:defaultGridColor,         :bool,   :default => true)
     define_attribute(:showWhiteSpace,           :bool,   :default => true)
     define_attribute(:view,                     :string, :default => 'normal',
-                       :values => %w{ normal pageBreakPreview pageLayout })
+                       :values => RubyXL::ST_SheetViewType)
     define_attribute(:topLeftCell,              :ref)
     define_attribute(:colorId,                  :int,    :default => 64)
     define_attribute(:zoomScale,                :int,    :default => 100)
@@ -541,7 +601,7 @@ module RubyXL
     define_attribute(:workbookViewId,           :int,    :required => true, :default => 0 )
     define_child_node(RubyXL::Pane)
     define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections )
-#ssml:pivotSelection [0..4]    PivotTable Selection
+    define_child_node(RubyXL::PivotTableSelection, :collection => true, :accessor => :pivot_table_selections )
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetView'
   end

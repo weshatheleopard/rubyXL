@@ -1,12 +1,12 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_f-1.html
   class Formula < OOXMLObject
     define_attribute(:_,    :string, :accessor => :expression)
-    define_attribute(:t,    :string, :default => 'normal', :values =>
-                       %w{ normal array dataTable shared })
+    define_attribute(:t,    :string, :default => 'normal', :values => RubyXL::ST_CellFormulaType)
     define_attribute(:aca,  :bool,   :default => false)
     define_attribute(:ref,  :ref)
     define_attribute(:dt2D, :bool,   :default => false)

@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/formula'
 
 module RubyXL
@@ -6,15 +7,13 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidation-1.html
   class DataValidation < OOXMLObject
     define_attribute(:type,             :string, :default => 'none',
-                        :values => %w{ none whole decimal list date time textLength custom })
+                        :values => RubyXL::ST_DataValidationType)
     define_attribute(:errorStyle,       :string, :default => 'stop',
-                        :values => %w{ stop warning information })
+                        :values => RubyXL::ST_DataValidationErrorStyle)
     define_attribute(:imeMode,          :string, :default => 'noControl',
-                        :values => %w{ noControl off on disabled hiragana fullKatakana halfKatakana
-                            fullAlpha halfAlpha fullHangul halfHangul })
+                        :values => RubyXL::ST_DataValidationImeMode)
     define_attribute(:operator,         :string, :default => 'between',
-                        :values => %w{ between notBetween equal notEqual lessThan lessThanOrEqual
-                            greaterThan greaterThanOrEqual })
+                        :values => RubyXL::ST_DataValidationOperator)
     define_attribute(:allowBlank,       :bool, :default => false)
     define_attribute(:showDropDown,     :bool, :default => false)
     define_attribute(:showInputMessage, :bool, :default => false)

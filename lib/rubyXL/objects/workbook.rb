@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
@@ -26,16 +27,16 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookPr-1.html
   class WorkbookProperties < OOXMLObject
     define_attribute(:date1904,                   :bool,   :default => false)
-    define_attribute(:showObjects,                :string, :default => 'all', :values =>
-                       %w{ all placeholders none } )
+    define_attribute(:showObjects,                :string, :default => 'all',
+                       :values => RubyXL::ST_Objects)
     define_attribute(:showBorderUnselectedTables, :bool,   :default => true)
     define_attribute(:filterPrivacy,              :bool,   :default => false)
     define_attribute(:promptedSolutions,          :bool,   :default => false)
     define_attribute(:showInkAnnotation,          :bool,   :default => true)
     define_attribute(:backupFile,                 :bool,   :default => false)
     define_attribute(:saveExternalLinkValues,     :bool,   :default => true)
-    define_attribute(:updateLinks,                :string, :default => 'userSet', :values =>
-                       %w{ userSet never always } )
+    define_attribute(:updateLinks,                :string, :default => 'userSet',
+                       :values => RubyXL::ST_UpdateLinks)
     define_attribute(:hidePivotFieldList,         :bool,   :default => false)
     define_attribute(:showPivotChartFilter,       :bool,   :default => false)
     define_attribute(:allowRefreshQuery,          :bool,   :default => false)
@@ -60,8 +61,8 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookView-1.html
   class WorkbookView < OOXMLObject
-    define_attribute(:visibility,             :string, :default => 'visible', :values =>
-                       %w{ visible hidden veryHidden } )
+    define_attribute(:visibility,             :string, :default => 'visible',
+                      :values => RubyXL::ST_Visibility)
     define_attribute(:minimized,              :bool,   :default => false)
     define_attribute(:showHorizontalScroll,   :bool,   :default => true)
     define_attribute(:showVerticalScroll,     :bool,   :default => true)
@@ -88,8 +89,8 @@ module RubyXL
   class Sheet < OOXMLObject
     define_attribute(:name,            :string, :required => true)
     define_attribute(:sheetId,         :int,    :required => true)
-    define_attribute(:state,           :string, :default => 'visible', :values =>
-                       %w{ visible hidden veryHidden } )
+    define_attribute(:state,           :string, :default => 'visible',
+                       :values => RubyXL::ST_Visibility)
     define_attribute(:'r:id',          :string, :required => true)
     define_element_name 'sheet'
   end
@@ -177,9 +178,8 @@ module RubyXL
     define_attribute(:longFileNames,    :bool,   :default => true)
     define_attribute(:vml,              :bool,   :default => false)
     define_attribute(:allowPng,         :bool,   :default => false)
-    define_attribute(:targetScreenSize, :string, :default => '800x600', :values =>
-                       %w{ 544x376 640x480 720x512 800x600 1024x768 1152x882
-                           1152x900 1280x1024 1600x1200 1800x1440 1920x1200 } )
+    define_attribute(:targetScreenSize, :string, :default => '800x600',
+                       :values => RubyXL::ST_TargetScreenSize)
     define_attribute(:dpi,              :int,    :default => 96)
     define_attribute(:codePage,         :int)
     define_element_name 'webPublishing'
@@ -188,11 +188,9 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_calcPr-1.html
   class CalculationProperties < OOXMLObject
     define_attribute(:calcId,                :int)
-    define_attribute(:calcMode,              :string, :default => 'auto', :values =>
-                       %w{ manual auto autoNoTable } )
+    define_attribute(:calcMode,              :string, :default => 'auto', :values => RubyXL::ST_CalcMode)
     define_attribute(:fullCalcOnLoad,        :bool,   :default => false)
-    define_attribute(:refMode,               :string, :default => 'A1', :values =>
-                       %w{ A1 R1C1 } )
+    define_attribute(:refMode,               :string, :default => 'A1', :values => RubyXL::ST_RefMode)
     define_attribute(:iterate,               :bool,   :default => false)
     define_attribute(:iterateCount,          :int,    :default => 100)
     define_attribute(:iterateDelta,          :float,  :default => 0.001)
@@ -225,8 +223,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagPr-1.html
   class SmartTagProperties < OOXMLObject
     define_attribute(:embed, :bool,   :default => false)
-    define_attribute(:show,  :string, :default => 'all', :values =>
-                       %w{ all none noIndicator } )
+    define_attribute(:show,  :string, :default => 'all', :values => RubyXL::ST_SmartTagShow)
     define_element_name 'smartTagPr'
   end
 

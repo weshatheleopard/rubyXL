@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/sheet_common'
@@ -26,7 +27,7 @@ module RubyXL
     define_attribute(:paperSize,          :int,    :default => 1)
     define_attribute(:firstPageNumber,    :int,    :default => 1)
     define_attribute(:orientation,        :string, :default => 'default',
-                       :values => %w{ default portrait landscape })
+                       :values => RubyXL::ST_Orientation)
     define_attribute(:usePrinterDefaults, :bool,   :default => true)
     define_attribute(:blackAndWhite,      :bool,   :default => false)
     define_attribute(:draft,              :bool,   :default => false)
