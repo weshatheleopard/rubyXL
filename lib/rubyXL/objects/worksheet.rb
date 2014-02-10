@@ -451,7 +451,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellWatches-1.html
-  class CellWatches < OOXMLObject
+  class CellWatchContainer < OOXMLObject
     define_child_node(RubyXL::CellWatch, :collection => true, :accessor => :cell_watches)
     define_element_name 'cellWatches'
   end
@@ -476,6 +476,35 @@ module RubyXL
     define_element_name 'webPublishItems'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTagPr-1.html
+  class CellSmartTagProperty < OOXMLObject
+    define_attribute(:key, :string, :required => :true)
+    define_attribute(:val, :string, :required => :true)
+    define_element_name 'cellSmartTagPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTag-1.html
+  class CellSmartTag < OOXMLObject
+    define_attribute(:type,     :int,  :required => :true)
+    define_attribute(:deleted,  :bool, :default => false)
+    define_attribute(:xmlBased, :bool, :default => false)
+    define_child_node(RubyXL::CellSmartTagProperty, :collection => :true, :accessor => :smart_tag_props)
+    define_element_name 'cellSmartTag'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTags-1.html
+  class CellSmartTagContainer < OOXMLObject
+    define_attribute(:r, :ref, :accessor => :ref)
+    define_child_node(RubyXL::CellSmartTag, :collection => :true, :accessor => :cell_smart_tags)
+    define_element_name 'cellSmartTags'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTags-1.html
+  class SmartTagContainer < OOXMLObject
+    define_child_node(RubyXL::CellSmartTagContainer, :collection => :true, :accessor => :smart_tags)
+    define_element_name 'smartTags'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customPr-1.html
   class CustomProperty < OOXMLObject
     define_attribute(:name,   :string, :required => :true)
@@ -484,7 +513,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customProperties-1.html
-  class CustomProperties < OOXMLObject
+  class CustomPropertyContainer < OOXMLObject
     define_child_node(RubyXL::CustomProperty, :collection => :true, :accessor => :custom_props)
     define_element_name 'customProperties'
   end
@@ -516,10 +545,10 @@ module RubyXL
     define_child_node(RubyXL::HeaderFooterSettings)
     define_child_node(RubyXL::BreakList, :node_name => :rowBreaks)
     define_child_node(RubyXL::BreakList, :node_name => :colBreaks)
-    define_child_node(RubyXL::CustomProperties )
-    define_child_node(RubyXL::CellWatches, :accessor => :cell_watch_container)
+    define_child_node(RubyXL::CustomPropertyContainer)
+    define_child_node(RubyXL::CellWatchContainer, :accessor => :cell_watch_container)
     define_child_node(RubyXL::IgnoredErrorContainer)
-#    ssml:smartTags [0..1]    Smart Tags
+    define_child_node(RubyXL::SmartTagContainer, :accessor => :smart_tag_container)
     define_child_node(RubyXL::RID, :node_name => :drawing)
     define_child_node(RubyXL::RID, :node_name => :legacyDrawing)
     define_child_node(RubyXL::RID, :node_name => :legacyDrawingHF)

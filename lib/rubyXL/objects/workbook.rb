@@ -87,8 +87,8 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheet-1.html
   class Sheet < OOXMLObject
     define_attribute(:name,            :string, :required => true)
-    define_attribute(:sheetId,         :int, :required => true)
-    define_attribute(:state,             :string, :default => 'visible', :values =>
+    define_attribute(:sheetId,         :int,    :required => true)
+    define_attribute(:state,           :string, :default => 'visible', :values =>
                        %w{ visible hidden veryHidden } )
     define_attribute(:'r:id',          :string, :required => true)
     define_element_name 'sheet'
@@ -205,6 +205,45 @@ module RubyXL
     define_element_name 'calcPr'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishObject-1.html
+  class WebPublishObject < OOXMLObject
+    define_attribute(:id,              :int,    :required => true)
+    define_attribute(:divId,           :string, :required => true)
+    define_attribute(:sourceObject,    :string)
+    define_attribute(:destinationFile, :string, :required => true)
+    define_attribute(:title,           :string)
+    define_attribute(:autoRepublish,   :bool,   :default => false)
+    define_element_name 'webPublishObject'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishObjects-1.html
+  class WebPublishObjectContainer < OOXMLObject
+    define_child_node(RubyXL::WebPublishObject, :collection => :with_count, :node_name => :web_publish_objects)
+    define_element_name 'webPublishObjects'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagPr-1.html
+  class SmartTagProperties < OOXMLObject
+    define_attribute(:embed, :bool,   :default => false)
+    define_attribute(:show,  :string, :default => 'all', :values =>
+                       %w{ all none noIndicator } )
+    define_element_name 'smartTagPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagType-1.html
+  class SmartTagType < OOXMLObject
+    define_attribute(:namespaceUri, :string)
+    define_attribute(:name,         :string)
+    define_attribute(:url,          :string)
+    define_element_name 'smartTagType'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagTypes-1.html
+  class SmartTagTypeContainer < OOXMLObject
+    define_child_node(RubyXL::SmartTagType, :collection => :true, :node_name => :smart_tag_types)
+    define_element_name 'smartTagTypes'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
     define_child_node(RubyXL::FileVersion)
@@ -220,11 +259,11 @@ module RubyXL
     define_child_node(RubyXL::OLESize)
 #    ssml:customWorkbookViews [0..1]    Custom Workbook Views
     define_child_node(RubyXL::PivotCaches, :accessor => :pivot_cache_container)
-#    ssml:smartTagPr [0..1]    Smart Tag Properties
-#    ssml:smartTagTypes [0..1]    Smart Tag Types
+    define_child_node(RubyXL::SmartTagProperties)
+    define_child_node(RubyXL::SmartTagTypeContainer)
     define_child_node(RubyXL::WebPublishingProperties)
     define_child_node(RubyXL::FileRecoveryProperties)
-#    ssml:webPublishObjects [0..1]    Web Publish Objects
+    define_child_node(RubyXL::WebPublishObjectContainer)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_child_node(RubyXL::AlternateContent)
 
