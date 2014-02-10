@@ -476,6 +476,19 @@ module RubyXL
     define_element_name 'webPublishItems'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_customPr-1.html
+  class CustomProperty < OOXMLObject
+    define_attribute(:name,   :string, :required => :true)
+    define_attribute(:'r:id', :string, :required => :true)
+    define_element_name 'customPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_customProperties-1.html
+  class CustomProperties < OOXMLObject
+    define_child_node(RubyXL::CustomProperty, :collection => :true, :accessor => :custom_props)
+    define_element_name 'customProperties'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -491,9 +504,9 @@ module RubyXL
     define_child_node(RubyXL::AutoFilter)
     define_child_node(RubyXL::SortState)
     define_child_node(RubyXL::DataConsolidate)
-    define_child_node(RubyXL::CustomSheetViews, :accessor => :custom_sheet_view_container)
-    define_child_node(RubyXL::MergedCells,      :accessor => :merged_cells_list)
-    define_child_node(RubyXL::PhoneticProperties)
+    define_child_node(RubyXL::CustomSheetViews,   :accessor => :custom_sheet_view_container)
+    define_child_node(RubyXL::MergedCells,        :accessor => :merged_cells_list)
+    define_child_node(RubyXL::PhoneticProperties, :accessor => :custom_props_container)
     define_child_node(RubyXL::ConditionalFormatting)
     define_child_node(RubyXL::DataValidations)
     define_child_node(RubyXL::HyperlinkContainer)
@@ -503,7 +516,7 @@ module RubyXL
     define_child_node(RubyXL::HeaderFooterSettings)
     define_child_node(RubyXL::BreakList, :node_name => :rowBreaks)
     define_child_node(RubyXL::BreakList, :node_name => :colBreaks)
-#    ssml:customProperties [0..1]    Custom Properties
+    define_child_node(RubyXL::CustomProperties )
     define_child_node(RubyXL::CellWatches, :accessor => :cell_watch_container)
     define_child_node(RubyXL::IgnoredErrorContainer)
 #    ssml:smartTags [0..1]    Smart Tags
