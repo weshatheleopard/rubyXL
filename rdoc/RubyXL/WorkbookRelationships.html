@@ -158,7 +158,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html">www.schemacen
 
           
           <div class="method-source-code" id="filepath-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 55</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filepath</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'_rels'</span>, <span class="ruby-string">'workbook.xml.rels'</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -199,7 +199,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html">www.schemacen
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">relationships</span> = []
 
@@ -253,7 +253,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html">www.schemacen
 
           
           <div class="method-source-code" id="create_relationship-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 20</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 24</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-identifier">target</span>, <span class="ruby-identifier">type</span>)
   <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Relationship</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;rId#{relationships.size + 1}&quot;</span>, 
                            <span class="ruby-value">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;http://schemas.openxmlformats.org/officeDocument/2006/relationships/#{type}&quot;</span>,
@@ -288,7 +288,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html">www.schemacen
 
           
           <div class="method-source-code" id="find_by_rid-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 51</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">find_by_rid</span>(<span class="ruby-identifier">r_id</span>)
   <span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">r_id</span> }
 <span class="ruby-keyword">end</span></pre>

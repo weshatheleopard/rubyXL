@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
-  s.date = "2014-02-08"
+  s.date = "2014-02-10"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
   s.email = "bhagwat.vivek@gmail.com"
   s.extra_rdoc_files = [
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "lib/rubyXL/objects/border.rb",
     "lib/rubyXL/objects/calculation_chain.rb",
     "lib/rubyXL/objects/cell_style.rb",
+    "lib/rubyXL/objects/chartsheet.rb",
     "lib/rubyXL/objects/color.rb",
     "lib/rubyXL/objects/column_range.rb",
     "lib/rubyXL/objects/container_nodes.rb",
@@ -43,8 +44,8 @@ Gem::Specification.new do |s|
     "lib/rubyXL/objects/reference.rb",
     "lib/rubyXL/objects/relationships.rb",
     "lib/rubyXL/objects/shared_strings.rb",
+    "lib/rubyXL/objects/sheet_common.rb",
     "lib/rubyXL/objects/sheet_data.rb",
-    "lib/rubyXL/objects/sheet_view.rb",
     "lib/rubyXL/objects/stylesheet.rb",
     "lib/rubyXL/objects/text.rb",
     "lib/rubyXL/objects/theme.rb",
@@ -97,9 +98,14 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/ConditionalFormattingRule.html",
     "rdoc/RubyXL/CustomFilter.html",
     "rdoc/RubyXL/CustomFilterContainer.html",
+    "rdoc/RubyXL/CustomSheetView.html",
+    "rdoc/RubyXL/CustomSheetViews.html",
     "rdoc/RubyXL/DXF.html",
     "rdoc/RubyXL/DXFs.html",
     "rdoc/RubyXL/DataBar.html",
+    "rdoc/RubyXL/DataConsolidate.html",
+    "rdoc/RubyXL/DataConsolidationReference.html",
+    "rdoc/RubyXL/DataConsolidationReferences.html",
     "rdoc/RubyXL/DataValidation.html",
     "rdoc/RubyXL/DataValidations.html",
     "rdoc/RubyXL/DateGroupItem.html",
@@ -265,7 +271,10 @@ Gem::Specification.new do |s|
     "spec/lib/reference_spec.rb",
     "spec/lib/stylesheet_spec.rb",
     "spec/lib/workbook_spec.rb",
-    "spec/lib/worksheet_spec.rb"
+    "spec/lib/worksheet_spec.rb",
+    "test/input/.gitkeep",
+    "test/output/.gitkeep",
+    "test/test_parse_write.rb"
   ]
   s.homepage = "http://github.com/gilt/rubyXL"
   s.licenses = ["MIT"]

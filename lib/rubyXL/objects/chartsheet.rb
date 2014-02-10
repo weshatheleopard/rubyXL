@@ -1,7 +1,7 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/relationships'
-require 'rubyXL/objects/sheet_view'
+require 'rubyXL/objects/sheet_common'
 
 module RubyXL
 
@@ -38,10 +38,27 @@ module RubyXL
     define_element_name 'pageSetup'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-2.html
+  class ChartsheetView < OOXMLObject
+    define_attribute(:tabSelected,    :bool,  :default => false)
+    define_attribute(:zoomScale,      :int,   :default => 100)
+    define_attribute(:workbookViewId, :int,   :required => true, :default => 0 )
+    define_attribute(:zoomToFit,      :bool,  :default => false)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'sheetView'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-4.html
+  class ChartsheetViewContainer < OOXMLObject
+    define_child_node(RubyXL::ChartsheetView, :collection => true, :accessor => :sheet_views)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'sheetViews'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_chartsheet.html
   class Chartsheet < OOXMLTopLevelObject
     define_child_node(RubyXL::ChartsheetProperties)
-    define_child_node(RubyXL::ChartsheetViews, :accessor => :sheet_view_container)
+    define_child_node(RubyXL::ChartsheetViewContainer, :accessor => :sheet_view_container)
     define_child_node(RubyXL::ChartsheetProtection)
     define_child_node(RubyXL::CustomSheetViews, :accessor => :custom_sheet_view_container)
     define_child_node(RubyXL::PageMargins)

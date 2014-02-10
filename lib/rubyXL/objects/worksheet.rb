@@ -1,9 +1,9 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/relationships'
+require 'rubyXL/objects/sheet_common'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
-require 'rubyXL/objects/sheet_view'
 require 'rubyXL/objects/sheet_data'
 require 'rubyXL/objects/filters'
 require 'rubyXL/objects/data_validation'
@@ -115,21 +115,6 @@ module RubyXL
     define_attribute(:gridLines,          :bool, :default => false)
     define_attribute(:gridLinesSet,       :bool, :default => true)
     define_element_name 'printOptions'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_headerFooter-1.html
-  class HeaderFooterSettings < OOXMLObject
-    define_attribute(:differentOddEven, :bool, :default => false)
-    define_attribute(:differentFirst,   :bool, :default => false)
-    define_attribute(:scaleWithDoc,     :bool, :default => true)
-    define_attribute(:alignWithMargins, :bool, :default => true)
-    define_child_node(RubyXL::StringValue, :node_name => :oddHeader)
-    define_child_node(RubyXL::StringValue, :node_name => :oddFooter)
-    define_child_node(RubyXL::StringValue, :node_name => :evenHeader)
-    define_child_node(RubyXL::StringValue, :node_name => :evenFooter)
-    define_child_node(RubyXL::StringValue, :node_name => :firstHeader)
-    define_child_node(RubyXL::StringValue, :node_name => :firstFooter)
-    define_element_name 'headerFooter'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetCalcPr-1.html
@@ -387,6 +372,40 @@ module RubyXL
     define_element_name 'dataConsolidate'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_pane-1.html
+  class Pane < OOXMLObject
+    define_attribute(:xSplit,      :int)
+    define_attribute(:ySplit,      :int)
+    define_attribute(:topLeftCell, :string)
+    define_attribute(:activePane,  :string, :default => 'topLeft',
+                       :values => %w{ bottomRight topRight bottomLeft topLeft })
+    define_attribute(:state,       :string, :default=> 'split',
+                       :values => %w{ split frozen frozenSplit })
+    define_element_name 'pane'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_selection-1.html
+  class Selection < OOXMLObject
+    define_attribute(:pane,         :string,
+                       :values => %w{ bottomRight topRight bottomLeft topLeft })
+    define_attribute(:activeCell,   :ref)
+    define_attribute(:activeCellId, :int)   # 0-based index of @active_cell in @sqref
+    define_attribute(:sqref,        :sqref) # Array of references to the selected cells.
+    define_element_name 'selection'
+
+    def before_write_xml
+      # Normally, rindex of activeCellId in sqref:
+      # <selection activeCell="E12" activeCellId="9" sqref="A4 B6 C8 D10 E12 A4 B6 C8 D10 E12"/>
+      if @active_cell_id.nil? && !@active_cell.nil? && @sqref.size > 1 then
+        # But, things can be more complex:
+        # <selection activeCell="E8" activeCellId="2" sqref="A4:B4 C6:D6 E8:F8"/>
+        # Not using .reverse.each here to avoid memory reallocation.
+        @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
+      end
+      true
+    end
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customSheetView-1.html
   class CustomSheetView < OOXMLObject
     define_attribute(:guid,           :string, :required => true)
@@ -439,7 +458,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_controls-1.html
-  class EmbeddedControls < OOXMLObject
+  class EmbeddedControlContainer < OOXMLObject
     define_child_node(RubyXL::EmbeddedControl, :collection => true, :accessor => :controls)
     define_element_name 'controls'
   end
@@ -454,26 +473,6 @@ module RubyXL
   class CellWatchContainer < OOXMLObject
     define_child_node(RubyXL::CellWatch, :collection => true, :accessor => :cell_watches)
     define_element_name 'cellWatches'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItem-1.html
-  class WebPublishingItem < OOXMLObject
-    define_attribute(:id,              :int,    :required => :true)
-    define_attribute(:divId,           :int,    :required => :true)
-    define_attribute(:sourceType,      :string, :required => :true, :values =>
-                       %w{ sheet printArea autoFilter range chart pivotTable query label })
-    define_attribute(:sourceRef,       :ref)
-    define_attribute(:sourceObject,    :string)
-    define_attribute(:destinationFile, :string, :required => :true)
-    define_attribute(:title,           :string)
-    define_attribute(:autoRepublish,   :bool,   :default => false)
-    define_element_name 'control'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItems-1.html
-  class WebPublishingItems < OOXMLObject
-    define_child_node(RubyXL::EmbeddedControl, :collection => :with_count, :accessor => :web_items)
-    define_element_name 'webPublishItems'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTagPr-1.html
@@ -518,11 +517,47 @@ module RubyXL
     define_element_name 'customProperties'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
+  class WorksheetView < OOXMLObject
+    define_attribute(:windowProtection,         :bool,   :default => false)
+    define_attribute(:showFormulas,             :bool,   :default => false)
+    define_attribute(:showGridLines,            :bool,   :default => true)
+    define_attribute(:showRowColHeaders,        :bool,   :default => true)
+    define_attribute(:showZeros,                :bool,   :default => true)
+    define_attribute(:rightToLeft,              :bool,   :default => false)
+    define_attribute(:tabSelected,              :bool,   :default => false)
+    define_attribute(:showRuler,                :bool,   :default => true)
+    define_attribute(:showOutlineSymbols,       :bool,   :default => true)
+    define_attribute(:defaultGridColor,         :bool,   :default => true)
+    define_attribute(:showWhiteSpace,           :bool,   :default => true)
+    define_attribute(:view,                     :string, :default => 'normal',
+                       :values => %w{ normal pageBreakPreview pageLayout })
+    define_attribute(:topLeftCell,              :ref)
+    define_attribute(:colorId,                  :int,    :default => 64)
+    define_attribute(:zoomScale,                :int,    :default => 100)
+    define_attribute(:zoomScaleNormal,          :int,    :default => 0)
+    define_attribute(:zoomScaleSheetLayoutView, :bool,   :default => 0)
+    define_attribute(:zoomScalePageLayoutView,  :bool,   :default => 0)
+    define_attribute(:workbookViewId,           :int,    :required => true, :default => 0 )
+    define_child_node(RubyXL::Pane)
+    define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections )
+#ssml:pivotSelection [0..4]    PivotTable Selection
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'sheetView'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-3.html
+  class WorksheetViews < OOXMLObject
+    define_child_node(RubyXL::WorksheetView, :collection => true, :accessor => :sheet_views)
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'sheetViews'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
-    define_child_node(RubyXL::WorksheetViews, :accessor => :sheet_view_container)
+    define_child_node(RubyXL::WorksheetViews,           :accessor => :sheet_view_container)
     define_child_node(RubyXL::WorksheetFormatProperties)
     define_child_node(RubyXL::ColumnRanges)
     define_child_node(RubyXL::SheetData)
@@ -533,9 +568,9 @@ module RubyXL
     define_child_node(RubyXL::AutoFilter)
     define_child_node(RubyXL::SortState)
     define_child_node(RubyXL::DataConsolidate)
-    define_child_node(RubyXL::CustomSheetViews,   :accessor => :custom_sheet_view_container)
-    define_child_node(RubyXL::MergedCells,        :accessor => :merged_cells_list)
-    define_child_node(RubyXL::PhoneticProperties, :accessor => :custom_props_container)
+    define_child_node(RubyXL::CustomSheetViews,         :accessor => :custom_sheet_view_container)
+    define_child_node(RubyXL::MergedCells,              :accessor => :merged_cells_list)
+    define_child_node(RubyXL::PhoneticProperties,       :accessor => :custom_props_container)
     define_child_node(RubyXL::ConditionalFormatting)
     define_child_node(RubyXL::DataValidations)
     define_child_node(RubyXL::HyperlinkContainer)
@@ -543,19 +578,19 @@ module RubyXL
     define_child_node(RubyXL::PageMargins)
     define_child_node(RubyXL::PageSetup)
     define_child_node(RubyXL::HeaderFooterSettings)
-    define_child_node(RubyXL::BreakList, :node_name => :rowBreaks)
-    define_child_node(RubyXL::BreakList, :node_name => :colBreaks)
+    define_child_node(RubyXL::BreakList,                :node_name => :rowBreaks)
+    define_child_node(RubyXL::BreakList,                :node_name => :colBreaks)
     define_child_node(RubyXL::CustomPropertyContainer)
-    define_child_node(RubyXL::CellWatchContainer, :accessor => :cell_watch_container)
+    define_child_node(RubyXL::CellWatchContainer,       :accessor => :cell_watch_container)
     define_child_node(RubyXL::IgnoredErrorContainer)
-    define_child_node(RubyXL::SmartTagContainer, :accessor => :smart_tag_container)
-    define_child_node(RubyXL::RID, :node_name => :drawing)
-    define_child_node(RubyXL::RID, :node_name => :legacyDrawing)
-    define_child_node(RubyXL::RID, :node_name => :legacyDrawingHF)
-    define_child_node(RubyXL::RID, :node_name => :picture)
-    define_child_node(RubyXL::OLEObjects,         :accessor => :ole_object_container)
-    define_child_node(RubyXL::EmbeddedControls,   :accessor => :controls_container)
-    define_child_node(RubyXL::WebPublishingItems, :accessor => :web_items_container)
+    define_child_node(RubyXL::SmartTagContainer,        :accessor => :smart_tag_container)
+    define_child_node(RubyXL::RID,                      :node_name => :drawing)
+    define_child_node(RubyXL::RID,                      :node_name => :legacyDrawing)
+    define_child_node(RubyXL::RID,                      :node_name => :legacyDrawingHF)
+    define_child_node(RubyXL::RID,                      :node_name => :picture)
+    define_child_node(RubyXL::OLEObjects,               :accessor => :ole_object_container)
+    define_child_node(RubyXL::EmbeddedControlContainer, :accessor => :controls_container)
+    define_child_node(RubyXL::WebPublishingItems,       :accessor => :web_items_container)
     define_child_node(RubyXL::TableParts)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'worksheet'
