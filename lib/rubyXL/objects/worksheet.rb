@@ -444,6 +444,18 @@ module RubyXL
     define_element_name 'controls'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellWatch-1.html
+  class CellWatch < OOXMLObject
+    define_attribute(:r, :ref)
+    define_element_name 'cellWatch'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellWatches-1.html
+  class CellWatches < OOXMLObject
+    define_child_node(RubyXL::CellWatch, :collection => true, :accessor => :cell_watches)
+    define_element_name 'cellWatches'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItem-1.html
   class WebPublishingItem < OOXMLObject
     define_attribute(:id,              :int,    :required => :true)
@@ -492,7 +504,7 @@ module RubyXL
     define_child_node(RubyXL::BreakList, :node_name => :rowBreaks)
     define_child_node(RubyXL::BreakList, :node_name => :colBreaks)
 #    ssml:customProperties [0..1]    Custom Properties
-#    ssml:cellWatches [0..1]    Cell Watch Items
+    define_child_node(RubyXL::CellWatches, :accessor => :cell_watch_container)
     define_child_node(RubyXL::IgnoredErrorContainer)
 #    ssml:smartTags [0..1]    Smart Tags
     define_child_node(RubyXL::RID, :node_name => :drawing)
