@@ -340,6 +340,26 @@ module RubyXL
     define_element_name 'hyperlinks'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObject-1.html
+  class OLEObject < OOXMLObject
+    define_attribute(:progId,    :string)
+    define_attribute(:dvAspect,  :string, :default => 'DVASPECT_CONTENT', :values =>
+                       %w{ DVASPECT_CONTENT DVASPECT_ICON })
+    define_attribute(:link, :string)
+    define_attribute(:oleUpdate, :string, :values =>
+                       %w{ OLEUPDATE_ALWAYS OLEUPDATE_ONCALL })
+    define_attribute(:autoLoad,  :bool, :default => false)
+    define_attribute(:shapeId,   :int, :required => true)
+    define_attribute(:'r:id',    :string)
+    define_element_name 'oleObject'
+  end                              
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObjects-1.html
+  class OLEObjects < OOXMLObject
+    define_child_node(RubyXL::OLEObject, :colection => true, :accessor => :ole_objects)
+    define_element_name 'oleObjects'
+  end                              
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataRef-1.html
   class DataConsolidationReference < OOXMLObject
     define_attribute(:ref,    :ref)
@@ -424,6 +444,26 @@ module RubyXL
     define_element_name 'controls'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItem-1.html
+  class WebPublishingItem < OOXMLObject
+    define_attribute(:id,              :int,    :required => :true)
+    define_attribute(:divId,           :int,    :required => :true)
+    define_attribute(:sourceType,      :string, :required => :true, :values =>
+                       %w{ sheet printArea autoFilter range chart pivotTable query label })
+    define_attribute(:sourceRef,       :ref)
+    define_attribute(:sourceObject,    :string)
+    define_attribute(:destinationFile, :string, :required => :true)
+    define_attribute(:title,           :string)
+    define_attribute(:autoRepublish,   :bool,   :default => false)
+    define_element_name 'control'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItems-1.html
+  class WebPublishingItems < OOXMLObject
+    define_child_node(RubyXL::EmbeddedControl, :collection => :with_count, :accessor => :web_items)
+    define_element_name 'webPublishItems'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
   class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
@@ -459,9 +499,9 @@ module RubyXL
     define_child_node(RubyXL::RID, :node_name => :legacyDrawing)
     define_child_node(RubyXL::RID, :node_name => :legacyDrawingHF)
     define_child_node(RubyXL::RID, :node_name => :picture)
-#    ssml:oleObjects [0..1]    OLE Objects
-    define_child_node(RubyXL::EmbeddedControls, :accessor => :controls_container)
-#    ssml:webPublishItems [0..1]    Web Publishing Items
+    define_child_node(RubyXL::OLEObjects,         :accessor => :ole_object_container)
+    define_child_node(RubyXL::EmbeddedControls,   :accessor => :controls_container)
+    define_child_node(RubyXL::WebPublishingItems, :accessor => :web_items_container)
     define_child_node(RubyXL::TableParts)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'worksheet'
