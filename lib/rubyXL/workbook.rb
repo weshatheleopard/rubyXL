@@ -14,7 +14,7 @@ module RubyXL
     include Enumerable
     attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at, :modified_at, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :printer_settings, :macros
+      :worksheet_rels, :chartsheet_rels, :printer_settings, :macros
 
     attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
                   :relationship_container
@@ -45,6 +45,7 @@ module RubyXL
       @charts              = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
       @chart_rels          = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
       @worksheet_rels      = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
+      @chartsheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'chartsheets', '_rels'))
       @theme               = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros              = RubyXL::GenericStorage.new('xl').binary
@@ -121,7 +122,7 @@ module RubyXL
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,
-          @printer_settings, @worksheet_rels, @macros ].each { |s| s.add_to_zip(zipfile) }
+          @printer_settings, @worksheet_rels, @chartsheet_rels, @macros ].each { |s| s.add_to_zip(zipfile) }
 
         @worksheets.each_index { |i| Writer::WorksheetWriter.new(self, i).add_to_zip(zipfile) }
       }
