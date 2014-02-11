@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
 
@@ -14,7 +15,7 @@ module RubyXL
   class Cell < OOXMLObject
     define_attribute(:r,   :ref)
     define_attribute(:s,   :int,    :accessor => :style_index)
-    define_attribute(:t,   :string, :accessor => :datatype, :default => 'n', :values => %w{ b n e s str inlineStr })
+    define_attribute(:t,   RubyXL::ST_CellType, :accessor => :datatype, :default => 'n', )
     define_attribute(:cm,  :int)
     define_attribute(:vm,  :int)
     define_attribute(:ph,  :bool)

@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 
 module RubyXL
 
@@ -15,10 +16,8 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_alignment-1.html
   class Alignment < OOXMLObject
-    define_attribute(:horizontal,      :string,
-                       :values => %w{general left center right fill justify centerContinuous distributed})
-    define_attribute(:vertical,        :string,
-                       :values => %w{top center bottom justify distributed})
+    define_attribute(:horizontal,      RubyXL::ST_HorizontalAlignment)
+    define_attribute(:vertical,        RubyXL::ST_VerticalAlignment)
     define_attribute(:textRotation,    :int)
     define_attribute(:wrapText,        :bool)
     define_attribute(:indent,          :int)

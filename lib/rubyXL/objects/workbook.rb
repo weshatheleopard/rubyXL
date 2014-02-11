@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
@@ -26,16 +27,14 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookPr-1.html
   class WorkbookProperties < OOXMLObject
     define_attribute(:date1904,                   :bool,   :default => false)
-    define_attribute(:showObjects,                :string, :default => 'all', :values =>
-                       %w{ all placeholders none } )
+    define_attribute(:showObjects,                RubyXL::ST_Objects, :default => 'all')
     define_attribute(:showBorderUnselectedTables, :bool,   :default => true)
     define_attribute(:filterPrivacy,              :bool,   :default => false)
     define_attribute(:promptedSolutions,          :bool,   :default => false)
     define_attribute(:showInkAnnotation,          :bool,   :default => true)
     define_attribute(:backupFile,                 :bool,   :default => false)
     define_attribute(:saveExternalLinkValues,     :bool,   :default => true)
-    define_attribute(:updateLinks,                :string, :default => 'userSet', :values =>
-                       %w{ userSet never always } )
+    define_attribute(:updateLinks,                RubyXL::ST_UpdateLinks, :default => 'userSet')
     define_attribute(:hidePivotFieldList,         :bool,   :default => false)
     define_attribute(:showPivotChartFilter,       :bool,   :default => false)
     define_attribute(:allowRefreshQuery,          :bool,   :default => false)
@@ -60,8 +59,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookView-1.html
   class WorkbookView < OOXMLObject
-    define_attribute(:visibility,             :string, :default => 'visible', :values =>
-                       %w{ visible hidden veryHidden } )
+    define_attribute(:visibility,             RubyXL::ST_Visibility, :default => 'visible')
     define_attribute(:minimized,              :bool,   :default => false)
     define_attribute(:showHorizontalScroll,   :bool,   :default => true)
     define_attribute(:showVerticalScroll,     :bool,   :default => true)
@@ -87,9 +85,8 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheet-1.html
   class Sheet < OOXMLObject
     define_attribute(:name,            :string, :required => true)
-    define_attribute(:sheetId,         :int, :required => true)
-    define_attribute(:state,             :string, :default => 'visible', :values =>
-                       %w{ visible hidden veryHidden } )
+    define_attribute(:sheetId,         :int,    :required => true)
+    define_attribute(:state,           RubyXL::ST_Visibility, :default => 'visible')
     define_attribute(:'r:id',          :string, :required => true)
     define_element_name 'sheet'
   end
@@ -151,17 +148,44 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCaches-1.html
   class PivotCaches < OOXMLObject
-    define_child_node(RubyXL::DefinedName, :collection => true, :accessor => :pivot_caches)
+    define_child_node(RubyXL::PivotCache, :collection => true, :accessor => :pivot_caches)
     define_element_name 'pivotCaches'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_oleSize-1.html
+  class OLESize < OOXMLObject
+    define_attribute(:ref, :ref, :required => true)
+    define_element_name 'oleSize'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_fileRecoveryPr-1.html
+  class FileRecoveryProperties < OOXMLObject
+    define_attribute(:autoRecover,     :bool, :default => true)
+    define_attribute(:crashSave,       :bool, :default => false)
+    define_attribute(:dataExtractLoad, :bool, :default => false)
+    define_attribute(:repairLoad,      :bool, :default => false)
+    define_element_name 'fileRecoveryPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishing-1.html
+  class WebPublishingProperties < OOXMLObject
+    define_attribute(:css,              :bool,   :default => true)
+    define_attribute(:thicket,          :bool,   :default => true)
+    define_attribute(:longFileNames,    :bool,   :default => true)
+    define_attribute(:vml,              :bool,   :default => false)
+    define_attribute(:allowPng,         :bool,   :default => false)
+    define_attribute(:targetScreenSize, RubyXL::ST_TargetScreenSize, :default => '800x600')
+    define_attribute(:dpi,              :int,    :default => 96)
+    define_attribute(:codePage,         :int)
+    define_element_name 'webPublishing'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_calcPr-1.html
   class CalculationProperties < OOXMLObject
-    define_attribute(:calcId,   :int)
-    define_attribute(:calcMode,              :string, :default => 'auto', :values =>
-                       %w{ manual auto autoNoTable } )
+    define_attribute(:calcId,                :int)
+    define_attribute(:calcMode,              RubyXL::ST_CalcMode, :default => 'auto')
     define_attribute(:fullCalcOnLoad,        :bool,   :default => false)
-    define_attribute(:refMode,               :string, :default => 'A1', :values =>
-                       %w{ A1 R1C1 } )
+    define_attribute(:refMode,               RubyXL::ST_RefMode, :default => 'A1')
     define_attribute(:iterate,               :bool,   :default => false)
     define_attribute(:iterateCount,          :int,    :default => 100)
     define_attribute(:iterateDelta,          :float,  :default => 0.001)
@@ -174,6 +198,94 @@ module RubyXL
     define_element_name 'calcPr'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishObject-1.html
+  class WebPublishObject < OOXMLObject
+    define_attribute(:id,              :int,    :required => true)
+    define_attribute(:divId,           :string, :required => true)
+    define_attribute(:sourceObject,    :string)
+    define_attribute(:destinationFile, :string, :required => true)
+    define_attribute(:title,           :string)
+    define_attribute(:autoRepublish,   :bool,   :default => false)
+    define_element_name 'webPublishObject'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishObjects-1.html
+  class WebPublishObjectContainer < OOXMLObject
+    define_child_node(RubyXL::WebPublishObject, :collection => :with_count, :node_name => :web_publish_objects)
+    define_element_name 'webPublishObjects'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagPr-1.html
+  class SmartTagProperties < OOXMLObject
+    define_attribute(:embed, :bool,   :default => false)
+    define_attribute(:show,  RubyXL::ST_SmartTagShow, :default => 'all')
+    define_element_name 'smartTagPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagType-1.html
+  class SmartTagType < OOXMLObject
+    define_attribute(:namespaceUri, :string)
+    define_attribute(:name,         :string)
+    define_attribute(:url,          :string)
+    define_element_name 'smartTagType'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagTypes-1.html
+  class SmartTagTypeContainer < OOXMLObject
+    define_child_node(RubyXL::SmartTagType, :collection => :true, :node_name => :smart_tag_types)
+    define_element_name 'smartTagTypes'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_functionGroup-1.html
+  class FunctionGroup < OOXMLObject
+    define_attribute(:name, :string)
+    define_element_name 'functionGroup'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_functionGroups-1.html
+  class FunctionGroupContainer < OOXMLObject
+    define_attribute(:builtInGroupCountpi, :int, :default => 16)
+    define_child_node(RubyXL::FunctionGroup, :collection => :true, :node_name => :function_group)
+    define_element_name 'functionGroups'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_customWorkbookView-1.html
+  class CustomWorkbookView < OOXMLObject
+    define_attribute(:name,                 :string, :required => true)
+    define_attribute(:guid,                 :string, :required => true)
+    define_attribute(:autoUpdate,           :bool,   :default => false)
+    define_attribute(:mergeInterval,        :int)
+    define_attribute(:changesSavedWin,      :bool,   :default => false)
+    define_attribute(:onlySync,             :bool,   :default => false)
+    define_attribute(:personalView,         :bool,   :default => false)
+    define_attribute(:includePrintSettings, :bool,   :default => true)
+    define_attribute(:includeHiddenRowCol,  :bool,   :default => true)
+    define_attribute(:maximized,            :bool,   :default => false)
+    define_attribute(:minimized,            :bool,   :default => false)
+    define_attribute(:showHorizontalScroll, :bool,   :default => true)
+    define_attribute(:showVerticalScroll,   :bool,   :default => true)
+    define_attribute(:showSheetTabs,        :bool,   :default => true)
+    define_attribute(:xWindow,              :int,    :default => 0)
+    define_attribute(:yWindow,              :int,    :default => 0)
+    define_attribute(:windowWidth,          :int)
+    define_attribute(:windowHeight,         :int)
+    define_attribute(:tabRatio,             :int,    :default => 600)
+    define_attribute(:activeSheetId,        :int)
+    define_attribute(:showFormulaBar,       :bool,   :default => true)
+    define_attribute(:showStatusbar,        :bool,   :default => true)
+    define_attribute(:showComments,         RubyXL::ST_Comments, :default => 'commIndicator')
+    define_attribute(:showObjects,          RubyXL::ST_Objects,  :default => 'all')
+    define_child_node(RubyXL::ExtensionStorageArea)
+    define_element_name 'customWorkbookView'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_customWorkbookViews-1.html
+  class CustomWorkbookViewContainer < OOXMLObject
+    define_child_node(RubyXL::CustomWorkbookView, :collection => true, :accessor => :custom_views)
+    define_element_name 'customWorkbookView'
+  end
+
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
     define_child_node(RubyXL::FileVersion)
@@ -182,18 +294,18 @@ module RubyXL
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
     define_child_node(RubyXL::Sheets,             :accessor => :worksheet_container)
-#    ssml:functionGroups [0..1]    Function Groups
+    define_child_node(RubyXL::FunctionGroupContainer, :accessor => :function_group_container)
     define_child_node(RubyXL::ExternalReferences, :accessor => :ext_ref_container)
     define_child_node(RubyXL::DefinedNames,       :accessor => :defined_name_container)
     define_child_node(RubyXL::CalculationProperties)
-#    ssml:oleSize [0..1]    OLE Size
-#    ssml:customWorkbookViews [0..1]    Custom Workbook Views
+    define_child_node(RubyXL::OLESize)
+    define_child_node(RubyXL::CustomWorkbookViewContainer, :accessor => :custom_view_container)
     define_child_node(RubyXL::PivotCaches, :accessor => :pivot_cache_container)
-#    ssml:smartTagPr [0..1]    Smart Tag Properties
-#    ssml:smartTagTypes [0..1]    Smart Tag Types
-#    ssml:webPublishing [0..1]    Web Publishing Properties
-#    ssml:fileRecoveryPr [0..*]    File Recovery Properties
-#    ssml:webPublishObjects [0..1]    Web Publish Objects
+    define_child_node(RubyXL::SmartTagProperties)
+    define_child_node(RubyXL::SmartTagTypeContainer)
+    define_child_node(RubyXL::WebPublishingProperties)
+    define_child_node(RubyXL::FileRecoveryProperties)
+    define_child_node(RubyXL::WebPublishObjectContainer)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_child_node(RubyXL::AlternateContent)
 

@@ -67,17 +67,7 @@
 
     
     
-    <!-- Method Quickref -->
-<div id="method-list-section" class="nav-section">
-  <h3>Methods</h3>
-
-  <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
-    
-  </ul>
-</div>
-
   </div>
 </nav>
 
@@ -88,9 +78,6 @@
 
   <section class="description">
     
-<p><a
-href="http://www.schemacentral.com/sc/ooxml/e-ssml_selection-1.html">www.schemacentral.com/sc/ooxml/e-ssml_selection-1.html</a></p>
-
   </section>
 
   
@@ -106,55 +93,6 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_selection-1.html">www.schemac
     
 
     
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Instance Methods</h3>
-       </header>
-
-    
-      <div id="method-i-before_write_xml" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">before_write_xml</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_view.rb, line 25</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
-  <span class="ruby-comment"># Normally, rindex of activeCellId in sqref:</span>
-  <span class="ruby-comment"># &lt;selection activeCell=&quot;E12&quot; activeCellId=&quot;9&quot; sqref=&quot;A4 B6 C8 D10 E12 A4 B6 C8 D10 E12&quot;/&gt;</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@active_cell_id</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@active_cell</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@sqref</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-comment"># But, things can be more complex:</span>
-    <span class="ruby-comment"># &lt;selection activeCell=&quot;E8&quot; activeCellId=&quot;2&quot; sqref=&quot;A4:B4 C6:D6 E8:F8&quot;/&gt;</span>
-    <span class="ruby-comment"># Not using .reverse.each here to avoid memory reallocation.</span>
-    <span class="ruby-ivar">@sqref</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ref</span>, <span class="ruby-identifier">ind</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@active_cell_id</span> = <span class="ruby-identifier">ind</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">ref</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-ivar">@active_cell</span>) } 
-  <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">true</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
   </section>
 </main>
 
