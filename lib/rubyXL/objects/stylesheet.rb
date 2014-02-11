@@ -66,22 +66,22 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellStyleXfs-1.html
-  class CellStyleXFContainer < OOXMLObject
-    define_child_node(RubyXL::XF, :collection => :with_count, :accessor => :cell_style_xfs)
+  class CellStyleXFs < OOXMLContainerObject
+    define_child_node(RubyXL::XF, :collection => :with_count)
     define_element_name 'cellStyleXfs'
 
     def self.defaults
-      self.new(:cell_style_xfs => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ])
+      self.new(:_ => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ])
     end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellXfs-1.html
-  class CellXFContainer < OOXMLObject
-    define_child_node(RubyXL::XF, :collection => :with_count, :accessor => :xfs)
+  class CellXFs < OOXMLContainerObject
+    define_child_node(RubyXL::XF, :collection => :with_count)
     define_element_name 'cellXfs'
 
     def self.defaults
-      self.new(:xfs => [ 
+      self.new(:_ => [ 
                  RubyXL::XF.new(
                    :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
                  )
@@ -90,12 +90,12 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellStyles-1.html
-  class CellStyleContainer < OOXMLObject
-    define_child_node(RubyXL::CellStyle, :collection => :with_count, :accessor => :cell_styles)
+  class CellStyles < OOXMLContainerObject
+    define_child_node(RubyXL::CellStyle, :collection => :with_count)
     define_element_name 'cellStyles'
 
     def self.defaults
-      self.new(:cell_styles => [ RubyXL::CellStyle.new(:builtin_id => 0, :name => 'Normal', :xf_id => 0) ])
+      self.new(:_ => [ RubyXL::CellStyle.new(:builtin_id => 0, :name => 'Normal', :xf_id => 0) ])
     end
   end
 
@@ -161,12 +161,12 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html
   class Stylesheet < OOXMLTopLevelObject
     define_child_node(RubyXL::NumberFormatContainer, :accessor => :number_format_container)
-    define_child_node(RubyXL::FontContainer,         :accessor => :font_container)
-    define_child_node(RubyXL::FillContainer,         :accessor => :fill_container)
-    define_child_node(RubyXL::BorderContainer,       :accessor => :border_container)
-    define_child_node(RubyXL::CellStyleXFContainer,  :accessor => :cell_style_xf_container)
-    define_child_node(RubyXL::CellXFContainer,       :accessor => :cell_xf_container)
-    define_child_node(RubyXL::CellStyleContainer,    :accessor => :cell_style_container)
+    define_child_node(RubyXL::Fonts)
+    define_child_node(RubyXL::Fills)
+    define_child_node(RubyXL::Borders)
+    define_child_node(RubyXL::CellStyleXFs)
+    define_child_node(RubyXL::CellXFs)
+    define_child_node(RubyXL::CellStyles)
     define_child_node(RubyXL::DXFs)
     define_child_node(RubyXL::TableStyles)
     define_child_node(RubyXL::Colors)
@@ -188,12 +188,12 @@ module RubyXL
     end
 
     def self.default
-      self.new(:cell_xf_container       => RubyXL::CellXFContainer.defaults,
-               :font_container          => RubyXL::FontContainer.defaults,
-               :fill_container          => RubyXL::FillContainer.defaults,
-               :border_container        => RubyXL::BorderContainer.defaults, 
-               :cell_style_container    => RubyXL::CellStyleContainer.defaults,
-               :cell_style_xf_container => RubyXL::CellStyleXFContainer.defaults)
+      self.new(:fonts          => RubyXL::Fonts.defaults,
+               :fills          => RubyXL::Fills.defaults,
+               :borders        => RubyXL::Borders.defaults,
+               :cell_xfs       => RubyXL::CellXFs.defaults,
+               :cell_styles    => RubyXL::CellStyles.defaults,
+               :cell_style_xfs => RubyXL::CellStyleXFs.defaults)
     end
 
     def get_number_format_by_id(format_id)

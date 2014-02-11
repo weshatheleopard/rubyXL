@@ -227,7 +227,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_rowBreaks-1.html
-  class BreakList < OOXMLObject
+  class BreakList < OOXMLContainerObject
     define_attribute(:manualBreakCount, :int, :default => 0)
     define_child_node(RubyXL::Break, :collection => :with_count)
   end
@@ -263,11 +263,11 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_scenarios-1.html
-  class ScenarioContainer < OOXMLObject
+  class Scenarios < OOXMLContainerObject
     define_attribute(:current, :int)
     define_attribute(:show,    :int)
     define_attribute(:sqref,   :sqref)
-    define_child_node(RubyXL::Scenario, :collection => true, :accessor => :scenarios)
+    define_child_node(RubyXL::Scenario, :collection => true)
     define_element_name 'scenarios'
   end
 
@@ -288,8 +288,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_ignoredErrors-1.html
-  class IgnoredErrorContainer < OOXMLObject
-    define_child_node(RubyXL::IgnoredError, :collection => true, :accessor => :ignored_errors)
+  class IgnoredErrors < OOXMLContainerObject
+    define_child_node(RubyXL::IgnoredError, :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'ignoredErrors'
   end
@@ -305,8 +305,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_hyperlinks-1.html
-  class HyperlinkContainer < OOXMLObject
-    define_child_node(RubyXL::Hyperlink, :colection => true, :accessor => :hyperlinks)
+  class Hyperlinks < OOXMLContainerObject
+    define_child_node(RubyXL::Hyperlink, :colection => true)
     define_element_name 'hyperlinks'
   end
 
@@ -323,8 +323,8 @@ module RubyXL
   end                              
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObjects-1.html
-  class OLEObjects < OOXMLObject
-    define_child_node(RubyXL::OLEObject, :colection => true, :accessor => :ole_objects)
+  class OLEObjects < OOXMLContainerObject
+    define_child_node(RubyXL::OLEObject, :colection => true)
     define_element_name 'oleObjects'
   end                              
 
@@ -338,8 +338,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataRefs-1.html
-  class DataConsolidationReferences < OOXMLObject
-    define_child_node(RubyXL::DataConsolidationReference, :collection => :with_count, :accessor => :data_cons_ref)
+  class DataConsolidationReferences < OOXMLContainerObject
+    define_child_node(RubyXL::DataConsolidationReference, :collection => :with_count)
     define_element_name 'dataRefs'
   end
 
@@ -349,7 +349,7 @@ module RubyXL
     define_attribute(:leftLabels, :bool, :default => false)
     define_attribute(:topLabels,  :bool, :default => false)
     define_attribute(:link,       :bool, :default => false)
-    define_child_node(RubyXL::DataConsolidationReferences, :accessor => :data_cons_ref_container)
+    define_child_node(RubyXL::DataConsolidationReferences)
     define_element_name 'dataConsolidate'
   end
 
@@ -420,8 +420,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customSheetViews-1.html
-  class CustomSheetViews < OOXMLObject
-    define_child_node(RubyXL::CustomSheetView, :collection => true, :accessor => :custom_sheet_view)
+  class CustomSheetViews < OOXMLContainerObject
+    define_child_node(RubyXL::CustomSheetView, :collection => true)
     define_element_name 'customSheetViews'
   end
 
@@ -434,8 +434,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_controls-1.html
-  class EmbeddedControlContainer < OOXMLObject
-    define_child_node(RubyXL::EmbeddedControl, :collection => true, :accessor => :controls)
+  class EmbeddedControls < OOXMLContainerObject
+    define_child_node(RubyXL::EmbeddedControl, :collection => true)
     define_element_name 'controls'
   end
 
@@ -446,8 +446,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellWatches-1.html
-  class CellWatchContainer < OOXMLObject
-    define_child_node(RubyXL::CellWatch, :collection => true, :accessor => :cell_watches)
+  class CellWatches < OOXMLContainerObject
+    define_child_node(RubyXL::CellWatch, :collection => true)
     define_element_name 'cellWatches'
   end
 
@@ -468,15 +468,15 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTags-1.html
-  class CellSmartTagContainer < OOXMLObject
+  class CellSmartTags < OOXMLObject
     define_attribute(:r, :ref, :accessor => :ref)
-    define_child_node(RubyXL::CellSmartTag, :collection => :true, :accessor => :cell_smart_tags)
+    define_child_node(RubyXL::CellSmartTag, :collection => :true)
     define_element_name 'cellSmartTags'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTags-1.html
-  class SmartTagContainer < OOXMLObject
-    define_child_node(RubyXL::CellSmartTagContainer, :collection => :true, :accessor => :smart_tags)
+  class SmartTags < OOXMLContainerObject
+    define_child_node(RubyXL::CellSmartTags, :collection => :true)
     define_element_name 'smartTags'
   end
 
@@ -488,8 +488,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customProperties-1.html
-  class CustomPropertyContainer < OOXMLObject
-    define_child_node(RubyXL::CustomProperty, :collection => :true, :accessor => :custom_props)
+  class CustomProperties < OOXMLContainerObject
+    define_child_node(RubyXL::CustomProperty, :collection => :true)
     define_element_name 'customProperties'
   end
 
@@ -522,8 +522,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_references-1.html
-  class PivotReferenceContainer < OOXMLObject
-    define_child_node(RubyXL::PivotReference, :collection => :with_count, :accessor => :pivot_references)
+  class PivotReferences < OOXMLContainerObject
+    define_child_node(RubyXL::PivotReference, :collection => :with_count)
     define_element_name 'references'
   end
 
@@ -541,7 +541,7 @@ module RubyXL
     define_attribute(:collapsedLevelsAreSubtotals, :bool,   :default => false)
     define_attribute(:axis,          RubyXL::ST_Axis)
     define_attribute(:fieldPosition, :int,    :default => 0)
-    define_child_node(RubyXL::PivotReferenceContainer, :accessor => :pivot_reference_container)
+    define_child_node(RubyXL::PivotReferences)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'pivotArea'
   end
@@ -591,57 +591,57 @@ module RubyXL
     define_attribute(:zoomScalePageLayoutView,  :bool,   :default => 0)
     define_attribute(:workbookViewId,           :int,    :required => true, :default => 0 )
     define_child_node(RubyXL::Pane)
-    define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections )
+    define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections)
     define_child_node(RubyXL::PivotTableSelection, :collection => true, :accessor => :pivot_table_selections )
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetView'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-3.html
-  class WorksheetViews < OOXMLObject
-    define_child_node(RubyXL::WorksheetView, :collection => true, :accessor => :sheet_views)
+  class WorksheetViews < OOXMLContainerObject
+    define_child_node(RubyXL::WorksheetView, :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetViews'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/s-sml-sheet.xsd.html
+  # http://www.schemacentral.com/sc/ooxml/e-ssml_worksheet.html
   class Worksheet < OOXMLTopLevelObject
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
-    define_child_node(RubyXL::WorksheetViews,           :accessor => :sheet_view_container)
+    define_child_node(RubyXL::WorksheetViews)
     define_child_node(RubyXL::WorksheetFormatProperties)
     define_child_node(RubyXL::ColumnRanges)
     define_child_node(RubyXL::SheetData)
     define_child_node(RubyXL::SheetCalculationProperties)
     define_child_node(RubyXL::WorksheetProtection)
     define_child_node(RubyXL::ProtectedRanges)
-    define_child_node(RubyXL::ScenarioContainer)
+    define_child_node(RubyXL::Scenarios)
     define_child_node(RubyXL::AutoFilter)
     define_child_node(RubyXL::SortState)
     define_child_node(RubyXL::DataConsolidate)
-    define_child_node(RubyXL::CustomSheetViews,         :accessor => :custom_sheet_view_container)
-    define_child_node(RubyXL::MergedCells,              :accessor => :merged_cells)
-    define_child_node(RubyXL::PhoneticProperties,       :accessor => :custom_props_container)
+    define_child_node(RubyXL::CustomSheetViews)
+    define_child_node(RubyXL::MergedCells, :accessor => :merged_cells)
+    define_child_node(RubyXL::PhoneticProperties)
     define_child_node(RubyXL::ConditionalFormatting)
     define_child_node(RubyXL::DataValidations)
-    define_child_node(RubyXL::HyperlinkContainer)
+    define_child_node(RubyXL::Hyperlinks)
     define_child_node(RubyXL::PrintOptions)
     define_child_node(RubyXL::PageMargins)
     define_child_node(RubyXL::PageSetup)
     define_child_node(RubyXL::HeaderFooterSettings)
     define_child_node(RubyXL::BreakList,                :node_name => :rowBreaks)
     define_child_node(RubyXL::BreakList,                :node_name => :colBreaks)
-    define_child_node(RubyXL::CustomPropertyContainer)
-    define_child_node(RubyXL::CellWatchContainer,       :accessor => :cell_watch_container)
-    define_child_node(RubyXL::IgnoredErrorContainer)
-    define_child_node(RubyXL::SmartTagContainer,        :accessor => :smart_tag_container)
+    define_child_node(RubyXL::CustomProperties)
+    define_child_node(RubyXL::CellWatches)
+    define_child_node(RubyXL::IgnoredErrors)
+    define_child_node(RubyXL::SmartTags)
     define_child_node(RubyXL::RID,        :node_name => :drawing)
     define_child_node(RubyXL::RID,        :node_name => :legacyDrawing)
     define_child_node(RubyXL::RID,        :node_name => :legacyDrawingHF)
     define_child_node(RubyXL::RID,        :node_name => :picture)
-    define_child_node(RubyXL::OLEObjects, :accessor  => :ole_object_container)
-    define_child_node(RubyXL::EmbeddedControlContainer,   :accessor => :controls_container)
-    define_child_node(RubyXL::WebPublishingItemContainer, :accessor => :web_items_container)
+    define_child_node(RubyXL::OLEObjects)
+    define_child_node(RubyXL::EmbeddedControls)
+    define_child_node(RubyXL::WebPublishingItems)
     define_child_node(RubyXL::TableParts)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'worksheet'

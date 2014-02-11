@@ -52,12 +52,12 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_borders-1.html
-  class BorderContainer < OOXMLObject
-    define_child_node(RubyXL::Border, :collection => :with_count, :accessor => :borders)
+  class Borders < OOXMLContainerObject
+    define_child_node(RubyXL::Border, :collection => :with_count)
     define_element_name 'borders'
 
     def self.defaults
-      self.new(:borders => [ RubyXL::Border.new ])
+      self.new(:_ => [ RubyXL::Border.new ])
     end
 
   end

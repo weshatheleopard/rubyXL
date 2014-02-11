@@ -39,12 +39,12 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fills-1.html
-  class FillContainer < OOXMLObject
-    define_child_node(RubyXL::Fill, :collection => :with_count, :accessor => :fills)
+  class Fills < OOXMLContainerObject
+    define_child_node(RubyXL::Fill, :collection => :with_count)
     define_element_name 'fills'
 
     def self.defaults
-      self.new(:fills => [
+      self.new(:_ => [
                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
                  RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125'))
                ])

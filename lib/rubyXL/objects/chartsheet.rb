@@ -49,8 +49,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-4.html
-  class ChartsheetViewContainer < OOXMLObject
-    define_child_node(RubyXL::ChartsheetView, :collection => true, :accessor => :sheet_views)
+  class ChartsheetViews < OOXMLObject
+    define_child_node(RubyXL::ChartsheetView, :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetViews'
   end
@@ -58,9 +58,9 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_chartsheet.html
   class Chartsheet < OOXMLTopLevelObject
     define_child_node(RubyXL::ChartsheetProperties)
-    define_child_node(RubyXL::ChartsheetViewContainer, :accessor => :sheet_view_container)
+    define_child_node(RubyXL::ChartsheetViews)
     define_child_node(RubyXL::ChartsheetProtection)
-    define_child_node(RubyXL::CustomSheetViews,   :accessor => :custom_sheet_view_container)
+    define_child_node(RubyXL::CustomSheetViews)
     define_child_node(RubyXL::PageMargins)
     define_child_node(RubyXL::ChartsheetPageSetup)
     define_child_node(RubyXL::HeaderFooterSettings)
@@ -68,7 +68,7 @@ module RubyXL
     define_child_node(RubyXL::RID, :node_name => :legacyDrawing)
     define_child_node(RubyXL::RID, :node_name => :legacyDrawingHF)
     define_child_node(RubyXL::RID, :node_name => :picture)
-    define_child_node(RubyXL::WebPublishingItemContainer, :accessor => :web_items_container)
+    define_child_node(RubyXL::WebPublishingItems)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'chartsheet'
     set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',

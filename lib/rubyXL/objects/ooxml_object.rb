@@ -32,6 +32,7 @@ module RubyXL
     #   * +:accessor+ - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
     #   * +:default+ - Value this attribute defaults to if not explicitly provided.
     #   * +:required+ - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, +:default+ is written instead.
+    #   * +:computed+ - Do not store this attribute on +parse+, but do call the object-provided read accessor on +write_xml+.
     # ==== Examples
     #   define_attribute(:outline, :bool, :default => true)
     # A <tt>Boolean</tt> attribute 'outline' with default value +true+ will be accessible by calling +obj.outline+
@@ -39,32 +40,16 @@ module RubyXL
     # An <tt>Integer</tt> attribute 'uniqueCount' accessible as +obj.unique_count+
     #   define_attribute(:_,  :string, :accessor => :expression)
     # The value of the element will be accessible as a <tt>String</tt> by calling +obj.expression+
-    #   define_attribute(:errorStyle, :string, :default => 'stop', :values => %w{ stop warning information })
+    #   define_attribute(:errorStyle, %w{ stop warning information }, :default => 'stop',)
     # A <tt>String</tt> attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are <tt>"stop"</tt>, <tt>"warning"</tt>, <tt>"information"</tt>
     def define_attribute(attr_name, attr_type, extra_params = {})
       attrs = obtain_class_variable(:@@ooxml_attributes)
-
-      accessor = extra_params[:accessor] || accessorize(attr_name)
-      attr_name = attr_name.to_s
-
-      attr_hash = {
-        :accessor   => accessor,
-        :attr_type  => attr_type,
-        :optional   => !extra_params[:required], 
-        :default    => extra_params[:default],
-      }
-
-      if attr_type.is_a?(Array) then
-        attr_hash[:values] = attr_type
-        attr_hash[:attr_type] = :string
-      end
-
-
-      attrs[attr_name] = attr_hash
-
-      self.send(:attr_accessor, accessor)
+      attr_hash = extra_params.merge({ :attr_type => attr_type })
+      attr_hash[:accessor] ||= accessorize(attr_name)
+      attrs[attr_name.to_s] = attr_hash
+      self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
     end
-    
+   
     # Defines a child node of OOXML object.
     # === Parameters
     # * +klass+ - Class (descendant of RubyXL::OOXMLObject) of the child nodes. Child node objects will be produced by calling +parse+ method of that class.
@@ -96,13 +81,16 @@ module RubyXL
         :accessor => accessor
       }
 
-      if extra_params[:collection] == :with_count then
-        define_attribute(:_count, :int, :required => true)
-      end
+      define_count_attribute if extra_params[:collection] == :with_count
 
       self.send(:attr_accessor, accessor)
     end
 
+    def define_count_attribute
+      define_attribute(:count, :int, :required => true)
+    end
+    private :define_count_attribute
+ 
     # Defines the name of the element that represents the current OOXML object. Should only be used once per object.
     # In case of different objects represented by the same class in different parts of OOXML tree, +:node_name+ 
     # extra parameter can be used to override the default element name.
@@ -146,7 +134,7 @@ module RubyXL
 
         next if attr_params.nil?
         # raise "Unknown attribute: #{attr_name}" if attr_params.nil?
-        process_attribute(obj, attr.value, attr_params)
+        process_attribute(obj, attr.value, attr_params) unless attr_params[:computed]
       }
 
       known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
@@ -198,6 +186,7 @@ module RubyXL
               when :int    then Integer(raw_value)
               when :float  then Float(raw_value)
               when :string then raw_value
+              when Array   then raw_value # Case of Simple Types
               when :sqref  then RubyXL::Sqref.new(raw_value)
               when :ref    then RubyXL::Reference.new(raw_value)
               when :bool   then ['1', 'true'].include?(raw_value)
@@ -215,6 +204,25 @@ module RubyXL
     end
     private :obtain_class_variable
 
+    def initialize(params = {})
+      obtain_class_variable(:@@ooxml_attributes).each_value { |v|
+        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
+      }
+
+      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
+
+        initial_value =
+          if params.has_key?(v[:accessor]) then params[v[:accessor]]
+          elsif v[:is_array] then [] # TODO: probavly should initialize with container object instead
+          else nil
+          end
+
+        instance_variable_set("@#{v[:accessor]}", initial_value)
+      }
+
+      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
+    end
+
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
     # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
     # returns +false+, an empty string is returned (rather than +nil+, so Nokogiri::XML's <tt>&lt;&lt;</tt> operator
@@ -225,7 +233,7 @@ module RubyXL
     # ==== Examples
     #   obj.write_xml
     # Creates a new Nokogiti::XML and 
-    def write_xml(xml = nil, node_name_override = nil)
+    def write_xml(xml = nil, node_name_override = nil, flag = false)
       if xml.nil? then
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
         seed_xml.encoding = 'UTF-8'
@@ -243,7 +251,7 @@ module RubyXL
         val = self.send(v[:accessor])
 
         if val.nil? then
-          next if v[:optional]
+          next unless v[:required]
           val = v[:default]
         end
 
@@ -259,38 +267,27 @@ module RubyXL
 
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
+
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
-        node_obj = if (self.is_a?(RubyXL::OOXMLContainerObject)) then self
-                   else self.send(child_node_params[:accessor])
-                   end
+        node_obj = get_node_object(child_node_params)
+        next if node_obj.nil?
 
-        unless node_obj.nil?
-          if child_node_params[:is_array] then node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
-          else elem << node_obj.write_xml(xml, child_node_name)
+        if node_obj.respond_to?(:write_xml)
+          if node_obj.respond_to?(:[]) then 
+            if flag # Pass 2
+              node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
+            else # Pass1 
+              elem << node_obj.write_xml(xml, child_node_name, true)
+            end
+          else
+            elem << node_obj.write_xml(xml, child_node_name)
           end
+        else
+          node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
         end
       }
       elem
-    end
-
-    def initialize(params = {})
-      obtain_class_variable(:@@ooxml_attributes).each_value { |v|
-        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
-      }
-
-      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
-
-        initial_value =
-          if params.has_key?(v[:accessor]) then params[v[:accessor]]
-          elsif v[:is_array] then []
-          else nil
-          end
-
-        instance_variable_set("@#{v[:accessor]}", initial_value)
-      }
-
-      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
 
     def dup
@@ -305,6 +302,11 @@ module RubyXL
     def index_in_collection
       nil
     end
+
+    def get_node_object(child_node_params)
+      self.send(child_node_params[:accessor])
+    end
+    private :get_node_object
 
     # Subclass provided filter to perform last-minute operations (cleanup, count, etc.) immediately prior to write,
     # along with option to terminate the actual write if +false+ is returned (for example, to avoid writing
@@ -332,9 +334,31 @@ module RubyXL
     include OOXMLObjectInstanceMethods
     extend OOXMLObjectClassMethods
 
+    def initialize(params = {})
+      array_content = params.delete(:_)
+      super
+      array_content.each_with_index { |v, i| self[i] = v } if array_content
+    end
+
+    def get_node_object(child_node_params)
+      if child_node_params[:is_array] then self
+      else super
+      end
+    end
+    protected :get_node_object
+
     def before_write_xml
       true
     end
+
+    class << self
+      def define_count_attribute
+        # Count will be inherited from Array. so no need to define it explicitly.
+        define_attribute(:count, :int, :required => true, :computed => true)
+      end
+      protected :define_count_attribute
+    end
+
   end
 
   # Extension class providing functionality for top-level OOXML objects that are represented by
