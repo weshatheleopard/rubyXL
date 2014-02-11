@@ -1,9 +1,5 @@
 module RubyXL
-
-  # Parent class for defining OOXML based objects (not unlike Rails' +ActiveRecord+!)
-  # Most importantly, provides functionality of parsing such objects from XML,
-  # and marshalling them to XML.
-  class OOXMLObject
+  module OOXMLObjectClassMethods
     # Get the value of a [sub]class variable if it exists, or create the respective variable
     # with the passed-in +default+ (or +{}+, if not specified)
     # 
@@ -12,18 +8,13 @@ module RubyXL
     # addressing variable by name creates it in the context of defining class, while calling
     # the setter/getter method addresses it in the context of descendant class, 
     # which is what we need.
-    def self.obtain_class_variable(var_name, default = {})
+    def obtain_class_variable(var_name, default = {})
       if class_variable_defined?(var_name) then 
         self.class_variable_get(var_name)
       else
         self.class_variable_set(var_name, default)
       end
     end
-
-    def obtain_class_variable(var_name, default = {})
-      self.class.obtain_class_variable(var_name, default)
-    end
-    private :obtain_class_variable
 
     # Defines an attribute of OOXML object.
     # === Parameters
@@ -50,7 +41,7 @@ module RubyXL
     # The value of the element will be accessible as a <tt>String</tt> by calling +obj.expression+
     #   define_attribute(:errorStyle, :string, :default => 'stop', :values => %w{ stop warning information })
     # A <tt>String</tt> attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are <tt>"stop"</tt>, <tt>"warning"</tt>, <tt>"information"</tt>
-    def self.define_attribute(attr_name, attr_type, extra_params = {})
+    def define_attribute(attr_name, attr_type, extra_params = {})
       attrs = obtain_class_variable(:@@ooxml_attributes)
 
       accessor = extra_params[:accessor] || accessorize(attr_name)
@@ -94,7 +85,7 @@ module RubyXL
     # Use class RubyXL::BorderEdge when parsing both the elements <tt><left ...></tt> and <tt><right ...></tt> elements.
     #   define_child_node(RubyXL::Font, :collection => :with_count, :accessor => :fonts)
     # Upon writing of the object this was defined on, its <tt>count</tt> attribute will be set to the count of nodes in <tt>fonts</tt> array
-    def self.define_child_node(klass, extra_params = {})
+    def define_child_node(klass, extra_params = {})
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_node_name = (extra_params[:node_name] || klass.class_variable_get(:@@ooxml_tag_name)).to_s
       accessor = (extra_params[:accessor] || accessorize(child_node_name)).to_sym
@@ -119,15 +110,106 @@ module RubyXL
     # * +element_name+
     # ==== Examples
     #   define_element_name 'externalReference'
-    def self.define_element_name(element_name)
+    def define_element_name(element_name)
       self.class_variable_set(:@@ooxml_tag_name, element_name)
     end
 
     # #TODO# This method will eventually be obsoleted.
-    def self.set_countable
+    def set_countable
       self.class_variable_set(:@@ooxml_countable, true)
       self.send(:attr_accessor, :count)
     end
+
+    def parse(node)
+      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
+
+      if node.is_a?(Nokogiri::XML::Document) then
+#        @namespaces = node.namespaces
+        node = node.root
+#        ignorable_attr = node.attributes['Ignorable']
+#        @ignorables << ignorable_attr.value if ignorable_attr
+      end
+
+      obj = self.new
+
+      known_attributes = obtain_class_variable(:@@ooxml_attributes)
+
+      content_params = known_attributes['_']
+      process_attribute(obj, node.text, content_params) if content_params
+
+      node.attributes.each_pair { |attr_name, attr|
+        attr_name = if attr.namespace then "#{attr.namespace.prefix}:#{attr.name}"
+                    else attr.name
+                    end
+
+        attr_params = known_attributes[attr_name]
+
+        next if attr_params.nil?
+        # raise "Unknown attribute: #{attr_name}" if attr_params.nil?
+        process_attribute(obj, attr.value, attr_params)
+      }
+
+      known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
+
+      unless known_child_nodes.empty?
+        node.element_children.each { |child_node|
+
+          child_node_name = if child_node.namespace.prefix then
+                              "#{child_node.namespace.prefix}:#{child_node.name}"
+                            else child_node.name 
+                            end
+
+          child_node_params = known_child_nodes[child_node_name]
+          raise "Unknown child node: #{child_node_name}" if child_node_params.nil?
+          parsed_object = child_node_params[:class].parse(child_node)
+          if child_node_params[:is_array] then
+            index = parsed_object.index_in_collection
+            collection = obj.send(child_node_params[:accessor])
+            if index.nil? then
+              collection << parsed_object
+            else
+              collection[index] = parsed_object
+            end
+          else
+            obj.send("#{child_node_params[:accessor]}=", parsed_object)
+          end
+        }
+      end
+
+      obj
+    end
+
+    private
+    def accessorize(str)
+      acc = str.to_s.dup
+      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+      acc.gsub!(':','_')
+      acc.downcase.to_sym
+    end
+
+    def process_attribute(obj, raw_value, params)
+      val = raw_value &&
+              case params[:attr_type]
+              when :int    then Integer(raw_value)
+              when :float  then Float(raw_value)
+              when :string then raw_value
+              when :sqref  then RubyXL::Sqref.new(raw_value)
+              when :ref    then RubyXL::Reference.new(raw_value)
+              when :bool   then ['1', 'true'].include?(raw_value)
+              end              
+      obj.send("#{params[:accessor]}=", val)
+    end
+
+  end
+
+
+  module OOXMLObjectInstanceMethods
+
+    def obtain_class_variable(var_name, default = {})
+      self.class.obtain_class_variable(var_name, default)
+    end
+    private :obtain_class_variable
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
     # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
@@ -204,65 +286,6 @@ module RubyXL
       instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
 
-    def self.parse(node)
-      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
-
-      if node.is_a?(Nokogiri::XML::Document) then
-#        @namespaces = node.namespaces
-        node = node.root
-#        ignorable_attr = node.attributes['Ignorable']
-#        @ignorables << ignorable_attr.value if ignorable_attr
-      end
-
-      obj = self.new
-
-      known_attributes = obtain_class_variable(:@@ooxml_attributes)
-
-      content_params = known_attributes['_']
-      process_attribute(obj, node.text, content_params) if content_params
-
-      node.attributes.each_pair { |attr_name, attr|
-        attr_name = if attr.namespace then "#{attr.namespace.prefix}:#{attr.name}"
-                    else attr.name
-                    end
-
-        attr_params = known_attributes[attr_name]
-
-        next if attr_params.nil?
-        # raise "Unknown attribute: #{attr_name}" if attr_params.nil?
-        process_attribute(obj, attr.value, attr_params)
-      }
-
-      known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
-
-      unless known_child_nodes.empty?
-        node.element_children.each { |child_node|
-
-          child_node_name = if child_node.namespace.prefix then
-                              "#{child_node.namespace.prefix}:#{child_node.name}"
-                            else child_node.name 
-                            end
-
-          child_node_params = known_child_nodes[child_node_name]
-          raise "Unknown child node: #{child_node_name}" if child_node_params.nil?
-          parsed_object = child_node_params[:class].parse(child_node)
-          if child_node_params[:is_array] then
-            index = parsed_object.index_in_collection
-            collection = obj.send(child_node_params[:accessor])
-            if index.nil? then
-              collection << parsed_object
-            else
-              collection[index] = parsed_object
-            end
-          else
-            obj.send("#{child_node_params[:accessor]}=", parsed_object)
-          end
-        }
-      end
-
-      obj
-    end
-
     def dup
       new_copy = super
       new_copy.count = 0 if obtain_class_variable(:@@ooxml_countable, false)
@@ -287,33 +310,23 @@ module RubyXL
       true 
     end
 
-    private
-    def self.accessorize(str)
-      acc = str.to_s.dup
-      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
-      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
-      acc.gsub!(':','_')
-      acc.downcase.to_sym
-    end
+  end
 
-    def self.process_attribute(obj, raw_value, params)
-      val = raw_value &&
-              case params[:attr_type]
-              when :int    then Integer(raw_value)
-              when :float  then Float(raw_value)
-              when :string then raw_value
-              when :sqref  then RubyXL::Sqref.new(raw_value)
-              when :ref    then RubyXL::Reference.new(raw_value)
-              when :bool   then ['1', 'true'].include?(raw_value)
-              end              
-      obj.send("#{params[:accessor]}=", val)
-    end
+  # Parent class for defining OOXML based objects (not unlike Rails' +ActiveRecord+!)
+  # Most importantly, provides functionality of parsing such objects from XML,
+  # and marshalling them to XML.
+  class OOXMLObject
+    include OOXMLObjectInstanceMethods
+    extend OOXMLObjectClassMethods
+  end
 
+  class OOXMLContainerObject < Array
+    include OOXMLObjectInstanceMethods
+    extend OOXMLObjectClassMethods
   end
 
   # Extension class providing functionality for top-level OOXML objects that are represented by
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
-
   class OOXMLTopLevelObject < OOXMLObject
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
