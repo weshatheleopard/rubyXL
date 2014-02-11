@@ -6,14 +6,10 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidation-1.html
   class DataValidation < OOXMLObject
-    define_attribute(:type,             :string, :default => 'none',
-                        :values => RubyXL::ST_DataValidationType)
-    define_attribute(:errorStyle,       :string, :default => 'stop',
-                        :values => RubyXL::ST_DataValidationErrorStyle)
-    define_attribute(:imeMode,          :string, :default => 'noControl',
-                        :values => RubyXL::ST_DataValidationImeMode)
-    define_attribute(:operator,         :string, :default => 'between',
-                        :values => RubyXL::ST_DataValidationOperator)
+    define_attribute(:type,             RubyXL::ST_DataValidationType,       :default => 'none')
+    define_attribute(:errorStyle,       RubyXL::ST_DataValidationErrorStyle, :default => 'stop')
+    define_attribute(:imeMode,          RubyXL::ST_DataValidationImeMode,    :default => 'noControl')
+    define_attribute(:operator,         RubyXL::ST_DataValidationOperator,   :default => 'between')
     define_attribute(:allowBlank,       :bool, :default => false)
     define_attribute(:showDropDown,     :bool, :default => false)
     define_attribute(:showInputMessage, :bool, :default => false)

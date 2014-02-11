@@ -36,11 +36,11 @@ module RubyXL
     #   * +:sqref+ - RubyXL::Sqref
     #   * +:ref+ - RubyXL::Reference
     #   * +:bool+ - <tt>Boolean</tt> ("1" and "true" convert to +true+, others to +false+)
+    #   * one of +simple_types+ - <tt>String</tt>, plus the list of acceptable values is saved for future validation (not used yet).
     # * +extra_parameters+ - Hash of optional parameters as follows:
     #   * +:accessor+ - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
     #   * +:default+ - Value this attribute defaults to if not explicitly provided.
     #   * +:required+ - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, +:default+ is written instead.
-    #   * +:values+ - List of acceptable values for this attribute (curently not used).
     # ==== Examples
     #   define_attribute(:outline, :bool, :default => true)
     # A <tt>Boolean</tt> attribute 'outline' with default value +true+ will be accessible by calling +obj.outline+
@@ -56,13 +56,20 @@ module RubyXL
       accessor = extra_params[:accessor] || accessorize(attr_name)
       attr_name = attr_name.to_s
 
-      attrs[attr_name] = {
+      attr_hash = {
         :accessor   => accessor,
         :attr_type  => attr_type,
         :optional   => !extra_params[:required], 
         :default    => extra_params[:default],
-        :valies     => extra_params[:values]
       }
+
+      if attr_type.is_a?(Array) then
+        attr_hash[:values] = attr_type
+        attr_hash[:attr_type] = :string
+      end
+
+
+      attrs[attr_name] = attr_hash
 
       self.send(:attr_accessor, accessor)
     end

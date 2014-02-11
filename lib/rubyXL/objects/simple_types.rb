@@ -60,6 +60,8 @@ module RubyXL
   ST_Pane                = %w{ bottomRight topRight bottomLeft topLeft }
   ST_PaneState           = %w{ split frozen frozenSplit }
 
+  ST_Comments            = %w{ commNone commIndicator commIndAndComment }
+
   ST_DataValidationType       = %w{ none whole decimal list date time textLength custom }
   ST_DataValidationErrorStyle = %w{ stop warning information }
   ST_DataValidationImeMode    = %w{ noControl off on disabled hiragana fullKatakana halfKatakana

@@ -12,7 +12,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_patternFill-1.html
   class PatternFill < OOXMLObject
-    define_attribute(:patternType, :string, :values => RubyXL::ST_PatternType)
+    define_attribute(:patternType, RubyXL::ST_PatternType)
     define_child_node(RubyXL::Color, :node_name => :fgColor )
     define_child_node(RubyXL::Color, :node_name => :bgColor )
     define_element_name 'patternFill'
@@ -20,7 +20,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_gradientFill-1.html
   class GradientFill < OOXMLObject
-    define_attribute(:type,   :string, :values => RubyXL::ST_GradientType, :default => 'linear')
+    define_attribute(:type,   RubyXL::ST_GradientType, :default => 'linear')
     define_attribute(:degree, :float,  :default => 0)
     define_attribute(:left,   :float,  :default => 0)
     define_attribute(:right,  :float,  :default => 0)

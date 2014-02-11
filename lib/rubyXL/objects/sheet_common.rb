@@ -6,7 +6,7 @@ module RubyXL
   class WebPublishingItem < OOXMLObject
     define_attribute(:id,              :int,    :required => :true)
     define_attribute(:divId,           :int,    :required => :true)
-    define_attribute(:sourceType,      :string, :required => :true, :values => RubyXL::ST_WebSourceType)
+    define_attribute(:sourceType,      RubyXL::ST_WebSourceType, :required => :true)
     define_attribute(:sourceRef,       :ref)
     define_attribute(:sourceObject,    :string)
     define_attribute(:destinationFile, :string, :required => :true)
@@ -16,7 +16,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItems-1.html
-  class WebPublishingItems < OOXMLObject
+  class WebPublishingItemContainer < OOXMLObject
     define_child_node(RubyXL::WebPublishingItem, :collection => :with_count, :accessor => :web_items)
     define_element_name 'webPublishItems'
   end

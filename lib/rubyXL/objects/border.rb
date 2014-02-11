@@ -4,8 +4,8 @@ require 'rubyXL/objects/simple_types'
 module RubyXL
 
   class BorderEdge < OOXMLObject
-    define_attribute(:style,   :string)
-    define_child_node(RubyXL::Color, :default => 'none', :values => RubyXL::ST_BorderStyle)
+    define_attribute(:style, RubyXL::ST_BorderStyle, :default => 'none')
+    define_child_node(RubyXL::Color)
 
     def ==(other)
       style == other.style
