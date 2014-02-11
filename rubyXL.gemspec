@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "rubyXL"
-  s.version = "2.1.3"
+  s.version = "2.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vivek Bhagwat"]
-  s.date = "2014-02-10"
+  s.date = "2014-02-11"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
   s.email = "bhagwat.vivek@gmail.com"
   s.extra_rdoc_files = [
@@ -114,6 +114,8 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/CustomPropertyContainer.html",
     "rdoc/RubyXL/CustomSheetView.html",
     "rdoc/RubyXL/CustomSheetViews.html",
+    "rdoc/RubyXL/CustomWorkbookView.html",
+    "rdoc/RubyXL/CustomWorkbookViewContainer.html",
     "rdoc/RubyXL/DXF.html",
     "rdoc/RubyXL/DXFs.html",
     "rdoc/RubyXL/DataBar.html",
@@ -133,6 +135,7 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/ExtensionStorageArea.html",
     "rdoc/RubyXL/ExternalReference.html",
     "rdoc/RubyXL/ExternalReferences.html",
+    "rdoc/RubyXL/FieldItem.html",
     "rdoc/RubyXL/FileRecoveryProperties.html",
     "rdoc/RubyXL/FileSharing.html",
     "rdoc/RubyXL/FileVersion.html",
@@ -146,6 +149,8 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/FontScheme.html",
     "rdoc/RubyXL/FormatScheme.html",
     "rdoc/RubyXL/Formula.html",
+    "rdoc/RubyXL/FunctionGroup.html",
+    "rdoc/RubyXL/FunctionGroupContainer.html",
     "rdoc/RubyXL/GenericStorage.html",
     "rdoc/RubyXL/GradientFill.html",
     "rdoc/RubyXL/HeaderFooterSettings.html",
@@ -182,8 +187,12 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/PatternFill.html",
     "rdoc/RubyXL/PhoneticProperties.html",
     "rdoc/RubyXL/PhoneticRun.html",
+    "rdoc/RubyXL/PivotArea.html",
     "rdoc/RubyXL/PivotCache.html",
     "rdoc/RubyXL/PivotCaches.html",
+    "rdoc/RubyXL/PivotReference.html",
+    "rdoc/RubyXL/PivotReferenceContainer.html",
+    "rdoc/RubyXL/PivotTableSelection.html",
     "rdoc/RubyXL/PrintOptions.html",
     "rdoc/RubyXL/ProtectedRange.html",
     "rdoc/RubyXL/ProtectedRanges.html",
@@ -228,7 +237,7 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/WebPublishObject.html",
     "rdoc/RubyXL/WebPublishObjectContainer.html",
     "rdoc/RubyXL/WebPublishingItem.html",
-    "rdoc/RubyXL/WebPublishingItems.html",
+    "rdoc/RubyXL/WebPublishingItemContainer.html",
     "rdoc/RubyXL/WebPublishingProperties.html",
     "rdoc/RubyXL/Workbook.html",
     "rdoc/RubyXL/WorkbookProperties.html",
