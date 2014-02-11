@@ -99,7 +99,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_mergeCells-1.html
-  class MergedCells < OOXMLObject
+  class MergedCells < OOXMLContainerObject
     define_child_node(RubyXL::MergedCell, :collection => :with_count)
     define_element_name 'mergeCells'
   end
@@ -620,7 +620,7 @@ module RubyXL
     define_child_node(RubyXL::SortState)
     define_child_node(RubyXL::DataConsolidate)
     define_child_node(RubyXL::CustomSheetViews,         :accessor => :custom_sheet_view_container)
-    define_child_node(RubyXL::MergedCells,              :accessor => :merged_cells_list)
+    define_child_node(RubyXL::MergedCells,              :accessor => :merged_cells)
     define_child_node(RubyXL::PhoneticProperties,       :accessor => :custom_props_container)
     define_child_node(RubyXL::ConditionalFormatting)
     define_child_node(RubyXL::DataValidations)
@@ -694,10 +694,6 @@ module RubyXL
       end
 
       true
-    end
-
-    def merged_cells
-      (merged_cells_list && merged_cells_list.merge_cell) || []
     end
 
     include LegacyWorksheet

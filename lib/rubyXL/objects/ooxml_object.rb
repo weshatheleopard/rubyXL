@@ -97,7 +97,7 @@ module RubyXL
       }
 
       if extra_params[:collection] == :with_count then
-        define_attribute(:count, :int, :required => true)
+        define_attribute(:_count, :int, :required => true)
       end
 
       self.send(:attr_accessor, accessor)
@@ -164,7 +164,11 @@ module RubyXL
           parsed_object = child_node_params[:class].parse(child_node)
           if child_node_params[:is_array] then
             index = parsed_object.index_in_collection
-            collection = obj.send(child_node_params[:accessor])
+
+            collection = if (self < RubyXL::OOXMLContainerObject) then obj
+                         else obj.send(child_node_params[:accessor])
+                         end
+
             if index.nil? then
               collection << parsed_object
             else
@@ -257,10 +261,13 @@ module RubyXL
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
-        obj = self.send(child_node_params[:accessor])
-        unless obj.nil?
-          if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
-          else elem << obj.write_xml(xml, child_node_name)
+        node_obj = if (self.is_a?(RubyXL::OOXMLContainerObject)) then self
+                   else self.send(child_node_params[:accessor])
+                   end
+
+        unless node_obj.nil?
+          if child_node_params[:is_array] then node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
+          else elem << node_obj.write_xml(xml, child_node_name)
           end
         end
       }
@@ -303,6 +310,7 @@ module RubyXL
     # along with option to terminate the actual write if +false+ is returned (for example, to avoid writing
     # the collection's root node if the collection is empty).
     def before_write_xml
+      #TODO# This will go away once containers are implemented.
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
         self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
@@ -323,6 +331,10 @@ module RubyXL
   class OOXMLContainerObject < Array
     include OOXMLObjectInstanceMethods
     extend OOXMLObjectClassMethods
+
+    def before_write_xml
+      true
+    end
   end
 
   # Extension class providing functionality for top-level OOXML objects that are represented by
