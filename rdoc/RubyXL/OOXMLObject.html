@@ -173,6 +173,9 @@ attribute when parsing. Available options are:</p>
 </li><li>
 <p><code>:bool</code> - <code>Boolean</code> ("1" and "true" convert to
 <code>true</code>, others to <code>false</code>)</p>
+</li><li>
+<p>one of <code>simple_types</code> - <code>String</code>, plus the list of
+acceptable values is saved for future validation (not used yet).</p>
 </li></ul>
 </li><li>
 <p><code>extra_parameters</code> - Hash of optional parameters as follows:</p>
@@ -187,9 +190,6 @@ provided.</p>
 <p><code>:required</code> - Whether this attribute is required when writing
 XML. If the value of the attrinute is not explicitly provided,
 <code>:default</code> is written instead.</p>
-</li><li>
-<p><code>:values</code> - List of acceptable values for this attribute
-(curently not used).</p>
 </li></ul>
 </li></ul>
 
@@ -231,13 +231,20 @@ calling <code>obj.expression</code></p>
   <span class="ruby-identifier">accessor</span> = <span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:accessor</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">accessorize</span>(<span class="ruby-identifier">attr_name</span>)
   <span class="ruby-identifier">attr_name</span> = <span class="ruby-identifier">attr_name</span>.<span class="ruby-identifier">to_s</span>
 
-  <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">attr_name</span>] = {
+  <span class="ruby-identifier">attr_hash</span> = {
     <span class="ruby-value">:accessor</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">accessor</span>,
     <span class="ruby-value">:attr_type</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">attr_type</span>,
     <span class="ruby-value">:optional</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:required</span>], 
     <span class="ruby-value">:default</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:default</span>],
-    <span class="ruby-value">:valies</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:values</span>]
   }
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">attr_type</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:values</span>] = <span class="ruby-identifier">attr_type</span>
+    <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:attr_type</span>] = <span class="ruby-value">:string</span>
+  <span class="ruby-keyword">end</span>
+
+
+  <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">attr_name</span>] = <span class="ruby-identifier">attr_hash</span>
 
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:attr_accessor</span>, <span class="ruby-identifier">accessor</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -331,7 +338,7 @@ attribute will be set to the count of nodes in <code>fonts</code> array</p>
 
           
           <div class="method-source-code" id="define_child_node-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 90</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 97</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">define_child_node</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">extra_params</span> = {})
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
   <span class="ruby-identifier">child_node_name</span> = (<span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:node_name</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">class_variable_get</span>(<span class="ruby-value">:@@ooxml_tag_name</span>)).<span class="ruby-identifier">to_s</span>
@@ -391,7 +398,7 @@ default element name.</p>
 
           
           <div class="method-source-code" id="define_element_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 115</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 122</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">define_element_name</span>(<span class="ruby-identifier">element_name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_tag_name</span>, <span class="ruby-identifier">element_name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -424,7 +431,7 @@ default element name.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 181</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 188</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">params</span> = {})
   <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{v[:accessor]}&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]])
@@ -517,7 +524,7 @@ it in the context of descendant class,  which is what we need.</p>
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 200</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 207</span>
     <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>)
       <span class="ruby-identifier">node</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">IO</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
 
@@ -605,7 +612,7 @@ it in the context of descendant class,  which is what we need.</p>
 
           
           <div class="method-source-code" id="set_countable-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 120</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 127</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_countable</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_countable</span>, <span class="ruby-keyword">true</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:attr_accessor</span>, <span class="ruby-value">:count</span>)
@@ -650,7 +657,7 @@ collection’s root node if the collection is empty).</p>
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 275</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 282</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
   <span class="ruby-identifier">child_nodes</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">child_node_name</span>, <span class="ruby-identifier">child_node_params</span><span class="ruby-operator">|</span>
@@ -692,7 +699,7 @@ collection’s root node if the collection is empty).</p>
 
           
           <div class="method-source-code" id="dup-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 259</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 266</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_copy</span> = <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">new_copy</span>.<span class="ruby-identifier">count</span> = <span class="ruby-value">0</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_countable</span>, <span class="ruby-keyword">false</span>)
@@ -730,7 +737,7 @@ object is simply added  to the end of the collection.</p>
 
           
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 268</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 275</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
@@ -785,7 +792,7 @@ default element name for this object provided by
 
           
           <div class="method-source-code" id="write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 135</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 142</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">'&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;'</span>)

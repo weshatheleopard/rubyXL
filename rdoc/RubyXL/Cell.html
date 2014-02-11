@@ -156,7 +156,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 38</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">column</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">first_col</span>
 <span class="ruby-keyword">end</span></pre>
@@ -189,7 +189,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="column-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">column=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -222,7 +222,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>
 <span class="ruby-keyword">end</span></pre>
@@ -255,7 +255,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="raw_value-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 46</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value</span>
   <span class="ruby-identifier">value_container</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value_container</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -288,7 +288,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="raw_value-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 50</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value_container</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CellValue</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">value_container</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
@@ -322,7 +322,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="row-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 30</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">row</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">first_row</span>
 <span class="ruby-keyword">end</span></pre>
@@ -355,7 +355,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="row-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 34</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">row=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">column</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -388,7 +388,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="value-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 55</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 56</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">:raw</span>]
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">datatype</span>
