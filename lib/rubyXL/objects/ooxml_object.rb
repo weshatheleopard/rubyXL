@@ -238,7 +238,7 @@ module RubyXL
     # ==== Examples
     #   obj.write_xml
     # Creates a new Nokogiti::XML and 
-    def write_xml(xml = nil, node_name_override = nil, write_envelope_object = true)
+    def write_xml(xml = nil, node_name_override = nil)
       if xml.nil? then
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
         seed_xml.encoding = 'UTF-8'
@@ -278,10 +278,10 @@ module RubyXL
         node_obj = get_node_object(child_node_params)
         next if node_obj.nil?
 
-        if node_obj.respond_to?(:write_xml) && (!node_obj.is_a?(Array) || write_envelope_object) then 
+        if node_obj.respond_to?(:write_xml) && !node_obj.equal?(self) then 
           # If child node is either +OOXMLObject+, or +OOXMLContainerObject+ on its first (envelope) pass,
           # serialize that object.
-          elem << node_obj.write_xml(xml, child_node_name, false)
+          elem << node_obj.write_xml(xml, child_node_name)
         else
           # If child node is either vanilla +Array+, or +OOXMLContainerObject+ on its seconds (content) pass,
           # serialize write its members.
