@@ -287,31 +287,6 @@ module RubyXL
           # serialize write its members.
           node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
         end
-
-=begin
-        if node_obj.respond_to?(:[]) && (!node_obj.respond_to?(:write_xml) || write_container_contents) then 
-          node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
-        else
-          elem << node_obj.write_xml(xml, child_node_name, true)
-        end
-=end
-
-=begin
-        if node_obj.respond_to?(:write_xml)
-          if node_obj.respond_to?(:[]) then 
-            if flag # Pass 2
-              node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
-            else # Pass1 
-              elem << node_obj.write_xml(xml, child_node_name, true)
-            end
-          else
-            elem << node_obj.write_xml(xml, child_node_name)
-          end
-        else
-          node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
-        end
-=end
-
       }
       elem
     end
