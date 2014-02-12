@@ -82,7 +82,7 @@ module RubyXL
         wb.borders[id].count += 1 #unless id.nil?
       }
 
-      wb.worksheet_container.sheets.each_with_index { |sheet, i|
+      wb.sheets.each_with_index { |sheet, i|
         sheet_file_path = wb.relationship_container.find_by_rid(sheet.r_id).target
         worksheet = RubyXL::Worksheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
         worksheet.sheet_data.rows.each { |r|

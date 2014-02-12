@@ -77,7 +77,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_bookViews-1.html
-  class WorkbookViews < OOXMLObject
+  class WorkbookViews < OOXMLContainerObject
     define_child_node(RubyXL::WorkbookView, :collection => true)
     define_element_name 'bookViews'
   end
@@ -92,8 +92,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheets-1.html
-  class Sheets < OOXMLObject
-    define_child_node(RubyXL::Sheet, :collection => true, :accessor => :sheets)
+  class Sheets < OOXMLContainerObject
+    define_child_node(RubyXL::Sheet, :collection => true)
     define_element_name 'sheets'
   end
 
@@ -104,8 +104,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_externalReferences-1.html
-  class ExternalReferences < OOXMLObject
-    define_child_node(RubyXL::ExternalReference, :collection => true, :accessor => :ext_refs)
+  class ExternalReferences < OOXMLContainerObject
+    define_child_node(RubyXL::ExternalReference, :collection => true)
     define_element_name 'externalReferences'
   end
 
@@ -134,8 +134,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_definedName-2.html
-  class DefinedNames < OOXMLObject
-    define_child_node(RubyXL::DefinedName, :collection => true, :accessor => :defined_names)
+  class DefinedNames < OOXMLContainerObject
+    define_child_node(RubyXL::DefinedName, :collection => true)
     define_element_name 'definedNames'
   end
 
@@ -147,8 +147,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCaches-1.html
-  class PivotCaches < OOXMLObject
-    define_child_node(RubyXL::PivotCache, :collection => true, :accessor => :pivot_caches)
+  class PivotCaches < OOXMLContainerObject
+    define_child_node(RubyXL::PivotCache, :collection => true)
     define_element_name 'pivotCaches'
   end
 
@@ -210,8 +210,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishObjects-1.html
-  class WebPublishObjectContainer < OOXMLObject
-    define_child_node(RubyXL::WebPublishObject, :collection => :with_count, :node_name => :web_publish_objects)
+  class WebPublishObjects < OOXMLContainerObject
+    define_child_node(RubyXL::WebPublishObject, :collection => :with_count)
     define_element_name 'webPublishObjects'
   end
 
@@ -231,8 +231,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagTypes-1.html
-  class SmartTagTypeContainer < OOXMLObject
-    define_child_node(RubyXL::SmartTagType, :collection => :true, :node_name => :smart_tag_types)
+  class SmartTagTypes < OOXMLContainerObject
+    define_child_node(RubyXL::SmartTagType, :collection => :true)
     define_element_name 'smartTagTypes'
   end
 
@@ -243,9 +243,9 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_functionGroups-1.html
-  class FunctionGroupContainer < OOXMLObject
+  class FunctionGroups < OOXMLContainerObject
     define_attribute(:builtInGroupCountpi, :int, :default => 16)
-    define_child_node(RubyXL::FunctionGroup, :collection => :true, :node_name => :function_group)
+    define_child_node(RubyXL::FunctionGroup, :collection => :true)
     define_element_name 'functionGroups'
   end
 
@@ -280,11 +280,10 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customWorkbookViews-1.html
-  class CustomWorkbookViewContainer < OOXMLObject
-    define_child_node(RubyXL::CustomWorkbookView, :collection => true, :accessor => :custom_views)
+  class CustomWorkbookViews < OOXMLContainerObject
+    define_child_node(RubyXL::CustomWorkbookView, :collection => true)
     define_element_name 'customWorkbookView'
   end
-
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
@@ -293,19 +292,19 @@ module RubyXL
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
-    define_child_node(RubyXL::Sheets,             :accessor => :worksheet_container)
-    define_child_node(RubyXL::FunctionGroupContainer, :accessor => :function_group_container)
-    define_child_node(RubyXL::ExternalReferences, :accessor => :ext_ref_container)
-    define_child_node(RubyXL::DefinedNames,       :accessor => :defined_name_container)
+    define_child_node(RubyXL::Sheets)
+    define_child_node(RubyXL::FunctionGroups)
+    define_child_node(RubyXL::ExternalReferences)
+    define_child_node(RubyXL::DefinedNames)
     define_child_node(RubyXL::CalculationProperties)
     define_child_node(RubyXL::OLESize)
-    define_child_node(RubyXL::CustomWorkbookViewContainer, :accessor => :custom_view_container)
-    define_child_node(RubyXL::PivotCaches, :accessor => :pivot_cache_container)
+    define_child_node(RubyXL::CustomWorkbookViews)
+    define_child_node(RubyXL::PivotCaches)
     define_child_node(RubyXL::SmartTagProperties)
-    define_child_node(RubyXL::SmartTagTypeContainer)
+    define_child_node(RubyXL::SmartTagTypes)
     define_child_node(RubyXL::WebPublishingProperties)
     define_child_node(RubyXL::FileRecoveryProperties)
-    define_child_node(RubyXL::WebPublishObjectContainer)
+    define_child_node(RubyXL::WebPublishObjects)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_child_node(RubyXL::AlternateContent)
 

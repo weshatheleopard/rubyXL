@@ -87,7 +87,7 @@ module RubyXL
     define_element_name 'pageSetup'
   end
 
-  class TableParts < OOXMLObject
+  class TableParts < OOXMLContainerObject
     define_child_node(RubyXL::RID, :collection => :with_count, :node_name => :table_part)
     define_element_name 'tableParts'
   end
@@ -130,7 +130,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_protectedRanges-1.html
-  class ProtectedRanges < OOXMLObject
+  class ProtectedRanges < OOXMLContainerObject
     define_child_node(RubyXL::ProtectedRange, :collection => true)
     define_element_name 'protectedRanges'
   end
@@ -233,10 +233,10 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
-  class ConditionalFormatting < OOXMLObject
+  class ConditionalFormatting < OOXMLContainerObject
     define_attribute(:pivot, :bool, :default => false)
     define_attribute(:sqref, :sqref)
-    define_child_node(RubyXL::ConditionalFormattingRule, :collection => true, :accessor => :cf_rules)
+    define_child_node(RubyXL::ConditionalFormattingRule, :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'conditionalFormatting'
   end
@@ -468,7 +468,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTags-1.html
-  class CellSmartTags < OOXMLObject
+  class CellSmartTags < OOXMLContainerObject
     define_attribute(:r, :ref, :accessor => :ref)
     define_child_node(RubyXL::CellSmartTag, :collection => :true)
     define_element_name 'cellSmartTags'
