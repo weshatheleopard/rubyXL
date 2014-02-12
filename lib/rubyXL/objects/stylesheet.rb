@@ -21,11 +21,11 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmts-1.html
-  class NumberFormatContainer < OOXMLObject
-    define_child_node(RubyXL::NumberFormat, :collection => :with_count, :accessor => :number_formats)
+  class NumberFormats < OOXMLContainerObject
+    define_child_node(RubyXL::NumberFormat, :collection => :with_count)
     define_element_name 'numFmts'
 
-    DEFAULT_NUMBER_FORMATS = self.new(:number_formats => [
+    DEFAULT_NUMBER_FORMATS = self.new(:_ => [
       RubyXL::NumberFormat.new(:num_fmt_id => 1, :format_code => '0'),
       RubyXL::NumberFormat.new(:num_fmt_id => 2, :format_code => '0.00'),
       RubyXL::NumberFormat.new(:num_fmt_id => 3, :format_code => '#, ##0'),
@@ -60,7 +60,7 @@ module RubyXL
     ])
 
     def find_by_format_id(format_id)
-      number_formats.find { |fmt| fmt.num_fmt_id == format_id }
+      self.find { |fmt| fmt.num_fmt_id == format_id }
     end
 
   end
@@ -127,7 +127,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_tableStyles-1.html
-  class TableStyles < OOXMLObject
+  class TableStyles < OOXMLContainerObject
     define_attribute(:defaultTableStyle, :string)
     define_attribute(:defaultPivotStyle, :string)
     define_child_node(RubyXL::TableStyle, :collection => :with_count)
@@ -140,27 +140,27 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_colors-1.html
-  class IndexedColorContainer < OOXMLObject
+  class IndexedColors < OOXMLContainerObject
     define_child_node(RubyXL::Color, :collection => :true, :accessor => :indexed_colors, :node_name => :rgbColor)
     define_element_name 'indexedColors'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_mruColors-1.html
-  class MRUColorContainer < OOXMLObject
+  class MRUColors < OOXMLContainerObject
     define_child_node(RubyXL::Color, :collection => :true, :accessor => :mru_colors)
     define_element_name 'mruColors'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_colors-1.html
   class Colors < OOXMLObject
-    define_child_node(RubyXL::IndexedColorContainer, :accessor => :indexed_color_container)
-    define_child_node(RubyXL::MRUColorContainer)
+    define_child_node(RubyXL::IndexedColors)
+    define_child_node(RubyXL::MRUColors)
     define_element_name 'colors'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html
   class Stylesheet < OOXMLTopLevelObject
-    define_child_node(RubyXL::NumberFormatContainer, :accessor => :number_format_container)
+    define_child_node(RubyXL::NumberFormats, :accessor => :number_formats)
     define_child_node(RubyXL::Fonts)
     define_child_node(RubyXL::Fills)
     define_child_node(RubyXL::Borders)
@@ -200,8 +200,8 @@ module RubyXL
       @format_hash ||= {}
       
       if @format_hash[format_id].nil? then
-        @format_hash[format_id] = NumberFormatContainer::DEFAULT_NUMBER_FORMATS.find_by_format_id(format_id) ||
-                                    (number_format_container && number_format_container.find_by_format_id(format_id))
+        @format_hash[format_id] = NumberFormats::DEFAULT_NUMBER_FORMATS.find_by_format_id(format_id) ||
+                                    (number_formats && number_formats.find_by_format_id(format_id))
       end
 
       @format_hash[format_id]

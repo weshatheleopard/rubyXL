@@ -19,7 +19,7 @@ describe RubyXL::NumberFormat do
     end  
 
     it 'should properly detect date formats amongst default ones' do
-      all_formats = RubyXL::NumberFormatContainer::DEFAULT_NUMBER_FORMATS.number_formats
+      all_formats = RubyXL::NumberFormats::DEFAULT_NUMBER_FORMATS
       id_list = all_formats.collect { |fmt| fmt.num_fmt_id if fmt.is_date_format? }.compact.sort
       id_list.should == [14, 15, 16, 17, 18, 19, 20, 21, 22, 45, 46, 47]
     end

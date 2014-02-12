@@ -20,7 +20,7 @@ module RubyXL
   class FilterContainer < OOXMLObject
     define_attribute(:blank,        :bool,  :default  => false)
     define_attribute(:calendarType, RubyXL::ST_CalendarType, :default => 'none')
-    define_child_node(RubyXL::StringValue,    :node_name => :filter, :collection => true, :accessor => :filters)
+    define_child_node(RubyXL::StringValue,   :collection => true, :accessor => :filters, :node_name => :filter)
     define_child_node(RubyXL::DateGroupItem, :collection => true, :accessor => :date_group_items)
     define_element_name 'filters'
   end
@@ -42,9 +42,9 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customFilters-1.html
-  class CustomFilterContainer < OOXMLObject
-    define_attribute(:and, :bool,  :default  => false)
-    define_child_node(RubyXL::CustomFilter, :collection => true, :accessor => :custom_filters)
+  class CustomFilters < OOXMLContainerObject
+    define_attribute(:and, :bool,  :default => false)
+    define_child_node(RubyXL::CustomFilter, :collection => true)
     define_element_name 'customFilters'
   end
 
@@ -77,7 +77,7 @@ module RubyXL
     define_attribute(:showButton,   :bool, :default  => true)	
     define_child_node(RubyXL::FilterContainer)
     define_child_node(RubyXL::Top10)
-    define_child_node(RubyXL::CustomFilterContainer, :accessor => :custom_filter_container)
+    define_child_node(RubyXL::CustomFilters)
     define_child_node(RubyXL::DynamicFilter)
     define_child_node(RubyXL::ColorFilter)
     define_child_node(RubyXL::IconFilter)
