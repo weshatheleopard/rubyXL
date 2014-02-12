@@ -246,19 +246,19 @@ module RubyXL
     end
 
     def cell_xfs # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.cell_xf_container.xfs
+      stylesheet.cell_xfs
     end
 
     def fonts # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.font_container.fonts
+      stylesheet.fonts
     end
 
     def fills # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.fill_container.fills
+      stylesheet.fills
     end
 
     def borders # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.border_container.borders
+      stylesheet.borders
     end
 
     private

@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'tmpdir'
 require 'rubyXL'
 
 describe RubyXL::Parser do
@@ -29,7 +30,8 @@ describe RubyXL::Parser do
     ws.add_cell(3, 3, -123.456e-78)
 
     @time_str = Time.now.to_s
-    @file = "#{@time_str}.xlsx"
+
+    @file = Dir::Tmpname.make_tmpname(['rubyXL', '.xlsx'], nil)
     @workbook.write(@file)
   end
 

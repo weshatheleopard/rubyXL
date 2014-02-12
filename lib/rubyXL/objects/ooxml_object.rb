@@ -1,9 +1,5 @@
 module RubyXL
-
-  # Parent class for defining OOXML based objects (not unlike Rails' +ActiveRecord+!)
-  # Most importantly, provides functionality of parsing such objects from XML,
-  # and marshalling them to XML.
-  class OOXMLObject
+  module OOXMLObjectClassMethods
     # Get the value of a [sub]class variable if it exists, or create the respective variable
     # with the passed-in +default+ (or +{}+, if not specified)
     # 
@@ -12,18 +8,13 @@ module RubyXL
     # addressing variable by name creates it in the context of defining class, while calling
     # the setter/getter method addresses it in the context of descendant class, 
     # which is what we need.
-    def self.obtain_class_variable(var_name, default = {})
+    def obtain_class_variable(var_name, default = {})
       if class_variable_defined?(var_name) then 
         self.class_variable_get(var_name)
       else
         self.class_variable_set(var_name, default)
       end
     end
-
-    def obtain_class_variable(var_name, default = {})
-      self.class.obtain_class_variable(var_name, default)
-    end
-    private :obtain_class_variable
 
     # Defines an attribute of OOXML object.
     # === Parameters
@@ -41,6 +32,7 @@ module RubyXL
     #   * +:accessor+ - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
     #   * +:default+ - Value this attribute defaults to if not explicitly provided.
     #   * +:required+ - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, +:default+ is written instead.
+    #   * +:computed+ - Do not store this attribute on +parse+, but do call the object-provided read accessor on +write_xml+.
     # ==== Examples
     #   define_attribute(:outline, :bool, :default => true)
     # A <tt>Boolean</tt> attribute 'outline' with default value +true+ will be accessible by calling +obj.outline+
@@ -48,32 +40,16 @@ module RubyXL
     # An <tt>Integer</tt> attribute 'uniqueCount' accessible as +obj.unique_count+
     #   define_attribute(:_,  :string, :accessor => :expression)
     # The value of the element will be accessible as a <tt>String</tt> by calling +obj.expression+
-    #   define_attribute(:errorStyle, :string, :default => 'stop', :values => %w{ stop warning information })
+    #   define_attribute(:errorStyle, %w{ stop warning information }, :default => 'stop',)
     # A <tt>String</tt> attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are <tt>"stop"</tt>, <tt>"warning"</tt>, <tt>"information"</tt>
-    def self.define_attribute(attr_name, attr_type, extra_params = {})
+    def define_attribute(attr_name, attr_type, extra_params = {})
       attrs = obtain_class_variable(:@@ooxml_attributes)
-
-      accessor = extra_params[:accessor] || accessorize(attr_name)
-      attr_name = attr_name.to_s
-
-      attr_hash = {
-        :accessor   => accessor,
-        :attr_type  => attr_type,
-        :optional   => !extra_params[:required], 
-        :default    => extra_params[:default],
-      }
-
-      if attr_type.is_a?(Array) then
-        attr_hash[:values] = attr_type
-        attr_hash[:attr_type] = :string
-      end
-
-
-      attrs[attr_name] = attr_hash
-
-      self.send(:attr_accessor, accessor)
+      attr_hash = extra_params.merge({ :attr_type => attr_type })
+      attr_hash[:accessor] ||= accessorize(attr_name)
+      attrs[attr_name.to_s] = attr_hash
+      self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
     end
-    
+   
     # Defines a child node of OOXML object.
     # === Parameters
     # * +klass+ - Class (descendant of RubyXL::OOXMLObject) of the child nodes. Child node objects will be produced by calling +parse+ method of that class.
@@ -94,7 +70,7 @@ module RubyXL
     # Use class RubyXL::BorderEdge when parsing both the elements <tt><left ...></tt> and <tt><right ...></tt> elements.
     #   define_child_node(RubyXL::Font, :collection => :with_count, :accessor => :fonts)
     # Upon writing of the object this was defined on, its <tt>count</tt> attribute will be set to the count of nodes in <tt>fonts</tt> array
-    def self.define_child_node(klass, extra_params = {})
+    def define_child_node(klass, extra_params = {})
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_node_name = (extra_params[:node_name] || klass.class_variable_get(:@@ooxml_tag_name)).to_s
       accessor = (extra_params[:accessor] || accessorize(child_node_name)).to_sym
@@ -105,13 +81,16 @@ module RubyXL
         :accessor => accessor
       }
 
-      if extra_params[:collection] == :with_count then
-        define_attribute(:count, :int, :required => true)
-      end
+      define_count_attribute if extra_params[:collection] == :with_count
 
       self.send(:attr_accessor, accessor)
     end
 
+    def define_count_attribute
+      define_attribute(:count, :int, :required => true)
+    end
+    private :define_count_attribute
+ 
     # Defines the name of the element that represents the current OOXML object. Should only be used once per object.
     # In case of different objects represented by the same class in different parts of OOXML tree, +:node_name+ 
     # extra parameter can be used to override the default element name.
@@ -119,92 +98,17 @@ module RubyXL
     # * +element_name+
     # ==== Examples
     #   define_element_name 'externalReference'
-    def self.define_element_name(element_name)
+    def define_element_name(element_name)
       self.class_variable_set(:@@ooxml_tag_name, element_name)
     end
 
     # #TODO# This method will eventually be obsoleted.
-    def self.set_countable
+    def set_countable
       self.class_variable_set(:@@ooxml_countable, true)
       self.send(:attr_accessor, :count)
     end
 
-    # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
-    # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
-    # returns +false+, an empty string is returned (rather than +nil+, so Nokogiri::XML's <tt>&lt;&lt;</tt> operator
-    # can be used without additional +nil+ checking)
-    # === Parameters
-    # * +xml+ - Base Nokogiri::XML object used for building. If omitted, a blank document will be generated.
-    # * +node_name_override+ - if present, is used instead of the default element name for this object provided by +define_element_name+
-    # ==== Examples
-    #   obj.write_xml
-    # Creates a new Nokogiti::XML and 
-    def write_xml(xml = nil, node_name_override = nil)
-      if xml.nil? then
-        seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
-        seed_xml.encoding = 'UTF-8'
-        result = self.write_xml(seed_xml)
-        return result if result == ''
-        seed_xml << result
-        return seed_xml.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
-      end
-
-      return '' unless before_write_xml
-
-      attrs = obtain_class_variable(:@@ooxml_namespaces).dup
-
-      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
-        val = self.send(v[:accessor])
-
-        if val.nil? then
-          next if v[:optional]
-          val = v[:default]
-        end
-
-        val = val &&
-                case v[:attr_type]
-                when :bool  then val ? '1' : '0'
-                when :float then val.to_s.gsub(/\.0*$/, '') # Trim trailing zeroes
-                else val
-                end
-
-        attrs[k] = val
-      }
-
-      element_text = attrs.delete('_')
-      elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
-      child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
-      child_nodes.each_pair { |child_node_name, child_node_params|
-        obj = self.send(child_node_params[:accessor])
-        unless obj.nil?
-          if child_node_params[:is_array] then obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
-          else elem << obj.write_xml(xml, child_node_name)
-          end
-        end
-      }
-      elem
-    end
-
-    def initialize(params = {})
-      obtain_class_variable(:@@ooxml_attributes).each_value { |v|
-        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
-      }
-
-      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
-
-        initial_value =
-          if params.has_key?(v[:accessor]) then params[v[:accessor]]
-          elsif v[:is_array] then []
-          else nil
-          end
-
-        instance_variable_set("@#{v[:accessor]}", initial_value)
-      }
-
-      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
-    end
-
-    def self.parse(node)
+    def parse(node)
       node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
 
       if node.is_a?(Nokogiri::XML::Document) then
@@ -230,7 +134,7 @@ module RubyXL
 
         next if attr_params.nil?
         # raise "Unknown attribute: #{attr_name}" if attr_params.nil?
-        process_attribute(obj, attr.value, attr_params)
+        process_attribute(obj, attr.value, attr_params) unless attr_params[:computed]
       }
 
       known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
@@ -248,7 +152,11 @@ module RubyXL
           parsed_object = child_node_params[:class].parse(child_node)
           if child_node_params[:is_array] then
             index = parsed_object.index_in_collection
-            collection = obj.send(child_node_params[:accessor])
+
+            collection = if (self < RubyXL::OOXMLContainerObject) then obj
+                         else obj.send(child_node_params[:accessor])
+                         end
+
             if index.nil? then
               collection << parsed_object
             else
@@ -261,6 +169,126 @@ module RubyXL
       end
 
       obj
+    end
+
+    private
+    def accessorize(str)
+      acc = str.to_s.dup
+      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+      acc.gsub!(':','_')
+      acc.downcase.to_sym
+    end
+
+    def process_attribute(obj, raw_value, params)
+      val = raw_value &&
+              case params[:attr_type]
+              when :int    then Integer(raw_value)
+              when :float  then Float(raw_value)
+              when :string then raw_value
+              when Array   then raw_value # Case of Simple Types
+              when :sqref  then RubyXL::Sqref.new(raw_value)
+              when :ref    then RubyXL::Reference.new(raw_value)
+              when :bool   then ['1', 'true'].include?(raw_value)
+              end              
+      obj.send("#{params[:accessor]}=", val)
+    end
+
+  end
+
+
+  module OOXMLObjectInstanceMethods
+
+    def obtain_class_variable(var_name, default = {})
+      self.class.obtain_class_variable(var_name, default)
+    end
+    private :obtain_class_variable
+
+    def initialize(params = {})
+      obtain_class_variable(:@@ooxml_attributes).each_value { |v|
+        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]]) unless v[:computed]
+      }
+
+      init_child_nodes(params)
+
+      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
+    end
+
+    def init_child_nodes(params)
+      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
+
+        initial_value =
+          if params.has_key?(v[:accessor]) then params[v[:accessor]]
+          elsif v[:is_array] then []
+          else nil
+          end
+
+        instance_variable_set("@#{v[:accessor]}", initial_value)
+      }
+    end
+    private :init_child_nodes
+
+    # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
+    # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
+    # returns +false+, an empty string is returned (rather than +nil+, so Nokogiri::XML's <tt>&lt;&lt;</tt> operator
+    # can be used without additional +nil+ checking)
+    # === Parameters
+    # * +xml+ - Base Nokogiri::XML object used for building. If omitted, a blank document will be generated.
+    # * +node_name_override+ - if present, is used instead of the default element name for this object provided by +define_element_name+
+    # ==== Examples
+    #   obj.write_xml
+    # Creates a new Nokogiti::XML and 
+    def write_xml(xml = nil, node_name_override = nil, write_envelope_object = true)
+      if xml.nil? then
+        seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
+        seed_xml.encoding = 'UTF-8'
+        result = self.write_xml(seed_xml)
+        return result if result == ''
+        seed_xml << result
+        return seed_xml.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
+      end
+
+      return '' unless before_write_xml
+
+      attrs = obtain_class_variable(:@@ooxml_namespaces).dup
+
+      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
+        val = self.send(v[:accessor])
+
+        if val.nil? then
+          next unless v[:required]
+          val = v[:default]
+        end
+
+        val = val &&
+                case v[:attr_type]
+                when :bool  then val ? '1' : '0'
+                when :float then val.to_s.gsub(/\.0*$/, '') # Trim trailing zeroes
+                else val
+                end
+
+        attrs[k] = val
+      }
+
+      element_text = attrs.delete('_')
+      elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
+
+      child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
+      child_nodes.each_pair { |child_node_name, child_node_params|
+        node_obj = get_node_object(child_node_params)
+        next if node_obj.nil?
+
+        if node_obj.respond_to?(:write_xml) && (!node_obj.is_a?(Array) || write_envelope_object) then 
+          # If child node is either +OOXMLObject+, or +OOXMLContainerObject+ on its first (envelope) pass,
+          # serialize that object.
+          elem << node_obj.write_xml(xml, child_node_name, false)
+        else
+          # If child node is either vanilla +Array+, or +OOXMLContainerObject+ on its seconds (content) pass,
+          # serialize write its members.
+          node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
+        end
+      }
+      elem
     end
 
     def dup
@@ -276,10 +304,16 @@ module RubyXL
       nil
     end
 
+    def get_node_object(child_node_params)
+      self.send(child_node_params[:accessor])
+    end
+    private :get_node_object
+
     # Subclass provided filter to perform last-minute operations (cleanup, count, etc.) immediately prior to write,
     # along with option to terminate the actual write if +false+ is returned (for example, to avoid writing
     # the collection's root node if the collection is empty).
     def before_write_xml
+      #TODO# This will go away once containers are fully implemented.
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
         self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
@@ -287,33 +321,66 @@ module RubyXL
       true 
     end
 
-    private
-    def self.accessorize(str)
-      acc = str.to_s.dup
-      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
-      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
-      acc.gsub!(':','_')
-      acc.downcase.to_sym
+  end
+
+  # Parent class for defining OOXML based objects (not unlike Rails' +ActiveRecord+!)
+  # Most importantly, provides functionality of parsing such objects from XML,
+  # and marshalling them to XML.
+  class OOXMLObject
+    include OOXMLObjectInstanceMethods
+    extend OOXMLObjectClassMethods
+  end
+
+  # Parent class for OOXML conainer objects (for example,
+  # <tt>&lt;fonts&gt;&lt;font&gt;...&lt;/font&gt;&lt;font&gt;...&lt;/font&gt;&lt;/fonts&gt;</tt>
+  # that obscures the top-level container, allowing direct access to the contents as +Array+.
+  class OOXMLContainerObject < Array
+    include OOXMLObjectInstanceMethods
+    extend OOXMLObjectClassMethods
+
+    def initialize(params = {})
+      array_content = params.delete(:_)
+      super
+      array_content.each_with_index { |v, i| self[i] = v } if array_content
     end
 
-    def self.process_attribute(obj, raw_value, params)
-      val = raw_value &&
-              case params[:attr_type]
-              when :int    then Integer(raw_value)
-              when :float  then Float(raw_value)
-              when :string then raw_value
-              when :sqref  then RubyXL::Sqref.new(raw_value)
-              when :ref    then RubyXL::Reference.new(raw_value)
-              when :bool   then ['1', 'true'].include?(raw_value)
-              end              
-      obj.send("#{params[:accessor]}=", val)
+    def get_node_object(child_node_params)
+      if child_node_params[:is_array] then self
+      else super
+      end
+    end
+    protected :get_node_object
+
+    def init_child_nodes(params)
+      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
+        next if v[:is_array] # Only one collection node allowed per OOXMLContainerObject, and it is contained in itself.
+        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
+      }
+    end
+    protected :init_child_nodes
+
+    def before_write_xml
+      true
+    end
+
+    def inspect
+      vars = [ super ]
+      vars = self.instance_variables.each { |v| vars << "#{v}=#{instance_variable_get(v).inspect}" }
+      "<#{self.class}: #{super} #{vars.join(", ")}>"
+    end
+
+    class << self
+      def define_count_attribute
+        # Count will be inherited from Array. so no need to define it explicitly.
+        define_attribute(:count, :int, :required => true, :computed => true)
+      end
+      protected :define_count_attribute
     end
 
   end
 
   # Extension class providing functionality for top-level OOXML objects that are represented by
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
-
   class OOXMLTopLevelObject < OOXMLObject
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.

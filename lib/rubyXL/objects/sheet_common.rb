@@ -16,8 +16,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItems-1.html
-  class WebPublishingItemContainer < OOXMLObject
-    define_child_node(RubyXL::WebPublishingItem, :collection => :with_count, :accessor => :web_items)
+  class WebPublishingItems < OOXMLContainerObject
+    define_child_node(RubyXL::WebPublishingItem, :collection => :with_count)
     define_element_name 'webPublishItems'
   end
 

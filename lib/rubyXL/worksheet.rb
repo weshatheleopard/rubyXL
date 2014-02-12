@@ -316,8 +316,8 @@ module LegacyWorksheet
   def merge_cells(row1 = 0, col1 = 0, row2 = 0, col2 = 0)
     validate_workbook
 
-    self.merged_cells_list ||= RubyXL::MergedCells.new
-    merged_cells_list.merge_cell << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(row1, row2, col1, col2))
+    self.merged_cells ||= RubyXL::MergedCells.new
+    merged_cells << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(row1, row2, col1, col2))
   end
 
   def add_row(row = 0, params = {})
