@@ -233,7 +233,7 @@ module RubyXL
     # ==== Examples
     #   obj.write_xml
     # Creates a new Nokogiti::XML and 
-    def write_xml(xml = nil, node_name_override = nil, flag = false)
+    def write_xml(xml = nil, node_name_override = nil, write_envelope_object = true)
       if xml.nil? then
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
         seed_xml.encoding = 'UTF-8'
@@ -273,6 +273,25 @@ module RubyXL
         node_obj = get_node_object(child_node_params)
         next if node_obj.nil?
 
+        if node_obj.respond_to?(:write_xml) && (!node_obj.is_a?(Array) || write_envelope_object) then 
+          # If child node is either +OOXMLObject+, or +OOXMLContainerObject+ on its first (envelope) pass,
+          # serialize that object.
+          elem << node_obj.write_xml(xml, child_node_name, false)
+        else
+          # If child node is either vanilla +Array+, or +OOXMLContainerObject+ on its seconds (content) pass,
+          # serialize write its members.
+          node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
+        end
+
+=begin
+        if node_obj.respond_to?(:[]) && (!node_obj.respond_to?(:write_xml) || write_container_contents) then 
+          node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
+        else
+          elem << node_obj.write_xml(xml, child_node_name, true)
+        end
+=end
+
+=begin
         if node_obj.respond_to?(:write_xml)
           if node_obj.respond_to?(:[]) then 
             if flag # Pass 2
@@ -286,6 +305,8 @@ module RubyXL
         else
           node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
         end
+=end
+
       }
       elem
     end
@@ -312,7 +333,7 @@ module RubyXL
     # along with option to terminate the actual write if +false+ is returned (for example, to avoid writing
     # the collection's root node if the collection is empty).
     def before_write_xml
-      #TODO# This will go away once containers are implemented.
+      #TODO# This will go away once containers are fully implemented.
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
         self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
@@ -330,6 +351,9 @@ module RubyXL
     extend OOXMLObjectClassMethods
   end
 
+  # Parent class for OOXML conainer objects (for example,
+  # <tt>&lt;fonts&gt;&lt;font&gt;...&lt;/font&gt;&lt;font&gt;...&lt;/font&gt;&lt;/fonts&gt;</tt>
+  # that obscures the top-level container, allowing direct access to the contents as +Array+.
   class OOXMLContainerObject < Array
     include OOXMLObjectInstanceMethods
     extend OOXMLObjectClassMethods
