@@ -206,22 +206,27 @@ module RubyXL
 
     def initialize(params = {})
       obtain_class_variable(:@@ooxml_attributes).each_value { |v|
-        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
+        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]]) unless v[:computed]
       }
 
+      init_child_nodes(params)
+
+      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
+    end
+
+    def init_child_nodes(params)
       obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
 
         initial_value =
           if params.has_key?(v[:accessor]) then params[v[:accessor]]
-          elsif v[:is_array] then [] # TODO: probavly should initialize with container object instead
+          elsif v[:is_array] then []
           else nil
           end
 
         instance_variable_set("@#{v[:accessor]}", initial_value)
       }
-
-      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
+    private :init_child_nodes
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
     # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
@@ -371,8 +376,22 @@ module RubyXL
     end
     protected :get_node_object
 
+    def init_child_nodes(params)
+      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
+        next if v[:is_array] # Only one collection node allowed per OOXMLContainerObject, and it is contained in itself.
+        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
+      }
+    end
+    protected :init_child_nodes
+
     def before_write_xml
       true
+    end
+
+    def inspect
+      vars = [ super ]
+      vars = self.instance_variables.each { |v| vars << "#{v}=#{instance_variable_get(v).inspect}" }
+      "<#{self.class}: #{super} #{vars.join(", ")}>"
     end
 
     class << self
