@@ -704,6 +704,10 @@ module RubyXL
       File.join('xl', 'worksheets', "sheet#{sheet_index + 1}.xml")
     end
 
+    def rel_type
+      'worksheet'
+    end
+
     include LegacyWorksheet
 
   end

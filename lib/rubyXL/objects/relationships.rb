@@ -30,8 +30,8 @@ module RubyXL
     def before_write_xml
       self.relationships = []
 
-      @workbook.worksheets.each_index { |i|
-        relationships << create_relationship("worksheets/sheet#{i + 1}.xml", 'worksheet')
+      @workbook.worksheets.each_with_index { |sheet, i|
+        relationships << create_relationship(sheet.filepath.gsub(/^xl\//, ''), sheet.rel_type)
       }
 
       @workbook.external_links.each_key { |k| 

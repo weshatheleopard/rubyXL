@@ -82,6 +82,10 @@ module RubyXL
       File.join('xl', 'chartsheets', "sheet#{sheet_index + 1}.xml")
     end
 
+    def rel_type
+      'chartsheet'
+    end
+
     attr_accessor :workbook, :sheet_name, :sheet_id
 
   end
