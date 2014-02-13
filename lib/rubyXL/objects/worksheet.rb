@@ -696,6 +696,14 @@ module RubyXL
       true
     end
 
+    def sheet_index
+      @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
+    end
+
+    def filepath
+      File.join('xl', 'worksheets', "sheet#{sheet_index + 1}.xml")
+    end
+
     include LegacyWorksheet
 
   end

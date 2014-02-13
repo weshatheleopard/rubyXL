@@ -124,7 +124,7 @@ module RubyXL
           @drawings, @drawings_rels, @charts, @chart_rels,
           @printer_settings, @worksheet_rels, @chartsheet_rels, @macros ].each { |s| s.add_to_zip(zipfile) }
 
-        @worksheets.each_index { |i| Writer::WorksheetWriter.new(self, i).add_to_zip(zipfile) }
+        @worksheets.each { |sheet| sheet.add_to_zip(zipfile) }
       }
 
       FileUtils.mv(zippath, filepath)

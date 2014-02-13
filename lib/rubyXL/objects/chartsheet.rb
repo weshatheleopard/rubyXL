@@ -73,6 +73,17 @@ module RubyXL
     define_element_name 'chartsheet'
     set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
                    'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
+
+    def sheet_index
+      @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
+    end
+
+    def filepath
+      File.join('xl', 'chartsheets', "sheet#{sheet_index + 1}.xml")
+    end
+
+    attr_accessor :workbook, :sheet_name, :sheet_id
+
   end
 
 end

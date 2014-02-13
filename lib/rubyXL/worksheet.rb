@@ -2,7 +2,7 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
-  attr_accessor :sheet_name, :sheet_id, :validations, :extLst, :workbook
+  attr_accessor :workbook, :sheet_name, :sheet_id
 
   def initialize(params = {})
     super

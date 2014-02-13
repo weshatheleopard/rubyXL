@@ -83,17 +83,27 @@ module RubyXL
       }
 
       wb.sheets.each_with_index { |sheet, i|
-        sheet_file_path = wb.relationship_container.find_by_rid(sheet.r_id).target
-        worksheet = RubyXL::Worksheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
-        worksheet.sheet_data.rows.each { |r|
-          next if r.nil?
-          r.worksheet = worksheet
-          r.cells.each { |c| c.worksheet = worksheet unless c.nil? }
-        }
-        worksheet.workbook = wb
-        worksheet.sheet_name = sheet.name
-        worksheet.sheet_id = sheet.sheet_id
-        wb.worksheets[i] = worksheet
+        sheet_rel = wb.relationship_container.find_by_rid(sheet.r_id)
+
+        sheet_file_path = sheet_rel.target
+
+        case File::basename(sheet_rel.type)
+        when 'worksheet' then
+          sheet_obj = RubyXL::Worksheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
+          sheet_obj.sheet_data.rows.each { |r|
+            next if r.nil?
+            r.worksheet = sheet
+            r.cells.each { |c| c.worksheet = sheet_obj unless c.nil? }
+          }
+        when 'chartsheet' then
+          sheet_obj = RubyXL::Chartsheet.parse(File.open(File.join(dir_path, 'xl', sheet_file_path)))
+        end
+
+        sheet_obj.workbook = wb
+        sheet_obj.sheet_name = sheet.name
+        sheet_obj.sheet_id = sheet.sheet_id
+
+        wb.worksheets[i] = sheet_obj
       }
 
       FileUtils.remove_entry_secure(dir_path)
