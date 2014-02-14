@@ -9,12 +9,6 @@ group :development do
   gem "shoulda", ">= 0"
   gem "bundler"
   gem "jeweler"
-
-  if RUBY_VERSION =~ /^1\.9/
-  	gem "simplecov", ">= 0"
-  else
-  	gem "rcov", ">= 0"
-  end
-
+  gem "simplecov", ">= 0"
   gem "rspec", ">= 1.3.4"
 end
