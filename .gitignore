@@ -2,5 +2,7 @@
 *.gem
 *.swp
 *.xlsx
+*.tmp
 .bundle
+vendor
 lib/tests/
