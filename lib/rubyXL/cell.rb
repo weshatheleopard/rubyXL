@@ -281,7 +281,7 @@ module RubyXL
     end
 
     def get_cell_xf
-      workbook.cell_xfs[self.style_index]
+      workbook.cell_xfs[self.style_index || 0]
     end
 
     def get_cell_font
