@@ -7,7 +7,7 @@ module RubyXL
     define_attribute(:min,          :int,     :required => true)
     define_attribute(:max,          :int,     :required => true)
     define_attribute(:width,        :float)
-    define_attribute(:style,        :int,     :default => 0)
+    define_attribute(:style,        :int,     :default => 0, :accessor => :style_index)
     define_attribute(:hidden,       :bool,    :default => false)
     define_attribute(:bestFit,      :bool,    :default => false)
     define_attribute(:customWidth,  :bool,    :default => false)

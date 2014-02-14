@@ -78,7 +78,7 @@ module RubyXL
   class Row < OOXMLObject
     define_attribute(:r,            :int)
     define_attribute(:spans,        :string)
-    define_attribute(:s,            :int)
+    define_attribute(:s,            :int,   :default => 0, :accessor => :style_index)
     define_attribute(:customFormat, :bool,  :default => false)
     define_attribute(:ht,           :float)
     define_attribute(:hidden,       :bool,  :default => false)
@@ -124,7 +124,7 @@ module RubyXL
     end
 
     def xf
-      @worksheet.workbook.cell_xfs[self.s || 0]
+      @worksheet.workbook.cell_xfs[self.style_index || 0]
     end
 
     def get_fill_color

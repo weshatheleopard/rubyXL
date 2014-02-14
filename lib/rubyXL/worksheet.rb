@@ -106,7 +106,7 @@ module LegacyWorksheet
     ensure_cell_exists(row_index)
     Color.validate_color(rgb)
 
-    sheet_data.rows[row_index].s = @workbook.modify_fill(get_row_style(row_index), rgb)
+    sheet_data.rows[row_index].style_index = @workbook.modify_fill(get_row_style(row_index), rgb)
     sheet_data[row_index].cells.each { |c| c.change_fill(rgb) unless c.nil? }
   end
 
@@ -124,7 +124,7 @@ module LegacyWorksheet
     change_row_font(row, Worksheet::SIZE, font_size, font)
   end
 
-  def change_row_font_color(row = 0, font_color='000000')
+  def change_row_font_color(row = 0, font_color = '000000')
     ensure_cell_exists(row)
     Color.validate_color(font_color)
     font = row_font(row).dup
@@ -132,14 +132,14 @@ module LegacyWorksheet
     change_row_font(row, Worksheet::COLOR, font_color, font)
   end
 
-  def change_row_italics(row = 0, italicized=false)
+  def change_row_italics(row = 0, italicized = false)
     ensure_cell_exists(row)
     font = row_font(row).dup
     font.set_italic(italicized)
     change_row_font(row, Worksheet::ITALICS, italicized, font)
   end
 
-  def change_row_bold(row = 0, bolded=false)
+  def change_row_bold(row = 0, bolded = false)
     ensure_cell_exists(row)
     font = row_font(row).dup
     font.set_bold(bolded)
@@ -276,7 +276,7 @@ module LegacyWorksheet
     Color.validate_color(color_index)
     ensure_cell_exists(0, column_index)
 
-    cols.get_range(column_index).style = @workbook.modify_fill(get_col_style(column_index), color_index)
+    cols.get_range(column_index).style_index = @workbook.modify_fill(get_col_style(column_index), color_index)
 
     sheet_data.rows.each { |row|
       c = row[column_index]
@@ -340,7 +340,7 @@ module LegacyWorksheet
       c.formula = formula
 
       range = cols && cols.find(column)
-      c.style_index = sheet_data.rows[row].s || (range && range.style_index) || 0
+      c.style_index = sheet_data.rows[row].style_index || (range && range.style_index) || 0
 
       sheet_data.rows[row].cells[column] = c
     end
@@ -384,7 +384,7 @@ module LegacyWorksheet
     end
 
     sheet_data.rows.insert(row_index, nil)
-    new_row = add_row(row_index, :cells => new_cells, :s => old_row && old_row.s)
+    new_row = add_row(row_index, :cells => new_cells, :style_index => old_row && old_row.style_index)
 
     #update row value for all rows below
     row_index.upto(sheet_data.rows.size - 1) { |i|
@@ -428,14 +428,11 @@ module LegacyWorksheet
       c = nil
 
       if old_cell && old_cell.style_index != 0 &&
-           old_range && old_range.style != old_cell.style_index then
+           old_range && old_range.style_index != old_cell.style_index then
 
-        c = Cell.new
-        c.worksheet = self
-        c.row = row_index
-        c.column = column_index
-        c.datatype = RubyXL::Cell::SHARED_STRING
-        c.style_index = old_cell.style_index
+        c = RubyXL::Cell.new(:style_index => old_cell.style_index, :worksheet => self,
+                             :row => row_index, :column => column_index,
+                             :datatype => RubyXL::Cell::SHARED_STRING)
       end
 
       row.insert_cell_shift_right(c, column_index)
@@ -722,7 +719,7 @@ module LegacyWorksheet
 
   def get_cols_style_index(column_index)
     range = cols.find(column_index)
-    (range && range.style) || 0
+    (range && range.style_index) || 0
   end
 
   # Helper method to update the row styles array
@@ -733,7 +730,7 @@ module LegacyWorksheet
     ensure_cell_exists(row)
 
     xf = workbook.register_new_font(font, get_row_xf(row))
-    sheet_data.rows[row].s = workbook.register_new_xf(xf, get_row_style(row))
+    sheet_data.rows[row].style_index = workbook.register_new_xf(xf, get_row_style(row))
 
     sheet_data[row].cells.each { |c| font_switch(c, change_type, arg) unless c.nil? }
   end
@@ -746,7 +743,7 @@ module LegacyWorksheet
 
     xf = workbook.register_new_font(font, xf)
 
-    cols.get_range(column_index).style = workbook.register_new_xf(xf, get_col_style(column_index))
+    cols.get_range(column_index).style_index = workbook.register_new_xf(xf, get_col_style(column_index))
 
     sheet_data.rows.each { |row|
       c = row[column_index]
@@ -828,12 +825,12 @@ module LegacyWorksheet
   # Helper method to get the style index for a column
   def get_col_style(column_index)
     range = cols.find(column_index)
-    (range && range.style) || 0
+    (range && range.style_index) || 0
   end
 
-  def get_row_style(row)
-    r = sheet_data.rows[row]
-    (r && r.s) || 0
+  def get_row_style(row_index)
+    row = sheet_data.rows[row_index]
+    (row && row.style_index) || 0
   end
 
   def get_col_xf(column_index)
@@ -849,7 +846,7 @@ module LegacyWorksheet
     validate_nonnegative(row)
     ensure_cell_exists(row)
 
-    sheet_data.rows[row].s = @workbook.modify_alignment(get_row_style(row), is_horizontal, alignment)
+    sheet_data.rows[row].style_index = @workbook.modify_alignment(get_row_style(row), is_horizontal, alignment)
 
     sheet_data[row].cells.each { |c|
       next if c.nil?
@@ -863,7 +860,7 @@ module LegacyWorksheet
     validate_workbook
     ensure_cell_exists(0, column_index)
 
-    cols.get_range(column_index).style = @workbook.modify_alignment(get_col_style(column_index), is_horizontal, alignment)
+    cols.get_range(column_index).style_index = @workbook.modify_alignment(get_col_style(column_index), is_horizontal, alignment)
 
     sheet_data.rows.each { |row|
       c = row[column_index]
@@ -880,7 +877,7 @@ module LegacyWorksheet
     validate_workbook
     ensure_cell_exists(row)
 
-    sheet_data.rows[row].s = @workbook.modify_border(get_row_style(row), direction, weight)
+    sheet_data.rows[row].style_index = @workbook.modify_border(get_row_style(row), direction, weight)
 
     sheet_data[row].cells.each { |c|
       next if c.nil?
@@ -899,7 +896,7 @@ module LegacyWorksheet
     validate_workbook
     ensure_cell_exists(0, column_index)
 
-    cols.get_range(column_index).style = @workbook.modify_border(get_col_style(column_index), direction, weight)
+    cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
 
     sheet_data.rows.each { |row|
       c = row.cells[column_index]
