@@ -14,11 +14,11 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
   class Cell < OOXMLObject
     define_attribute(:r,   :ref)
-    define_attribute(:s,   :int,    :accessor => :style_index)
-    define_attribute(:t,   RubyXL::ST_CellType, :accessor => :datatype, :default => 'n', )
-    define_attribute(:cm,  :int)
-    define_attribute(:vm,  :int)
-    define_attribute(:ph,  :bool)
+    define_attribute(:s,   :int,  :default => 0, :accessor => :style_index)
+    define_attribute(:t,   RubyXL::ST_CellType,  :accessor => :datatype, :default => 'n' )
+    define_attribute(:cm,  :int,  :default => 0)
+    define_attribute(:vm,  :int,  :default => 0)
+    define_attribute(:ph,  :bool, :default => false)
     define_child_node(RubyXL::Formula,   :accessor => :formula)
     define_child_node(RubyXL::CellValue, :accessor => :value_container) 
     define_child_node(RubyXL::RichText)    # is
