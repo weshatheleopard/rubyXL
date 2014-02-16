@@ -4,7 +4,6 @@ require 'rubyXL/writer/root_rels_writer'
 require 'rubyXL/writer/core_writer'
 require 'rubyXL/writer/theme_writer'
 require 'rubyXL/writer/workbook_writer'
-require 'rubyXL/writer/styles_writer'
 require 'tmpdir'
 require 'zip'
 
@@ -110,7 +109,7 @@ module RubyXL
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
         [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::CoreWriter,
-          Writer::ThemeWriter, Writer::WorkbookWriter, Writer::StylesWriter
+          Writer::ThemeWriter, Writer::WorkbookWriter 
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
 
         calculation_chain && calculation_chain.add_to_zip(zipfile)
@@ -118,6 +117,7 @@ module RubyXL
         document_properties.add_to_zip(zipfile)
         relationship_container.workbook = self
         relationship_container.add_to_zip(zipfile)
+        stylesheet.add_to_zip(zipfile)
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,
