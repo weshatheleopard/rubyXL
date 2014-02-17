@@ -1,6 +1,5 @@
 require 'rubyXL/writer/generic_writer'
 require 'rubyXL/writer/content_types_writer'
-require 'rubyXL/writer/core_writer'
 require 'rubyXL/writer/theme_writer'
 require 'rubyXL/writer/workbook_writer'
 require 'tmpdir'
@@ -9,12 +8,12 @@ require 'zip'
 module RubyXL
   module LegacyWorkbook
     include Enumerable
-    attr_accessor :worksheets, :filepath, :creator, :modifier, :created_at, :modified_at, :theme,
+    attr_accessor :worksheets, :filepath, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
       :worksheet_rels, :chartsheet_rels, :printer_settings, :macros
 
     attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
-                  :relationship_container, :root_relationship_container
+                  :relationship_container, :root_relationship_container, :core_properties
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -50,6 +49,7 @@ module RubyXL
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
       @document_properties      = RubyXL::DocumentProperties.new
+      @core_properties          = RubyXL::CoreProperties.new
       @relationship_container   = RubyXL::WorkbookRelationships.new
       @root_relationship_container  = RubyXL::RootRelationships.new
       @calculation_chain        = nil
@@ -108,13 +108,13 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        [ Writer::ContentTypesWriter, Writer::CoreWriter,
-          Writer::ThemeWriter, Writer::WorkbookWriter 
+        [ Writer::ContentTypesWriter, Writer::ThemeWriter, Writer::WorkbookWriter 
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
 
         calculation_chain && calculation_chain.add_to_zip(zipfile)
         shared_strings_container && shared_strings_container.add_to_zip(zipfile)
         document_properties.add_to_zip(zipfile)
+        core_properties.add_to_zip(zipfile)
         relationship_container.workbook = self
         relationship_container.add_to_zip(zipfile)
         stylesheet.add_to_zip(zipfile)

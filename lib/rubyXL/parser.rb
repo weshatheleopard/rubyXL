@@ -58,12 +58,7 @@ module RubyXL
         wb.macros.load_file(dir_path, 'vbaProject.bin')
         wb.theme.load_file(dir_path, 'theme1.xml')
 
-        core_file = Nokogiri::XML.parse(File.open(File.join(dir_path, 'docProps', 'core.xml'), 'r'))
-        wb.creator = core_file.css('dc|creator').children.to_s
-        wb.modifier = core_file.css('cp|last_modified_by').children.to_s
-        wb.created_at = core_file.css('dcterms|created').children.to_s
-        wb.modified_at = core_file.css('dcterms|modified').children.to_s
-
+        wb.core_properties = RubyXL::CoreProperties.parse_file(dir_path)
         wb.document_properties = RubyXL::DocumentProperties.parse_file(dir_path)
         wb.calculation_chain = RubyXL::CalculationChain.parse_file(dir_path)
       end

@@ -352,6 +352,38 @@ module RubyXL
       self.document_properties.app_version.value = v
     end
 
+    def creator
+      self.core_properties.creator
+    end
+
+    def creator=(v)
+      self.core_properties.creator = v
+    end
+
+    def modifier
+      self.core_properties.modifier
+    end
+
+    def modifier=(v)
+      self.core_properties.modifier = v
+    end
+
+    def created_at
+      self.core_properties.created_at
+    end
+
+    def created_at=(v)
+      self.core_properties.created_at = v
+    end
+
+    def modified_at
+      self.core_properties.modified_at
+    end
+
+    def modified_at=(v)
+      self.core_properties.modified_at = v
+    end
+
   end
 
 end

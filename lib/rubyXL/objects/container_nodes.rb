@@ -35,6 +35,11 @@ module RubyXL
     define_attribute(:_, :float, :accessor => :value)
   end
 
+  class StringNodeW3C < OOXMLObject
+    define_attribute(:_, :string, :accessor => :value)
+    define_attribute('xsi:type', :string, :required => true, :default => 'dcterms:W3CDTF')
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-docPropsVTypes_variant.html
   class Variant < OOXMLObject
     define_child_node(RubyXL::Variant,      :node_name => 'vt:variant')
