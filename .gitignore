@@ -4,5 +4,6 @@
 *.xlsx
 *.tmp
 .bundle
+bin
 vendor
 lib/tests/

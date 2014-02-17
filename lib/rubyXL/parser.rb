@@ -42,6 +42,7 @@ module RubyXL
       wb.filepath = xl_file_path
 
       wb.relationship_container = RubyXL::WorkbookRelationships.parse_file(dir_path)
+      wb.root_relationship_container = RubyXL::RootRelationships.parse_file(dir_path)
 
       unless @data_only
         wb.media.load_dir(dir_path)

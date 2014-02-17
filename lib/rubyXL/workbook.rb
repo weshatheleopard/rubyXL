@@ -1,6 +1,5 @@
 require 'rubyXL/writer/generic_writer'
 require 'rubyXL/writer/content_types_writer'
-require 'rubyXL/writer/root_rels_writer'
 require 'rubyXL/writer/core_writer'
 require 'rubyXL/writer/theme_writer'
 require 'rubyXL/writer/workbook_writer'
@@ -15,7 +14,7 @@ module RubyXL
       :worksheet_rels, :chartsheet_rels, :printer_settings, :macros
 
     attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
-                  :relationship_container
+                  :relationship_container, :root_relationship_container
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -52,6 +51,7 @@ module RubyXL
       @stylesheet               = RubyXL::Stylesheet.default
       @document_properties      = RubyXL::DocumentProperties.new
       @relationship_container   = RubyXL::WorkbookRelationships.new
+      @root_relationship_container  = RubyXL::RootRelationships.new
       @calculation_chain        = nil
 
       self.company         = company
@@ -108,7 +108,7 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        [ Writer::ContentTypesWriter, Writer::RootRelsWriter, Writer::CoreWriter,
+        [ Writer::ContentTypesWriter, Writer::CoreWriter,
           Writer::ThemeWriter, Writer::WorkbookWriter 
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
 
@@ -118,6 +118,7 @@ module RubyXL
         relationship_container.workbook = self
         relationship_container.add_to_zip(zipfile)
         stylesheet.add_to_zip(zipfile)
+        root_relationship_container.add_to_zip(zipfile)
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,
