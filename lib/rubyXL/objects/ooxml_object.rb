@@ -112,7 +112,7 @@ module RubyXL
       node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
 
       if node.is_a?(Nokogiri::XML::Document) then
-#        @namespaces = node.namespaces
+        @namespaces = node.namespaces
         node = node.root
 #        ignorable_attr = node.attributes['Ignorable']
 #        @ignorables << ignorable_attr.value if ignorable_attr
@@ -133,7 +133,7 @@ module RubyXL
         attr_params = known_attributes[attr_name]
 
         next if attr_params.nil?
-        # raise "Unknown attribute: #{attr_name}" if attr_params.nil?
+        # raise "Unknown attribute [#{attr_name}] for element [#{node.name}]" if attr_params.nil?
         process_attribute(obj, attr.value, attr_params) unless attr_params[:computed]
       }
 
@@ -148,7 +148,7 @@ module RubyXL
                             end
 
           child_node_params = known_child_nodes[child_node_name]
-          raise "Unknown child node: #{child_node_name}" if child_node_params.nil?
+          raise "Unknown child node [#{child_node_name}] for element [#{node.name}]" if child_node_params.nil?
           parsed_object = child_node_params[:class].parse(child_node)
           if child_node_params[:is_array] then
             index = parsed_object.index_in_collection
