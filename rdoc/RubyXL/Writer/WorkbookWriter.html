@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Writer::WorkbookWriter - rubyXL 2.3.0</title>
+<title>class RubyXL::Writer::WorkbookWriter - rubyXL 2.3.3</title>
 
 <link href="../../fonts.css" rel="stylesheet">
 <link href="../../rdoc.css" rel="stylesheet">
@@ -132,7 +132,7 @@
           <div class="method-source-code" id="filepath-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/workbook_writer.rb, line 5</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">filepath</span>
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'workbook.xml'</span>)
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;workbook.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -166,59 +166,59 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/workbook_writer.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write</span>()
   <span class="ruby-identifier">new_xml</span> = <span class="ruby-identifier">render_xml</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">xml</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">xml</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'workbook'</span>,
-            <span class="ruby-value">:xmlns</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://schemas.openxmlformats.org/spreadsheetml/2006/main'</span>,
-            <span class="ruby-string">'xmlns:r'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://schemas.openxmlformats.org/officeDocument/2006/relationships'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">root</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'fileVersion'</span>, { <span class="ruby-value">:appName</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'xl'</span>, <span class="ruby-value">:lastEdited</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>,
+    <span class="ruby-identifier">xml</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;workbook&#39;</span>,
+            <span class="ruby-value">:xmlns</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://schemas.openxmlformats.org/spreadsheetml/2006/main&#39;</span>,
+            <span class="ruby-string">&#39;xmlns:r&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://schemas.openxmlformats.org/officeDocument/2006/relationships&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">root</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;fileVersion&#39;</span>, { <span class="ruby-value">:appName</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-value">:lastEdited</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>,
                                                   <span class="ruby-value">:lowestEdited</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>, <span class="ruby-value">:rupBuild</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4505</span> })
 
       <span class="ruby-identifier">params</span> = { <span class="ruby-value">:showInkAnnotation</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value">:autoCompressPictures</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> }
 
       <span class="ruby-comment">#TODO following line - date 1904? check if mac only</span>
       <span class="ruby-identifier">params</span>[<span class="ruby-value">:date1904</span>] = <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">date1904</span>
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'workbookPr'</span>, <span class="ruby-identifier">params</span>)
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;workbookPr&#39;</span>, <span class="ruby-identifier">params</span>)
 
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'bookViews'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">views</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">views</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'workbookView'</span>, { <span class="ruby-value">:xWindow</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-20</span>, <span class="ruby-value">:yWindow</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-20</span>,
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;bookViews&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">views</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">views</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;workbookView&#39;</span>, { <span class="ruby-value">:xWindow</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-20</span>, <span class="ruby-value">:yWindow</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-20</span>,
                                       <span class="ruby-value">:windowWidth</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">21600</span>, <span class="ruby-value">:windowHeight</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">13340</span>, <span class="ruby-value">:tabRatio</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">500</span> })
       })
 
       <span class="ruby-identifier">index</span> = <span class="ruby-value">1</span>
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'sheets'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet_xml</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;sheets&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet_xml</span><span class="ruby-operator">|</span>
         <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-          <span class="ruby-identifier">sheet_xml</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'sheet'</span>, { <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_name</span>,
+          <span class="ruby-identifier">sheet_xml</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;sheet&#39;</span>, { <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_name</span>,
                                                      <span class="ruby-value">:sheetId</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_id</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">index</span>, 
-                                                     <span class="ruby-string">'r:id'</span>=<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;rId#{index}&quot;</span> })
+                                                     <span class="ruby-string">&#39;r:id&#39;</span>=<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;rId#{index}&quot;</span> })
           <span class="ruby-identifier">index</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
         }
       })
 
       <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">empty?</span>
 
-        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'externalReferences'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">refs</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;externalReferences&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">refs</span><span class="ruby-operator">|</span>
           <span class="ruby-comment"># Need to correlate these with WorkbookRelsWriter</span>
           <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">each_value</span> { 
-            <span class="ruby-identifier">refs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'externalReference'</span>, { <span class="ruby-string">'r:id'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;rId#{index}&quot;</span> })
+            <span class="ruby-identifier">refs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;externalReference&#39;</span>, { <span class="ruby-string">&#39;r:id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;rId#{index}&quot;</span> })
             <span class="ruby-identifier">index</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
           }
         })
       <span class="ruby-keyword">end</span>
 
       <span class="ruby-keyword">if</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">defined_names</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
-        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'definedNames'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">names</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;definedNames&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">names</span><span class="ruby-operator">|</span>
           <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">defined_names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">names</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span>) }
         }
       <span class="ruby-keyword">end</span>
            
       <span class="ruby-comment">#TODO see if this changes with formulas</span>
       <span class="ruby-comment">#attributes out of order here</span>
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'calcPr'</span>, { <span class="ruby-value">:calcId</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">130407</span>, <span class="ruby-value">:concurrentCalc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> } )
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;calcPr&#39;</span>, { <span class="ruby-value">:calcId</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">130407</span>, <span class="ruby-value">:concurrentCalc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> } )
 
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'extLst'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">list</span><span class="ruby-operator">|</span> 
-        <span class="ruby-identifier">list</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'ext'</span>,  {
-                   <span class="ruby-string">'xmlns:mx'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://schemas.microsoft.com/office/mac/excel/2008/main'</span>,
-                   <span class="ruby-value">:uri</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://schemas.microsoft.com/office/mac/excel/2008/main'</span>}) { <span class="ruby-operator">|</span><span class="ruby-identifier">ext</span><span class="ruby-operator">|</span>
-          <span class="ruby-identifier">ext</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'mx:ArchID'</span>, { <span class="ruby-value">:Flags</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span> })
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;extLst&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">list</span><span class="ruby-operator">|</span> 
+        <span class="ruby-identifier">list</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;ext&#39;</span>,  {
+                   <span class="ruby-string">&#39;xmlns:mx&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://schemas.microsoft.com/office/mac/excel/2008/main&#39;</span>,
+                   <span class="ruby-value">:uri</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://schemas.microsoft.com/office/mac/excel/2008/main&#39;</span>}) { <span class="ruby-operator">|</span><span class="ruby-identifier">ext</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">ext</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;mx:ArchID&#39;</span>, { <span class="ruby-value">:Flags</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span> })
 
         })
       })

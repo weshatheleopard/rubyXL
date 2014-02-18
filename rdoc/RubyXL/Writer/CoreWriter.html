@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Writer::CoreWriter - rubyXL 2.3.0</title>
+<title>class RubyXL::Writer::CoreWriter - rubyXL 2.3.3</title>
 
 <link href="../../fonts.css" rel="stylesheet">
 <link href="../../rdoc.css" rel="stylesheet">
@@ -132,7 +132,7 @@
           <div class="method-source-code" id="filepath-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/core_writer.rb, line 5</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">filepath</span>
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'docProps'</span>, <span class="ruby-string">'core.xml'</span>)
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;docProps&#39;</span>, <span class="ruby-string">&#39;core.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -166,22 +166,22 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/core_writer.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write</span>()
   <span class="ruby-identifier">render_xml</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">xml</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">xml</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'cp:coreProperties'</span>, 
-               <span class="ruby-string">'xmlns:cp'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://schemas.openxmlformats.org/package/2006/metadata/core-properties'</span>,
-               <span class="ruby-string">'xmlns:dc'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://purl.org/dc/elements/1.1/'</span>,
-               <span class="ruby-string">'xmlns:dcterms'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://purl.org/dc/terms/'</span>,
-               <span class="ruby-string">'xmlns:dcmitype'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://purl.org/dc/dcmitype/'</span>,
-               <span class="ruby-string">'xmlns:xsi'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'http://www.w3.org/2001/XMLSchema-instance'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">root</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">xml</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;cp:coreProperties&#39;</span>, 
+               <span class="ruby-string">&#39;xmlns:cp&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://schemas.openxmlformats.org/package/2006/metadata/core-properties&#39;</span>,
+               <span class="ruby-string">&#39;xmlns:dc&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://purl.org/dc/elements/1.1/&#39;</span>,
+               <span class="ruby-string">&#39;xmlns:dcterms&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://purl.org/dc/terms/&#39;</span>,
+               <span class="ruby-string">&#39;xmlns:dcmitype&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://purl.org/dc/dcmitype/&#39;</span>,
+               <span class="ruby-string">&#39;xmlns:xsi&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://www.w3.org/2001/XMLSchema-instance&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">root</span><span class="ruby-operator">|</span>
 
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'dc:creator'</span>,        <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">creator</span>)
-      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'cp:lastModifiedBy'</span>, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modifier</span>)
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;dc:creator&#39;</span>,        <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">creator</span>)
+      <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;cp:lastModifiedBy&#39;</span>, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modifier</span>)
 
       <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
-        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'dcterms:created'</span>,  { <span class="ruby-string">'xsi:type'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'dcterms:W3CDTF'</span> }, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">created_at</span>)
+        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;dcterms:created&#39;</span>,  { <span class="ruby-string">&#39;xsi:type&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;dcterms:W3CDTF&#39;</span> }, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">created_at</span>)
       <span class="ruby-keyword">end</span>
 
       <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modified_at</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
-        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">'dcterms:modified'</span>, { <span class="ruby-string">'xsi:type'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'dcterms:W3CDTF'</span> }, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modified_at</span>)
+        <span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-string">&#39;dcterms:modified&#39;</span>, { <span class="ruby-string">&#39;xsi:type&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;dcterms:W3CDTF&#39;</span> }, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modified_at</span>)
       <span class="ruby-keyword">end</span>
     })
   <span class="ruby-keyword">end</span>
