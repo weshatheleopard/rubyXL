@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
-  s.authors = ["Vivek Bhagwat", "Wesha the Leopard"]
+  s.authors = ["Vivek Bhagwat"]
   s.date = "2014-02-18"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
   s.email = "bhagwat.vivek@gmail.com"
