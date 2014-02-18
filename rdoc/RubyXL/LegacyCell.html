@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyCell - rubyXL 2.3.0</title>
+<title>module RubyXL::LegacyCell - rubyXL 2.3.3</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -124,8 +124,6 @@
     
     <li ><a href="#method-i-is_bolded">#is_bolded</a>
     
-    <li ><a href="#method-i-is_date-3F">#is_date?</a>
-    
     <li ><a href="#method-i-is_italicized">#is_italicized</a>
     
     <li ><a href="#method-i-is_struckthrough">#is_struckthrough</a>
@@ -243,13 +241,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s bottom border</p>
+          <p>returns cell&#39;s bottom border</p>
           
           
 
           
           <div class="method-source-code" id="border_bottom-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 237</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 231</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">border_bottom</span>()
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_border</span>(<span class="ruby-value">:bottom</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -276,13 +274,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s diagonal border</p>
+          <p>returns cell&#39;s diagonal border</p>
           
           
 
           
           <div class="method-source-code" id="border_diagonal-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 242</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 236</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">border_diagonal</span>()
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_border</span>(<span class="ruby-value">:diagonal</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -309,13 +307,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s left border</p>
+          <p>returns cell&#39;s left border</p>
           
           
 
           
           <div class="method-source-code" id="border_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 227</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 221</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">border_left</span>()
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_border</span>(<span class="ruby-value">:left</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -342,13 +340,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s right border</p>
+          <p>returns cell&#39;s right border</p>
           
           
 
           
           <div class="method-source-code" id="border_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 232</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 226</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">border_right</span>()
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_border</span>(<span class="ruby-value">:right</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -375,13 +373,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s top border</p>
+          <p>returns cell&#39;s top border</p>
           
           
 
           
           <div class="method-source-code" id="border_top-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 222</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 216</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">border_top</span>()
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_border</span>(<span class="ruby-value">:top</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -414,8 +412,8 @@
 
           
           <div class="method-source-code" id="change_border_bottom-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 131</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_bottom</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">'thin'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 125</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_bottom</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">&#39;thin&#39;</span>)
   <span class="ruby-identifier">change_border</span>(<span class="ruby-value">:bottom</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -447,8 +445,8 @@
 
           
           <div class="method-source-code" id="change_border_diagonal-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 136</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_diagonal</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">'thin'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 130</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_diagonal</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">&#39;thin&#39;</span>)
   <span class="ruby-identifier">change_border</span>(<span class="ruby-value">:diagonal</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -480,8 +478,8 @@
 
           
           <div class="method-source-code" id="change_border_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 121</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_left</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">'thin'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_left</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">&#39;thin&#39;</span>)
   <span class="ruby-identifier">change_border</span>(<span class="ruby-value">:left</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -513,8 +511,8 @@
 
           
           <div class="method-source-code" id="change_border_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 126</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_right</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">'thin'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 120</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_right</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">&#39;thin&#39;</span>)
   <span class="ruby-identifier">change_border</span>(<span class="ruby-value">:right</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -546,8 +544,8 @@
 
           
           <div class="method-source-code" id="change_border_top-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 116</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_top</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">'thin'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border_top</span>(<span class="ruby-identifier">weight</span>=<span class="ruby-string">&#39;thin&#39;</span>)
   <span class="ruby-identifier">change_border</span>(<span class="ruby-value">:top</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -579,14 +577,14 @@
 
           
           <div class="method-source-code" id="change_contents-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 141</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 135</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_contents</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">formula</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-constant">RAW_STRING</span>
 
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">Date</span>           <span class="ruby-keyword">then</span> <span class="ruby-identifier">data</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">date_to_num</span>(<span class="ruby-identifier">data</span>)
-  <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span>, <span class="ruby-constant">Float</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-string">''</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span>, <span class="ruby-constant">Float</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-string">&#39;&#39;</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-identifier">data</span>
@@ -621,8 +619,8 @@
 
           
           <div class="method-source-code" id="change_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 20</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_fill</span>(<span class="ruby-identifier">rgb</span>=<span class="ruby-string">'ffffff'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_fill</span>(<span class="ruby-identifier">rgb</span>=<span class="ruby-string">&#39;ffffff&#39;</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">rgb</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_fill</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>,<span class="ruby-identifier">rgb</span>)
@@ -656,7 +654,7 @@
 
           
           <div class="method-source-code" id="change_font_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 65</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_bold</span>(<span class="ruby-identifier">bolded</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">validate_worksheet</span>
 
@@ -693,8 +691,8 @@
 
           
           <div class="method-source-code" id="change_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 46</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_color</span>(<span class="ruby-identifier">font_color</span>=<span class="ruby-string">'000000'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_color</span>(<span class="ruby-identifier">font_color</span>=<span class="ruby-string">&#39;000000&#39;</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">font_color</span>)
 
@@ -731,7 +729,7 @@
 
           
           <div class="method-source-code" id="change_font_italics-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_italics</span>(<span class="ruby-identifier">italicized</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">validate_worksheet</span>
 
@@ -768,8 +766,8 @@
 
           
           <div class="method-source-code" id="change_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 27</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_name</span>(<span class="ruby-identifier">new_font_name</span> = <span class="ruby-string">'Verdana'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_name</span>(<span class="ruby-identifier">new_font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
   <span class="ruby-identifier">validate_worksheet</span>
 
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">dup</span>
@@ -805,10 +803,10 @@
 
           
           <div class="method-source-code" id="change_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 36</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_size</span>(<span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
   <span class="ruby-identifier">validate_worksheet</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-string">'Argument must be a number'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">font_size</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Integer</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">font_size</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Float</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Argument must be a number&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">font_size</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Integer</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">font_size</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Float</span>)
 
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_size</span>(<span class="ruby-identifier">font_size</span>)
@@ -843,7 +841,7 @@
 
           
           <div class="method-source-code" id="change_font_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 82</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_strikethrough</span>(<span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">validate_worksheet</span>
 
@@ -880,7 +878,7 @@
 
           
           <div class="method-source-code" id="change_font_underline-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 74</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_font_underline</span>(<span class="ruby-identifier">underlined</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">validate_worksheet</span>
 
@@ -917,8 +915,8 @@
 
           
           <div class="method-source-code" id="change_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 98</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-identifier">alignment</span>=<span class="ruby-string">'center'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-identifier">alignment</span>=<span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-keyword">true</span>, <span class="ruby-identifier">alignment</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -951,7 +949,7 @@
 
           
           <div class="method-source-code" id="change_text_wrap-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 110</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_text_wrap</span>(<span class="ruby-identifier">wrap</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_text_wrap</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">wrap</span>)
@@ -985,8 +983,8 @@
 
           
           <div class="method-source-code" id="change_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 104</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-identifier">alignment</span>=<span class="ruby-string">'center'</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-identifier">alignment</span>=<span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">alignment</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1013,13 +1011,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s fill color</p>
+          <p>returns cell&#39;s fill color</p>
           
           
 
           
           <div class="method-source-code" id="fill_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 192</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 186</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fill_color</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">get_cell_xf</span>)
@@ -1053,10 +1051,10 @@
 
           
           <div class="method-source-code" id="font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 186</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 180</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">font_color</span>()
   <span class="ruby-identifier">validate_worksheet</span>
-  <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">'000000'</span>
+  <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;000000&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1087,7 +1085,7 @@
 
           
           <div class="method-source-code" id="font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 176</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">font_name</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_name</span>
@@ -1121,7 +1119,7 @@
 
           
           <div class="method-source-code" id="font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 181</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 175</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">font_size</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_size</span>
@@ -1149,13 +1147,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s horizontal alignment</p>
+          <p>returns cell&#39;s horizontal alignment</p>
           
           
 
           
           <div class="method-source-code" id="horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 198</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 192</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">horizontal_alignment</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">xf_obj</span> = <span class="ruby-identifier">get_cell_xf</span>
@@ -1191,7 +1189,7 @@
 
           
           <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 246</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 240</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
   <span class="ruby-identifier">str</span> = <span class="ruby-node">&quot;#&lt;#{self.class}(#{row},#{column}): #{raw_value.inspect}&quot;</span> 
   <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; =#{@formula}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@formula</span>
@@ -1227,45 +1225,10 @@
 
           
           <div class="method-source-code" id="is_bolded-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 161</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 155</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_bolded</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_bold</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-is_date-3F" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">is_date?</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="is_date-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_date?</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\d+$/</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
-  <span class="ruby-identifier">num_fmt</span> = <span class="ruby-identifier">get_number_format</span>
-  <span class="ruby-identifier">num_fmt</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num_fmt</span>.<span class="ruby-identifier">is_date_format?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1296,7 +1259,7 @@
 
           
           <div class="method-source-code" id="is_italicized-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 155</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 149</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_italicized</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_italic</span>
@@ -1330,7 +1293,7 @@
 
           
           <div class="method-source-code" id="is_struckthrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 171</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 165</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_struckthrough</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_strikethrough</span>
@@ -1364,7 +1327,7 @@
 
           
           <div class="method-source-code" id="is_underlined-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 166</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 160</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_underlined</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_underlined</span>
@@ -1392,13 +1355,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s wrap</p>
+          <p>returns cell&#39;s wrap</p>
           
           
 
           
           <div class="method-source-code" id="text_wrap-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 214</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 208</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">text_wrap</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">xf_obj</span> = <span class="ruby-identifier">get_cell_xf</span>
@@ -1428,13 +1391,13 @@
 
         <div class="method-description">
           
-          <p>returns cell’s vertical alignment</p>
+          <p>returns cell&#39;s vertical alignment</p>
           
           
 
           
           <div class="method-source-code" id="vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 206</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 200</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">vertical_alignment</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">xf_obj</span> = <span class="ruby-identifier">get_cell_xf</span>

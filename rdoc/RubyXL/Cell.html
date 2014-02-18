@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Cell - rubyXL 2.3.0</title>
+<title>class RubyXL::Cell - rubyXL 2.3.3</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -89,6 +89,10 @@
     <li ><a href="#method-i-column-3D">#column=</a>
     
     <li ><a href="#method-i-index_in_collection">#index_in_collection</a>
+    
+    <li ><a href="#method-i-is_date-3F">#is_date?</a>
+    
+    <li ><a href="#method-i-number_format">#number_format</a>
     
     <li ><a href="#method-i-raw_value">#raw_value</a>
     
@@ -225,6 +229,74 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-is_date-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">is_date?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="is_date-3F-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_date?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\d+(?:\.\d+)$/</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
+  <span class="ruby-identifier">num_fmt</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">number_format</span>
+  <span class="ruby-identifier">num_fmt</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num_fmt</span>.<span class="ruby-identifier">is_date_format?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-number_format" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">number_format</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="number_format-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 56</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">number_format</span>
+  <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">get_number_format_by_id</span>(<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">num_fmt_id</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -382,20 +454,21 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
         <div class="method-description">
           
-          
+          <p>Gets massaged value of the cell, converting datatypes to those known to
+Ruby (that includes stripping any special formatting from RichText).</p>
           
           
 
           
           <div class="method-source-code" id="value-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">:raw</span>]
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">datatype</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">shared_strings_container</span>[<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>]
+    <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">shared_strings_container</span>[<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>].<span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">else</span> 
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_date?</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_date?</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_f</span>)
     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^-?\d+(\.\d+(?:e[+-]\d+)?)?$/i</span>) <span class="ruby-comment"># Numeric</span>
       <span class="ruby-keyword">if</span> <span class="ruby-node">$1</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_f</span>
       <span class="ruby-keyword">else</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>

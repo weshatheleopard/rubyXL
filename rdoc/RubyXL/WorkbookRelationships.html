@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::WorkbookRelationships - rubyXL 2.3.0</title>
+<title>class RubyXL::WorkbookRelationships - rubyXL 2.3.3</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -61,29 +61,13 @@
   <h3>Parent</h3>
 
   
-  <p class="link"><a href="OOXMLTopLevelObject.html">RubyXL::OOXMLTopLevelObject</a>
+  <p class="link"><a href="OOXMLRelationshipsFile.html">RubyXL::OOXMLRelationshipsFile</a>
   
 </div>
 
     
     
-    <!-- Method Quickref -->
-<div id="method-list-section" class="nav-section">
-  <h3>Methods</h3>
-
-  <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-filepath">::filepath</a>
-    
-    <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
-    
-    <li ><a href="#method-i-create_relationship">#create_relationship</a>
-    
-    <li ><a href="#method-i-find_by_rid">#find_by_rid</a>
-    
-  </ul>
-</div>
-
   </div>
 </nav>
 
@@ -94,9 +78,6 @@
 
   <section class="description">
     
-<p><a
-href="http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html">www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html</a></p>
-
   </section>
 
   
@@ -110,200 +91,8 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html">www.schemacen
     
 
     
-    <section class="attribute-method-details" class="method-section">
-      <header>
-        <h3>Attributes</h3>
-      </header>
-
-      
-      <div id="attribute-i-workbook" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">workbook</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-    </section>
-    
 
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Class Methods</h3>
-       </header>
-
-    
-      <div id="method-c-filepath" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">filepath</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="filepath-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 59</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filepath</span>
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'_rels'</span>, <span class="ruby-string">'workbook.xml.rels'</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Instance Methods</h3>
-       </header>
-
-    
-      <div id="method-i-before_write_xml" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">before_write_xml</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 30</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">relationships</span> = []
-
-  <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">relationships</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">filepath</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/^xl\//</span>, <span class="ruby-string">''</span>), <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">rel_type</span>)
-  }
-
-  <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">each_key</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> 
-    <span class="ruby-identifier">relationships</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-node">&quot;externalLinks/#{k}&quot;</span>, <span class="ruby-string">'externalLink'</span>)
-  }
-
-  <span class="ruby-identifier">relationships</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-string">'theme/theme1.xml'</span>, <span class="ruby-string">'theme'</span>)
-  <span class="ruby-identifier">relationships</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-string">'styles.xml'</span>, <span class="ruby-string">'styles'</span>)
-
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">shared_strings_container</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">shared_strings_container</span>.<span class="ruby-identifier">strings</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">relationships</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-string">'sharedStrings.xml'</span>, <span class="ruby-string">'sharedStrings'</span>) 
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">calculation_chain</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">calculation_chain</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">relationships</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-string">'calcChain.xml'</span>, <span class="ruby-string">'calcChain'</span>) 
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-keyword">true</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-create_relationship" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">create_relationship</span><span
-            class="method-args">(target, type)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="create_relationship-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 24</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_relationship</span>(<span class="ruby-identifier">target</span>, <span class="ruby-identifier">type</span>)
-  <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Relationship</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;rId#{relationships.size + 1}&quot;</span>, 
-                           <span class="ruby-value">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;http://schemas.openxmlformats.org/officeDocument/2006/relationships/#{type}&quot;</span>,
-                           <span class="ruby-value">:target</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">target</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-find_by_rid" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">find_by_rid</span><span
-            class="method-args">(r_id)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="find_by_rid-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 55</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">find_by_rid</span>(<span class="ruby-identifier">r_id</span>)
-  <span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">r_id</span> }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
   </section>
 </main>
 

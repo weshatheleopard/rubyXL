@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Writer::ThemeWriter - rubyXL 2.3.0</title>
+<title>class RubyXL::Writer::ThemeWriter - rubyXL 2.3.3</title>
 
 <link href="../../fonts.css" rel="stylesheet">
 <link href="../../rdoc.css" rel="stylesheet">
@@ -132,7 +132,7 @@
           <div class="method-source-code" id="filepath-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/theme_writer.rb, line 6</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">filepath</span>
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'theme'</span>, <span class="ruby-string">'theme1.xml'</span>)
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;theme&#39;</span>, <span class="ruby-string">&#39;theme1.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -165,10 +165,10 @@
           <div class="method-source-code" id="write-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/theme_writer.rb, line 10</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier">write</span>()
-      <span class="ruby-keyword">return</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">theme</span>[<span class="ruby-string">'theme1.xml'</span>] <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">theme</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">theme</span>[<span class="ruby-string">&#39;theme1.xml&#39;</span>] <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">theme</span>.<span class="ruby-identifier">empty?</span>
 
       <span class="ruby-comment"># Fallback theme. Note that this particular theme totall throws colors off. Need to figure it out eventually.</span>
-        <span class="ruby-identifier">contents</span> = <span class="ruby-string">'&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+        <span class="ruby-identifier">contents</span> = <span class="ruby-string">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
 &lt;a:theme xmlns:a=&quot;http://schemas.openxmlformats.org/drawingml/2006/main&quot; name=&quot;Office Theme&quot;&gt;
 &lt;a:themeElements&gt;
 &lt;a:clrScheme name=&quot;Office&quot;&gt;
@@ -483,7 +483,7 @@
 &lt;/a:lnDef&gt;
 &lt;/a:objectDefaults&gt;
 &lt;a:extraClrSchemeLst/&gt;
-&lt;/a:theme&gt;'</span>
+&lt;/a:theme&gt;&#39;</span>
 
       <span class="ruby-identifier">contents</span>
     <span class="ruby-keyword">end</span></pre>

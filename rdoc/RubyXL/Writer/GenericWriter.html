@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Writer::GenericWriter - rubyXL 2.3.0</title>
+<title>class RubyXL::Writer::GenericWriter - rubyXL 2.3.3</title>
 
 <link href="../../fonts.css" rel="stylesheet">
 <link href="../../rdoc.css" rel="stylesheet">
@@ -218,7 +218,7 @@
           <div class="method-source-code" id="filepath-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/generic_writer.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">filepath</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-string">'Subclass responsebility'</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Subclass responsebility&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -251,7 +251,7 @@
           <div class="method-source-code" id="ooxml_object-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/generic_writer.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ooxml_object</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-string">'Subclass responsebility'</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Subclass responsebility&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -284,8 +284,8 @@
           <div class="method-source-code" id="render_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/writer/generic_writer.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">render_xml</span>
-  <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">'&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;'</span>)
-  <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">encoding</span> = <span class="ruby-string">'UTF-8'</span>
+  <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">&#39;&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;&#39;</span>)
+  <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">encoding</span> = <span class="ruby-string">&#39;UTF-8&#39;</span>
 
   <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">seed_xml</span>)
 
