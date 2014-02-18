@@ -135,16 +135,16 @@ module RubyXL
 
     def base_date
       if date1904 then 
-        Date.new(1904, 1, 1)
+        DateTime.new(1904, 1, 1)
       else
         # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
-        Date.new(1899, 12, 31) - 1
+        DateTime.new(1899, 12, 31) - 1
       end
     end
     private :base_date
 
     def date_to_num(date)
-      date && (date.ajd - base_date().ajd).to_i
+      date && (date.ajd - base_date().ajd).to_f
     end
 
     def num_to_date(num)

@@ -10,12 +10,6 @@ module RubyXL
       @worksheet.workbook
     end
 
-    def is_date?
-      return false unless raw_value =~ /^\d+$/ # Only fully numeric values can be dates
-      num_fmt = get_number_format
-      num_fmt && num_fmt.is_date_format?
-    end
-
     # changes fill color of cell
     def change_fill(rgb='ffffff')
       validate_worksheet
@@ -290,10 +284,6 @@ module RubyXL
 
     def get_cell_border
       workbook.borders[get_cell_xf.border_id]
-    end
-
-    def get_number_format
-      workbook.stylesheet.get_number_format_by_id(get_cell_xf.num_fmt_id)
     end
 
   end

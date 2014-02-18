@@ -53,13 +53,25 @@ module RubyXL
       value_container.value = v
     end
 
+    def number_format
+      workbook.stylesheet.get_number_format_by_id(get_cell_xf.num_fmt_id)
+    end
+
+    def is_date?
+      return false unless raw_value =~ /^\d+(?:\.\d+)$/ # Only fully numeric values can be dates
+      num_fmt = self.number_format
+      num_fmt && num_fmt.is_date_format?
+    end
+
+    # Gets massaged value of the cell, converting datatypes to those known to Ruby (that includes
+    # stripping any special formatting from RichText).
     def value(args = {})
       return raw_value if args[:raw]
       case datatype
       when RubyXL::Cell::SHARED_STRING then
-        workbook.shared_strings_container[raw_value.to_i]
+        workbook.shared_strings_container[raw_value.to_i].to_s
       else 
-        if is_date? then workbook.num_to_date(raw_value.to_i)
+        if is_date? then workbook.num_to_date(raw_value.to_f)
         elsif raw_value.is_a?(String) && (raw_value =~ /^-?\d+(\.\d+(?:e[+-]\d+)?)?$/i) # Numeric
           if $1 then raw_value.to_f
           else raw_value.to_i
