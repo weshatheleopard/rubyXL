@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 2.3.3</title>
+<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 2.3.4</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -443,7 +443,7 @@ it in the context of descendant class,  which is what we need.</p>
       <span class="ruby-identifier">node</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">IO</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
 
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>) <span class="ruby-keyword">then</span>
-<span class="ruby-comment">#        @namespaces = node.namespaces</span>
+        <span class="ruby-ivar">@namespaces</span> = <span class="ruby-identifier">node</span>.<span class="ruby-identifier">namespaces</span>
         <span class="ruby-identifier">node</span> = <span class="ruby-identifier">node</span>.<span class="ruby-identifier">root</span>
 <span class="ruby-comment">#        ignorable_attr = node.attributes[&#39;Ignorable&#39;]</span>
 <span class="ruby-comment">#        @ignorables &lt;&lt; ignorable_attr.value if ignorable_attr</span>
@@ -464,7 +464,7 @@ it in the context of descendant class,  which is what we need.</p>
         <span class="ruby-identifier">attr_params</span> = <span class="ruby-identifier">known_attributes</span>[<span class="ruby-identifier">attr_name</span>]
 
         <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">attr_params</span>.<span class="ruby-identifier">nil?</span>
-        <span class="ruby-comment"># raise &quot;Unknown attribute: #{attr_name}&quot; if attr_params.nil?</span>
+        <span class="ruby-comment"># raise &quot;Unknown attribute [#{attr_name}] for element [#{node.name}]&quot; if attr_params.nil?</span>
         <span class="ruby-identifier">process_attribute</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">attr</span>.<span class="ruby-identifier">value</span>, <span class="ruby-identifier">attr_params</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">attr_params</span>[<span class="ruby-value">:computed</span>]
       }
 
@@ -479,7 +479,7 @@ it in the context of descendant class,  which is what we need.</p>
                             <span class="ruby-keyword">end</span>
 
           <span class="ruby-identifier">child_node_params</span> = <span class="ruby-identifier">known_child_nodes</span>[<span class="ruby-identifier">child_node_name</span>]
-          <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown child node: #{child_node_name}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>.<span class="ruby-identifier">nil?</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown child node [#{child_node_name}] for element [#{node.name}]&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>.<span class="ruby-identifier">nil?</span>
           <span class="ruby-identifier">parsed_object</span> = <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:class</span>].<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">child_node</span>)
           <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:is_array</span>] <span class="ruby-keyword">then</span>
             <span class="ruby-identifier">index</span> = <span class="ruby-identifier">parsed_object</span>.<span class="ruby-identifier">index_in_collection</span>
