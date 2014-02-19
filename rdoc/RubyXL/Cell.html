@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Cell - rubyXL 2.3.3</title>
+<title>class RubyXL::Cell - rubyXL 2.3.4</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -261,7 +261,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
           <div class="method-source-code" id="is_date-3F-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_date?</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\d+(?:\.\d+)$/</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\d+(?:\.\d+)?$/</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
   <span class="ruby-identifier">num_fmt</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">number_format</span>
   <span class="ruby-identifier">num_fmt</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num_fmt</span>.<span class="ruby-identifier">is_date_format?</span>
 <span class="ruby-keyword">end</span></pre>
