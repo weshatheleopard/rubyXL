@@ -644,6 +644,7 @@ module RubyXL
     define_child_node(RubyXL::WebPublishingItems)
     define_child_node(RubyXL::TableParts)
     define_child_node(RubyXL::ExtensionStorageArea)
+    define_child_node(RubyXL::AlternateContent)
     define_element_name 'worksheet'
     set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
                    'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',

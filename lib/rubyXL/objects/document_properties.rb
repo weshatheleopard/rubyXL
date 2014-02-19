@@ -82,10 +82,21 @@ module RubyXL
     attr_accessor :workbook
 
     define_child_node(RubyXL::StringNode,    :node_name => 'dc:creator')
-    define_child_node(RubyXL::StringNode,    :node_name => 'cp:lastModifiedBy')
-    define_child_node(RubyXL::StringNode,    :node_name => 'cp:lastModifiedBy')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:description')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:identifier')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:language')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:subject')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:title')
     define_child_node(RubyXL::StringNodeW3C, :node_name => 'dcterms:created')
     define_child_node(RubyXL::StringNodeW3C, :node_name => 'dcterms:modified')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:lastModifiedBy')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:lastPrinted')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:category')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:contentStatus')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:contentType')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:keywords')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:revision')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:version')
 
     set_namespaces('xmlns:cp'       => 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties',
                    'xmlns:dc'       => 'http://purl.org/dc/elements/1.1/',
