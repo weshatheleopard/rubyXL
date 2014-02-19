@@ -108,8 +108,8 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        [ Writer::ThemeWriter, Writer::WorkbookWriter 
-        ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
+        Writer::ThemeWriter.new(self).add_to_zip(zipfile)
+        Writer::WorkbookWriter.new(self).add_to_zip(zipfile)
 
         calculation_chain && calculation_chain.add_to_zip(zipfile)
         shared_strings_container && shared_strings_container.add_to_zip(zipfile)
