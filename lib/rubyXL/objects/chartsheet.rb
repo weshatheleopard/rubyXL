@@ -78,12 +78,16 @@ module RubyXL
       @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
     end
 
-    def filepath
+    def xlsx_path
       File.join('xl', 'chartsheets', "sheet#{sheet_index + 1}.xml")
     end
 
     def rel_type
       'chartsheet'
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
     end
 
     attr_accessor :workbook, :sheet_name, :sheet_id

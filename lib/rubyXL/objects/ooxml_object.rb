@@ -388,11 +388,11 @@ module RubyXL
   class OOXMLTopLevelObject < OOXMLObject
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
-    def filepath
-      self.class.filepath
+    def xlsx_path
+      self.class.xlsx_path
     end
 
-    def self.filepath
+    def self.xlsx_path
       raise 'Subclass responsebility'
     end
 
@@ -411,7 +411,7 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(dirpath)
-      full_path = File.join(dirpath, filepath)
+      full_path = File.join(dirpath, xlsx_path)
       return nil unless File.exist?(full_path)
       parse(File.open(full_path, 'r'))
     end
@@ -422,7 +422,7 @@ module RubyXL
     def add_to_zip(zipfile)
       xml_string = write_xml
       return if xml_string.empty?
-      zipfile.get_output_stream(self.filepath) { |f| f << xml_string }
+      zipfile.get_output_stream(self.xlsx_path) { |f| f << xml_string }
     end
 
   end

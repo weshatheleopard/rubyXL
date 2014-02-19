@@ -183,8 +183,12 @@ module RubyXL
       @format_hash = nil
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('xl', 'styles.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml'
     end
 
     def self.default

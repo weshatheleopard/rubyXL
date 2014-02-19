@@ -46,7 +46,7 @@ module RubyXL
       self.relationships = []
 
       @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << document_relationship(sheet.filepath.gsub(/^xl\//, ''), sheet.rel_type)
+        relationships << document_relationship(sheet.xlsx_path.gsub(/^xl\//, ''), sheet.rel_type)
       }
 
       @workbook.external_links.each_key { |k| 
@@ -67,7 +67,7 @@ module RubyXL
       true
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('xl', '_rels', 'workbook.xml.rels')
     end
 
@@ -87,7 +87,7 @@ module RubyXL
       true
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('_rels', '.rels')
     end
   end

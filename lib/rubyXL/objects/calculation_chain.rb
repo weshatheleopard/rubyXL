@@ -21,8 +21,13 @@ module RubyXL
     define_element_name 'calcChain'
     set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main')
 
-    def self.filepath
+    def self.xlsx_path
       File.join('xl', 'calcChain.xml')
     end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml'
+    end
+
   end
 end

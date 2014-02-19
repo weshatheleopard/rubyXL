@@ -36,11 +36,10 @@ module RubyXL
         }
       }
 
-      workbook_file = Nokogiri::XML.parse(File.open(File.join(dir_path, 'xl', 'workbook.xml'), 'r'))
-
-      wb = RubyXL::Workbook.parse(workbook_file)
+      wb = RubyXL::Workbook.parse_file(dir_path)
       wb.filepath = xl_file_path
 
+      wb.content_types = RubyXL::ContentTypes.parse_file(dir_path)
       wb.relationship_container = RubyXL::WorkbookRelationships.parse_file(dir_path)
       wb.root_relationship_container = RubyXL::RootRelationships.parse_file(dir_path)
 

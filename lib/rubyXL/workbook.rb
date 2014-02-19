@@ -1,5 +1,4 @@
 require 'rubyXL/writer/generic_writer'
-require 'rubyXL/writer/content_types_writer'
 require 'rubyXL/writer/theme_writer'
 require 'rubyXL/writer/workbook_writer'
 require 'tmpdir'
@@ -13,7 +12,7 @@ module RubyXL
       :worksheet_rels, :chartsheet_rels, :printer_settings, :macros
 
     attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
-                  :relationship_container, :root_relationship_container, :core_properties
+                  :relationship_container, :root_relationship_container, :core_properties, :content_types
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -50,6 +49,7 @@ module RubyXL
       @stylesheet               = RubyXL::Stylesheet.default
       @document_properties      = RubyXL::DocumentProperties.new
       @core_properties          = RubyXL::CoreProperties.new
+      @content_types            = RubyXL::ContentTypes.new
       @relationship_container   = RubyXL::WorkbookRelationships.new
       @root_relationship_container  = RubyXL::RootRelationships.new
       @calculation_chain        = nil
@@ -108,13 +108,15 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        [ Writer::ContentTypesWriter, Writer::ThemeWriter, Writer::WorkbookWriter 
+        [ Writer::ThemeWriter, Writer::WorkbookWriter 
         ].each { |writer_class| writer_class.new(self).add_to_zip(zipfile) }
 
         calculation_chain && calculation_chain.add_to_zip(zipfile)
         shared_strings_container && shared_strings_container.add_to_zip(zipfile)
         document_properties.add_to_zip(zipfile)
         core_properties.add_to_zip(zipfile)
+        content_types.workbook = self
+        content_types.add_to_zip(zipfile)
         relationship_container.workbook = self
         relationship_container.add_to_zip(zipfile)
         stylesheet.add_to_zip(zipfile)

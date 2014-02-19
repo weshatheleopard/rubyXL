@@ -67,8 +67,12 @@ module RubyXL
       true
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('docProps', 'app.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.extended-properties+xml'
     end
 
   end
@@ -90,8 +94,12 @@ module RubyXL
                    'xmlns:xsi'      => 'http://www.w3.org/2001/XMLSchema-instance')
     define_element_name 'cp:coreProperties'
 
-    def self.filepath
+    def self.xlsx_path
       File.join('docProps', 'core.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-package.core-properties+xml'
     end
 
     def creator

@@ -48,8 +48,12 @@ module RubyXL
       index 
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('xl', 'sharedStrings.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml'
     end
 
   end

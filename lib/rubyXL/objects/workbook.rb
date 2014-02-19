@@ -384,8 +384,12 @@ module RubyXL
       self.core_properties.modified_at = v
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('xl', 'workbook.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     end
 
   end
