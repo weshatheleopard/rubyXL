@@ -1,5 +1,4 @@
 require 'rubyXL/writer/generic_writer'
-require 'rubyXL/writer/theme_writer'
 require 'rubyXL/writer/workbook_writer'
 require 'tmpdir'
 require 'zip'
@@ -41,7 +40,6 @@ module RubyXL
       @chart_rels          = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
       @worksheet_rels      = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
       @chartsheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'chartsheets', '_rels'))
-      @theme               = RubyXL::GenericStorage.new(File.join('xl', 'theme'))
       @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros              = RubyXL::GenericStorage.new('xl').binary
 
@@ -108,9 +106,9 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        Writer::ThemeWriter.new(self).add_to_zip(zipfile)
         Writer::WorkbookWriter.new(self).add_to_zip(zipfile)
 
+        theme && theme.add_to_zip(zipfile)
         calculation_chain && calculation_chain.add_to_zip(zipfile)
         shared_strings_container && shared_strings_container.add_to_zip(zipfile)
         document_properties.add_to_zip(zipfile)

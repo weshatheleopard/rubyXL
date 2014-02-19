@@ -55,8 +55,8 @@ module RubyXL
         wb.worksheet_rels.load_dir(dir_path)
         wb.chartsheet_rels.load_dir(dir_path)
         wb.macros.load_file(dir_path, 'vbaProject.bin')
-        wb.theme.load_file(dir_path, 'theme1.xml')
 
+        wb.theme = RubyXL::Theme.parse_file(dir_path)
         wb.core_properties = RubyXL::CoreProperties.parse_file(dir_path)
         wb.document_properties = RubyXL::DocumentProperties.parse_file(dir_path)
         wb.calculation_chain = RubyXL::CalculationChain.parse_file(dir_path)

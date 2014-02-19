@@ -44,7 +44,7 @@ module RubyXL
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'xml',
                       :content_type => 'application/xml' )
 
-#      defaults << RubyXL::ContentTypeDefault.new(:extension => 'jpeg', :content_type => 'image/jpeg' )
+      defaults << RubyXL::ContentTypeDefault.new(:extension => 'jpeg', :content_type => 'image/jpeg' )
 
       self.overrides = []
       overrides << generate_override(workbook)
@@ -54,6 +54,7 @@ module RubyXL
       overrides << generate_override(workbook.core_properties)
       overrides << generate_override(workbook.shared_strings_container) unless workbook.shared_strings_container.empty?
       overrides << generate_override(workbook.calculation_chain) unless workbook.calculation_chain.nil?
+#      overrides << generate_override(workbook.theme)
 
       overrides << RubyXL::ContentTypeOverride.new(:part_name => '/xl/theme/theme1.xml',
                       :content_type => 'application/vnd.openxmlformats-officedocument.theme+xml')
