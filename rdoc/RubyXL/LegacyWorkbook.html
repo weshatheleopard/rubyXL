@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyWorkbook - rubyXL 2.3.4</title>
+<title>module RubyXL::LegacyWorkbook - rubyXL 2.4.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -223,9 +223,9 @@
         </div>
       </div>
       
-      <div id="attribute-i-created_at" class="method-detail">
+      <div id="attribute-i-content_types" class="method-detail">
         <div class="method-heading attribute-method-heading">
-          <span class="method-name">created_at</span><span
+          <span class="method-name">content_types</span><span
             class="attribute-access-type">[RW]</span>
         </div>
 
@@ -236,9 +236,9 @@
         </div>
       </div>
       
-      <div id="attribute-i-creator" class="method-detail">
+      <div id="attribute-i-core_properties" class="method-detail">
         <div class="method-heading attribute-method-heading">
-          <span class="method-name">creator</span><span
+          <span class="method-name">core_properties</span><span
             class="attribute-access-type">[RW]</span>
         </div>
 
@@ -343,32 +343,6 @@
       <div id="attribute-i-media" class="method-detail">
         <div class="method-heading attribute-method-heading">
           <span class="method-name">media</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-      <div id="attribute-i-modified_at" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">modified_at</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-      <div id="attribute-i-modifier" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">modifier</span><span
             class="attribute-access-type">[RW]</span>
         </div>
 
@@ -517,7 +491,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 24</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">worksheets</span>=[], <span class="ruby-identifier">filepath</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span>=<span class="ruby-keyword">nil</span>,
                <span class="ruby-identifier">company</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">application</span>=<span class="ruby-constant">APPLICATION</span>,
                <span class="ruby-identifier">appversion</span>=<span class="ruby-constant">APPVERSION</span>, <span class="ruby-identifier">date1904</span>=<span class="ruby-value">0</span>)
@@ -541,13 +515,15 @@
   <span class="ruby-ivar">@chart_rels</span>          = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericStorage</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;charts&#39;</span>, <span class="ruby-string">&#39;_rels&#39;</span>))
   <span class="ruby-ivar">@worksheet_rels</span>      = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericStorage</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;worksheets&#39;</span>, <span class="ruby-string">&#39;_rels&#39;</span>))
   <span class="ruby-ivar">@chartsheet_rels</span>     = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericStorage</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;chartsheets&#39;</span>, <span class="ruby-string">&#39;_rels&#39;</span>))
-  <span class="ruby-ivar">@theme</span>               = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericStorage</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;theme&#39;</span>))
   <span class="ruby-ivar">@printer_settings</span>    = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericStorage</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;printerSettings&#39;</span>)).<span class="ruby-identifier">binary</span>
   <span class="ruby-ivar">@macros</span>              = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericStorage</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;xl&#39;</span>).<span class="ruby-identifier">binary</span>
 
+  <span class="ruby-ivar">@theme</span>                    = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Theme</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@shared_strings_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">SharedStringsTable</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@stylesheet</span>               = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Stylesheet</span>.<span class="ruby-identifier">default</span>
   <span class="ruby-ivar">@document_properties</span>      = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DocumentProperties</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@core_properties</span>          = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CoreProperties</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@content_types</span>            = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@relationship_container</span>   = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRelationships</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@root_relationship_container</span>  = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RootRelationships</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@calculation_chain</span>        = <span class="ruby-keyword">nil</span>
@@ -600,7 +576,7 @@
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 71</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 67</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">ind</span>)
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">ind</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">worksheets</span>[<span class="ruby-identifier">ind</span>]
@@ -638,7 +614,7 @@
 
           
           <div class="method-source-code" id="add_worksheet-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 81</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_worksheet</span>(<span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">n</span> = <span class="ruby-value">0</span>
@@ -681,7 +657,7 @@
 
           
           <div class="method-source-code" id="borders-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 260</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 258</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">borders</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">borders</span>
 <span class="ruby-keyword">end</span></pre>
@@ -714,7 +690,7 @@
 
           
           <div class="method-source-code" id="cell_xfs-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 248</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 246</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">cell_xfs</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>
 <span class="ruby-keyword">end</span></pre>
@@ -747,7 +723,7 @@
 
           
           <div class="method-source-code" id="date_to_num-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 146</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">date_to_num</span>(<span class="ruby-identifier">date</span>)
   <span class="ruby-identifier">date</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">date</span>.<span class="ruby-identifier">ajd</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">base_date</span>().<span class="ruby-identifier">ajd</span>).<span class="ruby-identifier">to_f</span>
 <span class="ruby-keyword">end</span></pre>
@@ -780,7 +756,7 @@
 
           
           <div class="method-source-code" id="each-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 95</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 91</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
   <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-identifier">i</span>}
 <span class="ruby-keyword">end</span></pre>
@@ -813,7 +789,7 @@
 
           
           <div class="method-source-code" id="fills-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 256</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 254</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fills</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fills</span>
 <span class="ruby-keyword">end</span></pre>
@@ -846,7 +822,7 @@
 
           
           <div class="method-source-code" id="fonts-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 252</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 250</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fonts</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fonts</span>
 <span class="ruby-keyword">end</span></pre>
@@ -879,7 +855,7 @@
 
           
           <div class="method-source-code" id="get_fill_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 154</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
   <span class="ruby-identifier">fill</span> = <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">fill_id</span>]
   <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">fill</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">fill</span>.<span class="ruby-identifier">pattern_fill</span>
@@ -915,7 +891,7 @@
 
           
           <div class="method-source-code" id="modify_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 210</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 208</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">is_horizontal</span>, <span class="ruby-identifier">alignment</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:apply_alignment</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
@@ -952,7 +928,7 @@
 
           
           <div class="method-source-code" id="modify_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 227</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 225</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">old_xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">border_id</span>].<span class="ruby-identifier">dup</span>
@@ -1002,7 +978,7 @@
 
           
           <div class="method-source-code" id="modify_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 218</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 216</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_fill</span> =<span class="ruby-operator">&gt;</span> 
@@ -1040,7 +1016,7 @@
 
           
           <div class="method-source-code" id="modify_text_wrap-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 204</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 202</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_text_wrap</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">wrap</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:wrap_text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">wrap</span>, <span class="ruby-value">:apply_alignment</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
@@ -1075,7 +1051,7 @@
 
           
           <div class="method-source-code" id="num_to_date-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 150</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 148</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">num</span>)
   <span class="ruby-identifier">num</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">base_date</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">num</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1108,7 +1084,7 @@
 
           
           <div class="method-source-code" id="register_new_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 161</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 159</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">old_xf</span>)
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
 
@@ -1153,7 +1129,7 @@
 
           
           <div class="method-source-code" id="register_new_font-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 177</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 175</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_font</span>(<span class="ruby-identifier">new_font</span>, <span class="ruby-identifier">old_xf</span>)
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
 
@@ -1198,7 +1174,7 @@
 
           
           <div class="method-source-code" id="register_new_xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 193</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 191</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>, <span class="ruby-identifier">old_style_index</span>)
   <span class="ruby-identifier">new_xf_id</span> = <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">xf</span><span class="ruby-operator">|</span> <span class="ruby-identifier">xf</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_xf</span> } <span class="ruby-comment"># Use existing XF, if it exists</span>
   <span class="ruby-identifier">new_xf_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this XF has never existed before, add it to collection.</span>
@@ -1238,7 +1214,7 @@
 
           
           <div class="method-source-code" id="write-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 100</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write</span>(<span class="ruby-identifier">filepath</span> = <span class="ruby-ivar">@filepath</span>)
   <span class="ruby-identifier">extension</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">filepath</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-node">%w{.xlsx .xlsm}</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">extension</span>)
@@ -1251,16 +1227,18 @@
   <span class="ruby-identifier">zippath</span>  = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">temppath</span>, <span class="ruby-string">&#39;file.zip&#39;</span>)
 
   <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">zippath</span>, <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">CREATE</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zipfile</span><span class="ruby-operator">|</span>
-    [ <span class="ruby-constant">Writer</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypesWriter</span>, <span class="ruby-constant">Writer</span><span class="ruby-operator">::</span><span class="ruby-constant">CoreWriter</span>,
-      <span class="ruby-constant">Writer</span><span class="ruby-operator">::</span><span class="ruby-constant">ThemeWriter</span>, <span class="ruby-constant">Writer</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookWriter</span>, <span class="ruby-constant">Writer</span><span class="ruby-operator">::</span><span class="ruby-constant">StylesWriter</span>
-    ].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">writer_class</span><span class="ruby-operator">|</span> <span class="ruby-identifier">writer_class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>).<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>) }
-
+    <span class="ruby-identifier">theme</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">theme</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">calculation_chain</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">calculation_chain</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">shared_strings_container</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">shared_strings_container</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
+    <span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
+    <span class="ruby-identifier">content_types</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-keyword">self</span>
+    <span class="ruby-identifier">content_types</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-keyword">self</span>
     <span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
+    <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">root_relationship_container</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
 
     [ <span class="ruby-ivar">@media</span>, <span class="ruby-ivar">@external_links</span>, <span class="ruby-ivar">@external_links_rels</span>,
       <span class="ruby-ivar">@drawings</span>, <span class="ruby-ivar">@drawings_rels</span>, <span class="ruby-ivar">@charts</span>, <span class="ruby-ivar">@chart_rels</span>,

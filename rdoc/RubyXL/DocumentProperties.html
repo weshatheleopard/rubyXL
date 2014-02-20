@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::DocumentProperties - rubyXL 2.3.4</title>
+<title>class RubyXL::DocumentProperties - rubyXL 2.4.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -73,7 +73,9 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-filepath">::filepath</a>
+    <li ><a href="#method-c-content_type">::content_type</a>
+    
+    <li ><a href="#method-c-xlsx_path">::xlsx_path</a>
     
     <li ><a href="#method-i-add_part_title">#add_part_title</a>
     
@@ -137,10 +139,10 @@ href="http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.htm
        </header>
 
     
-      <div id="method-c-filepath" class="method-detail ">
+      <div id="method-c-content_type" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">filepath</span><span
+          <span class="method-name">content_type</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -155,9 +157,42 @@ href="http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.htm
           
 
           
-          <div class="method-source-code" id="filepath-source">
+          <div class="method-source-code" id="content_type-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">content_type</span>
+  <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.extended-properties+xml&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-xlsx_path" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">xlsx_path</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 70</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filepath</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;docProps&#39;</span>, <span class="ruby-string">&#39;app.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>

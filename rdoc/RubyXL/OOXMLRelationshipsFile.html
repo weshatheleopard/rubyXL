@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 2.3.4</title>
+<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 2.4.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -77,6 +77,8 @@
     
     <li ><a href="#method-i-find_by_rid">#find_by_rid</a>
     
+    <li ><a href="#method-i-find_by_target">#find_by_target</a>
+    
     <li ><a href="#method-i-metadata_relationship">#metadata_relationship</a>
     
   </ul>
@@ -135,6 +137,39 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">find_by_rid</span>(<span class="ruby-identifier">r_id</span>)
   <span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">r_id</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-find_by_target" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">find_by_target</span><span
+            class="method-args">(target)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="find_by_target-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 39</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">find_by_target</span>(<span class="ruby-identifier">target</span>)
+  <span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">target</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">target</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
           

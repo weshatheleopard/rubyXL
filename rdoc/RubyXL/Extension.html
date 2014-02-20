@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Extension - rubyXL 2.3.4</title>
+<title>class RubyXL::Extension - rubyXL 2.4.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -67,19 +67,7 @@
 
     
     
-    <!-- Method Quickref -->
-<div id="method-list-section" class="nav-section">
-  <h3>Methods</h3>
-
-  <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-parse">::parse</a>
-    
-    <li ><a href="#method-i-write_xml">#write_xml</a>
-    
-  </ul>
-</div>
-
   </div>
 </nav>
 
@@ -92,9 +80,6 @@
     
 <p><a
 href="http://www.schemacentral.com/sc/ooxml/e-ssml_ext-1.html">www.schemacentral.com/sc/ooxml/e-ssml_ext-1.html</a></p>
-
-<p><a
-href="http://www.schemacentral.com/sc/ooxml/e-a_ext-1.html">www.schemacentral.com/sc/ooxml/e-a_ext-1.html</a></p>
 
   </section>
 
@@ -109,113 +94,8 @@ href="http://www.schemacentral.com/sc/ooxml/e-a_ext-1.html">www.schemacentral.co
     
 
     
-    <section class="attribute-method-details" class="method-section">
-      <header>
-        <h3>Attributes</h3>
-      </header>
-
-      
-      <div id="attribute-i-raw_xml" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">raw_xml</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-    </section>
-    
 
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Class Methods</h3>
-       </header>
-
-    
-      <div id="method-c-parse" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">parse</span><span
-            class="method-args">(node)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 12</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>)
-  <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">new</span>
-  <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">raw_xml</span> = <span class="ruby-identifier">node</span>.<span class="ruby-identifier">to_xml</span>
-  <span class="ruby-identifier">obj</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Instance Methods</h3>
-       </header>
-
-    
-      <div id="method-i-write_xml" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">write_xml</span><span
-            class="method-args">(xml, node_name_override = nil)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_xml</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
   </section>
 </main>
 
