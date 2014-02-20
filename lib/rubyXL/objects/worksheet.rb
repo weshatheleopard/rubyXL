@@ -652,6 +652,8 @@ module RubyXL
                    'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
                    'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
 
+    attr_accessor :state
+
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
       last_nonempty_row = 0
@@ -701,8 +703,12 @@ module RubyXL
       @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
     end
 
-    def filepath
+    def xlsx_path
       File.join('xl', 'worksheets', "sheet#{sheet_index + 1}.xml")
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
     end
 
     def rel_type

@@ -7,6 +7,8 @@ describe RubyXL::Parser do
   before do
     @workbook = RubyXL::Workbook.new
     @workbook.add_worksheet("Test Worksheet")
+    @time = Time.at(Time.now.to_i) # Excel only saves times with 1-second precision.
+    @time2 = @time + 123456
 
     ws = @workbook.add_worksheet("Escape Test")
     ws.add_cell(0, 0, "&")
@@ -29,8 +31,12 @@ describe RubyXL::Parser do
     ws.add_cell(3, 2, -123.456e78)
     ws.add_cell(3, 3, -123.456e-78)
 
-    @time_str = Time.now.to_s
+    @workbook.creator = "test creator"
+    @workbook.modifier = "test modifier"
+    @workbook.created_at = @time
+    @workbook.modified_at = @time2
 
+    @time_str = Time.now.to_s
     @file = Dir::Tmpname.make_tmpname(['rubyXL', '.xlsx'], nil)
     @workbook.write(@file)
   end
@@ -55,7 +61,7 @@ describe RubyXL::Parser do
       
       lambda {@workbook2 = RubyXL::Parser.parse(filename)}.should raise_error
       lambda {@workbook2 = RubyXL::Parser.parse(filename, :skip_filename_check => true)}.should_not raise_error
-      
+
       File.delete(filename)
     end
     
@@ -84,6 +90,14 @@ describe RubyXL::Parser do
       @workbook2["Escape Test"][1][0].value.should == "&"
       @workbook2["Escape Test"][1][1].value.should == "<"
       @workbook2["Escape Test"][1][2].value.should == ">"
+    end
+
+    it 'should parse Core properties correctly' do
+      @workbook2 = RubyXL::Parser.parse(@file)
+      @workbook2.creator.should == "test creator"
+      @workbook2.modifier.should == "test modifier"
+      @workbook2.created_at.should == @time
+      @workbook2.modified_at.should == @time2
     end
 
   end

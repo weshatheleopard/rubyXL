@@ -35,6 +35,10 @@ module RubyXL
     def find_by_rid(r_id)
       relationships.find { |r| r.id == r_id }
     end
+
+    def find_by_target(target)
+      relationships.find { |r| r.target == target }
+    end
   end
 
 
@@ -46,7 +50,7 @@ module RubyXL
       self.relationships = []
 
       @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << document_relationship(sheet.filepath.gsub(/^xl\//, ''), sheet.rel_type)
+        relationships << document_relationship(sheet.xlsx_path.gsub(/^xl\//, ''), sheet.rel_type)
       }
 
       @workbook.external_links.each_key { |k| 
@@ -67,7 +71,7 @@ module RubyXL
       true
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('xl', '_rels', 'workbook.xml.rels')
     end
 
@@ -80,14 +84,14 @@ module RubyXL
     def before_write_xml
       self.relationships = []
 
-      relationships << document_relationship('xl/workbook.xml', 'officeDocument')
+      relationships << document_relationship('xl/workbook.xml',   'officeDocument')
       relationships << metadata_relationship('docProps/core.xml', 'core-properties')
-      relationships << document_relationship('docProps/app.xml', 'extended-properties')
+      relationships << document_relationship('docProps/app.xml',  'extended-properties')
 
       true
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('_rels', '.rels')
     end
   end

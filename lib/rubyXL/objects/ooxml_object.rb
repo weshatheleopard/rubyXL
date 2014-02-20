@@ -236,8 +236,12 @@ module RubyXL
     # * +xml+ - Base Nokogiri::XML object used for building. If omitted, a blank document will be generated.
     # * +node_name_override+ - if present, is used instead of the default element name for this object provided by +define_element_name+
     # ==== Examples
-    #   obj.write_xml
-    # Creates a new Nokogiti::XML and 
+    #   obj.write_xml()
+    # Creates a new empty +Nokogiri::XML+, populates it with the OOXML structure as described in the respective definition, and returns the resulting +Nokogiri::XML+ object.
+    #   obj.write_xml(seed_xml)
+    # Using the passed-in +Nokogiri+ +xml+ object, creates a new element corresponding to +obj+ according to its definition, along with all its properties and children, and returns the newly created element.
+    #   obj.write_xml(seed_xml, 'overriden_element_name')
+    # Same as above, but uses the passed-in +node_name_override+ as the new element name, instead of its default name set by +define_element_name+.
     def write_xml(xml = nil, node_name_override = nil)
       if xml.nil? then
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
@@ -384,11 +388,11 @@ module RubyXL
   class OOXMLTopLevelObject < OOXMLObject
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
-    def filepath
-      self.class.filepath
+    def xlsx_path
+      self.class.xlsx_path
     end
 
-    def self.filepath
+    def self.xlsx_path
       raise 'Subclass responsebility'
     end
 
@@ -407,7 +411,7 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(dirpath)
-      full_path = File.join(dirpath, filepath)
+      full_path = File.join(dirpath, xlsx_path)
       return nil unless File.exist?(full_path)
       parse(File.open(full_path, 'r'))
     end
@@ -418,7 +422,7 @@ module RubyXL
     def add_to_zip(zipfile)
       xml_string = write_xml
       return if xml_string.empty?
-      zipfile.get_output_stream(self.filepath) { |f| f << xml_string }
+      zipfile.get_output_stream(self.xlsx_path) { |f| f << xml_string }
     end
 
   end

@@ -67,8 +67,84 @@ module RubyXL
       true
     end
 
-    def self.filepath
+    def self.xlsx_path
       File.join('docProps', 'app.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.extended-properties+xml'
+    end
+
+  end
+
+
+  class CoreProperties < OOXMLTopLevelObject
+    attr_accessor :workbook
+
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:creator')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:description')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:identifier')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:language')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:subject')
+    define_child_node(RubyXL::StringNode,    :node_name => 'dc:title')
+    define_child_node(RubyXL::StringNodeW3C, :node_name => 'dcterms:created')
+    define_child_node(RubyXL::StringNodeW3C, :node_name => 'dcterms:modified')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:lastModifiedBy')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:lastPrinted')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:category')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:contentStatus')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:contentType')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:keywords')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:revision')
+    define_child_node(RubyXL::StringNode,    :node_name => 'cp:version')
+
+    set_namespaces('xmlns:cp'       => 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties',
+                   'xmlns:dc'       => 'http://purl.org/dc/elements/1.1/',
+                   'xmlns:dcterms'  => 'http://purl.org/dc/terms/',
+                   'xmlns:dcmitype' => 'http://purl.org/dc/dcmitype/',
+                   'xmlns:xsi'      => 'http://www.w3.org/2001/XMLSchema-instance')
+    define_element_name 'cp:coreProperties'
+
+    def self.xlsx_path
+      File.join('docProps', 'core.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-package.core-properties+xml'
+    end
+
+    def creator
+      dc_creator && dc_creator.value
+    end
+
+    def creator=(v)
+      self.dc_creator = RubyXL::StringNodeW3C.new(:value => v)
+    end
+
+    def modifier
+      cp_last_modified_by && cp_last_modified_by.value
+    end
+
+    def modifier=(v)
+      self.cp_last_modified_by = RubyXL::StringNodeW3C.new(:value => v)
+    end
+
+    def created_at
+      val = dcterms_created && dcterms_created.value
+      val && (val.strip.empty? ? nil : Time.parse(val))
+    end
+
+    def created_at=(v)
+      self.dcterms_created = RubyXL::StringNodeW3C.new(:value => v.iso8601)
+    end
+
+    def modified_at
+      val = dcterms_modified && dcterms_modified.value
+      val && (val.strip.empty? ? nil : Time.parse(val))
+    end
+
+    def modified_at=(v)
+      self.dcterms_modified = RubyXL::StringNodeW3C.new(:value => v.iso8601)
     end
 
   end

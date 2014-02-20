@@ -290,6 +290,7 @@ module RubyXL
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
+    define_child_node(RubyXL::AlternateContent) # Somehow, order matters here
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
     define_child_node(RubyXL::Sheets)
@@ -306,13 +307,23 @@ module RubyXL
     define_child_node(RubyXL::FileRecoveryProperties)
     define_child_node(RubyXL::WebPublishObjects)
     define_child_node(RubyXL::ExtensionStorageArea)
-    define_child_node(RubyXL::AlternateContent)
 
     define_element_name 'workbook'
     set_namespaces('xmlns'     => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
                    'xmlns:r'   => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
                    'xmlns:mc'  => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
                    'xmlns:x15' => 'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main')
+
+    def before_write_xml
+      self.sheets = RubyXL::Sheets.new
+
+      worksheets.each_with_index { |sheet, i|
+        rel = relationship_container.find_by_target(sheet.xlsx_path.gsub(/^xl\//, ''))
+        sheets << RubyXL::Sheet.new(:name => sheet.sheet_name, :sheet_id => sheet.sheet_id || (i + 1),
+                                    :state => sheet.state, :r_id => rel.id)
+      }
+      true
+    end
 
     include LegacyWorkbook
 
@@ -350,6 +361,46 @@ module RubyXL
     def appversion=(v)
       self.document_properties.app_version ||= StringNode.new
       self.document_properties.app_version.value = v
+    end
+
+    def creator
+      self.core_properties.creator
+    end
+
+    def creator=(v)
+      self.core_properties.creator = v
+    end
+
+    def modifier
+      self.core_properties.modifier
+    end
+
+    def modifier=(v)
+      self.core_properties.modifier = v
+    end
+
+    def created_at
+      self.core_properties.created_at
+    end
+
+    def created_at=(v)
+      self.core_properties.created_at = v
+    end
+
+    def modified_at
+      self.core_properties.modified_at
+    end
+
+    def modified_at=(v)
+      self.core_properties.modified_at = v
+    end
+
+    def self.xlsx_path
+      File.join('xl', 'workbook.xml')
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     end
 
   end
