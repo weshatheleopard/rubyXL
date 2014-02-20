@@ -41,6 +41,7 @@ module RubyXL
       @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros              = RubyXL::GenericStorage.new('xl').binary
 
+      @theme                    = RubyXL::Theme.new
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
       @document_properties      = RubyXL::DocumentProperties.new

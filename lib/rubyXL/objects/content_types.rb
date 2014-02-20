@@ -54,10 +54,7 @@ module RubyXL
       overrides << generate_override(workbook.core_properties)
       overrides << generate_override(workbook.shared_strings_container) unless workbook.shared_strings_container.empty?
       overrides << generate_override(workbook.calculation_chain) unless workbook.calculation_chain.nil?
-#      overrides << generate_override(workbook.theme)
-
-      overrides << RubyXL::ContentTypeOverride.new(:part_name => '/xl/theme/theme1.xml',
-                      :content_type => 'application/vnd.openxmlformats-officedocument.theme+xml')
+      overrides << generate_override(workbook.theme)
 
       workbook.charts.each_pair { |k, v|
         case k
@@ -76,7 +73,6 @@ module RubyXL
       workbook.drawings.each_pair { |k, v|
         overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
                        :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
-#      ('Extension'=>'vml', 'ContentType'=>'application/vnd.openxmlformats-officedocument.vmlDrawing')
       }
 
       unless workbook.external_links.nil?
@@ -95,34 +91,5 @@ module RubyXL
     end
 
   end
-
-
-=begin
-
-#           if @workbook.macros.nil? && @workbook.drawings.empty?
-            root << xml.create_element('Override', {
-                      :PartName    => '/xl/workbook.xml',
-                      :ContentType => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml' })
-#           else
-#             xml.Override('PartName'=>'/xl/workbook.xml',
-#               'ContentType'=>"application/vnd.ms-excel.sheet.macroEnabled.main+xml")
-#           end
-
-
-
-          })
-
-
-
-<Default Extension="jpeg" ContentType="image/jpeg"/>
-<Override PartName="/xl/chartsheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml"/>
-<Override PartName="/xl/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>
-<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>
-<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>
-<Override PartName="/xl/drawings/drawing1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/>
-<Override PartName="/xl/charts/chart2.xml" ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/>
-<Override PartName="/xl/charts/style2.xml" ContentType="application/vnd.ms-office.chartstyle+xml"/>
-<Override PartName="/xl/charts/colors2.xml" ContentType="application/vnd.ms-office.chartcolorstyle+xml"/>
-=end
 
 end
