@@ -1,5 +1,3 @@
-require 'rubyXL/writer/generic_writer'
-require 'rubyXL/writer/workbook_writer'
 require 'tmpdir'
 require 'zip'
 
@@ -106,8 +104,6 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        Writer::WorkbookWriter.new(self).add_to_zip(zipfile)
-
         theme && theme.add_to_zip(zipfile)
         calculation_chain && calculation_chain.add_to_zip(zipfile)
         shared_strings_container && shared_strings_container.add_to_zip(zipfile)
@@ -119,6 +115,7 @@ module RubyXL
         relationship_container.add_to_zip(zipfile)
         stylesheet.add_to_zip(zipfile)
         root_relationship_container.add_to_zip(zipfile)
+        self.add_to_zip(zipfile)
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,

@@ -35,6 +35,10 @@ module RubyXL
     def find_by_rid(r_id)
       relationships.find { |r| r.id == r_id }
     end
+
+    def find_by_target(target)
+      relationships.find { |r| r.target == target }
+    end
   end
 
 
@@ -80,9 +84,9 @@ module RubyXL
     def before_write_xml
       self.relationships = []
 
-      relationships << document_relationship('xl/workbook.xml', 'officeDocument')
+      relationships << document_relationship('xl/workbook.xml',   'officeDocument')
       relationships << metadata_relationship('docProps/core.xml', 'core-properties')
-      relationships << document_relationship('docProps/app.xml', 'extended-properties')
+      relationships << document_relationship('docProps/app.xml',  'extended-properties')
 
       true
     end

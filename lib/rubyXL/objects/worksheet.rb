@@ -652,6 +652,8 @@ module RubyXL
                    'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
                    'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
 
+    attr_accessor :state
+
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
       last_nonempty_row = 0

@@ -74,6 +74,8 @@ module RubyXL
     set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
                    'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
 
+    attr_accessor :state
+
     def sheet_index
       @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
     end
