@@ -1,7 +1,7 @@
 *.DS_Store
 *.gem
 *.swp
-*.xlsx
+*.xls?
 *.tmp
 .bundle
 bin

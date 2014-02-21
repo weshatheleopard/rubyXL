@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Parser - rubyXL 2.4.0</title>
+<title>class RubyXL::Parser - rubyXL 2.4.1</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -266,6 +266,10 @@ cells being interpreted as numbers</p>
   <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
   <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRelationships</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
   <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">root_relationship_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RootRelationships</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">shared_strings_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">SharedStringsTable</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+
+  <span class="ruby-comment"># We must always load the stylesheet because it tells us which values are actually dates/times.</span>
+  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">stylesheet</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Stylesheet</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
 
   <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@data_only</span>
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">media</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
@@ -285,9 +289,6 @@ cells being interpreted as numbers</p>
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">document_properties</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DocumentProperties</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">calculation_chain</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CalculationChain</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
   <span class="ruby-keyword">end</span>
-
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">shared_strings_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">SharedStringsTable</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">stylesheet</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Stylesheet</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
 
   <span class="ruby-comment">#fills out count information for each font, fill, and border</span>
   <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">style</span><span class="ruby-operator">|</span>
