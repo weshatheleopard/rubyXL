@@ -109,4 +109,29 @@ module RubyXL
                      actionButtonDocument actionButtonSound actionButtonMovie gear6 gear9 funnel
                      mathPlus mathMinus mathMultiply mathDivide mathEqual mathNotEqual
                      cornerTabs squareTabs plaqueTabs chartX chartStar chartPlus }
+
+  ST_SystemColorVal = %w{ scrollBar background activeCaption inactiveCaption menu window windowFrame menuText
+                          windowText captionText activeBorder inactiveBorder appWorkspace highlight highlightText
+                          btnFace btnShadow grayText btnText inactiveCaptionText btnHighlight 3dDkShadow 3dLight
+                          infoText infoBk hotLight gradientActiveCaption gradientInactiveCaption menuHighlight menuBar }
+
+  ST_SchemeColorVal = %w{ bg1 tx1 bg2 tx2 accent1 accent2 accent3 accent4 accent5 accent6
+                          hlink folHlink phClr dk1 lt1 dk2 lt2 }
+
+  ST_PresetColorVal = %w{ aliceBlue antiqueWhite aqua aquamarine azure beige bisque black blanchedAlmond blue blueViolet
+                          brown burlyWood cadetBlue chartreuse chocolate coral cornflowerBlue cornsilk crimson cyan
+                          dkBlue dkCyan dkGoldenrod dkGray dkGreen dkKhaki dkMagenta dkOliveGreen dkOrange
+                          dkOrchid dkRed dkSalmon dkSeaGreen dkSlateBlue dkSlateGray dkTurquoise dkViolet
+                          deepPink deepSkyBlue dimGray dodgerBlue firebrick floralWhite forestGreen fuchsia
+                          gainsboro ghostWhite gold goldenrod gray green greenYellow honeydew hotPink indianRed
+                          indigo ivory khaki lavender lavenderBlush lawnGreen lemonChiffon ltBlue ltCoral
+                          ltCyan ltGoldenrodYellow ltGray ltGreen ltPink ltSalmon ltSeaGreen ltSkyBlue
+                          ltSlateGray ltSteelBlue ltYellow lime limeGreen linen magenta maroon
+                          medAquamarine medBlue medOrchid medPurple medSeaGreen medSlateBlue medSpringGreen
+                          medTurquoise medVioletRed midnightBlue mintCream mistyRose moccasin navajoWhite
+                          navy oldLace olive oliveDrab orange orangeRed orchid paleGoldenrod paleGreen
+                          paleTurquoise paleVioletRed papayaWhip peachPuff peru pink plum powderBlue purple
+                          red rosyBrown royalBlue saddleBrown salmon sandyBrown seaGreen seaShell sienna
+                          silver skyBlue slateBlue slateGray snow springGreen steelBlue tan teal thistle
+                          tomato turquoise violet wheat white whiteSmoke yellow yellowGreen }
 end

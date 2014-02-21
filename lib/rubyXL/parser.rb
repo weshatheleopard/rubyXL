@@ -42,6 +42,10 @@ module RubyXL
       wb.content_types = RubyXL::ContentTypes.parse_file(dir_path)
       wb.relationship_container = RubyXL::WorkbookRelationships.parse_file(dir_path)
       wb.root_relationship_container = RubyXL::RootRelationships.parse_file(dir_path)
+      wb.shared_strings_container = RubyXL::SharedStringsTable.parse_file(dir_path)
+
+      # We must always load the stylesheet because it tells us which values are actually dates/times.
+      wb.stylesheet = RubyXL::Stylesheet.parse_file(dir_path)
 
       unless @data_only
         wb.media.load_dir(dir_path)
@@ -61,9 +65,6 @@ module RubyXL
         wb.document_properties = RubyXL::DocumentProperties.parse_file(dir_path)
         wb.calculation_chain = RubyXL::CalculationChain.parse_file(dir_path)
       end
-
-      wb.shared_strings_container = RubyXL::SharedStringsTable.parse_file(dir_path)
-      wb.stylesheet = RubyXL::Stylesheet.parse_file(dir_path)
 
       #fills out count information for each font, fill, and border
       wb.cell_xfs.each { |style|

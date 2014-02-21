@@ -1,3 +1,4 @@
+# encoding: UTF-8  <-- magic comment, need this because of sime fancy fonts in the default scheme below. See http://stackoverflow.com/questions/6444826/ruby-utf-8-file-encoding
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 
@@ -27,8 +28,240 @@ module RubyXL
     define_element_name 'a:extLst'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_srgbClr-1.html
+  class RGBColorModelPercentage < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:inv')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gray')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alpha')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:sat')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lum')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:red')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:green')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueMod')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gamma')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:invGamma')
+    define_attribute(:r, :int, :required => true)
+    define_attribute(:g, :int, :required => true)
+    define_attribute(:b, :int, :required => true)
+    define_element_name 'a:scrgbClr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_srgbClr-1.html
+  class RGBColorModelHex < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:inv')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gray')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alpha')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:sat')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lum')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:red')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:green')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueMod')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gamma')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:invGamma')
+    define_attribute(:val, :string, :required => true)
+    define_element_name 'a:srgbClr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_hslClr-1.html
+  class HSLColor < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:inv')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gray')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alpha')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:sat')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lum')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:red')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:green')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueMod')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gamma')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:invGamma')
+    define_attribute(:hue, :int, :required => true)
+    define_attribute(:sat, :int, :required => true)
+    define_attribute(:lum, :int, :required => true)
+    define_element_name 'a:hslClr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_sysClr-1.html
+  class SystemColor < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:inv')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gray')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alpha')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:sat')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lum')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:red')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:green')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueMod')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gamma')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:invGamma')
+    define_attribute(:val,     RubyXL::ST_SystemColorVal, :required => true)
+    define_attribute(:lastClr, :string)
+    define_element_name 'a:sysClr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_schemeClr-1.html
+  class SchemeColor < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:inv')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gray')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alpha')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:sat')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lum')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:red')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:green')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueMod')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gamma')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:invGamma')
+    define_attribute(:val, RubyXL::ST_SchemeColorVal, :required => true)
+    define_element_name 'a:schemeClr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_prstClr-1.html
+  class PresetColor < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:inv')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gray')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alpha')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:alphaMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:hueMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:sat')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:satMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lum')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:lumMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:red')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:redMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:green')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:greenMod')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blue')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueOff')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:blueMod')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:gamma')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:invGamma')
+    define_attribute(:val, RubyXL::ST_PresetColorVal, :required => true)
+    define_element_name 'a:prstClr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_Color.html
+  class CT_Color < OOXMLObject
+    define_child_node(RubyXL::RGBColorModelPercentage)
+    define_child_node(RubyXL::RGBColorModelHex)
+    define_child_node(RubyXL::HSLColor)
+    define_child_node(RubyXL::SystemColor)
+    define_child_node(RubyXL::SchemeColor)
+    define_child_node(RubyXL::PresetColor)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_clrScheme-1.html
   class ColorScheme < OOXMLObject
-#FIXME#
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:dk1')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:lt1')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:dk2')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:lt2')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:accent1')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:accent2')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:accent3')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:accent4')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:accent5')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:accent6')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:hlink')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:folHlink')
+    define_attribute(:name, :string, :required => true)
     define_element_name 'a:clrScheme'
   end
 
@@ -75,20 +308,42 @@ module RubyXL
     define_element_name 'a:xfrm'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_gd-1.html
+  class ShapeGuide < OOXMLObject
+    define_attribute(:name, :string, :required => true)
+    define_attribute(:fmla, :string, :required => true)
+    define_element_name 'a:gd'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_avLst-1.html
+  class AdjustValueList < OOXMLContainerObject
+    define_child_node(RubyXL::ShapeGuide, :collection => true)
+    define_element_name 'a:avLst'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_rect-1.html
+  class ShapeTextRectangle < OOXMLObject
+    define_attribute(:l, :int, :required => true)
+    define_attribute(:t, :int, :required => true)
+    define_attribute(:r, :int, :required => true)
+    define_attribute(:b, :int, :required => true)
+    define_element_name 'a:rect'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_custGeom-1.html
   class CustomGeometry < OOXMLObject
-#        a:avLst [0..1]    Adjust Value List
-#        a:gdLst [0..1]    List of Shape Guides
+    define_child_node(RubyXL::AdjustValueList)
+    define_child_node(RubyXL::AdjustValueList, :node_name => 'a:gdLst')
 #        a:ahLst [0..1]    List of Shape Adjust Handles
 #        a:cxnLst [0..1]    List of Shape Connection Sites
-#        a:rect [0..1]    Shape Text Rectangle
+    define_child_node(RubyXL::ShapeTextRectangle)
 #        a:pathLst [1..1]    List of Shape Paths
     define_element_name 'a:custGeom'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_prstGeom-1.html
   class PresetGeometry < OOXMLObject
-#        a:avLst [0..1]    Adjust Value List
+    define_child_node(RubyXL::AdjustValueList)
     define_attribute(:prst, RubyXL::ST_ShapeType, :required => true)
     define_element_name 'a:prstGeom'
   end
@@ -196,6 +451,10 @@ module RubyXL
     def self.parse_file(dirpath)
       full_path = File.join(dirpath, xlsx_path)
       return nil unless File.exist?(full_path)
+
+#      test = super
+#      puts test.inspect
+
       obj = self.new
       
       obj.raw_xml = File.open(full_path, 'r').read
