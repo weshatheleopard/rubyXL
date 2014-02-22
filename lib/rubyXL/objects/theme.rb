@@ -23,7 +23,6 @@ module RubyXL
   end
 
   class AExtensionStorageArea < OOXMLObject
-#FIXME#
     define_child_node(RubyXL::AExtension, :collection => true)
     define_element_name 'a:extLst'
   end
@@ -265,13 +264,45 @@ module RubyXL
     define_element_name 'a:clrScheme'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_SupplementalFont.html
+  class CT_SupplementalFont < OOXMLObject
+    define_attribute(:script,   :string, :required => true)
+    define_attribute(:typeface, :string, :required => true)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_TextFont.html
+  class CT_TextFont < OOXMLObject
+    define_attribute(:typeface,    :string)
+    define_attribute(:panose,      :string)
+    define_attribute(:pitchFamily, :int, :default => 0)
+    define_attribute(:charset,     :int, :default => 1)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_FontCollection.html
+  class CT_FontCollection < OOXMLObject
+    define_child_node(RubyXL::CT_TextFont,         :node_name => 'a:latin')
+    define_child_node(RubyXL::CT_TextFont,         :node_name => 'a:ea')
+    define_child_node(RubyXL::CT_TextFont,         :node_name => 'a:cs')
+    define_child_node(RubyXL::CT_SupplementalFont, :node_name => 'a:font', :collection => true)
+    define_child_node(RubyXL::AExtensionStorageArea)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_fontScheme-1.html
   class FontScheme < OOXMLObject
-#FIXME#
+    define_child_node(RubyXL::CT_FontCollection, :node_name => 'a:majorFont')
+    define_child_node(RubyXL::CT_FontCollection, :node_name => 'a:minorFont')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:name, :string, :required => true)
     define_element_name 'a:fontScheme'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_fmtScheme-1.html
   class FormatScheme < OOXMLObject
-#FIXME#
+#    a:fillStyleLst [1..1]    Fill Style List
+#    a:lnStyleLst [1..1]    Line Style List
+#    a:effectStyleLst [1..1]    Effect Style List
+#    a:bgFillStyleLst [1..1]    Background Fill Style List    define_element_name 'a:fontScheme'
+    define_attribute(:name, :string)
     define_element_name 'a:fmtScheme'
   end
 
@@ -316,9 +347,8 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_avLst-1.html
-  class AdjustValueList < OOXMLContainerObject
+  class CT_GeomGuideList < OOXMLContainerObject
     define_child_node(RubyXL::ShapeGuide, :collection => true)
-    define_element_name 'a:avLst'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_rect-1.html
@@ -330,20 +360,119 @@ module RubyXL
     define_element_name 'a:rect'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_pos-2.html
+  class CT_AdjPoint2D < OOXMLObject
+    define_attribute(:x, :int, :required => true)
+    define_attribute(:y, :int, :required => true)
+    define_element_name 'a:pos'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_PolarAdjustHandle.html
+  class CT_XYAdjustHandle < OOXMLObject
+    define_child_node(RubyXL::CT_AdjPoint2D)
+    define_attribute(:gdRefX,   :string)
+    define_attribute(:minX,     :int)
+    define_attribute(:maxX,     :int)
+    define_attribute(:gdRefY, :string)
+    define_attribute(:minY,   :int)
+    define_attribute(:maxY,   :int)
+    define_element_name 'a:ahXY'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_PolarAdjustHandle.html
+  class CT_PolarAdjustHandle < OOXMLObject
+    define_child_node(RubyXL::CT_AdjPoint2D)
+    define_attribute(:gdRefR,   :string)
+    define_attribute(:minR,     :int)
+    define_attribute(:maxR,     :int)
+    define_attribute(:gdRefAng, :string)
+    define_attribute(:minAng,   :int)
+    define_attribute(:maxAng,   :int)
+    define_element_name 'a:ahPolar'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_AdjustHandleList.html
+  class AdjustHandleList < OOXMLObject
+    define_child_node(RubyXL::CT_XYAdjustHandle)
+    define_child_node(RubyXL::CT_PolarAdjustHandle)
+    define_element_name 'a:ahLst'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_cxn-1.html
+  class CT_ConnectionSite < OOXMLObject
+    define_child_node(RubyXL::CT_AdjPoint2D)
+    define_attribute(:ang, :int)
+    define_element_name 'a:cxn'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_cxnLst-1.html
+  class CT_ConnectionSiteList < OOXMLContainerObject
+    define_child_node(RubyXL::CT_ConnectionSite, :collection => true)
+    define_element_name 'a:cxnLst'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_Path2DLineTo.html
+  class CT_Path2DTo < OOXMLContainerObject
+    define_child_node(RubyXL::CT_AdjPoint2D)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_arcTo-1.html
+  class CT_Path2DArcTo < OOXMLObject
+    define_attribute(:wR,    :int, :required => true)
+    define_attribute(:hR,    :int, :required => true)
+    define_attribute(:stAng, :int, :required => true)
+    define_attribute(:swAng, :int, :required => true)
+    define_element_name 'a:arcTo'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_quadBezTo-1.html
+  class CT_Path2DQuadBezierTo < OOXMLContainerObject
+    define_child_node(RubyXL::CT_AdjPoint2D, :collection => true, :node_name => 'a:pt')
+    define_element_name 'a:quadBezTo'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_quadBezTo-1.html
+  class CT_Path2DCubicBezierTo < OOXMLContainerObject
+    define_child_node(RubyXL::CT_AdjPoint2D, :collection => true, :node_name => 'a:pt')
+    define_element_name 'a:cubicBezTo'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_path-2.html
+  class CT_Path2D < OOXMLObject
+    define_child_node(RubyXL::BooleanValue,           :node_name => 'a:close')
+    define_child_node(RubyXL::CT_Path2DTo,            :node_name => 'a:moveTo')
+    define_child_node(RubyXL::CT_Path2DTo,            :node_name => 'a:lnTo')
+    define_child_node(RubyXL::CT_Path2DArcTo,         :node_name => 'a:arcTo')
+    define_child_node(RubyXL::CT_Path2DQuadBezierTo)
+    define_child_node(RubyXL::CT_Path2DCubicBezierTo)
+    define_attribute(:w,           :int,  :default => 0)
+    define_attribute(:h,           :int,  :default => 0)
+    define_attribute(:fill,        RubyXL::ST_PathFillMode, :default => 'norm')
+    define_attribute(:stroke,      :bool, :default => true)
+    define_attribute(:extrusionOk, :bool, :default => true)
+    define_element_name 'a:cxn'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_pathLst-1.html
+  class CT_Path2DList < OOXMLContainerObject
+    define_child_node(RubyXL::CT_Path2D, :collection => true)
+    define_element_name 'a:pathLst'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_custGeom-1.html
   class CustomGeometry < OOXMLObject
-    define_child_node(RubyXL::AdjustValueList)
-    define_child_node(RubyXL::AdjustValueList, :node_name => 'a:gdLst')
-#        a:ahLst [0..1]    List of Shape Adjust Handles
-#        a:cxnLst [0..1]    List of Shape Connection Sites
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:avLst')
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:gdLst')
+    define_child_node(RubyXL::AdjustHandleList)
+    define_child_node(RubyXL::CT_ConnectionSiteList)
     define_child_node(RubyXL::ShapeTextRectangle)
-#        a:pathLst [1..1]    List of Shape Paths
+    define_child_node(RubyXL::CT_Path2DList)
     define_element_name 'a:custGeom'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_prstGeom-1.html
   class PresetGeometry < OOXMLObject
-    define_child_node(RubyXL::AdjustValueList)
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:avLst')
     define_attribute(:prst, RubyXL::ST_ShapeType, :required => true)
     define_element_name 'a:prstGeom'
   end
@@ -406,12 +535,12 @@ module RubyXL
   
   # http://www.schemacentral.com/sc/ooxml/e-a_custClr-1.html
   class CustomColor < OOXMLObject
-#    a:scrgbClr    RGB Color Model - Percentage Variant
-#    a:srgbClr    RGB Color Model - Hex Variant
-#    a:hslClr    Hue, Saturation, Luminance Color Model
-#    a:sysClr    System Color
-#    a:schemeClr    Scheme Color
-#    a:prstClr    Preset Color
+    define_child_node(RubyXL::RGBColorModelPercentage)
+    define_child_node(RubyXL::RGBColorModelHex)
+    define_child_node(RubyXL::HSLColor)
+    define_child_node(RubyXL::SystemColor)
+    define_child_node(RubyXL::SchemeColor)
+    define_child_node(RubyXL::PresetColor)
     define_attribute(:name, :string, :default => '')
     define_element_name 'a:custClr'
   end

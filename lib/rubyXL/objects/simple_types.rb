@@ -134,4 +134,6 @@ module RubyXL
                           red rosyBrown royalBlue saddleBrown salmon sandyBrown seaGreen seaShell sienna
                           silver skyBlue slateBlue slateGray snow springGreen steelBlue tan teal thistle
                           tomato turquoise violet wheat white whiteSmoke yellow yellowGreen }
+
+  ST_PathFillMode = %w{ none norm lighten lightenLess darken darkenLess }
 end
