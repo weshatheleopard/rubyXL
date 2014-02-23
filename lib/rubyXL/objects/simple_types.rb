@@ -135,5 +135,32 @@ module RubyXL
                           silver skyBlue slateBlue slateGray snow springGreen steelBlue tan teal thistle
                           tomato turquoise violet wheat white whiteSmoke yellow yellowGreen }
 
-  ST_PathFillMode = %w{ none norm lighten lightenLess darken darkenLess }
+  ST_PathFillMode         = %w{ none norm lighten lightenLess darken darkenLess }
+  ST_TextVertOverflowType = %w{ overflow ellipsis clip }
+  ST_TextHorzOverflowType = %w{ overflow clip }
+  ST_TextVerticalType     = %w{ horz vert vert270 wordArtVert eaVert mongolianVert wordArtVertRtl }
+  ST_TextWrappingType     = %w{ none square }
+  ST_TextAnchoringType	  = %w{ t ctr b just dist }
+  ST_TextShapeType        = %w{ textNoShape textPlain textStop textTriangle textTriangleInverted textChevron
+                                textChevronInverted textRingInside textRingOutside textArchUp textArchDown
+                                textCircle textButton textArchUpPour textArchDownPour textCirclePour textButtonPour
+                                textCurveUp textCurveDown textCanUp textCanDown textWave1 textWave2 textDoubleWave1
+                                textWave4 textInflate textDeflate textInflateBottom textDeflateBottom textInflateTop
+                                textDeflateTop textDeflateInflate textDeflateInflateDeflate textFadeRight
+                                textFadeLeft textFadeUp textFadeDown textSlantUp textSlantDown
+                                textCascadeUp textCascadeDown }
+
+  ST_PresetMaterialType   = %w{ legacyMatte legacyPlastic legacyMetal legacyWireframe matte plastic metal
+                                warmMatte translucentPowder powder dkEdge softEdge clear flat softmetal }
+
+  ST_BevelPresetType      = %w{ relaxedInset circle slope cross angle softRound convex
+                                coolSlant divot riblet hardEdge artDeco }
+
+
+  ST_LineEndType          = %w{ none triangle stealth diamond oval arrow }
+  ST_LineEndWidth         = %w{ sm med lg }
+  ST_LineEndLength        = %w{ sm med lg }
+
+  ST_PresetLineDashVal    = %w{ solid dot dash lgDash dashDot lgDashDot lgDashDotDot
+                                sysDash sysDot sysDashDot sysDashDotDot }
 end
