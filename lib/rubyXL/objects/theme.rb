@@ -601,33 +601,171 @@ module RubyXL
     define_element_name 'a:prstGeom'
   end
 
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_Bevel.html
+  class CT_Bevel < OOXMLObject
+    define_attribute(:w,    :int, :default => 76200)
+    define_attribute(:h,    :int, :default => 76200)
+    define_attribute(:prst, RubyXL::ST_BevelPresetType)
+    define_element_name 'a:CT_Bevel'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_sp3d-1.html
+  class CT_Shape3D < OOXMLObject
+    define_child_node(RubyXL::CT_Bevel, :node_name => 'a:bevelT')
+    define_child_node(RubyXL::CT_Bevel, :node_name => 'a:bevelB')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:extrusionClr')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:contourClr')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:z,            :int, :default => 0)
+    define_attribute(:extrusionH,   :int, :default => 0)
+    define_attribute(:contourW,     :int, :default => 0)
+    define_attribute(:prstMaterial, RubyXL::ST_PresetMaterialType, :default => 'warmMatte')
+    define_element_name 'a:sp3d'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_scene3d-1.html
+  class CT_Scene3D < OOXMLObject
+#    a:camera [1..1]    Camera
+#    a:lightRig [1..1]    Light Rig
+#    a:backdrop [0..1]    Backdrop Plane
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_element_name 'a:scene3d'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_miter-1.html
+  class CT_LineJoinMiterProperties < OOXMLObject
+    define_attribute(:lim, :int)
+    define_element_name 'a:miter'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_LineEndProperties.html
+  class CT_LineEndProperties < OOXMLObject
+    define_attribute(:type, RubyXL::ST_LineEndType)
+    define_attribute(:w,    RubyXL::ST_LineEndWidth)
+    define_attribute(:len,  RubyXL::ST_LineEndLength)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_prstDash-1.html
+  class CT_PresetLineDashProperties < OOXMLObject
+    define_attribute(:val, RubyXL::ST_PresetLineDashVal)
+    define_element_name 'a:prstDash'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_ln-1.html
+  class CT_LineProperties < OOXMLObject
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
+#    a:gradFill    Gradient Fill
+#    a:pattFill    Pattern Fill
+    define_child_node(RubyXL::CT_PresetLineDashProperties)
+#    a:custDash    Custom Dash
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:round')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:bevel')
+    define_child_node(RubyXL::CT_LineJoinMiterProperties)
+    define_child_node(RubyXL::CT_LineEndProperties, :node_name => 'a:headEnd')
+    define_child_node(RubyXL::CT_LineEndProperties, :node_name => 'a:tailEnd')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_element_name 'a:ln'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_blur-1.html
+  class CT_BlurEffect < OOXMLObject
+    define_attribute(:rad,  :int,  :default => 0)
+    define_attribute(:grow, :bool, :default => true)
+    define_element_name 'a:blur'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_effectLst-1.html
+  class CT_EffectList < OOXMLObject
+    define_child_node(RubyXL::CT_BlurEffect)
+#    a:fillOverlay [0..1]    Fill Overlay Effect
+#    a:glow [0..1]    Glow Effect
+#    a:innerShdw [0..1]    Inner Shadow Effect
+#    a:outerShdw [0..1]    Outer Shadow Effect
+#    a:prstShdw [0..1]    Preset Shadow
+#    a:reflection [0..1]    Reflection Effect
+#    a:softEdge [0..1]    Soft Edge Effect
+    define_element_name 'a:effectLst'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_spPr-1.html
   class VisualProperties < OOXMLObject
     define_child_node(RubyXL::CT_Transform2D)
     define_child_node(RubyXL::CustomGeometry)
     define_child_node(RubyXL::PresetGeometry)
-#        a:noFill    No Fill
-#        a:solidFill    Solid Fill
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
 #        a:gradFill    Gradient Fill
 #        a:blipFill    Picture Fill
 #        a:pattFill    Pattern Fill
-#        a:grpFill    Group Fill
-#    a:ln [0..1]    
-#        a:effectLst    Effect Container
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
+    define_child_node(RubyXL::CT_LineProperties)
+    define_child_node(RubyXL::CT_EffectList)
 #        a:effectDag    Effect Container
-#    a:scene3d [0..1]    3-D Scene
-#    a:sp3d [0..1]    3-D Shape Properties
-#    a:extLst [0..1]    Extension List
-    define_attribute(:bwMode, RubyXL::ST_BlackWhiteMode)
-
+    define_child_node(RubyXL::CT_Scene3D)
+    define_child_node(RubyXL::CT_Shape3D)
     define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:bwMode, RubyXL::ST_BlackWhiteMode)
     define_element_name 'a:spPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_prstTxWarp-2.html
+  class CT_PresetTextShape < OOXMLObject
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:avLst')
+    define_attribute(:prst, RubyXL::ST_TextShapeType)
+    define_element_name 'a:prstTxWarp'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_normAutofit-1.html
+  class CT_TextNormalAutofit < OOXMLObject
+    define_attribute(:fontScale,      :int, :default => 100000)
+    define_attribute(:lnSpcReduction, :int, :default => 0)
+    define_element_name 'a:normAutofit'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_flatTx-1.html
+  class CT_FlatText < OOXMLObject
+    define_attribute(:z, :int, :default => 0)
+    define_element_name 'a:flatTx'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_bodyPr-1.html
+  class BodyProperties < OOXMLObject
+    define_child_node(RubyXL::CT_PresetTextShape)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noAutofit')
+    define_child_node(RubyXL::CT_TextNormalAutofit)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:spAutoFit')
+    define_child_node(RubyXL::CT_Scene3D)
+    define_child_node(RubyXL::CT_Shape3D)
+    define_child_node(RubyXL::CT_FlatText)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:rot, :int)
+    define_attribute(:spcFirstLastPara, :bool)
+    define_attribute(:vertOverflow,     RubyXL::ST_TextVertOverflowType)
+    define_attribute(:horzOverflow,     RubyXL::ST_TextHorzOverflowType)
+    define_attribute(:vert,             RubyXL::ST_TextVerticalType)
+    define_attribute(:wrap,             RubyXL::ST_TextWrappingType)
+    define_attribute(:lIns,             :int)
+    define_attribute(:tIns,             :int)
+    define_attribute(:rIns,             :int)
+    define_attribute(:bIns,             :int)
+    define_attribute(:numCol,           :int)
+    define_attribute(:spcCol,           :int)
+    define_attribute(:rtlCol,           :bool)
+    define_attribute(:fromWordArt,      :bool)
+    define_attribute(:anchor,           RubyXL::ST_TextAnchoringType)
+    define_attribute(:anchorCtr,        :bool)
+    define_attribute(:forceAA,          :bool)
+    define_attribute(:upright,          :bool, :default => false)
+    define_attribute(:compatLnSpc,      :bool)
+    define_element_name 'a:bodyPr'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_spDef-1.html
   class ShapeDefault < OOXMLObject
     define_child_node(RubyXL::VisualProperties)
-#    a:bodyPr [1..1]    BodyProperties
+    define_child_node(RubyXL::BodyProperties)
 #    a:lstStyle [1..1]    TextListStyles
 #    a:style [0..1]    Shape Style
     define_child_node(RubyXL::AExtensionStorageArea)
