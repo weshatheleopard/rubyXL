@@ -135,5 +135,18 @@ module RubyXL
                           silver skyBlue slateBlue slateGray snow springGreen steelBlue tan teal thistle
                           tomato turquoise violet wheat white whiteSmoke yellow yellowGreen }
 
-  ST_PathFillMode = %w{ none norm lighten lightenLess darken darkenLess }
+  ST_PathFillMode   = %w{ none norm lighten lightenLess darken darkenLess }
+  ST_TileFlipMode   = %w{ none x y xy }
+  ST_PathShadeType  = %w{ shape circle rect }
+
+  ST_PresetPatternVal = %w{ pct5 pct10 pct20 pct25 pct30 pct40 pct50 pct60 pct70 pct75 pct80 pct90
+                            horz vert ltHorz ltVert dkHorz dkVert narHorz narVert dashHorz dashVert
+                            cross dnDiag upDiag ltDnDiag ltUpDiag dkDnDiag dkUpDiag
+                            wdDnDiag wdUpDiag dashDnDiag dashUpDiag diagCross smCheck lgCheck
+                            smGrid lgGrid dotGrid smConfetti lgConfetti horzBrick diagBrick
+                            solidDmnd openDmnd dotDmnd plaid sphere weave divot shingle wave trellis zigZag }
+  ST_RectAlignment   = %w{ tl t tr l ctr r bl b br }
+  ST_BlipCompression = %w{ email screen print hqprint none }
+  ST_ColorSchemeIndex = %w{ dk1 lt1 dk2 lt2 accent1 accent2 accent3 accent4 accent5 accent6 hlink folHlink }
+
 end
