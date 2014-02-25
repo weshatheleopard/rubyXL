@@ -435,13 +435,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_font_name(-1,'Arial')
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_font_name(11,'Arial')
-      @worksheet.get_column_font_name(11).should == 'Arial'
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_font_size' do
@@ -461,13 +454,6 @@ describe RubyXL::Worksheet do
       lambda {
         @worksheet.change_column_font_size(-1,20)
       }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_font_size(11,20)
-      @worksheet.get_column_font_size(11).should == 20
-      @worksheet.sheet_data[0].size.should == 12
     end
   end
 
@@ -495,13 +481,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_font_color(-1,'0f0f0f')
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_font_color(11,'0f0f0f')
-      @worksheet.get_column_font_color(11).should == '0f0f0f'
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_italics' do
@@ -515,13 +494,6 @@ describe RubyXL::Worksheet do
       lambda {
         @worksheet.change_column_italicized(-1,false)
       }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_italics(11,true)
-      @worksheet.is_column_italicized(11).should == true
-      @worksheet.sheet_data[0].size.should == 12
     end
   end
 
@@ -537,13 +509,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_bold(-1,false)
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_bold(11,true)
-      @worksheet.is_column_bolded(11).should == true
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_underline' do
@@ -557,13 +522,6 @@ describe RubyXL::Worksheet do
       lambda {
         @worksheet.change_column_underline(-1,false)
       }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_underline(11,true)
-      @worksheet.is_column_underlined(11).should == true
-      @worksheet.sheet_data[0].size.should == 12
     end
   end
 
@@ -579,13 +537,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_strikethrough(-1,false)
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_strikethrough(11,true)
-      @worksheet.is_column_struckthrough(11).should == true
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_width' do
@@ -598,13 +549,6 @@ describe RubyXL::Worksheet do
       lambda {
         @worksheet.change_column_width(-1,10)
       }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_width(11,30)
-      @worksheet.get_column_width(11).should == 30
-      @worksheet.sheet_data[0].size.should == 12
     end
   end
 
@@ -621,23 +565,14 @@ describe RubyXL::Worksheet do
       }.should raise_error
     end
 
-  	it 'should make column and cell fill colors equal hex color code passed' do
-  	  @worksheet.change_column_fill(0, '111111')
+    it 'should make column and cell fill colors equal hex color code passed' do
+      @worksheet.change_column_fill(0, '111111')
       @worksheet.get_column_fill(0).should == '111111'
       @worksheet[5][0].fill_color.should == '111111'
-  	end
-
-  	it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.change_column_fill(-1,'111111')
-      }.should raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_fill(11,'111111')
-      @worksheet.get_column_fill(11).should == '111111'
-      @worksheet.sheet_data[0].size.should == 12
+    it 'should cause error if a negative argument is passed in' do
+      lambda { @worksheet.change_column_fill(-1,'111111') }.should raise_error
     end
   end
 
@@ -653,13 +588,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_horizontal_alignment(-1,'center')
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_horizontal_alignment(11,'center')
-      @worksheet.get_column_horizontal_alignment(11).should == 'center'
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_vertical_alignment' do
@@ -673,13 +601,6 @@ describe RubyXL::Worksheet do
       lambda {
         @worksheet.change_column_vertical_alignment(-1,'center')
       }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_vertical_alignment(11,'center')
-      @worksheet.get_column_vertical_alignment(11).should == 'center'
-      @worksheet.sheet_data[0].size.should == 12
     end
   end
 
@@ -695,13 +616,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_border_top(-1,'thin')
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_border_top(11,'thin')
-      @worksheet.get_column_border_top(11).should == 'thin'
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_border_left' do
@@ -715,13 +629,6 @@ describe RubyXL::Worksheet do
       lambda {
         @worksheet.change_column_border_left(-1,'thin')
       }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_border_left(11,'thin')
-      @worksheet.get_column_border_left(11).should == 'thin'
-      @worksheet.sheet_data[0].size.should == 12
     end
   end
 
@@ -737,13 +644,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_border_right(-1,'thin')
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_border_right(11,'thin')
-      @worksheet.get_column_border_right(11).should == 'thin'
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_border_bottom' do
@@ -758,13 +658,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_border_bottom(-1,'thin')
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_border_bottom(11,'thin')
-      @worksheet.get_column_border_bottom(11).should == 'thin'
-      @worksheet.sheet_data[0].size.should == 12
-    end
   end
 
   describe '.change_column_border_diagonal' do
@@ -778,13 +671,6 @@ describe RubyXL::Worksheet do
       lambda {
         @worksheet.change_column_border_diagonal(-1,'thin')
       }.should raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.change_column_border_diagonal(11,'thin')
-      @worksheet.get_column_border_diagonal(11).should == 'thin'
-      @worksheet.sheet_data[0].size.should == 12
     end
   end
 
@@ -820,12 +706,6 @@ describe RubyXL::Worksheet do
       @worksheet.add_cell(11,11,'TEST','B2',false)
       @worksheet[11][11].value.should == 'TEST'
       @worksheet[11][11].formula.should == 'B2'
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      lambda {
-        @worksheet.add_cell(-1,-1,'')
-      }.should raise_error
     end
   end
 
@@ -949,13 +829,7 @@ describe RubyXL::Worksheet do
         @worksheet.insert_column(-1)
       }.should raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      @worksheet.sheet_data[0].size.should == 11
-      @worksheet.insert_column(11)
-      @worksheet.sheet_data[0].size.should == 13
-    end
-  end
+		  end
 
   describe '.insert_cell' do
     it 'should simply add a cell if no shift argument is specified' do
@@ -1128,10 +1002,6 @@ describe RubyXL::Worksheet do
       @worksheet.get_row_height(0).should == 30
     end
 
-    it 'should return nil if a row which does not exist is passed in' do
-      @worksheet.get_row_height(11).should be_nil
-    end
-
     it 'should cause error if a negative argument is passed in' do
       lambda {
         @worksheet.get_row_height(-1)
@@ -1298,10 +1168,6 @@ describe RubyXL::Worksheet do
         @worksheet.get_column_font_name(-1)
       }.should raise_error
     end
-
-    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-      @worksheet.get_column_font_name(11).should be_nil
-    end
   end
 
   describe '.get_column_font_size' do
@@ -1315,10 +1181,6 @@ describe RubyXL::Worksheet do
          @worksheet.get_column_font_size(-1)
        }.should raise_error
      end
-
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       @worksheet.get_column_font_size(11).should be_nil
-     end
    end
 
    describe '.get_column_font_color' do
@@ -1331,10 +1193,6 @@ describe RubyXL::Worksheet do
        lambda {
          @worksheet.get_column_font_color(-1)
        }.should raise_error
-     end
-
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       @worksheet.get_column_font_color(11).should be_nil
      end
 
      it 'should return black (000000) if no rgb font color is specified' do
@@ -1404,10 +1262,6 @@ describe RubyXL::Worksheet do
          @worksheet.is_column_struckthrough(-1)
        }.should raise_error
      end
-
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       @worksheet.is_column_struckthrough(11).should be_nil
-     end
    end
 
    describe '.get_column_width' do
@@ -1418,10 +1272,6 @@ describe RubyXL::Worksheet do
      it 'should correctly reflect width if specified for column' do
        @worksheet.change_column_width(0, 30)
        @worksheet.get_column_width(0).should == 30
-     end
-
-     it 'should return nil if a column which does not exist is passed in' do
-       @worksheet.get_column_width(11).should be_nil
      end
 
      it 'should cause error if a negative argument is passed in' do
@@ -1439,10 +1289,6 @@ describe RubyXL::Worksheet do
      it 'should correctly reflect fill color if specified for column' do
        @worksheet.change_column_fill(0, '000000')
       @worksheet.get_column_fill(0).should == '000000'
-     end
-
-     it 'should return nil if a column which does not exist is passed in' do
-       @worksheet.get_column_fill(11).should be_nil
      end
 
      it 'should cause error if a negative argument is passed in' do
