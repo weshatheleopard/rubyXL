@@ -176,5 +176,7 @@ module RubyXL
   ST_RectAlignment        = %w{ tl t tr l ctr r bl b br }
   ST_BlipCompression      = %w{ email screen print hqprint none }
   ST_ColorSchemeIndex     = %w{ dk1 lt1 dk2 lt2 accent1 accent2 accent3 accent4 accent5 accent6 hlink folHlink }
+  ST_FontCollectionIndex  = %w{ major minor none }
+  ST_BlendMode            = %w{ over mult screen darken lighten }
 
 end
