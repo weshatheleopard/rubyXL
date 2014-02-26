@@ -137,6 +137,10 @@ module RubyXL
   class DefinedNames < OOXMLContainerObject
     define_child_node(RubyXL::DefinedName, :collection => true)
     define_element_name 'definedNames'
+
+    def find_by_name(n)
+      self.find { |defined_name| defined_name.name.downcase == n.downcase }
+    end      
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCache-1.html

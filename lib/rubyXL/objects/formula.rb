@@ -3,6 +3,9 @@ require 'rubyXL/objects/simple_types'
 
 module RubyXL
 
+  NUMBER_REGEXP = /^-?\d+(\.\d+(?:e[+-]\d+)?)?/i
+#  FLOAT_REGEXP  = /^\d+(?:\.\d+)?/
+
   # http://www.schemacentral.com/sc/ooxml/e-ssml_f-1.html
   class Formula < OOXMLObject
     define_attribute(:_,    :string, :accessor => :expression)
@@ -24,5 +27,57 @@ module RubyXL
   def calculate(calc_id)
 
   end
+
+  def parse(str)
+    str = lstrip(str)
+    # Output is in the form: [ <operation>, <operand1>[, <operand2>[, <operand3>....]]
+    res = []
+
+    if str =~ NUMBER_REGEXP then # Number
+      return $&.to_f, $`
+    else
+      if str=~ /[a-z]+[0-9]+/i then # possibly Reference
+        remainder = $' # Must save first, because the next line will destroy the values.
+        ref = RubyXL::Reference.new($&)
+        return ref, remainder if (ref.last_row =< 1048576) && (ref.last_col <= 16383)
+      end
+
+      if /([a-z]+)\(*/i then # possibly function
+        # TODO: implement the list
+        res[0] = $1
+
+        loop do
+          str = lstrip(str)
+          r, str = parse($`)
+          res << r
+
+          str = lstrip(str)
+          if str =~ /^\s*[,)]/ then
+            str = $'
+            break if $1 == ')'
+          end
+        end
+
+      end
+
+      if /[a-z_\]([a-z0-9._])*/i then # possibly DefinedName
+        # TODO:
+        # * cannot be == "C", "c", "R", or "r", which are shorthands for selecting a row or column for the currently selected cell
+        # * up to 255 chars
+        dn = defined_names.find_by_name($&)
+        return dn, $' unless dn.nil?        
+      end
+
+      
+
+    end
+
+    # * function: "xxxx(...)"
+    # * operator: + – * / % ^ = > < >= <= <> &
+    # * name:    
+    # ** cannot be the same as cell refs
+
+  end
+
 
 end
