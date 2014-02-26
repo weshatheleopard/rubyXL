@@ -178,5 +178,28 @@ module RubyXL
   ST_ColorSchemeIndex     = %w{ dk1 lt1 dk2 lt2 accent1 accent2 accent3 accent4 accent5 accent6 hlink folHlink }
   ST_FontCollectionIndex  = %w{ major minor none }
   ST_BlendMode            = %w{ over mult screen darken lighten }
+  ST_PresetCameraType     = %w{ legacyObliqueTopLeft legacyObliqueTop legacyObliqueTopRight legacyObliqueLeft
+                                legacyObliqueFront legacyObliqueRight legacyObliqueBottomLeft legacyObliqueBottom
+                                legacyObliqueBottomRight legacyPerspectiveTopLeft legacyPerspectiveTop
+                                legacyPerspectiveTopRight legacyPerspectiveLeft legacyPerspectiveFront
+                                legacyPerspectiveRight legacyPerspectiveBottomLeft legacyPerspectiveBottom
+                                legacyPerspectiveBottomRight orthographicFront isometricTopUp isometricTopDown
+                                isometricBottomUp isometricBottomDown isometricLeftUp isometricLeftDown
+                                isometricRightUp isometricRightDown isometricOffAxis1Left isometricOffAxis1Right
+                                isometricOffAxis1Top isometricOffAxis2Left isometricOffAxis2Right isometricOffAxis2Top
+                                isometricOffAxis3Left isometricOffAxis3Right isometricOffAxis3Bottom
+                                isometricOffAxis4Left isometricOffAxis4Right isometricOffAxis4Bottom
+                                obliqueTopLeft obliqueTop obliqueTopRight obliqueLeft obliqueRight obliqueBottomLeft
+                                obliqueBottom obliqueBottomRight perspectiveFront perspectiveLeft perspectiveRight 
+                                perspectiveAbove perspectiveBelow perspectiveAboveLeftFacing perspectiveAboveRightFacing
+                                perspectiveContrastingLeftFacing perspectiveContrastingRightFacing
+                                perspectiveHeroicLeftFacing perspectiveHeroicRightFacing
+                                perspectiveHeroicExtremeLeftFacing perspectiveHeroicExtremeRightFacing 
+                                perspectiveRelaxed perspectiveRelaxedModerately }
+  ST_LightRigType         = %w{ legacyFlat1 legacyFlat2 legacyFlat3 legacyFlat4 legacyNormal1 legacyNormal2
+                                legacyNormal3 legacyNormal4 legacyHarsh1 legacyHarsh2 legacyHarsh3 legacyHarsh4
+                                threePt balanced soft harsh flood contrasting morning sunrise sunset chilly
+                                freezing flat twoPt glow brightRoom }
+  ST_LightRigDirection    = %w{ tl t tr l ctr r bl b br }
 
 end
