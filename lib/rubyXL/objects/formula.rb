@@ -21,4 +21,8 @@ module RubyXL
     define_element_name 'f'
   end
 
+  def calculate(calc_id)
+
+  end
+
 end

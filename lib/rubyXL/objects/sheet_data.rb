@@ -81,6 +81,18 @@ module RubyXL
       end
     end
 
+    def initialize
+      @calculation = nil
+      super
+    end
+
+    def calculate(calc_id)
+      raise "boom" unless @calculation.to_r < calc_id
+      @calculation = calc_id
+      formula && (self.value = formula.calculate(calc_id))
+      value
+    end
+
     include LegacyCell
   end
 
