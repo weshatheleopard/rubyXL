@@ -337,8 +337,8 @@ module LegacyWorksheet
       c.column = column
       c.raw_value = data
       c.datatype = (formula || data.is_a?(Numeric)) ? '' : RubyXL::Cell::RAW_STRING
-      c.formula = formula
-
+      c.formula = RubyXL::Formula.new(:expression => formula) if formula
+      
       range = cols && cols.find(column)
       c.style_index = sheet_data.rows[row].style_index || (range && range.style_index) || 0
 

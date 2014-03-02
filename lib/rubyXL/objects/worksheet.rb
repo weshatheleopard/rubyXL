@@ -684,7 +684,7 @@ module RubyXL
           end
 
           row.r = row_index + 1
-          row.spans = "#{first_nonempty_cell + 1}:#{last_nonempty_cell + 1}"
+          row.spans = "#{first_nonempty_cell + 1}:#{last_nonempty_cell + 1}" unless first_nonempty_cell.nil?
           row.custom_format = (row.style_index.to_i != 0)
         }
 
