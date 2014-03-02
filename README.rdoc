@@ -88,7 +88,7 @@ Please note: these methods are being phased out in favor of the OOXML object mod
 === Modifying
 
 ==== Adding Worksheets
-  worlsheet = workbook.add_worksheet('Sheet2')
+  worksheet = workbook.add_worksheet('Sheet2')
 
 ==== Adding Cells
   worksheet.add_cell(0, 0, 'A1')      # Sets cell A1 to string "A1"

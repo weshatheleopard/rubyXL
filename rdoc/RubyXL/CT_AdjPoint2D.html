@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::NumberFormat - rubyXL 2.4.1</title>
+<title>class RubyXL::CT_AdjPoint2D - rubyXL 2.4.1</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -67,30 +67,17 @@
 
     
     
-    <!-- Method Quickref -->
-<div id="method-list-section" class="nav-section">
-  <h3>Methods</h3>
-
-  <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-is_date_format-3F">#is_date_format?</a>
-    
-  </ul>
-</div>
-
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-RubyXL::NumberFormat">
-  <h1 id="class-RubyXL::NumberFormat" class="class">
-    class RubyXL::NumberFormat
+<main role="main" aria-labelledby="class-RubyXL::CT_AdjPoint2D">
+  <h1 id="class-RubyXL::CT_AdjPoint2D" class="class">
+    class RubyXL::CT_AdjPoint2D
   </h1>
 
   <section class="description">
     
-<p><a
-href="http://www.schemacentral.com/sc/ooxml/e-ssml_numFmt-1.html">www.schemacentral.com/sc/ooxml/e-ssml_numFmt-1.html</a></p>
-
   </section>
 
   
@@ -106,48 +93,6 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_numFmt-1.html">www.schemacent
     
 
     
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Instance Methods</h3>
-       </header>
-
-    
-      <div id="method-i-is_date_format-3F" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">is_date_format?</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="is_date_format-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 16</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_date_format?</span>
-  <span class="ruby-comment">#             v----- Toss all the escaped chars ------v v--- and see if any date-related remained</span>
-  <span class="ruby-operator">!</span><span class="ruby-operator">!</span>(<span class="ruby-identifier">format_code</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/(\&quot;[^\&quot;]*\&quot;|\[[^\]]*\]|[\_*].)/i</span>, <span class="ruby-string">''</span>) <span class="ruby-operator">=~</span> <span class="ruby-regexp">/[dmyhs]/i</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
   </section>
 </main>
 

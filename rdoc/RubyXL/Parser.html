@@ -247,10 +247,10 @@ cells being interpreted as numbers</p>
           <div class="method-source-code" id="parse-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-identifier">opts</span> = {})
-  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Not .xlsx or .xlsm excel file&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@skip_filename_check</span> <span class="ruby-operator">||</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">'Not .xlsx or .xlsm excel file'</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@skip_filename_check</span> <span class="ruby-operator">||</span>
                                           <span class="ruby-node">%w{.xlsx .xlsm}</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">xl_file_path</span>))
 
-  <span class="ruby-identifier">dir_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">xl_file_path</span>), <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-constant">Tmpname</span>.<span class="ruby-identifier">make_tmpname</span>([<span class="ruby-string">&#39;rubyXL&#39;</span>, <span class="ruby-string">&#39;.tmp&#39;</span>], <span class="ruby-keyword">nil</span>))
+  <span class="ruby-identifier">dir_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">xl_file_path</span>), <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-constant">Tmpname</span>.<span class="ruby-identifier">make_tmpname</span>([<span class="ruby-string">'rubyXL'</span>, <span class="ruby-string">'.tmp'</span>], <span class="ruby-keyword">nil</span>))
 
   <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -282,7 +282,7 @@ cells being interpreted as numbers</p>
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">printer_settings</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">worksheet_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">chartsheet_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">macros</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;vbaProject.bin&#39;</span>)
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">macros</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">'vbaProject.bin'</span>)
 
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">theme</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Theme</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
     <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">core_properties</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CoreProperties</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
@@ -305,17 +305,17 @@ cells being interpreted as numbers</p>
   <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">sheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">sheet_rel</span> = <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">find_by_rid</span>(<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">r_id</span>)
 
-    <span class="ruby-identifier">sheet_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-identifier">sheet_rel</span>.<span class="ruby-identifier">target</span>))       
+    <span class="ruby-identifier">sheet_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">'xl'</span>, <span class="ruby-identifier">sheet_rel</span>.<span class="ruby-identifier">target</span>))       
 
     <span class="ruby-keyword">case</span> <span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-identifier">basename</span>(<span class="ruby-identifier">sheet_rel</span>.<span class="ruby-identifier">type</span>)
-    <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;worksheet&#39;</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-string">'worksheet'</span> <span class="ruby-keyword">then</span>
       <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Worksheet</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">sheet_file</span>)
       <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
         <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">nil?</span>
         <span class="ruby-identifier">r</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet</span>
         <span class="ruby-identifier">r</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet_obj</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
       }
-    <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;chartsheet&#39;</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-string">'chartsheet'</span> <span class="ruby-keyword">then</span>
       <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Chartsheet</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">sheet_file</span>)
     <span class="ruby-keyword">end</span>
 
