@@ -395,21 +395,66 @@ module RubyXL
     define_element_name 'a:lum'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_AlphaBiLevelEffect.html
+  class CT_AlphaBiLevelEffect < OOXMLObject
+    define_attribute(:thresh, :int, :required => true)
+    define_element_name 'a:alphaBiLevel'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_AlphaModulateFixedEffect.html
+  class CT_AlphaModulateFixedEffect < OOXMLObject
+    define_attribute(:amt, :int, :default => 100000)
+    define_element_name 'a:alphaModFix'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_AlphaReplaceEffect.html
+  class CT_AlphaReplaceEffect < OOXMLObject
+    define_attribute(:a, :int, :required => true)
+    define_element_name 'a:alphaRepl'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_BiLevelEffect.html
+  class CT_BiLevelEffect < OOXMLObject
+    define_attribute(:thresh, :int, :required => true, :default => 100000)
+    define_element_name 'a:biLevel'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_BlurEffect.html
+  class CT_BlurEffect < OOXMLObject
+    define_attribute(:rad,  :int,  :default => 0)
+    define_attribute(:grow, :bool, :default => true)
+    define_element_name 'a:blur'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_DuotoneEffect.html
+  class CT_DuotoneEffect < OOXMLObject
+    define_attribute(:rad,  :int,  :default => 0)
+    define_attribute(:grow, :bool, :default => true)
+    define_element_name 'a:blur'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_ColorChangeEffect.html
+  class CT_ColorChangeEffect < OOXMLObject
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:clrFrom')
+    define_child_node(RubyXL::CT_Color, :node_name => 'a:clrTo')
+    define_attribute(:useA, :bool, :default => true)
+    define_element_name 'a:clrChange'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_blip-1.html
-#TODO#
   class CT_Blip < OOXMLObject
-#    a:alphaBiLevel    Alpha Bi-Level Effect
+    define_child_node(RubyXL::CT_AlphaBiLevelEffect)
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
-#    a:alphaMod    Alpha Modulate Effect
-#    a:alphaModFix    Alpha Modulate Fixed Effect
-#    a:alphaRepl    Alpha Replace Effect
-#    a:biLevel    Bi-Level (Black/White) Effect
-#    a:blur    Blur Effect
-#    a:clrChange    Color Change Effect
+#    a:alphaMod    Alpha Modulate Effect #TODO#
+    define_child_node(RubyXL::CT_AlphaModulateFixedEffect)
+    define_child_node(RubyXL::CT_AlphaReplaceEffect)
+    define_child_node(RubyXL::CT_BiLevelEffect)
+    define_child_node(RubyXL::CT_BlurEffect)
+    define_child_node(RubyXL::CT_ColorChangeEffect)
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:clrRepl')
-#    a:duotone    Duotone Effect
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:duotone')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:fillOverlay')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:grayscl')
     define_child_node(RubyXL::CT_HSLEffect)
@@ -650,20 +695,20 @@ module RubyXL
 #TODO#
 #        a:cont    Effect Container
 #        a:effect    Effect
-#        a:alphaBiLevel    Alpha Bi-Level Effect
+    define_child_node(RubyXL::CT_AlphaBiLevelEffect)
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
 #        a:alphaMod    Alpha Modulate Effect
-#        a:alphaModFix    Alpha Modulate Fixed Effect
+    define_child_node(RubyXL::CT_AlphaModulateFixedEffect)
 #        a:alphaOutset    Alpha Inset/Outset Effect
-#        a:alphaRepl    Alpha Replace Effect
-#        a:biLevel    Bi-Level (Black/White) Effect
+    define_child_node(RubyXL::CT_AlphaReplaceEffect)
+    define_child_node(RubyXL::CT_BiLevelEffect)
 #        a:blend    Blend Effect
-#        a:blur    Blur Effect
-#        a:clrChange    Color Change Effect
+    define_child_node(RubyXL::CT_BlurEffect)
+    define_child_node(RubyXL::CT_ColorChangeEffect)
 #        a:clrRepl    Solid Color Replacement
-#        a:duotone    Duotone Effect
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:duotone')
 #        a:fill    Fill
 #        a:fillOverlay    Fill Overlay Effect
 #        a:glow    Glow Effect
