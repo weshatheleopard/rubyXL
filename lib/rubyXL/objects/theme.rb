@@ -373,6 +373,28 @@ module RubyXL
     define_element_name 'a:stretch'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_TintEffect.html
+  class CT_TintEffect < OOXMLObject
+    define_attribute(:hue, :int, :default => 0)
+    define_attribute(:amt, :int, :default => 0)
+    define_element_name 'a:tint'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_HSLEffect.html
+  class CT_HSLEffect < OOXMLObject
+    define_attribute(:hue, :int, :default => 0)
+    define_attribute(:sat, :int, :default => 0)
+    define_attribute(:lum, :int, :default => 0)
+    define_element_name 'a:hsl'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_LuminanceEffect.html
+  class CT_LuminanceEffect < OOXMLObject
+    define_attribute(:bright,   :int, :default => 0)
+    define_attribute(:contrast, :int, :default => 0)
+    define_element_name 'a:lum'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_blip-1.html
 #TODO#
   class CT_Blip < OOXMLObject
@@ -390,9 +412,9 @@ module RubyXL
 #    a:duotone    Duotone Effect
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:fillOverlay')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:grayscl')
-#    a:hsl    Hue Saturation Luminance Effect
-#    a:lum    Luminance Effect
-#    a:tint    Tint Effect
+    define_child_node(RubyXL::CT_HSLEffect)
+    define_child_node(RubyXL::CT_LuminanceEffect)
+    define_child_node(RubyXL::CT_TintEffect)
     define_attribute(:'r:embed', :string)
     define_attribute(:'r:link',  :string)
     define_attribute(:cstate,    RubyXL::ST_BlipCompression)
@@ -612,11 +634,60 @@ module RubyXL
     define_element_name 'a:effectLst'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_TransformEffect.html
+  class CT_TransformEffect < OOXMLObject
+    define_attribute(:sx, :int, :default => 100000)
+    define_attribute(:sy, :int, :default => 100000)
+    define_attribute(:kx, :int, :default => 0)
+    define_attribute(:ky, :int, :default => 0)
+    define_attribute(:tx, :int, :default => 0)
+    define_attribute(:ty, :int, :default => 0)
+    define_element_name 'a:xfrm'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_EffectContainer.html
+  class CT_EffectContainer < OOXMLObject
+#TODO#
+#        a:cont    Effect Container
+#        a:effect    Effect
+#        a:alphaBiLevel    Alpha Bi-Level Effect
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
+#        a:alphaMod    Alpha Modulate Effect
+#        a:alphaModFix    Alpha Modulate Fixed Effect
+#        a:alphaOutset    Alpha Inset/Outset Effect
+#        a:alphaRepl    Alpha Replace Effect
+#        a:biLevel    Bi-Level (Black/White) Effect
+#        a:blend    Blend Effect
+#        a:blur    Blur Effect
+#        a:clrChange    Color Change Effect
+#        a:clrRepl    Solid Color Replacement
+#        a:duotone    Duotone Effect
+#        a:fill    Fill
+#        a:fillOverlay    Fill Overlay Effect
+#        a:glow    Glow Effect
+#        a:grayscl    Gray Scale Effect
+    define_child_node(RubyXL::CT_HSLEffect)
+#        a:innerShdw    Inner Shadow Effect
+    define_child_node(RubyXL::CT_LuminanceEffect)
+#        a:outerShdw    Outer Shadow Effect
+#        a:prstShdw    Preset Shadow
+#        a:reflection    Reflection Effect
+#        a:relOff    Relative Offset Effect
+#        a:softEdge    Soft Edge Effect
+    define_child_node(RubyXL::CT_TintEffect)
+    define_child_node(RubyXL::CT_TransformEffect)
+    define_attribute(:type, RubyXL::ST_EffectContainerType, :default => 'sib')
+    define_attribute(:name, :string)
+    define_element_name 'a:effectDag'
+  end
+
+
   # http://www.schemacentral.com/sc/ooxml/e-a_effectStyle-1.html
   class CT_EffectStyleItem < OOXMLObject
     define_child_node(RubyXL::CT_EffectList)
-#TODO#
-#    a:effectDag    Effect Container
+    define_child_node(RubyXL::CT_EffectContainer)
     define_child_node(RubyXL::CT_Scene3D)
     define_child_node(RubyXL::CT_Shape3D)
     define_element_name 'a:effectStyle'
@@ -822,8 +893,7 @@ module RubyXL
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
     define_child_node(RubyXL::CT_LineProperties)
     define_child_node(RubyXL::CT_EffectList)
-#TODO#
-#        a:effectDag    Effect Container
+    define_child_node(RubyXL::CT_EffectContainer)
     define_child_node(RubyXL::CT_Scene3D)
     define_child_node(RubyXL::CT_Shape3D)
     define_child_node(RubyXL::AExtensionStorageArea)

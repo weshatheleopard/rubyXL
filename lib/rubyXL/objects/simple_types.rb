@@ -201,5 +201,6 @@ module RubyXL
                                 threePt balanced soft harsh flood contrasting morning sunrise sunset chilly
                                 freezing flat twoPt glow brightRoom }
   ST_LightRigDirection    = %w{ tl t tr l ctr r bl b br }
+  ST_EffectContainerType  = %w{ sib tree }
 
 end
