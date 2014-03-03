@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ContentTypes - rubyXL 2.4.1</title>
+<title>class RubyXL::ContentTypes - rubyXL 2.4.2</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -155,7 +155,7 @@
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-string">'[Content_Types].xml'</span>
+  <span class="ruby-string">&#39;[Content_Types].xml&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -198,17 +198,19 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defaults</span> = []
   <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">printer_settings</span>.<span class="ruby-identifier">empty?</span>
-    <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'bin'</span>,
-                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings'</span>)
+    <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;bin&#39;</span>,
+                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings&#39;</span>)
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'rels'</span>,
-                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-package.relationships+xml'</span> )
+  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;rels&#39;</span>,
+                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-package.relationships+xml&#39;</span> )
 
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'xml'</span>,
-                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/xml'</span> )
+  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;xml&#39;</span>,
+                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/xml&#39;</span> )
 
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'jpeg'</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'image/jpeg'</span> )
+  <span class="ruby-comment"># TODO: Need to only write these types when respective content is actually present.</span>
+  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;jpeg&#39;</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;image/jpeg&#39;</span> )
+  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;png&#39;</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;image/png&#39;</span> )
 
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">overrides</span> = []
   <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">generate_override</span>(<span class="ruby-identifier">workbook</span>)
@@ -224,31 +226,31 @@
     <span class="ruby-keyword">case</span> <span class="ruby-identifier">k</span>
     <span class="ruby-keyword">when</span> <span class="ruby-regexp">/^chart\d*.xml$/</span> <span class="ruby-keyword">then</span>
       <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{@workbook.charts.local_dir_path}/#{k}&quot;</span>,
-                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'</span>)
+                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.drawingml.chart+xml&#39;</span>)
     <span class="ruby-keyword">when</span> <span class="ruby-regexp">/^style\d*.xml$/</span> <span class="ruby-keyword">then</span>
       <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{@workbook.charts.local_dir_path}/#{k}&quot;</span>,
-                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.ms-office.chartstyle+xml'</span>)
+                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.ms-office.chartstyle+xml&#39;</span>)
     <span class="ruby-keyword">when</span> <span class="ruby-regexp">/^colors\d*.xml$/</span> <span class="ruby-keyword">then</span>
       <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{@workbook.charts.local_dir_path}/#{k}&quot;</span>,
-                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.ms-office.chartcolorstyle+xml'</span>)
+                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.ms-office.chartcolorstyle+xml&#39;</span>)
     <span class="ruby-keyword">end</span>
   }
 
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">drawings</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{@workbook.drawings.local_dir_path}/#{k}&quot;</span>,
-                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-officedocument.drawing+xml'</span>)
+                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.drawing+xml&#39;</span>)
   }
 
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-value">1</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/xl/externalLinks/externalLink#{i}.xml&quot;</span>,
-                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'</span>)
+                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml&#39;</span>)
     }
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">macros</span>.<span class="ruby-identifier">empty?</span>
-    <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'/xl/vbaProject.bin'</span>,
-                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.ms-office.vbaProject'</span>)
+    <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;/xl/vbaProject.bin&#39;</span>,
+                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.ms-office.vbaProject&#39;</span>)
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">true</span>
