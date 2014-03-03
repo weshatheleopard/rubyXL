@@ -6,7 +6,7 @@ module RubyXL
     include Enumerable
     attr_accessor :worksheets, :filepath, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
-      :worksheet_rels, :chartsheet_rels, :printer_settings, :macros
+      :worksheet_rels, :chartsheet_rels, :printer_settings, :macros, :thumbnail
 
     attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
                   :relationship_container, :root_relationship_container, :core_properties, :content_types
@@ -40,6 +40,7 @@ module RubyXL
       @chartsheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'chartsheets', '_rels'))
       @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros              = RubyXL::GenericStorage.new('xl').binary
+      @thumbnail           = RubyXL::GenericStorage.new('docProps').binary
 
       @theme                    = RubyXL::Theme.new
       @shared_strings_container = RubyXL::SharedStringsTable.new
@@ -112,7 +113,7 @@ module RubyXL
         core_properties.add_to_zip(zipfile)
         content_types.workbook = self
         content_types.add_to_zip(zipfile)
-        relationship_container.workbook = self
+        relationship_container.workbook = root_relationship_container.workbook = self
         relationship_container.add_to_zip(zipfile)
         stylesheet.add_to_zip(zipfile)
         root_relationship_container.add_to_zip(zipfile)
@@ -120,7 +121,7 @@ module RubyXL
 
         [ @media, @external_links, @external_links_rels,
           @drawings, @drawings_rels, @charts, @chart_rels,
-          @printer_settings, @worksheet_rels, @chartsheet_rels, @macros ].each { |s| s.add_to_zip(zipfile) }
+          @printer_settings, @worksheet_rels, @chartsheet_rels, @macros, @thumbnail ].each { |s| s.add_to_zip(zipfile) }
 
         @worksheets.each { |sheet| sheet.add_to_zip(zipfile) }
       }
