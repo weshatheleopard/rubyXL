@@ -807,7 +807,7 @@ describe RubyXL::Worksheet do
       @worksheet[0][0].value.should_not == @old_cell_value
       @worksheet[0][0].formula.should_not == @old_cell_formula
       @worksheet[0][0].value.should == ''
-      @worksheet[0][0].formula.should == 'SUM(A2:A10)'
+      @worksheet[0][0].formula.expression.should == 'SUM(A2:A10)'
     end
 
     it 'should not overwrite when a cell is present when overwrite is specified to be false' do
@@ -819,7 +819,7 @@ describe RubyXL::Worksheet do
     it 'should still add a new cell when there is no cell to be overwritten' do
       @worksheet.add_cell(11,11,'TEST','B2',false)
       @worksheet[11][11].value.should == 'TEST'
-      @worksheet[11][11].formula.should == 'B2'
+      @worksheet[11][11].formula.expression.should == 'B2'
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -847,7 +847,7 @@ describe RubyXL::Worksheet do
     it 'should preserve (rather than fix) formulas that reference cells in "pushed up" rows' do
       @worksheet.add_cell(11,0,nil,'SUM(A1:A10)')
       @worksheet.delete_row(0)
-      @worksheet[10][0].formula.should == 'SUM(A1:A10)'
+      @worksheet[10][0].formula.expression.should == 'SUM(A1:A10)'
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -874,7 +874,7 @@ describe RubyXL::Worksheet do
     it 'should preserve (rather than fix) formulas that reference cells "pushed down" rows' do
       @worksheet.add_cell(5,0,nil,'SUM(A1:A4)')
       @worksheet.insert_row(0)
-      @worksheet[6][0].formula.should == 'SUM(A1:A4)'
+      @worksheet[6][0].formula.expression.should == 'SUM(A1:A4)'
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -908,7 +908,7 @@ describe RubyXL::Worksheet do
     it 'should preserve (rather than fix) formulas that reference cells in "pushed left" columns' do
       @worksheet.add_cell(0,4,nil,'SUM(A1:D1)')
       @worksheet.delete_column(0)
-      @worksheet[0][3].formula.should == 'SUM(A1:D1)'
+      @worksheet[0][3].formula.expression.should == 'SUM(A1:D1)'
     end
 
     it 'should cause error if negative argument is passed in' do
@@ -941,7 +941,7 @@ describe RubyXL::Worksheet do
     it 'should preserve (rather than fix) formulas that reference cells in "pushed right" column' do
       @worksheet.add_cell(0,5,nil,'SUM(A1:D1)')
       @worksheet.insert_column(0)
-      @worksheet[0][6].formula.should == 'SUM(A1:D1)'
+      @worksheet[0][6].formula.expression.should == 'SUM(A1:D1)'
     end
 
     it 'should cause error if a negative argument is passed in' do
