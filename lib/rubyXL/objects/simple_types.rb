@@ -202,5 +202,7 @@ module RubyXL
                                 freezing flat twoPt glow brightRoom }
   ST_LightRigDirection    = %w{ tl t tr l ctr r bl b br }
   ST_EffectContainerType  = %w{ sib tree }
+  ST_PresetShadowVal      = %w{ shdw1 shdw2 shdw3 shdw4 shdw5 shdw6 shdw7 shdw8 shdw9 shdw10
+                                shdw11 shdw12 shdw13 shdw14 shdw15 shdw16 shdw17 shdw18 shdw19 shdw20 }
 
 end

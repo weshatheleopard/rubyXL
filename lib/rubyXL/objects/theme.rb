@@ -551,7 +551,7 @@ module RubyXL
     define_element_name 'a:rot'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_Camera.html
+  # http://www.schemacentral.com/sc/ooxml/e-a_camera-1.html
   class CT_Camera < OOXMLObject
     define_child_node(RubyXL::CT_SphereCoords)
     define_attribute(:prst, RubyXL::ST_PresetCameraType, :required => true)
@@ -560,7 +560,7 @@ module RubyXL
     define_element_name 'a:camera'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_LightRig.html
+  # http://www.schemacentral.com/sc/ooxml/e-a_lightRig-1.html
   class CT_LightRig < OOXMLObject
     define_child_node(RubyXL::CT_SphereCoords)
     define_attribute(:rig, RubyXL::ST_LightRigType,      :required => true)
@@ -568,12 +568,35 @@ module RubyXL
     define_element_name 'a:lightRig'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_anchor-1.html
+  class CT_Point3D < OOXMLObject
+    define_attribute(:x, :int, :required => true)
+    define_attribute(:y, :int, :required => true)
+    define_attribute(:z, :int, :required => true)
+    define_element_name 'a:anchor'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_Vector3D.html
+  class CT_Vector3D < OOXMLObject
+    define_attribute(:dx, :int, :required => true)
+    define_attribute(:dy, :int, :required => true)
+    define_attribute(:dz, :int, :required => true)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_Backdrop.html
+  class CT_Backdrop < OOXMLObject
+    define_child_node(RubyXL::CT_Point3D)
+    define_child_node(RubyXL::CT_Vector3D, :node_name => 'a:norm')
+    define_child_node(RubyXL::CT_Vector3D, :node_name => 'a:up')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_element_name 'a:backdrop'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_scene3d-1.html
   class CT_Scene3D < OOXMLObject
     define_child_node(RubyXL::CT_Camera,   :required => true)
     define_child_node(RubyXL::CT_LightRig, :required => true)
-#TODO#
-#    a:backdrop [0..1]    Backdrop Plane
+    define_child_node(RubyXL::CT_Backdrop)
     define_child_node(RubyXL::AExtensionStorageArea)
     define_element_name 'a:scene3d'
   end
@@ -665,17 +688,55 @@ module RubyXL
     define_element_name 'a:outerShdw'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_EffectList.html
+  # http://www.schemacentral.com/sc/ooxml/e-a_reflection-1.html
+  class CT_ReflectionEffect < OOXMLObject
+    define_attribute(:blurRad,      :int,  :default => 0)
+    define_attribute(:stA,          :int,  :default => 100000)
+    define_attribute(:stPos,        :int,  :default => 0)
+    define_attribute(:endA,         :int,  :default => 0)
+    define_attribute(:endPos,       :int,  :default => 100000)
+    define_attribute(:dist,         :int,  :default => 0)
+    define_attribute(:dir,          :int,  :default => 0)
+    define_attribute(:fadeDir,      :int,  :default => 5400000)
+    define_attribute(:sx,           :int,  :default => 100000)
+    define_attribute(:sy,           :int,  :default => 100000)
+    define_attribute(:kx,           :int,  :default => 0)
+    define_attribute(:ky,           :int,  :default => 0)
+    define_attribute(:algn,         RubyXL::ST_RectAlignment, :default => 'b')
+    define_attribute(:rotWithShape, :bool, :default => true)
+    define_element_name 'a:reflection'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_prstShdw-1.html
+  class CT_PresetShadowEffect < OOXMLObject
+    define_child_node(RubyXL::CT_ScRgbColor)
+    define_child_node(RubyXL::CT_SRgbColor)
+    define_child_node(RubyXL::CT_HslColor)
+    define_child_node(RubyXL::CT_SystemColor)
+    define_child_node(RubyXL::CT_SchemeColor)
+    define_child_node(RubyXL::CT_PresetColor)
+    define_attribute(:prst, RubyXL::ST_PresetShadowVal, :required => true)
+    define_attribute(:dist, :int, :default => 0)
+    define_attribute(:dir,  :int, :default => 0)
+    define_element_name 'a:prstShdw'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_softEdge-1.html
+  class CT_SoftEdgesEffect < OOXMLObject
+    define_attribute(:rad, :int, :required => true)
+    define_element_name 'a:softEdge'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_effectLst-1.html
   class CT_EffectList < OOXMLObject
     define_child_node(RubyXL::CT_BlurEffect)
     define_child_node(RubyXL::CT_FillOverlayEffect)
     define_child_node(RubyXL::CT_GlowEffect)
     define_child_node(RubyXL::CT_InnerShadowEffect)
     define_child_node(RubyXL::CT_OuterShadowEffect)
-#TODO#
-#    a:prstShdw [0..1]    Preset Shadow
-#    a:reflection [0..1]    Reflection Effect
-#    a:softEdge [0..1]    Soft Edge Effect
+    define_child_node(RubyXL::CT_PresetShadowEffect)
+    define_child_node(RubyXL::CT_ReflectionEffect)
+    define_child_node(RubyXL::CT_SoftEdgesEffect)
     define_element_name 'a:effectLst'
   end
 
