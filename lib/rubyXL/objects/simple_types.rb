@@ -204,5 +204,14 @@ module RubyXL
   ST_EffectContainerType  = %w{ sib tree }
   ST_PresetShadowVal      = %w{ shdw1 shdw2 shdw3 shdw4 shdw5 shdw6 shdw7 shdw8 shdw9 shdw10
                                 shdw11 shdw12 shdw13 shdw14 shdw15 shdw16 shdw17 shdw18 shdw19 shdw20 }
-
+  ST_TextTabAlignType     = %w{ l ctr r dec }
+  ST_TextAutonumberScheme = %w{ alphaLcParenBoth alphaUcParenBoth alphaLcParenR alphaUcParenR
+                                alphaLcPeriod alphaUcPeriod arabicParenBoth arabicParenR arabicPeriod arabicPlain
+                                romanLcParenBoth romanUcParenBoth romanLcParenR romanUcParenR
+                                romanLcPeriod romanUcPeriod circleNumDbPlain circleNumWdBlackPlain
+                                circleNumWdWhitePlain arabicDbPeriod arabicDbPlain ea1ChsPeriod ea1ChsPlain
+                                ea1ChtPeriod ea1ChtPlain ea1JpnChsDbPeriod ea1JpnKorPlain ea1JpnKorPeriod
+                                arabic1Minus arabic2Minus hebrew2Minus thaiAlphaPeriod thaiAlphaParenR
+                                thaiAlphaParenBoth thaiNumPeriod thaiNumParenR thaiNumParenBoth hindiAlphaPeriod
+                                hindiNumPeriod hindiNumParenR hindiAlpha1Period }
 end

@@ -447,7 +447,7 @@ module RubyXL
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
-#    a:alphaMod    Alpha Modulate Effect #TODO#
+#TODO#    a:alphaMod    Alpha Modulate Effect 
     define_child_node(RubyXL::CT_AlphaModulateFixedEffect)
     define_child_node(RubyXL::CT_AlphaReplaceEffect)
     define_child_node(RubyXL::CT_BiLevelEffect)
@@ -751,44 +751,72 @@ module RubyXL
     define_element_name 'a:xfrm'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_fill-1.html
+  class CT_FillEffect < OOXMLObject
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
+    define_child_node(RubyXL::CT_GradientFillProperties)
+    define_child_node(RubyXL::CT_BlipFillProperties)
+    define_child_node(RubyXL::CT_PatternFillProperties)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
+    define_element_name 'a:fill'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_alphaOutset-1.html
+  class CT_AlphaOutsetEffect < OOXMLObject
+    define_attribute(:rad, :int, :default => 0)
+    define_element_name 'a:alphaOutset'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_effect-1.html
+  class CT_EffectReference < OOXMLObject
+    define_attribute(:ref, :string)
+    define_element_name 'a:effect'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_relOff-1.html
+  class CT_RelativeOffsetEffect < OOXMLObject
+    define_attribute(:tx,    :int)
+    define_attribute(:ty,    :int)
+    define_element_name 'a:relOff'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/t-a_CT_EffectContainer.html
   class CT_EffectContainer < OOXMLObject
-#TODO#
-#        a:cont    Effect Container
-#        a:effect    Effect
+#TODO#        a:cont    Effect Container
+    define_child_node(RubyXL::CT_EffectReference)
     define_child_node(RubyXL::CT_AlphaBiLevelEffect)
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
-#        a:alphaMod    Alpha Modulate Effect
+#TODO#        a:alphaMod    Alpha Modulate Effect
     define_child_node(RubyXL::CT_AlphaModulateFixedEffect)
-#        a:alphaOutset    Alpha Inset/Outset Effect
+    define_child_node(RubyXL::CT_AlphaOutsetEffect)
     define_child_node(RubyXL::CT_AlphaReplaceEffect)
     define_child_node(RubyXL::CT_BiLevelEffect)
-#        a:blend    Blend Effect
+#TODO#        a:blend    Blend Effect
     define_child_node(RubyXL::CT_BlurEffect)
     define_child_node(RubyXL::CT_ColorChangeEffect)
-#        a:clrRepl    Solid Color Replacement
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:clrRepl')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:duotone')
-#        a:fill    Fill
-#        a:fillOverlay    Fill Overlay Effect
-#        a:glow    Glow Effect
-#        a:grayscl    Gray Scale Effect
+    define_child_node(RubyXL::CT_FillEffect)
+    define_child_node(RubyXL::CT_FillOverlayEffect)
+    define_child_node(RubyXL::CT_GlowEffect)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grayscl')
     define_child_node(RubyXL::CT_HSLEffect)
-#        a:innerShdw    Inner Shadow Effect
+    define_child_node(RubyXL::CT_InnerShadowEffect)
     define_child_node(RubyXL::CT_LuminanceEffect)
-#        a:outerShdw    Outer Shadow Effect
-#        a:prstShdw    Preset Shadow
-#        a:reflection    Reflection Effect
-#        a:relOff    Relative Offset Effect
-#        a:softEdge    Soft Edge Effect
+    define_child_node(RubyXL::CT_OuterShadowEffect)
+    define_child_node(RubyXL::CT_PresetShadowEffect)
+    define_child_node(RubyXL::CT_ReflectionEffect)
+    define_child_node(RubyXL::CT_RelativeOffsetEffect)
+    define_child_node(RubyXL::CT_SoftEdgesEffect)
     define_child_node(RubyXL::CT_TintEffect)
     define_child_node(RubyXL::CT_TransformEffect)
     define_attribute(:type, RubyXL::ST_EffectContainerType, :default => 'sib')
     define_attribute(:name, :string)
     define_element_name 'a:effectDag'
   end
-
 
   # http://www.schemacentral.com/sc/ooxml/e-a_effectStyle-1.html
   class CT_EffectStyleItem < OOXMLObject
@@ -1059,25 +1087,69 @@ module RubyXL
     define_element_name 'a:bodyPr'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_tab-1.html
+  class CT_TextTabStop < OOXMLObject
+    define_attribute(:pos,  :int)
+    define_attribute(:algn, RubyXL::ST_TextTabAlignType)
+    define_element_name 'a:tabLst'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_tabLst-1.html
+  class CT_TextTabStopList < OOXMLContainerObject
+    define_child_node(RubyXL::CT_TextTabStop, :collection => [0..32])
+    define_element_name 'a:tabLst'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_buAutoNum-1.html
+  class CT_TextAutonumberBullet < OOXMLObject
+    define_attribute(:type, RubyXL::ST_TextAutonumberScheme)
+    define_attribute(:startAt, :int)
+    define_element_name 'a:buAutoNum'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_buChar-1.html
+  class CT_TextCharBullet < OOXMLObject
+    define_attribute(:char, :string, :required => true)
+    define_element_name 'a:buChar'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_buBlip-1.html
+  class CT_TextBlipBullet < OOXMLObject
+    define_child_node(RubyXL::CT_Blip)
+    define_element_name 'a:buBlip'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_spcPct-1.html
+  class CT_TextSpacingPercent < OOXMLObject
+    define_attribute(:char, :string, :required => true)
+    define_element_name 'a:buChar'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_TextSpacing.html
+  class CT_TextSpacing < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:spcPct')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:spcPts')
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_defPPr-1.html
   class CT_TextParagraphProperties < OOXMLObject
-#TODO#
-#    a:lnSpc [0..1]    Line Spacing
-#    a:spcBef [0..1]    Space Before
-#    a:spcAft [0..1]    Space After
-#        a:buClrTx    Follow Text
-#        a:buClr    Color Specified
-#        a:buSzTx    Bullet Size Follows Text
-#        a:buSzPct    Bullet Size Percentage
-#        a:buSzPts    Bullet Size Points
-#        a:buFontTx    Follow text
-#        a:buFont    Specified
-#        a:buNone    No Bullet
-#        a:buAutoNum    Auto-Numbered Bullet
-#        a:buChar    Character Bullet
-#        a:buBlip    Picture Bullet
-#    a:tabLst [0..1]    Tab List
-#    a:defRPr [0..1]    Default Text Run Properties
+    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:lnSpc')
+    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcBef')
+    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcAft')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buClrTx')
+    define_child_node(RubyXL::CT_Color,       :node_name => 'a:buClr')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buSzTx')
+    define_child_node(RubyXL::IntegerValue,   :node_name => 'a:buSzPct')
+    define_child_node(RubyXL::IntegerValue,   :node_name => 'a:buSzPts')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buFontTx')
+    define_child_node(RubyXL::CT_TextFont,    :node_name => 'a:buFont')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buNone')
+    define_child_node(RubyXL::CT_TextAutonumberBullet)
+    define_child_node(RubyXL::CT_TextCharBullet)
+    define_child_node(RubyXL::CT_TextBlipBullet)
+    define_child_node(RubyXL::CT_TextTabStop)
+#TODO#    a:defRPr [0..1]    Default Text Run Properties
+    define_child_node(RubyXL::AExtensionStorageArea)
     define_element_name 'a:defPPr'
   end
 
