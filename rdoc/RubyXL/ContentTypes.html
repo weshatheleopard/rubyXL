@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ContentTypes - rubyXL 2.4.1</title>
+<title>class RubyXL::ContentTypes - rubyXL 2.4.2</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -208,7 +208,9 @@
   <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;xml&#39;</span>,
                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/xml&#39;</span> )
 
+  <span class="ruby-comment"># TODO: Need to only write these types when respective content is actually present.</span>
   <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;jpeg&#39;</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;image/jpeg&#39;</span> )
+  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;png&#39;</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;image/png&#39;</span> )
 
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">overrides</span> = []
   <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">generate_override</span>(<span class="ruby-identifier">workbook</span>)

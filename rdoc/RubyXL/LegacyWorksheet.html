@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyWorksheet - rubyXL 2.4.1</title>
+<title>module RubyXL::LegacyWorksheet - rubyXL 2.4.2</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -475,8 +475,8 @@
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">column</span> = <span class="ruby-identifier">column</span>
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-identifier">data</span>
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">datatype</span> = (<span class="ruby-identifier">formula</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Numeric</span>)) <span class="ruby-operator">?</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span><span class="ruby-operator">::</span><span class="ruby-constant">RAW_STRING</span>
-    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">formula</span> = <span class="ruby-identifier">formula</span>
-
+    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">formula</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:expression</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">formula</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">formula</span>
+    
     <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">column</span>)
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>].<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
 
