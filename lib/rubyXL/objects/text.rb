@@ -72,8 +72,8 @@ module RubyXL
   class RichText < OOXMLObject
     define_child_node(RubyXL::Text)
     define_child_node(RubyXL::RichTextRun, :collection => true)
-    define_child_node(RubyXL::PhoneticRun)
-    define_child_node(RubyXL::PhoneticProperties) # phoneticPr
+    define_child_node(RubyXL::PhoneticRun, :collection => true)
+    define_child_node(RubyXL::PhoneticProperties)
     define_element_name 'is'
 
     def to_s
