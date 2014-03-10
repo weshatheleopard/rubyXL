@@ -572,6 +572,10 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.theme+xml'
     end
 
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
+    end
+
 
     ###### Temporary storage of the theme until I'm done with fully implementing
     ###### all of its intricacies

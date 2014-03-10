@@ -45,12 +45,15 @@ module RubyXL
                       :content_type => 'application/xml' )
 
       # TODO: Need to only write these types when respective content is actually present.
-      defaults << RubyXL::ContentTypeDefault.new(:extension => 'jpeg', :content_type => 'image/jpeg' )
-      defaults << RubyXL::ContentTypeDefault.new(:extension => 'png', :content_type => 'image/png' )
+      defaults << RubyXL::ContentTypeDefault.new(:extension => 'jpeg', :content_type => 'image/jpeg')
+      defaults << RubyXL::ContentTypeDefault.new(:extension => 'png', :content_type => 'image/png')
+      defaults << RubyXL::ContentTypeDefault.new(:extension => 'vml', :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
 
       self.overrides = []
       overrides << generate_override(workbook)
       workbook.worksheets.each { |sheet| overrides << generate_override(sheet) }
+      workbook.comments.each { |comment| overrides << generate_override(comment) }
+
       overrides << generate_override(workbook.stylesheet)
       overrides << generate_override(workbook.document_properties)
       overrides << generate_override(workbook.core_properties)
@@ -73,8 +76,13 @@ module RubyXL
       }
 
       workbook.drawings.each_pair { |k, v|
-        overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
-                       :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
+        case k
+        when /^drawing\d*.xml$/ then
+          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
+                         :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
+        when /^vmlDrawing\d*.vml$/ then 
+          nil
+        end
       }
 
       unless workbook.external_links.nil?

@@ -18,12 +18,12 @@ module RubyXL
     define_element_name 'Relationships'
     set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/package/2006/relationships')
 
-    def document_relationship(target, type)
+    def new_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
-                               :type => "http://schemas.openxmlformats.org/officeDocument/2006/relationships/#{type}",
+                               :type => type,
                                :target => target)
     end
-    protected :document_relationship
+    protected :new_relationship
 
     def metadata_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
@@ -39,6 +39,18 @@ module RubyXL
     def find_by_target(target)
       relationships.find { |r| r.target == target }
     end
+
+    def self.get_class_by_rel_type(rel_type)
+      unless defined?(@@rel_hash)
+        @@rel_hash = {}
+        RubyXL.constants.each { |c|
+          klass = RubyXL.const_get(c)
+          @@rel_hash[klass.rel_type] = klass if klass.respond_to?(:rel_type)
+        }
+      end
+
+      @@rel_hash[rel_type]
+    end
   end
 
 
@@ -50,22 +62,22 @@ module RubyXL
       self.relationships = []
 
       @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << document_relationship(sheet.xlsx_path.gsub(/^xl\//, ''), sheet.rel_type)
+        relationships << new_relationship(sheet.xlsx_path.gsub(/^xl\//, ''), sheet.class.rel_type)
       }
 
       @workbook.external_links.each_key { |k| 
-        relationships << document_relationship("externalLinks/#{k}", 'externalLink')
+        relationships << new_relationship("externalLinks/#{k}", 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink')
       }
 
-      relationships << document_relationship('theme/theme1.xml', 'theme')
-      relationships << document_relationship('styles.xml', 'styles')
+      relationships << new_relationship('theme/theme1.xml', @workbook.theme.class.rel_type)
+      relationships << new_relationship('styles.xml', @workbook.stylesheet.class.rel_type)
 
       if @workbook.shared_strings_container && !@workbook.shared_strings_container.strings.empty? then
-        relationships << document_relationship('sharedStrings.xml', 'sharedStrings') 
+        relationships << new_relationship('sharedStrings.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings') 
       end
 
       if @workbook.calculation_chain && !@workbook.calculation_chain.cells.empty? then
-        relationships << document_relationship('calcChain.xml', 'calcChain') 
+        relationships << new_relationship('calcChain.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain') 
       end
 
       true
@@ -84,16 +96,50 @@ module RubyXL
     def before_write_xml
       self.relationships = []
 
-      relationships << document_relationship('xl/workbook.xml',   'officeDocument')
+      relationships << new_relationship('xl/workbook.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument')
       relationships << metadata_relationship('docProps/thumbnail.jpeg', 'thumbnail') unless @workbook.thumbnail.empty?
       relationships << metadata_relationship('docProps/core.xml', 'core-properties')
-      relationships << document_relationship('docProps/app.xml',  'extended-properties')
+      relationships << new_relationship('docProps/app.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties')
 
       true
     end
 
     def self.xlsx_path
       File.join('_rels', '.rels')
+    end
+  end
+
+  class SheetRelationships < OOXMLRelationshipsFile
+
+    attr_accessor :sheet
+
+    def initialize(params = {})
+      super
+      self.sheet = params[:sheet]
+    end
+
+    def before_write_xml
+#      self.relationships = []
+#
+      true
+    end
+
+    def xlsx_path
+      file_path = sheet.xlsx_path
+      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+    end
+
+    def load_files(dir_path)
+      self.relationships.collect { |rel|
+        klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
+
+        if klass then
+          klass.parse_file(dir_path, File.join(File.dirname(sheet.xlsx_path), rel.target))
+        else
+          nil
+#          puts "class not found: #{rel.type} // #{rel.target}"
+        end
+      }
     end
   end
 

@@ -14,7 +14,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_authors-1.html
   class CommentList < OOXMLContainerObject
-    define_child_node(RubyXL::Comment)
+    define_child_node(RubyXL::Comment, :collection => :true)
     define_element_name 'commentList'
   end
 
@@ -32,12 +32,22 @@ module RubyXL
     define_element_name 'comments'
     set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main')
 
-    def self.xlsx_path
-      File.join('xl', 'comments1.xml')
+    attr_accessor :workbook
+
+    def file_index
+      @workbook.comments.index{ |comment_file| comment_file.equal?(self) }
+    end
+
+    def xlsx_path
+      File.join('xl', "comments#{file_index + 1}.xml")
     end
 
     def self.content_type
       'application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml'
+    end
+
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'
     end
 
   end

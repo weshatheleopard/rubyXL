@@ -410,8 +410,8 @@ module RubyXL
     # directory containing the unzipped contents of <tt>.xslx</tt>
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
-    def self.parse_file(dirpath)
-      full_path = File.join(dirpath, xlsx_path)
+    def self.parse_file(dirpath, file_path = nil)
+      full_path = File.join(dirpath, file_path || self.xlsx_path)
       return nil unless File.exist?(full_path)
       parse(File.open(full_path, 'r'))
     end

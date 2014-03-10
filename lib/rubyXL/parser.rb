@@ -56,8 +56,8 @@ module RubyXL
         wb.charts.load_dir(dir_path)
         wb.chart_rels.load_dir(dir_path)
         wb.printer_settings.load_dir(dir_path)
-        wb.worksheet_rels.load_dir(dir_path)
-        wb.chartsheet_rels.load_dir(dir_path)
+#        wb.worksheet_rels.load_dir(dir_path)
+#        wb.chartsheet_rels.load_dir(dir_path)
         wb.macros.load_file(dir_path, 'vbaProject.bin')
         wb.thumbnail.load_file(dir_path, 'thumbnail.jpeg')
 
@@ -81,19 +81,13 @@ module RubyXL
 
       wb.sheets.each_with_index { |sheet, i|
         sheet_rel = wb.relationship_container.find_by_rid(sheet.r_id)
-
-        sheet_file = File.open(File.join(dir_path, 'xl', sheet_rel.target))       
+        file_path = File.join('xl', sheet_rel.target)
 
         case File::basename(sheet_rel.type)
         when 'worksheet' then
-          sheet_obj = RubyXL::Worksheet.parse(sheet_file)
-          sheet_obj.sheet_data.rows.each { |r|
-            next if r.nil?
-            r.worksheet = sheet
-            r.cells.each { |c| c.worksheet = sheet_obj unless c.nil? }
-          }
+          sheet_obj = RubyXL::Worksheet.parse_file(dir_path, file_path)
         when 'chartsheet' then
-          sheet_obj = RubyXL::Chartsheet.parse(sheet_file)
+          sheet_obj = RubyXL::Chartsheet.parse_file(dir_path, file_path)
         end
 
         sheet_obj.workbook = wb
@@ -102,6 +96,17 @@ module RubyXL
         sheet_obj.state = sheet.state
 
         wb.worksheets[i] = sheet_obj
+        rels = SheetRelationships.parse_file(dir_path, File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels'))
+        if rels then
+          rels.sheet = sheet_obj
+          sheet_obj.rels = rels
+          rels.load_files(dir_path).each { |obj|
+            case obj
+            when RubyXL::Comments then sheet_obj.comments = obj
+            end
+          }
+
+        end
       }
 
       FileUtils.remove_entry_secure(dir_path)

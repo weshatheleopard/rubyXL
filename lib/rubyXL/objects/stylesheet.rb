@@ -191,6 +191,10 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml'
     end
 
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles'
+    end
+
     def self.default
       self.new(:fonts          => RubyXL::Fonts.defaults,
                :fills          => RubyXL::Fills.defaults,

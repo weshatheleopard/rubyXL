@@ -652,7 +652,7 @@ module RubyXL
                    'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
                    'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
 
-    attr_accessor :state
+    attr_accessor :state, :rels, :comments
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
@@ -711,12 +711,21 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
     end
 
-    def rel_type
-      'worksheet'
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
+    end
+
+    def self.parse(param)
+      sheet_obj = super
+      sheet_obj.sheet_data.rows.each { |r|
+        next if r.nil?
+        r.worksheet = sheet_obj
+        r.cells.each { |c| c.worksheet = sheet_obj unless c.nil? }
+      }
+      sheet_obj
     end
 
     include LegacyWorksheet
-
   end
 
 end
