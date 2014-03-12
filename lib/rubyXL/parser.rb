@@ -49,23 +49,6 @@ module RubyXL
       wb.core_properties     = document_members.find { |obj| obj.is_a?(RubyXL::CoreProperties) }
       wb.document_properties = document_members.find { |obj| obj.is_a?(RubyXL::DocumentProperties) }
 
-      wb.relationship_container = RubyXL::WorkbookRelationships.parse_file(dir_path)
-      wb.relationship_container.load_related_files(dir_path, 'xl')
-
-      workbook_members = wb.relationship_container.related_files.values
-      wb.shared_strings_container = workbook_members.find{ |obj| obj.is_a?(RubyXL::SharedStringsTable) }
-      wb.stylesheet = workbook_members.find{ |obj| obj.is_a?(RubyXL::Stylesheet) }
-      wb.theme = workbook_members.find{ |obj| obj.is_a?(RubyXL::Theme) }
-      wb.calculation_chain = workbook_members.find{ |obj| obj.is_a?(RubyXL::CalculationChain) }
-
-      wb.sheets.each_with_index { |sheet, i|
-        sheet_obj = wb.relationship_container.related_files[sheet.r_id]
-        sheet_obj.workbook = wb
-        sheet_obj.sheet_name = sheet.name
-        sheet_obj.sheet_id = sheet.sheet_id
-        sheet_obj.state = sheet.state
-        wb.worksheets[i] = sheet_obj
-
 =begin
         rels = SheetRelationships.parse_file(dir_path, File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels'))
         if rels then
@@ -80,10 +63,8 @@ module RubyXL
 
         end
 =end
-      }
 
-
-=begin
+#=begin
       unless @data_only
         wb.media.load_dir(dir_path)
         wb.external_links.load_dir(dir_path)
@@ -99,7 +80,7 @@ module RubyXL
         wb.thumbnail.load_file(dir_path, 'thumbnail.jpeg')
 
       end
-=end
+#=end
 
       #fills out count information for each font, fill, and border
       wb.cell_xfs.each { |style|

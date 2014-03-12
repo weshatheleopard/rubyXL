@@ -54,11 +54,11 @@ module RubyXL
       @@rel_hash[rel_type]
     end
 
-    def load_related_files(zipdir_path, current_dir = '')
+    def load_related_files(zipdir_path, base_file_name = '')
       self.related_files = {}
 
       self.relationships.each { |rel|
-        file_path = Pathname.new(File.join(current_dir, rel.target)).cleanpath
+        file_path = Pathname.new(File.join(File.dirname(base_file_name), rel.target)).cleanpath
 
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
 
@@ -67,9 +67,22 @@ module RubyXL
           klass = GenericStorageObject
         end
 
-        self.related_files[rel.id] = klass.parse_file(zipdir_path, file_path)
+puts ">>>DEBUG: Loading related file: rid=#{rel.id} path=#{file_path} klass=#{klass}"
+
+        obj = klass.parse_file(zipdir_path, file_path)
+        obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
+        self.related_files[rel.id] = obj
       }
     end
+
+    def self.load_relationship_file(zipdir_path, base_file_path)
+      rel_file_path = File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')
+
+puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_file_path}"
+
+      parse_file(zipdir_path, rel_file_path)
+    end
+
   end
 	
   class WorkbookRelationships < OOXMLRelationshipsFile

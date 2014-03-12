@@ -325,6 +325,35 @@ module RubyXL
       true
     end
 
+    def load_relationships(dir_path, base_file_name)
+      self.relationship_container = RubyXL::WorkbookRelationships.load_relationship_file(dir_path, base_file_name)
+      relationship_container.load_related_files(dir_path, base_file_name)
+
+      related_files = relationship_container.related_files
+      related_files.each_pair { |rid, rf|
+        case rf
+        when RubyXL::SharedStringsTable then self.shared_strings_container = rf
+        when RubyXL::Stylesheet         then self.stylesheet = rf
+        when RubyXL::Theme              then self.theme = rf
+        when RubyXL::CalculationChain   then self.theme = rf
+        when RubyXL::Worksheet, RubyXL::Chartsheet then nil
+        else 
+puts ">>>DEBUG: unattached: #{rf.class}"
+        end
+      }
+
+      self.sheets.each_with_index { |sheet, i|
+        sheet_obj = relationship_container.related_files[sheet.r_id]
+
+        self.worksheets[i] = sheet_obj # Must be done first so the sheet becomes aware of its number
+        sheet_obj.workbook = self
+
+        sheet_obj.sheet_name = sheet.name
+        sheet_obj.sheet_id = sheet.sheet_id
+        sheet_obj.state = sheet.state
+      }
+    end
+
     include LegacyWorkbook
 
     def date1904
