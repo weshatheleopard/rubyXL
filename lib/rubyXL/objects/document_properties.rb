@@ -75,6 +75,10 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.extended-properties+xml'
     end
 
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties'
+    end
+
   end
 
 
@@ -111,6 +115,10 @@ module RubyXL
 
     def self.content_type
       'application/vnd.openxmlformats-package.core-properties+xml'
+    end
+
+    def self.rel_type
+      'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'
     end
 
     def creator

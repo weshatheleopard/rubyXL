@@ -652,7 +652,7 @@ module RubyXL
                    'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
                    'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
 
-    attr_accessor :state, :rels, :comments
+    attr_accessor :state, :rels, :comments, :generic_storage
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
@@ -699,12 +699,27 @@ module RubyXL
       true
     end
 
-    def sheet_index
-      @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
+    def collect_rels
+      generic_storage.each { |obj|
+        @workbook.rels_hash[obj.class] ||= []
+        @workbook.rels_hash[obj.class] << obj
+      }
+
+      unless comments.nil?
+        @workbook.rels_hash[comments.class] ||= []
+        @workbook.rels_hash[comments.class] << comments
+      end
+
+      @workbook.rels_hash[self.class] ||= []
+      @workbook.rels_hash[self.class] << self
+    end
+
+    def xlsx_dir
+      File.join('xl', 'worksheets')
     end
 
     def xlsx_path
-      File.join('xl', 'worksheets', "sheet#{sheet_index + 1}.xml")
+      File.join(xlsx_dir, "sheet#{file_index}.xml")
     end
 
     def self.content_type

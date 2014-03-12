@@ -34,12 +34,8 @@ module RubyXL
 
     attr_accessor :workbook
 
-    def file_index
-      @workbook.comments.index{ |comment_file| comment_file.equal?(self) }
-    end
-
     def xlsx_path
-      File.join('xl', "comments#{file_index + 1}.xml")
+      File.join('xl', "comments#{file_index}.xml")
     end
 
     def self.content_type

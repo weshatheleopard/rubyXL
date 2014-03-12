@@ -425,6 +425,10 @@ module RubyXL
       zipfile.get_output_stream(self.xlsx_path) { |f| f << xml_string }
     end
 
+    def file_index
+      @workbook.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
+    end
+
   end
 
 end

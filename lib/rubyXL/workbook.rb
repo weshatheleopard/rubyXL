@@ -5,10 +5,13 @@ module RubyXL
   module LegacyWorkbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :theme,
-      :media, :external_links, :external_links_rels, :drawings, :drawings_rels, :charts, :chart_rels,
+      :media, :external_links, :external_links_rels, :drawings, :drawings_rels,
+# :charts, 
+:chart_rels,
 #      :worksheet_rels, :chartsheet_rels, 
-      :printer_settings, :macros, :thumbnail,
-      :comments
+#      :printer_settings,
+      :macros, :thumbnail,
+      :comments, :rels_hash
 
     attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
                   :relationship_container, :root_relationship_container, :core_properties, :content_types
@@ -34,13 +37,13 @@ module RubyXL
       @media               = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
       @external_links      = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
       @external_links_rels = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
-      @drawings            = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
+#      @drawings            = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
       @drawings_rels       = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels'))
-      @charts              = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
+#      @charts              = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
       @chart_rels          = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
 #      @worksheet_rels      = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
 #      @chartsheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'chartsheets', '_rels'))
-      @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
+#      @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros              = RubyXL::GenericStorage.new('xl').binary
       @thumbnail           = RubyXL::GenericStorage.new('docProps').binary
 
@@ -54,6 +57,7 @@ module RubyXL
       @root_relationship_container  = RubyXL::RootRelationships.new
       @calculation_chain            = nil
       @comments                     = []
+      @rels_hash = {}
 
       self.company         = company
       self.application     = application
@@ -117,20 +121,29 @@ module RubyXL
         stylesheet.add_to_zip(zipfile)
 
         [ @media, @external_links, @external_links_rels,
-          @drawings, @drawings_rels, @charts, @chart_rels,
-          @printer_settings, 
+#          @drawings,
+ @drawings_rels,
+# @charts,
+ @chart_rels,
+#          @printer_settings, 
           @macros, @thumbnail ].each { |s| s.add_to_zip(zipfile) }
 
-        self.comments = []
+        self.rels_hash = {}
+
         @worksheets.each { |sheet|
-          self.comments << sheet.comments if sheet.respond_to?(:comments) && sheet.comments
+          sheet.collect_rels
+#          sheet.generic_storage.each { |obj| obj.add_to_zip(zipfile) }
           sheet.add_to_zip(zipfile)
           sheet.rels.add_to_zip(zipfile) if sheet.rels
         }
 
-        comments.each { |c|
-          c.workbook = self
-          c.add_to_zip(zipfile)
+        rels_hash.each_pair { |klass, arr|
+          arr.each { |obj|
+            obj.workbook = self
+puts obj.class
+puts obj.xlsx_path
+            obj.add_to_zip(zipfile)
+          }
         }
 
         relationship_container.workbook = root_relationship_container.workbook =

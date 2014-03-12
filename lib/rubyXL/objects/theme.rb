@@ -573,7 +573,7 @@ module RubyXL
     end
 
     def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme'
     end
 
 
@@ -581,8 +581,8 @@ module RubyXL
     ###### all of its intricacies
     attr_accessor :raw_xml
 
-    def self.parse_file(dirpath)
-      full_path = File.join(dirpath, xlsx_path)
+    def self.parse_file(dirpath, file_path)
+      full_path = File.join(dirpath, file_path || xlsx_path)
       return nil unless File.exist?(full_path)
 
 #      test = super

@@ -18,6 +18,8 @@ module RubyXL
     define_element_name 'Relationships'
     set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/package/2006/relationships')
 
+    attr_accessor :related_files
+
     def new_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
                                :type => type,
@@ -51,9 +53,25 @@ module RubyXL
 
       @@rel_hash[rel_type]
     end
+
+    def load_related_files(zipdir_path, current_dir = '')
+      self.related_files = {}
+
+      self.relationships.each { |rel|
+        file_path = Pathname.new(File.join(current_dir, rel.target)).cleanpath
+
+        klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
+
+        if klass.nil? then
+          puts "WARNING: storage class not found for #{rel.target} (#{rel.type})"
+          klass = GenericStorageObject
+        end
+
+        self.related_files[rel.id] = klass.parse_file(zipdir_path, file_path)
+      }
+    end
   end
-
-
+	
   class WorkbookRelationships < OOXMLRelationshipsFile
 
     attr_accessor :workbook
@@ -118,29 +136,11 @@ module RubyXL
       self.sheet = params[:sheet]
     end
 
-    def before_write_xml
-#      self.relationships = []
-#
-      true
-    end
-
     def xlsx_path
       file_path = sheet.xlsx_path
       File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
     end
 
-    def load_files(dir_path)
-      self.relationships.collect { |rel|
-        klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
-
-        if klass then
-          klass.parse_file(dir_path, File.join(File.dirname(sheet.xlsx_path), rel.target))
-        else
-          nil
-#          puts "class not found: #{rel.type} // #{rel.target}"
-        end
-      }
-    end
   end
 
 end

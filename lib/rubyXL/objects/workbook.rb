@@ -403,6 +403,10 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     end
 
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
+    end
+
   end
 
 end

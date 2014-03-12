@@ -29,5 +29,9 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml'
     end
 
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain'
+    end
+
   end
 end

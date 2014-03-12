@@ -33,7 +33,7 @@ module RubyXL
 
     def before_write_xml
       self.defaults = []
-      unless @workbook.printer_settings.empty?
+      if @workbook.rels_hash[RubyXL::PrinterSettings] then
         defaults << RubyXL::ContentTypeDefault.new(:extension => 'bin',
                       :content_type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings')
       end
@@ -61,6 +61,7 @@ module RubyXL
       overrides << generate_override(workbook.calculation_chain) unless workbook.calculation_chain.nil?
       overrides << generate_override(workbook.theme)
 
+=begin
       workbook.charts.each_pair { |k, v|
         case k
         when /^chart\d*.xml$/ then
@@ -74,7 +75,9 @@ module RubyXL
                          :content_type => 'application/vnd.ms-office.chartcolorstyle+xml')
         end
       }
+=end
 
+=begin
       workbook.drawings.each_pair { |k, v|
         case k
         when /^drawing\d*.xml$/ then
@@ -84,6 +87,7 @@ module RubyXL
           nil
         end
       }
+=end
 
       unless workbook.external_links.nil?
         1.upto(workbook.external_links.size - 1) { |i|
