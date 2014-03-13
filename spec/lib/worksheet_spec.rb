@@ -808,11 +808,6 @@ describe RubyXL::Worksheet do
       @worksheet[15][0].value.should == 'TEST'
     end
 
-    it 'should add new cell below the original spreadsheet range' do
-      @worksheet.add_cell(15,0,'TEST')
-      @worksheet[15][0].value.should == 'TEST'
-    end
-
     it 'should add new cell where specified with formula, even if a cell is already there (default)' do
       @worksheet.add_cell(0,0,'','SUM(A2:A10)')
       @worksheet[0][0].value.should_not == @old_cell_value
