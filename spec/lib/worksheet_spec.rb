@@ -802,6 +802,17 @@ describe RubyXL::Worksheet do
       @worksheet[0][0].value.should == 'TEST'
     end
 
+    it 'should add a new cell below nil rows that might exist' do
+      @worksheet.sheet_data.rows << nil << nil
+      @worksheet.add_cell(15,0,'TEST')
+      @worksheet[15][0].value.should == 'TEST'
+    end
+
+    it 'should add new cell below the original spreadsheet range' do
+      @worksheet.add_cell(15,0,'TEST')
+      @worksheet[15][0].value.should == 'TEST'
+    end
+
     it 'should add new cell where specified with formula, even if a cell is already there (default)' do
       @worksheet.add_cell(0,0,'','SUM(A2:A10)')
       @worksheet[0][0].value.should_not == @old_cell_value
@@ -863,6 +874,12 @@ describe RubyXL::Worksheet do
       @worksheet[0][0].should be_nil
       @worksheet[1][0].value.should == @old_cell_value
       @worksheet[1][0].formula.should == @old_cell_formula
+    end
+
+    it 'should insert a row skipping nil rows that might exist' do
+      @worksheet.sheet_data.rows << nil << nil
+      @worksheet.insert_row(15)
+      @worksheet[12].should be_nil
     end
 
     it 'should insert a row at index specified, copying styles from row "above"' do
