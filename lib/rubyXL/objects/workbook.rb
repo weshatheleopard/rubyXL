@@ -335,7 +335,7 @@ module RubyXL
         when RubyXL::SharedStringsTable then self.shared_strings_container = rf
         when RubyXL::Stylesheet         then self.stylesheet = rf
         when RubyXL::Theme              then self.theme = rf
-        when RubyXL::CalculationChain   then self.theme = rf
+        when RubyXL::CalculationChain   then self.calculation_chain = rf
         when RubyXL::Worksheet, RubyXL::Chartsheet then nil
         else 
 puts ">>>DEBUG: unattached: #{rf.class}"

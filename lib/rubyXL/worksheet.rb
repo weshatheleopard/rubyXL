@@ -2,7 +2,7 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
-  attr_accessor :workbook, :sheet_name, :sheet_id, :relationship_container, :printer_settings
+  attr_accessor :workbook, :sheet_name, :sheet_id, :printer_settings
 
   def initialize(params = {})
     super
@@ -15,7 +15,6 @@ module LegacyWorksheet
     self.cols = RubyXL::ColumnRanges.new
     @extLst = nil
     @validations = []
-    @relationship_container = nil
   end
 
   # allows for easier access to sheet_data

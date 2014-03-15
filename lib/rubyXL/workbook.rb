@@ -131,17 +131,22 @@ module RubyXL
         self.rels_hash = {}
 
         @worksheets.each { |sheet|
-          sheet.collect_rels
-#          sheet.generic_storage.each { |obj| obj.add_to_zip(zipfile) }
-          sheet.add_to_zip(zipfile)
-          sheet.rels.add_to_zip(zipfile) if sheet.rels
+          sheet.relationship_container.sheet = sheet if sheet.relationship_container
+
+          arr = [ sheet, sheet.relationship_container ] + sheet.related_objects
+
+          arr.compact.each { |obj|
+puts "--> DEBUG: adding rel: #{obj.class}"
+            rels_hash[obj.class] ||= []
+            rels_hash[obj.class] << obj
+          }
         }
 
         rels_hash.each_pair { |klass, arr|
+puts "--> DEBUG: saving related files of class #{klass}"
           arr.each { |obj|
-            obj.workbook = self
-puts obj.class
-puts obj.xlsx_path
+            obj.workbook = self if obj.respond_to?(:workbook=)
+puts "--> DEBUG:   * #{obj.xlsx_path}"
             obj.add_to_zip(zipfile)
           }
         }

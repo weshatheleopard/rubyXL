@@ -652,7 +652,7 @@ module RubyXL
                    'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
                    'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
 
-    attr_accessor :state, :rels, :comments, :generic_storage
+    attr_accessor :state, :rels, :comments, :generic_storage, :relationship_container
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
@@ -700,36 +700,28 @@ module RubyXL
     end
 
     def load_relationships(dir_path, base_file_name)
-     self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
-     if relationship_container then
-       relationship_container.load_related_files(dir_path, base_file_name)
 
-#      related_files = relationship_container.related_files
-#      related_files.each_pair { |rid, rf|
-#        case rf
-#        when RubyXL::SharedStringsTable then self.shared_strings_container = rf
-#        when RubyXL::Stylesheet         then self.stylesheet = rf
-#        when RubyXL::Theme              then self.theme = rf
-#        when RubyXL::CalculationChain   then self.theme = rf
-#puts ">>>DEBUG: unattached: #{rf.class}"
-#        end
-#      }
+      self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
+
+      if relationship_container then
+        relationship_container.load_related_files(dir_path, base_file_name)
+
+        related_files = relationship_container.related_files
+        related_files.each_pair { |rid, rf|
+          case rf
+          when RubyXL::PrinterSettings then self.generic_storage << rf # TODO
+          when RubyXL::Comments        then self.generic_storage << rf # TODO
+          when RubyXL::VMLDrawing      then self.generic_storage << rf # TODO
+          else
+            self.generic_storage << rf
+puts "!!>DEBUG: unattached: #{rf.class}"
+          end
+        }
       end
     end
 
-    def collect_rels
-      generic_storage.each { |obj|
-        @workbook.rels_hash[obj.class] ||= []
-        @workbook.rels_hash[obj.class] << obj
-      }
-
-      unless comments.nil?
-        @workbook.rels_hash[comments.class] ||= []
-        @workbook.rels_hash[comments.class] << comments
-      end
-
-      @workbook.rels_hash[self.class] ||= []
-      @workbook.rels_hash[self.class] << self
+    def related_objects
+      [ comments ] + generic_storage
     end
 
     def xlsx_dir

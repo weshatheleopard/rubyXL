@@ -104,11 +104,11 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
       relationships << new_relationship('styles.xml', @workbook.stylesheet.class.rel_type)
 
       if @workbook.shared_strings_container && !@workbook.shared_strings_container.strings.empty? then
-        relationships << new_relationship('sharedStrings.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings') 
+        relationships << new_relationship('sharedStrings.xml', @workbook.shared_strings_container.class.rel_type)
       end
 
       if @workbook.calculation_chain && !@workbook.calculation_chain.cells.empty? then
-        relationships << new_relationship('calcChain.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain') 
+        relationships << new_relationship('calcChain.xml', @workbook.calculation_chain.class.rel_type)
       end
 
       true
@@ -127,10 +127,10 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
     def before_write_xml
       self.relationships = []
 
-      relationships << new_relationship('xl/workbook.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument')
+      relationships << new_relationship('xl/workbook.xml', @workbook.class.rel_type)
       relationships << metadata_relationship('docProps/thumbnail.jpeg', 'thumbnail') unless @workbook.thumbnail.empty?
-      relationships << metadata_relationship('docProps/core.xml', 'core-properties')
-      relationships << new_relationship('docProps/app.xml', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties')
+      relationships << new_relationship('docProps/core.xml',@workbook.core_properties.class.rel_type)
+      relationships << new_relationship('docProps/app.xml', RubyXL::DocumentProperties.rel_type)
 
       true
     end

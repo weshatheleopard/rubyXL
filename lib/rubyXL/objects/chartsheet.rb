@@ -81,9 +81,8 @@ module RubyXL
       @generic_storage = []
     end
 
-    def collect_rels
-      @workbook.rels_hash[self.class] ||= []
-      @workbook.rels_hash[self.class] << self
+    def related_objects
+      generic_storage
     end
 
     def xlsx_dir
@@ -102,7 +101,29 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
     end
 
-    attr_accessor :workbook, :sheet_name, :sheet_id
+    attr_accessor :workbook, :sheet_name, :sheet_id, :relationship_container
+
+    def load_relationships(dir_path, base_file_name)
+
+      self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
+
+      if relationship_container then
+        relationship_container.load_related_files(dir_path, base_file_name)
+
+        related_files = relationship_container.related_files
+        related_files.each_pair { |rid, rf|
+          case rf
+          when RubyXL::Drawing      then self.generic_storage << rf # TODO
+          else
+            self.generic_storage << rf
+puts "!!>DEBUG: unattached: #{rf.class}"
+          end
+        }
+      end
+
+    end
+
+
 
   end
 
