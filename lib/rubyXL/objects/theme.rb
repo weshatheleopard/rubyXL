@@ -1301,7 +1301,8 @@ module RubyXL
 
       obj = self.new
       
-      obj.raw_xml = File.open(full_path, 'r').read
+      # Making sure that the file will be automatically closed immediately after it has been read
+      obj.raw_xml = File.open(full_path, 'r') { |f| f.read }
       obj
     end
 
