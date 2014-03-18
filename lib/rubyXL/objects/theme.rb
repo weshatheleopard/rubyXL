@@ -534,6 +534,10 @@ module RubyXL
     define_child_node(RubyXL::CT_LineEndProperties, :node_name => 'a:headEnd')
     define_child_node(RubyXL::CT_LineEndProperties, :node_name => 'a:tailEnd')
     define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:w,    :int)
+    define_attribute(:cap,  RubyXL::ST_LineCap)
+    define_attribute(:cmpd, RubyXL::ST_CompoundLine)
+    define_attribute(:algn, RubyXL::ST_PenAlignment)
     define_element_name 'a:ln'
   end
 
@@ -1119,21 +1123,86 @@ module RubyXL
     define_element_name 'a:buBlip'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_spcPct-1.html
-  class CT_TextSpacingPercent < OOXMLObject
-    define_attribute(:char, :string, :required => true)
-    define_element_name 'a:buChar'
-  end
-
   # http://www.schemacentral.com/sc/ooxml/t-a_CT_TextSpacing.html
   class CT_TextSpacing < OOXMLObject
     define_child_node(RubyXL::IntegerValue, :node_name => 'a:spcPct')
     define_child_node(RubyXL::IntegerValue, :node_name => 'a:spcPts')
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_snd-1.html
+  class CT_EmbeddedWAVAudioFile < OOXMLObject
+    define_attribute(:'r:embed', :string)
+    define_attribute(:name,      :string, :default => '')
+    define_attribute(:builtIn,   :bool,   :default => false)
+    define_element_name 'a:snd'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_Hyperlink.html
+  class CT_Hyperlink < OOXMLObject
+    define_child_node(RubyXL::CT_EmbeddedWAVAudioFile)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:'r:id',         :string)
+    define_attribute(:invalidUrl,     :string, :default => '')
+    define_attribute(:action,         :string, :default => '')
+    define_attribute(:tgtFrame,       :string, :default => '')
+    define_attribute(:tooltip,        :string, :default => '')
+    define_attribute(:history,        :bool,   :default => true)
+    define_attribute(:highlightClick, :bool,   :default => false)
+    define_attribute(:endSnd,         :bool,   :default => false)
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_defPPr-1.html
-  class CT_TextParagraphProperties < OOXMLObject
-    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:lnSpc')
+  class CT_TextCharacterProperties < OOXMLObject
+    define_child_node(RubyXL::CT_LineProperties)
+    # -- EG_FillProperties
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,          :node_name => 'a:solidFill')
+    define_child_node(RubyXL::CT_GradientFillProperties)
+    define_child_node(RubyXL::CT_BlipFillProperties)
+    define_child_node(RubyXL::CT_PatternFillProperties)
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:grpFill')
+    # -- EG_EffectProperties
+    define_child_node(RubyXL::CT_EffectList)
+    define_child_node(RubyXL::CT_EffectContainer)
+    # --
+    define_child_node(RubyXL::CT_Color,          :node_name => 'a:highlight')
+    # -- EG_TextUnderlineLine
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:uLnTx')
+    define_child_node(RubyXL::CT_LineProperties, :node_name => 'a:uLn')
+    # -- EG_TextUnderlineFill
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:uFillTx')
+    define_child_node(RubyXL::CT_FillStyleList,  :node_name => 'a:uFill')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:latin')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:ea')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:cs')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:sym')
+    define_child_node(RubyXL::CT_Hyperlink,      :node_name => 'a:hlinkClick')
+    define_child_node(RubyXL::CT_Hyperlink,      :node_name => 'a:hlinkMouseOver')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:kumimoji,   :bool)
+    define_attribute(:lang,       :string)
+    define_attribute(:altLang,    :string)
+    define_attribute(:sz,         :int)
+    define_attribute(:b,          :bool)
+    define_attribute(:i,          :bool)
+    define_attribute(:u,          RubyXL::ST_TextUnderlineType)
+    define_attribute(:strike,     RubyXL::ST_TextStrikeType)
+    define_attribute(:kern,       :int)
+    define_attribute(:cap,        RubyXL::ST_TextCapsType)
+    define_attribute(:spc,        :int)
+    define_attribute(:normalizeH, :bool)
+    define_attribute(:baseline,   :int)
+    define_attribute(:noProof,    :bool)
+    define_attribute(:dirty,      :bool, :default => true)
+    define_attribute(:err,        :bool, :default => false)
+    define_attribute(:smtClean,   :bool, :default => true)
+    define_attribute(:smtId,      :int,  :default => 0)
+    define_attribute(:bmk,        :string)
+    define_element_name 'a:defRPr'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_defPPr-1.html     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:lnSpc')
+ class CT_TextParagraphProperties < OOXMLObject
     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcBef')
     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcAft')
     define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buClrTx')
@@ -1148,8 +1217,19 @@ module RubyXL
     define_child_node(RubyXL::CT_TextCharBullet)
     define_child_node(RubyXL::CT_TextBlipBullet)
     define_child_node(RubyXL::CT_TextTabStop)
-#TODO#    a:defRPr [0..1]    Default Text Run Properties
+    define_child_node(RubyXL::CT_TextCharacterProperties)
     define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:marL,         :int)
+    define_attribute(:marR,         :int)
+    define_attribute(:lvl,          :int)
+    define_attribute(:indent,       :int)
+    define_attribute(:algn,         RubyXL::ST_TextAlignType)
+    define_attribute(:defTabSz,     :int)
+    define_attribute(:rtl,          :bool)
+    define_attribute(:eaLnBrk,      :bool)
+    define_attribute(:fontAlgn,     RubyXL::ST_TextFontAlignType)
+    define_attribute(:latinLnBrk,   :bool)
+    define_attribute(:hangingPunct, :bool)
     define_element_name 'a:defPPr'
   end
 

@@ -214,4 +214,16 @@ module RubyXL
                                 arabic1Minus arabic2Minus hebrew2Minus thaiAlphaPeriod thaiAlphaParenR
                                 thaiAlphaParenBoth thaiNumPeriod thaiNumParenR thaiNumParenBoth hindiAlphaPeriod
                                 hindiNumPeriod hindiNumParenR hindiAlpha1Period }
+
+  ST_TextAlignType        = %w{ l ctr r just justLow dist thaiDist }
+  ST_TextFontAlignType    = %w{ auto t ctr base b }
+  ST_LineCap              = %w{ rnd sq flat }
+  ST_CompoundLine         = %w{ sng dbl thickThin thinThick tri }
+  ST_PenAlignment         = %w{ ctr in }
+
+  ST_TextUnderlineType    = %w{ none words sng dbl heavy dotted dottedHeavy dash dashHeavy dashLong dashLongHeavy
+                                dotDash dotDashHeavy dotDotDash dotDotDashHeavy wavy wavyHeavy wavyDbl }
+  ST_TextStrikeType       = %w{ noStrike sngStrike dblStrike }
+  ST_TextCapsType         = %w{ none small all }
+
 end
