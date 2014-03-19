@@ -283,27 +283,31 @@ module RubyXL
     define_child_node(RubyXL::CT_TextFont,         :node_name => 'a:latin')
     define_child_node(RubyXL::CT_TextFont,         :node_name => 'a:ea')
     define_child_node(RubyXL::CT_TextFont,         :node_name => 'a:cs')
-    define_child_node(RubyXL::CT_SupplementalFont, :node_name => 'a:font', :collection => true)
+    define_child_node(RubyXL::CT_SupplementalFont, :node_name => 'a:font', :collection => [0..-1])
     define_child_node(RubyXL::AExtensionStorageArea)
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_fontScheme-1.html
   class FontScheme < OOXMLObject
+    # -- Sequence [1..1]
     define_child_node(RubyXL::CT_FontCollection, :node_name => 'a:majorFont')
     define_child_node(RubyXL::CT_FontCollection, :node_name => 'a:minorFont')
     define_child_node(RubyXL::AExtensionStorageArea)
+    # --
     define_attribute(:name, :string, :required => true)
     define_element_name 'a:fontScheme'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_gs-1.html
   class CT_GradientStop < OOXMLObject
+    # -- Choice [1..1] (EG_ColorChoice)
     define_child_node(RubyXL::CT_ScRgbColor)
     define_child_node(RubyXL::CT_SRgbColor)
     define_child_node(RubyXL::CT_HslColor)
     define_child_node(RubyXL::CT_SystemColor)
     define_child_node(RubyXL::CT_SchemeColor)
     define_child_node(RubyXL::CT_PresetColor)
+    # --
     define_attribute(:pos, :int, :required => true)
     define_element_name 'a:gs'
   end
@@ -441,13 +445,43 @@ module RubyXL
     define_element_name 'a:clrChange'
   end
 
+  class CT_EffectContainer < OOXMLObject
+    # Defining class here without actually filling the OOXML definitions
+    # so it can reference itself in the actual definition.
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_alphaMod-2.html
+  class CT_AlphaModulateEffect < OOXMLObject
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => :cont)
+    define_element_name 'a:alphaMod'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_blend-1.html
+  class CT_BlendEffect < OOXMLObject
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => :cont)
+    define_attribute(:blend, RubyXL::ST_BlendMode, :required => true)
+    define_element_name 'a:blend'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_effect-1.html
+  class CT_EffectReference < OOXMLObject
+    define_attribute(:ref, :string)
+    define_element_name 'a:effect'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_alphaOutset-1.html
+  class CT_AlphaOutsetEffect < OOXMLObject
+    define_attribute(:rad, :int, :default => 0)
+    define_element_name 'a:alphaOutset'
+  end
+
   # http://www.schemacentral.com/sc/ooxml/e-a_blip-1.html
   class CT_Blip < OOXMLObject
     define_child_node(RubyXL::CT_AlphaBiLevelEffect)
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
-#TODO#    a:alphaMod    Alpha Modulate Effect 
+    define_child_node(RubyXL::CT_AlphaModulateEffect)
     define_child_node(RubyXL::CT_AlphaModulateFixedEffect)
     define_child_node(RubyXL::CT_AlphaReplaceEffect)
     define_child_node(RubyXL::CT_BiLevelEffect)
@@ -477,14 +511,178 @@ module RubyXL
     define_element_name 'a:blipFill'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_fillStyleLst-1.html
-  class CT_FillStyleList < OOXMLObject
+  # http://www.schemacentral.com/sc/ooxml/e-a_fill-1.html
+  class CT_FillEffect < OOXMLObject
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
     define_child_node(RubyXL::CT_PatternFillProperties)
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
+    define_element_name 'a:fill'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_fillOverlay-1.html
+  class CT_FillOverlayEffect < OOXMLObject
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
+    define_child_node(RubyXL::CT_GradientFillProperties)
+    define_child_node(RubyXL::CT_BlipFillProperties)
+    define_child_node(RubyXL::CT_PatternFillProperties)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
+    define_attribute(:blend, RubyXL::ST_BlendMode)
+    define_element_name 'a:fillOverlay'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_GlowEffect.html
+  class CT_GlowEffect < OOXMLObject
+    define_child_node(RubyXL::CT_ScRgbColor)
+    define_child_node(RubyXL::CT_SRgbColor)
+    define_child_node(RubyXL::CT_HslColor)
+    define_child_node(RubyXL::CT_SystemColor)
+    define_child_node(RubyXL::CT_SchemeColor)
+    define_child_node(RubyXL::CT_PresetColor)
+    define_attribute(:rad, :int, :default => 0)
+    define_element_name 'a:glow'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_InnerShadowEffect.html
+  class CT_InnerShadowEffect < OOXMLObject
+    define_child_node(RubyXL::CT_ScRgbColor)
+    define_child_node(RubyXL::CT_SRgbColor)
+    define_child_node(RubyXL::CT_HslColor)
+    define_child_node(RubyXL::CT_SystemColor)
+    define_child_node(RubyXL::CT_SchemeColor)
+    define_child_node(RubyXL::CT_PresetColor)
+    define_attribute(:blurRad, :int, :default => 0)
+    define_attribute(:dist,    :int, :default => 0)
+    define_attribute(:dir,     :int, :default => 0)
+    define_element_name 'a:innerShdw'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_OuterShadowEffect.html
+  class CT_OuterShadowEffect < OOXMLObject
+    define_child_node(RubyXL::CT_ScRgbColor)
+    define_child_node(RubyXL::CT_SRgbColor)
+    define_child_node(RubyXL::CT_HslColor)
+    define_child_node(RubyXL::CT_SystemColor)
+    define_child_node(RubyXL::CT_SchemeColor)
+    define_child_node(RubyXL::CT_PresetColor)
+    define_attribute(:blurRad,      :int,  :default => 0)
+    define_attribute(:dist,         :int,  :default => 0)
+    define_attribute(:dir,          :int,  :default => 0)
+    define_attribute(:sx,           :int,  :default => 100000)
+    define_attribute(:sy,           :int,  :default => 100000)
+    define_attribute(:kx,           :int,  :default => 0)
+    define_attribute(:ky,           :int,  :default => 0)
+    define_attribute(:algn,         RubyXL::ST_RectAlignment, :default => 'b')
+    define_attribute(:rotWithShape, :bool, :default => true)
+    define_element_name 'a:outerShdw'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_prstShdw-1.html
+  class CT_PresetShadowEffect < OOXMLObject
+    define_child_node(RubyXL::CT_ScRgbColor)
+    define_child_node(RubyXL::CT_SRgbColor)
+    define_child_node(RubyXL::CT_HslColor)
+    define_child_node(RubyXL::CT_SystemColor)
+    define_child_node(RubyXL::CT_SchemeColor)
+    define_child_node(RubyXL::CT_PresetColor)
+    define_attribute(:prst, RubyXL::ST_PresetShadowVal, :required => true)
+    define_attribute(:dist, :int, :default => 0)
+    define_attribute(:dir,  :int, :default => 0)
+    define_element_name 'a:prstShdw'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_reflection-1.html
+  class CT_ReflectionEffect < OOXMLObject
+    define_attribute(:blurRad,      :int,  :default => 0)
+    define_attribute(:stA,          :int,  :default => 100000)
+    define_attribute(:stPos,        :int,  :default => 0)
+    define_attribute(:endA,         :int,  :default => 0)
+    define_attribute(:endPos,       :int,  :default => 100000)
+    define_attribute(:dist,         :int,  :default => 0)
+    define_attribute(:dir,          :int,  :default => 0)
+    define_attribute(:fadeDir,      :int,  :default => 5400000)
+    define_attribute(:sx,           :int,  :default => 100000)
+    define_attribute(:sy,           :int,  :default => 100000)
+    define_attribute(:kx,           :int,  :default => 0)
+    define_attribute(:ky,           :int,  :default => 0)
+    define_attribute(:algn,         RubyXL::ST_RectAlignment, :default => 'b')
+    define_attribute(:rotWithShape, :bool, :default => true)
+    define_element_name 'a:reflection'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_relOff-1.html
+  class CT_RelativeOffsetEffect < OOXMLObject
+    define_attribute(:tx, :int)
+    define_attribute(:ty, :int)
+    define_element_name 'a:relOff'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_softEdge-1.html
+  class CT_SoftEdgesEffect < OOXMLObject
+    define_attribute(:rad, :int, :required => true)
+    define_element_name 'a:softEdge'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_TransformEffect.html
+  class CT_TransformEffect < OOXMLObject
+    define_attribute(:sx, :int, :default => 100000)
+    define_attribute(:sy, :int, :default => 100000)
+    define_attribute(:kx, :int, :default => 0)
+    define_attribute(:ky, :int, :default => 0)
+    define_attribute(:tx, :int, :default => 0)
+    define_attribute(:ty, :int, :default => 0)
+    define_element_name 'a:xfrm'
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/t-a_CT_EffectContainer.html
+  class CT_EffectContainer < OOXMLObject
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:cont')
+    define_child_node(RubyXL::CT_EffectReference)
+    define_child_node(RubyXL::CT_AlphaBiLevelEffect)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
+    define_child_node(RubyXL::CT_AlphaModulateEffect)
+    define_child_node(RubyXL::CT_AlphaModulateFixedEffect)
+    define_child_node(RubyXL::CT_AlphaOutsetEffect)
+    define_child_node(RubyXL::CT_AlphaReplaceEffect)
+    define_child_node(RubyXL::CT_BiLevelEffect)
+    define_child_node(RubyXL::CT_BlendEffect)
+    define_child_node(RubyXL::CT_BlurEffect)
+    define_child_node(RubyXL::CT_ColorChangeEffect)
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:clrRepl')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:duotone')
+    define_child_node(RubyXL::CT_FillEffect)
+    define_child_node(RubyXL::CT_FillOverlayEffect)
+    define_child_node(RubyXL::CT_GlowEffect)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grayscl')
+    define_child_node(RubyXL::CT_HSLEffect)
+    define_child_node(RubyXL::CT_InnerShadowEffect)
+    define_child_node(RubyXL::CT_LuminanceEffect)
+    define_child_node(RubyXL::CT_OuterShadowEffect)
+    define_child_node(RubyXL::CT_PresetShadowEffect)
+    define_child_node(RubyXL::CT_ReflectionEffect)
+    define_child_node(RubyXL::CT_RelativeOffsetEffect)
+    define_child_node(RubyXL::CT_SoftEdgesEffect)
+    define_child_node(RubyXL::CT_TintEffect)
+    define_child_node(RubyXL::CT_TransformEffect)
+    define_attribute(:type, RubyXL::ST_EffectContainerType, :default => 'sib')
+    define_attribute(:name, :string)
+  end
+
+  # http://www.schemacentral.com/sc/ooxml/e-a_fillStyleLst-1.html
+  class CT_FillStyleList < OOXMLObject
+    # -- Choice [3..*] (EG_FillProperties)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill', :collection => true)
+    define_child_node(RubyXL::CT_GradientFillProperties, :collection => true)
+    define_child_node(RubyXL::CT_BlipFillProperties,     :collection => true)
+    define_child_node(RubyXL::CT_PatternFillProperties,  :collection => true)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
+    # --
     define_element_name 'a:fillStyleLst'
   end
 
@@ -516,7 +714,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/t-a_CT_DashStopList.html
   class CT_DashStopList < OOXMLContainerObject
-    define_child_node(RubyXL::CT_DashStop, :collection => true)
+    define_child_node(RubyXL::CT_DashStop, :collection => [0..-1])
     define_element_name 'a:custDash'
   end
 
@@ -634,103 +832,6 @@ module RubyXL
     define_element_name 'a:blur'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_fillOverlay-1.html
-  class CT_FillOverlayEffect < OOXMLObject
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
-    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
-    define_child_node(RubyXL::CT_GradientFillProperties)
-    define_child_node(RubyXL::CT_BlipFillProperties)
-    define_child_node(RubyXL::CT_PatternFillProperties)
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
-    define_attribute(:blend, RubyXL::ST_BlendMode)
-    define_element_name 'a:fillOverlay'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_GlowEffect.html
-  class CT_GlowEffect < OOXMLObject
-    define_child_node(RubyXL::CT_ScRgbColor)
-    define_child_node(RubyXL::CT_SRgbColor)
-    define_child_node(RubyXL::CT_HslColor)
-    define_child_node(RubyXL::CT_SystemColor)
-    define_child_node(RubyXL::CT_SchemeColor)
-    define_child_node(RubyXL::CT_PresetColor)
-    define_attribute(:rad, :int, :default => 0)
-    define_element_name 'a:glow'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_InnerShadowEffect.html
-  class CT_InnerShadowEffect < OOXMLObject
-    define_child_node(RubyXL::CT_ScRgbColor)
-    define_child_node(RubyXL::CT_SRgbColor)
-    define_child_node(RubyXL::CT_HslColor)
-    define_child_node(RubyXL::CT_SystemColor)
-    define_child_node(RubyXL::CT_SchemeColor)
-    define_child_node(RubyXL::CT_PresetColor)
-    define_attribute(:blurRad, :int, :default => 0)
-    define_attribute(:dist,    :int, :default => 0)
-    define_attribute(:dir,     :int, :default => 0)
-    define_element_name 'a:innerShdw'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_OuterShadowEffect.html
-  class CT_OuterShadowEffect < OOXMLObject
-    define_child_node(RubyXL::CT_ScRgbColor)
-    define_child_node(RubyXL::CT_SRgbColor)
-    define_child_node(RubyXL::CT_HslColor)
-    define_child_node(RubyXL::CT_SystemColor)
-    define_child_node(RubyXL::CT_SchemeColor)
-    define_child_node(RubyXL::CT_PresetColor)
-    define_attribute(:blurRad,      :int,  :default => 0)
-    define_attribute(:dist,         :int,  :default => 0)
-    define_attribute(:dir,          :int,  :default => 0)
-    define_attribute(:sx,           :int,  :default => 100000)
-    define_attribute(:sy,           :int,  :default => 100000)
-    define_attribute(:kx,           :int,  :default => 0)
-    define_attribute(:ky,           :int,  :default => 0)
-    define_attribute(:algn,         RubyXL::ST_RectAlignment, :default => 'b')
-    define_attribute(:rotWithShape, :bool, :default => true)
-    define_element_name 'a:outerShdw'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-a_reflection-1.html
-  class CT_ReflectionEffect < OOXMLObject
-    define_attribute(:blurRad,      :int,  :default => 0)
-    define_attribute(:stA,          :int,  :default => 100000)
-    define_attribute(:stPos,        :int,  :default => 0)
-    define_attribute(:endA,         :int,  :default => 0)
-    define_attribute(:endPos,       :int,  :default => 100000)
-    define_attribute(:dist,         :int,  :default => 0)
-    define_attribute(:dir,          :int,  :default => 0)
-    define_attribute(:fadeDir,      :int,  :default => 5400000)
-    define_attribute(:sx,           :int,  :default => 100000)
-    define_attribute(:sy,           :int,  :default => 100000)
-    define_attribute(:kx,           :int,  :default => 0)
-    define_attribute(:ky,           :int,  :default => 0)
-    define_attribute(:algn,         RubyXL::ST_RectAlignment, :default => 'b')
-    define_attribute(:rotWithShape, :bool, :default => true)
-    define_element_name 'a:reflection'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-a_prstShdw-1.html
-  class CT_PresetShadowEffect < OOXMLObject
-    define_child_node(RubyXL::CT_ScRgbColor)
-    define_child_node(RubyXL::CT_SRgbColor)
-    define_child_node(RubyXL::CT_HslColor)
-    define_child_node(RubyXL::CT_SystemColor)
-    define_child_node(RubyXL::CT_SchemeColor)
-    define_child_node(RubyXL::CT_PresetColor)
-    define_attribute(:prst, RubyXL::ST_PresetShadowVal, :required => true)
-    define_attribute(:dist, :int, :default => 0)
-    define_attribute(:dir,  :int, :default => 0)
-    define_element_name 'a:prstShdw'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-a_softEdge-1.html
-  class CT_SoftEdgesEffect < OOXMLObject
-    define_attribute(:rad, :int, :required => true)
-    define_element_name 'a:softEdge'
-  end
-
   # http://www.schemacentral.com/sc/ooxml/e-a_effectLst-1.html
   class CT_EffectList < OOXMLObject
     define_child_node(RubyXL::CT_BlurEffect)
@@ -744,88 +845,10 @@ module RubyXL
     define_element_name 'a:effectLst'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_TransformEffect.html
-  class CT_TransformEffect < OOXMLObject
-    define_attribute(:sx, :int, :default => 100000)
-    define_attribute(:sy, :int, :default => 100000)
-    define_attribute(:kx, :int, :default => 0)
-    define_attribute(:ky, :int, :default => 0)
-    define_attribute(:tx, :int, :default => 0)
-    define_attribute(:ty, :int, :default => 0)
-    define_element_name 'a:xfrm'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-a_fill-1.html
-  class CT_FillEffect < OOXMLObject
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
-    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
-    define_child_node(RubyXL::CT_GradientFillProperties)
-    define_child_node(RubyXL::CT_BlipFillProperties)
-    define_child_node(RubyXL::CT_PatternFillProperties)
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
-    define_element_name 'a:fill'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-a_alphaOutset-1.html
-  class CT_AlphaOutsetEffect < OOXMLObject
-    define_attribute(:rad, :int, :default => 0)
-    define_element_name 'a:alphaOutset'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-a_effect-1.html
-  class CT_EffectReference < OOXMLObject
-    define_attribute(:ref, :string)
-    define_element_name 'a:effect'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/e-a_relOff-1.html
-  class CT_RelativeOffsetEffect < OOXMLObject
-    define_attribute(:tx,    :int)
-    define_attribute(:ty,    :int)
-    define_element_name 'a:relOff'
-  end
-
-  # http://www.schemacentral.com/sc/ooxml/t-a_CT_EffectContainer.html
-  class CT_EffectContainer < OOXMLObject
-#TODO#        a:cont    Effect Container
-    define_child_node(RubyXL::CT_EffectReference)
-    define_child_node(RubyXL::CT_AlphaBiLevelEffect)
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaCeiling')
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:alphaFloor')
-    define_child_node(RubyXL::CT_Color,     :node_name => 'a:alphaInv')
-#TODO#        a:alphaMod    Alpha Modulate Effect
-    define_child_node(RubyXL::CT_AlphaModulateFixedEffect)
-    define_child_node(RubyXL::CT_AlphaOutsetEffect)
-    define_child_node(RubyXL::CT_AlphaReplaceEffect)
-    define_child_node(RubyXL::CT_BiLevelEffect)
-#TODO#        a:blend    Blend Effect
-    define_child_node(RubyXL::CT_BlurEffect)
-    define_child_node(RubyXL::CT_ColorChangeEffect)
-    define_child_node(RubyXL::CT_Color,     :node_name => 'a:clrRepl')
-    define_child_node(RubyXL::CT_Color,     :node_name => 'a:duotone')
-    define_child_node(RubyXL::CT_FillEffect)
-    define_child_node(RubyXL::CT_FillOverlayEffect)
-    define_child_node(RubyXL::CT_GlowEffect)
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grayscl')
-    define_child_node(RubyXL::CT_HSLEffect)
-    define_child_node(RubyXL::CT_InnerShadowEffect)
-    define_child_node(RubyXL::CT_LuminanceEffect)
-    define_child_node(RubyXL::CT_OuterShadowEffect)
-    define_child_node(RubyXL::CT_PresetShadowEffect)
-    define_child_node(RubyXL::CT_ReflectionEffect)
-    define_child_node(RubyXL::CT_RelativeOffsetEffect)
-    define_child_node(RubyXL::CT_SoftEdgesEffect)
-    define_child_node(RubyXL::CT_TintEffect)
-    define_child_node(RubyXL::CT_TransformEffect)
-    define_attribute(:type, RubyXL::ST_EffectContainerType, :default => 'sib')
-    define_attribute(:name, :string)
-    define_element_name 'a:effectDag'
-  end
-
   # http://www.schemacentral.com/sc/ooxml/e-a_effectStyle-1.html
   class CT_EffectStyleItem < OOXMLObject
     define_child_node(RubyXL::CT_EffectList)
-    define_child_node(RubyXL::CT_EffectContainer)
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
     define_child_node(RubyXL::CT_Scene3D)
     define_child_node(RubyXL::CT_Shape3D)
     define_element_name 'a:effectStyle'
@@ -889,7 +912,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_avLst-1.html
   class CT_GeomGuideList < OOXMLContainerObject
-    define_child_node(RubyXL::ShapeGuide, :collection => true)
+    define_child_node(RubyXL::ShapeGuide, :collection => [0..-1])
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_rect-1.html
@@ -911,9 +934,9 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/t-a_CT_PolarAdjustHandle.html
   class CT_XYAdjustHandle < OOXMLObject
     define_child_node(RubyXL::CT_AdjPoint2D)
-    define_attribute(:gdRefX,   :string)
-    define_attribute(:minX,     :int)
-    define_attribute(:maxX,     :int)
+    define_attribute(:gdRefX, :string)
+    define_attribute(:minX,   :int)
+    define_attribute(:maxX,   :int)
     define_attribute(:gdRefY, :string)
     define_attribute(:minY,   :int)
     define_attribute(:maxY,   :int)
@@ -948,7 +971,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_cxnLst-1.html
   class CT_ConnectionSiteList < OOXMLContainerObject
-    define_child_node(RubyXL::CT_ConnectionSite, :collection => true)
+    define_child_node(RubyXL::CT_ConnectionSite, :collection => [0..-1])
     define_element_name 'a:cxnLst'
   end
 
@@ -968,13 +991,13 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_quadBezTo-1.html
   class CT_Path2DQuadBezierTo < OOXMLContainerObject
-    define_child_node(RubyXL::CT_AdjPoint2D, :collection => true, :node_name => 'a:pt')
+    define_child_node(RubyXL::CT_AdjPoint2D, :collection => [2..2], :node_name => 'a:pt')
     define_element_name 'a:quadBezTo'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_quadBezTo-1.html
   class CT_Path2DCubicBezierTo < OOXMLContainerObject
-    define_child_node(RubyXL::CT_AdjPoint2D, :collection => true, :node_name => 'a:pt')
+    define_child_node(RubyXL::CT_AdjPoint2D, :collection => [2..2], :node_name => 'a:pt')
     define_element_name 'a:cubicBezTo'
   end
 
@@ -996,7 +1019,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_pathLst-1.html
   class CT_Path2DList < OOXMLContainerObject
-    define_child_node(RubyXL::CT_Path2D, :collection => true)
+    define_child_node(RubyXL::CT_Path2D, :collection => [0..-1])
     define_element_name 'a:pathLst'
   end
 
@@ -1021,17 +1044,22 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-a_spPr-1.html
   class VisualProperties < OOXMLObject
     define_child_node(RubyXL::CT_Transform2D)
+    # -- Choice [0..1] (EG_Geometry)
     define_child_node(RubyXL::CustomGeometry)
     define_child_node(RubyXL::PresetGeometry)
+    # -- Choice [0..1] (EG_FillProperties)
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
     define_child_node(RubyXL::CT_PatternFillProperties)
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
+    # --
     define_child_node(RubyXL::CT_LineProperties)
+    # -- Choice [0..1] (EG_EffectProperties)
     define_child_node(RubyXL::CT_EffectList)
-    define_child_node(RubyXL::CT_EffectContainer)
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
+    # --
     define_child_node(RubyXL::CT_Scene3D)
     define_child_node(RubyXL::CT_Shape3D)
     define_child_node(RubyXL::AExtensionStorageArea)
@@ -1151,7 +1179,7 @@ module RubyXL
     define_attribute(:endSnd,         :bool,   :default => false)
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_defPPr-1.html
+  # http://www.schemacentral.com/sc/ooxml/e-a_defRPr-1.html
   class CT_TextCharacterProperties < OOXMLObject
     define_child_node(RubyXL::CT_LineProperties)
     # -- EG_FillProperties
@@ -1163,7 +1191,7 @@ module RubyXL
     define_child_node(RubyXL::BooleanValue,      :node_name => 'a:grpFill')
     # -- EG_EffectProperties
     define_child_node(RubyXL::CT_EffectList)
-    define_child_node(RubyXL::CT_EffectContainer)
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
     # --
     define_child_node(RubyXL::CT_Color,          :node_name => 'a:highlight')
     # -- EG_TextUnderlineLine
@@ -1325,7 +1353,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_extraClrSchemeLst-1.html
   class ExtraColorSchemeList < OOXMLContainerObject
-    define_child_node(RubyXL::CT_ColorSchemeAndMapping, :collection => true)
+    define_child_node(RubyXL::CT_ColorSchemeAndMapping, :collection => [0..-1])
     define_element_name 'a:extraClrSchemeLst'
   end
   
@@ -1343,7 +1371,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_custClrLst-1.html
   class CustomColorList < OOXMLContainerObject
-    define_child_node(RubyXL::CustomColor, :collection => true)
+    define_child_node(RubyXL::CustomColor, :collection => [0..-1])
     define_element_name 'a:custClrLst'
   end
 
@@ -1368,27 +1396,9 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.theme+xml'
     end
 
-    ###### Temporary storage of the theme until I'm done with fully implementing
-    ###### all of its intricacies
-    attr_accessor :raw_xml
 
-    def self.parse_file(dirpath)
-      full_path = File.join(dirpath, xlsx_path)
-      return nil unless File.exist?(full_path)
-
-#      test = super
-#      puts test.inspect
-
-      obj = self.new
-      
-      # Making sure that the file will be automatically closed immediately after it has been read
-      obj.raw_xml = File.open(full_path, 'r') { |f| f.read }
-      obj
-    end
-
-    def write_xml
-      raw_xml || # Use fallback theme.
-        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    def self.defaults
+      default_theme = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
 <a:themeElements>
 <a:clrScheme name="Office">
@@ -1704,9 +1714,8 @@ module RubyXL
 </a:objectDefaults>
 <a:extraClrSchemeLst/>
 </a:theme>'
-
+      self.parse(default_theme)
     end
-    ######
 
   end
 
