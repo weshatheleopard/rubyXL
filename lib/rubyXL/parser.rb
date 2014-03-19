@@ -82,6 +82,7 @@ module RubyXL
       wb.sheets.each_with_index { |sheet, i|
         sheet_rel = wb.relationship_container.find_by_rid(sheet.r_id)
 
+        # Making sure that the file will be automatically closed immediately after it has been read
         File.open(File.join(dir_path, 'xl', sheet_rel.target)) { |sheet_file|
           case File::basename(sheet_rel.type)
           when 'worksheet' then
