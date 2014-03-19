@@ -17,7 +17,7 @@ module RubyXL
       dirpath = File.join(root_dir, @local_dir_path)
       if File.directory?(dirpath) then
         (Dir.new(dirpath).entries - ['.', '..', '.DS_Store', '_rels']).each { |filename|
-          self[filename] = File.open(File.join(dirpath, filename), @mode).read
+          self[filename] = File.open(File.join(dirpath, filename), @mode) { |f| f.read }
         }
       end
 
@@ -26,7 +26,7 @@ module RubyXL
 
     def load_file(root_dir, filename)
       filepath = File.join(root_dir, @local_dir_path, filename)
-      self[filename] = File.open(filepath, @mode).read if File.readable?(filepath)
+      self[filename] = (File.open(filepath, @mode) { |f| f.read }) if File.readable?(filepath)
       self
     end
 
