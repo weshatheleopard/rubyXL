@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 2.4.3</title>
+<title>README - rubyXL 2.4.4</title>
 
 <link href="./fonts.css" rel="stylesheet">
 <link href="./rdoc.css" rel="stylesheet">
@@ -124,7 +124,7 @@
 
 <h2 id="label-To+Use%3A">To Use:<span><a href="#label-To+Use%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL&#39;</span> <span class="ruby-comment"># Assuming rubygems is already required</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">'rubyXL'</span> <span class="ruby-comment"># Assuming rubygems is already required</span>
 </pre>
 
 <h3 id="label-Parsing+an+existing+workbook">Parsing an existing workbook<span><a href="#label-Parsing+an+existing+workbook">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
@@ -141,7 +141,7 @@
 
 <pre>workbook.worksheets[0] # Returns first worksheet
 workbook[0]            # Returns first worksheet
-workbook[&#39;Sheet1&#39;]     # Finds and returns worksheet titled &quot;Sheet1&quot;</pre>
+workbook['Sheet1']     # Finds and returns worksheet titled &quot;Sheet1&quot;</pre>
 
 <h4 id="label-Accessing+just+the+values">Accessing just the values<span><a href="#label-Accessing+just+the+values">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
@@ -225,12 +225,12 @@ worksheet.get_column_border_right(0)</pre>
 
 <h4 id="label-Adding+Worksheets">Adding Worksheets<span><a href="#label-Adding+Worksheets">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
-<pre>worksheet = workbook.add_worksheet(&#39;Sheet2&#39;)</pre>
+<pre>worksheet = workbook.add_worksheet('Sheet2')</pre>
 
 <h4 id="label-Adding+Cells">Adding Cells<span><a href="#label-Adding+Cells">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
-<pre>worksheet.add_cell(0, 0, &#39;A1&#39;)      # Sets cell A1 to string &quot;A1&quot;
-worksheet.add_cell(0, 1, &#39;&#39;, &#39;A1&#39;)  # Sets formula in the cell B1 to &#39;=A1&#39;</pre>
+<pre>worksheet.add_cell(0, 0, 'A1')      # Sets cell A1 to string &quot;A1&quot;
+worksheet.add_cell(0, 1, '', 'A1')  # Sets formula in the cell B1 to '=A1'</pre>
 
 <h4 id="label-Changing+Cells">Changing Cells<span><a href="#label-Changing+Cells">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
@@ -240,21 +240,21 @@ worksheet.add_cell(0, 1, &#39;&#39;, &#39;A1&#39;)  # Sets formula in the cell B
 
 <pre>worksheet.sheet_data[0][0].change_font_bold(true) # Makes A1 bold
 worksheet.change_row_italics(0,true)              # Makes first row italicized
-worksheet.change_column_font_name(0, &#39;Courier&#39;)   # Makes first column have font Courier</pre>
+worksheet.change_column_font_name(0, 'Courier')   # Makes first column have font Courier</pre>
 
 <h4 id="label-Changing+Fills+++++">Changing Fills     <span><a href="#label-Changing+Fills+++++">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
-<pre>worksheet.sheet_data[0][0].change_fill(&#39;0ba53d&#39;)  # Sets A1 to have fill #0ba53d
-worksheet.change_row_fill(0, &#39;0ba53d&#39;)            # Sets first row to have fill #0ba53d
-worksheet.change_column_fill(0, &#39;0ba53d&#39;)         # Sets first column to have fill #0ba53d</pre>
+<pre>worksheet.sheet_data[0][0].change_fill('0ba53d')  # Sets A1 to have fill #0ba53d
+worksheet.change_row_fill(0, '0ba53d')            # Sets first row to have fill #0ba53d
+worksheet.change_column_fill(0, '0ba53d')         # Sets first column to have fill #0ba53d</pre>
 
 <h4 id="label-Changing+Borders">Changing Borders<span><a href="#label-Changing+Borders">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
 <pre># Possible weights: hairline, thin, medium, thick
 # Possible &quot;directions&quot;: top, bottom, left, right, diagonal
-worksheet.sheet_data[0][0].change_border_top(&#39;thin&#39;) # Sets A1 to have a top, thin border
-worksheet.change_row_border_left(0, &#39;hairline&#39;)      # Sets first row to have a left, hairline border
-worksheet.change_column_border_diagonal(0, &#39;medium&#39;) # Sets first column to have diagonal, medium border</pre>
+worksheet.sheet_data[0][0].change_border_top('thin') # Sets A1 to have a top, thin border
+worksheet.change_row_border_left(0, 'hairline')      # Sets first row to have a left, hairline border
+worksheet.change_column_border_diagonal(0, 'medium') # Sets first column to have diagonal, medium border</pre>
 
 <h4 id="label-Changing+Alignment">Changing Alignment<span><a href="#label-Changing+Alignment">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
@@ -262,17 +262,17 @@ worksheet.change_column_border_diagonal(0, &#39;medium&#39;) # Sets first column
 
 <p>center, distributed, justify, left, right</p>
 
-<pre>worksheet.sheet_data[0][0].change_horizontal_alignment(&#39;center&#39;) # Sets A1 to be centered
-worksheet.change_row_horizontal_alignment(0, &#39;justify&#39;)          # Sets first row to be justified
-worksheet.change_column_horizontal_alignment(0, &#39;right&#39;)         # Sets first column to be right-aligned</pre>
+<pre>worksheet.sheet_data[0][0].change_horizontal_alignment('center') # Sets A1 to be centered
+worksheet.change_row_horizontal_alignment(0, 'justify')          # Sets first row to be justified
+worksheet.change_column_horizontal_alignment(0, 'right')         # Sets first column to be right-aligned</pre>
 
 <h5 id="label-Vertical">Vertical<span><a href="#label-Vertical">&para;</a> <a href="#documentation">&uarr;</a></span></h5>
 
 <p>bottom, center, distributed, top</p>
 
-<pre>worksheet.sheet_data[0][0].change_vertical_alignment(&#39;bottom&#39;)  # Sets A1 to be bottom aligned
-worksheet.change_row_vertical_alignment(0, &#39;distributed&#39;)       # Sets first row to be distributed vertically
-worksheet.change_column_vertical_alignment(0, &#39;top&#39;)            # Sets first column to be top aligned</pre>
+<pre>worksheet.sheet_data[0][0].change_vertical_alignment('bottom')  # Sets A1 to be bottom aligned
+worksheet.change_row_vertical_alignment(0, 'distributed')       # Sets first row to be distributed vertically
+worksheet.change_column_vertical_alignment(0, 'top')            # Sets first column to be top aligned</pre>
 
 <h4 id="label-Changing+Row+Height">Changing Row Height<span><a href="#label-Changing+Row+Height">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
@@ -359,8 +359,8 @@ worksheet.delete_cell(0, 0)         # Deletes A1, does not shift cells</pre>
 
 <h3 id="label-Miscellaneous">Miscellaneous<span><a href="#label-Miscellaneous">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
 
-<pre>Reference.ind2ref(0,0) == &#39;A1&#39;    # Converts row and column index to Excel-style cell reference
-Reference.ref2ind(&#39;A1&#39;) == [0, 0] # Converts Excel-style cell reference to row and column index</pre>
+<pre>Reference.ind2ref(0,0) == 'A1'    # Converts row and column index to Excel-style cell reference
+Reference.ref2ind('A1') == [0, 0] # Converts Excel-style cell reference to row and column index</pre>
 
 <h2 id="label-For+more+information">For more information<span><a href="#label-For+more+information">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
@@ -368,11 +368,11 @@ Reference.ref2ind(&#39;A1&#39;) == [0, 0] # Converts Excel-style cell reference 
 
 <h2 id="label-Contributing+to+rubyXL">Contributing to rubyXL<span><a href="#label-Contributing+to+rubyXL">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 <ul><li>
-<p>Check out the latest master to make sure the feature hasn&#39;t been
-implemented or the bug hasn&#39;t been fixed yet</p>
+<p>Check out the latest master to make sure the feature hasn’t been
+implemented or the bug hasn’t been fixed yet</p>
 </li><li>
-<p>Check out the issue tracker to make sure someone already hasn&#39;t
-requested it and/or contributed it</p>
+<p>Check out the issue tracker to make sure someone already hasn’t requested
+it and/or contributed it</p>
 </li><li>
 <p>Fork the project</p>
 </li><li>
@@ -380,8 +380,8 @@ requested it and/or contributed it</p>
 </li><li>
 <p>Commit and push until you are happy with your contribution</p>
 </li><li>
-<p>Make sure to add tests for it. This is important so I don&#39;t break it in
-a future version unintentionally.</p>
+<p>Make sure to add tests for it. This is important so I don’t break it in a
+future version unintentionally.</p>
 </li><li>
 <p>Please try not to mess with the Rakefile, version, or history. If you want
 to have your own version, or is otherwise necessary, that is fine, but
