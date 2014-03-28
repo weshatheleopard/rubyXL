@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::GenericStorage - rubyXL 2.4.4</title>
+<title>class RubyXL::GenericStorage - rubyXL 2.5.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -165,7 +165,7 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/generic_storage.rb, line 5</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">local_dir_path</span>)
   <span class="ruby-ivar">@local_dir_path</span> = <span class="ruby-identifier">local_dir_path</span>
-  <span class="ruby-ivar">@mode</span> = <span class="ruby-string">'r'</span>
+  <span class="ruby-ivar">@mode</span> = <span class="ruby-string">&#39;r&#39;</span>
   <span class="ruby-keyword">super</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -205,7 +205,7 @@
 
           
           <div class="method-source-code" id="add_to_zip-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/generic_storage.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/generic_storage.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
   <span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">filename</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">zipfile</span>.<span class="ruby-identifier">get_output_stream</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-ivar">@local_dir_path</span>, <span class="ruby-identifier">filename</span>)) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">data</span> }
@@ -242,7 +242,7 @@
           <div class="method-source-code" id="binary-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/generic_storage.rb, line 11</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">binary</span>
-  <span class="ruby-ivar">@mode</span> = <span class="ruby-string">'rb'</span>
+  <span class="ruby-ivar">@mode</span> = <span class="ruby-string">&#39;rb&#39;</span>
   <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -278,7 +278,8 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">root_dir</span>)
   <span class="ruby-identifier">dirpath</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>, <span class="ruby-ivar">@local_dir_path</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">dirpath</span>) <span class="ruby-keyword">then</span>
-    (<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">dirpath</span>).<span class="ruby-identifier">entries</span> <span class="ruby-operator">-</span> [<span class="ruby-string">'.'</span>, <span class="ruby-string">'..'</span>, <span class="ruby-string">'.DS_Store'</span>, <span class="ruby-string">'_rels'</span>]).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">filename</span><span class="ruby-operator">|</span>
+    (<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">dirpath</span>).<span class="ruby-identifier">entries</span> <span class="ruby-operator">-</span> [<span class="ruby-string">&#39;.&#39;</span>, <span class="ruby-string">&#39;..&#39;</span>, <span class="ruby-string">&#39;.DS_Store&#39;</span>, <span class="ruby-string">&#39;_rels&#39;</span>]).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">filename</span><span class="ruby-operator">|</span>
+      <span class="ruby-comment"># Making sure that the file will be automatically closed immediately after it has been read</span>
       <span class="ruby-keyword">self</span>[<span class="ruby-identifier">filename</span>] = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dirpath</span>, <span class="ruby-identifier">filename</span>), <span class="ruby-ivar">@mode</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }
     }
   <span class="ruby-keyword">end</span>
@@ -314,9 +315,10 @@
 
           
           <div class="method-source-code" id="load_file-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/generic_storage.rb, line 27</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/generic_storage.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">root_dir</span>, <span class="ruby-identifier">filename</span>)
   <span class="ruby-identifier">filepath</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>, <span class="ruby-ivar">@local_dir_path</span>, <span class="ruby-identifier">filename</span>)
+  <span class="ruby-comment"># Making sure that the file will be automatically closed immediately after it has been read</span>
   <span class="ruby-keyword">self</span>[<span class="ruby-identifier">filename</span>] = (<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filepath</span>, <span class="ruby-ivar">@mode</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">readable?</span>(<span class="ruby-identifier">filepath</span>)
   <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
