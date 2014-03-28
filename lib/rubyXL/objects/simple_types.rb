@@ -135,5 +135,95 @@ module RubyXL
                           silver skyBlue slateBlue slateGray snow springGreen steelBlue tan teal thistle
                           tomato turquoise violet wheat white whiteSmoke yellow yellowGreen }
 
-  ST_PathFillMode = %w{ none norm lighten lightenLess darken darkenLess }
+  ST_PathFillMode         = %w{ none norm lighten lightenLess darken darkenLess }
+  ST_TextVertOverflowType = %w{ overflow ellipsis clip }
+  ST_TextHorzOverflowType = %w{ overflow clip }
+  ST_TextVerticalType     = %w{ horz vert vert270 wordArtVert eaVert mongolianVert wordArtVertRtl }
+  ST_TextWrappingType     = %w{ none square }
+  ST_TextAnchoringType	  = %w{ t ctr b just dist }
+  ST_TextShapeType        = %w{ textNoShape textPlain textStop textTriangle textTriangleInverted textChevron
+                                textChevronInverted textRingInside textRingOutside textArchUp textArchDown
+                                textCircle textButton textArchUpPour textArchDownPour textCirclePour textButtonPour
+                                textCurveUp textCurveDown textCanUp textCanDown textWave1 textWave2 textDoubleWave1
+                                textWave4 textInflate textDeflate textInflateBottom textDeflateBottom textInflateTop
+                                textDeflateTop textDeflateInflate textDeflateInflateDeflate textFadeRight
+                                textFadeLeft textFadeUp textFadeDown textSlantUp textSlantDown
+                                textCascadeUp textCascadeDown }
+
+  ST_PresetMaterialType   = %w{ legacyMatte legacyPlastic legacyMetal legacyWireframe matte plastic metal
+                                warmMatte translucentPowder powder dkEdge softEdge clear flat softmetal }
+
+  ST_BevelPresetType      = %w{ relaxedInset circle slope cross angle softRound convex
+                                coolSlant divot riblet hardEdge artDeco }
+
+
+  ST_LineEndType          = %w{ none triangle stealth diamond oval arrow }
+  ST_LineEndWidth         = %w{ sm med lg }
+  ST_LineEndLength        = %w{ sm med lg }
+
+  ST_PresetLineDashVal    = %w{ solid dot dash lgDash dashDot lgDashDot lgDashDotDot
+                                sysDash sysDot sysDashDot sysDashDotDot }
+
+  ST_TileFlipMode         = %w{ none x y xy }
+  ST_PathShadeType        = %w{ shape circle rect }
+
+  ST_PresetPatternVal     = %w{ pct5 pct10 pct20 pct25 pct30 pct40 pct50 pct60 pct70 pct75 pct80 pct90
+                                horz vert ltHorz ltVert dkHorz dkVert narHorz narVert dashHorz dashVert
+                                cross dnDiag upDiag ltDnDiag ltUpDiag dkDnDiag dkUpDiag
+                                wdDnDiag wdUpDiag dashDnDiag dashUpDiag diagCross smCheck lgCheck
+                                smGrid lgGrid dotGrid smConfetti lgConfetti horzBrick diagBrick
+                                solidDmnd openDmnd dotDmnd plaid sphere weave divot shingle wave trellis zigZag }
+  ST_RectAlignment        = %w{ tl t tr l ctr r bl b br }
+  ST_BlipCompression      = %w{ email screen print hqprint none }
+  ST_ColorSchemeIndex     = %w{ dk1 lt1 dk2 lt2 accent1 accent2 accent3 accent4 accent5 accent6 hlink folHlink }
+  ST_FontCollectionIndex  = %w{ major minor none }
+  ST_BlendMode            = %w{ over mult screen darken lighten }
+  ST_PresetCameraType     = %w{ legacyObliqueTopLeft legacyObliqueTop legacyObliqueTopRight legacyObliqueLeft
+                                legacyObliqueFront legacyObliqueRight legacyObliqueBottomLeft legacyObliqueBottom
+                                legacyObliqueBottomRight legacyPerspectiveTopLeft legacyPerspectiveTop
+                                legacyPerspectiveTopRight legacyPerspectiveLeft legacyPerspectiveFront
+                                legacyPerspectiveRight legacyPerspectiveBottomLeft legacyPerspectiveBottom
+                                legacyPerspectiveBottomRight orthographicFront isometricTopUp isometricTopDown
+                                isometricBottomUp isometricBottomDown isometricLeftUp isometricLeftDown
+                                isometricRightUp isometricRightDown isometricOffAxis1Left isometricOffAxis1Right
+                                isometricOffAxis1Top isometricOffAxis2Left isometricOffAxis2Right isometricOffAxis2Top
+                                isometricOffAxis3Left isometricOffAxis3Right isometricOffAxis3Bottom
+                                isometricOffAxis4Left isometricOffAxis4Right isometricOffAxis4Bottom
+                                obliqueTopLeft obliqueTop obliqueTopRight obliqueLeft obliqueRight obliqueBottomLeft
+                                obliqueBottom obliqueBottomRight perspectiveFront perspectiveLeft perspectiveRight 
+                                perspectiveAbove perspectiveBelow perspectiveAboveLeftFacing perspectiveAboveRightFacing
+                                perspectiveContrastingLeftFacing perspectiveContrastingRightFacing
+                                perspectiveHeroicLeftFacing perspectiveHeroicRightFacing
+                                perspectiveHeroicExtremeLeftFacing perspectiveHeroicExtremeRightFacing 
+                                perspectiveRelaxed perspectiveRelaxedModerately }
+  ST_LightRigType         = %w{ legacyFlat1 legacyFlat2 legacyFlat3 legacyFlat4 legacyNormal1 legacyNormal2
+                                legacyNormal3 legacyNormal4 legacyHarsh1 legacyHarsh2 legacyHarsh3 legacyHarsh4
+                                threePt balanced soft harsh flood contrasting morning sunrise sunset chilly
+                                freezing flat twoPt glow brightRoom }
+  ST_LightRigDirection    = %w{ tl t tr l ctr r bl b br }
+  ST_EffectContainerType  = %w{ sib tree }
+  ST_PresetShadowVal      = %w{ shdw1 shdw2 shdw3 shdw4 shdw5 shdw6 shdw7 shdw8 shdw9 shdw10
+                                shdw11 shdw12 shdw13 shdw14 shdw15 shdw16 shdw17 shdw18 shdw19 shdw20 }
+  ST_TextTabAlignType     = %w{ l ctr r dec }
+  ST_TextAutonumberScheme = %w{ alphaLcParenBoth alphaUcParenBoth alphaLcParenR alphaUcParenR
+                                alphaLcPeriod alphaUcPeriod arabicParenBoth arabicParenR arabicPeriod arabicPlain
+                                romanLcParenBoth romanUcParenBoth romanLcParenR romanUcParenR
+                                romanLcPeriod romanUcPeriod circleNumDbPlain circleNumWdBlackPlain
+                                circleNumWdWhitePlain arabicDbPeriod arabicDbPlain ea1ChsPeriod ea1ChsPlain
+                                ea1ChtPeriod ea1ChtPlain ea1JpnChsDbPeriod ea1JpnKorPlain ea1JpnKorPeriod
+                                arabic1Minus arabic2Minus hebrew2Minus thaiAlphaPeriod thaiAlphaParenR
+                                thaiAlphaParenBoth thaiNumPeriod thaiNumParenR thaiNumParenBoth hindiAlphaPeriod
+                                hindiNumPeriod hindiNumParenR hindiAlpha1Period }
+
+  ST_TextAlignType        = %w{ l ctr r just justLow dist thaiDist }
+  ST_TextFontAlignType    = %w{ auto t ctr base b }
+  ST_LineCap              = %w{ rnd sq flat }
+  ST_CompoundLine         = %w{ sng dbl thickThin thinThick tri }
+  ST_PenAlignment         = %w{ ctr in }
+
+  ST_TextUnderlineType    = %w{ none words sng dbl heavy dotted dottedHeavy dash dashHeavy dashLong dashLongHeavy
+                                dotDash dotDashHeavy dotDotDash dotDotDashHeavy wavy wavyHeavy wavyDbl }
+  ST_TextStrikeType       = %w{ noStrike sngStrike dblStrike }
+  ST_TextCapsType         = %w{ none small all }
+
 end

@@ -413,7 +413,8 @@ module RubyXL
     def self.parse_file(dirpath, file_path = nil)
       full_path = File.join(dirpath, file_path || self.xlsx_path)
       return nil unless File.exist?(full_path)
-      parse(File.open(full_path, 'r'))
+      # Making sure that the file will be automatically closed immediately after it has been read
+      File.open(full_path, 'r') { |f| parse(f) }
     end
 
     # Saves the contents of the object as XML to respective location in <tt>.xslx</tt> zip container.
