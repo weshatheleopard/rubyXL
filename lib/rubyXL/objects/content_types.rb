@@ -44,7 +44,9 @@ module RubyXL
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'xml',
                       :content_type => 'application/xml' )
 
+      # TODO: Need to only write these types when respective content is actually present.
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'jpeg', :content_type => 'image/jpeg' )
+      defaults << RubyXL::ContentTypeDefault.new(:extension => 'png', :content_type => 'image/png' )
 
       self.overrides = []
       overrides << generate_override(workbook)

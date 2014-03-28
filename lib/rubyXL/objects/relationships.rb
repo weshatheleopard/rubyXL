@@ -85,6 +85,7 @@ module RubyXL
       self.relationships = []
 
       relationships << document_relationship('xl/workbook.xml',   'officeDocument')
+      relationships << metadata_relationship('docProps/thumbnail.jpeg', 'thumbnail') unless @workbook.thumbnail.empty?
       relationships << metadata_relationship('docProps/core.xml', 'core-properties')
       relationships << document_relationship('docProps/app.xml',  'extended-properties')
 

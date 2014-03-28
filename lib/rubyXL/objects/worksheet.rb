@@ -88,7 +88,7 @@ module RubyXL
   end
 
   class TableParts < OOXMLContainerObject
-    define_child_node(RubyXL::RID, :collection => :with_count, :node_name => :table_part)
+    define_child_node(RubyXL::RID, :collection => :with_count, :node_name => :tablePart)
     define_element_name 'tableParts'
   end
 
