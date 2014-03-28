@@ -82,26 +82,27 @@ module RubyXL
       wb.sheets.each_with_index { |sheet, i|
         sheet_rel = wb.relationship_container.find_by_rid(sheet.r_id)
 
-        sheet_file = File.open(File.join(dir_path, 'xl', sheet_rel.target))       
+        # Making sure that the file will be automatically closed immediately after it has been read
+        File.open(File.join(dir_path, 'xl', sheet_rel.target)) { |sheet_file|
+          case File::basename(sheet_rel.type)
+          when 'worksheet' then
+            sheet_obj = RubyXL::Worksheet.parse(sheet_file)
+            sheet_obj.sheet_data.rows.each { |r|
+              next if r.nil?
+              r.worksheet = sheet
+              r.cells.each { |c| c.worksheet = sheet_obj unless c.nil? }
+            }
+          when 'chartsheet' then
+            sheet_obj = RubyXL::Chartsheet.parse(sheet_file)
+          end
 
-        case File::basename(sheet_rel.type)
-        when 'worksheet' then
-          sheet_obj = RubyXL::Worksheet.parse(sheet_file)
-          sheet_obj.sheet_data.rows.each { |r|
-            next if r.nil?
-            r.worksheet = sheet
-            r.cells.each { |c| c.worksheet = sheet_obj unless c.nil? }
-          }
-        when 'chartsheet' then
-          sheet_obj = RubyXL::Chartsheet.parse(sheet_file)
-        end
+          sheet_obj.workbook = wb
+          sheet_obj.sheet_name = sheet.name
+          sheet_obj.sheet_id = sheet.sheet_id
+          sheet_obj.state = sheet.state
 
-        sheet_obj.workbook = wb
-        sheet_obj.sheet_name = sheet.name
-        sheet_obj.sheet_id = sheet.sheet_id
-        sheet_obj.state = sheet.state
-
-        wb.worksheets[i] = sheet_obj
+          wb.worksheets[i] = sheet_obj
+        }
       }
 
       FileUtils.remove_entry_secure(dir_path)
