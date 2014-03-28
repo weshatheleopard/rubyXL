@@ -42,7 +42,7 @@ module RubyXL
       @macros              = RubyXL::GenericStorage.new('xl').binary
       @thumbnail           = RubyXL::GenericStorage.new('docProps').binary
 
-      @theme                    = RubyXL::Theme.new
+      @theme                    = RubyXL::Theme.defaults
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
       @document_properties      = RubyXL::DocumentProperties.new
