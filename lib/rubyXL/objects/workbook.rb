@@ -282,7 +282,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customWorkbookViews-1.html
   class CustomWorkbookViews < OOXMLContainerObject
     define_child_node(RubyXL::CustomWorkbookView, :collection => true)
-    define_element_name 'customWorkbookView'
+    define_element_name 'customWorkbookViews'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
