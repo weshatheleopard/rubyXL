@@ -36,6 +36,10 @@ module RubyXL
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
     end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.drawing+xml'
+    end
   end
 
   class VMLDrawing < GenericStorageObject

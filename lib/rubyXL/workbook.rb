@@ -6,15 +6,14 @@ module RubyXL
     include Enumerable
     attr_accessor :worksheets, :filepath, :theme,
       :media, :external_links, :external_links_rels, :drawings, :drawings_rels,
-# :charts, 
-:chart_rels,
+      :charts, :chart_rels,
 #      :worksheet_rels, :chartsheet_rels, 
-#      :printer_settings,
       :macros, :thumbnail,
       :comments, :rels_hash
 
-    attr_accessor :stylesheet, :shared_strings_container, :document_properties, :calculation_chain,
-                  :relationship_container, :root_relationship_container, :core_properties, :content_types
+    attr_accessor :stylesheet, :shared_strings_container, :calculation_chain,
+                  :document_properties, :core_properties,
+                  :relationship_container, :root_relationship_container, :content_types
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -39,11 +38,10 @@ module RubyXL
       @external_links_rels = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
 #      @drawings            = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
       @drawings_rels       = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels'))
-#      @charts              = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
+      @charts              = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
       @chart_rels          = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
 #      @worksheet_rels      = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
 #      @chartsheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'chartsheets', '_rels'))
-#      @printer_settings    = RubyXL::GenericStorage.new(File.join('xl', 'printerSettings')).binary
       @macros              = RubyXL::GenericStorage.new('xl').binary
       @thumbnail           = RubyXL::GenericStorage.new('docProps').binary
 
@@ -113,22 +111,10 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        theme && theme.add_to_zip(zipfile)
-        calculation_chain && calculation_chain.add_to_zip(zipfile)
-        shared_strings_container && shared_strings_container.add_to_zip(zipfile)
-        document_properties.add_to_zip(zipfile)
-        core_properties.add_to_zip(zipfile)
-        stylesheet.add_to_zip(zipfile)
-
-        [ @media, @external_links, @external_links_rels,
-#          @drawings,
- @drawings_rels,
-# @charts,
- @chart_rels,
-#          @printer_settings, 
-          @macros, @thumbnail ].each { |s| s.add_to_zip(zipfile) }
 
         self.rels_hash = {}
+        content_types.overrides = []
+        content_types.add_override(self)
 
         @worksheets.each { |sheet|
           sheet.relationship_container.sheet = sheet if sheet.relationship_container
@@ -142,11 +128,28 @@ puts "--> DEBUG: adding rel: #{obj.class}"
           }
         }
 
+        [ theme, stylesheet, shared_strings_container, calculation_chain, 
+          document_properties, core_properties ].compact.each { |obj| 
+            content_types.add_override(obj)
+            obj.add_to_zip(zipfile)
+          }
+
+        # Save Generic Storage stuff (this will be eventually moved to other locations)         
+        [ @media, @external_links, @external_links_rels,
+#          @drawings,
+	  @drawings_rels,
+          @charts,
+          @chart_rels,
+          @macros, @thumbnail ].compact.each { |obj| 
+            obj.add_to_zip(zipfile)
+          }
+
         rels_hash.each_pair { |klass, arr|
 puts "--> DEBUG: saving related files of class #{klass}"
           arr.each { |obj|
             obj.workbook = self if obj.respond_to?(:workbook=)
 puts "--> DEBUG:   * #{obj.xlsx_path}"
+            content_types.add_override(obj)
             obj.add_to_zip(zipfile)
           }
         }

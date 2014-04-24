@@ -42,10 +42,8 @@ module RubyXL
       document_members = rels.related_files.values
       wb = document_members.find { |obj| obj.is_a?(RubyXL::Workbook) }
       wb.root_relationship_container = rels
-
       wb.filepath = xl_file_path
       wb.content_types = RubyXL::ContentTypes.parse_file(dir_path)
-
       wb.core_properties     = document_members.find { |obj| obj.is_a?(RubyXL::CoreProperties) }
       wb.document_properties = document_members.find { |obj| obj.is_a?(RubyXL::DocumentProperties) }
 
@@ -71,7 +69,7 @@ module RubyXL
         wb.external_links_rels.load_dir(dir_path)
 #        wb.drawings.load_dir(dir_path)
         wb.drawings_rels.load_dir(dir_path)
-#        wb.charts.load_dir(dir_path)
+        wb.charts.load_dir(dir_path)
         wb.chart_rels.load_dir(dir_path)
 #        wb.printer_settings.load_dir(dir_path)
 #        wb.worksheet_rels.load_dir(dir_path)

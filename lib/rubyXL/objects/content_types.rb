@@ -27,8 +27,9 @@ module RubyXL
       '[Content_Types].xml'
     end
 
-    def generate_override(obj)
-      RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)
+    def add_override(obj)
+      return unless obj.class.respond_to?(:content_type)
+      overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)
     end
 
     def before_write_xml
@@ -49,18 +50,6 @@ module RubyXL
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'png', :content_type => 'image/png')
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'vml', :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
 
-      self.overrides = []
-      overrides << generate_override(workbook)
-      workbook.worksheets.each { |sheet| overrides << generate_override(sheet) }
-      workbook.comments.each { |comment| overrides << generate_override(comment) }
-
-      overrides << generate_override(workbook.stylesheet)
-      overrides << generate_override(workbook.document_properties)
-      overrides << generate_override(workbook.core_properties)
-      overrides << generate_override(workbook.shared_strings_container) unless workbook.shared_strings_container.empty?
-      overrides << generate_override(workbook.calculation_chain) unless workbook.calculation_chain.nil?
-      overrides << generate_override(workbook.theme)
-
 =begin
       workbook.charts.each_pair { |k, v|
         case k
@@ -76,7 +65,6 @@ module RubyXL
         end
       }
 =end
-
 =begin
       workbook.drawings.each_pair { |k, v|
         case k
@@ -88,7 +76,7 @@ module RubyXL
         end
       }
 =end
-
+=begin
       unless workbook.external_links.nil?
         1.upto(workbook.external_links.size - 1) { |i|
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/xl/externalLinks/externalLink#{i}.xml",
@@ -100,6 +88,7 @@ module RubyXL
         overrides << RubyXL::ContentTypeOverride.new(:part_name => '/xl/vbaProject.bin',
                        :content_type => 'application/vnd.ms-office.vbaProject')
       end
+=end
 
       true
     end
