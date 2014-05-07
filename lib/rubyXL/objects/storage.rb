@@ -40,6 +40,46 @@ module RubyXL
     def self.content_type
       'application/vnd.openxmlformats-officedocument.drawing+xml'
     end
+
+    attr_accessor :relationship_container, :generic_storage
+
+    def load_relationships(dir_path, base_file_name)
+
+      self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
+
+      if relationship_container then
+        relationship_container.load_related_files(dir_path, base_file_name)
+
+        related_files = relationship_container.related_files
+        related_files.each_pair { |rid, rf|
+          case rf
+when 1 then 1
+#          when RubyXL::PrinterSettings then self.generic_storage << rf # TODO
+#          when RubyXL::Comments        then self.generic_storage << rf # TODO
+#          when RubyXL::VMLDrawing      then self.generic_storage << rf # TODO
+#          when RubyXL::Drawing         then self.generic_storage << rf # TODO
+          else
+            self.generic_storage << rf
+puts "!!>DEBUG: unattached: #{rf.class}"
+          end
+        }
+      end
+    end
+
+    def related_objects
+      [ comments ] + generic_storage
+    end
+
+  end
+
+  class Chart < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
+    end
   end
 
   class VMLDrawing < GenericStorageObject

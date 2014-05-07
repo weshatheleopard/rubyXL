@@ -712,6 +712,7 @@ module RubyXL
           when RubyXL::PrinterSettings then self.generic_storage << rf # TODO
           when RubyXL::Comments        then self.generic_storage << rf # TODO
           when RubyXL::VMLDrawing      then self.generic_storage << rf # TODO
+          when RubyXL::Drawing         then self.generic_storage << rf # TODO
           else
             self.generic_storage << rf
 puts "!!>DEBUG: unattached: #{rf.class}"
