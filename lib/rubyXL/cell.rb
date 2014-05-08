@@ -140,14 +140,16 @@ module RubyXL
     end
 
     # changes contents of cell, with formula option
-    def change_contents(data, formula=nil)
+    def change_contents(data, formula = nil)
       validate_worksheet
-      self.datatype = RubyXL::DataType::RAW_STRING
 
-      case data
-      when Date           then data = workbook.date_to_num(data)
-      when Integer, Float then self.datatype = ''
-      end
+      self.datatype = case data
+                      when Date then
+                        data = workbook.date_to_num(data)
+                        nil
+                      when Integer, Float then nil
+                      else RubyXL::DataType::RAW_STRING
+                      end
 
       self.raw_value = data
       @formula = formula
