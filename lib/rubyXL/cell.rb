@@ -35,7 +35,7 @@ module RubyXL
     end
 
     # Changes font size of cell
-    def change_font_size(font_size=10)
+    def change_font_size(font_size = 10)
       validate_worksheet
       raise 'Argument must be a number' unless font_size.is_a?(Integer) || font_size.is_a?(Float)
 
@@ -45,7 +45,7 @@ module RubyXL
     end
 
     # Changes font color of cell
-    def change_font_color(font_color='000000')
+    def change_font_color(font_color = '000000')
       validate_worksheet
       Color.validate_color(font_color)
 
@@ -55,7 +55,7 @@ module RubyXL
     end
 
     # Changes font italics settings of cell
-    def change_font_italics(italicized=false)
+    def change_font_italics(italicized = false)
       validate_worksheet
 
       font = get_cell_font.dup
@@ -64,7 +64,7 @@ module RubyXL
     end
 
     # Changes font bold settings of cell
-    def change_font_bold(bolded=false)
+    def change_font_bold(bolded = false)
       validate_worksheet
 
       font = get_cell_font.dup
@@ -73,7 +73,7 @@ module RubyXL
     end
 
     # Changes font underline settings of cell
-    def change_font_underline(underlined=false)
+    def change_font_underline(underlined = false)
       validate_worksheet
 
       font = get_cell_font.dup
@@ -81,7 +81,7 @@ module RubyXL
       update_font_references(font)
     end
 
-    def change_font_strikethrough(struckthrough=false)
+    def change_font_strikethrough(struckthrough = false)
       validate_worksheet
 
       font = get_cell_font.dup
@@ -97,45 +97,45 @@ module RubyXL
     private :update_font_references
 
     # changes horizontal alignment of cell
-    def change_horizontal_alignment(alignment='center')
+    def change_horizontal_alignment(alignment = 'center')
       validate_worksheet
       self.style_index = workbook.modify_alignment(self.style_index, true, alignment)
     end
 
     # changes vertical alignment of cell
-    def change_vertical_alignment(alignment='center')
+    def change_vertical_alignment(alignment = 'center')
       validate_worksheet
       self.style_index = workbook.modify_alignment(self.style_index, false, alignment)
     end
 
     # changes wrap of cell
-    def change_text_wrap(wrap=false)
+    def change_text_wrap(wrap = false)
       validate_worksheet
       self.style_index = workbook.modify_text_wrap(self.style_index, wrap)
     end
 
     # changes top border of cell
-    def change_border_top(weight='thin')
+    def change_border_top(weight = 'thin')
       change_border(:top, weight)
     end
 
     # changes left border of cell
-    def change_border_left(weight='thin')
+    def change_border_left(weight = 'thin')
       change_border(:left, weight)
     end
 
     # changes right border of cell
-    def change_border_right(weight='thin')
+    def change_border_right(weight = 'thin')
       change_border(:right, weight)
     end
 
     # changes bottom border of cell
-    def change_border_bottom(weight='thin')
+    def change_border_bottom(weight = 'thin')
       change_border(:bottom, weight)
     end
 
     # changes diagonal border of cell
-    def change_border_diagonal(weight='thin')
+    def change_border_diagonal(weight = 'thin')
       change_border(:diagonal, weight)
     end
 
@@ -268,19 +268,19 @@ module RubyXL
 
     def validate_workbook()
       unless workbook.nil? || workbook.worksheets.nil?
-        workbook.worksheets.each do |sheet|
+        workbook.worksheets.each { |sheet|
           unless sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[row].nil?
             if sheet.sheet_data[row][column] == self
               return
             end
           end
-        end
+        }
       end
       raise "This cell #{self} is not in workbook #{workbook}"
     end
 
     def validate_worksheet()
-      return if @worksheet && @worksheet[row][column] == self
+      return if @worksheet && @worksheet[row] && @worksheet[row][column] == self
       raise "This cell #{self} is not in worksheet #{worksheet}"
     end
 
@@ -298,4 +298,3 @@ module RubyXL
 
   end
 end
-

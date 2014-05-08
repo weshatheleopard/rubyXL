@@ -2,16 +2,13 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
-  attr_accessor :workbook, :sheet_name, :sheet_id
-
   def initialize(params = {})
     super
-    @workbook   = params[:workbook]
-    @sheet_name = params[:sheet_name]
-    @sheet_id   = params[:sheet_id]
+    self.workbook   = params[:workbook]
+    self.sheet_name = params[:sheet_name]
+    self.sheet_id   = params[:sheet_id]
     self.sheet_data = RubyXL::SheetData.new
     self.cols = RubyXL::ColumnRanges.new
-    @extLst = nil
   end
 
   # allows for easier access to sheet_data
