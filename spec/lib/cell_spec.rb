@@ -221,7 +221,7 @@ describe RubyXL::Cell do
     it 'should cause cell value and formula to match what is passed in' do
       @cell.change_contents(nil, 'SUM(A2:A4)')
       @cell.value.should be_nil
-      @cell.formula.should == 'SUM(A2:A4)'
+      @cell.formula.expression.should == 'SUM(A2:A4)'
     end
   end
 

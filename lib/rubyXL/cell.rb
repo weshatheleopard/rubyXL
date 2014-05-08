@@ -139,20 +139,22 @@ module RubyXL
       change_border(:diagonal, weight)
     end
 
-    # changes contents of cell, with formula option
-    def change_contents(data, formula = nil)
+    def change_contents(data, formula_expression = nil)
       validate_worksheet
 
-      self.datatype = case data
-                      when Date then
-                        data = workbook.date_to_num(data)
-                        nil
-                      when Integer, Float then nil
-                      else RubyXL::DataType::RAW_STRING
-                      end
+      if formula_expression then
+        self.datatype = nil
+        self.formula = RubyXL::Formula.new(:expression => formula_expression)
+      else
+        self.datatype = case data
+                        when Date, Integer, Float then nil
+                        else RubyXL::DataType::RAW_STRING
+                        end
+      end
+
+      data = workbook.date_to_num(data) if data.is_a?(Date)
 
       self.raw_value = data
-      @formula = formula
     end
 
     # returns if font is italicized
@@ -249,7 +251,7 @@ module RubyXL
 
     def inspect
       str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}" 
-      str += " =#{@formula}" if @formula
+      str += " =#{self.formula.expression}" if self.formula
       str += ", datatype = #{self.datatype}, style_index = #{self.style_index}>"
       return str
     end
