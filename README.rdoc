@@ -90,6 +90,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
 ==== Adding Worksheets
   worksheet = workbook.add_worksheet('Sheet2')
 
+==== Renaming Worksheets
+  worksheet.sheet_name = 'Cool New Name'
+
 ==== Adding Cells
   worksheet.add_cell(0, 0, 'A1')      # Sets cell A1 to string "A1"
   worksheet.add_cell(0, 1, '', 'A1')  # Sets formula in the cell B1 to '=A1'
