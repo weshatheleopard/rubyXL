@@ -23,7 +23,6 @@ module RubyXL
     define_child_node(RubyXL::Formula, :node_name => :formula1)
     define_child_node(RubyXL::Formula, :node_name => :formula2)
     define_element_name 'dataValidation'
-
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidations-1.html

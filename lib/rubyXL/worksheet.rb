@@ -12,7 +12,6 @@ module LegacyWorksheet
     self.sheet_data = RubyXL::SheetData.new
     self.cols = RubyXL::ColumnRanges.new
     @extLst = nil
-    @validations = []
   end
 
   # allows for easier access to sheet_data
