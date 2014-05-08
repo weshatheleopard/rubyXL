@@ -1,9 +1,17 @@
 module RubyXL
-  module LegacyCell
-    SHARED_STRING = 's'
-    RAW_STRING = 'str'
-    ERROR = 'e'
 
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.cellvalues(v=office.14).aspx
+  module DataType
+    SHARED_STRING = 's'
+    RAW_STRING    = 'str'
+    INLINE_STRING = 'inlineStr'
+    ERROR         = 'e'
+    BOOLEAN       = 'b'
+    NUMBER        = 'n'
+    DATE          = 'd'  # Only available in Office2010.
+  end
+
+  module LegacyCell
     attr_accessor :formula, :worksheet
 
     def workbook
@@ -134,7 +142,7 @@ module RubyXL
     # changes contents of cell, with formula option
     def change_contents(data, formula=nil)
       validate_worksheet
-      self.datatype = RAW_STRING
+      self.datatype = RubyXL::DataType::RAW_STRING
 
       case data
       when Date           then data = workbook.date_to_num(data)

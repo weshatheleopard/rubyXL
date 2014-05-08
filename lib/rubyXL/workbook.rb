@@ -268,7 +268,7 @@ module RubyXL
       @worksheets.compact.each { |sheet|
         sheet.sheet_data.rows.each { |row|
           row.cells.each { |cell|
-            if cell && cell.value && cell.datatype == RubyXL::Cell::SHARED_STRING then
+            if cell && cell.value && cell.datatype == RubyXL::DataType::SHARED_STRING then
               get_index(cell.value.to_s, :add_if_missing)
             end
           }
