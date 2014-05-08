@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Cell - rubyXL 2.5.1</title>
+<title>class RubyXL::Cell - rubyXL 2.5.2</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -465,7 +465,7 @@ Ruby (that includes stripping any special formatting from RichText).</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">:raw</span>]
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">datatype</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span> <span class="ruby-keyword">then</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">shared_strings_container</span>[<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>].<span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">else</span> 
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_date?</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_f</span>)
