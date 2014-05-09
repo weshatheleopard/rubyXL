@@ -1,3 +1,4 @@
+require 'rubyXL/objects/relationships'
 require 'rubyXL/workbook'
 require 'rubyXL/worksheet'
 require 'rubyXL/cell'
@@ -13,7 +14,6 @@ require 'rubyXL/objects/theme'
 require 'rubyXL/objects/comments'
 require 'rubyXL/objects/workbook'
 require 'rubyXL/objects/document_properties'
-require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/storage'
 require 'rubyXL/parser'
 

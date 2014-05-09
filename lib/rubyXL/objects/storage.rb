@@ -2,7 +2,7 @@ module RubyXL
 
   class GenericStorageObject
 
-    attr_accessor :xlsx_path, :data, :workbook
+    attr_accessor :xlsx_path, :data, :workbook, :generic_storage
 
     def initialize
       @workbook = nil
@@ -34,6 +34,8 @@ module RubyXL
   end
 
   class Drawing < GenericStorageObject
+    attr_accessor :relationship_container
+
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
     end
@@ -41,8 +43,6 @@ module RubyXL
     def self.content_type
       'application/vnd.openxmlformats-officedocument.drawing+xml'
     end
-
-    attr_accessor :relationship_container, :generic_storage
 
     def load_relationships(dir_path, base_file_name)
 
@@ -67,13 +67,17 @@ puts "!!>DEBUG: unattached: #{rf.class}"
       end
     end
 
+    include RubyXL::RelationshipSupport
+
     def related_objects
-      [ comments ] + generic_storage
+      generic_storage
     end
 
   end
 
   class Chart < GenericStorageObject
+    attr_accessor :relationship_container
+
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
     end
@@ -81,11 +85,80 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     def self.content_type
       'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     end
+
+    def load_relationships(dir_path, base_file_name)
+
+      self.relationship_container = RubyXL::ChartRelationships.load_relationship_file(dir_path, base_file_name)
+
+      if relationship_container then
+        relationship_container.load_related_files(dir_path, base_file_name)
+
+        related_files = relationship_container.related_files
+        related_files.each_pair { |rid, rf|
+          case rf
+          when RubyXL::ChartColors then self.generic_storage << rf # TODO
+          when RubyXL::ChartStyle  then self.generic_storage << rf # TODO
+          else
+            self.generic_storage << rf
+puts "!!>DEBUG: unattached: #{rf.class}"
+          end
+        }
+      end
+    end
+
+    include RubyXL::RelationshipSupport
+
+    def related_objects
+      generic_storage
+    end
+
   end
 
   class VMLDrawing < GenericStorageObject
+    attr_accessor :relationship_container
+
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
+    end
+
+    def load_relationships(dir_path, base_file_name)
+
+      self.relationship_container = RubyXL::DrawingRelationships.load_relationship_file(dir_path, base_file_name)
+
+      if relationship_container then
+        relationship_container.load_related_files(dir_path, base_file_name)
+
+        related_files = relationship_container.related_files
+        related_files.each_pair { |rid, rf|
+          case rf
+when 1 then 1
+#          when RubyXL::ChartColors then self.generic_storage << rf # TODO
+#          when RubyXL::ChartStyle  then self.generic_storage << rf # TODO
+          else
+            self.generic_storage << rf
+puts "!!>DEBUG: unattached: #{rf.class}"
+          end
+        }
+      end
+    end
+
+#    include RubyXL::RelationshipSupport
+
+    def related_objects
+      generic_storage
+    end
+
+  end
+
+  class ChartColors < GenericStorageObject
+    def self.rel_type
+      'http://schemas.microsoft.com/office/2011/relationships/chartColorStyle'
+    end
+  end
+
+  class ChartStyle < GenericStorageObject
+    def self.rel_type
+      'http://schemas.microsoft.com/office/2011/relationships/chartStyle'
     end
   end
 
@@ -104,6 +177,12 @@ puts "!!>DEBUG: unattached: #{rf.class}"
   class PivotTable < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'
+    end
+  end
+
+  class BinaryImage < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
     end
   end
 

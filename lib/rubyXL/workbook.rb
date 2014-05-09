@@ -5,9 +5,8 @@ module RubyXL
   module LegacyWorkbook
     include Enumerable
     attr_accessor :worksheets, :filepath, :theme,
-      :media, :external_links, :external_links_rels, :drawings, :drawings_rels,
+      :external_links, :external_links_rels, :drawings, :drawings_rels,
       :charts, :chart_rels,
-#      :worksheet_rels, :chartsheet_rels, 
       :macros, :thumbnail,
       :comments, :rels_hash
 
@@ -33,7 +32,6 @@ module RubyXL
       @creator             = creator
       @modifier            = modifier
       self.date1904        = date1904 > 0
-      @media               = RubyXL::GenericStorage.new(File.join('xl', 'media')).binary
       @external_links      = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
       @external_links_rels = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
 #      @drawings            = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
@@ -98,6 +96,15 @@ module RubyXL
       worksheets.each{|i| yield i}
     end
 
+
+    include RubyXL::RelationshipSupport
+
+    def related_objects
+      relationship_container.workbook = root_relationship_container.workbook =
+        content_types.workbook = self
+      [ relationship_container, root_relationship_container, content_types ] + @worksheets
+    end
+
     #filepath of xlsx file (including file itself)
     def write(filepath = @filepath)
       extension = File.extname(filepath)
@@ -116,16 +123,10 @@ module RubyXL
         content_types.overrides = []
         content_types.add_override(self)
 
-        @worksheets.each { |sheet|
-          sheet.relationship_container.sheet = sheet if sheet.relationship_container
-
-          arr = [ sheet, sheet.relationship_container ] + sheet.related_objects
-
-          arr.compact.each { |obj|
-puts "--> DEBUG: adding rel: #{obj.class}"
-            rels_hash[obj.class] ||= []
-            rels_hash[obj.class] << obj
-          }
+        collect_related_objects.compact.each { |obj|
+# puts "--> DEBUG: adding relationship to #{obj.class}"
+          rels_hash[obj.class] ||= []
+          rels_hash[obj.class] << obj
         }
 
         [ theme, stylesheet, shared_strings_container, calculation_chain, 
@@ -134,31 +135,20 @@ puts "--> DEBUG: adding rel: #{obj.class}"
             obj.add_to_zip(zipfile)
           }
 
-        # Save Generic Storage stuff (this will be eventually moved to other locations)         
-        [ @media, @external_links, @external_links_rels,
-#          @drawings,
-	  @drawings_rels,
-          @charts,
-          @chart_rels,
-          @macros, @thumbnail ].compact.each { |obj| 
-            obj.add_to_zip(zipfile)
-          }
+        [ @external_links, @external_links_rels, @macros, @thumbnail ].compact.each { |obj| obj.add_to_zip(zipfile) }
 
         rels_hash.each_pair { |klass, arr|
 puts "--> DEBUG: saving related files of class #{klass}"
+puts arr.collect{ |x| x.class }.inspect
           arr.each { |obj|
             obj.workbook = self if obj.respond_to?(:workbook=)
+puts obj.class
 puts "--> DEBUG:   * #{obj.xlsx_path}"
             content_types.add_override(obj)
             obj.add_to_zip(zipfile)
           }
         }
 
-        relationship_container.workbook = root_relationship_container.workbook =
-          content_types.workbook = self
-        relationship_container.add_to_zip(zipfile)
-        root_relationship_container.add_to_zip(zipfile)
-        content_types.add_to_zip(zipfile)
         self.add_to_zip(zipfile)
       }
 

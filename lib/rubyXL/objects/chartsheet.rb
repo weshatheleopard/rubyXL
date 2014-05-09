@@ -81,8 +81,11 @@ module RubyXL
       @generic_storage = []
     end
 
+    include RubyXL::RelationshipSupport
+
     def related_objects
-      generic_storage
+      relationship_container.sheet = self if relationship_container
+      [ relationship_container ] + generic_storage
     end
 
     def xlsx_dir
@@ -122,8 +125,6 @@ puts "!!>DEBUG: unattached: #{rf.class}"
       end
 
     end
-
-
 
   end
 

@@ -721,8 +721,14 @@ puts "!!>DEBUG: unattached: #{rf.class}"
       end
     end
 
+
+    include RubyXL::RelationshipSupport
+
     def related_objects
-      [ comments ] + generic_storage
+
+      relationship_container.sheet = self if relationship_container
+
+      [ relationship_container, comments ] + generic_storage
     end
 
     def xlsx_dir

@@ -62,23 +62,19 @@ module RubyXL
         end
 =end
 
-#=begin
       unless @data_only
-        wb.media.load_dir(dir_path)
         wb.external_links.load_dir(dir_path)
         wb.external_links_rels.load_dir(dir_path)
 #        wb.drawings.load_dir(dir_path)
-        wb.drawings_rels.load_dir(dir_path)
-        wb.charts.load_dir(dir_path)
-        wb.chart_rels.load_dir(dir_path)
-#        wb.printer_settings.load_dir(dir_path)
+#        wb.drawings_rels.load_dir(dir_path)
+#        wb.charts.load_dir(dir_path)
+#        wb.chart_rels.load_dir(dir_path)
 #        wb.worksheet_rels.load_dir(dir_path)
 #        wb.chartsheet_rels.load_dir(dir_path)
         wb.macros.load_file(dir_path, 'vbaProject.bin')
         wb.thumbnail.load_file(dir_path, 'thumbnail.jpeg')
 
       end
-#=end
 
       #fills out count information for each font, fill, and border
       wb.cell_xfs.each { |style|

@@ -156,4 +156,44 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
   end
 
+  class DrawingRelationships < OOXMLRelationshipsFile
+#    attr_accessor :sheet
+
+    def initialize(params = {})
+      super
+#      self.sheet = params[:sheet]
+    end
+
+    def xlsx_path
+#      file_path = sheet.xlsx_path
+#      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+    end
+
+  end
+
+
+  class ChartRelationships < OOXMLRelationshipsFile
+#    attr_accessor :sheet
+
+    def initialize(params = {})
+      super
+#      self.sheet = params[:sheet]
+    end
+
+    def xlsx_path
+#      file_path = sheet.xlsx_path
+#      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+    end
+
+  end
+
+
+  module RelationshipSupport
+    def collect_related_objects
+      res = [] + related_objects
+      related_objects.each { |o| res += o.collect_related_objects if o.respond_to?(:collect_related_objects) }
+      res
+    end
+  end
+
 end
