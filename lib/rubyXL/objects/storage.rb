@@ -8,6 +8,7 @@ module RubyXL
       @workbook = nil
       @xlsx_path = nil
       @data = nil
+      @generic_storage = []
     end
 
     def self.parse_file(dirpath, file_path = nil)

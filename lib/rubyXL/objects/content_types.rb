@@ -72,7 +72,9 @@ module RubyXL
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
         when /^vmlDrawing\d*.vml$/ then 
-          nil
+          # more proper fix: <Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>
+          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
+                         :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
         end
       }
 =end
