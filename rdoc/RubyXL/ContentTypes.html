@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ContentTypes - rubyXL 2.5.0</title>
+<title>class RubyXL::ContentTypes - rubyXL 2.5.3</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -237,8 +237,15 @@
   }
 
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">drawings</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{@workbook.drawings.local_dir_path}/#{k}&quot;</span>,
-                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.drawing+xml&#39;</span>)
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">k</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-regexp">/.xml$/</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{@workbook.drawings.local_dir_path}/#{k}&quot;</span>,
+                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.drawing+xml&#39;</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-regexp">/.vml$/</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-comment"># more proper fix: &lt;Default Extension=&quot;vml&quot; ContentType=&quot;application/vnd.openxmlformats-officedocument.vmlDrawing&quot;/&gt;</span>
+      <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{@workbook.drawings.local_dir_path}/#{k}&quot;</span>,
+                     <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.vmlDrawing&#39;</span>)
+    <span class="ruby-keyword">end</span>
   }
 
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">nil?</span>

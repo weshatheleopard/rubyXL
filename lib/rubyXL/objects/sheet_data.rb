@@ -68,7 +68,7 @@ module RubyXL
     def value(args = {})
       return raw_value if args[:raw]
       case datatype
-      when RubyXL::Cell::SHARED_STRING then
+      when RubyXL::DataType::SHARED_STRING then
         workbook.shared_strings_container[raw_value.to_i].to_s
       else 
         if is_date? then workbook.num_to_date(raw_value.to_f)

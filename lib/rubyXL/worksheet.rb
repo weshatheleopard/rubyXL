@@ -2,17 +2,13 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
-  attr_accessor :workbook, :sheet_name, :sheet_id
-
   def initialize(params = {})
     super
-    @workbook   = params[:workbook]
-    @sheet_name = params[:sheet_name]
-    @sheet_id   = params[:sheet_id]
+    self.workbook   = params[:workbook]
+    self.sheet_name = params[:sheet_name]
+    self.sheet_id   = params[:sheet_id]
     self.sheet_data = RubyXL::SheetData.new
     self.cols = RubyXL::ColumnRanges.new
-    @extLst = nil
-    @validations = []
   end
 
   # allows for easier access to sheet_data
@@ -338,7 +334,7 @@ module LegacyWorksheet
       c.row = row_index
       c.column = column_index
       c.raw_value = data
-      c.datatype = (formula || data.is_a?(Numeric)) ? '' : RubyXL::Cell::RAW_STRING
+      c.datatype = RubyXL::DataType::RAW_STRING unless formula || data.is_a?(Numeric)
       c.formula = RubyXL::Formula.new(:expression => formula) if formula
 
       range = cols && cols.find(column_index)
@@ -430,7 +426,7 @@ module LegacyWorksheet
 
         c = RubyXL::Cell.new(:style_index => old_cell.style_index, :worksheet => self,
                              :row => row_index, :column => column_index,
-                             :datatype => RubyXL::Cell::SHARED_STRING)
+                             :datatype => RubyXL::DataType::SHARED_STRING)
       end
 
       row.insert_cell_shift_right(c, column_index)

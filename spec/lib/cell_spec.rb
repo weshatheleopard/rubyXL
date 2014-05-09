@@ -15,6 +15,20 @@ describe RubyXL::Cell do
     @cell = @worksheet[0][0]
   end
 
+  describe '.add_cell' do
+    it 'should properly assign data types' do
+      r = 4
+      c = 4
+
+      cell = @worksheet.add_cell(r, c, 123)
+      cell.datatype.should be_nil
+
+      cell = @worksheet.add_cell(r, c, "#{r}:#{c}")
+      cell.datatype.should == RubyXL::DataType::RAW_STRING
+
+    end
+  end
+
   describe '.change_fill' do
     it 'should cause an error if hex color code not passed' do
       lambda {
@@ -193,7 +207,7 @@ describe RubyXL::Cell do
     it 'should cause cell value to match string or number that is passed in' do
       @cell.change_contents('TEST')
       @cell.value.should == 'TEST'
-      @cell.formula.should == nil
+      @cell.formula.should be_nil
     end
 
     it 'should cause cell value to match a date that is passed in' do
@@ -201,13 +215,13 @@ describe RubyXL::Cell do
       @cell.change_contents(date)
       @cell.should_receive(:is_date?).at_least(1).and_return(true)
       @cell.value.should == date
-      @cell.formula.should == nil
+      @cell.formula.should be_nil
     end
 
     it 'should cause cell value and formula to match what is passed in' do
       @cell.change_contents(nil, 'SUM(A2:A4)')
-      @cell.value.should == nil
-      @cell.formula.should == 'SUM(A2:A4)'
+      @cell.value.should be_nil
+      @cell.formula.expression.should == 'SUM(A2:A4)'
     end
   end
 
@@ -282,7 +296,7 @@ describe RubyXL::Cell do
     end
 
     it 'should return nil if no horizontal alignment has been specified for this cell' do
-      @cell.horizontal_alignment.should == nil
+      @cell.horizontal_alignment.should be_nil
     end
   end
 

@@ -282,7 +282,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customWorkbookViews-1.html
   class CustomWorkbookViews < OOXMLContainerObject
     define_child_node(RubyXL::CustomWorkbookView, :collection => true)
-    define_element_name 'customWorkbookView'
+    define_element_name 'customWorkbookViews'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
@@ -319,7 +319,8 @@ module RubyXL
 
       worksheets.each_with_index { |sheet, i|
         rel = relationship_container.find_by_target(sheet.xlsx_path.gsub(/^xl\//, ''))
-        sheets << RubyXL::Sheet.new(:name => sheet.sheet_name, :sheet_id => sheet.sheet_id || (i + 1),
+        sheets << RubyXL::Sheet.new(:name => sheet.sheet_name[0..30], # Max sheet name length is 31 char
+                                    :sheet_id => sheet.sheet_id || (i + 1),
                                     :state => sheet.state, :r_id => rel.id)
       }
       true
