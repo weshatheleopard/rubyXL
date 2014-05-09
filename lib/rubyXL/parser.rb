@@ -47,21 +47,6 @@ module RubyXL
       wb.core_properties     = document_members.find { |obj| obj.is_a?(RubyXL::CoreProperties) }
       wb.document_properties = document_members.find { |obj| obj.is_a?(RubyXL::DocumentProperties) }
 
-=begin
-        rels = SheetRelationships.parse_file(dir_path, File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels'))
-        if rels then
-          rels.sheet = sheet_obj
-          sheet_obj.rels = rels
-          rels.load_related_files(dir_path).each { |obj|
-            case obj
-            when RubyXL::Comments then sheet_obj.comments = obj
-            else sheet_obj.generic_storage << obj
-            end
-          }
-
-        end
-=end
-
       unless @data_only
         wb.external_links.load_dir(dir_path)
         wb.external_links_rels.load_dir(dir_path)

@@ -27,6 +27,10 @@ module RubyXL
       '[Content_Types].xml'
     end
 
+    def self.save_order
+      999  # Must be saved last, so it has time to accumulate overrides from all others.
+    end
+
     def add_override(obj)
       return unless obj.class.respond_to?(:content_type)
       overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)

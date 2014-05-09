@@ -11,6 +11,10 @@ module RubyXL
       @generic_storage = []
     end
 
+    def self.save_order
+      0
+    end
+
     def self.parse_file(dirpath, file_path = nil)
       full_path = File.join(dirpath, file_path || self.xlsx_path)
       return nil unless File.exist?(full_path)
@@ -46,7 +50,7 @@ module RubyXL
 
     def load_relationships(dir_path, base_file_name)
 
-      self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = RubyXL::DrawingRelationships.load_relationship_file(dir_path, base_file_name)
 
       if relationship_container then
         relationship_container.load_related_files(dir_path, base_file_name)
@@ -70,7 +74,8 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     include RubyXL::RelationshipSupport
 
     def related_objects
-      generic_storage
+      relationship_container.owner = self
+      [ relationship_container ] + generic_storage
     end
 
   end
@@ -109,7 +114,8 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     include RubyXL::RelationshipSupport
 
     def related_objects
-      generic_storage
+      relationship_container.owner = self
+      [ relationship_container ] + generic_storage
     end
 
   end
@@ -120,6 +126,10 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
     end
+
+#    def self.content_type
+#      'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
+#    end
 
     def load_relationships(dir_path, base_file_name)
 
@@ -142,8 +152,6 @@ puts "!!>DEBUG: unattached: #{rf.class}"
       end
     end
 
-#    include RubyXL::RelationshipSupport
-
     def related_objects
       generic_storage
     end
@@ -154,11 +162,19 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     def self.rel_type
       'http://schemas.microsoft.com/office/2011/relationships/chartColorStyle'
     end
+
+    def self.content_type
+      'application/vnd.ms-office.chartcolorstyle+xml'
+    end
   end
 
   class ChartStyle < GenericStorageObject
     def self.rel_type
       'http://schemas.microsoft.com/office/2011/relationships/chartStyle'
+    end
+
+    def self.content_type
+      'application/vnd.ms-office.chartstyle+xml'
     end
   end
 

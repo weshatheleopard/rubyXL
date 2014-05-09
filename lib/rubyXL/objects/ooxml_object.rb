@@ -396,6 +396,10 @@ module RubyXL
       raise 'Subclass responsebility'
     end
 
+    def self.save_order
+      500
+    end
+
     # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
     # === Parameters
     # * +namespace_hash+ - Hash of namespaces in the form of <tt>"prefix" => "url"</tt>

@@ -34,6 +34,10 @@ module RubyXL
     end
     protected :metadata_relationship
 
+    def self.save_order
+      0
+    end
+
     def find_by_rid(r_id)
       relationships.find { |r| r.id == r_id }
     end
@@ -157,32 +161,32 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
   end
 
   class DrawingRelationships < OOXMLRelationshipsFile
-#    attr_accessor :sheet
+    attr_accessor :owner
 
-    def initialize(params = {})
-      super
-#      self.sheet = params[:sheet]
-    end
+#    def initialize(params = {})
+#      super
+#      self.owner = params[:owner]
+#    end
 
     def xlsx_path
-#      file_path = sheet.xlsx_path
-#      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+      file_path = owner.xlsx_path
+      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
     end
 
   end
 
 
   class ChartRelationships < OOXMLRelationshipsFile
-#    attr_accessor :sheet
+    attr_accessor :owner
 
-    def initialize(params = {})
-      super
-#      self.sheet = params[:sheet]
-    end
+#    def initialize(params = {})
+#      super
+#      self.owner = params[:owner]
+#    end
 
     def xlsx_path
-#      file_path = sheet.xlsx_path
-#      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+      file_path = owner.xlsx_path
+      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
     end
 
   end

@@ -137,12 +137,11 @@ module RubyXL
 
         [ @external_links, @external_links_rels, @macros, @thumbnail ].compact.each { |obj| obj.add_to_zip(zipfile) }
 
-        rels_hash.each_pair { |klass, arr|
+
+        rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
 puts "--> DEBUG: saving related files of class #{klass}"
-puts arr.collect{ |x| x.class }.inspect
-          arr.each { |obj|
+          rels_hash[klass].each { |obj|
             obj.workbook = self if obj.respond_to?(:workbook=)
-puts obj.class
 puts "--> DEBUG:   * #{obj.xlsx_path}"
             content_types.add_override(obj)
             obj.add_to_zip(zipfile)
