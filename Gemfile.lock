@@ -37,7 +37,7 @@ GEM
       rake
       rdoc
     json (1.8.1)
-    jwt (0.1.11)
+    jwt (0.1.13)
       multi_json (>= 1.5)
     mini_portile (0.5.3)
     minitest (5.3.3)
