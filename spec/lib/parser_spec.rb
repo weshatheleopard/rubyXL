@@ -5,6 +5,7 @@ require 'rubyXL'
 describe RubyXL::Parser do
 
   before do
+    @test_sheet_name = "This is a very long sheet name that should be trimmed to 31 characters for compatibility with MS Excel"
     @workbook = RubyXL::Workbook.new
     @workbook.add_worksheet("Test Worksheet")
     @time = Time.at(Time.now.to_i) # Excel only saves times with 1-second precision.
@@ -30,6 +31,8 @@ describe RubyXL::Parser do
     ws.add_cell(3, 1, -12345)
     ws.add_cell(3, 2, -123.456e78)
     ws.add_cell(3, 3, -123.456e-78)
+
+    @workbook.add_worksheet(@test_sheet_name)
 
     @workbook.creator = "test creator"
     @workbook.modifier = "test modifier"
@@ -98,6 +101,12 @@ describe RubyXL::Parser do
       @workbook2.modifier.should == "test modifier"
       @workbook2.created_at.should == @time
       @workbook2.modified_at.should == @time2
+    end
+
+    it 'should trim excessively long sheet names on save' do
+      @workbook2 = RubyXL::Parser.parse(@file)
+      @workbook2[@test_sheet_name].should be_nil
+      @workbook2[@test_sheet_name[0..30]].should_not be_nil
     end
 
   end

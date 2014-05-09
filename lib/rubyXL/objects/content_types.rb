@@ -73,8 +73,15 @@ module RubyXL
       }
 
       workbook.drawings.each_pair { |k, v|
-        overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
-                       :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
+        case k
+        when /.xml$/ then
+          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
+                         :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
+        when /.vml$/ then
+          # more proper fix: <Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>
+          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
+                         :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
+        end
       }
 
       unless workbook.external_links.nil?
