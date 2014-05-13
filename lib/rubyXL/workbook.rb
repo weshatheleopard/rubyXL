@@ -1,4 +1,5 @@
 require 'tmpdir'
+require 'date'
 require 'zip'
 
 module RubyXL
