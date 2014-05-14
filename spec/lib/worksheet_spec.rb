@@ -590,8 +590,8 @@ describe RubyXL::Worksheet do
 
   describe '.change_column_width' do
     it 'should make column width match number which is passed' do
-      @worksheet.change_column_width(0,30.0002)
-      @worksheet.get_column_width(0).should == 30.0002
+      @worksheet.change_column_width_raw(0, 30.0002)
+      @worksheet.get_column_width_raw(0).should == 30.0002
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1421,7 +1421,7 @@ describe RubyXL::Worksheet do
      end
 
      it 'should return nil if a column which does not exist is passed in' do
-       @worksheet.get_column_width(11).should be_nil
+       @worksheet.get_column_width_raw(11).should be_nil
      end
 
      it 'should cause error if a negative argument is passed in' do

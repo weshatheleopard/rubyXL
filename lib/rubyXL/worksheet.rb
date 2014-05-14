@@ -258,13 +258,19 @@ module LegacyWorksheet
     change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
   end
 
-  def change_column_width(column_index = 0, width = RubyXL::ColumnRange::DEFAULT_WIDTH)
+  # Set raw column width value
+  def change_column_width_raw(column_index, width)
     validate_workbook
     ensure_cell_exists(0, column_index)
-
     range = cols.get_range(column_index)
     range.width = width
     range.custom_width = true
+  end
+
+  # Get column width measured in number of digits, as per
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
+  def change_column_width(column_index = 0, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)
+    change_column_width_raw(column_index, ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
   end
 
   def change_column_fill(column_index = 0, color_index='ffffff')
@@ -593,13 +599,22 @@ module LegacyWorksheet
     font && font.is_strikethrough
   end
 
-  def get_column_width(column_index = 0)
+  # Get raw column width value as stored in the file
+  def get_column_width_raw(column_index = 0)
     validate_workbook
     validate_nonnegative(column_index)
     return nil unless column_exists(column_index)
 
     range = cols.find(column_index)
-    (range && range.width) || RubyXL::ColumnRange::DEFAULT_WIDTH
+    range && range.width
+  end
+
+  # Get column width measured in number of digits, as per
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
+  def get_column_width(column_index = 0)
+    width = get_column_width_raw(column_index)
+    return RubyXL::ColumnRange::DEFAULT_WIDTH if width.nil?
+    (width - (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)).round
   end
 
   def get_column_fill(col=0)
