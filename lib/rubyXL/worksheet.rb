@@ -872,6 +872,7 @@ module LegacyWorksheet
     ensure_cell_exists(0, column_index)
 
     cols.get_range(column_index).style_index = @workbook.modify_alignment(get_col_style(column_index), is_horizontal, alignment)
+    change_column_width if get_column_width_raw(column_index).nil?
 
     sheet_data.rows.each { |row|
       c = row[column_index]
