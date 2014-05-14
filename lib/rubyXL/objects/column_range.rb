@@ -32,6 +32,7 @@ module RubyXL
       ((min-1)..(max-1)).include?(col_index)
     end
 
+    DEFAULT_WIDTH = 9
   end
 
   class ColumnRanges < OOXMLObject

@@ -1412,7 +1412,7 @@ describe RubyXL::Worksheet do
 
    describe '.get_column_width' do
      it 'should return 10 (base column width) if no width specified for column' do
-       @worksheet.get_column_width(0).should == 10
+       @worksheet.get_column_width(0).should == RubyXL::ColumnRange::DEFAULT_WIDTH
      end
 
      it 'should correctly reflect width if specified for column' do

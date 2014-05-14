@@ -258,7 +258,7 @@ module LegacyWorksheet
     change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
   end
 
-  def change_column_width(column_index = 0, width = 13)
+  def change_column_width(column_index = 0, width = RubyXL::ColumnRange::DEFAULT_WIDTH)
     validate_workbook
     ensure_cell_exists(0, column_index)
 
@@ -599,7 +599,7 @@ module LegacyWorksheet
     return nil unless column_exists(column_index)
 
     range = cols.find(column_index)
-    (range && range.width) || 10
+    (range && range.width) || RubyXL::ColumnRange::DEFAULT_WIDTH
   end
 
   def get_column_fill(col=0)
