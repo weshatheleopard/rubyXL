@@ -1,4 +1,5 @@
 require 'tmpdir'
+require 'date'
 require 'zip'
 
 module RubyXL
@@ -233,8 +234,8 @@ puts "--> DEBUG:   * #{obj.xlsx_path}"
 
     def modify_alignment(style_index, is_horizontal, alignment)
       xf = cell_xfs[style_index].dup
-      xf.alignment = RubyXL::Alignment.new(:apply_alignment => true,
-                                           :horizontal => is_horizontal ? alignment : nil, 
+      xf.apply_alignment = true
+      xf.alignment = RubyXL::Alignment.new(:horizontal => is_horizontal ? alignment : nil, 
                                            :vertical   => is_horizontal ? nil : alignment)
       register_new_xf(xf, style_index)
     end

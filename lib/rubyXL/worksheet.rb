@@ -206,69 +206,75 @@ module LegacyWorksheet
   end
 
   # Changes font name of column
-  def change_column_font_name(col = 0, font_name = 'Verdana')
-    xf = get_col_xf(col)
+  def change_column_font_name(column_index = 0, font_name = 'Verdana')
+    xf = get_col_xf(column_index)
     font = @workbook.fonts[xf.font_id].dup
     font.set_name(font_name)
-    change_column_font(col, Worksheet::NAME, font_name, font, xf)
+    change_column_font(column_index, Worksheet::NAME, font_name, font, xf)
   end
 
   # Changes font size of column
-  def change_column_font_size(col=0, font_size=10)
-    xf = get_col_xf(col)
+  def change_column_font_size(column_index, font_size=10)
+    xf = get_col_xf(column_index)
     font = @workbook.fonts[xf.font_id].dup
     font.set_size(font_size)
-    change_column_font(col, Worksheet::SIZE, font_size, font, xf)
+    change_column_font(column_index, Worksheet::SIZE, font_size, font, xf)
   end
 
   # Changes font color of column
-  def change_column_font_color(col=0, font_color='000000')
+  def change_column_font_color(column_index, font_color='000000')
     Color.validate_color(font_color)
 
-    xf = get_col_xf(col)
+    xf = get_col_xf(column_index)
     font = @workbook.fonts[xf.font_id].dup
     font.set_rgb_color(font_color)
-    change_column_font(col, Worksheet::COLOR, font_color, font, xf)
+    change_column_font(column_index, Worksheet::COLOR, font_color, font, xf)
   end
 
-  def change_column_italics(col = 0, italicized = false)
-    xf = get_col_xf(col)
+  def change_column_italics(column_index, italicized = false)
+    xf = get_col_xf(column_index)
     font = @workbook.fonts[xf.font_id].dup
     font.set_italic(italicized)
-    change_column_font(col, Worksheet::ITALICS, italicized, font, xf)
+    change_column_font(column_index, Worksheet::ITALICS, italicized, font, xf)
   end
 
-  def change_column_bold(col = 0, bolded = false)
-    xf = get_col_xf(col)
+  def change_column_bold(column_index, bolded = false)
+    xf = get_col_xf(column_index)
     font = @workbook.fonts[xf.font_id].dup
     font.set_bold(bolded)
-    change_column_font(col, Worksheet::BOLD, bolded, font, xf)
+    change_column_font(column_index, Worksheet::BOLD, bolded, font, xf)
   end
 
-  def change_column_underline(col = 0, underlined = false)
-    xf = get_col_xf(col)
+  def change_column_underline(column_index, underlined = false)
+    xf = get_col_xf(column_index)
     font = @workbook.fonts[xf.font_id].dup
     font.set_underline(underlined)
-    change_column_font(col, Worksheet::UNDERLINE, underlined, font, xf)
+    change_column_font(column_index, Worksheet::UNDERLINE, underlined, font, xf)
   end
 
-  def change_column_strikethrough(col=0, struckthrough=false)
-    xf = get_col_xf(col)
+  def change_column_strikethrough(column_index, struckthrough=false)
+    xf = get_col_xf(column_index)
     font = @workbook.fonts[xf.font_id].dup
     font.set_strikethrough(struckthrough)
-    change_column_font(col, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
+    change_column_font(column_index, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
   end
 
-  def change_column_width(column_index = 0, width = 13)
+  # Set raw column width value
+  def change_column_width_raw(column_index, width)
     validate_workbook
     ensure_cell_exists(0, column_index)
-
     range = cols.get_range(column_index)
     range.width = width
     range.custom_width = true
   end
 
-  def change_column_fill(column_index = 0, color_index='ffffff')
+  # Get column width measured in number of digits, as per
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
+  def change_column_width(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)
+    change_column_width_raw(column_index, ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
+  end
+
+  def change_column_fill(column_index, color_index='ffffff')
     validate_workbook
     Color.validate_color(color_index)
     ensure_cell_exists(0, column_index)
@@ -281,32 +287,32 @@ module LegacyWorksheet
     }
   end
 
-  def change_column_horizontal_alignment(col=0,alignment='center')
-    change_column_alignment(col,alignment,true)
+  def change_column_horizontal_alignment(column_index, alignment = 'center')
+    change_column_alignment(column_index, alignment,true)
   end
 
-  def change_column_vertical_alignment(col=0,alignment='center')
-    change_column_alignment(col, alignment, false)
+  def change_column_vertical_alignment(column_index, alignment = 'center')
+    change_column_alignment(column_index, alignment, false)
   end
 
-  def change_column_border_top(col=0,weight = 'thin')
-    change_column_border(col, :top, weight)
+  def change_column_border_top(column_index, weight = 'thin')
+    change_column_border(column_index, :top, weight)
   end
 
-  def change_column_border_left(col=0,weight = 'thin')
-    change_column_border(col, :left, weight)
+  def change_column_border_left(column_index, weight = 'thin')
+    change_column_border(column_index, :left, weight)
   end
 
-  def change_column_border_right(col=0,weight = 'thin')
-    change_column_border(col, :right, weight)
+  def change_column_border_right(column_index, weight = 'thin')
+    change_column_border(column_index, :right, weight)
   end
 
-  def change_column_border_bottom(col=0,weight = 'thin')
-    change_column_border(col, :bottom, weight)
+  def change_column_border_bottom(column_index, weight = 'thin')
+    change_column_border(column_index, :bottom, weight)
   end
 
-  def change_column_border_diagonal(col=0,weight = 'thin')
-    change_column_border(col, :diagonal, weight)
+  def change_column_border_diagonal(column_index, weight = 'thin')
+    change_column_border(column_index, :diagonal, weight)
   end
 
   # merges cells within a rectangular range
@@ -594,13 +600,22 @@ module LegacyWorksheet
     font && font.is_strikethrough
   end
 
-  def get_column_width(column_index = 0)
+  # Get raw column width value as stored in the file
+  def get_column_width_raw(column_index = 0)
     validate_workbook
     validate_nonnegative(column_index)
     return nil unless column_exists(column_index)
 
     range = cols.find(column_index)
-    (range && range.width) || 10
+    range && range.width
+  end
+
+  # Get column width measured in number of digits, as per
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
+  def get_column_width(column_index = 0)
+    width = get_column_width_raw(column_index)
+    return RubyXL::ColumnRange::DEFAULT_WIDTH if width.nil?
+    (width - (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)).round
   end
 
   def get_column_fill(col=0)
@@ -858,6 +873,8 @@ module LegacyWorksheet
     ensure_cell_exists(0, column_index)
 
     cols.get_range(column_index).style_index = @workbook.modify_alignment(get_col_style(column_index), is_horizontal, alignment)
+    # Excel gets confused if width is not explicitly set for a column that had alignment changes
+    change_column_width(column_index) if get_column_width_raw(column_index).nil?
 
     sheet_data.rows.each { |row|
       c = row[column_index]

@@ -6,7 +6,6 @@ gem "rubyzip", ">= 1.0.0" , :require => 'zip'
 
 # Development dependencies.
 group :development do
-  gem "shoulda", ">= 0"
   gem "bundler"
   gem "rake"
   gem "jeweler"
