@@ -1,4 +1,4 @@
-Thu, 15 May 2014 00:00:15 +0000
+Thu, 15 May 2014 20:50:37 +0000
 README.rdoc	Fri, 09 May 2014 20:16:04 +0000
 lib/rubyXL.rb	Tue, 13 May 2014 18:43:01 +0000
 lib/rubyXL/cell.rb	Fri, 09 May 2014 20:16:04 +0000
@@ -32,4 +32,4 @@ lib/rubyXL/objects/workbook.rb	Tue, 13 May 2014 18:43:01 +0000
 lib/rubyXL/objects/worksheet.rb	Tue, 13 May 2014 18:43:01 +0000
 lib/rubyXL/parser.rb	Tue, 13 May 2014 18:43:01 +0000
 lib/rubyXL/workbook.rb	Wed, 14 May 2014 22:33:07 +0000
-lib/rubyXL/worksheet.rb	Wed, 14 May 2014 23:57:37 +0000
+lib/rubyXL/worksheet.rb	Thu, 15 May 2014 20:32:38 +0000
