@@ -48,22 +48,22 @@ describe RubyXL::Parser do
     it 'should parse a valid Excel xlsx or xlsm workbook correctly' do
       @workbook2 = RubyXL::Parser.parse(@file)
 
-      @workbook2.worksheets.size.should == @workbook.worksheets.size
+      expect(@workbook2.worksheets.size).to eq(@workbook.worksheets.size)
       @workbook2.worksheets.each_index { |i|
-        @workbook2[i].extract_data.should == @workbook[i].extract_data
+        expect(@workbook2[i].extract_data).to eq(@workbook[i].extract_data)
       }
     end
 
     it 'should cause an error if an xlsx or xlsm workbook is not passed' do
-      lambda {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.should raise_error
+      expect {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.to raise_error
     end
 
     it 'should not cause an error if an xlsx or xlsm workbook is not passed but the skip_filename_check option is used' do
       filename = @time_str
       FileUtils.cp(@file, filename)
       
-      lambda {@workbook2 = RubyXL::Parser.parse(filename)}.should raise_error
-      lambda {@workbook2 = RubyXL::Parser.parse(filename, :skip_filename_check => true)}.should_not raise_error
+      expect {@workbook2 = RubyXL::Parser.parse(filename)}.to raise_error
+      expect {@workbook2 = RubyXL::Parser.parse(filename, :skip_filename_check => true)}.not_to raise_error
 
       File.delete(filename)
     end
@@ -71,9 +71,9 @@ describe RubyXL::Parser do
     it 'should only read the data and not any of the styles (for the sake of speed) when passed true' do
       @workbook2 = RubyXL::Parser.parse(@file, :data_only => true)
 
-      @workbook2.worksheets.size.should == @workbook.worksheets.size
-      @workbook2[0].extract_data.should == @workbook[0].extract_data
-      @workbook2[0].extract_data.should == @workbook[0].extract_data
+      expect(@workbook2.worksheets.size).to eq(@workbook.worksheets.size)
+      expect(@workbook2[0].extract_data).to eq(@workbook[0].extract_data)
+      expect(@workbook2[0].extract_data).to eq(@workbook[0].extract_data)
     end
 
 =begin
@@ -86,27 +86,27 @@ describe RubyXL::Parser do
 
     it 'should unescape HTML entities properly' do
       @workbook2 = RubyXL::Parser.parse(@file)
-      @workbook2["Escape Test"][0][0].value.should == "&"
-      @workbook2["Escape Test"][0][1].value.should == "<"
-      @workbook2["Escape Test"][0][2].value.should == ">"
+      expect(@workbook2["Escape Test"][0][0].value).to eq("&")
+      expect(@workbook2["Escape Test"][0][1].value).to eq("<")
+      expect(@workbook2["Escape Test"][0][2].value).to eq(">")
 
-      @workbook2["Escape Test"][1][0].value.should == "&"
-      @workbook2["Escape Test"][1][1].value.should == "<"
-      @workbook2["Escape Test"][1][2].value.should == ">"
+      expect(@workbook2["Escape Test"][1][0].value).to eq("&")
+      expect(@workbook2["Escape Test"][1][1].value).to eq("<")
+      expect(@workbook2["Escape Test"][1][2].value).to eq(">")
     end
 
     it 'should parse Core properties correctly' do
       @workbook2 = RubyXL::Parser.parse(@file)
-      @workbook2.creator.should == "test creator"
-      @workbook2.modifier.should == "test modifier"
-      @workbook2.created_at.should == @time
-      @workbook2.modified_at.should == @time2
+      expect(@workbook2.creator).to eq("test creator")
+      expect(@workbook2.modifier).to eq("test modifier")
+      expect(@workbook2.created_at).to eq(@time)
+      expect(@workbook2.modified_at).to eq(@time2)
     end
 
     it 'should trim excessively long sheet names on save' do
       @workbook2 = RubyXL::Parser.parse(@file)
-      @workbook2[@test_sheet_name].should be_nil
-      @workbook2[@test_sheet_name[0..30]].should_not be_nil
+      expect(@workbook2[@test_sheet_name]).to be_nil
+      expect(@workbook2[@test_sheet_name[0..30]]).not_to be_nil
     end
 
   end
