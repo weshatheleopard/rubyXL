@@ -48,9 +48,9 @@ describe RubyXL::Worksheet do
 
   describe '.change_row_fill' do
     it 'should raise error if hex color code not passed' do
-  	  expect {
-  	    @worksheet.change_row_fill(0, 'G')
-  	  }.to raise_error
+      expect {
+        @worksheet.change_row_fill(0, 'G')
+      }.to raise_error
     end
 
     it 'should raise error if hex color code includes # character' do
@@ -135,9 +135,9 @@ describe RubyXL::Worksheet do
     end
 
     it 'should raise error if hex color code not passed' do
-  	  expect {
-  	    @worksheet.change_row_font_color(0, 'G')
-  	  }.to raise_error
+      expect {
+        @worksheet.change_row_font_color(0, 'G')
+      }.to raise_error
     end
 
     it 'should raise error if hex color code includes # character' do
@@ -162,7 +162,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_row_italics' do
     it 'should make row and cell fonts italicized when true is passed' do
-      @worksheet.change_row_italics(0,true)
+      @worksheet.change_row_italics(0, true)
       expect(@worksheet.is_row_italicized(0)).to eq(true)
       expect(@worksheet[0][5].is_italicized).to eq(true)
     end
@@ -183,7 +183,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_row_bold' do
     it 'should make row and cell fonts bolded when true is passed' do
-      @worksheet.change_row_bold(0,true)
+      @worksheet.change_row_bold(0, true)
       expect(@worksheet.is_row_bolded(0)).to eq(true)
       expect(@worksheet[0][5].is_bolded).to eq(true)
     end
@@ -204,7 +204,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_row_underline' do
     it 'should make row and cell fonts underlined when true is passed' do
-      @worksheet.change_row_underline(0,true)
+      @worksheet.change_row_underline(0, true)
       expect(@worksheet.is_row_underlined(0)).to eq(true)
       expect(@worksheet[0][5].is_underlined).to eq(true)
     end
@@ -225,7 +225,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_row_strikethrough' do
     it 'should make row and cell fonts struckthrough when true is passed' do
-      @worksheet.change_row_strikethrough(0,true)
+      @worksheet.change_row_strikethrough(0, true)
       expect(@worksheet.is_row_struckthrough(0)).to eq(true)
       expect(@worksheet[0][5].is_struckthrough).to eq(true)
     end
@@ -479,9 +479,9 @@ describe RubyXL::Worksheet do
     end
 
     it 'should raise error if hex color code not passed' do
-  	  expect {
-  	    @worksheet.change_column_font_color(0, 'G')
-  	  }.to raise_error
+      expect {
+        @worksheet.change_column_font_color(0, 'G')
+      }.to raise_error
     end
 
     it 'should raise error if hex color code includes # character' do
@@ -506,7 +506,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_column_italics' do
     it 'should make column and cell fonts italicized when true is passed' do
-      @worksheet.change_column_italics(0,true)
+      @worksheet.change_column_italics(0, true)
       expect(@worksheet.is_column_italicized(0)).to eq(true)
       expect(@worksheet[5][0].is_italicized).to eq(true)
     end
@@ -527,7 +527,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_column_bold' do
     it 'should make column and cell fonts bolded when true is passed' do
-      @worksheet.change_column_bold(0,true)
+      @worksheet.change_column_bold(0, true)
       expect(@worksheet.is_column_bolded(0)).to eq(true)
       expect(@worksheet[5][0].is_bolded).to eq(true)
     end
@@ -548,7 +548,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_column_underline' do
     it 'should make column and cell fonts underlined when true is passed' do
-      @worksheet.change_column_underline(0,true)
+      @worksheet.change_column_underline(0, true)
       expect(@worksheet.is_column_underlined(0)).to eq(true)
       expect(@worksheet[5][0].is_underlined).to eq(true)
     end
@@ -569,7 +569,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_column_strikethrough' do
     it 'should make column and cell fonts struckthrough when true is passed' do
-      @worksheet.change_column_strikethrough(0,true)
+      @worksheet.change_column_strikethrough(0, true)
       expect(@worksheet.is_column_struckthrough(0)).to eq(true)
       expect(@worksheet[5][0].is_struckthrough).to eq(true)
     end
@@ -588,7 +588,7 @@ describe RubyXL::Worksheet do
     end
   end
 
-  describe '.change_column_width' do
+  describe '.change_column_width_raw' do
     it 'should make column width match number which is passed' do
       @worksheet.change_column_width_raw(0, 30.0002)
       expect(@worksheet.get_column_width_raw(0)).to eq(30.0002)
@@ -596,23 +596,23 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_width(-1,10)
+        @worksheet.change_column_width_raw(-1, 10)
       }.to raise_error
     end
 
     it 'should expand matrix to fit argument if nonnegative'do
       expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_width(11,30)
-      expect(@worksheet.get_column_width(11)).to eq(30)
+      @worksheet.change_column_width_raw(11, 30)
+      expect(@worksheet.get_column_width_raw(11)).to eq(30)
       expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
   describe '.change_column_fill' do
     it 'should raise error if hex color code not passed' do
-  	  expect {
-  	    @worksheet.change_column_fill(0, 'G')
-  	  }.to raise_error
+      expect {
+        @worksheet.change_column_fill(0, 'G')
+      }.to raise_error
     end
 
     it 'should raise error if hex color code includes # character' do
@@ -621,13 +621,13 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-  	it 'should make column and cell fill colors equal hex color code passed' do
-  	  @worksheet.change_column_fill(0, '111111')
+    it 'should make column and cell fill colors equal hex color code passed' do
+      @worksheet.change_column_fill(0, '111111')
       expect(@worksheet.get_column_fill(0)).to eq('111111')
       expect(@worksheet[5][0].fill_color).to eq('111111')
-  	end
+    end
 
-  	it 'should cause error if a negative argument is passed in' do
+    it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_fill(-1,'111111')
       }.to raise_error
@@ -664,14 +664,14 @@ describe RubyXL::Worksheet do
 
   describe '.change_column_vertical_alignment' do
     it 'should cause column and cell to vertically align as specified by the passed in string' do
-      @worksheet.change_column_vertical_alignment(0,'center')
+      @worksheet.change_column_vertical_alignment(0, 'center')
       expect(@worksheet.get_column_vertical_alignment(0)).to eq('center')
       expect(@worksheet[5][0].vertical_alignment).to eq('center')
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_vertical_alignment(-1,'center')
+        @worksheet.change_column_vertical_alignment(-1, 'center')
       }.to raise_error
     end
 
@@ -680,6 +680,17 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_vertical_alignment(11,'center')
       expect(@worksheet.get_column_vertical_alignment(11)).to eq('center')
       expect(@worksheet.sheet_data[0].size).to eq(12)
+    end
+
+    it 'should set column width if column alignment is changed' do
+      test_column = 2
+      expect(@worksheet.get_column_vertical_alignment(test_column)).to be_nil
+      expect(@worksheet.get_column_width_raw(test_column)).to be_nil
+      expect(@worksheet.get_column_width(test_column)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
+      @worksheet.change_column_vertical_alignment(test_column, 'top')
+      expect(@worksheet.get_column_width_raw(test_column)).not_to be_nil
+      expect(@worksheet.get_column_width(test_column)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
+      expect(@worksheet.get_column_vertical_alignment(test_column)).to eq('top')
     end
   end
 
@@ -845,7 +856,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should preserve (rather than fix) formulas that reference cells in "pushed up" rows' do
-      @worksheet.add_cell(11,0,nil,'SUM(A1:A10)')
+      @worksheet.add_cell(11, 0, nil, 'SUM(A1:A10)')
       @worksheet.delete_row(0)
       expect(@worksheet[10][0].formula.expression).to eq('SUM(A1:A10)')
     end
@@ -1076,7 +1087,7 @@ describe RubyXL::Worksheet do
 
   describe '.is_row_italicized' do
     it 'should correctly return whether row is italicized' do
-      @worksheet.change_row_italics(0,true)
+      @worksheet.change_row_italics(0, true)
       expect(@worksheet.is_row_italicized(0)).to eq(true)
     end
 
@@ -1087,7 +1098,7 @@ describe RubyXL::Worksheet do
 
   describe '.is_row_bolded' do
     it 'should correctly return whether row is bolded' do
-      @worksheet.change_row_bold(0,true)
+      @worksheet.change_row_bold(0, true)
       expect(@worksheet.is_row_bolded(0)).to eq(true)
     end
 
@@ -1098,7 +1109,7 @@ describe RubyXL::Worksheet do
 
   describe '.is_row_underlined' do
     it 'should correctly return whether row is underlined' do
-      @worksheet.change_row_underline(0,true)
+      @worksheet.change_row_underline(0, true)
       expect(@worksheet.is_row_underlined(0)).to eq(true)
     end
 
@@ -1109,7 +1120,7 @@ describe RubyXL::Worksheet do
 
   describe '.is_row_struckthrough' do
     it 'should correctly return whether row is struckthrough' do
-      @worksheet.change_row_strikethrough(0,true)
+      @worksheet.change_row_strikethrough(0, true)
       expect(@worksheet.is_row_struckthrough(0)).to eq(true)
     end
 
@@ -1305,299 +1316,320 @@ describe RubyXL::Worksheet do
   end
 
   describe '.get_column_font_size' do
-     it 'should correctly reflect font size for column' do
-       @worksheet.change_column_font_size(0,30)
-      expect(@worksheet.get_column_font_size(0)).to eq(30)
-     end
+    it 'should correctly reflect font size for column' do
+      @worksheet.change_column_font_size(0,30)
+     expect(@worksheet.get_column_font_size(0)).to eq(30)
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_font_size(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_font_size(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       expect(@worksheet.get_column_font_size(11)).to be_nil
-     end
-   end
+    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.get_column_font_size(11)).to be_nil
+    end
+  end
 
-   describe '.get_column_font_color' do
-     it 'should correctly reflect font color for column' do
-       @worksheet.change_column_font_color(0,'0f0f0f')
-      expect(@worksheet.get_column_font_color(0)).to eq('0f0f0f')
-     end
+  describe '.get_column_font_color' do
+    it 'should correctly reflect font color for column' do
+      @worksheet.change_column_font_color(0,'0f0f0f')
+     expect(@worksheet.get_column_font_color(0)).to eq('0f0f0f')
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_font_color(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_font_color(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       expect(@worksheet.get_column_font_color(11)).to be_nil
-     end
+    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.get_column_font_color(11)).to be_nil
+    end
 
-     it 'should return black (000000) if no rgb font color is specified' do
-       expect(@worksheet.get_column_font_color(0)).to eq('000000')
-     end
-   end
+    it 'should return black (000000) if no rgb font color is specified' do
+      expect(@worksheet.get_column_font_color(0)).to eq('000000')
+    end
+  end
 
-   describe '.is_column_italicized' do
-     it 'should correctly return whether column is italicized' do
-       @worksheet.change_column_italics(0,true)
-      expect(@worksheet.is_column_italicized(0)).to eq(true)
-     end
+  describe '.is_column_italicized' do
+    it 'should correctly return whether column is italicized' do
+      @worksheet.change_column_italics(0, true)
+     expect(@worksheet.is_column_italicized(0)).to eq(true)
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.is_column_italicized(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.is_column_italicized(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       expect(@worksheet.is_column_italicized(11)).to be_nil
-     end
-   end
+    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.is_column_italicized(11)).to be_nil
+    end
+  end
 
-   describe '.is_column_bolded' do
-     it 'should correctly return whether column is bolded' do
-       @worksheet.change_column_bold(0,true)
-      expect(@worksheet.is_column_bolded(0)).to eq(true)
-     end
+  describe '.is_column_bolded' do
+    it 'should correctly return whether column is bolded' do
+      @worksheet.change_column_bold(0, true)
+     expect(@worksheet.is_column_bolded(0)).to eq(true)
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.is_column_bolded(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.is_column_bolded(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       expect(@worksheet.is_column_bolded(11)).to be_nil
-     end
-   end
+    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.is_column_bolded(11)).to be_nil
+    end
+  end
 
-   describe '.is_column_underlined' do
-     it 'should correctly return whether column is underlined' do
-       @worksheet.change_column_underline(0,true)
-      expect(@worksheet.is_column_underlined(0)).to eq(true)
-     end
+  describe '.is_column_underlined' do
+    it 'should correctly return whether column is underlined' do
+      @worksheet.change_column_underline(0, true)
+     expect(@worksheet.is_column_underlined(0)).to eq(true)
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.is_column_underlined(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.is_column_underlined(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       expect(@worksheet.is_column_underlined(11)).to be_nil
-     end
-   end
+    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.is_column_underlined(11)).to be_nil
+    end
+  end
 
-   describe '.is_column_struckthrough' do
-     it 'should correctly return whether column is struckthrough' do
-       @worksheet.change_column_strikethrough(0,true)
-      expect(@worksheet.is_column_struckthrough(0)).to eq(true)
-     end
+  describe '.is_column_struckthrough' do
+    it 'should correctly return whether column is struckthrough' do
+      @worksheet.change_column_strikethrough(0, true)
+     expect(@worksheet.is_column_struckthrough(0)).to eq(true)
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.is_column_struckthrough(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.is_column_struckthrough(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-       expect(@worksheet.is_column_struckthrough(11)).to be_nil
-     end
-   end
+    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.is_column_struckthrough(11)).to be_nil
+    end
+  end
 
-   describe '.get_column_width' do
-     it 'should return 10 (base column width) if no width specified for column' do
-       expect(@worksheet.get_column_width(0)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
-     end
+  describe '.get_column_width_raw' do
+    it 'should return nil if no width specified for column' do
+      expect(@worksheet.get_column_width_raw(0)).to be_nil
+    end
 
-     it 'should correctly reflect width if specified for column' do
-       @worksheet.change_column_width(0, 30)
-       expect(@worksheet.get_column_width(0)).to eq(30)
-     end
+    it 'should correctly reflect width if specified for column' do
+      @worksheet.change_column_width_raw(0, 30.123)
+      expect(@worksheet.get_column_width_raw(0)).to eq(30.123)
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_width_raw(11)).to be_nil
-     end
+    it 'should return nil for a column that does not exist' do
+      expect(@worksheet.get_column_width_raw(11)).to be_nil
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_width(-1)
-       }.to raise_error
-     end
-   end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_width_raw(-1)
+      }.to raise_error
+    end
+  end
 
-   describe '.get_column_fill' do
-     it 'should return white (ffffff) if no fill color specified for column' do
-       expect(@worksheet.get_column_fill(0)).to eq('ffffff')
-     end
+  describe '.get_column_width' do
+    it 'should return default width if no width specified for column' do
+      expect(@worksheet.get_column_width(0)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
+    end
 
-     it 'should correctly reflect fill color if specified for column' do
-       @worksheet.change_column_fill(0, '000000')
-      expect(@worksheet.get_column_fill(0)).to eq('000000')
-     end
+    it 'should correctly reflect width if specified for column' do
+      @worksheet.change_column_width(0, 15)
+      expect(@worksheet.get_column_width(0)).to eq(15)
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_fill(11)).to be_nil
-     end
+    it 'should return default width for a column that does not exist' do
+      expect(@worksheet.get_column_width(11)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_fill(-1)
-       }.to raise_error
-     end
-   end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_width(-1)
+      }.to raise_error
+    end
+  end
 
-   describe '.get_column_horizontal_alignment' do
-     it 'should return nil if no alignment specified for column' do
-       expect(@worksheet.get_column_horizontal_alignment(0)).to be_nil
-     end
+  describe '.get_column_fill' do
+    it 'should return white (ffffff) if no fill color specified for column' do
+      expect(@worksheet.get_column_fill(0)).to eq('ffffff')
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_horizontal_alignment(11)).to be_nil
-     end
+    it 'should correctly reflect fill color if specified for column' do
+      @worksheet.change_column_fill(0, '000000')
+     expect(@worksheet.get_column_fill(0)).to eq('000000')
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_horizontal_alignment(-1)
-       }.to raise_error
-     end
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_fill(11)).to be_nil
+    end
 
-     it 'should return correct horizontal alignment if it is set for that column' do
-       @worksheet.change_column_horizontal_alignment(0, 'center')
-       expect(@worksheet.get_column_horizontal_alignment(0)).to eq('center')
-     end
-   end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_fill(-1)
+      }.to raise_error
+    end
+  end
 
-   describe '.get_column_vertical_alignment' do
-     it 'should return nil if no alignment specified for column' do
-       expect(@worksheet.get_column_vertical_alignment(0)).to be_nil
-     end
+  describe '.get_column_horizontal_alignment' do
+    it 'should return nil if no alignment specified for column' do
+      expect(@worksheet.get_column_horizontal_alignment(0)).to be_nil
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_vertical_alignment(11)).to be_nil
-     end
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_horizontal_alignment(11)).to be_nil
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_vertical_alignment(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_horizontal_alignment(-1)
+      }.to raise_error
+    end
 
-     it 'should return correct vertical alignment if it is set for that column' do
-       @worksheet.change_column_vertical_alignment(0, 'center')
-       expect(@worksheet.get_column_vertical_alignment(0)).to eq('center')
-     end
-   end
+    it 'should return correct horizontal alignment if it is set for that column' do
+      @worksheet.change_column_horizontal_alignment(0, 'center')
+      expect(@worksheet.get_column_horizontal_alignment(0)).to eq('center')
+    end
+  end
 
-   describe '.get_column_border_top' do
-     it 'should return nil if no border is specified for that column in that direction' do
-       expect(@worksheet.get_column_border_top(0)).to be_nil
-     end
+  describe '.get_column_vertical_alignment' do
+    it 'should return nil if no alignment specified for column' do
+      expect(@worksheet.get_column_vertical_alignment(0)).to be_nil
+    end
 
-     it 'should return type of border that this column has on top' do
-       @worksheet.change_column_border_top(0,'thin')
-      expect(@worksheet.get_column_border_top(0)).to eq('thin')
-     end
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_vertical_alignment(11)).to be_nil
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_border_top(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_vertical_alignment(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_border_top(11)).to be_nil
-     end
-   end
+    it 'should return correct vertical alignment if it is set for that column' do
+      @worksheet.change_column_vertical_alignment(0, 'center')
+      expect(@worksheet.get_column_vertical_alignment(0)).to eq('center')
+    end
+  end
 
-   describe '.get_column_border_left' do
-     it 'should return nil if no border is specified for that column in that direction' do
-       expect(@worksheet.get_column_border_left(0)).to be_nil
-     end
+  describe '.get_column_border_top' do
+    it 'should return nil if no border is specified for that column in that direction' do
+      expect(@worksheet.get_column_border_top(0)).to be_nil
+    end
 
-     it 'should return type of border that this column has on left' do
-       @worksheet.change_column_border_left(0,'thin')
-      expect(@worksheet.get_column_border_left(0)).to eq('thin')
-     end
+    it 'should return type of border that this column has on top' do
+      @worksheet.change_column_border_top(0,'thin')
+     expect(@worksheet.get_column_border_top(0)).to eq('thin')
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_border_left(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_border_top(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_border_left(11)).to be_nil
-     end
-   end
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_border_top(11)).to be_nil
+    end
+  end
 
-   describe '.get_column_border_right' do
-     it 'should return nil if no border is specified for that column in that direction' do
-       expect(@worksheet.get_column_border_right(0)).to be_nil
-     end
+  describe '.get_column_border_left' do
+    it 'should return nil if no border is specified for that column in that direction' do
+      expect(@worksheet.get_column_border_left(0)).to be_nil
+    end
 
-     it 'should return type of border that this column has on right' do
-       @worksheet.change_column_border_right(0,'thin')
-      expect(@worksheet.get_column_border_right(0)).to eq('thin')
-     end
+    it 'should return type of border that this column has on left' do
+      @worksheet.change_column_border_left(0,'thin')
+     expect(@worksheet.get_column_border_left(0)).to eq('thin')
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_border_right(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_border_left(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_border_right(11)).to be_nil
-     end
-   end
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_border_left(11)).to be_nil
+    end
+  end
 
-   describe '.get_column_border_bottom' do
-     it 'should return nil if no border is specified for that column in that direction' do
-       expect(@worksheet.get_column_border_bottom(0)).to be_nil
-     end
+  describe '.get_column_border_right' do
+    it 'should return nil if no border is specified for that column in that direction' do
+      expect(@worksheet.get_column_border_right(0)).to be_nil
+    end
 
-     it 'should return type of border that this column has on bottom' do
-       @worksheet.change_column_border_bottom(0,'thin')
-      expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
-     end
+    it 'should return type of border that this column has on right' do
+      @worksheet.change_column_border_right(0,'thin')
+     expect(@worksheet.get_column_border_right(0)).to eq('thin')
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_border_bottom(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_border_right(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_border_bottom(11)).to be_nil
-     end
-   end
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_border_right(11)).to be_nil
+    end
+  end
 
-   describe '.get_column_border_diagonal' do
-     it 'should return nil if no border is specified for that column in that direction' do
-       expect(@worksheet.get_column_border_diagonal(0)).to be_nil
-     end
+  describe '.get_column_border_bottom' do
+    it 'should return nil if no border is specified for that column in that direction' do
+      expect(@worksheet.get_column_border_bottom(0)).to be_nil
+    end
 
-     it 'should return type of border that this column has on diagonal' do
-       @worksheet.change_column_border_diagonal(0,'thin')
-      expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
-     end
+    it 'should return type of border that this column has on bottom' do
+      @worksheet.change_column_border_bottom(0,'thin')
+     expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
+    end
 
-     it 'should cause error if a negative argument is passed in' do
-       expect {
-         @worksheet.get_column_border_diagonal(-1)
-       }.to raise_error
-     end
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_border_bottom(-1)
+      }.to raise_error
+    end
 
-     it 'should return nil if a column which does not exist is passed in' do
-       expect(@worksheet.get_column_border_diagonal(11)).to be_nil
-     end
-   end
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_border_bottom(11)).to be_nil
+    end
+  end
+
+  describe '.get_column_border_diagonal' do
+    it 'should return nil if no border is specified for that column in that direction' do
+      expect(@worksheet.get_column_border_diagonal(0)).to be_nil
+    end
+
+    it 'should return type of border that this column has on diagonal' do
+      @worksheet.change_column_border_diagonal(0,'thin')
+     expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
+    end
+
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_column_border_diagonal(-1)
+      }.to raise_error
+    end
+
+    it 'should return nil if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_border_diagonal(11)).to be_nil
+    end
+  end
 
 
   describe '@column_range' do

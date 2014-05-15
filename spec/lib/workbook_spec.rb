@@ -17,29 +17,30 @@ describe RubyXL::Workbook do
 
   describe '.new' do
     it 'should automatically create a blank worksheet named "Sheet1"' do
+      expect(@workbook[0]).not_to be_nil
       expect(@workbook[0].sheet_name).to eq('Sheet1')
     end
   end
 
   describe '[]' do
     it 'should properly locate worksheet by index' do
+      expect(@workbook[1]).not_to be_nil
       expect(@workbook[1].sheet_name).to eq('Test Worksheet')
     end
 
     it 'should properly locate worksheet by name' do
+      expect(@workbook['Test Worksheet']).not_to be_nil
       expect(@workbook['Test Worksheet'].sheet_name).to eq('Test Worksheet')
     end
   end
 
   describe '.add_worksheet' do
     it 'when not given a name, it should automatically pick a name "SheetX" that is not taken yet' do
+      expect(@workbook['Sheet2']).to be_nil
       @workbook.add_worksheet
+      expect(@workbook['Sheet2']).not_to be_nil
       expect(@workbook['Sheet2'].sheet_name).to eq('Sheet2')
     end
-  end
-
-  describe '.write' do
-    #method not conducive to unit tests
   end
 
   describe '.get_fill_color' do
