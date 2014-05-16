@@ -23,7 +23,7 @@ module LegacyWorksheet
   #returns 2d array of just the cell values (without style or formula information)
   def extract_data(args = {})
     sheet_data.rows.map { |row| 
-      row && row.cells.map { |c| c && c.value(args) }
+      row.cells.map { |c| c && c.value(args) } unless row.nil?
     }
   end
 
@@ -369,28 +369,33 @@ module LegacyWorksheet
   end
 
   # Inserts row at row_index, pushes down, copies style from the row above (that's what Excel 2013 does!)
-  #USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
+  # NOTE: use of this method will break formulas which reference cells which are being "pushed down"
   def insert_row(row_index = 0)
     validate_workbook
     ensure_cell_exists(row_index)
 
-    if row_index == 0 then
-      old_row = nil
-      new_cells = Array.new(sheet_data.rows[0].cells.size)
-    else
-      old_row = sheet_data.rows[row_index - 1] 
-      new_cells = old_row.cells.collect { |c| 
-                                          if c.nil? then nil
-                                          else RubyXL::Cell.new(:style_index => c.style_index)
-                                          end }
+    old_row = new_cells = nil
+
+    if row_index > 0 then
+      old_row = sheet_data.rows[row_index - 1]
+      if old_row then
+        new_cells = old_row.cells.collect { |c| 
+                                            if c.nil? then nil
+                                            else RubyXL::Cell.new(:style_index => c.style_index)
+                                            end }
+      end
     end
+
+    row0 = sheet_data.rows[0]
+    new_cells ||= Array.new((row0 && row0.cells.size) || 0)
 
     sheet_data.rows.insert(row_index, nil)
     new_row = add_row(row_index, :cells => new_cells, :style_index => old_row && old_row.style_index)
 
-    #update row value for all rows below
+    # Update row values for all rows below
     row_index.upto(sheet_data.rows.size - 1) { |i|
       row = sheet_data.rows[i]
+      next if row.nil?
       row.cells.each { |c| c.row = i unless c.nil? }
     }
 
@@ -403,21 +408,20 @@ module LegacyWorksheet
 
     return nil unless column_exists(column_index)
 
-    #delete column
     sheet_data.rows.each { |row| row.cells.delete_at(column_index) }
 
-    #change column numbers for cells to right of deleted column
+    # Change column numbers for cells to the right of the deleted column
     sheet_data.rows.each_with_index { |row, row_index|
       row.cells.each_with_index { |c, column_index|
-        c.column -= 1 if c.is_a?(Cell)
+        c.column = column_index if c.is_a?(Cell)
       }
     }
 
     cols.column_ranges.each { |range| range.delete_column(column_index) }
   end
 
-  # inserts column at +column_index+, pushes everything right, takes styles from column to left
-  # USE OF THIS METHOD will break formulas which reference cells which are being "pushed down"
+  # Inserts column at +column_index+, pushes everything right, takes styles from column to left
+  # NOTE: use of this method will break formulas which reference cells which are being "pushed right"
   def insert_column(column_index = 0)
     validate_workbook
     ensure_cell_exists(0, column_index)
@@ -816,7 +820,7 @@ module LegacyWorksheet
     # with lower indices, filling them with +nil+s. But, we can't just write +nil+
     # to +column_index+ because it may be less than +size+! So we read from that index
     # (if it didn't exist, we will get nil) and write right back.
-    sheet_data.rows.each { |r| r.cells[column_index] = r.cells[column_index] }
+    sheet_data.rows.each { |r| r.cells[column_index] = r.cells[column_index] unless r.nil? }
 
     first_row = sheet_data.rows.first
     col_size = [ first_row && first_row.cells.size || 0, column_index ].max
