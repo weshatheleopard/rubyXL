@@ -391,7 +391,9 @@ module LegacyWorksheet
     #update row value for all rows below
     row_index.upto(sheet_data.rows.size - 1) { |i|
       row = sheet_data.rows[i]
-      row.cells.each { |c| c.row = i unless c.nil? }
+      if row
+        row.cells.each { |c| c.row = i unless c.nil? }
+      end
     }
 
     return new_row
@@ -816,7 +818,11 @@ module LegacyWorksheet
     # with lower indices, filling them with +nil+s. But, we can't just write +nil+
     # to +column_index+ because it may be less than +size+! So we read from that index
     # (if it didn't exist, we will get nil) and write right back.
-    sheet_data.rows.each { |r| r.cells[column_index] = r.cells[column_index] }
+    sheet_data.rows.each do |r|
+      if r
+        r.cells[column_index] = r.cells[column_index] 
+      end
+    end
 
     first_row = sheet_data.rows.first
     col_size = [ first_row && first_row.cells.size || 0, column_index ].max
