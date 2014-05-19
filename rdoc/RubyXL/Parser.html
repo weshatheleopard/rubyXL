@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Parser - rubyXL 2.5.5</title>
+<title>class RubyXL::Parser - rubyXL 2.5.6</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -128,18 +128,20 @@
 
         <div class="method-description">
           
-          <p><code>:data_only</code> allows only the sheet data to be parsed, so as to
-speed up parsing However, using this option will result in date-formatted
-cells being interpreted as numbers</p>
+          <p><code>keep_tempfiles_on_error</code> prevents temp files to be erased if
+exception was thrown during parsing. <code>:data_only</code> allows only
+the sheet data to be parsed, so as to speed up parsing. However, using this
+option will result in date-formatted cells being interpreted as numbers.</p>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 15</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">opts</span> = {})
   <span class="ruby-ivar">@data_only</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">TrueClass</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:data_only</span>]
   <span class="ruby-ivar">@skip_filename_check</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:skip_filename_check</span>]
+  <span class="ruby-ivar">@delete_tempfiles_on_error</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:keep_tempfiles_on_error</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -211,7 +213,7 @@ cells being interpreted as numbers</p>
 
           
           <div class="method-source-code" id="data_only-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 20</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">data_only</span>
   <span class="ruby-ivar">@data_only</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">self</span>
@@ -230,7 +232,7 @@ cells being interpreted as numbers</p>
         
         <div class="method-heading">
           <span class="method-name">parse</span><span
-            class="method-args">(xl_file_path, opts = {})</span>
+            class="method-args">(xl_file_path)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -245,91 +247,96 @@ cells being interpreted as numbers</p>
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 25</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-identifier">opts</span> = {})
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">xl_file_path</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Not .xlsx or .xlsm excel file&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@skip_filename_check</span> <span class="ruby-operator">||</span>
                                           <span class="ruby-node">%w{.xlsx .xlsm}</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">xl_file_path</span>))
 
   <span class="ruby-identifier">dir_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">xl_file_path</span>), <span class="ruby-constant">Dir</span><span class="ruby-operator">::</span><span class="ruby-constant">Tmpname</span>.<span class="ruby-identifier">make_tmpname</span>([<span class="ruby-string">&#39;rubyXL&#39;</span>, <span class="ruby-string">&#39;.tmp&#39;</span>], <span class="ruby-keyword">nil</span>))
+  <span class="ruby-identifier">parse_success</span> = <span class="ruby-keyword">false</span>
 
-  <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">fpath</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>)
-      <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">fpath</span>))
-      <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">extract</span>(<span class="ruby-identifier">f</span>, <span class="ruby-identifier">fpath</span>) <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">fpath</span>)
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">fpath</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>)
+        <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">fpath</span>))
+        <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">extract</span>(<span class="ruby-identifier">f</span>, <span class="ruby-identifier">fpath</span>) <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">fpath</span>)
+      }
     }
-  }
 
-  <span class="ruby-identifier">wb</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Workbook</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">filepath</span> = <span class="ruby-identifier">xl_file_path</span>
+    <span class="ruby-identifier">wb</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Workbook</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">filepath</span> = <span class="ruby-identifier">xl_file_path</span>
 
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRelationships</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">root_relationship_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RootRelationships</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">shared_strings_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">SharedStringsTable</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRelationships</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">root_relationship_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RootRelationships</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">shared_strings_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">SharedStringsTable</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
 
-  <span class="ruby-comment"># We must always load the stylesheet because it tells us which values are actually dates/times.</span>
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">stylesheet</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Stylesheet</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+    <span class="ruby-comment"># We must always load the stylesheet because it tells us which values are actually dates/times.</span>
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">stylesheet</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Stylesheet</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
 
-  <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@data_only</span>
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">media</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">external_links_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">drawings</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">drawings_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">charts</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">chart_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">printer_settings</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">worksheet_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">chartsheet_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">macros</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;vbaProject.bin&#39;</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">thumbnail</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;thumbnail.jpeg&#39;</span>)
+    <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@data_only</span>
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">media</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">external_links</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">external_links_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">drawings</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">drawings_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">charts</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">chart_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">printer_settings</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">worksheet_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">chartsheet_rels</span>.<span class="ruby-identifier">load_dir</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">macros</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;vbaProject.bin&#39;</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">thumbnail</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;thumbnail.jpeg&#39;</span>)
 
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">theme</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Theme</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">core_properties</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CoreProperties</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">document_properties</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DocumentProperties</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">calculation_chain</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CalculationChain</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">theme</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Theme</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">core_properties</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CoreProperties</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">document_properties</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DocumentProperties</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">calculation_chain</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CalculationChain</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dir_path</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment">#fills out count information for each font, fill, and border</span>
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">style</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">font_id</span>
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
+
+      <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">fill_id</span>
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">fills</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
+
+      <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">border_id</span>
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
+    }
+
+    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">sheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">sheet_rel</span> = <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">find_by_rid</span>(<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">r_id</span>)
+
+      <span class="ruby-comment"># Making sure that the file will be automatically closed immediately after it has been read</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-identifier">sheet_rel</span>.<span class="ruby-identifier">target</span>)) { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet_file</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">case</span> <span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-identifier">basename</span>(<span class="ruby-identifier">sheet_rel</span>.<span class="ruby-identifier">type</span>)
+        <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;worksheet&#39;</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Worksheet</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">sheet_file</span>)
+          <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+            <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">nil?</span>
+            <span class="ruby-identifier">r</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet</span>
+            <span class="ruby-identifier">r</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet_obj</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
+          }
+        <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;chartsheet&#39;</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Chartsheet</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">sheet_file</span>)
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-identifier">wb</span>
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">name</span>
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_id</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_id</span>
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">state</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">state</span>
+
+        <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">worksheets</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">sheet_obj</span>
+      }
+    }
+
+    <span class="ruby-identifier">parse_success</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">ensure</span>
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">remove_entry_secure</span>(<span class="ruby-identifier">dir_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">parse_success</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@delete_tempfiles_on_error</span>
   <span class="ruby-keyword">end</span>
-
-  <span class="ruby-comment">#fills out count information for each font, fill, and border</span>
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">style</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">font_id</span>
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
-
-    <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">fill_id</span>
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">fills</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
-
-    <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">border_id</span>
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
-  }
-
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">sheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">sheet_rel</span> = <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">find_by_rid</span>(<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">r_id</span>)
-
-    <span class="ruby-comment"># Making sure that the file will be automatically closed immediately after it has been read</span>
-    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-identifier">sheet_rel</span>.<span class="ruby-identifier">target</span>)) { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet_file</span><span class="ruby-operator">|</span>
-      <span class="ruby-keyword">case</span> <span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-identifier">basename</span>(<span class="ruby-identifier">sheet_rel</span>.<span class="ruby-identifier">type</span>)
-      <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;worksheet&#39;</span> <span class="ruby-keyword">then</span>
-        <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Worksheet</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">sheet_file</span>)
-        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
-          <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">nil?</span>
-          <span class="ruby-identifier">r</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet</span>
-          <span class="ruby-identifier">r</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet_obj</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
-        }
-      <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;chartsheet&#39;</span> <span class="ruby-keyword">then</span>
-        <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Chartsheet</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">sheet_file</span>)
-      <span class="ruby-keyword">end</span>
-
-      <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-identifier">wb</span>
-      <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">name</span>
-      <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_id</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_id</span>
-      <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">state</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">state</span>
-
-      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">worksheets</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">sheet_obj</span>
-    }
-  }
-
-  <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">remove_entry_secure</span>(<span class="ruby-identifier">dir_path</span>)
 
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">wb</span>
 <span class="ruby-keyword">end</span></pre>

@@ -813,6 +813,12 @@ describe RubyXL::Worksheet do
       expect(@worksheet[0][0].value).to eq('TEST')
     end
 
+    it 'should add a new cell below nil rows that might exist' do
+      @worksheet.sheet_data.rows << nil << nil
+      @worksheet.add_cell(15,0,'TEST')
+      expect(@worksheet[15][0].value).to eq('TEST')
+    end
+
     it 'should add new cell where specified with formula, even if a cell is already there (default)' do
       @worksheet.add_cell(0,0,'','SUM(A2:A10)')
       expect(@worksheet[0][0].value).not_to eq(@old_cell_value)
@@ -874,6 +880,13 @@ describe RubyXL::Worksheet do
       expect(@worksheet[0][0]).to be_nil
       expect(@worksheet[1][0].value).to eq(@old_cell_value)
       expect(@worksheet[1][0].formula).to eq(@old_cell_formula)
+    end
+
+    it 'should insert a row skipping nil rows that might exist' do
+      @worksheet.sheet_data.rows << nil << nil
+      rows = @worksheet.sheet_data.rows.size
+      @worksheet.insert_row(rows)
+      expect(@worksheet[rows - 1]).to be_nil
     end
 
     it 'should insert a row at index specified, copying styles from row "above"' do
