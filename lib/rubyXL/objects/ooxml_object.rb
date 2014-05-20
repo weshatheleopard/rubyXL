@@ -108,7 +108,7 @@ module RubyXL
       self.send(:attr_accessor, :count)
     end
 
-    def parse(node)
+    def parse(node, known_namespaces = nil)
       node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
 
       if node.is_a?(Nokogiri::XML::Document) then
@@ -140,16 +140,21 @@ module RubyXL
       known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
 
       unless known_child_nodes.empty?
+        known_namespaces ||= obtain_class_variable(:@@ooxml_namespaces)
+
         node.element_children.each { |child_node|
 
-          child_node_name = if child_node.namespace.prefix then
-                              "#{child_node.namespace.prefix}:#{child_node.name}"
-                            else child_node.name 
+          ns = child_node.namespace
+          prefix = known_namespaces[ns.href] || ns.prefix
+
+          child_node_name = case prefix
+                            when '', nil then child_node.name 
+                            else "#{prefix}:#{child_node.name}"
                             end
 
           child_node_params = known_child_nodes[child_node_name]
           raise "Unknown child node [#{child_node_name}] for element [#{node.name}]" if child_node_params.nil?
-          parsed_object = child_node_params[:class].parse(child_node)
+          parsed_object = child_node_params[:class].parse(child_node, known_namespaces)
           if child_node_params[:is_array] then
             index = parsed_object.index_in_collection
 
@@ -254,7 +259,9 @@ module RubyXL
 
       return '' unless before_write_xml
 
-      attrs = obtain_class_variable(:@@ooxml_namespaces).dup
+      # Populate namespaces, if any
+      attrs = {}
+      obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| attrs[v.empty? ? 'xmlns' : "xmlns:#{v}"] = k }
 
       obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
         val = self.send(v[:accessor])
@@ -400,8 +407,8 @@ module RubyXL
     # === Parameters
     # * +namespace_hash+ - Hash of namespaces in the form of <tt>"prefix" => "url"</tt>
     # ==== Examples
-    #   set_namespaces('xmlns'   => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-    #                  'xmlns:r' => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
+    #   set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
+    #                  'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
     def self.set_namespaces(namespace_hash)
       self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
     end

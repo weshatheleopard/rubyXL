@@ -16,7 +16,7 @@ module RubyXL
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
-    set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/package/2006/relationships')
+    set_namespaces('http://schemas.openxmlformats.org/package/2006/relationships' => '')
 
     def document_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
@@ -57,8 +57,8 @@ module RubyXL
         relationships << document_relationship("externalLinks/#{k}", 'externalLink')
       }
 
-      relationships << document_relationship('theme/theme1.xml', 'theme')
-      relationships << document_relationship('styles.xml', 'styles')
+      relationships << document_relationship('theme/theme1.xml', 'theme') if @workbook.theme
+      relationships << document_relationship('styles.xml', 'styles') if @workbook.stylesheet
 
       if @workbook.shared_strings_container && !@workbook.shared_strings_container.strings.empty? then
         relationships << document_relationship('sharedStrings.xml', 'sharedStrings') 
@@ -86,8 +86,8 @@ module RubyXL
 
       relationships << document_relationship('xl/workbook.xml',   'officeDocument')
       relationships << metadata_relationship('docProps/thumbnail.jpeg', 'thumbnail') unless @workbook.thumbnail.empty?
-      relationships << metadata_relationship('docProps/core.xml', 'core-properties')
-      relationships << document_relationship('docProps/app.xml',  'extended-properties')
+      relationships << metadata_relationship('docProps/core.xml', 'core-properties') if @workbook.core_properties 
+      relationships << document_relationship('docProps/app.xml',  'extended-properties') if @workbook.document_properties
 
       true
     end

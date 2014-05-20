@@ -6,7 +6,7 @@ module RubyXL
   class RawOOXML < OOXMLObject
     attr_accessor :raw_xml
 
-    def self.parse(node)
+    def self.parse(node, ignore)
       obj = new
       obj.raw_xml = node.to_xml
       obj

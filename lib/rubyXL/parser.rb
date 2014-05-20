@@ -71,23 +71,29 @@ module RubyXL
           wb.calculation_chain = RubyXL::CalculationChain.parse_file(dir_path)
         end
 
-        #fills out count information for each font, fill, and border
-        wb.cell_xfs.each { |style|
-          id = style.font_id
-          wb.fonts[id].count += 1 #unless id.nil?
+        if wb.stylesheet then
+          #fills out count information for each font, fill, and border
+          wb.cell_xfs.each { |style|
 
-          id = style.fill_id
-          wb.fills[id].count += 1 #unless id.nil?
+            id = style.font_id
+            wb.fonts[id].count += 1 #unless id.nil?
 
-          id = style.border_id
-          wb.borders[id].count += 1 #unless id.nil?
-        }
+            id = style.fill_id
+            wb.fills[id].count += 1 #unless id.nil?
+
+            id = style.border_id
+            wb.borders[id].count += 1 #unless id.nil?
+          }
+        end
 
         wb.sheets.each_with_index { |sheet, i|
           sheet_rel = wb.relationship_container.find_by_rid(sheet.r_id)
 
+          sheet_path = sheet_rel.target
+          sheet_path = File.join('xl', sheet_path) if sheet_path[0] != '/'
+
           # Making sure that the file will be automatically closed immediately after it has been read
-          File.open(File.join(dir_path, 'xl', sheet_rel.target)) { |sheet_file|
+          File.open(File.join(dir_path, sheet_path)) { |sheet_file|
             case File::basename(sheet_rel.type)
             when 'worksheet' then
               sheet_obj = RubyXL::Worksheet.parse(sheet_file)
