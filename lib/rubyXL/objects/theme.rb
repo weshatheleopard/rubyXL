@@ -10,7 +10,7 @@ module RubyXL
     define_element_name 'a:ext'
     attr_accessor :raw_xml
 
-    def self.parse(node)
+    def self.parse(node, ignore)
       obj = new
       obj.raw_xml = node.to_xml
       obj
@@ -1386,7 +1386,7 @@ module RubyXL
 
     define_element_name 'a:theme'
 
-    set_namespaces('xmlns:a' => 'http://schemas.openxmlformats.org/drawingml/2006/main')
+    set_namespaces('http://schemas.openxmlformats.org/drawingml/2006/main' => 'a')
 
     def self.xlsx_path
       File.join('xl', 'theme', 'theme1.xml')

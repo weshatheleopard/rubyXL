@@ -119,7 +119,6 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-
         self.rels_hash = {}
         content_types.overrides = []
         content_types.add_override(self)
@@ -131,7 +130,8 @@ module RubyXL
         }
 
         [ theme, stylesheet, shared_strings_container, calculation_chain, 
-          document_properties, core_properties ].compact.each { |obj| 
+          document_properties, core_properties ].compact.each { |obj|
+            next if obj.nil?
             content_types.add_override(obj)
             obj.add_to_zip(zipfile)
           }

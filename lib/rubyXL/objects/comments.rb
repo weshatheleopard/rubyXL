@@ -30,7 +30,7 @@ module RubyXL
     define_child_node(RubyXL::CommentList)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'comments'
-    set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '')
 
     attr_accessor :workbook
 

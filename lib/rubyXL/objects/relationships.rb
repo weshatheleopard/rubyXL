@@ -16,7 +16,7 @@ module RubyXL
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
-    set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/package/2006/relationships')
+    set_namespaces('http://schemas.openxmlformats.org/package/2006/relationships' => '')
 
     attr_accessor :related_files
 
@@ -62,7 +62,11 @@ module RubyXL
       self.related_files = {}
 
       self.relationships.each { |rel|
-        file_path = Pathname.new(File.join(File.dirname(base_file_name), rel.target)).cleanpath
+        file_path = Pathname.new(rel.target)
+
+        if !file_path.absolute? then
+          file_path = (Pathname.new(File.dirname(base_file_name)) + file_path).cleanpath
+        end
 
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
 
@@ -104,8 +108,8 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
         relationships << new_relationship("externalLinks/#{k}", 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink')
       }
 
-      relationships << new_relationship('theme/theme1.xml', @workbook.theme.class.rel_type)
-      relationships << new_relationship('styles.xml', @workbook.stylesheet.class.rel_type)
+      relationships << new_relationship('theme/theme1.xml', @workbook.theme.class.rel_type) if @workbook.theme
+      relationships << new_relationship('styles.xml', @workbook.stylesheet.class.rel_type) if @workbook.stylesheet
 
       if @workbook.shared_strings_container && !@workbook.shared_strings_container.strings.empty? then
         relationships << new_relationship('sharedStrings.xml', @workbook.shared_strings_container.class.rel_type)
@@ -133,8 +137,8 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
       relationships << new_relationship('xl/workbook.xml', @workbook.class.rel_type)
       relationships << metadata_relationship('docProps/thumbnail.jpeg', 'thumbnail') unless @workbook.thumbnail.empty?
-      relationships << new_relationship('docProps/core.xml',@workbook.core_properties.class.rel_type)
-      relationships << new_relationship('docProps/app.xml', RubyXL::DocumentProperties.rel_type)
+      relationships << new_relationship('docProps/core.xml',@workbook.core_properties.class.rel_type) if @workbook.core_properties 
+      relationships << new_relationship('docProps/app.xml', RubyXL::DocumentProperties.rel_type) if @workbook.document_properties
 
       true
     end

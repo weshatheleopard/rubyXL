@@ -65,17 +65,23 @@ module RubyXL
 
         end
 
-        #fills out count information for each font, fill, and border
-        wb.cell_xfs.each { |style|
-          id = style.font_id
-          wb.fonts[id].count += 1 #unless id.nil?
+        if wb.stylesheet then
+          #fills out count information for each font, fill, and border
+          wb.cell_xfs.each { |style|
 
-          id = style.fill_id
-          wb.fills[id].count += 1 #unless id.nil?
+            id = style.font_id
+            wb.fonts[id].count += 1 #unless id.nil?
 
-          id = style.border_id
-          wb.borders[id].count += 1 #unless id.nil?
-        }
+            id = style.fill_id
+            wb.fills[id].count += 1 #unless id.nil?
+
+            id = style.border_id
+            wb.borders[id].count += 1 #unless id.nil?
+          }
+        end
+
+#          sheet_path = sheet_rel.target
+#          sheet_path = File.join('xl', sheet_path) if sheet_path[0] != '/'
 
         parse_success = true
       ensure
