@@ -16,7 +16,7 @@ module RubyXL
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
-    set_namespaces('http://schemas.openxmlformats.org/package/2006/relationships' => nil)
+    set_namespaces('http://schemas.openxmlformats.org/package/2006/relationships' => '')
 
     def document_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 

@@ -145,12 +145,11 @@ module RubyXL
         node.element_children.each { |child_node|
 
           ns = child_node.namespace
-          prefix = ns.prefix
-          prefix = known_namespaces[ns.href] if prefix && known_namespaces.has_key?(ns.href)
+          prefix = known_namespaces[ns.href] || ns.prefix
 
-          child_node_name = if prefix then
-                              "#{prefix}:#{child_node.name}"
-                            else child_node.name 
+          child_node_name = case prefix
+                            when '', nil then child_node.name 
+                            else "#{prefix}:#{child_node.name}"
                             end
 
           child_node_params = known_child_nodes[child_node_name]
@@ -262,7 +261,7 @@ module RubyXL
 
       # Populate namespaces, if any
       attrs = {}
-      obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| attrs[v ? "xmlns:#{v}" : 'xmlns'] = k }
+      obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| attrs[v.empty? ? 'xmlns' : "xmlns:#{v}"] = k }
 
       obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
         val = self.send(v[:accessor])
@@ -408,7 +407,7 @@ module RubyXL
     # === Parameters
     # * +namespace_hash+ - Hash of namespaces in the form of <tt>"prefix" => "url"</tt>
     # ==== Examples
-    #   set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
+    #   set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
     #                  'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
     def self.set_namespaces(namespace_hash)
       self.class_variable_set(:@@ooxml_namespaces, namespace_hash)

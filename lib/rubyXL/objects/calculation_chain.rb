@@ -19,7 +19,7 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
 
     define_element_name 'calcChain'
-    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil)
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '')
 
     def self.xlsx_path
       File.join('xl', 'calcChain.xml')
