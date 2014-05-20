@@ -20,7 +20,7 @@ module RubyXL
     define_child_node(RubyXL::ContentTypeDefault,  :collection => true, :accessor => :defaults)
     define_child_node(RubyXL::ContentTypeOverride, :collection => true, :accessor => :overrides)
 
-    set_namespaces(:xmlns => 'http://schemas.openxmlformats.org/package/2006/content-types')
+    set_namespaces('http://schemas.openxmlformats.org/package/2006/content-types' => nil)
     define_element_name 'Types'
 
     def self.xlsx_path
@@ -51,12 +51,12 @@ module RubyXL
       self.overrides = []
       overrides << generate_override(workbook)
       workbook.worksheets.each { |sheet| overrides << generate_override(sheet) }
-      overrides << generate_override(workbook.stylesheet)
-      overrides << generate_override(workbook.document_properties)
-      overrides << generate_override(workbook.core_properties)
-      overrides << generate_override(workbook.shared_strings_container) unless workbook.shared_strings_container.empty?
+      overrides << generate_override(workbook.stylesheet) if workbook.stylesheet
+      overrides << generate_override(workbook.document_properties) if workbook.document_properties
+      overrides << generate_override(workbook.core_properties) if workbook.core_properties
+      overrides << generate_override(workbook.shared_strings_container) if workbook.shared_strings_container && !workbook.shared_strings_container.empty?
       overrides << generate_override(workbook.calculation_chain) unless workbook.calculation_chain.nil?
-      overrides << generate_override(workbook.theme)
+      overrides << generate_override(workbook.theme) if workbook.theme
 
       workbook.charts.each_pair { |k, v|
         case k

@@ -34,8 +34,8 @@ module RubyXL
     define_child_node(RubyXL::StringNode,  :node_name => :Application)
     define_child_node(RubyXL::StringNode,  :node_name => :AppVersion)
     define_child_node(RubyXL::IntegerNode, :node_name => :DocSecurity)
-    set_namespaces('xmlns'    => 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties',
-                   'xmlns:vt' => 'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes')
+    set_namespaces('http://schemas.openxmlformats.org/officeDocument/2006/extended-properties' => nil,
+                   'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes' => 'vt')
     define_element_name 'Properties'
 
     def add_parts_count(name, count)
@@ -98,11 +98,11 @@ module RubyXL
     define_child_node(RubyXL::StringNode,    :node_name => 'cp:revision')
     define_child_node(RubyXL::StringNode,    :node_name => 'cp:version')
 
-    set_namespaces('xmlns:cp'       => 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties',
-                   'xmlns:dc'       => 'http://purl.org/dc/elements/1.1/',
-                   'xmlns:dcterms'  => 'http://purl.org/dc/terms/',
-                   'xmlns:dcmitype' => 'http://purl.org/dc/dcmitype/',
-                   'xmlns:xsi'      => 'http://www.w3.org/2001/XMLSchema-instance')
+    set_namespaces('http://schemas.openxmlformats.org/package/2006/metadata/core-properties' => 'cp',
+                   'http://purl.org/dc/elements/1.1/' => 'dc',
+                   'http://purl.org/dc/terms/' => 'dcterms',
+                   'http://purl.org/dc/dcmitype/' => 'dcmitype',
+                   'http://www.w3.org/2001/XMLSchema-instance' => 'xsi')
     define_element_name 'cp:coreProperties'
 
     def self.xlsx_path

@@ -71,8 +71,8 @@ module RubyXL
     define_child_node(RubyXL::WebPublishingItems)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'chartsheet'
-    set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-                   'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
+                   'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
 
     attr_accessor :state
 

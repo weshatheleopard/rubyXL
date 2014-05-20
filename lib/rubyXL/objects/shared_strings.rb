@@ -12,7 +12,7 @@ module RubyXL
     define_child_node(RubyXL::RichText, :collection => :with_count, :node_name => 'si', :accessor => :strings)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sst'
-    set_namespaces('xmlns' => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil)
 
     def initialize(*params)
       super

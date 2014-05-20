@@ -309,10 +309,10 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
 
     define_element_name 'workbook'
-    set_namespaces('xmlns'     => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-                   'xmlns:r'   => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-                   'xmlns:mc'  => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
-                   'xmlns:x15' => 'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
+                   'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
+                   'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
+                   'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
     def before_write_xml
       self.sheets = RubyXL::Sheets.new
