@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyWorkbook - rubyXL 2.5.6</title>
+<title>module RubyXL::LegacyWorkbook - rubyXL 2.5.7</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -1244,13 +1244,13 @@
     <span class="ruby-identifier">theme</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">theme</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">calculation_chain</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">calculation_chain</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">shared_strings_container</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">shared_strings_container</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
-    <span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
-    <span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
+    <span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">document_properties</span>
+    <span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">core_properties</span>
     <span class="ruby-identifier">content_types</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-keyword">self</span>
     <span class="ruby-identifier">content_types</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-identifier">root_relationship_container</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-keyword">self</span>
     <span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
-    <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
+    <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">stylesheet</span>
     <span class="ruby-identifier">root_relationship_container</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
 

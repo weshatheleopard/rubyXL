@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 2.5.6</title>
+<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 2.5.7</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -423,7 +423,7 @@ it in the context of descendant class,  which is what we need.</p>
         
         <div class="method-heading">
           <span class="method-name">parse</span><span
-            class="method-args">(node)</span>
+            class="method-args">(node, known_namespaces = nil)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -439,7 +439,7 @@ it in the context of descendant class,  which is what we need.</p>
           
           <div class="method-source-code" id="parse-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 111</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>)
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">known_namespaces</span> = <span class="ruby-keyword">nil</span>)
       <span class="ruby-identifier">node</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">IO</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
 
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>) <span class="ruby-keyword">then</span>
@@ -471,16 +471,21 @@ it in the context of descendant class,  which is what we need.</p>
       <span class="ruby-identifier">known_child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
 
       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">known_child_nodes</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">known_namespaces</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_namespaces</span>)
+
         <span class="ruby-identifier">node</span>.<span class="ruby-identifier">element_children</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">child_node</span><span class="ruby-operator">|</span>
 
-          <span class="ruby-identifier">child_node_name</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node</span>.<span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">prefix</span> <span class="ruby-keyword">then</span>
-                              <span class="ruby-node">&quot;#{child_node.namespace.prefix}:#{child_node.name}&quot;</span>
-                            <span class="ruby-keyword">else</span> <span class="ruby-identifier">child_node</span>.<span class="ruby-identifier">name</span> 
+          <span class="ruby-identifier">ns</span> = <span class="ruby-identifier">child_node</span>.<span class="ruby-identifier">namespace</span>
+          <span class="ruby-identifier">prefix</span> = <span class="ruby-identifier">known_namespaces</span>[<span class="ruby-identifier">ns</span>.<span class="ruby-identifier">href</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">prefix</span>
+
+          <span class="ruby-identifier">child_node_name</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">prefix</span>
+                            <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-keyword">nil</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">child_node</span>.<span class="ruby-identifier">name</span> 
+                            <span class="ruby-keyword">else</span> <span class="ruby-node">&quot;#{prefix}:#{child_node.name}&quot;</span>
                             <span class="ruby-keyword">end</span>
 
           <span class="ruby-identifier">child_node_params</span> = <span class="ruby-identifier">known_child_nodes</span>[<span class="ruby-identifier">child_node_name</span>]
           <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown child node [#{child_node_name}] for element [#{node.name}]&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>.<span class="ruby-identifier">nil?</span>
-          <span class="ruby-identifier">parsed_object</span> = <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:class</span>].<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">child_node</span>)
+          <span class="ruby-identifier">parsed_object</span> = <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:class</span>].<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">child_node</span>, <span class="ruby-identifier">known_namespaces</span>)
           <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:is_array</span>] <span class="ruby-keyword">then</span>
             <span class="ruby-identifier">index</span> = <span class="ruby-identifier">parsed_object</span>.<span class="ruby-identifier">index_in_collection</span>
 
