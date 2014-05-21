@@ -28,7 +28,7 @@ module RubyXL
     end
 
     def generate_override(obj)
-      RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)
+      obj && RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)
     end
 
     def before_write_xml
@@ -51,12 +51,12 @@ module RubyXL
       self.overrides = []
       overrides << generate_override(workbook)
       workbook.worksheets.each { |sheet| overrides << generate_override(sheet) }
-      overrides << generate_override(workbook.stylesheet) if workbook.stylesheet
-      overrides << generate_override(workbook.document_properties) if workbook.document_properties
-      overrides << generate_override(workbook.core_properties) if workbook.core_properties
+      overrides << generate_override(workbook.stylesheet)
+      overrides << generate_override(workbook.document_properties)
+      overrides << generate_override(workbook.core_properties)
       overrides << generate_override(workbook.shared_strings_container) if workbook.shared_strings_container && !workbook.shared_strings_container.empty?
-      overrides << generate_override(workbook.calculation_chain) unless workbook.calculation_chain.nil?
-      overrides << generate_override(workbook.theme) if workbook.theme
+      overrides << generate_override(workbook.calculation_chain)
+      overrides << generate_override(workbook.theme)
 
       workbook.charts.each_pair { |k, v|
         case k
@@ -96,6 +96,7 @@ module RubyXL
                        :content_type => 'application/vnd.ms-office.vbaProject')
       end
 
+      overrides.compact!
       true
     end
 
