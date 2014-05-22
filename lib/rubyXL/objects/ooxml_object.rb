@@ -63,7 +63,7 @@ module RubyXL
     # ==== Examples
     #   define_child_node(RubyXL::Alignment)
     # Define a singular child node parsed by the RubyXL::BorderEdge.parse() and accessed by the default <tt>obj.alignment</tt> accessor
-    #   define_child_node(RubyXL::Hyperlink, :colection => true, :accessor => :hyperlinks)
+    #   define_child_node(RubyXL::Hyperlink, :collection => true, :accessor => :hyperlinks)
     # Define an array of nodes accessed by <tt>obj.hyperlinks</tt> accessor, each of which will be parsed by the RubyXL::Hyperlink.parse()
     #   define_child_node(RubyXL::BorderEdge, :node_name => :left)
     #   define_child_node(RubyXL::BorderEdge, :node_name => :right)

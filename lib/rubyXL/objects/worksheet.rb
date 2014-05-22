@@ -306,7 +306,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_hyperlinks-1.html
   class Hyperlinks < OOXMLContainerObject
-    define_child_node(RubyXL::Hyperlink, :colection => true)
+    define_child_node(RubyXL::Hyperlink, :collection => true)
     define_element_name 'hyperlinks'
   end
 
@@ -324,7 +324,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObjects-1.html
   class OLEObjects < OOXMLContainerObject
-    define_child_node(RubyXL::OLEObject, :colection => true)
+    define_child_node(RubyXL::OLEObject, :collection => true)
     define_element_name 'oleObjects'
   end                              
 
