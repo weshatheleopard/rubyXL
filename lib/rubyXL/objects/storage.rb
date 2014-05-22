@@ -202,4 +202,16 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     end
   end
 
+  class HyperlinkRel < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink'
+    end
+  end
+
+  class Thumbmail < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
+    end
+  end
+
 end

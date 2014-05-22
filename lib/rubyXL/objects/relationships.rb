@@ -7,9 +7,10 @@ module RubyXL
   end
 
   class Relationship < OOXMLObject
-    define_attribute(:Id,     :string)
-    define_attribute(:Type,   :string)
-    define_attribute(:Target, :string)
+    define_attribute(:Id,         :string)
+    define_attribute(:Type,       :string)
+    define_attribute(:Target,     :string)
+    define_attribute(:TargetMode, :string)
     define_element_name 'Relationship'
   end
 
@@ -62,6 +63,8 @@ module RubyXL
       self.related_files = {}
 
       self.relationships.each { |rel|
+        next if rel.target_mode == 'External'
+
         file_path = Pathname.new(rel.target)
 
         if !file_path.absolute? then
