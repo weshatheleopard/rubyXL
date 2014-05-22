@@ -318,7 +318,7 @@ module RubyXL
       self.sheets = RubyXL::Sheets.new
 
       worksheets.each_with_index { |sheet, i|
-        rel = relationship_container.find_by_target(sheet.xlsx_path.gsub(/^xl\//, ''))
+        rel = relationship_container.find_by_target(sheet.xlsx_path.gsub(/\Axl\//, ''))
         sheets << RubyXL::Sheet.new(:name => sheet.sheet_name[0..30], # Max sheet name length is 31 char
                                     :sheet_id => sheet.sheet_id || (i + 1),
                                     :state => sheet.state, :r_id => rel.id)

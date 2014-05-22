@@ -50,7 +50,7 @@ module RubyXL
       self.relationships = []
 
       @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << document_relationship(sheet.xlsx_path.gsub(/^xl\//, ''), sheet.rel_type)
+        relationships << document_relationship(sheet.xlsx_path.gsub(/\Axl\//, ''), sheet.rel_type)
       }
 
       @workbook.external_links.each_key { |k| 
