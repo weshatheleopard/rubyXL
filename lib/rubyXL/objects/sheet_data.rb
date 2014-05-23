@@ -8,7 +8,13 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_v-1.html
   class CellValue < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
+    define_attribute(:'xml:space', :string)
     define_element_name 'v'
+
+    def before_write_xml
+      self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
+      true
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
@@ -58,7 +64,7 @@ module RubyXL
     end
 
     def is_date?
-      return false unless raw_value =~ /^\d+(?:\.\d+)?$/ # Only fully numeric values can be dates
+      return false unless raw_value =~ /\A\d+(?:\.\d+)?\Z/ # Only fully numeric values can be dates
       num_fmt = self.number_format
       num_fmt && num_fmt.is_date_format?
     end
@@ -72,7 +78,7 @@ module RubyXL
         workbook.shared_strings_container[raw_value.to_i].to_s
       else 
         if is_date? then workbook.num_to_date(raw_value.to_f)
-        elsif raw_value.is_a?(String) && (raw_value =~ /^-?\d+(\.\d+(?:e[+-]\d+)?)?$/i) # Numeric
+        elsif raw_value.is_a?(String) && (raw_value =~ /\A-?\d+(\.\d+(?:e[+-]\d+)?)?\Z/i) # Numeric
           if $1 then raw_value.to_f
           else raw_value.to_i
           end

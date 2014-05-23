@@ -28,13 +28,6 @@ module RubyXL
     end
     protected :new_relationship
 
-    def metadata_relationship(target, type)
-      RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
-                               :type => "http://schemas.openxmlformats.org/package/2006/relationships/metadata/#{type}",
-                               :target => target)
-    end
-    protected :metadata_relationship
-
     def self.save_order
       0
     end
@@ -104,7 +97,7 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
       self.relationships = []
 
       @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << new_relationship(sheet.xlsx_path.gsub(/^xl\//, ''), sheet.class.rel_type)
+        relationships << new_relationship(sheet.xlsx_path.gsub(/\Axl\//, ''), sheet.class.rel_type)
       }
 
       @workbook.external_links.each_key { |k| 
@@ -139,7 +132,7 @@ puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
       self.relationships = []
 
       relationships << new_relationship('xl/workbook.xml', @workbook.class.rel_type)
-      relationships << metadata_relationship('docProps/thumbnail.jpeg', 'thumbnail') unless @workbook.thumbnail.empty?
+      relationships << new_relationship('docProps/thumbnail.jpeg', 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail') unless @workbook.thumbnail.empty?
       relationships << new_relationship('docProps/core.xml',@workbook.core_properties.class.rel_type) if @workbook.core_properties 
       relationships << new_relationship('docProps/app.xml', RubyXL::DocumentProperties.rel_type) if @workbook.document_properties
 

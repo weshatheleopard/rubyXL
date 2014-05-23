@@ -13,7 +13,7 @@ module RubyXL
 
     #validates hex color code, no '#' allowed
     def self.validate_color(color)
-      if color =~ /^([a-f]|[A-F]|[0-9]){6}$/
+      if color =~ /\A([a-f]|[A-F]|[0-9]){6}\Z/
         return true
       else
         raise 'invalid color'

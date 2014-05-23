@@ -57,13 +57,13 @@ module RubyXL
 =begin
       workbook.charts.each_pair { |k, v|
         case k
-        when /^chart\d*.xml$/ then
+        when /\Achart\d*.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml')
-        when /^style\d*.xml$/ then
+        when /\Astyle\d*.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.ms-office.chartstyle+xml')
-        when /^colors\d*.xml$/ then
+        when /\Acolors\d*.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.ms-office.chartcolorstyle+xml')
         end
@@ -72,10 +72,10 @@ module RubyXL
 =begin
       workbook.drawings.each_pair { |k, v|
         case k
-        when /^drawing\d*.xml$/ then
+        when /.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
-        when /^vmlDrawing\d*.vml$/ then 
+        when /.vml\Z/ then
           # more proper fix: <Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
