@@ -172,11 +172,11 @@ module RubyXL
     define_child_node(RubyXL::Colors)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'styleSheet'
-    set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-                   'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-                   'xmlns:mc'    => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
-                   'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
-                   'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
+                   'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
+                   'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
+                   'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
+                   'urn:schemas-microsoft-com:mac:vml' => 'mv')
 
     def initialize(*args)
       super

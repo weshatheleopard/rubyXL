@@ -1,4 +1,5 @@
 require 'tmpdir'
+require 'date'
 require 'zip'
 
 module RubyXL
@@ -109,13 +110,13 @@ module RubyXL
         theme && theme.add_to_zip(zipfile)
         calculation_chain && calculation_chain.add_to_zip(zipfile)
         shared_strings_container && shared_strings_container.add_to_zip(zipfile)
-        document_properties.add_to_zip(zipfile)
-        core_properties.add_to_zip(zipfile)
+        document_properties.add_to_zip(zipfile) if document_properties
+        core_properties.add_to_zip(zipfile) if core_properties
         content_types.workbook = self
         content_types.add_to_zip(zipfile)
         relationship_container.workbook = root_relationship_container.workbook = self
         relationship_container.add_to_zip(zipfile)
-        stylesheet.add_to_zip(zipfile)
+        stylesheet.add_to_zip(zipfile) if stylesheet
         root_relationship_container.add_to_zip(zipfile)
         self.add_to_zip(zipfile)
 
@@ -208,8 +209,8 @@ module RubyXL
 
     def modify_alignment(style_index, is_horizontal, alignment)
       xf = cell_xfs[style_index].dup
-      xf.alignment = RubyXL::Alignment.new(:apply_alignment => true,
-                                           :horizontal => is_horizontal ? alignment : nil, 
+      xf.apply_alignment = true
+      xf.alignment = RubyXL::Alignment.new(:horizontal => is_horizontal ? alignment : nil, 
                                            :vertical   => is_horizontal ? nil : alignment)
       register_new_xf(xf, style_index)
     end

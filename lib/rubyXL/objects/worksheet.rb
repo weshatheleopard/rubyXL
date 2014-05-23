@@ -306,7 +306,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_hyperlinks-1.html
   class Hyperlinks < OOXMLContainerObject
-    define_child_node(RubyXL::Hyperlink, :colection => true)
+    define_child_node(RubyXL::Hyperlink, :collection => true)
     define_element_name 'hyperlinks'
   end
 
@@ -324,7 +324,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObjects-1.html
   class OLEObjects < OOXMLContainerObject
-    define_child_node(RubyXL::OLEObject, :colection => true)
+    define_child_node(RubyXL::OLEObject, :collection => true)
     define_element_name 'oleObjects'
   end                              
 
@@ -646,11 +646,11 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
     define_child_node(RubyXL::AlternateContent)
     define_element_name 'worksheet'
-    set_namespaces('xmlns'       => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-                   'xmlns:r'     => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-                   'xmlns:mc'    => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
-                   'xmlns:x14ac' => 'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac',
-                   'xmlns:mv'    => 'urn:schemas-microsoft-com:mac:vml')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
+                   'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
+                   'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
+                   'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
+                   'urn:schemas-microsoft-com:mac:vml' => 'mv')
 
     attr_accessor :workbook, :state, :sheet_name, :sheet_id
 

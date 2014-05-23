@@ -20,7 +20,7 @@ module RubyXL
     define_child_node(RubyXL::ContentTypeDefault,  :collection => true, :accessor => :defaults)
     define_child_node(RubyXL::ContentTypeOverride, :collection => true, :accessor => :overrides)
 
-    set_namespaces(:xmlns => 'http://schemas.openxmlformats.org/package/2006/content-types')
+    set_namespaces('http://schemas.openxmlformats.org/package/2006/content-types' => '')
     define_element_name 'Types'
 
     def self.xlsx_path
@@ -28,7 +28,7 @@ module RubyXL
     end
 
     def generate_override(obj)
-      RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)
+      obj && RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)
     end
 
     def before_write_xml
@@ -54,19 +54,19 @@ module RubyXL
       overrides << generate_override(workbook.stylesheet)
       overrides << generate_override(workbook.document_properties)
       overrides << generate_override(workbook.core_properties)
-      overrides << generate_override(workbook.shared_strings_container) unless workbook.shared_strings_container.empty?
-      overrides << generate_override(workbook.calculation_chain) unless workbook.calculation_chain.nil?
+      overrides << generate_override(workbook.shared_strings_container) if workbook.shared_strings_container && !workbook.shared_strings_container.empty?
+      overrides << generate_override(workbook.calculation_chain)
       overrides << generate_override(workbook.theme)
 
       workbook.charts.each_pair { |k, v|
         case k
-        when /^chart\d*.xml$/ then
+        when /\Achart\d*.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml')
-        when /^style\d*.xml$/ then
+        when /\Astyle\d*.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.ms-office.chartstyle+xml')
-        when /^colors\d*.xml$/ then
+        when /\Acolors\d*.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.ms-office.chartcolorstyle+xml')
         end
@@ -74,10 +74,10 @@ module RubyXL
 
       workbook.drawings.each_pair { |k, v|
         case k
-        when /.xml$/ then
+        when /.xml\Z/ then
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
-        when /.vml$/ then
+        when /.vml\Z/ then
           # more proper fix: <Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
@@ -96,6 +96,7 @@ module RubyXL
                        :content_type => 'application/vnd.ms-office.vbaProject')
       end
 
+      overrides.compact!
       true
     end
 
