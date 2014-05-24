@@ -27,7 +27,11 @@ module RubyXL
 
     def add_to_zip(zipfile)
       return if @data.nil?
-      zipfile.get_output_stream(self.xlsx_path) { |f| f << @data }
+
+      path = self.xlsx_path
+      path = path.relative_path_from(Pathname.new("/")) if path.absolute? # Zip doesn't like absolute paths.
+
+      zipfile.get_output_stream(path) { |f| f << @data }
     end
   end
 
@@ -112,15 +116,13 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
     include RubyXL::RelationshipSupport
 
     def related_objects
-      relationship_container.owner = self
+      relationship_container.owner = self if relationship_container
       [ relationship_container ] + generic_storage
     end
 
   end
 
   class VMLDrawingFile < GenericStorageObject
-    attr_accessor :relationship_container
-
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
     end
@@ -128,32 +130,6 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
 #    def self.content_type
 #      'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
 #    end
-
-    def load_relationships(dir_path, base_file_name)
-
-      self.relationship_container = RubyXL::DrawingRelationships.load_relationship_file(dir_path, base_file_name)
-
-      if relationship_container then
-        relationship_container.load_related_files(dir_path, base_file_name)
-
-        related_files = relationship_container.related_files
-        related_files.each_pair { |rid, rf|
-          case rf
-when 1 then 1
-#          when RubyXL::ChartColors then self.generic_storage << rf # TODO
-#          when RubyXL::ChartStyle  then self.generic_storage << rf # TODO
-          else
-            self.generic_storage << rf
-puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
-          end
-        }
-      end
-    end
-
-    def related_objects
-      generic_storage
-    end
-
   end
 
   class ChartColorsFile < GenericStorageObject
@@ -204,6 +180,10 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
     end
+
+#    def self.content_type
+#      'image/jpeg'
+#    end
   end
 
   class HyperlinkRelFile < GenericStorageObject
@@ -249,9 +229,9 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
   end
 
   class ExternalLinksFile < GenericStorageObject
-#    def self.rel_type
-#      'http://schemas...'
-#    end
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'
+    end
 
     def self.content_type
       'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'

@@ -54,17 +54,6 @@ module RubyXL
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'png', :content_type => 'image/png')
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'vml', :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
 
-=begin
-      workbook.drawings.each_pair { |k, v|
-        case k
-        when /.vml\Z/ then
-          # more proper fix: <Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>
-          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
-                         :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
-        end
-      }
-=end
-
       true
     end
 

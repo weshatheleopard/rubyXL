@@ -19,7 +19,8 @@ module RubyXL
     define_element_name 'Relationships'
     set_namespaces('http://schemas.openxmlformats.org/package/2006/relationships' => '')
 
-    attr_accessor :related_files
+    attr_accessor :related_files, :owner
+
 
     def new_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
@@ -71,7 +72,7 @@ module RubyXL
           klass = GenericStorageObject
         end
 
-puts "==>DEBUG:   * Loading related #{klass} (#{rel.id}): #{file_path}"
+puts "==>DEBUG:   <<< Loading related #{klass} (#{rel.id}): #{file_path}"
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
@@ -146,27 +147,14 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
   class SheetRelationships < OOXMLRelationshipsFile
 
-    attr_accessor :sheet
-
-    def initialize(params = {})
-      super
-      self.sheet = params[:sheet]
-    end
-
     def xlsx_path
-      file_path = sheet.xlsx_path
+      file_path = owner.xlsx_path
       File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
     end
 
   end
 
   class DrawingRelationships < OOXMLRelationshipsFile
-    attr_accessor :owner
-
-#    def initialize(params = {})
-#      super
-#      self.owner = params[:owner]
-#    end
 
     def xlsx_path
       file_path = owner.xlsx_path
@@ -177,13 +165,6 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
 
   class ChartRelationships < OOXMLRelationshipsFile
-    attr_accessor :owner
-
-#    def initialize(params = {})
-#      super
-#      self.owner = params[:owner]
-#    end
-
     def xlsx_path
       file_path = owner.xlsx_path
       File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
@@ -193,6 +174,7 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
 
   module RelationshipSupport
+
     def collect_related_objects
       res = [] + related_objects
       related_objects.each { |o| res += o.collect_related_objects if o.respond_to?(:collect_related_objects) }

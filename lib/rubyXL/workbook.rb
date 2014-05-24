@@ -143,7 +143,7 @@ module RubyXL
 puts "--> DEBUG: saving related files of class #{klass}"
           rels_hash[klass].each { |obj|
             obj.workbook = self if obj.respond_to?(:workbook=)
-puts "--> DEBUG:   * #{obj.xlsx_path}"
+puts "--> DEBUG:   >>> #{obj.xlsx_path}"
             content_types.add_override(obj)
             obj.add_to_zip(zipfile)
           }
