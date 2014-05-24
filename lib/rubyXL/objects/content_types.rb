@@ -38,7 +38,7 @@ module RubyXL
 
     def before_write_xml
       self.defaults = []
-      if @workbook.rels_hash[RubyXL::PrinterSettings] then
+      if @workbook.rels_hash[RubyXL::PrinterSettingsFile] then
         defaults << RubyXL::ContentTypeDefault.new(:extension => 'bin',
                       :content_type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings')
       end
@@ -55,45 +55,14 @@ module RubyXL
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'vml', :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
 
 =begin
-      workbook.charts.each_pair { |k, v|
-        case k
-        when /\Achart\d*.xml\Z/ then
-          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
-                         :content_type => 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml')
-        when /\Astyle\d*.xml\Z/ then
-          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
-                         :content_type => 'application/vnd.ms-office.chartstyle+xml')
-        when /\Acolors\d*.xml\Z/ then
-          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.charts.local_dir_path}/#{k}",
-                         :content_type => 'application/vnd.ms-office.chartcolorstyle+xml')
-        end
-      }
-=end
-=begin
       workbook.drawings.each_pair { |k, v|
         case k
-        when /.xml\Z/ then
-          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
-                         :content_type => 'application/vnd.openxmlformats-officedocument.drawing+xml')
         when /.vml\Z/ then
           # more proper fix: <Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>
           overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{@workbook.drawings.local_dir_path}/#{k}",
                          :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
         end
       }
-=end
-=begin
-      unless workbook.external_links.nil?
-        1.upto(workbook.external_links.size - 1) { |i|
-          overrides << RubyXL::ContentTypeOverride.new(:part_name => "/xl/externalLinks/externalLink#{i}.xml",
-                       :content_type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml')
-        }
-      end
-
-      unless @workbook.macros.empty?
-        overrides << RubyXL::ContentTypeOverride.new(:part_name => '/xl/vbaProject.bin',
-                       :content_type => 'application/vnd.ms-office.vbaProject')
-      end
 =end
 
       true

@@ -709,13 +709,15 @@ module RubyXL
         related_files = relationship_container.related_files
         related_files.each_pair { |rid, rf|
           case rf
-          when RubyXL::PrinterSettings then self.generic_storage << rf # TODO
-          when RubyXL::Comments        then self.generic_storage << rf # TODO
-          when RubyXL::VMLDrawing      then self.generic_storage << rf # TODO
-          when RubyXL::Drawing         then self.generic_storage << rf # TODO
+          when RubyXL::PrinterSettingsFile then self.generic_storage << rf # TODO
+          when RubyXL::CommentsFile        then self.generic_storage << rf # TODO
+          when RubyXL::VMLDrawingFile      then self.generic_storage << rf # TODO
+          when RubyXL::DrawingFile         then self.generic_storage << rf # TODO
+          when RubyXL::BinaryImageFile     then self.generic_storage << rf # TODO
+          when RubyXL::PivotTableFile      then self.generic_storage << rf # TODO
           else
             self.generic_storage << rf
-puts "!!>DEBUG: unattached: #{rf.class}"
+puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
           end
         }
       end

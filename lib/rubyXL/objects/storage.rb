@@ -31,13 +31,13 @@ module RubyXL
     end
   end
 
-  class PrinterSettings < GenericStorageObject
+  class PrinterSettingsFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
     end
   end
 
-  class Drawing < GenericStorageObject
+  class DrawingFile < GenericStorageObject
     attr_accessor :relationship_container
 
     def self.rel_type
@@ -58,14 +58,11 @@ module RubyXL
         related_files = relationship_container.related_files
         related_files.each_pair { |rid, rf|
           case rf
-when 1 then 1
-#          when RubyXL::PrinterSettings then self.generic_storage << rf # TODO
-#          when RubyXL::Comments        then self.generic_storage << rf # TODO
-#          when RubyXL::VMLDrawing      then self.generic_storage << rf # TODO
-#          when RubyXL::Drawing         then self.generic_storage << rf # TODO
+          when RubyXL::ChartFile       then self.generic_storage << rf # TODO
+          when RubyXL::BinaryImageFile then self.generic_storage << rf # TODO
           else
             self.generic_storage << rf
-puts "!!>DEBUG: unattached: #{rf.class}"
+puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
           end
         }
       end
@@ -74,13 +71,13 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     include RubyXL::RelationshipSupport
 
     def related_objects
-      relationship_container.owner = self
+      relationship_container.owner = self if relationship_container
       [ relationship_container ] + generic_storage
     end
 
   end
 
-  class Chart < GenericStorageObject
+  class ChartFile < GenericStorageObject
     attr_accessor :relationship_container
 
     def self.rel_type
@@ -101,11 +98,12 @@ puts "!!>DEBUG: unattached: #{rf.class}"
         related_files = relationship_container.related_files
         related_files.each_pair { |rid, rf|
           case rf
-          when RubyXL::ChartColors then self.generic_storage << rf # TODO
-          when RubyXL::ChartStyle  then self.generic_storage << rf # TODO
+          when RubyXL::ChartColorsFile     then self.generic_storage << rf # TODO
+          when RubyXL::ChartStyleFile      then self.generic_storage << rf # TODO
+          when RubyXL::ChartUserShapesFile then self.generic_storage << rf # TODO
           else
             self.generic_storage << rf
-puts "!!>DEBUG: unattached: #{rf.class}"
+puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
           end
         }
       end
@@ -120,7 +118,7 @@ puts "!!>DEBUG: unattached: #{rf.class}"
 
   end
 
-  class VMLDrawing < GenericStorageObject
+  class VMLDrawingFile < GenericStorageObject
     attr_accessor :relationship_container
 
     def self.rel_type
@@ -146,7 +144,7 @@ when 1 then 1
 #          when RubyXL::ChartStyle  then self.generic_storage << rf # TODO
           else
             self.generic_storage << rf
-puts "!!>DEBUG: unattached: #{rf.class}"
+puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
           end
         }
       end
@@ -158,7 +156,7 @@ puts "!!>DEBUG: unattached: #{rf.class}"
 
   end
 
-  class ChartColors < GenericStorageObject
+  class ChartColorsFile < GenericStorageObject
     def self.rel_type
       'http://schemas.microsoft.com/office/2011/relationships/chartColorStyle'
     end
@@ -168,7 +166,7 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     end
   end
 
-  class ChartStyle < GenericStorageObject
+  class ChartStyleFile < GenericStorageObject
     def self.rel_type
       'http://schemas.microsoft.com/office/2011/relationships/chartStyle'
     end
@@ -178,39 +176,85 @@ puts "!!>DEBUG: unattached: #{rf.class}"
     end
   end
 
-  class Table < GenericStorageObject
+  class TableFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/table'
     end
   end
 
-  class ControlProperties < GenericStorageObject
+  class ControlPropertiesFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/ctrlProp'
     end
   end
 
-  class PivotTable < GenericStorageObject
+  class PivotTableFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'
     end
   end
 
-  class BinaryImage < GenericStorageObject
+  class PivotCacheDefinitionFile < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheDefinition'
+    end
+  end
+
+  class BinaryImageFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
     end
   end
 
-  class HyperlinkRel < GenericStorageObject
+  class HyperlinkRelFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink'
     end
   end
 
-  class Thumbmail < GenericStorageObject
+  class ThumbmailFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
+    end
+  end
+
+  class ChartUserShapesFile < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartUserShapes'
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml'
+    end
+  end
+
+  class CustomPropertiesFile < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties'
+    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.custom-properties+xml'
+    end
+  end
+
+  class MacrosFile < GenericStorageObject
+#    def self.rel_type
+#      'http://schemas...'
+#    end
+
+    def self.content_type
+      'application/vnd.ms-office.vbaProject'
+    end
+  end
+
+  class ExternalLinksFile < GenericStorageObject
+#    def self.rel_type
+#      'http://schemas...'
+#    end
+
+    def self.content_type
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
     end
   end
 

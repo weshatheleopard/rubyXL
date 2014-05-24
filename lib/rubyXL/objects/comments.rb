@@ -25,7 +25,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_comments.html
-  class Comments < OOXMLTopLevelObject
+  class CommentsFile < OOXMLTopLevelObject
     define_child_node(RubyXL::Authors)
     define_child_node(RubyXL::CommentList)
     define_child_node(RubyXL::ExtensionStorageArea)

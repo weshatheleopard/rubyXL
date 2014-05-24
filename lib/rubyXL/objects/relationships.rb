@@ -67,11 +67,11 @@ module RubyXL
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
 
         if klass.nil? then
-          puts "WARNING: storage class not found for #{rel.target} (#{rel.type})"
+          puts "*** WARNING: storage class not found for #{rel.target} (#{rel.type})"
           klass = GenericStorageObject
         end
 
-puts ">>>DEBUG: Loading related file: rid=#{rel.id} path=#{file_path} klass=#{klass}"
+puts "==>DEBUG:   * Loading related #{klass} (#{rel.id}): #{file_path}"
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
@@ -82,7 +82,7 @@ puts ">>>DEBUG: Loading related file: rid=#{rel.id} path=#{file_path} klass=#{kl
     def self.load_relationship_file(zipdir_path, base_file_path)
       rel_file_path = File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')
 
-puts ">>>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_file_path}"
+puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_file_path}"
 
       parse_file(zipdir_path, rel_file_path)
     end
