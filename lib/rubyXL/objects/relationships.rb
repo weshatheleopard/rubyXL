@@ -163,15 +163,14 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
   end
 
-
   class ChartRelationships < OOXMLRelationshipsFile
+
     def xlsx_path
       file_path = owner.xlsx_path
       File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
     end
 
   end
-
 
   module RelationshipSupport
 
