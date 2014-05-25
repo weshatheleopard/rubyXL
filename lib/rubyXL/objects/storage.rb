@@ -4,7 +4,12 @@ module RubyXL
     include RubyXL::RelationshipSupport
 
     # Dummy object: no contents, only relationships
-    attr_accessor :relationship_container, :thumbnail, :core_properties, :document_properties, :workbook
+    attr_accessor :relationship_container, :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook, :generic_storage
+
+    def initialize
+      super
+      @generic_storage = []
+    end
 
     def load_relationships(dir_path)
 
@@ -19,6 +24,7 @@ module RubyXL
           when RubyXL::ThumbmailFile      then self.thumbnail = rf
           when RubyXL::CoreProperties     then self.core_properties = rf
           when RubyXL::DocumentProperties then self.document_properties = rf
+          when RubyXL::CustomProperties   then self.custom_properties = rf
           when RubyXL::Workbook           then self.workbook = rf
           else
 puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
@@ -30,7 +36,7 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
     end
 
     def related_objects
-      [ relationship_container, thumbnail, core_properties, document_properties, workbook ]
+      [ relationship_container, thumbnail, core_properties, document_properties, workbook ] + @generic_storage 
     end
 
     def self.default
