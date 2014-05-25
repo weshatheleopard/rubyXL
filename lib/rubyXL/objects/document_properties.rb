@@ -4,7 +4,7 @@ require 'rubyXL/objects/container_nodes'
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.html
-  class DocumentProperties < OOXMLTopLevelObject
+  class DocumentPropertiesFile < OOXMLTopLevelObject
     attr_accessor :workbook
 
     define_child_node(RubyXL::StringNode,  :node_name => :Template)
@@ -82,7 +82,7 @@ module RubyXL
   end
 
 
-  class CoreProperties < OOXMLTopLevelObject
+  class CorePropertiesFile < OOXMLTopLevelObject
     attr_accessor :workbook
 
     define_child_node(RubyXL::StringNode,    :node_name => 'dc:creator')

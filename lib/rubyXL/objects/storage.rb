@@ -21,11 +21,11 @@ module RubyXL
         related_files = relationship_container.related_files
         related_files.each_pair { |rid, rf|
           case rf
-          when RubyXL::ThumbmailFile      then self.thumbnail = rf
-          when RubyXL::CoreProperties     then self.core_properties = rf
-          when RubyXL::DocumentProperties then self.document_properties = rf
-          when RubyXL::CustomProperties   then self.custom_properties = rf
-          when RubyXL::Workbook           then self.workbook = rf
+          when RubyXL::ThumbnailFile          then self.thumbnail = rf
+          when RubyXL::CorePropertiesFile     then self.core_properties = rf
+          when RubyXL::DocumentPropertiesFile then self.document_properties = rf
+          when RubyXL::CustomPropertiesFile   then self.custom_properties = rf
+          when RubyXL::Workbook               then self.workbook = rf
           else
 puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
             self.generic_storage << rf
@@ -41,8 +41,8 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
 
     def self.default
       obj = self.new
-      obj.document_properties    = RubyXL::DocumentProperties.new
-      obj.core_properties        = RubyXL::CoreProperties.new
+      obj.document_properties    = RubyXL::DocumentPropertiesFile.new
+      obj.core_properties        = RubyXL::CorePropertiesFile.new
       obj.relationship_container = RubyXL::RootRelationships.new
       obj
     end
@@ -242,7 +242,7 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
     end
   end
 
-  class ThumbmailFile < GenericStorageObject
+  class ThumbnailFile < GenericStorageObject
     def self.rel_type
       'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
     end
