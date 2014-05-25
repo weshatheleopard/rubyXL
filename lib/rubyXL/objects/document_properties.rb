@@ -58,9 +58,9 @@ module RubyXL
         add_parts_count('Worksheets', @workbook.worksheets.size)
         @workbook.worksheets.each { |sheet| add_part_title(sheet.sheet_name) }
 
-        if @workbook.defined_name_container then
-          add_parts_count('Named Ranges', @workbook.defined_name_container.defined_names.size)
-          @workbook.defined_name_container.defined_names.each { |defined_name| add_part_title(defined_name.name) }
+        if @workbook.defined_names then
+          add_parts_count('Named Ranges', @workbook.defined_names.size)
+          @workbook.defined_names.each { |defined_name| add_part_title(defined_name.name) }
         end
       end
 

@@ -1,5 +1,49 @@
 module RubyXL
 
+  class WorkbookRoot
+    include RubyXL::RelationshipSupport
+
+    # Dummy object: no contents, only relationships
+    attr_accessor :relationship_container, :thumbnail, :core_properties, :document_properties, :workbook
+
+    def load_relationships(dir_path)
+
+      self.relationship_container = RubyXL::RootRelationships.load_relationship_file(dir_path, '')
+
+      if relationship_container then
+        relationship_container.load_related_files(dir_path, '')
+
+        related_files = relationship_container.related_files
+        related_files.each_pair { |rid, rf|
+          case rf
+          when RubyXL::ThumbmailFile      then self.thumbnail = rf
+          when RubyXL::CoreProperties     then self.core_properties = rf
+          when RubyXL::DocumentProperties then self.document_properties = rf
+          when RubyXL::Workbook           then self.workbook = rf
+          else
+puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
+            self.generic_storage << rf
+          end
+        }
+      end
+
+    end
+
+    def related_objects
+      [ relationship_container, thumbnail, core_properties, document_properties, workbook ]
+    end
+
+    def self.default
+      obj = self.new
+      obj.document_properties    = RubyXL::DocumentProperties.new
+      obj.core_properties        = RubyXL::CoreProperties.new
+      obj.relationship_container = RubyXL::RootRelationships.new
+      obj
+    end
+
+  end
+
+
   class GenericStorageObject
 
     attr_accessor :xlsx_path, :data, :workbook, :generic_storage
@@ -196,6 +240,8 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
     def self.rel_type
       'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
     end
+
+    # default path = 'docProps/thumbnail.jpeg'
   end
 
   class ChartUserShapesFile < GenericStorageObject
@@ -235,6 +281,12 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
 
     def self.content_type
       'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
+    end
+  end
+
+  class CustomXMLFile < GenericStorageObject
+    def self.rel_type
+      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'
     end
   end
 

@@ -314,6 +314,14 @@ module RubyXL
                    'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
+    attr_accessor :generic_storage, :root
+    attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container
+
+    def initialize(*args)
+      super
+      @generic_storage = []
+    end
+
     def before_write_xml
       self.sheets = RubyXL::Sheets.new
 
@@ -333,13 +341,16 @@ module RubyXL
       related_files = relationship_container.related_files
       related_files.each_pair { |rid, rf|
         case rf
-        when RubyXL::SharedStringsTable then self.shared_strings_container = rf
-        when RubyXL::Stylesheet         then self.stylesheet = rf
-        when RubyXL::Theme              then self.theme = rf
-        when RubyXL::CalculationChain   then self.calculation_chain = rf
-        when RubyXL::Worksheet, RubyXL::Chartsheet then nil
+        when RubyXL::SharedStringsTable       then self.shared_strings_container = rf
+        when RubyXL::Stylesheet               then self.stylesheet = rf
+        when RubyXL::Theme                    then self.theme = rf
+        when RubyXL::CalculationChain         then self.calculation_chain = rf
+        when RubyXL::ExternalLinksFile        then self.generic_storage << rf # TODO
+        when RubyXL::PivotCacheDefinitionFile then self.generic_storage << rf # TODO
+        when RubyXL::CustomXMLFile            then self.generic_storage << rf # TODO
+        when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
         else 
-puts ">>>DEBUG: unattached: #{rf.class}"
+puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
         end
       }
 
@@ -353,6 +364,13 @@ puts ">>>DEBUG: unattached: #{rf.class}"
         sheet_obj.sheet_id = sheet.sheet_id
         sheet_obj.state = sheet.state
       }
+    end
+
+    include RubyXL::RelationshipSupport
+
+    def related_objects
+      relationship_container.workbook = content_types.workbook = self
+      [ relationship_container, content_types, calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets + generic_storage
     end
 
     include LegacyWorkbook
@@ -371,58 +389,58 @@ puts ">>>DEBUG: unattached: #{rf.class}"
     end
 
     def company=(v)
-      self.document_properties.company ||= StringNode.new
-      self.document_properties.company.value = v
+      root.document_properties.company ||= StringNode.new
+      root.document_properties.company.value = v
     end
 
     def application
-      self.document_properties.application && self.document_properties.application.value
+      root.document_properties.application && self.document_properties.application.value
     end
 
     def application=(v)
-      self.document_properties.application ||= StringNode.new
-      self.document_properties.application.value = v
+      root.document_properties.application ||= StringNode.new
+      root.document_properties.application.value = v
     end
 
     def appversion
-      self.document_properties.app_version && self.document_properties.app_version.value
+      root.document_properties.app_version && root.document_properties.app_version.value
     end
 
     def appversion=(v)
-      self.document_properties.app_version ||= StringNode.new
-      self.document_properties.app_version.value = v
+      root.document_properties.app_version ||= StringNode.new
+      root.document_properties.app_version.value = v
     end
 
     def creator
-      self.core_properties.creator
+      root.core_properties.creator
     end
 
     def creator=(v)
-      self.core_properties.creator = v
+      root.core_properties.creator = v
     end
 
     def modifier
-      self.core_properties.modifier
+      root.core_properties.modifier
     end
 
     def modifier=(v)
-      self.core_properties.modifier = v
+      root.core_properties.modifier = v
     end
 
     def created_at
-      self.core_properties.created_at
+      root.core_properties.created_at
     end
 
     def created_at=(v)
-      self.core_properties.created_at = v
+      root.core_properties.created_at = v
     end
 
     def modified_at
-      self.core_properties.modified_at
+      root.core_properties.modified_at
     end
 
     def modified_at=(v)
-      self.core_properties.modified_at = v
+      root.core_properties.modified_at = v
     end
 
     def self.xlsx_path

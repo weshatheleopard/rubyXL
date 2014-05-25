@@ -40,30 +40,16 @@ module RubyXL
           }
         }
 
-        rels = RubyXL::RootRelationships.parse_file(dir_path)
-        rels.load_related_files(dir_path)
+        root = RubyXL::WorkbookRoot.new
+        root.load_relationships(dir_path)
 
-        document_members = rels.related_files.values
-        wb = document_members.find { |obj| obj.is_a?(RubyXL::Workbook) }
-        wb.root_relationship_container = rels
-        wb.filepath = xl_file_path
+        wb = root.workbook
+        wb.root = root
         wb.content_types = RubyXL::ContentTypes.parse_file(dir_path)
-        wb.core_properties     = document_members.find { |obj| obj.is_a?(RubyXL::CoreProperties) }
-        wb.document_properties = document_members.find { |obj| obj.is_a?(RubyXL::DocumentProperties) }
 
-        unless @data_only
-          wb.external_links.load_dir(dir_path)
-          wb.external_links_rels.load_dir(dir_path)
-  #        wb.drawings.load_dir(dir_path)
-  #        wb.drawings_rels.load_dir(dir_path)
-  #        wb.charts.load_dir(dir_path)
-  #        wb.chart_rels.load_dir(dir_path)
-  #        wb.worksheet_rels.load_dir(dir_path)
-  #        wb.chartsheet_rels.load_dir(dir_path)
-          wb.macros.load_file(dir_path, 'vbaProject.bin')
-          wb.thumbnail.load_file(dir_path, 'thumbnail.jpeg')
+        rels = root.relationship_container
 
-        end
+        wb.filepath = xl_file_path
 
         if wb.stylesheet then
           #fills out count information for each font, fill, and border

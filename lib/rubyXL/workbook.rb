@@ -5,15 +5,9 @@ require 'zip'
 module RubyXL
   module LegacyWorkbook
     include Enumerable
-    attr_accessor :worksheets, :filepath, :theme,
-      :external_links, :external_links_rels, :drawings, :drawings_rels,
-      :charts, :chart_rels,
-      :macros, :thumbnail,
-      :comments, :rels_hash
+    attr_accessor :worksheets, :filepath, :rels_hash
 
-    attr_accessor :stylesheet, :shared_strings_container, :calculation_chain,
-                  :document_properties, :core_properties,
-                  :relationship_container, :root_relationship_container, :content_types
+    attr_accessor :relationship_container, :content_types
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -33,27 +27,16 @@ module RubyXL
       @creator             = creator
       @modifier            = modifier
       self.date1904        = date1904 > 0
-      @external_links      = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks'))
-      @external_links_rels = RubyXL::GenericStorage.new(File.join('xl', 'externalLinks', '_rels'))
-#      @drawings            = RubyXL::GenericStorage.new(File.join('xl', 'drawings'))
-      @drawings_rels       = RubyXL::GenericStorage.new(File.join('xl', 'drawings', '_rels'))
-      @charts              = RubyXL::GenericStorage.new(File.join('xl', 'charts'))
-      @chart_rels          = RubyXL::GenericStorage.new(File.join('xl', 'charts', '_rels'))
-#      @worksheet_rels      = RubyXL::GenericStorage.new(File.join('xl', 'worksheets', '_rels'))
-#      @chartsheet_rels     = RubyXL::GenericStorage.new(File.join('xl', 'chartsheets', '_rels'))
       @macros              = RubyXL::GenericStorage.new('xl').binary
-      @thumbnail           = RubyXL::GenericStorage.new('docProps').binary
 
       @theme                    = RubyXL::Theme.defaults
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
-      @document_properties      = RubyXL::DocumentProperties.new
-      @core_properties          = RubyXL::CoreProperties.new
       @content_types            = RubyXL::ContentTypes.new
       @relationship_container   = RubyXL::WorkbookRelationships.new
-      @root_relationship_container  = RubyXL::RootRelationships.new
-      @calculation_chain            = nil
-      @comments                     = []
+      @root                     = RubyXL::WorkbookRoot.default
+      @root.workbook = self
+      @comments                 = []
       @rels_hash = {}
 
       self.company         = company
@@ -97,15 +80,6 @@ module RubyXL
       worksheets.each{|i| yield i}
     end
 
-
-    include RubyXL::RelationshipSupport
-
-    def related_objects
-      relationship_container.workbook = root_relationship_container.workbook =
-        content_types.workbook = self
-      [ relationship_container, root_relationship_container, content_types ] + @worksheets
-    end
-
     #filepath of xlsx file (including file itself)
     def write(filepath = @filepath)
       extension = File.extname(filepath)
@@ -123,21 +97,12 @@ module RubyXL
         content_types.overrides = []
         content_types.add_override(self)
 
-        collect_related_objects.compact.each { |obj|
-# puts "--> DEBUG: adding relationship to #{obj.class}"
+        root.relationship_container.owner = root
+        root.collect_related_objects.compact.each { |obj|
+ puts "--> DEBUG: adding relationship to #{obj.class}"
           rels_hash[obj.class] ||= []
           rels_hash[obj.class] << obj
         }
-
-        [ theme, stylesheet, shared_strings_container, calculation_chain, 
-          document_properties, core_properties ].compact.each { |obj|
-            next if obj.nil?
-            content_types.add_override(obj)
-            obj.add_to_zip(zipfile)
-          }
-
-        [ @external_links, @external_links_rels, @macros, @thumbnail ].compact.each { |obj| obj.add_to_zip(zipfile) }
-
 
         rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
 puts "--> DEBUG: saving related files of class #{klass}"

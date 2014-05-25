@@ -101,9 +101,9 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
         relationships << new_relationship(sheet.xlsx_path.gsub(/\Axl\//, ''), sheet.class.rel_type)
       }
 
-      @workbook.external_links.each_key { |k| 
-        relationships << new_relationship("externalLinks/#{k}", 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink')
-      }
+#      @workbook.external_links.each_key { |k| 
+#        relationships << new_relationship("externalLinks/#{k}", 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink')
+#      }
 
       relationships << new_relationship('theme/theme1.xml', @workbook.theme.class.rel_type) if @workbook.theme
       relationships << new_relationship('styles.xml', @workbook.stylesheet.class.rel_type) if @workbook.stylesheet
@@ -127,15 +127,15 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
   class RootRelationships < OOXMLRelationshipsFile
 
-    attr_accessor :workbook
+    attr_accessor :owner
 
     def before_write_xml
       self.relationships = []
 
-      relationships << new_relationship('xl/workbook.xml', @workbook.class.rel_type)
-      relationships << new_relationship('docProps/thumbnail.jpeg', 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail') unless @workbook.thumbnail.empty?
-      relationships << new_relationship('docProps/core.xml',@workbook.core_properties.class.rel_type) if @workbook.core_properties 
-      relationships << new_relationship('docProps/app.xml', RubyXL::DocumentProperties.rel_type) if @workbook.document_properties
+      relationships << new_relationship('xl/workbook.xml', owner.workbook.class.rel_type)
+      relationships << new_relationship('docProps/thumbnail.jpeg', owner.thumbnail.class.rel_type) if owner.thumbnail
+      relationships << new_relationship('docProps/core.xml',owner.core_properties.class.rel_type) if owner.core_properties 
+      relationships << new_relationship('docProps/app.xml', owner.document_properties.class.rel_type) if owner.document_properties
 
       true
     end
