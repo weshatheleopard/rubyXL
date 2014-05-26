@@ -347,11 +347,11 @@ module RubyXL
         when RubyXL::Stylesheet               then self.stylesheet = rf
         when RubyXL::Theme                    then self.theme = rf
         when RubyXL::CalculationChain         then self.calculation_chain = rf
-        when RubyXL::ExternalLinksFile        then self.generic_storage << rf # TODO
-        when RubyXL::PivotCacheDefinitionFile then self.generic_storage << rf # TODO
-        when RubyXL::CustomXMLFile            then self.generic_storage << rf # TODO
+        when RubyXL::ExternalLinksFile        then store_relationship(rf) # TODO
+        when RubyXL::PivotCacheDefinitionFile then store_relationship(rf) # TODO
+        when RubyXL::CustomXMLFile            then store_relationship(rf) # TODO
         when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
-        else store_unknown_relationship(rf)
+        else store_relationship(rf, :unknown)
         end
       }
 

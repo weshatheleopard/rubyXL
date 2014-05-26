@@ -107,8 +107,8 @@ module RubyXL
       related_files = relationship_container.related_files
       related_files.each_pair { |rid, rf|
         case rf
-        when RubyXL::DrawingFile then self.generic_storage << rf # TODO
-        else store_unknown_relationship(rf)
+        when RubyXL::DrawingFile then store_relationship(rf) # TODO
+        else store_relationship(rf, :unknown)
         end
       }
     end

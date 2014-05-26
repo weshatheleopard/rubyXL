@@ -28,7 +28,7 @@ module RubyXL
         when RubyXL::DocumentPropertiesFile then self.document_properties = rf
         when RubyXL::CustomPropertiesFile   then self.custom_properties = rf
         when RubyXL::Workbook               then self.workbook = rf
-        else store_unknown_relationship(rf)
+        else store_relationship(rf, :unknown)
         end
       }
 

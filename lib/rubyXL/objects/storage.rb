@@ -55,9 +55,9 @@ module RubyXL
       related_files = relationship_container.related_files
       related_files.each_pair { |rid, rf|
         case rf
-        when RubyXL::ChartFile       then self.generic_storage << rf # TODO
-        when RubyXL::BinaryImageFile then self.generic_storage << rf # TODO
-        else store_unknown_relationship(rf)
+        when RubyXL::ChartFile       then store_relationship(rf) # TODO
+        when RubyXL::BinaryImageFile then store_relationship(rf) # TODO
+        else store_relationship(rf, :unknown)
         end
       }
 

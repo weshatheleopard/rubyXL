@@ -716,13 +716,13 @@ module RubyXL
       related_files = relationship_container.related_files
       related_files.each_pair { |rid, rf|
         case rf
-        when RubyXL::PrinterSettingsFile then self.generic_storage << rf # TODO
-        when RubyXL::CommentsFile        then self.generic_storage << rf # TODO
-        when RubyXL::VMLDrawingFile      then self.generic_storage << rf # TODO
-        when RubyXL::DrawingFile         then self.generic_storage << rf # TODO
-        when RubyXL::BinaryImageFile     then self.generic_storage << rf # TODO
-        when RubyXL::PivotTableFile      then self.generic_storage << rf # TODO
-        else store_unknown_relationship(rf)
+        when RubyXL::PrinterSettingsFile then store_relationship(rf) # TODO
+        when RubyXL::CommentsFile        then store_relationship(rf) # TODO
+        when RubyXL::VMLDrawingFile      then store_relationship(rf) # TODO
+        when RubyXL::DrawingFile         then store_relationship(rf) # TODO
+        when RubyXL::BinaryImageFile     then store_relationship(rf) # TODO
+        when RubyXL::PivotTableFile      then store_relationship(rf) # TODO
+        else store_relationship(rf, :unknown)
         end
       }
     end

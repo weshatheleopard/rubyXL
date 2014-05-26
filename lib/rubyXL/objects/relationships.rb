@@ -193,8 +193,9 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
       res
     end
 
-    def store_unknown_relationship(related_file)
-puts "-! DEBUG: #{self.class}: unattached: #{related_file.class}"
+    def store_relationship(related_file, unknown = false)
+      self.generic_storage ||= []
+puts "-! DEBUG: #{self.class}: unattached: #{related_file.class}" if unknown
       self.generic_storage << related_file
     end
 
