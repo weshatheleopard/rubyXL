@@ -174,11 +174,30 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
   module RelationshipSupport
 
+    attr_accessor :generic_storage, :relationship_container
+    def related_objects # Override this method
+      []
+    end
+
     def collect_related_objects
-      res = [] + related_objects
+      res = [] + related_objects # Avoid tainting +related_objects+ array
+
+      res += generic_storage if generic_storage
+
+      if relationship_container then
+        relationship_container.owner = self
+        res << relationship_container
+      end
+
       related_objects.each { |o| res += o.collect_related_objects if o.respond_to?(:collect_related_objects) }
       res
     end
+
+    def store_unknown_relationship(related_file)
+puts "-! DEBUG: #{self.class}: unattached: #{related_file.class}"
+      self.generic_storage << related_file
+    end
+
   end
 
 end

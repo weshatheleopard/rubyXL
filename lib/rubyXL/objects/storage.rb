@@ -1,55 +1,5 @@
 module RubyXL
 
-  class WorkbookRoot
-    include RubyXL::RelationshipSupport
-
-    # Dummy object: no contents, only relationships
-    attr_accessor :relationship_container, :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook, :generic_storage
-
-    def initialize
-      super
-      @generic_storage = []
-    end
-
-    def load_relationships(dir_path)
-
-      self.relationship_container = RubyXL::RootRelationships.load_relationship_file(dir_path, '')
-
-      if relationship_container then
-        relationship_container.load_related_files(dir_path, '')
-
-        related_files = relationship_container.related_files
-        related_files.each_pair { |rid, rf|
-          case rf
-          when RubyXL::ThumbnailFile          then self.thumbnail = rf
-          when RubyXL::CorePropertiesFile     then self.core_properties = rf
-          when RubyXL::DocumentPropertiesFile then self.document_properties = rf
-          when RubyXL::CustomPropertiesFile   then self.custom_properties = rf
-          when RubyXL::Workbook               then self.workbook = rf
-          else
-puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
-            self.generic_storage << rf
-          end
-        }
-      end
-
-    end
-
-    def related_objects
-      [ relationship_container, thumbnail, core_properties, document_properties, workbook ] + @generic_storage 
-    end
-
-    def self.default
-      obj = self.new
-      obj.document_properties    = RubyXL::DocumentPropertiesFile.new
-      obj.core_properties        = RubyXL::CorePropertiesFile.new
-      obj.relationship_container = RubyXL::RootRelationships.new
-      obj
-    end
-
-  end
-
-
   class GenericStorageObject
 
     attr_accessor :xlsx_path, :data, :workbook, :generic_storage
@@ -92,7 +42,26 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
   end
 
   class DrawingFile < GenericStorageObject
-    attr_accessor :relationship_container
+    include RubyXL::RelationshipSupport
+
+    def load_relationships(dir_path, base_file_name)
+
+      self.relationship_container = RubyXL::DrawingRelationships.load_relationship_file(dir_path, base_file_name)
+
+      return if relationship_container.nil?
+
+      relationship_container.load_related_files(dir_path, base_file_name)
+
+      related_files = relationship_container.related_files
+      related_files.each_pair { |rid, rf|
+        case rf
+        when RubyXL::ChartFile       then self.generic_storage << rf # TODO
+        when RubyXL::BinaryImageFile then self.generic_storage << rf # TODO
+        else store_unknown_relationship(rf)
+        end
+      }
+
+    end
 
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
@@ -100,33 +69,6 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
 
     def self.content_type
       'application/vnd.openxmlformats-officedocument.drawing+xml'
-    end
-
-    def load_relationships(dir_path, base_file_name)
-
-      self.relationship_container = RubyXL::DrawingRelationships.load_relationship_file(dir_path, base_file_name)
-
-      if relationship_container then
-        relationship_container.load_related_files(dir_path, base_file_name)
-
-        related_files = relationship_container.related_files
-        related_files.each_pair { |rid, rf|
-          case rf
-          when RubyXL::ChartFile       then self.generic_storage << rf # TODO
-          when RubyXL::BinaryImageFile then self.generic_storage << rf # TODO
-          else
-            self.generic_storage << rf
-puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
-          end
-        }
-      end
-    end
-
-    include RubyXL::RelationshipSupport
-
-    def related_objects
-      relationship_container.owner = self if relationship_container
-      [ relationship_container ] + generic_storage
     end
 
   end

@@ -652,7 +652,7 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
                    'urn:schemas-microsoft-com:mac:vml' => 'mv')
 
-    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments, :generic_storage, :relationship_container
+    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
@@ -699,35 +699,32 @@ module RubyXL
       true
     end
 
+    include RubyXL::RelationshipSupport
+
+    def related_objects
+      [ comments ]
+    end
+
     def load_relationships(dir_path, base_file_name)
 
       self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
 
-      if relationship_container then
-        relationship_container.load_related_files(dir_path, base_file_name)
+      return if relationship_container.nil?
 
-        related_files = relationship_container.related_files
-        related_files.each_pair { |rid, rf|
-          case rf
-          when RubyXL::PrinterSettingsFile then self.generic_storage << rf # TODO
-          when RubyXL::CommentsFile        then self.generic_storage << rf # TODO
-          when RubyXL::VMLDrawingFile      then self.generic_storage << rf # TODO
-          when RubyXL::DrawingFile         then self.generic_storage << rf # TODO
-          when RubyXL::BinaryImageFile     then self.generic_storage << rf # TODO
-          when RubyXL::PivotTableFile      then self.generic_storage << rf # TODO
-          else
-            self.generic_storage << rf
-puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
-          end
-        }
-      end
-    end
+      relationship_container.load_related_files(dir_path, base_file_name)
 
-    include RubyXL::RelationshipSupport
-
-    def related_objects
-      relationship_container.owner = self if relationship_container
-      [ relationship_container, comments ] + generic_storage
+      related_files = relationship_container.related_files
+      related_files.each_pair { |rid, rf|
+        case rf
+        when RubyXL::PrinterSettingsFile then self.generic_storage << rf # TODO
+        when RubyXL::CommentsFile        then self.generic_storage << rf # TODO
+        when RubyXL::VMLDrawingFile      then self.generic_storage << rf # TODO
+        when RubyXL::DrawingFile         then self.generic_storage << rf # TODO
+        when RubyXL::BinaryImageFile     then self.generic_storage << rf # TODO
+        when RubyXL::PivotTableFile      then self.generic_storage << rf # TODO
+        else store_unknown_relationship(rf)
+        end
+      }
     end
 
     def xlsx_dir

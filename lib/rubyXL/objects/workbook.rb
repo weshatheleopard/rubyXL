@@ -314,13 +314,8 @@ module RubyXL
                    'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
-    attr_accessor :generic_storage, :root
+    attr_accessor :root
     attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container
-
-    def initialize(*args)
-      super
-      @generic_storage = []
-    end
 
     def before_write_xml
       self.sheets = RubyXL::Sheets.new
@@ -332,6 +327,13 @@ module RubyXL
                                     :state => sheet.state, :r_id => rel.id)
       }
       true
+    end
+
+    include RubyXL::RelationshipSupport
+
+    def related_objects
+      content_types.workbook = self
+      [ content_types, calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
     end
 
     def load_relationships(dir_path, base_file_name)
@@ -349,8 +351,7 @@ module RubyXL
         when RubyXL::PivotCacheDefinitionFile then self.generic_storage << rf # TODO
         when RubyXL::CustomXMLFile            then self.generic_storage << rf # TODO
         when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
-        else 
-puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
+        else store_unknown_relationship(rf)
         end
       }
 
@@ -364,13 +365,6 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
         sheet_obj.sheet_id = sheet.sheet_id
         sheet_obj.state = sheet.state
       }
-    end
-
-    include RubyXL::RelationshipSupport
-
-    def related_objects
-      relationship_container.workbook = content_types.workbook = self
-      [ relationship_container, content_types, calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets + generic_storage
     end
 
     include LegacyWorkbook

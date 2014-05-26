@@ -74,19 +74,9 @@ module RubyXL
     set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
 
-    attr_accessor :state, :rels, :generic_storage
-
-    def initialize(*args)
-      super
-      @generic_storage = []
-    end
+    attr_accessor :state, :rels
 
     include RubyXL::RelationshipSupport
-
-    def related_objects
-      relationship_container.owner = self if relationship_container
-      [ relationship_container ] + generic_storage
-    end
 
     def xlsx_dir
       File.join('xl', 'chartsheets')
@@ -104,26 +94,23 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
     end
 
-    attr_accessor :workbook, :sheet_name, :sheet_id, :relationship_container
+    attr_accessor :workbook, :sheet_name, :sheet_id
 
     def load_relationships(dir_path, base_file_name)
 
       self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
 
-      if relationship_container then
-        relationship_container.load_related_files(dir_path, base_file_name)
+      return if relationship_container.nil?
 
-        related_files = relationship_container.related_files
-        related_files.each_pair { |rid, rf|
-          case rf
-          when RubyXL::DrawingFile then self.generic_storage << rf # TODO
-          else
-            self.generic_storage << rf
-puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
-          end
-        }
-      end
+      relationship_container.load_related_files(dir_path, base_file_name)
 
+      related_files = relationship_container.related_files
+      related_files.each_pair { |rid, rf|
+        case rf
+        when RubyXL::DrawingFile then self.generic_storage << rf # TODO
+        else store_unknown_relationship(rf)
+        end
+      }
     end
 
   end
