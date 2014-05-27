@@ -652,7 +652,7 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
                    'urn:schemas-microsoft-com:mac:vml' => 'mv')
 
-    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments
+    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments, :printer_settings
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
@@ -702,7 +702,7 @@ module RubyXL
     include RubyXL::RelationshipSupport
 
     def related_objects
-      [ comments ]
+      comments + printer_settings
     end
 
     def load_relationships(dir_path, base_file_name)
@@ -716,8 +716,8 @@ module RubyXL
       related_files = relationship_container.related_files
       related_files.each_pair { |rid, rf|
         case rf
-        when RubyXL::PrinterSettingsFile then store_relationship(rf) # TODO
-        when RubyXL::CommentsFile        then store_relationship(rf) # TODO
+        when RubyXL::PrinterSettingsFile then printer_settings << rf
+        when RubyXL::CommentsFile        then comments << rf
         when RubyXL::VMLDrawingFile      then store_relationship(rf) # TODO
         when RubyXL::DrawingFile         then store_relationship(rf) # TODO
         when RubyXL::BinaryImageFile     then store_relationship(rf) # TODO
