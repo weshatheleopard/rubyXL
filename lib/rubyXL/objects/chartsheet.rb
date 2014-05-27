@@ -78,12 +78,8 @@ module RubyXL
 
     include RubyXL::RelationshipSupport
 
-    def xlsx_dir
-      File.join('xl', 'chartsheets')
-    end
-
     def xlsx_path
-      File.join(xlsx_dir, "sheet#{file_index}.xml")
+      File.join('xl', 'chartsheets', "sheet#{file_index}.xml")
     end
 
     def self.rel_type

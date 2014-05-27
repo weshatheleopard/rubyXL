@@ -727,12 +727,8 @@ module RubyXL
       }
     end
 
-    def xlsx_dir
-      File.join('xl', 'worksheets')
-    end
-
     def xlsx_path
-      File.join(xlsx_dir, "sheet#{file_index}.xml")
+      File.join('xl', 'worksheets', "sheet#{file_index}.xml")
     end
 
     def self.content_type
