@@ -95,7 +95,7 @@ module RubyXL
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
         self.rels_hash = {}
         content_types.overrides = []
-        content_types.add_override(self)
+#        content_types.add_override(self)
 
         root.relationship_container.owner = root
         root.collect_related_objects.compact.each { |obj|

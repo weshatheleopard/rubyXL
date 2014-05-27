@@ -396,10 +396,6 @@ module RubyXL
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
     def xlsx_path
-      self.class.xlsx_path
-    end
-
-    def self.xlsx_path
       raise 'Subclass responsebility'
     end
 

@@ -88,6 +88,11 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
       parse_file(zipdir_path, rel_file_path)
     end
 
+    def xlsx_path
+      file_path = owner.xlsx_path
+      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+    end
+
   end
 	
   class WorkbookRelationships < OOXMLRelationshipsFile
@@ -119,10 +124,6 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
       true
     end
 
-    def self.xlsx_path
-      File.join('xl', '_rels', 'workbook.xml.rels')
-    end
-
   end
 
   class RootRelationships < OOXMLRelationshipsFile
@@ -140,35 +141,26 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
       true
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('_rels', '.rels')
     end
   end
 
   class SheetRelationships < OOXMLRelationshipsFile
 
-    def xlsx_path
-      file_path = owner.xlsx_path
-      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
-    end
+    # Insert class specific stuff here once we get to implementing it
 
   end
 
   class DrawingRelationships < OOXMLRelationshipsFile
 
-    def xlsx_path
-      file_path = owner.xlsx_path
-      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
-    end
+    # Insert class specific stuff here once we get to implementing it
 
   end
 
   class ChartRelationships < OOXMLRelationshipsFile
 
-    def xlsx_path
-      file_path = owner.xlsx_path
-      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
-    end
+    # Insert class specific stuff here once we get to implementing it
 
   end
 
@@ -180,7 +172,7 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
     end
 
     def collect_related_objects
-      res = [] + related_objects # Avoid tainting +related_objects+ array
+      res = related_objects.compact # Avoid tainting +related_objects+ array
 
       res += generic_storage if generic_storage
 
@@ -189,7 +181,8 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
         res << relationship_container
       end
 
-      related_objects.each { |o| res += o.collect_related_objects if o.respond_to?(:collect_related_objects) }
+      res.each { |o| res += o.collect_related_objects if o.respond_to?(:collect_related_objects) }
+
       res
     end
 

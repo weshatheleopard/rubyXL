@@ -183,7 +183,7 @@ module RubyXL
       @format_hash = nil
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'styles.xml')
     end
 

@@ -48,7 +48,7 @@ module RubyXL
       index 
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'sharedStrings.xml')
     end
 

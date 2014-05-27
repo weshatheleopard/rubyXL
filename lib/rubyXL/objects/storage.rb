@@ -107,11 +107,6 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
 
     include RubyXL::RelationshipSupport
 
-    def related_objects
-      relationship_container.owner = self if relationship_container
-      [ relationship_container ] + generic_storage
-    end
-
   end
 
   class VMLDrawingFile < GenericStorageObject

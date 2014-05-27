@@ -9,7 +9,7 @@ module RubyXL
     include RubyXL::RelationshipSupport
 
     def related_objects
-      [ relationship_container, thumbnail, core_properties, document_properties, workbook ] #+ @generic_storage 
+      [ thumbnail, core_properties, document_properties, workbook ]
     end
 
     def load_relationships(dir_path)

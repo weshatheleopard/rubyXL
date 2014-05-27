@@ -27,6 +27,10 @@ module RubyXL
       '[Content_Types].xml'
     end
 
+    def xlsx_path
+      self.class.xlsx_path
+    end
+
     def self.save_order
       999  # Must be saved last, so it has time to accumulate overrides from all others.
     end

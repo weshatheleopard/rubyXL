@@ -437,7 +437,7 @@ module RubyXL
       root.core_properties.modified_at = v
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'workbook.xml')
     end
 

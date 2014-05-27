@@ -67,7 +67,7 @@ module RubyXL
       true
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('docProps', 'app.xml')
     end
 
@@ -109,7 +109,7 @@ module RubyXL
                    'http://www.w3.org/2001/XMLSchema-instance' => 'xsi')
     define_element_name 'cp:coreProperties'
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('docProps', 'core.xml')
     end
 
