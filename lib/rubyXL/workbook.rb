@@ -95,17 +95,16 @@ module RubyXL
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
         self.rels_hash = {}
         content_types.overrides = []
-#        content_types.add_override(self)
 
         root.relationship_container.owner = root
         root.collect_related_objects.compact.each { |obj|
- puts "--> DEBUG: adding relationship to #{obj.class}"
+puts "--> DEBUG: adding relationship to #{obj.class}"
           rels_hash[obj.class] ||= []
           rels_hash[obj.class] << obj
         }
 
         rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
-puts "--> DEBUG: saving related files of class #{klass}"
+puts "--> DEBUG: saving related #{klass} files"
           rels_hash[klass].each { |obj|
             obj.workbook = self if obj.respond_to?(:workbook=)
 puts "--> DEBUG:   >>> #{obj.xlsx_path}"

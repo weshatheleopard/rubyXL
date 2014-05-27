@@ -28,6 +28,14 @@ module RubyXL
     end
     protected :new_relationship
 
+    def add_relationship(obj)
+      return if obj.nil?
+      relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
+                                                :type => obj.class.rel_type,
+                                                :target => obj.xlsx_path)
+    end
+    protected :add_relationship
+
     def self.save_order
       0
     end
@@ -55,6 +63,8 @@ module RubyXL
     def load_related_files(zipdir_path, base_file_name = '')
       self.related_files = {}
 
+@@debug_depth +=1
+
       self.relationships.each { |rel|
         next if rel.target_mode == 'External'
 
@@ -71,12 +81,13 @@ module RubyXL
           klass = GenericStorageObject
         end
 
-puts "==>DEBUG:   <<< Loading related #{klass} (#{rel.id}): #{file_path}"
+puts "==>DEBUG: #{"  " * @@debug_depth}<<< Loading related #{klass} (#{rel.id}): #{file_path}"
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
         self.related_files[rel.id] = obj
       }
+@@debug_depth -=1
 
       related_files
     end
@@ -84,7 +95,8 @@ puts "==>DEBUG:   <<< Loading related #{klass} (#{rel.id}): #{file_path}"
     def self.load_relationship_file(zipdir_path, base_file_path)
       rel_file_path = File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')
 
-puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_file_path}"
+@@debug_depth = 0 unless defined?(@@debug_depth)
+puts "==>DEBUG: #{"  " * @@debug_depth}Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_file_path}"
 
       parse_file(zipdir_path, rel_file_path)
     end
@@ -132,10 +144,10 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
     def before_write_xml
       self.relationships = []
 
-      relationships << new_relationship('xl/workbook.xml', owner.workbook.class.rel_type)
-      relationships << new_relationship('docProps/thumbnail.jpeg', owner.thumbnail.class.rel_type) if owner.thumbnail
-      relationships << new_relationship('docProps/core.xml',owner.core_properties.class.rel_type) if owner.core_properties 
-      relationships << new_relationship('docProps/app.xml', owner.document_properties.class.rel_type) if owner.document_properties
+      add_relationship(owner.workbook)
+      add_relationship(owner.thumbnail)
+      add_relationship(owner.core_properties)
+      add_relationship(owner.document_properties)
 
       true
     end

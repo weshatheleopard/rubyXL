@@ -56,6 +56,7 @@ module RubyXL
       # TODO: Need to only write these types when respective content is actually present.
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'jpeg', :content_type => 'image/jpeg')
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'png', :content_type => 'image/png')
+      defaults << RubyXL::ContentTypeDefault.new(:extension => 'wmf', :content_type => 'image/x-wmf')
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'vml', :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
 
       true
