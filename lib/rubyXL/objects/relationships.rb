@@ -21,7 +21,6 @@ module RubyXL
 
     attr_accessor :related_files, :owner
 
-
     def new_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
                                :type => type,
@@ -128,8 +127,6 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
 
   class RootRelationships < OOXMLRelationshipsFile
 
-    attr_accessor :owner
-
     def before_write_xml
       self.relationships = []
 
@@ -146,22 +143,16 @@ puts "==>DEBUG: Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_fi
     end
   end
 
-  class SheetRelationships < OOXMLRelationshipsFile
-
+  class SheetRelationshipsFile < OOXMLRelationshipsFile
     # Insert class specific stuff here once we get to implementing it
-
   end
 
-  class DrawingRelationships < OOXMLRelationshipsFile
-
+  class DrawingRelationshipsFile < OOXMLRelationshipsFile
     # Insert class specific stuff here once we get to implementing it
-
   end
 
-  class ChartRelationships < OOXMLRelationshipsFile
-
+  class ChartRelationshipsFile < OOXMLRelationshipsFile
     # Insert class specific stuff here once we get to implementing it
-
   end
 
   module RelationshipSupport

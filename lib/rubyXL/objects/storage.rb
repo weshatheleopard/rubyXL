@@ -46,7 +46,7 @@ module RubyXL
 
     def load_relationships(dir_path, base_file_name)
 
-      self.relationship_container = RubyXL::DrawingRelationships.load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = RubyXL::DrawingRelationshipsFile.load_relationship_file(dir_path, base_file_name)
 
       return if relationship_container.nil?
 
@@ -86,7 +86,7 @@ module RubyXL
 
     def load_relationships(dir_path, base_file_name)
 
-      self.relationship_container = RubyXL::ChartRelationships.load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = RubyXL::ChartRelationshipsFile.load_relationship_file(dir_path, base_file_name)
 
       if relationship_container then
         relationship_container.load_related_files(dir_path, base_file_name)

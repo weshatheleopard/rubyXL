@@ -707,7 +707,7 @@ module RubyXL
 
     def load_relationships(dir_path, base_file_name)
 
-      self.relationship_container = RubyXL::SheetRelationships.load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = RubyXL::SheetRelationshipsFile.load_relationship_file(dir_path, base_file_name)
 
       return if relationship_container.nil?
 
