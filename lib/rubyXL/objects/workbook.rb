@@ -338,10 +338,7 @@ module RubyXL
 
     def load_relationships(dir_path, base_file_name)
       self.relationship_container = RubyXL::WorkbookRelationships.load_relationship_file(dir_path, base_file_name)
-      relationship_container.load_related_files(dir_path, base_file_name)
-
-      related_files = relationship_container.related_files
-      related_files.each_pair { |rid, rf|
+      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
         case rf
         when RubyXL::SharedStringsTable       then self.shared_strings_container = rf
         when RubyXL::Stylesheet               then self.stylesheet = rf

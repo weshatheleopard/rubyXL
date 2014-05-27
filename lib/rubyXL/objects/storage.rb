@@ -50,10 +50,7 @@ module RubyXL
 
       return if relationship_container.nil?
 
-      relationship_container.load_related_files(dir_path, base_file_name)
-
-      related_files = relationship_container.related_files
-      related_files.each_pair { |rid, rf|
+      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
         case rf
         when RubyXL::ChartFile       then store_relationship(rf) # TODO
         when RubyXL::BinaryImageFile then store_relationship(rf) # TODO
@@ -89,10 +86,7 @@ module RubyXL
       self.relationship_container = RubyXL::ChartRelationshipsFile.load_relationship_file(dir_path, base_file_name)
 
       if relationship_container then
-        relationship_container.load_related_files(dir_path, base_file_name)
-
-        related_files = relationship_container.related_files
-        related_files.each_pair { |rid, rf|
+        relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
           case rf
           when RubyXL::ChartColorsFile     then self.generic_storage << rf # TODO
           when RubyXL::ChartStyleFile      then self.generic_storage << rf # TODO

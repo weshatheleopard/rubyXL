@@ -98,10 +98,7 @@ module RubyXL
 
       return if relationship_container.nil?
 
-      relationship_container.load_related_files(dir_path, base_file_name)
-
-      related_files = relationship_container.related_files
-      related_files.each_pair { |rid, rf|
+      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
         case rf
         when RubyXL::DrawingFile then store_relationship(rf) # TODO
         else store_relationship(rf, :unknown)

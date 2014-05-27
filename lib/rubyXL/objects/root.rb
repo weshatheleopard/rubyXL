@@ -18,10 +18,7 @@ module RubyXL
 
       return if relationship_container.nil?
 
-      relationship_container.load_related_files(dir_path, '')
-
-      related_files = relationship_container.related_files
-      related_files.each_pair { |rid, rf|
+      relationship_container.load_related_files(dir_path, '').each_pair { |rid, rf|
         case rf
         when RubyXL::ThumbnailFile          then self.thumbnail = rf
         when RubyXL::CorePropertiesFile     then self.core_properties = rf

@@ -77,6 +77,8 @@ puts "==>DEBUG:   <<< Loading related #{klass} (#{rel.id}): #{file_path}"
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
         self.related_files[rel.id] = obj
       }
+
+      related_files
     end
 
     def self.load_relationship_file(zipdir_path, base_file_path)
