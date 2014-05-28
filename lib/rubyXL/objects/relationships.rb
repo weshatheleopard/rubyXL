@@ -33,7 +33,7 @@ module RubyXL
     def add_relationship(obj)
       return if obj.nil?
       relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
-                                                :type => obj.class.rel_type,
+                                                :type => obj.class::REL_TYPE,
                                                 :target => obj.xlsx_path)
     end
     protected :add_relationship
@@ -55,7 +55,10 @@ module RubyXL
         @@rel_hash = {}
         RubyXL.constants.each { |c|
           klass = RubyXL.const_get(c)
-          @@rel_hash[klass.rel_type] = klass if klass.respond_to?(:rel_type)
+
+          if klass.is_a?(Class) && klass.const_defined?(:REL_TYPE) then
+            @@rel_hash[klass::REL_TYPE] = klass
+          end
         }
       end
 
@@ -118,22 +121,22 @@ module RubyXL
       self.relationships = []
 
       @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << new_relationship(sheet.xlsx_path.gsub(/\Axl\//, ''), sheet.class.rel_type)
+        relationships << new_relationship(sheet.xlsx_path.gsub(/\Axl\//, ''), sheet.class::REL_TYPE)
       }
 
 #      @workbook.external_links.each_key { |k| 
 #        relationships << new_relationship("externalLinks/#{k}", 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink')
 #      }
 
-      relationships << new_relationship('theme/theme1.xml', @workbook.theme.class.rel_type) if @workbook.theme
-      relationships << new_relationship('styles.xml', @workbook.stylesheet.class.rel_type) if @workbook.stylesheet
+      relationships << new_relationship('theme/theme1.xml', @workbook.theme.class::REL_TYPE) if @workbook.theme
+      relationships << new_relationship('styles.xml', @workbook.stylesheet.class::REL_TYPE) if @workbook.stylesheet
 
       if @workbook.shared_strings_container && !@workbook.shared_strings_container.strings.empty? then
-        relationships << new_relationship('sharedStrings.xml', @workbook.shared_strings_container.class.rel_type)
+        relationships << new_relationship('sharedStrings.xml', @workbook.shared_strings_container.class::REL_TYPE)
       end
 
       if @workbook.calculation_chain && !@workbook.calculation_chain.cells.empty? then
-        relationships << new_relationship('calcChain.xml', @workbook.calculation_chain.class.rel_type)
+        relationships << new_relationship('calcChain.xml', @workbook.calculation_chain.class::REL_TYPE)
       end
 
       true

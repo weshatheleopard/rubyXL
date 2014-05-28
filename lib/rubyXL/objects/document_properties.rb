@@ -5,6 +5,9 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.html
   class DocumentPropertiesFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.extended-properties+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties'
+
     attr_accessor :workbook
 
     define_child_node(RubyXL::StringNode,  :node_name => :Template)
@@ -71,18 +74,13 @@ module RubyXL
       File.join('docProps', 'app.xml')
     end
 
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.extended-properties+xml'
-    end
-
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties'
-    end
-
   end
 
 
   class CorePropertiesFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-package.core-properties+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'
+
     attr_accessor :workbook
 
     define_child_node(RubyXL::StringNode,    :node_name => 'dc:creator')
@@ -111,14 +109,6 @@ module RubyXL
 
     def xlsx_path
       File.join('docProps', 'core.xml')
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-package.core-properties+xml'
-    end
-
-    def self.rel_type
-      'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'
     end
 
     def creator

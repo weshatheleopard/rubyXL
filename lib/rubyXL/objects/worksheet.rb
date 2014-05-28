@@ -654,6 +654,9 @@ module RubyXL
 
     attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments, :printer_settings
 
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
+
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
       last_nonempty_row = 0
@@ -724,15 +727,6 @@ module RubyXL
     def xlsx_path
       File.join('xl', 'worksheets', "sheet#{file_index}.xml")
     end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
-    end
-
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
-    end
-
     def self.parse(param)
       sheet_obj = super
       sheet_obj.sheet_data.rows.each { |r|

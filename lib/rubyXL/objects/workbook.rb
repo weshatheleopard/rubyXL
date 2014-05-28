@@ -287,6 +287,11 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
+
+    include RubyXL::RelationshipSupport
+
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
@@ -328,8 +333,6 @@ module RubyXL
       }
       true
     end
-
-    include RubyXL::RelationshipSupport
 
     def related_objects
       [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
@@ -423,14 +426,6 @@ module RubyXL
 
     def xlsx_path
       File.join('xl', 'workbook.xml')
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
-    end
-
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
     end
 
     include LegacyWorkbook

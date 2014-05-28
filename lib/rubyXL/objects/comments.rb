@@ -26,6 +26,9 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_comments.html
   class CommentsFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'
+
     define_child_node(RubyXL::Authors)
     define_child_node(RubyXL::CommentList)
     define_child_node(RubyXL::ExtensionStorageArea)
@@ -36,14 +39,6 @@ module RubyXL
 
     def xlsx_path
       File.join('xl', "comments#{file_index}.xml")
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml'
-    end
-
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'
     end
 
   end

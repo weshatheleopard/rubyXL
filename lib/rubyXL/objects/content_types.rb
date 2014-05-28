@@ -36,8 +36,8 @@ module RubyXL
     end
 
     def add_override(obj)
-      return unless obj.class.respond_to?(:content_type)
-      overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class.content_type)
+      return unless obj.class.const_defined?(:CONTENT_TYPE)
+      overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class::CONTENT_TYPE)
     end
 
     def before_write_xml

@@ -45,12 +45,13 @@ module RubyXL
   end
 
   class PrinterSettingsFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
-    end
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
   end
 
   class DrawingFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
+
     include RubyXL::RelationshipSupport
 
     def relationship_file_class
@@ -65,26 +66,13 @@ module RubyXL
       end
     end
 
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.drawing+xml'
-    end
-
   end
 
   class ChartFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
+
     include RubyXL::RelationshipSupport
-
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
-    end
 
     def relationship_file_class
       RubyXL::ChartRelationshipsFile
@@ -102,127 +90,72 @@ module RubyXL
   end
 
   class VMLDrawingFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
-    end
+#    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
+    REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
 
-#    def self.content_type
-#      'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
-#    end
   end
 
   class ChartColorsFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.microsoft.com/office/2011/relationships/chartColorStyle'
-    end
-
-    def self.content_type
-      'application/vnd.ms-office.chartcolorstyle+xml'
-    end
+    CONTENT_TYPE = 'application/vnd.ms-office.chartcolorstyle+xml'
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2011/relationships/chartColorStyle'
   end
 
   class ChartStyleFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.microsoft.com/office/2011/relationships/chartStyle'
-    end
-
-    def self.content_type
-      'application/vnd.ms-office.chartstyle+xml'
-    end
+    CONTENT_TYPE = 'application/vnd.ms-office.chartstyle+xml'
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2011/relationships/chartStyle'
   end
 
   class TableFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/table'
-    end
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/table'
   end
 
   class ControlPropertiesFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/ctrlProp'
-    end
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/ctrlProp'
   end
 
   class PivotTableFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'
-    end
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'
   end
 
   class PivotCacheDefinitionFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheDefinition'
-    end
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheDefinition'
   end
 
   class BinaryImageFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
-    end
-
-#    def self.content_type
-#      'image/jpeg'
-#    end
+#    CONTENT_TYPE = 'image/jpeg'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
   end
 
   class HyperlinkRelFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink'
-    end
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink'
   end
 
   class ThumbnailFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
-    end
-
-    # default path = 'docProps/thumbnail.jpeg'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
   end
 
   class ChartUserShapesFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartUserShapes'
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml'
-    end
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartUserShapes'
   end
 
   class CustomPropertiesFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties'
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.custom-properties+xml'
-    end
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.custom-properties+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties'
   end
 
   class MacrosFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.microsoft.com/office/2006/relationships/vbaProject'
-    end
-
-    def self.content_type
-      'application/vnd.ms-office.vbaProject'
-    end
+    CONTENT_TYPE = 'application/vnd.ms-office.vbaProject'
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2006/relationships/vbaProject'
   end
 
   class ExternalLinksFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
-    end
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'
   end
 
   class CustomXMLFile < GenericStorageObject
-    def self.rel_type
-      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'
-    end
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'
   end
 
 end
