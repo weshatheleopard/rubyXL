@@ -63,7 +63,7 @@ module RubyXL
     def load_related_files(zipdir_path, base_file_name = '')
       self.related_files = {}
 
-@@debug_depth +=1
+@@debug_depth +=2
 
       self.relationships.each { |rel|
         next if rel.target_mode == 'External'
@@ -81,13 +81,13 @@ module RubyXL
           klass = GenericStorageObject
         end
 
-puts "==>DEBUG: #{"  " * @@debug_depth}<<< Loading related #{klass} (#{rel.id}): #{file_path}"
+puts "==>DEBUG:#{'  ' * @@debug_depth}Loading #{klass} (#{rel.id}): #{file_path}"
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
         self.related_files[rel.id] = obj
       }
-@@debug_depth -=1
+@@debug_depth -=2
 
       related_files
     end
@@ -96,7 +96,7 @@ puts "==>DEBUG: #{"  " * @@debug_depth}<<< Loading related #{klass} (#{rel.id}):
       rel_file_path = File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')
 
 @@debug_depth = 0 unless defined?(@@debug_depth)
-puts "==>DEBUG: #{"  " * @@debug_depth}Loading .rel file: base_file=#{base_file_path} rel_file=#{rel_file_path}"
+puts "==>DEBUG:  #{'  ' * @@debug_depth}Loading .rel file: #{rel_file_path}"
 
       parse_file(zipdir_path, rel_file_path)
     end

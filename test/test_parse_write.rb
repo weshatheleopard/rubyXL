@@ -6,7 +6,7 @@ spreadsheets = Dir.glob(File.join("test", "input", "*.xlsx")).sort!
 spreadsheets.each { |input|
   puts "<<<--- Parsing #{input}..."
   doc = nil
-  tm = Benchmark.realtime { doc = RubyXL::Parser.parse(input, :keep_tempfiles_on_error => true) }
+  tm = Benchmark.realtime { doc = RubyXL::Parser.parse(input) }
   puts "Elapsed: #{tm} sec"
   output = File.join("test", "output", File.basename(input))
   puts  "--->>> Writing #{output}..."
