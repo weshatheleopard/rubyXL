@@ -35,6 +35,17 @@ module RubyXL
         }
       end
 
+      wb.sheets.each_with_index { |sheet, i|
+        sheet_obj = wb.relationship_container.related_files[sheet.r_id]
+
+        wb.worksheets[i] = sheet_obj # Must be done first so the sheet becomes aware of its number
+        sheet_obj.workbook = wb
+
+        sheet_obj.sheet_name = sheet.name
+        sheet_obj.sheet_id = sheet.sheet_id
+        sheet_obj.state = sheet.state
+      }
+
       wb
     end
 

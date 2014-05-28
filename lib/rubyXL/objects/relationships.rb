@@ -83,7 +83,7 @@ module RubyXL
           klass = GenericStorageObject
         end
 
-        puts "==>DEBUG:#{'  ' * @@debug}Loading #{klass} (#{rel.id}): #{file_path}" if @@debug
+        puts "--> DEBUG:#{'  ' * @@debug}Loading #{klass} (#{rel.id}): #{file_path}" if @@debug
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
@@ -98,7 +98,7 @@ module RubyXL
     def self.load_relationship_file(zipdir_path, base_file_path)
       rel_file_path = Pathname.new(File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')).cleanpath
 
-      puts "==>DEBUG:  #{'  ' * @@debug}Loading .rel file: #{rel_file_path}" if @@debug
+      puts "--> DEBUG:  #{'  ' * @@debug}Loading .rel file: #{rel_file_path}" if @@debug
 
       parse_file(zipdir_path, rel_file_path)
     end
@@ -197,6 +197,15 @@ module RubyXL
       self.generic_storage ||= []
 puts "-! DEBUG: #{self.class}: unattached: #{related_file.class}" if unknown
       self.generic_storage << related_file
+    end
+
+    def load_relationships(dir_path, base_file_name = '')
+      self.relationship_container = relationship_file_class.load_relationship_file(dir_path, base_file_name)
+      return if relationship_container.nil?
+
+      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
+        attach_relationship(rid, rf)
+      }
     end
 
   end

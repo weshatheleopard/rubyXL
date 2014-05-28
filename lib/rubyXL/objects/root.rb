@@ -14,23 +14,19 @@ module RubyXL
       [ content_types, thumbnail, core_properties, document_properties, workbook ]
     end
 
-    def load_relationships(dir_path)
+    def relationship_file_class
+      RubyXL::RootRelationships
+    end
 
-      self.relationship_container = RubyXL::RootRelationships.load_relationship_file(dir_path, '')
-
-      return if relationship_container.nil?
-
-      relationship_container.load_related_files(dir_path, '').each_pair { |rid, rf|
-        case rf
-        when RubyXL::ThumbnailFile          then self.thumbnail = rf
-        when RubyXL::CorePropertiesFile     then self.core_properties = rf
-        when RubyXL::DocumentPropertiesFile then self.document_properties = rf
-        when RubyXL::CustomPropertiesFile   then self.custom_properties = rf
-        when RubyXL::Workbook               then self.workbook = rf
-        else store_relationship(rf, :unknown)
-        end
-      }
-
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::ThumbnailFile          then self.thumbnail = rf
+      when RubyXL::CorePropertiesFile     then self.core_properties = rf
+      when RubyXL::DocumentPropertiesFile then self.document_properties = rf
+      when RubyXL::CustomPropertiesFile   then self.custom_properties = rf
+      when RubyXL::Workbook               then self.workbook = rf
+      else store_relationship(rf, :unknown)
+      end
     end
 
     def self.default

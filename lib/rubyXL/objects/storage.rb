@@ -53,20 +53,16 @@ module RubyXL
   class DrawingFile < GenericStorageObject
     include RubyXL::RelationshipSupport
 
-    def load_relationships(dir_path, base_file_name)
+    def relationship_file_class
+      RubyXL::DrawingRelationshipsFile
+    end
 
-      self.relationship_container = RubyXL::DrawingRelationshipsFile.load_relationship_file(dir_path, base_file_name)
-
-      return if relationship_container.nil?
-
-      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
-        case rf
-        when RubyXL::ChartFile       then store_relationship(rf) # TODO
-        when RubyXL::BinaryImageFile then store_relationship(rf) # TODO
-        else store_relationship(rf, :unknown)
-        end
-      }
-
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::ChartFile       then store_relationship(rf) # TODO
+      when RubyXL::BinaryImageFile then store_relationship(rf) # TODO
+      else store_relationship(rf, :unknown)
+      end
     end
 
     def self.rel_type
@@ -90,23 +86,19 @@ module RubyXL
       'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     end
 
-    def load_relationships(dir_path, base_file_name)
+    def relationship_file_class
+      RubyXL::ChartRelationshipsFile
+    end
 
-      self.relationship_container = RubyXL::ChartRelationshipsFile.load_relationship_file(dir_path, base_file_name)
-
-      if relationship_container then
-        relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
-          case rf
-          when RubyXL::ChartColorsFile     then self.generic_storage << rf # TODO
-          when RubyXL::ChartStyleFile      then self.generic_storage << rf # TODO
-          when RubyXL::ChartUserShapesFile then self.generic_storage << rf # TODO
-          else
-            self.generic_storage << rf
-puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
-          end
-        }
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::ChartColorsFile     then self.generic_storage << rf # TODO
+      when RubyXL::ChartStyleFile      then self.generic_storage << rf # TODO
+      when RubyXL::ChartUserShapesFile then self.generic_storage << rf # TODO
+      else store_relationship(rf, :unknown)
       end
     end
+
   end
 
   class VMLDrawingFile < GenericStorageObject

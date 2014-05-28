@@ -92,18 +92,15 @@ module RubyXL
 
     attr_accessor :workbook, :sheet_name, :sheet_id
 
-    def load_relationships(dir_path, base_file_name)
+    def relationship_file_class
+      RubyXL::SheetRelationshipsFile
+    end
 
-      self.relationship_container = RubyXL::SheetRelationshipsFile.load_relationship_file(dir_path, base_file_name)
-
-      return if relationship_container.nil?
-
-      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
-        case rf
-        when RubyXL::DrawingFile then store_relationship(rf) # TODO
-        else store_relationship(rf, :unknown)
-        end
-      }
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::DrawingFile then store_relationship(rf) # TODO
+      else store_relationship(rf, :unknown)
+      end
     end
 
   end
