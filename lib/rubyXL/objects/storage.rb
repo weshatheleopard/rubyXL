@@ -208,9 +208,9 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
   end
 
   class MacrosFile < GenericStorageObject
-#    def self.rel_type
-#      'http://schemas...'
-#    end
+    def self.rel_type
+      'http://schemas.microsoft.com/office/2006/relationships/vbaProject'
+    end
 
     def self.content_type
       'application/vnd.ms-office.vbaProject'

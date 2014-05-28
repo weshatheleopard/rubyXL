@@ -1,7 +1,7 @@
 require 'rubyXL'
 require 'benchmark'
 
-spreadsheets = Dir.glob(File.join("test", "input", "*.xlsx")).sort!
+spreadsheets = Dir.glob(File.join("test", "input", "*.xls?")).sort!
 
 spreadsheets.each { |input|
   puts "<<<--- Parsing #{input}..."

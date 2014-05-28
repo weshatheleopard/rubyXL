@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'tmpdir'
 require 'zip'
-require 'rubyXL/generic_storage'
 
 module RubyXL
 

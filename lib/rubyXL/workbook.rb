@@ -25,7 +25,6 @@ module RubyXL
       @creator             = creator
       @modifier            = modifier
       self.date1904        = date1904 > 0
-      @macros              = RubyXL::GenericStorage.new('xl').binary
 
       @theme                    = RubyXL::Theme.defaults
       @shared_strings_container = RubyXL::SharedStringsTable.new
