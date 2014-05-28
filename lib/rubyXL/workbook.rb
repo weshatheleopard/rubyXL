@@ -5,9 +5,7 @@ require 'zip'
 module RubyXL
   module LegacyWorkbook
     include Enumerable
-    attr_accessor :worksheets, :filepath, :rels_hash
-
-    attr_accessor :relationship_container, :content_types
+    attr_accessor :worksheets, :filepath
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -32,12 +30,10 @@ module RubyXL
       @theme                    = RubyXL::Theme.defaults
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
-      @content_types            = RubyXL::ContentTypes.new
       @relationship_container   = RubyXL::WorkbookRelationships.new
       @root                     = RubyXL::WorkbookRoot.default
       @root.workbook = self
       @comments                 = []
-      @rels_hash = {}
 
       self.company         = company
       self.application     = application
@@ -93,22 +89,22 @@ module RubyXL
       zippath  = File.join(temppath, 'file.zip')
 
       ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        self.rels_hash = {}
-        content_types.overrides = []
-
+        root.rels_hash = {}
         root.relationship_container.owner = root
+        root.content_types.overrides = []
+        root.content_types.owner = root
         root.collect_related_objects.compact.each { |obj|
 puts "--> DEBUG: adding relationship to #{obj.class}"
-          rels_hash[obj.class] ||= []
-          rels_hash[obj.class] << obj
+          root.rels_hash[obj.class] ||= []
+          root.rels_hash[obj.class] << obj
         }
 
-        rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
+        root.rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
 puts "--> DEBUG: saving related #{klass} files"
-          rels_hash[klass].each { |obj|
+          root.rels_hash[klass].each { |obj|
             obj.workbook = self if obj.respond_to?(:workbook=)
 puts "--> DEBUG:   >>> #{obj.xlsx_path}"
-            content_types.add_override(obj)
+            root.content_types.add_override(obj)
             obj.add_to_zip(zipfile)
           }
         }

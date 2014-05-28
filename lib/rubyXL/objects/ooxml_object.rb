@@ -109,7 +109,7 @@ module RubyXL
     end
 
     def parse(node, known_namespaces = nil)
-      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
+      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String) || node.is_a?(Zip::InputStream)
 
       if node.is_a?(Nokogiri::XML::Document) then
         @namespaces = node.namespaces
@@ -418,10 +418,19 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(dirpath, file_path = nil)
-      full_path = File.join(dirpath, file_path || self.xlsx_path)
-      return nil unless File.exist?(full_path)
-      # Making sure that the file will be automatically closed immediately after it has been read
-      File.open(full_path, 'r') { |f| parse(f) }
+      file_path ||= self.xlsx_path
+
+      case dirpath
+      when String then
+        full_path = File.join(dirpath, file_path)
+        return nil unless File.exist?(full_path)
+        # Making sure that the file will be automatically closed immediately after it has been read
+        File.open(full_path, 'r') { |f| parse(f) }
+      when Zip::File then
+
+        entry = dirpath.find_entry(file_path)
+        entry && (entry.get_input_stream { |f| parse(f) })
+      end
     end
 
     # Saves the contents of the object as XML to respective location in <tt>.xslx</tt> zip container.
@@ -434,7 +443,7 @@ module RubyXL
     end
 
     def file_index
-      @workbook.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
+      @workbook.root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
     end
 
   end

@@ -93,7 +93,7 @@ puts "==>DEBUG:#{'  ' * @@debug_depth}Loading #{klass} (#{rel.id}): #{file_path}
     end
 
     def self.load_relationship_file(zipdir_path, base_file_path)
-      rel_file_path = File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')
+      rel_file_path = Pathname.new(File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')).cleanpath
 
 @@debug_depth = 0 unless defined?(@@debug_depth)
 puts "==>DEBUG:  #{'  ' * @@debug_depth}Loading .rel file: #{rel_file_path}"

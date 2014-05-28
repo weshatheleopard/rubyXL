@@ -5,11 +5,12 @@ module RubyXL
   class WorkbookRoot
     # Dummy object: no contents, only relationships
     attr_accessor :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook
+    attr_accessor :content_types, :rels_hash
 
     include RubyXL::RelationshipSupport
 
     def related_objects
-      [ thumbnail, core_properties, document_properties, workbook ]
+      [ content_types, thumbnail, core_properties, document_properties, workbook ]
     end
 
     def load_relationships(dir_path)
@@ -36,6 +37,7 @@ module RubyXL
       obj.document_properties    = RubyXL::DocumentPropertiesFile.new
       obj.core_properties        = RubyXL::CorePropertiesFile.new
       obj.relationship_container = RubyXL::RootRelationships.new
+      obj.content_types          = RubyXL::ContentTypes.new
       obj
     end
 

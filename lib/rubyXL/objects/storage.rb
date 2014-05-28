@@ -16,12 +16,21 @@ module RubyXL
     end
 
     def self.parse_file(dirpath, file_path = nil)
-      full_path = File.join(dirpath, file_path || self.xlsx_path)
-      return nil unless File.exist?(full_path)
-
+      file_path ||= self.xlsx_path
       obj = self.new
+
+      case dirpath
+      when String then
+        full_path = File.join(dirpath, file_path)
+        return nil unless File.exist?(full_path)
+        obj.data = File.open(full_path, 'r') { |f| f.read }
+      when Zip::File then
+        entry = dirpath.find_entry(file_path)
+        return nil if entry.nil?
+        obj.data = entry.get_input_stream { |f| f.read }
+      end
+
       obj.xlsx_path = file_path
-      obj.data = File.open(full_path, 'r').read
       obj
     end
 
@@ -71,7 +80,7 @@ module RubyXL
   end
 
   class ChartFile < GenericStorageObject
-    attr_accessor :relationship_container
+    include RubyXL::RelationshipSupport
 
     def self.rel_type
       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
@@ -98,9 +107,6 @@ puts "-! DEBUG: #{self.class}: unattached: #{rf.class}"
         }
       end
     end
-
-    include RubyXL::RelationshipSupport
-
   end
 
   class VMLDrawingFile < GenericStorageObject

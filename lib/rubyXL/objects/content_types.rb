@@ -15,7 +15,7 @@ module RubyXL
   end
 
   class ContentTypes < OOXMLTopLevelObject
-    attr_accessor :workbook
+    attr_accessor :owner
 
     define_child_node(RubyXL::ContentTypeDefault,  :collection => true, :accessor => :defaults)
     define_child_node(RubyXL::ContentTypeOverride, :collection => true, :accessor => :overrides)
@@ -42,7 +42,7 @@ module RubyXL
 
     def before_write_xml
       self.defaults = []
-      if @workbook.rels_hash[RubyXL::PrinterSettingsFile] then
+      if owner.rels_hash[RubyXL::PrinterSettingsFile] then
         defaults << RubyXL::ContentTypeDefault.new(:extension => 'bin',
                       :content_type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings')
       end

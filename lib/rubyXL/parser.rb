@@ -26,24 +26,13 @@ module RubyXL
       raise 'Not .xlsx or .xlsm excel file' unless @skip_filename_check ||
                                               %w{.xlsx .xlsm}.include?(File.extname(xl_file_path))
 
-      Dir::mktmpdir(['rubyXL', '.tmp']) { |zipdir_path|
-        ::Zip::File.open(xl_file_path) { |zip_file|
-          zip_file.each { |f|
-            fpath = File.join(zipdir_path, f.name)
-            FileUtils.mkdir_p(File.dirname(fpath))
-            zip_file.extract(f, fpath) unless File.exist?(fpath)
-          }
-        }
-
+      ::Zip::File.open(xl_file_path) { |zip_file|
         root = RubyXL::WorkbookRoot.new
-        root.load_relationships(zipdir_path)
+        root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
+        root.load_relationships(zip_file)
 
         wb = root.workbook
         wb.root = root
-        wb.content_types = RubyXL::ContentTypes.parse_file(zipdir_path)
-
-        rels = root.relationship_container
-
         wb.filepath = xl_file_path
 
         if wb.stylesheet then
@@ -63,7 +52,6 @@ module RubyXL
 
         wb
       }
-
     end
 
   end

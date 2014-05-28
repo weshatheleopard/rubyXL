@@ -332,8 +332,7 @@ module RubyXL
     include RubyXL::RelationshipSupport
 
     def related_objects
-      content_types.workbook = self
-      [ content_types, calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
+      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
     end
 
     def load_relationships(dir_path, base_file_name)
