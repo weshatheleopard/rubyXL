@@ -28,7 +28,7 @@ module RubyXL
       raise 'Not .xlsx or .xlsm excel file' unless @skip_filename_check ||
                                               %w{.xlsx .xlsm}.include?(File.extname(xl_file_path))
 
-      dir_path = File.join(File.dirname(xl_file_path), Dir::Tmpname.make_tmpname(['rubyXL', '.tmp'], nil))
+      dir_path =  Dir::mktmpdir(['rubyXL', '.tmp'], nil)
       parse_success = false
 
       begin
