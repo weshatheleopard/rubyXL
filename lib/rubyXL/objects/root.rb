@@ -1,9 +1,10 @@
+require 'zip'
 require 'rubyXL/objects/relationships'
 
 module RubyXL
 
   class WorkbookRoot
-    # Dummy object: no contents, only relationships
+    attr_accessor :filepath
     attr_accessor :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook
     attr_accessor :content_types, :rels_hash
 
@@ -39,6 +40,20 @@ module RubyXL
       obj.relationship_container = RubyXL::RootRelationships.new
       obj.content_types          = RubyXL::ContentTypes.new
       obj
+    end
+
+    def self.parse_file(xl_file_path, opts)
+      raise 'Not .xlsx or .xlsm excel file' unless opts[:skip_filename_check] || 
+                                              %w{.xlsx .xlsm}.include?(File.extname(xl_file_path))
+
+      ::Zip::File.open(xl_file_path) { |zip_file|
+        root = self.new
+        root.filepath = xl_file_path
+        root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
+        root.load_relationships(zip_file)
+        root.workbook.root = root
+        root
+      }
     end
 
   end

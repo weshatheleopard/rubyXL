@@ -21,6 +21,8 @@ module RubyXL
 
     attr_accessor :related_files, :owner
 
+    @@debug = 0
+
     def new_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
                                :type => type,
@@ -63,7 +65,7 @@ module RubyXL
     def load_related_files(zipdir_path, base_file_name = '')
       self.related_files = {}
 
-@@debug_depth +=2
+      @@debug +=2 if @@debug
 
       self.relationships.each { |rel|
         next if rel.target_mode == 'External'
@@ -81,13 +83,14 @@ module RubyXL
           klass = GenericStorageObject
         end
 
-puts "==>DEBUG:#{'  ' * @@debug_depth}Loading #{klass} (#{rel.id}): #{file_path}"
+        puts "==>DEBUG:#{'  ' * @@debug}Loading #{klass} (#{rel.id}): #{file_path}" if @@debug
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
         self.related_files[rel.id] = obj
       }
-@@debug_depth -=2
+
+      @@debug -=2 if @@debug
 
       related_files
     end
@@ -95,8 +98,7 @@ puts "==>DEBUG:#{'  ' * @@debug_depth}Loading #{klass} (#{rel.id}): #{file_path}
     def self.load_relationship_file(zipdir_path, base_file_path)
       rel_file_path = Pathname.new(File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')).cleanpath
 
-@@debug_depth = 0 unless defined?(@@debug_depth)
-puts "==>DEBUG:  #{'  ' * @@debug_depth}Loading .rel file: #{rel_file_path}"
+      puts "==>DEBUG:  #{'  ' * @@debug}Loading .rel file: #{rel_file_path}" if @@debug
 
       parse_file(zipdir_path, rel_file_path)
     end

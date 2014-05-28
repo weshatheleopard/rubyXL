@@ -5,7 +5,7 @@ require 'zip'
 module RubyXL
   module LegacyWorkbook
     include Enumerable
-    attr_accessor :worksheets, :filepath
+    attr_accessor :worksheets
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -21,7 +21,6 @@ module RubyXL
       @worksheets = worksheets
       add_worksheet if @worksheets.empty?
 
-      @filepath            = filepath
       @creator             = creator
       @modifier            = modifier
       self.date1904        = date1904 > 0
@@ -31,7 +30,8 @@ module RubyXL
       @stylesheet               = RubyXL::Stylesheet.default
       @relationship_container   = RubyXL::WorkbookRelationships.new
       @root                     = RubyXL::WorkbookRoot.default
-      @root.workbook = self
+      @root.workbook            = self
+      @root.filepath            = filepath
       @comments                 = []
 
       self.company         = company
@@ -76,7 +76,9 @@ module RubyXL
     end
 
     #filepath of xlsx file (including file itself)
-    def write(filepath = @filepath)
+    def write(filepath)
+      filepath ||= root.filepath
+
       extension = File.extname(filepath)
       unless %w{.xlsx .xlsm}.include?(extension)
         raise "Only xlsx and xlsm files are supported. Unsupported extension: #{extension}"
