@@ -15,6 +15,8 @@ module RubyXL
   end
 
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-package.relationships+xml'
+
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
     set_namespaces('http://schemas.openxmlformats.org/package/2006/relationships' => '')

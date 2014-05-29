@@ -45,6 +45,7 @@ module RubyXL
   end
 
   class PrinterSettingsFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
   end
 
@@ -90,6 +91,7 @@ module RubyXL
   end
 
   class VMLDrawingFile < GenericStorageObject
+     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.vmlDrawing'
 #    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
 

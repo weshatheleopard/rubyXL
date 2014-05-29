@@ -42,22 +42,41 @@ module RubyXL
 
     def before_write_xml
       self.defaults = []
-      if owner.rels_hash[RubyXL::PrinterSettingsFile] then
-        defaults << RubyXL::ContentTypeDefault.new(:extension => 'bin',
-                      :content_type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings')
-      end
 
-      defaults << RubyXL::ContentTypeDefault.new(:extension => 'rels',
-                      :content_type => 'application/vnd.openxmlformats-package.relationships+xml' )
+      hsh = {}
 
-      defaults << RubyXL::ContentTypeDefault.new(:extension => 'xml',
-                      :content_type => 'application/xml' )
+      owner.rels_hash.each_pair { |klass, arr|
+        puts "#{klass} -> #{arr.size} objects"
+
+        arr.each { |x|
+
+puts "file=#{x.xlsx_path}, ext=#{File.extname(x.xlsx_path)[1..-1]}"
+puts x.class::CONTENT_TYPE if klass.const_defined?(:CONTENT_TYPE)
+
+          ext = File.extname(x.xlsx_path)[1..-1]
+          hsh[ext] ||= []
+          hsh[ext] << klass::CONTENT_TYPE if klass.const_defined?(:CONTENT_TYPE)
+        }
+      }
+
+      hsh.each_pair { |ext, content_types|
+        next if ext.nil?
+        content_types.uniq!
+
+        if content_types.size == 1 then
+          puts "UNIQUE: #{content_types.first}"
+          defaults << RubyXL::ContentTypeDefault.new(:extension => ext, :content_type => content_types.first)
+        end
+      }
+
+puts hsh.inspect
+
+      defaults << RubyXL::ContentTypeDefault.new(:extension => 'xml', :content_type => 'application/xml' )
 
       # TODO: Need to only write these types when respective content is actually present.
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'jpeg', :content_type => 'image/jpeg')
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'png', :content_type => 'image/png')
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'wmf', :content_type => 'image/x-wmf')
-      defaults << RubyXL::ContentTypeDefault.new(:extension => 'vml', :content_type => 'application/vnd.openxmlformats-officedocument.vmlDrawing')
 
       true
     end
