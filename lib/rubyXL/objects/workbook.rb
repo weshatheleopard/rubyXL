@@ -309,16 +309,16 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
 
     define_element_name 'workbook'
-    set_namespaces('xmlns'     => 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
-                   'xmlns:r'   => 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
-                   'xmlns:mc'  => 'http://schemas.openxmlformats.org/markup-compatibility/2006',
-                   'xmlns:x15' => 'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
+                   'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
+                   'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
+                   'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
     def before_write_xml
       self.sheets = RubyXL::Sheets.new
 
       worksheets.each_with_index { |sheet, i|
-        rel = relationship_container.find_by_target(sheet.xlsx_path.gsub(/^xl\//, ''))
+        rel = relationship_container.find_by_target(sheet.xlsx_path.gsub(/\Axl\//, ''))
         sheets << RubyXL::Sheet.new(:name => sheet.sheet_name[0..30], # Max sheet name length is 31 char
                                     :sheet_id => sheet.sheet_id || (i + 1),
                                     :state => sheet.state, :r_id => rel.id)

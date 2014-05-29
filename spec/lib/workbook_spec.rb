@@ -17,39 +17,40 @@ describe RubyXL::Workbook do
 
   describe '.new' do
     it 'should automatically create a blank worksheet named "Sheet1"' do
-      @workbook[0].sheet_name.should == 'Sheet1'
+      expect(@workbook[0]).not_to be_nil
+      expect(@workbook[0].sheet_name).to eq('Sheet1')
     end
   end
 
   describe '[]' do
     it 'should properly locate worksheet by index' do
-      @workbook[1].sheet_name.should == 'Test Worksheet'
+      expect(@workbook[1]).not_to be_nil
+      expect(@workbook[1].sheet_name).to eq('Test Worksheet')
     end
 
     it 'should properly locate worksheet by name' do
-      @workbook['Test Worksheet'].sheet_name.should == 'Test Worksheet'
+      expect(@workbook['Test Worksheet']).not_to be_nil
+      expect(@workbook['Test Worksheet'].sheet_name).to eq('Test Worksheet')
     end
   end
 
   describe '.add_worksheet' do
     it 'when not given a name, it should automatically pick a name "SheetX" that is not taken yet' do
+      expect(@workbook['Sheet2']).to be_nil
       @workbook.add_worksheet
-      @workbook['Sheet2'].sheet_name.should == 'Sheet2'
+      expect(@workbook['Sheet2']).not_to be_nil
+      expect(@workbook['Sheet2'].sheet_name).to eq('Sheet2')
     end
-  end
-
-  describe '.write' do
-    #method not conducive to unit tests
   end
 
   describe '.get_fill_color' do
     it 'should return the fill color of a particular style attribute' do
       @cell.change_fill('000000')
-      @workbook.get_fill_color(@workbook.cell_xfs[@cell.style_index]).should == '000000'
+      expect(@workbook.get_fill_color(@workbook.cell_xfs[@cell.style_index])).to eq('000000')
     end
 
     it 'should return white (ffffff) if no fill color is specified in style' do
-      @workbook.get_fill_color(@workbook.cell_xfs[@cell.style_index]).should == 'ffffff'
+      expect(@workbook.get_fill_color(@workbook.cell_xfs[@cell.style_index])).to eq('ffffff')
     end
   end
 

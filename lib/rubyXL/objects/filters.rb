@@ -103,7 +103,7 @@ module RubyXL
     define_attribute(:caseSensitive, :bool,   :default  => false)
     define_attribute(:sortMethod,    RubyXL::ST_SortMethod, :default => 'none')
     define_attribute(:ref,           :ref,    :required => true)
-    define_child_node(RubyXL::SortCondition,  :colection => true)
+    define_child_node(RubyXL::SortCondition,  :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sortState'
   end
