@@ -351,6 +351,8 @@ module RubyXL
       when RubyXL::ExternalLinksFile        then store_relationship(rf) # TODO
       when RubyXL::PivotCacheDefinitionFile then store_relationship(rf) # TODO
       when RubyXL::CustomXMLFile            then store_relationship(rf) # TODO
+      when RubyXL::MacrosFile               then store_relationship(rf) # TODO
+      when RubyXL::SlicerCacheFile          then store_relationship(rf) # TODO
       when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
       else store_relationship(rf, :unknown)
       end

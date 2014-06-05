@@ -11,6 +11,8 @@ module RubyXL
     APPLICATION = 'Microsoft Macintosh Excel'
     APPVERSION  = '12.0000'
 
+    @@debug = nil
+
     def initialize(worksheets=[], filepath=nil, creator=nil, modifier=nil, created_at=nil,
                    company='', application=APPLICATION,
                    appversion=APPVERSION, date1904=0)
@@ -95,16 +97,16 @@ module RubyXL
         root.content_types.overrides = []
         root.content_types.owner = root
         root.collect_related_objects.compact.each { |obj|
-puts "<-- DEBUG: adding relationship to #{obj.class}"
+          puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
           root.rels_hash[obj.class] ||= []
           root.rels_hash[obj.class] << obj
         }
 
         root.rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
-puts "<-- DEBUG: saving related #{klass} files"
+          puts "<-- DEBUG: saving related #{klass} files" if @@debug
           root.rels_hash[klass].each { |obj|
             obj.workbook = self if obj.respond_to?(:workbook=)
-puts "<-- DEBUG:   >>> #{obj.xlsx_path}"
+            puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
             root.content_types.add_override(obj)
             obj.add_to_zip(zipfile)
           }
