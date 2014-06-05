@@ -158,4 +158,12 @@ module RubyXL
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'
   end
 
+  class SlicerFile < GenericStorageObject
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicer'
+  end
+
+  class SlicerCacheFile < GenericStorageObject
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicerCache'
+  end
+
 end

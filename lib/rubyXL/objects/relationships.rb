@@ -21,7 +21,7 @@ module RubyXL
 
     attr_accessor :related_files, :owner
 
-    @@debug = 0
+    @@debug = nil # Change to 0 to enable debug output
 
     def new_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
@@ -198,7 +198,7 @@ module RubyXL
 
     def store_relationship(related_file, unknown = false)
       self.generic_storage ||= []
-puts "-! DEBUG: #{self.class}: unattached: #{related_file.class}" if unknown
+      puts "WARNING: #{self.class} is not aware what to do with #{related_file.class}" if unknown
       self.generic_storage << related_file
     end
 
@@ -206,8 +206,8 @@ puts "-! DEBUG: #{self.class}: unattached: #{related_file.class}" if unknown
       self.relationship_container = relationship_file_class.load_relationship_file(dir_path, base_file_name)
       return if relationship_container.nil?
 
-      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, rf|
-        attach_relationship(rid, rf)
+      relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, related_file|
+        attach_relationship(rid, related_file) if related_file
       }
     end
 
