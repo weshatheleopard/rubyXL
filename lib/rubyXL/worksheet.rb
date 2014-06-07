@@ -9,6 +9,9 @@ module LegacyWorksheet
     self.sheet_id   = params[:sheet_id]
     self.sheet_data = RubyXL::SheetData.new
     self.cols = RubyXL::ColumnRanges.new
+    @comments = [] # Do not optimize! These are arrays, so they will share the pointer!
+    @printer_settings = []
+    @generic_storage = []
   end
 
   # allows for easier access to sheet_data

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::SharedStringsTable - rubyXL 2.5.7</title>
+<title>class RubyXL::SharedStringsTable - rubyXL 3.0.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -73,11 +73,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-content_type">::content_type</a>
-    
     <li class="calls-super" ><a href="#method-c-new">::new</a>
-    
-    <li ><a href="#method-c-xlsx_path">::xlsx_path</a>
     
     <li ><a href="#method-i-5B-5D">#[]</a>
     
@@ -88,6 +84,8 @@
     <li ><a href="#method-i-empty-3F">#empty?</a>
     
     <li ><a href="#method-i-get_index">#get_index</a>
+    
+    <li ><a href="#method-i-xlsx_path">#xlsx_path</a>
     
   </ul>
 </div>
@@ -116,6 +114,25 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
     
 
     
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="CONTENT_TYPE">CONTENT_TYPE
+        
+        <dd>
+        
+      
+        <dt id="REL_TYPE">REL_TYPE
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
+    
 
     
 
@@ -124,39 +141,6 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
        <header>
          <h3>Public Class Methods</h3>
        </header>
-
-    
-      <div id="method-c-content_type" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">content_type</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="content_type-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 55</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">content_type</span>
-  <span class="ruby-string">&#39;application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml&#39;</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
 
     
       <div id="method-c-new" class="method-detail ">
@@ -183,46 +167,13 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-keyword">super</span>
   <span class="ruby-comment"># So far, going by the structure that the original creator had in mind. However, </span>
   <span class="ruby-comment"># since the actual implementation is now extracted into a separate class, </span>
   <span class="ruby-comment"># we will be able to transparrently change it later if needs be.</span>
   <span class="ruby-ivar">@index_by_content</span> = {}
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-c-xlsx_path" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">xlsx_path</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 51</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;sharedStrings.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -261,7 +212,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 31</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">index</span>)
   <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -294,7 +245,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="add-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 39</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">index</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">index</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">size</span>
   <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>] = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">str</span>)
@@ -334,7 +285,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 25</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-keyword">super</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">unique_count</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span>
@@ -369,7 +320,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="empty-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">empty?</span>
   <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -402,11 +353,44 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="get_index-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_index</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">add_if_missing</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">index</span> = <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">str</span>]
   <span class="ruby-identifier">index</span> = <span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">add_if_missing</span>
   <span class="ruby-identifier">index</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-xlsx_path" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">xlsx_path</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="xlsx_path-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;sharedStrings.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

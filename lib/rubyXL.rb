@@ -1,3 +1,4 @@
+require 'rubyXL/objects/relationships'
 require 'rubyXL/workbook'
 require 'rubyXL/worksheet'
 require 'rubyXL/cell'
@@ -10,9 +11,11 @@ require 'rubyXL/objects/chartsheet'
 require 'rubyXL/objects/calculation_chain'
 require 'rubyXL/objects/content_types'
 require 'rubyXL/objects/theme'
+require 'rubyXL/objects/comments'
+require 'rubyXL/objects/root'
 require 'rubyXL/objects/workbook'
 require 'rubyXL/objects/document_properties'
-require 'rubyXL/objects/relationships'
+require 'rubyXL/objects/storage'
 require 'rubyXL/parser'
 
 module RubyXL

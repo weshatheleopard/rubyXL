@@ -652,7 +652,10 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
                    'urn:schemas-microsoft-com:mac:vml' => 'mv')
 
-    attr_accessor :workbook, :state, :sheet_name, :sheet_id
+    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments, :printer_settings
+
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
@@ -699,24 +702,45 @@ module RubyXL
       true
     end
 
-    def sheet_index
-      @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
+    include RubyXL::RelationshipSupport
+
+    def related_objects
+      comments + printer_settings
+    end
+
+    def relationship_file_class
+      RubyXL::SheetRelationshipsFile
+    end
+
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::PrinterSettingsFile   then printer_settings << rf
+      when RubyXL::CommentsFile          then comments << rf
+      when RubyXL::VMLDrawingFile        then store_relationship(rf) # TODO
+      when RubyXL::DrawingFile           then store_relationship(rf) # TODO
+      when RubyXL::BinaryImageFile       then store_relationship(rf) # TODO
+      when RubyXL::PivotTableFile        then store_relationship(rf) # TODO
+      when RubyXL::TableFile             then store_relationship(rf) # TODO
+      when RubyXL::ControlPropertiesFile then store_relationship(rf) # TODO
+      when RubyXL::SlicerFile            then store_relationship(rf) # TODO
+      else store_relationship(rf, :unknown)
+      end
     end
 
     def xlsx_path
-      File.join('xl', 'worksheets', "sheet#{sheet_index + 1}.xml")
+      File.join('xl', 'worksheets', "sheet#{file_index}.xml")
     end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
-    end
-
-    def rel_type
-      'worksheet'
+    def self.parse(param)
+      sheet_obj = super
+      sheet_obj.sheet_data.rows.each { |r|
+        next if r.nil?
+        r.worksheet = sheet_obj
+        r.cells.each { |c| c.worksheet = sheet_obj unless c.nil? }
+      }
+      sheet_obj
     end
 
     include LegacyWorksheet
-
   end
 
 end

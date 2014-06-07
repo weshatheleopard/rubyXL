@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Reference - rubyXL 2.5.7</title>
+<title>class RubyXL::Reference - rubyXL 3.0.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -298,7 +298,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           <div class="method-source-code" id="ref2ind-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 89</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">str</span>)
-  <span class="ruby-keyword">return</span> [ <span class="ruby-value">-1</span>, <span class="ruby-value">-1</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">str</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^([A-Z]+)(\d+)$/</span>
+  <span class="ruby-keyword">return</span> [ <span class="ruby-value">-1</span>, <span class="ruby-value">-1</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">str</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A([A-Z]+)(\d+)\Z/</span>
 
   <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>
   <span class="ruby-node">$1</span>.<span class="ruby-identifier">each_byte</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">chr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">col</span> = <span class="ruby-identifier">col</span> <span class="ruby-operator">*</span> <span class="ruby-value">26</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">chr</span> <span class="ruby-operator">-</span> <span class="ruby-value">64</span>) }

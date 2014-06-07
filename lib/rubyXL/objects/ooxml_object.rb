@@ -109,7 +109,7 @@ module RubyXL
     end
 
     def parse(node, known_namespaces = nil)
-      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String)
+      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String) || node.is_a?(Zip::InputStream)
 
       if node.is_a?(Nokogiri::XML::Document) then
         @namespaces = node.namespaces
@@ -396,11 +396,11 @@ module RubyXL
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
     def xlsx_path
-      self.class.xlsx_path
+      raise 'Subclass responsebility'
     end
 
-    def self.xlsx_path
-      raise 'Subclass responsebility'
+    def self.save_order
+      500
     end
 
     # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
@@ -417,11 +417,20 @@ module RubyXL
     # directory containing the unzipped contents of <tt>.xslx</tt>
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
-    def self.parse_file(dirpath)
-      full_path = File.join(dirpath, xlsx_path)
-      return nil unless File.exist?(full_path)
-      # Making sure that the file will be automatically closed immediately after it has been read
-      File.open(full_path, 'r') { |f| parse(f) }
+    def self.parse_file(dirpath, file_path = nil)
+      file_path = Pathname.new(file_path || self.xlsx_path)
+
+      case dirpath
+      when String then
+        full_path = File.join(dirpath, file_path)
+        return nil unless File.exist?(full_path)
+        # Making sure that the file will be automatically closed immediately after it has been read
+        File.open(full_path, 'r') { |f| parse(f) }
+      when Zip::File then
+        file_path = file_path.relative_path_from(Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
+        entry = dirpath.find_entry(file_path)
+        entry && (entry.get_input_stream { |f| parse(f) })
+      end
     end
 
     # Saves the contents of the object as XML to respective location in <tt>.xslx</tt> zip container.
@@ -431,6 +440,10 @@ module RubyXL
       xml_string = write_xml
       return if xml_string.empty?
       zipfile.get_output_stream(self.xlsx_path) { |f| f << xml_string }
+    end
+
+    def file_index
+      @workbook.root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
     end
 
   end

@@ -15,19 +15,17 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html
   class CalculationChain < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain'
+
     define_child_node(RubyXL::CalculationChainCell, :collection => true, :accessor => :cells)
     define_child_node(RubyXL::ExtensionStorageArea)
 
     define_element_name 'calcChain'
     set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '')
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'calcChain.xml')
     end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml'
-    end
-
   end
 end
