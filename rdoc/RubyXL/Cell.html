@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Cell - rubyXL 2.5.7</title>
+<title>class RubyXL::Cell - rubyXL 3.0.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -160,7 +160,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 39</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">column</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">first_col</span>
 <span class="ruby-keyword">end</span></pre>
@@ -193,7 +193,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="column-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 43</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">column=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -226,7 +226,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 27</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>
 <span class="ruby-keyword">end</span></pre>
@@ -259,9 +259,9 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="is_date-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 60</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_date?</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\d+(?:\.\d+)?$/</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A\d+(?:\.\d+)?\Z/</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
   <span class="ruby-identifier">num_fmt</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">number_format</span>
   <span class="ruby-identifier">num_fmt</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num_fmt</span>.<span class="ruby-identifier">is_date_format?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -294,7 +294,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="number_format-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">number_format</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">get_number_format_by_id</span>(<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">num_fmt_id</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -327,7 +327,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="raw_value-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 47</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value</span>
   <span class="ruby-identifier">value_container</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value_container</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -360,7 +360,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="raw_value-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 51</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value_container</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CellValue</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">value_container</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
@@ -394,7 +394,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="row-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 31</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">row</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">first_row</span>
 <span class="ruby-keyword">end</span></pre>
@@ -427,7 +427,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="row-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">row=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">column</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -461,7 +461,7 @@ Ruby (that includes stripping any special formatting from RichText).</p>
 
           
           <div class="method-source-code" id="value-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 68</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">:raw</span>]
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">datatype</span>
@@ -469,7 +469,7 @@ Ruby (that includes stripping any special formatting from RichText).</p>
     <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">shared_strings_container</span>[<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>].<span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">else</span> 
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_date?</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_f</span>)
-    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^-?\d+(\.\d+(?:e[+-]\d+)?)?$/i</span>) <span class="ruby-comment"># Numeric</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A-?\d+(\.\d+(?:e[+-]\d+)?)?\Z/i</span>) <span class="ruby-comment"># Numeric</span>
       <span class="ruby-keyword">if</span> <span class="ruby-node">$1</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_f</span>
       <span class="ruby-keyword">else</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>
       <span class="ruby-keyword">end</span>
