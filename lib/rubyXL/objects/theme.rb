@@ -1377,6 +1377,9 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_theme.html
   class Theme < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.theme+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme'
+
     define_attribute(:name, :string, :default => '')
     define_child_node(RubyXL::ThemeElements)
     define_child_node(RubyXL::CT_ObjectStyleDefaults)
@@ -1388,14 +1391,9 @@ module RubyXL
 
     set_namespaces('http://schemas.openxmlformats.org/drawingml/2006/main' => 'a')
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'theme', 'theme1.xml')
     end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.theme+xml'
-    end
-
 
     def self.defaults
       default_theme = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>

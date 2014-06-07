@@ -287,6 +287,11 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
+
+    include RubyXL::RelationshipSupport
+
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
@@ -314,6 +319,9 @@ module RubyXL
                    'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
+    attr_accessor :root
+    attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container
+
     def before_write_xml
       self.sheets = RubyXL::Sheets.new
 
@@ -326,7 +334,29 @@ module RubyXL
       true
     end
 
-    include LegacyWorkbook
+    def related_objects
+      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
+    end
+
+    def relationship_file_class
+      RubyXL::WorkbookRelationships
+    end
+
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::SharedStringsTable       then self.shared_strings_container = rf
+      when RubyXL::Stylesheet               then self.stylesheet = rf
+      when RubyXL::Theme                    then self.theme = rf
+      when RubyXL::CalculationChain         then self.calculation_chain = rf
+      when RubyXL::ExternalLinksFile        then store_relationship(rf) # TODO
+      when RubyXL::PivotCacheDefinitionFile then store_relationship(rf) # TODO
+      when RubyXL::CustomXMLFile            then store_relationship(rf) # TODO
+      when RubyXL::MacrosFile               then store_relationship(rf) # TODO
+      when RubyXL::SlicerCacheFile          then store_relationship(rf) # TODO
+      when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
+      else store_relationship(rf, :unknown)
+      end
+    end
 
     def date1904
       workbook_properties && workbook_properties.date1904
@@ -342,67 +372,65 @@ module RubyXL
     end
 
     def company=(v)
-      self.document_properties.company ||= StringNode.new
-      self.document_properties.company.value = v
+      root.document_properties.company ||= StringNode.new
+      root.document_properties.company.value = v
     end
 
     def application
-      self.document_properties.application && self.document_properties.application.value
+      root.document_properties.application && self.document_properties.application.value
     end
 
     def application=(v)
-      self.document_properties.application ||= StringNode.new
-      self.document_properties.application.value = v
+      root.document_properties.application ||= StringNode.new
+      root.document_properties.application.value = v
     end
 
     def appversion
-      self.document_properties.app_version && self.document_properties.app_version.value
+      root.document_properties.app_version && root.document_properties.app_version.value
     end
 
     def appversion=(v)
-      self.document_properties.app_version ||= StringNode.new
-      self.document_properties.app_version.value = v
+      root.document_properties.app_version ||= StringNode.new
+      root.document_properties.app_version.value = v
     end
 
     def creator
-      self.core_properties.creator
+      root.core_properties.creator
     end
 
     def creator=(v)
-      self.core_properties.creator = v
+      root.core_properties.creator = v
     end
 
     def modifier
-      self.core_properties.modifier
+      root.core_properties.modifier
     end
 
     def modifier=(v)
-      self.core_properties.modifier = v
+      root.core_properties.modifier = v
     end
 
     def created_at
-      self.core_properties.created_at
+      root.core_properties.created_at
     end
 
     def created_at=(v)
-      self.core_properties.created_at = v
+      root.core_properties.created_at = v
     end
 
     def modified_at
-      self.core_properties.modified_at
+      root.core_properties.modified_at
     end
 
     def modified_at=(v)
-      self.core_properties.modified_at = v
+      root.core_properties.modified_at = v
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'workbook.xml')
     end
 
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
-    end
+    include LegacyWorkbook
 
   end
 

@@ -6,6 +6,9 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html
   class SharedStringsTable < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings'
+
     # According to http://msdn.microsoft.com/en-us/library/office/gg278314.aspx,
     # +count+ and +uniqueCount+ may be either both missing, or both present. Need to validate.
     define_attribute(:uniqueCount,  :int)
@@ -48,12 +51,8 @@ module RubyXL
       index 
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'sharedStrings.xml')
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml'
     end
 
   end

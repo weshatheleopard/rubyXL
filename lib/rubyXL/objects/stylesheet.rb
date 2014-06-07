@@ -160,6 +160,9 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html
   class Stylesheet < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles'
+
     define_child_node(RubyXL::NumberFormats, :accessor => :number_formats)
     define_child_node(RubyXL::Fonts)
     define_child_node(RubyXL::Fills)
@@ -183,12 +186,8 @@ module RubyXL
       @format_hash = nil
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('xl', 'styles.xml')
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml'
     end
 
     def self.default

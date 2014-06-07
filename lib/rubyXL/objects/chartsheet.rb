@@ -57,6 +57,14 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_chartsheet.html
   class Chartsheet < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartsheet'
+
+    include RubyXL::RelationshipSupport
+
+    attr_accessor :state, :rels
+    attr_accessor :workbook, :sheet_name, :sheet_id
+
     define_child_node(RubyXL::ChartsheetProperties)
     define_child_node(RubyXL::ChartsheetViews)
     define_child_node(RubyXL::ChartsheetProtection)
@@ -74,25 +82,20 @@ module RubyXL
     set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
 
-    attr_accessor :state
-
-    def sheet_index
-      @workbook.worksheets.select{ |sheet| sheet.is_a?(self.class) }.index{ |sheet| sheet.equal?(self) }
-    end
-
     def xlsx_path
-      File.join('xl', 'chartsheets', "sheet#{sheet_index + 1}.xml")
+      File.join('xl', 'chartsheets', "sheet#{file_index}.xml")
     end
 
-    def rel_type
-      'chartsheet'
+    def relationship_file_class
+      RubyXL::SheetRelationshipsFile
     end
 
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::DrawingFile then store_relationship(rf) # TODO
+      else store_relationship(rf, :unknown)
+      end
     end
-
-    attr_accessor :workbook, :sheet_name, :sheet_id
 
   end
 

@@ -4,7 +4,10 @@ require 'rubyXL/objects/container_nodes'
 module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.html
-  class DocumentProperties < OOXMLTopLevelObject
+  class DocumentPropertiesFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.extended-properties+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties'
+
     attr_accessor :workbook
 
     define_child_node(RubyXL::StringNode,  :node_name => :Template)
@@ -58,27 +61,26 @@ module RubyXL
         add_parts_count('Worksheets', @workbook.worksheets.size)
         @workbook.worksheets.each { |sheet| add_part_title(sheet.sheet_name) }
 
-        if @workbook.defined_name_container then
-          add_parts_count('Named Ranges', @workbook.defined_name_container.defined_names.size)
-          @workbook.defined_name_container.defined_names.each { |defined_name| add_part_title(defined_name.name) }
+        if @workbook.defined_names then
+          add_parts_count('Named Ranges', @workbook.defined_names.size)
+          @workbook.defined_names.each { |defined_name| add_part_title(defined_name.name) }
         end
       end
 
       true
     end
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('docProps', 'app.xml')
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-officedocument.extended-properties+xml'
     end
 
   end
 
 
-  class CoreProperties < OOXMLTopLevelObject
+  class CorePropertiesFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-package.core-properties+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'
+
     attr_accessor :workbook
 
     define_child_node(RubyXL::StringNode,    :node_name => 'dc:creator')
@@ -105,12 +107,8 @@ module RubyXL
                    'http://www.w3.org/2001/XMLSchema-instance' => 'xsi')
     define_element_name 'cp:coreProperties'
 
-    def self.xlsx_path
+    def xlsx_path
       File.join('docProps', 'core.xml')
-    end
-
-    def self.content_type
-      'application/vnd.openxmlformats-package.core-properties+xml'
     end
 
     def creator
