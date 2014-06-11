@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Reference - rubyXL 3.0.0</title>
+<title>class RubyXL::Reference - rubyXL 3.0.1</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -207,11 +207,11 @@ Excel-style cell reference (0) A…Z, AA…AZ, BA… …ZZ, AAA… …AZZ, BAA�
           <div class="method-source-code" id="ind2ref-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 75</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">str</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">str</span> = <span class="ruby-string">''</span>
 
   <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>
     <span class="ruby-identifier">x</span> = <span class="ruby-identifier">col</span> <span class="ruby-operator">%</span> <span class="ruby-value">26</span>
-    <span class="ruby-identifier">str</span> = (<span class="ruby-string">&#39;A&#39;</span>.<span class="ruby-identifier">ord</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">x</span>).<span class="ruby-identifier">chr</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str</span>
+    <span class="ruby-identifier">str</span> = (<span class="ruby-string">'A'</span>.<span class="ruby-identifier">ord</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">x</span>).<span class="ruby-identifier">chr</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">str</span>
     <span class="ruby-identifier">col</span> = (<span class="ruby-identifier">col</span> <span class="ruby-operator">/</span> <span class="ruby-value">26</span>).<span class="ruby-identifier">floor</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
     <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">col</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>
   <span class="ruby-keyword">end</span>
@@ -258,7 +258,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
   <span class="ruby-keyword">when</span> <span class="ruby-value">2</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span> = <span class="ruby-identifier">params</span>
   <span class="ruby-keyword">when</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;invalid value for #{self.class}: #{params[0].inspect}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
-    <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;:&#39;</span>)
+    <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">':'</span>)
     <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">from</span>)
     <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">to</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-keyword">end</span>      
@@ -615,7 +615,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">single_cell?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>)
   <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;:&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>)
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">+</span> <span class="ruby-string">':'</span> <span class="ruby-operator">+</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>)
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
