@@ -10,14 +10,12 @@ module RubyXL
     attr_accessor :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook
     attr_accessor :content_types, :rels_hash
 
+    REL_CLASS    = RubyXL::RootRelationships
+
     include RubyXL::RelationshipSupport
 
     def related_objects
       [ content_types, thumbnail, core_properties, document_properties, workbook ]
-    end
-
-    def relationship_file_class
-      RubyXL::RootRelationships
     end
 
     def attach_relationship(rid, rf)
@@ -40,8 +38,8 @@ module RubyXL
       obj
     end
 
-    def write_buffer
-      Zip::OutputStream.write_buffer { |zipstream|
+    def stream
+      stream = Zip::OutputStream.write_buffer { |zipstream|
         self.rels_hash = {}
         self.relationship_container.owner = self
         self.content_types.overrides = []
@@ -62,6 +60,8 @@ module RubyXL
           }
         }
       }
+      stream.rewind
+      stream
     end
 
     def self.parse_file(xl_file_path, opts)

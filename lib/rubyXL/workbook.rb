@@ -5,7 +5,6 @@ require 'zip'
 module RubyXL
   module LegacyWorkbook
     include Enumerable
-    attr_accessor :worksheets
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -74,11 +73,16 @@ module RubyXL
     end
 
     def each
-      worksheets.each{|i| yield i}
+      worksheets.each{ |i| yield i }
     end
 
-    #filepath of xlsx file (including file itself)
-    def write(filepath)
+    # Return the resulting XLSX file in a stream (useful for sending over HTTP)
+    def stream
+      root.stream
+    end
+
+    # Save the resulting XLSX file to the specified location
+    def save(filepath = nil)
       filepath ||= root.filepath
 
       extension = File.extname(filepath)
@@ -86,10 +90,11 @@ module RubyXL
         raise "Only xlsx and xlsm files are supported. Unsupported extension: #{extension}"
       end
 
-      File.open(filepath, "w") { |f| f.write(root.write_buffer.string) }
+      File.open(filepath, "w") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
 
       return filepath
     end
+    alias_method :write, :save
 
     def base_date
       if date1904 then 

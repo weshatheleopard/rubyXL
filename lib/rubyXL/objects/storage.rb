@@ -51,12 +51,9 @@ module RubyXL
   class DrawingFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
+    REL_CLASS    = RubyXL::DrawingRelationshipsFile
 
     include RubyXL::RelationshipSupport
-
-    def relationship_file_class
-      RubyXL::DrawingRelationshipsFile
-    end
 
     def attach_relationship(rid, rf)
       case rf
@@ -71,12 +68,9 @@ module RubyXL
   class ChartFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
+    REL_CLASS    = RubyXL::ChartRelationshipsFile
 
     include RubyXL::RelationshipSupport
-
-    def relationship_file_class
-      RubyXL::ChartRelationshipsFile
-    end
 
     def attach_relationship(rid, rf)
       case rf

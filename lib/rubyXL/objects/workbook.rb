@@ -289,8 +289,29 @@ module RubyXL
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
+    REL_CLASS    = RubyXL::WorkbookRelationships
 
     include RubyXL::RelationshipSupport
+
+    def related_objects
+      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
+    end
+
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::SharedStringsTable       then self.shared_strings_container = rf
+      when RubyXL::Stylesheet               then self.stylesheet = rf
+      when RubyXL::Theme                    then self.theme = rf
+      when RubyXL::CalculationChain         then self.calculation_chain = rf
+      when RubyXL::ExternalLinksFile        then store_relationship(rf) # TODO
+      when RubyXL::PivotCacheDefinitionFile then store_relationship(rf) # TODO
+      when RubyXL::CustomXMLFile            then store_relationship(rf) # TODO
+      when RubyXL::MacrosFile               then store_relationship(rf) # TODO
+      when RubyXL::SlicerCacheFile          then store_relationship(rf) # TODO
+      when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
+      else store_relationship(rf, :unknown)
+      end
+    end
 
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
@@ -320,7 +341,7 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
     attr_accessor :root
-    attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container
+    attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container, :worksheets
 
     def before_write_xml
       self.sheets = RubyXL::Sheets.new
@@ -332,30 +353,6 @@ module RubyXL
                                     :state => sheet.state, :r_id => rel.id)
       }
       true
-    end
-
-    def related_objects
-      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
-    end
-
-    def relationship_file_class
-      RubyXL::WorkbookRelationships
-    end
-
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::SharedStringsTable       then self.shared_strings_container = rf
-      when RubyXL::Stylesheet               then self.stylesheet = rf
-      when RubyXL::Theme                    then self.theme = rf
-      when RubyXL::CalculationChain         then self.calculation_chain = rf
-      when RubyXL::ExternalLinksFile        then store_relationship(rf) # TODO
-      when RubyXL::PivotCacheDefinitionFile then store_relationship(rf) # TODO
-      when RubyXL::CustomXMLFile            then store_relationship(rf) # TODO
-      when RubyXL::MacrosFile               then store_relationship(rf) # TODO
-      when RubyXL::SlicerCacheFile          then store_relationship(rf) # TODO
-      when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
-      else store_relationship(rf, :unknown)
-      end
     end
 
     def date1904
