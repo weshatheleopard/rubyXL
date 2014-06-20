@@ -1,3 +1,5 @@
+require 'pathname'
+
 module RubyXL
   module OOXMLObjectClassMethods
     # Get the value of a [sub]class variable if it exists, or create the respective variable
@@ -418,7 +420,7 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(dirpath, file_path = nil)
-      file_path = Pathname.new(file_path || self.xlsx_path)
+      file_path = ::Pathname.new(file_path || self.xlsx_path)
 
       case dirpath
       when String then
@@ -427,7 +429,7 @@ module RubyXL
         # Making sure that the file will be automatically closed immediately after it has been read
         File.open(full_path, 'r') { |f| parse(f) }
       when Zip::File then
-        file_path = file_path.relative_path_from(Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
+        file_path = file_path.relative_path_from(::Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
         entry = dirpath.find_entry(file_path)
         entry && (entry.get_input_stream { |f| parse(f) })
       end
