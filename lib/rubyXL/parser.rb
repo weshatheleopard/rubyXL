@@ -20,21 +20,6 @@ module RubyXL
 
       wb = root.workbook
 
-      if wb.stylesheet then
-        #fills out count information for each font, fill, and border
-        wb.cell_xfs.each { |style|
-
-          id = style.font_id
-          wb.fonts[id].count += 1 #unless id.nil?
-
-          id = style.fill_id
-          wb.fills[id].count += 1 #unless id.nil?
-
-          id = style.border_id
-          wb.borders[id].count += 1 #unless id.nil?
-        }
-      end
-
       wb.sheets.each_with_index { |sheet, i|
         sheet_obj = wb.relationship_container.related_files[sheet.r_id]
 

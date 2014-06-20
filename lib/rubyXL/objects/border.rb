@@ -25,7 +25,6 @@ module RubyXL
     define_child_node(RubyXL::BorderEdge, :node_name => :vertical)
     define_child_node(RubyXL::BorderEdge, :node_name => :horizontal)
     define_element_name 'border'
-    set_countable
 
     def get_edge_style(direction)
       edge = self.send(direction)

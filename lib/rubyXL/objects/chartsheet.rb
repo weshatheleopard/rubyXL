@@ -62,13 +62,7 @@ module RubyXL
     REL_CLASS    = RubyXL::SheetRelationshipsFile
 
     include RubyXL::RelationshipSupport
-
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::DrawingFile then store_relationship(rf) # TODO
-      else store_relationship(rf, :unknown)
-      end
-    end
+    define_relationship(RubyXL::DrawingFile)
 
     attr_accessor :state, :rels
     attr_accessor :workbook, :sheet_name, :sheet_id

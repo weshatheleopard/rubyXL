@@ -104,11 +104,10 @@ module RubyXL
       self.class_variable_set(:@@ooxml_tag_name, element_name)
     end
 
-    # #TODO# This method will eventually be obsoleted.
-    def set_countable
-      self.class_variable_set(:@@ooxml_countable, true)
-      self.send(:attr_accessor, :count)
-    end
+    def define_relationship(klass, accessor = nil)
+      relationships = obtain_class_variable(:@@ooxml_relationships)
+      relationships[klass] = accessor
+    end 
 
     def parse(node, known_namespaces = nil)
       node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String) || node.is_a?(Zip::InputStream)
@@ -333,6 +332,26 @@ module RubyXL
       }
       true 
     end
+
+    def attach_relationship(rid, rf)
+      relationships = obtain_class_variable(:@@ooxml_relationships)
+      klass = rf.class
+      if relationships.has_key?(klass) then
+        accessor = relationships[klass]
+        if accessor.nil? then
+          # Relationship is known, but we don't have a special accessor for it, store as generic
+          store_relationship(rf)
+        else
+          container = self.send(accessor)
+          if container.is_a?(Array) then
+            container << rf
+          else
+            self.send("{accessor}=", rf)
+          end
+        end
+      else store_relationship(rf, :unknown)
+      end
+    end 
 
   end
 

@@ -18,6 +18,12 @@ module RubyXL
       [ content_types, thumbnail, core_properties, document_properties, workbook ]
     end
 
+#    define_relationship(RubyXL::ThumbnailFile,          :thumbnail)
+#    define_relationship(RubyXL::CorePropertiesFile,     :core_properties)
+#    define_relationship(RubyXL::DocumentPropertiesFile, :document_properties)
+#    define_relationship(RubyXL::CustomPropertiesFile,   :custom_properties)
+#    define_relationship(RubyXL::Workbook,               :workbook)
+
     def attach_relationship(rid, rf)
       case rf
       when RubyXL::ThumbnailFile          then self.thumbnail = rf

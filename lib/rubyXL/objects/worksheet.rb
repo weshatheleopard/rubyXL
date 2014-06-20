@@ -8,6 +8,7 @@ require 'rubyXL/objects/formula'
 require 'rubyXL/objects/sheet_data'
 require 'rubyXL/objects/filters'
 require 'rubyXL/objects/data_validation'
+require 'rubyXL/objects/comments'
 
 module RubyXL
 
@@ -616,20 +617,15 @@ module RubyXL
       comments + printer_settings
     end
 
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::PrinterSettingsFile   then printer_settings << rf
-      when RubyXL::CommentsFile          then comments << rf
-      when RubyXL::VMLDrawingFile        then store_relationship(rf) # TODO
-      when RubyXL::DrawingFile           then store_relationship(rf) # TODO
-      when RubyXL::BinaryImageFile       then store_relationship(rf) # TODO
-      when RubyXL::PivotTableFile        then store_relationship(rf) # TODO
-      when RubyXL::TableFile             then store_relationship(rf) # TODO
-      when RubyXL::ControlPropertiesFile then store_relationship(rf) # TODO
-      when RubyXL::SlicerFile            then store_relationship(rf) # TODO
-      else store_relationship(rf, :unknown)
-      end
-    end
+    define_relationship(RubyXL::PrinterSettingsFile,  :printer_settings)
+    define_relationship(RubyXL::CommentsFile,         :comments)
+    define_relationship(RubyXL::VMLDrawingFile)
+    define_relationship(RubyXL::DrawingFile)
+    define_relationship(RubyXL::BinaryImageFile)
+    define_relationship(RubyXL::PivotTableFile)
+    define_relationship(RubyXL::TableFile)
+    define_relationship(RubyXL::ControlPropertiesFile)
+    define_relationship(RubyXL::SlicerFile)
 
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
