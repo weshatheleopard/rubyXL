@@ -73,9 +73,9 @@ module RubyXL
 
     def attach_relationship(rid, rf)
       case rf
-      when RubyXL::ChartColorsFile     then self.generic_storage << rf # TODO
-      when RubyXL::ChartStyleFile      then self.generic_storage << rf # TODO
-      when RubyXL::ChartUserShapesFile then self.generic_storage << rf # TODO
+      when RubyXL::ChartColorsFile     then store_relationship(rf) # TODO
+      when RubyXL::ChartStyleFile      then store_relationship(rf) # TODO
+      when RubyXL::ChartUserShapesFile then store_relationship(rf) # TODO
       else store_relationship(rf, :unknown)
       end
     end
