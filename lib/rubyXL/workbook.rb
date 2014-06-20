@@ -86,31 +86,7 @@ module RubyXL
         raise "Only xlsx and xlsm files are supported. Unsupported extension: #{extension}"
       end
 
-      buffer = Zip::OutputStream.write_buffer { |zipfile|
-        root.rels_hash = {}
-        root.relationship_container.owner = root
-        root.content_types.overrides = []
-        root.content_types.owner = root
-        root.collect_related_objects.compact.each { |obj|
-          puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
-          root.rels_hash[obj.class] ||= []
-          root.rels_hash[obj.class] << obj
-        }
-
-        root.rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
-          puts "<-- DEBUG: saving related #{klass} files" if @@debug
-          root.rels_hash[klass].each { |obj|
-            obj.workbook = self if obj.respond_to?(:workbook=)
-            puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
-            root.content_types.add_override(obj)
-            obj.add_to_zip(zipfile)
-          }
-        }
-
-        self.add_to_zip(zipfile)
-      }
-
-      File.open(filepath, "w") { |f| f.write(buffer.string) }
+      File.open(filepath, "w") { |f| f.write(root.write_buffer.string) }
 
       return filepath
     end
