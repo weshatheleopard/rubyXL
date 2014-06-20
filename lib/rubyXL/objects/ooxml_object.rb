@@ -438,11 +438,11 @@ module RubyXL
     # Saves the contents of the object as XML to respective location in <tt>.xslx</tt> zip container.
     # === Parameters
     # * +zipfile+ - ::Zip::File to which the resulting XNMML should be added.
-    def add_to_zip(zipfile)
+    def add_to_zip(zip_stream)
       xml_string = write_xml
       return if xml_string.empty?
-      zipfile.put_next_entry(self.xlsx_path)
-      zipfile.write(xml_string)
+      zip_stream.put_next_entry(self.xlsx_path)
+      zip_stream.write(xml_string)
     end
 
     def file_index
