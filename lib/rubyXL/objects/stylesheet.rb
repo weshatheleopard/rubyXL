@@ -112,7 +112,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dxfs-1.html
-  class DXFs < OOXMLObject
+  class DXFs < OOXMLContainerObject
     define_child_node(RubyXL::DXF, :collection => :with_count)
     define_element_name 'dxfs'
   end
