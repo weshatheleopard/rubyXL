@@ -86,12 +86,7 @@ module RubyXL
         raise "Only xlsx and xlsm files are supported. Unsupported extension: #{extension}"
       end
 
-      dirpath  = File.dirname(filepath)
-      temppath = File.join(dirpath, Dir::Tmpname.make_tmpname([ File.basename(filepath), '.tmp' ], nil))
-      FileUtils.mkdir_p(temppath)
-      zippath  = File.join(temppath, 'file.zip')
-
-      ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
+      buffer = Zip::OutputStream.write_buffer { |zipfile|
         root.rels_hash = {}
         root.relationship_container.owner = root
         root.content_types.overrides = []
@@ -115,8 +110,7 @@ module RubyXL
         self.add_to_zip(zipfile)
       }
 
-      FileUtils.mv(zippath, filepath)
-      FileUtils.rm_rf(temppath) if File.exist?(filepath)
+      File.open(filepath, "w") { |f| f.write(buffer.string) }
 
       return filepath
     end

@@ -441,7 +441,8 @@ module RubyXL
     def add_to_zip(zipfile)
       xml_string = write_xml
       return if xml_string.empty?
-      zipfile.get_output_stream(self.xlsx_path) { |f| f << xml_string }
+      zipfile.put_next_entry(self.xlsx_path)
+      zipfile.write(xml_string)
     end
 
     def file_index

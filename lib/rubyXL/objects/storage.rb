@@ -36,11 +36,11 @@ module RubyXL
 
     def add_to_zip(zipfile)
       return if @data.nil?
-
       path = self.xlsx_path
       path = path.relative_path_from(Pathname.new("/")) if path.absolute? # Zip doesn't like absolute paths.
 
-      zipfile.get_output_stream(path) { |f| f << @data }
+      zipfile.put_next_entry(path)
+      zipfile.write(@data)
     end
   end
 
