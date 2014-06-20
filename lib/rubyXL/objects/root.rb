@@ -15,7 +15,7 @@ module RubyXL
     include RubyXL::RelationshipSupport
 
     def related_objects
-      [ content_types, thumbnail, core_properties, document_properties, workbook ]
+      [ content_types, thumbnail, core_properties, document_properties, custom_properties, workbook ]
     end
 
 #    define_relationship(RubyXL::ThumbnailFile,          :thumbnail)
