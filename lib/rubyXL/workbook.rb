@@ -67,7 +67,7 @@ module RubyXL
         end until self[name].nil?
       end
 
-      new_worksheet = Worksheet.new(:workbook => self, :sheet_name => name || get_default_name)
+      new_worksheet = Worksheet.new(:workbook => self, :sheet_name => name)
       worksheets << new_worksheet
       new_worksheet
     end
