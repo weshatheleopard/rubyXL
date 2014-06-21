@@ -920,7 +920,6 @@ describe RubyXL::Worksheet do
       expect(@worksheet[0][0].value).to eq("0:1")
       expect(@worksheet[0][0].formula).to be_nil
       expect(@worksheet[0][0].row).to eq(0)
-      expect(@worksheet[0][0].column).to eq(0)
     end
 
     it 'should delete a column at index specified, "pushing" styles "left"' do
@@ -933,6 +932,13 @@ describe RubyXL::Worksheet do
       @worksheet.add_cell(0,4,nil,'SUM(A1:D1)')
       @worksheet.delete_column(0)
       expect(@worksheet[0][3].formula.expression).to eq('SUM(A1:D1)')
+    end
+
+    it 'should update cell indices after deleting the column' do
+      @worksheet.delete_column(2)
+      @worksheet[0].cells.each_with_index { |cell, i|
+        expect(cell.column).to eq(i)
+      }
     end
 
     it 'should cause error if negative argument is passed in' do
@@ -968,6 +974,14 @@ describe RubyXL::Worksheet do
       expect(@worksheet[0][6].formula.expression).to eq('SUM(A1:D1)')
     end
 
+    it 'should update cell indices after deleting the column' do
+      @worksheet.insert_column(5)
+      @worksheet[0].cells.each_with_index { |cell, i| 
+        next if cell.nil?
+        expect(cell.column).to eq(i)
+      }
+    end
+
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.insert_column(-1)
@@ -990,10 +1004,17 @@ describe RubyXL::Worksheet do
     end
 
     it 'should shift cells to the right if :right is specified' do
-      @worksheet.insert_cell(0,0,'test',nil,:right)
+      @worksheet.insert_cell(0, 0, 'test', nil, :right)
       expect(@worksheet[0][0].value).to eq('test')
       expect(@worksheet[0][1].value).to eq('0:0')
       expect(@worksheet[1][0].value).to eq('1:0')
+    end
+
+    it 'should update cell indices after inserting the cell' do
+      @worksheet.insert_cell(0, 0, 'test', nil, :right)
+      @worksheet[0].cells.each_with_index { |cell, i|
+        expect(cell.column).to eq(i)
+      }
     end
 
     it 'should shift cells down if :down is specified' do
@@ -1034,8 +1055,15 @@ describe RubyXL::Worksheet do
     end
 
     it 'should shift cells to the right of the deleted cell left if :left is specified' do
-      @worksheet.delete_cell(0,0,:left)
+      @worksheet.delete_cell(0, 0, :left)
       expect(@worksheet[0][0].value).to eq('0:1')
+    end
+
+    it 'should update cell indices after deleting the cell' do
+      @worksheet.delete_cell(4, 0, :left)
+      @worksheet[0].cells.each_with_index { |cell, i|
+        expect(cell.column).to eq(i)
+      }
     end
 
     it 'should shift cells below the deleted cell up if :up is specified' do

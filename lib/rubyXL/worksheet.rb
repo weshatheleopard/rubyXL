@@ -900,15 +900,7 @@ module LegacyWorksheet
     sheet_data.rows[row].style_index = @workbook.modify_border(get_row_style(row), direction, weight)
 
     sheet_data[row].cells.each { |c|
-      next if c.nil?
-      case direction
-      when :top      then c.change_border_top(weight)
-      when :left     then c.change_border_left(weight)
-      when :right    then c.change_border_right(weight)
-      when :bottom   then c.change_border_bottom(weight)
-      when :diagonal then c.change_border_diagonal(weight)
-      else raise 'invalid direction'
-      end
+      c.change_border(direction, weight) unless c.nil?
     }
   end
 
@@ -920,15 +912,7 @@ module LegacyWorksheet
 
     sheet_data.rows.each { |row|
       c = row.cells[column_index]
-      next if c.nil?
-      case direction
-      when :top      then c.change_border_top(weight)
-      when :left     then c.change_border_left(weight)
-      when :right    then c.change_border_right(weight)
-      when :bottom   then c.change_border_bottom(weight)
-      when :diagonal then c.change_border_diagonal(weight)
-      else raise 'invalid direction'
-      end
+      c.change_border(direction, weight) unless c.nil?
     }
   end
 

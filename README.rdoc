@@ -1,4 +1,5 @@
 = rubyXL
+{<img src="https://codeclimate.com/github/weshatheleopard/rubyXL.png">}[https://codeclimate.com/github/weshatheleopard/rubyXL]
 
 == To Install:
   gem install rubyXL

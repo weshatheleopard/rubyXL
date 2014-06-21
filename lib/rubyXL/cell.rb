@@ -114,27 +114,27 @@ module RubyXL
       self.style_index = workbook.modify_text_wrap(self.style_index, wrap)
     end
 
-    # changes top border of cell
+    def change_border(direction, weight)
+      validate_worksheet
+      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+    end
+
     def change_border_top(weight = 'thin')
       change_border(:top, weight)
     end
 
-    # changes left border of cell
     def change_border_left(weight = 'thin')
       change_border(:left, weight)
     end
 
-    # changes right border of cell
     def change_border_right(weight = 'thin')
       change_border(:right, weight)
     end
 
-    # changes bottom border of cell
     def change_border_bottom(weight = 'thin')
       change_border(:bottom, weight)
     end
 
-    # changes diagonal border of cell
     def change_border_diagonal(weight = 'thin')
       change_border(:diagonal, weight)
     end
@@ -257,11 +257,6 @@ module RubyXL
     end
 
     private
-
-    def change_border(direction, weight)
-      validate_worksheet
-      self.style_index = workbook.modify_border(self.style_index, direction, weight)
-    end
 
     def get_border(direction)
       validate_worksheet
