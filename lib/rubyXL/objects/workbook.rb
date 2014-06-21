@@ -297,21 +297,18 @@ module RubyXL
       [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
     end
 
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::SharedStringsTable       then self.shared_strings_container = rf
-      when RubyXL::Stylesheet               then self.stylesheet = rf
-      when RubyXL::Theme                    then self.theme = rf
-      when RubyXL::CalculationChain         then self.calculation_chain = rf
-      when RubyXL::ExternalLinksFile        then store_relationship(rf) # TODO
-      when RubyXL::PivotCacheDefinitionFile then store_relationship(rf) # TODO
-      when RubyXL::CustomXMLFile            then store_relationship(rf) # TODO
-      when RubyXL::MacrosFile               then store_relationship(rf) # TODO
-      when RubyXL::SlicerCacheFile          then store_relationship(rf) # TODO
-      when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
-      else store_relationship(rf, :unknown)
-      end
-    end
+    define_relationship(RubyXL::SharedStringsTable, :shared_strings_container)
+    define_relationship(RubyXL::Stylesheet,         :stylesheet)
+    define_relationship(RubyXL::Theme,              :theme)
+    define_relationship(RubyXL::CalculationChain,   :calculation_chain)
+    define_relationship(RubyXL::Stylesheet,         :stylesheet)
+    define_relationship(RubyXL::Worksheet,          false)
+    define_relationship(RubyXL::Chartsheet,         false)
+    define_relationship(RubyXL::ExternalLinksFile)
+    define_relationship(RubyXL::PivotCacheDefinitionFile)
+    define_relationship(RubyXL::CustomXMLFile)
+    define_relationship(RubyXL::MacrosFile)
+    define_relationship(RubyXL::SlicerCacheFile)
 
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
