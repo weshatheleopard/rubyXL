@@ -71,9 +71,6 @@ module RubyXL
     end
 
     def self.parse_file(xl_file_path, opts)
-      raise 'Not .xlsx or .xlsm excel file' unless opts[:skip_filename_check] || 
-                                              %w{.xlsx .xlsm}.include?(File.extname(xl_file_path))
-
       begin
         ::Zip::File.open(xl_file_path) { |zip_file|
           root = self.new
@@ -83,10 +80,8 @@ module RubyXL
           root.workbook.root = root
           root
         }
-      rescue Exception => e
-#        puts e.inspect
-#        puts e.class
-        raise e
+      rescue ::Zip::Error => e
+        raise e, "XLSX file format error: #{e}", e.backtrace
       end
     end
 

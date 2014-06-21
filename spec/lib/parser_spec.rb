@@ -58,16 +58,6 @@ describe RubyXL::Parser do
       expect {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.to raise_error
     end
 
-    it 'should not cause an error if an xlsx or xlsm workbook is not passed but the skip_filename_check option is used' do
-      filename = @time_str
-      FileUtils.cp(@file, filename)
-      
-      expect {@workbook2 = RubyXL::Parser.parse(filename)}.to raise_error
-      expect {@workbook2 = RubyXL::Parser.parse(filename, :skip_filename_check => true)}.not_to raise_error
-
-      File.delete(filename)
-    end
-    
     it 'should only read the data and not any of the styles (for the sake of speed) when passed true' do
       @workbook2 = RubyXL::Parser.parse(@file, :data_only => true)
 
