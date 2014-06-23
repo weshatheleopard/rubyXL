@@ -188,7 +188,7 @@ module RubyXL
     define_attribute(:refMode,               RubyXL::ST_RefMode, :default => 'A1')
     define_attribute(:iterate,               :bool,   :default => false)
     define_attribute(:iterateCount,          :int,    :default => 100)
-    define_attribute(:iterateDelta,          :float,  :default => 0.001)
+    define_attribute(:iterateDelta,          :double, :default => 0.001)
     define_attribute(:fullPrecision,         :bool,   :default => true)
     define_attribute(:calcCompleted,         :bool,   :default => true)
     define_attribute(:calcOnSave,            :bool,   :default => true)

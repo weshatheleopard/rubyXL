@@ -24,7 +24,8 @@ module RubyXL
     #   * Special attibute name <tt>'_'</tt> (underscore) denotes the value of the element rather than attribute.
     # * +attribute_type+ - Specifies the conversion type for the attribute when parsing. Available options are:
     #   * +:int+ - <tt>Integer</tt>
-    #   * +:float+ - <tt>Float</tt>
+    #   * +:uint+ - Unsigned <tt>Integer</tt>
+    #   * +:double+ - <tt>Float</tt></u>
     #   * +:string+ - <tt>String</tt> (no conversion)
     #   * +:sqref+ - RubyXL::Sqref
     #   * +:ref+ - RubyXL::Reference
@@ -89,7 +90,7 @@ module RubyXL
     end
 
     def define_count_attribute
-      define_attribute(:count, :int, :required => true)
+      define_attribute(:count, :uint, :required => true)
     end
     private :define_count_attribute
  
@@ -190,13 +191,17 @@ module RubyXL
     def process_attribute(obj, raw_value, params)
       val = raw_value &&
               case params[:attr_type]
-              when :int    then Integer(raw_value)
-              when :float  then Float(raw_value)
+              when :double then Float(raw_value) # http://www.datypic.com/sc/xsd/t-xsd_double.html
               when :string then raw_value
               when Array   then raw_value # Case of Simple Types
               when :sqref  then RubyXL::Sqref.new(raw_value)
               when :ref    then RubyXL::Reference.new(raw_value)
               when :bool   then ['1', 'true'].include?(raw_value)
+              when :int    then Integer(raw_value)
+              when :uint   then
+                v = Integer(raw_value)
+                raise ArgumentError.new("invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
+                v
               end              
       obj.send("#{params[:accessor]}=", val)
     end
@@ -275,8 +280,8 @@ module RubyXL
 
         val = val &&
                 case v[:attr_type]
-                when :bool  then val ? '1' : '0'
-                when :float then val.to_s.gsub(/\.0*\Z/, '') # Trim trailing zeroes
+                when :bool   then val ? '1' : '0'
+                when :double then val.to_s.gsub(/\.0*\Z/, '') # Trim trailing zeroes
                 else val
                 end
 
@@ -385,7 +390,7 @@ module RubyXL
     class << self
       def define_count_attribute
         # Count will be inherited from Array. so no need to define it explicitly.
-        define_attribute(:count, :int, :required => true, :computed => true)
+        define_attribute(:count, :uint, :required => true, :computed => true)
       end
       protected :define_count_attribute
     end
