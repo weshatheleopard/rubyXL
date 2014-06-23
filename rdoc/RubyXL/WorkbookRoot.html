@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::WorkbookRoot - rubyXL 3.0.1</title>
+<title>class RubyXL::WorkbookRoot - rubyXL 3.0.2</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -299,7 +299,7 @@
           <div class="method-source-code" id="parse_file-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-identifier">opts</span>)
-  <span class="ruby-identifier">raise</span> <span class="ruby-string">'Not .xlsx or .xlsm excel file'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:skip_filename_check</span>] <span class="ruby-operator">||</span> 
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Not .xlsx or .xlsm excel file&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:skip_filename_check</span>] <span class="ruby-operator">||</span> 
                                           <span class="ruby-node">%w{.xlsx .xlsm}</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">xl_file_path</span>))
 
   <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
