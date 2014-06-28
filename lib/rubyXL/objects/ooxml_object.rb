@@ -436,7 +436,7 @@ module RubyXL
       when Zip::File then
         file_path = file_path.relative_path_from(::Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
         entry = dirpath.find_entry(file_path)
-        entry && (entry.get_input_stream { |f| parse(f) })
+        entry && (entry.get_input_stream { |f| parse(f.read) })
       end
     end
 
