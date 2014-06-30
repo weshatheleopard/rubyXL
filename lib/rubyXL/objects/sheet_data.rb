@@ -98,7 +98,7 @@ module RubyXL
     define_attribute(:spans,        :string)
     define_attribute(:s,            :int,   :default => 0, :accessor => :style_index)
     define_attribute(:customFormat, :bool,  :default => false)
-    define_attribute(:ht,           :float)
+    define_attribute(:ht,           :double)
     define_attribute(:hidden,       :bool,  :default => false)
     define_attribute(:customHeight, :bool,  :default => false)
     define_attribute(:outlineLevel, :int,   :default => 0)

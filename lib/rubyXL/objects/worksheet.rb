@@ -54,15 +54,15 @@ module RubyXL
   end
 
   class WorksheetFormatProperties < OOXMLObject
-    define_attribute(:baseColWidth,     :int,   :default => 8)
-    define_attribute(:defaultColWidth,  :float)
-    define_attribute(:defaultRowHeight, :float, :required => true)
-    define_attribute(:customHeight,     :bool,  :default => false)
-    define_attribute(:zeroHeight,       :bool,  :default => false)
-    define_attribute(:thickTop,         :bool,  :default => false)
-    define_attribute(:thickBottom,      :bool,  :default => false)
-    define_attribute(:outlineLevelRow,  :int,   :default => 0)
-    define_attribute(:outlineLevelCol,  :int,   :default => 0)
+    define_attribute(:baseColWidth,     :int,    :default => 8)
+    define_attribute(:defaultColWidth,  :double)
+    define_attribute(:defaultRowHeight, :double, :required => true)
+    define_attribute(:customHeight,     :bool,   :default => false)
+    define_attribute(:zeroHeight,       :bool,   :default => false)
+    define_attribute(:thickTop,         :bool,   :default => false)
+    define_attribute(:thickBottom,      :bool,   :default => false)
+    define_attribute(:outlineLevelRow,  :int,    :default => 0)
+    define_attribute(:outlineLevelCol,  :int,    :default => 0)
     define_element_name 'sheetFormatPr'
   end
 
@@ -356,8 +356,8 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pane-1.html
   class Pane < OOXMLObject
-    define_attribute(:xSplit,      :int)
-    define_attribute(:ySplit,      :int)
+    define_attribute(:xSplit,      :double)
+    define_attribute(:ySplit,      :double)
     define_attribute(:topLeftCell, :string)
     define_attribute(:activePane,  RubyXL::ST_Pane, :default => 'topLeft', )
     define_attribute(:state,       RubyXL::ST_PaneState, :default=> 'split')

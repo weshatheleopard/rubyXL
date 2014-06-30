@@ -3,9 +3,9 @@ require 'rubyXL/objects/simple_types'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_gradientFill-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_stop-1.html
   class Stop < OOXMLObject
-    define_attribute(:position, :float)
+    define_attribute(:position, :double, :required => true)
     define_child_node(RubyXL::Color)
     define_element_name 'stop'
   end
@@ -21,11 +21,11 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_gradientFill-1.html
   class GradientFill < OOXMLObject
     define_attribute(:type,   RubyXL::ST_GradientType, :default => 'linear')
-    define_attribute(:degree, :float,  :default => 0)
-    define_attribute(:left,   :float,  :default => 0)
-    define_attribute(:right,  :float,  :default => 0)
-    define_attribute(:top,    :float,  :default => 0)
-    define_attribute(:bottom, :float,  :default => 0)
+    define_attribute(:degree, :double, :default => 0)
+    define_attribute(:left,   :double, :default => 0)
+    define_attribute(:right,  :double, :default => 0)
+    define_attribute(:top,    :double, :default => 0)
+    define_attribute(:bottom, :double, :default => 0)
     define_child_node(RubyXL::Stop, :collection => true)
     define_element_name 'gradientFill'
   end
