@@ -771,37 +771,18 @@ module LegacyWorksheet
   def font_switch(c,change_type,arg)
     case change_type
       when Worksheet::NAME
-        unless arg.is_a?String
-          raise 'Not a String'
-        end
         c.change_font_name(arg)
       when Worksheet::SIZE
-        unless arg.is_a?(Integer) || arg.is_a?(Float)
-          raise 'Not a Number'
-        end
-          c.change_font_size(arg)
+        c.change_font_size(arg)
       when Worksheet::COLOR
-        Color.validate_color(arg)
         c.change_font_color(arg)
       when Worksheet::ITALICS
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
         c.change_font_italics(arg)
       when Worksheet::BOLD
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
         c.change_font_bold(arg)
       when Worksheet::UNDERLINE
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
         c.change_font_underline(arg)
       when Worksheet::STRIKETHROUGH
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
         c.change_font_strikethrough(arg)
       else
         raise 'Invalid change_type'

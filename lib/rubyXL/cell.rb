@@ -19,10 +19,10 @@ module RubyXL
     end
 
     # changes fill color of cell
-    def change_fill(rgb='ffffff')
+    def change_fill(rgb = 'ffffff')
       validate_worksheet
       Color.validate_color(rgb)
-      self.style_index = workbook.modify_fill(self.style_index,rgb)
+      self.style_index = workbook.modify_fill(self.style_index, rgb)
     end
 
     # Changes font name of cell
@@ -278,7 +278,7 @@ module RubyXL
 
     def validate_worksheet()
       return if @worksheet && @worksheet[row] && @worksheet[row][column] == self
-      raise "This cell #{self} is not in worksheet #{worksheet}"
+      raise "Cell #{self} is not in worksheet #{worksheet}"
     end
 
     def get_cell_xf
