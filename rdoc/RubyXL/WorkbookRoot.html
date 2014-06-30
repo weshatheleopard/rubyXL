@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::WorkbookRoot - rubyXL 3.0.2</title>
+<title>class RubyXL::WorkbookRoot - rubyXL 3.1.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -92,7 +92,7 @@
     
     <li ><a href="#method-i-related_objects">#related_objects</a>
     
-    <li ><a href="#method-i-relationship_file_class">#relationship_file_class</a>
+    <li ><a href="#method-i-stream">#stream</a>
     
   </ul>
 </div>
@@ -117,6 +117,20 @@
 
     
 
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="REL_CLASS">REL_CLASS
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
     
 
     
@@ -259,7 +273,7 @@
 
           
           <div class="method-source-code" id="default-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 32</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>
   <span class="ruby-identifier">obj</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">document_properties</span>    = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DocumentPropertiesFile</span>.<span class="ruby-identifier">new</span>
@@ -297,19 +311,20 @@
 
           
           <div class="method-source-code" id="parse_file-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 41</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-identifier">opts</span>)
-  <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Not .xlsx or .xlsm excel file&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:skip_filename_check</span>] <span class="ruby-operator">||</span> 
-                                          <span class="ruby-node">%w{.xlsx .xlsm}</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">xl_file_path</span>))
-
-  <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">root</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
-    <span class="ruby-identifier">root</span>.<span class="ruby-identifier">filepath</span> = <span class="ruby-identifier">xl_file_path</span>
-    <span class="ruby-identifier">root</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zip_file</span>)
-    <span class="ruby-identifier">root</span>.<span class="ruby-identifier">load_relationships</span>(<span class="ruby-identifier">zip_file</span>)
-    <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">root</span> = <span class="ruby-identifier">root</span>
-    <span class="ruby-identifier">root</span>
-  }
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">root</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">root</span>.<span class="ruby-identifier">filepath</span> = <span class="ruby-identifier">xl_file_path</span>
+      <span class="ruby-identifier">root</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zip_file</span>)
+      <span class="ruby-identifier">root</span>.<span class="ruby-identifier">load_relationships</span>(<span class="ruby-identifier">zip_file</span>)
+      <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">root</span> = <span class="ruby-identifier">root</span>
+      <span class="ruby-identifier">root</span>
+    }
+  <span class="ruby-keyword">rescue</span> <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>, <span class="ruby-node">&quot;XLSX file format error: #{e}&quot;</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -342,13 +357,17 @@
 
         <div class="method-description">
           
-          
+          <p>define_relationship(RubyXL::ThumbnailFile,          :thumbnail)
+define_relationship(RubyXL::CorePropertiesFile,     :core_properties)
+define_relationship(RubyXL::DocumentPropertiesFile, :document_properties)
+define_relationship(RubyXL::CustomPropertiesFile,   :custom_properties)
+define_relationship(RubyXL::Workbook,               :workbook)</p>
           
           
 
           
           <div class="method-source-code" id="attach_relationship-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 21</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">attach_relationship</span>(<span class="ruby-identifier">rid</span>, <span class="ruby-identifier">rf</span>)
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">rf</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ThumbnailFile</span>          <span class="ruby-keyword">then</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">thumbnail</span> = <span class="ruby-identifier">rf</span>
@@ -388,9 +407,9 @@
 
           
           <div class="method-source-code" id="related_objects-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 13</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">related_objects</span>
-  [ <span class="ruby-identifier">content_types</span>, <span class="ruby-identifier">thumbnail</span>, <span class="ruby-identifier">core_properties</span>, <span class="ruby-identifier">document_properties</span>, <span class="ruby-identifier">workbook</span> ]
+  [ <span class="ruby-identifier">content_types</span>, <span class="ruby-identifier">thumbnail</span>, <span class="ruby-identifier">core_properties</span>, <span class="ruby-identifier">document_properties</span>, <span class="ruby-identifier">custom_properties</span>, <span class="ruby-identifier">workbook</span> ]
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -402,10 +421,10 @@
       </div>
 
     
-      <div id="method-i-relationship_file_class" class="method-detail ">
+      <div id="method-i-stream" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">relationship_file_class</span><span
+          <span class="method-name">stream</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -420,10 +439,32 @@
           
 
           
-          <div class="method-source-code" id="relationship_file_class-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 17</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">relationship_file_class</span>
-  <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RootRelationships</span>
+          <div class="method-source-code" id="stream-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">stream</span>
+  <span class="ruby-identifier">stream</span> = <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">OutputStream</span>.<span class="ruby-identifier">write_buffer</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">zipstream</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rels_hash</span> = {}
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">owner</span> = <span class="ruby-keyword">self</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">content_types</span>.<span class="ruby-identifier">overrides</span> = []
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">content_types</span>.<span class="ruby-identifier">owner</span> = <span class="ruby-keyword">self</span>
+    <span class="ruby-identifier">collect_related_objects</span>.<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">obj</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;&lt;-- DEBUG: adding relationship to #{obj.class}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rels_hash</span>[<span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>] <span class="ruby-operator">||=</span> []
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rels_hash</span>[<span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">obj</span>
+    }
+
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rels_hash</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">sort_by</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">save_order</span> }.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">klass</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;&lt;-- DEBUG: saving related #{klass} files&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rels_hash</span>[<span class="ruby-identifier">klass</span>].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">obj</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-identifier">workbook</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:workbook=</span>)
+        <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;&lt;-- DEBUG:   &gt; #{obj.xlsx_path}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
+        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">content_types</span>.<span class="ruby-identifier">add_override</span>(<span class="ruby-identifier">obj</span>)
+        <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipstream</span>)
+      }
+    }
+  }
+  <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">rewind</span>
+  <span class="ruby-identifier">stream</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
