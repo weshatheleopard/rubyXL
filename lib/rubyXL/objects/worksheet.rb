@@ -6,9 +6,11 @@ require 'rubyXL/objects/sheet_common'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
 require 'rubyXL/objects/sheet_data'
+require 'rubyXL/objects/column_range'
 require 'rubyXL/objects/filters'
 require 'rubyXL/objects/data_validation'
 require 'rubyXL/objects/comments'
+require 'rubyXL/worksheet'
 
 module RubyXL
 

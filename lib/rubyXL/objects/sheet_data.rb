@@ -2,6 +2,7 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
+require 'rubyXL/cell'
 
 module RubyXL
 

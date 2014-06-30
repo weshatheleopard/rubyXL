@@ -1,6 +1,14 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/shared_strings'
+require 'rubyXL/objects/stylesheet'
+require 'rubyXL/objects/theme'
+require 'rubyXL/objects/calculation_chain'
+require 'rubyXL/objects/worksheet'
+require 'rubyXL/objects/chartsheet'
+require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
+require 'rubyXL/workbook'
 
 module RubyXL
 

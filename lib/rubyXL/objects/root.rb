@@ -1,5 +1,8 @@
 require 'zip'
 require 'rubyXL/objects/relationships'
+require 'rubyXL/objects/document_properties'
+require 'rubyXL/objects/content_types'
+require 'rubyXL/objects/workbook'
 
 module RubyXL
 
@@ -14,25 +17,14 @@ module RubyXL
 
     include RubyXL::RelationshipSupport
 
+    define_relationship(RubyXL::ThumbnailFile,          :thumbnail)
+    define_relationship(RubyXL::CorePropertiesFile,     :core_properties)
+    define_relationship(RubyXL::DocumentPropertiesFile, :document_properties)
+    define_relationship(RubyXL::CustomPropertiesFile,   :custom_properties)
+    define_relationship(RubyXL::Workbook,               :workbook)
+
     def related_objects
       [ content_types, thumbnail, core_properties, document_properties, custom_properties, workbook ]
-    end
-
-#    define_relationship(RubyXL::ThumbnailFile,          :thumbnail)
-#    define_relationship(RubyXL::CorePropertiesFile,     :core_properties)
-#    define_relationship(RubyXL::DocumentPropertiesFile, :document_properties)
-#    define_relationship(RubyXL::CustomPropertiesFile,   :custom_properties)
-#    define_relationship(RubyXL::Workbook,               :workbook)
-
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::ThumbnailFile          then self.thumbnail = rf
-      when RubyXL::CorePropertiesFile     then self.core_properties = rf
-      when RubyXL::DocumentPropertiesFile then self.document_properties = rf
-      when RubyXL::CustomPropertiesFile   then self.custom_properties = rf
-      when RubyXL::Workbook               then self.workbook = rf
-      else store_relationship(rf, :unknown)
-      end
     end
 
     def self.default
@@ -56,7 +48,7 @@ module RubyXL
           self.rels_hash[obj.class] << obj
         }
 
-        self.rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
+        self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
           self.rels_hash[klass].each { |obj|
             obj.workbook = workbook if obj.respond_to?(:workbook=)

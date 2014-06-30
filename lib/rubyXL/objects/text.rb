@@ -1,6 +1,7 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/container_nodes'
+require 'rubyXL/objects/color'
 
 module RubyXL
 

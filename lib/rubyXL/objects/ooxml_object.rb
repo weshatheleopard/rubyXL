@@ -394,14 +394,12 @@ module RubyXL
   # Extension class providing functionality for top-level OOXML objects that are represented by
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
   class OOXMLTopLevelObject < OOXMLObject
+    SAVE_ORDER = 500
+
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
     def xlsx_path
       raise 'Subclass responsebility'
-    end
-
-    def self.save_order
-      500
     end
 
     # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
@@ -448,32 +446,6 @@ module RubyXL
     def file_index
       @workbook.root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
     end
-
-    def self.define_relationship(klass, accessor = nil)
-      relationships = obtain_class_variable(:@@ooxml_relationships)
-      relationships[klass] = accessor
-    end 
-
-    def attach_relationship(rid, rf)
-      relationships = obtain_class_variable(:@@ooxml_relationships)
-      klass = rf.class
-      if relationships.has_key?(klass) then
-        accessor = relationships[klass]
-        case accessor
-        when NilClass then
-          # Relationship is known, but we don't have a special accessor for it, store as generic
-          store_relationship(rf)
-        when false then
-          # Do nothing, the code will perform attaching on its own
-        else
-          container = self.send(accessor)
-          if container.is_a?(Array) then container << rf
-          else self.send("#{accessor}=", rf)
-          end
-        end
-      else store_relationship(rf, :unknown)
-      end
-    end 
 
   end
 

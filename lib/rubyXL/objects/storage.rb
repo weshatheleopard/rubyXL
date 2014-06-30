@@ -1,6 +1,7 @@
 module RubyXL
 
   class GenericStorageObject
+    SAVE_ORDER = 0
 
     attr_accessor :xlsx_path, :data, :workbook, :generic_storage
 
@@ -9,10 +10,6 @@ module RubyXL
       @xlsx_path = nil
       @data = nil
       @generic_storage = []
-    end
-
-    def self.save_order
-      0
     end
 
     def self.parse_file(dirpath, file_path = nil)
