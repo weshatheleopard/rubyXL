@@ -35,7 +35,6 @@ module RubyXL
     define_child_node(RubyXL::PatternFill)
     define_child_node(RubyXL::GradientFill)
     define_element_name 'fill'
-    set_countable
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fills-1.html

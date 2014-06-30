@@ -203,7 +203,7 @@ module RubyXL
     end
 
     def load_relationships(dir_path, base_file_name = '')
-      self.relationship_container = relationship_file_class.load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = self.class.const_get(:REL_CLASS).load_relationship_file(dir_path, base_file_name)
       return if relationship_container.nil?
 
       relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, related_file|

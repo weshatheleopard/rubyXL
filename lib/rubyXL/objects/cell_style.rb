@@ -53,7 +53,6 @@ module RubyXL
     define_child_node(RubyXL::Alignment)
     define_child_node(RubyXL::Protection)
     define_element_name 'xf'
-    set_countable
 
     def ==(other)
       (self.num_fmt_id == other.num_fmt_id) &&
