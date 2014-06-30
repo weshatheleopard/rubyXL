@@ -350,8 +350,6 @@ module LegacyWorksheet
       sheet_data.rows[row].cells[column] = c
     end
 
-    add_cell_style(row, column)
-
     sheet_data.rows[row].cells[column]
   end
 
@@ -914,13 +912,6 @@ module LegacyWorksheet
       c = row.cells[column_index]
       c.change_border(direction, weight) unless c.nil?
     }
-  end
-
-  def add_cell_style(row,column)
-    xf = @workbook.cell_xfs[sheet_data.rows[row].cells[column].style_index]
-    @workbook.fonts[xf.font_id].count += 1
-    @workbook.fills[xf.fill_id].count += 1
-    @workbook.borders[xf.border_id].count += 1
   end
 
   def validate_nonnegative(row_or_col)

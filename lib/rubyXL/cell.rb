@@ -286,7 +286,7 @@ module RubyXL
     end
 
     def get_cell_font
-      workbook.fonts[workbook.cell_xfs[self.style_index].font_id]
+      workbook.fonts[get_cell_xf.font_id]
     end
 
     def get_cell_border

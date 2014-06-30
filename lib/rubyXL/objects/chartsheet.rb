@@ -59,8 +59,10 @@ module RubyXL
   class Chartsheet < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartsheet'
+    REL_CLASS    = RubyXL::SheetRelationshipsFile
 
     include RubyXL::RelationshipSupport
+    define_relationship(RubyXL::DrawingFile)
 
     attr_accessor :state, :rels
     attr_accessor :workbook, :sheet_name, :sheet_id
@@ -84,17 +86,6 @@ module RubyXL
 
     def xlsx_path
       File.join('xl', 'chartsheets', "sheet#{file_index}.xml")
-    end
-
-    def relationship_file_class
-      RubyXL::SheetRelationshipsFile
-    end
-
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::DrawingFile then store_relationship(rf) # TODO
-      else store_relationship(rf, :unknown)
-      end
     end
 
   end
