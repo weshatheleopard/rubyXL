@@ -16,7 +16,7 @@ module RubyXL
   end
 
   class FloatValue < OOXMLObject
-    define_attribute(:val, :float, :required => true)
+    define_attribute(:val, :double, :required => true)
   end
 
   class BooleanNode < OOXMLObject
@@ -32,7 +32,7 @@ module RubyXL
   end
 
   class FloatNode < OOXMLObject
-    define_attribute(:_, :float, :accessor => :value)
+    define_attribute(:_, :double, :accessor => :value)
   end
 
   class StringNodeW3C < OOXMLObject

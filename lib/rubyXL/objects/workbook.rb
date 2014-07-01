@@ -1,6 +1,14 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/shared_strings'
+require 'rubyXL/objects/stylesheet'
+require 'rubyXL/objects/theme'
+require 'rubyXL/objects/calculation_chain'
+require 'rubyXL/objects/worksheet'
+require 'rubyXL/objects/chartsheet'
+require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
+require 'rubyXL/workbook'
 
 module RubyXL
 
@@ -188,7 +196,7 @@ module RubyXL
     define_attribute(:refMode,               RubyXL::ST_RefMode, :default => 'A1')
     define_attribute(:iterate,               :bool,   :default => false)
     define_attribute(:iterateCount,          :int,    :default => 100)
-    define_attribute(:iterateDelta,          :float,  :default => 0.001)
+    define_attribute(:iterateDelta,          :double, :default => 0.001)
     define_attribute(:fullPrecision,         :bool,   :default => true)
     define_attribute(:calcCompleted,         :bool,   :default => true)
     define_attribute(:calcOnSave,            :bool,   :default => true)
@@ -289,8 +297,26 @@ module RubyXL
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
+    REL_CLASS    = RubyXL::WorkbookRelationships
 
     include RubyXL::RelationshipSupport
+
+    def related_objects
+      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
+    end
+
+    define_relationship(RubyXL::SharedStringsTable, :shared_strings_container)
+    define_relationship(RubyXL::Stylesheet,         :stylesheet)
+    define_relationship(RubyXL::Theme,              :theme)
+    define_relationship(RubyXL::CalculationChain,   :calculation_chain)
+    define_relationship(RubyXL::Stylesheet,         :stylesheet)
+    define_relationship(RubyXL::Worksheet,          false)
+    define_relationship(RubyXL::Chartsheet,         false)
+    define_relationship(RubyXL::ExternalLinksFile)
+    define_relationship(RubyXL::PivotCacheDefinitionFile)
+    define_relationship(RubyXL::CustomXMLFile)
+    define_relationship(RubyXL::MacrosFile)
+    define_relationship(RubyXL::SlicerCacheFile)
 
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
@@ -320,7 +346,7 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
     attr_accessor :root
-    attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container
+    attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container, :worksheets
 
     def before_write_xml
       self.sheets = RubyXL::Sheets.new
@@ -332,30 +358,6 @@ module RubyXL
                                     :state => sheet.state, :r_id => rel.id)
       }
       true
-    end
-
-    def related_objects
-      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
-    end
-
-    def relationship_file_class
-      RubyXL::WorkbookRelationships
-    end
-
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::SharedStringsTable       then self.shared_strings_container = rf
-      when RubyXL::Stylesheet               then self.stylesheet = rf
-      when RubyXL::Theme                    then self.theme = rf
-      when RubyXL::CalculationChain         then self.calculation_chain = rf
-      when RubyXL::ExternalLinksFile        then store_relationship(rf) # TODO
-      when RubyXL::PivotCacheDefinitionFile then store_relationship(rf) # TODO
-      when RubyXL::CustomXMLFile            then store_relationship(rf) # TODO
-      when RubyXL::MacrosFile               then store_relationship(rf) # TODO
-      when RubyXL::SlicerCacheFile          then store_relationship(rf) # TODO
-      when RubyXL::Worksheet, RubyXL::Chartsheet then nil # These will be handled in the next loop
-      else store_relationship(rf, :unknown)
-      end
     end
 
     def date1904

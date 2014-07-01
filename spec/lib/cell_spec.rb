@@ -136,37 +136,29 @@ describe RubyXL::Cell do
      end
   end
 
-  describe '.change_border_top' do
+  describe '.change_border' do
     it 'should cause cell to have border at top with specified weight' do
-      @cell.change_border_top('thin')
+      @cell.change_border(:top, 'thin')
       expect(@cell.border_top).to eq('thin')
     end
-  end
 
-  describe '.change_border_left' do
-    it 'should cause cell to have border at left with specified weight' do
-      @cell.change_border_left('thin')
-      expect(@cell.border_left).to eq('thin')
-    end
-  end
-
-  describe '.change_border_right' do
     it 'should cause cell to have border at right with specified weight' do
-      @cell.change_border_right('thin')
+      @cell.change_border(:right, 'thin')
       expect(@cell.border_right).to eq('thin')
     end
-  end
 
-  describe '.change_border_bottom' do
+    it 'should cause cell to have border at left with specified weight' do
+      @cell.change_border(:left, 'thin')
+      expect(@cell.border_left).to eq('thin')
+    end
+
     it 'should cause cell to have border at bottom with specified weight' do
-      @cell.change_border_bottom('thin')
+      @cell.change_border(:bottom, 'thin')
       expect(@cell.border_bottom).to eq('thin')
     end
-  end
 
-  describe '.change_border_diagonal' do
     it 'should cause cell to have border at diagonal with specified weight' do
-      @cell.change_border_diagonal('thin')
+      @cell.change_border(:diagonal, 'thin')
       expect(@cell.border_diagonal).to eq('thin')
     end
   end
@@ -313,7 +305,7 @@ describe RubyXL::Cell do
 
   describe '.border_top' do
     it 'should correctly return the weight of the border on top for this cell' do
-      @cell.change_border_top('thin')
+      @cell.change_border(:top, 'thin')
       expect(@cell.border_top).to eq('thin')
     end
 
@@ -324,7 +316,7 @@ describe RubyXL::Cell do
 
   describe '.border_left' do
     it 'should correctly return the weight of the border on left for this cell' do
-      @cell.change_border_left('thin')
+      @cell.change_border(:left, 'thin')
       expect(@cell.border_left).to eq('thin')
     end
 
@@ -335,7 +327,7 @@ describe RubyXL::Cell do
 
   describe '.border_right' do
     it 'should correctly return the weight of the border on right for this cell' do
-      @cell.change_border_right('thin')
+      @cell.change_border(:right, 'thin')
       expect(@cell.border_right).to eq('thin')
     end
 
@@ -346,7 +338,7 @@ describe RubyXL::Cell do
 
   describe '.border_bottom' do
     it 'should correctly return the weight of the border on bottom for this cell' do
-      @cell.change_border_bottom('thin')
+      @cell.change_border(:bottom, 'thin')
       expect(@cell.border_bottom).to eq('thin')
     end
 
@@ -357,7 +349,7 @@ describe RubyXL::Cell do
 
   describe '.border_diagonal' do
     it 'should correctly return the weight of the diagonal border for this cell' do
-      @cell.change_border_diagonal('thin')
+      @cell.change_border(:diagonal, 'thin')
       expect(@cell.border_diagonal).to eq('thin')
     end
 

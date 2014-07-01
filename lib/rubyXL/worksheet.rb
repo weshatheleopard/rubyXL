@@ -159,52 +159,61 @@ module LegacyWorksheet
     change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font)
   end
 
-  def change_row_height(row = 0, height=10)
+  def change_row_height(row = 0, height = 10)
     validate_workbook
     ensure_cell_exists(row)
 
-    if height.to_i.to_s == height.to_s
-      height = Integer(height)
-    elsif height.to_f.to_s == height.to_s
-      height = Float(height)
-    else
-      raise 'You must enter a number for the height'
-    end
-
-    sheet_data.rows[row].ht = height
-    sheet_data.rows[row].custom_height = true
+    c = sheet_data.rows[row]
+    c.ht = height
+    c.custom_height = true
   end
 
-  def change_row_horizontal_alignment(row = 0,alignment='center')
+  def change_row_horizontal_alignment(row = 0, alignment = 'center')
     validate_workbook
     validate_nonnegative(row)
     change_row_alignment(row, alignment, true)
   end
 
-  def change_row_vertical_alignment(row = 0,alignment='center')
+  def change_row_vertical_alignment(row = 0, alignment = 'center')
     validate_workbook
     validate_nonnegative(row)
     change_row_alignment(row, alignment, false)
   end
 
   def change_row_border_top(row = 0, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
     change_row_border(row, :top, weight)
   end
 
   def change_row_border_left(row = 0, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
     change_row_border(row, :left, weight)
   end
 
   def change_row_border_right(row = 0, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
     change_row_border(row, :right, weight)
   end
 
   def change_row_border_bottom(row = 0, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
     change_row_border(row, :bottom, weight)
   end
 
   def change_row_border_diagonal(row = 0, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
     change_row_border(row, :diagonal, weight)
+  end
+
+  def change_row_border(row, direction, weight)
+    validate_workbook
+    ensure_cell_exists(row)
+
+    sheet_data.rows[row].style_index = @workbook.modify_border(get_row_style(row), direction, weight)
+
+    sheet_data[row].cells.each { |c|
+      c.change_border(direction, weight) unless c.nil?
+    }
   end
 
   # Changes font name of column
@@ -298,23 +307,40 @@ module LegacyWorksheet
   end
 
   def change_column_border_top(column_index, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
     change_column_border(column_index, :top, weight)
   end
 
   def change_column_border_left(column_index, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
     change_column_border(column_index, :left, weight)
   end
 
   def change_column_border_right(column_index, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
     change_column_border(column_index, :right, weight)
   end
 
   def change_column_border_bottom(column_index, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
     change_column_border(column_index, :bottom, weight)
   end
 
   def change_column_border_diagonal(column_index, weight = 'thin')
+    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
     change_column_border(column_index, :diagonal, weight)
+  end
+
+  def change_column_border(column_index, direction, weight)
+    validate_workbook
+    ensure_cell_exists(0, column_index)
+
+    cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
+
+    sheet_data.rows.each { |row|
+      c = row.cells[column_index]
+      c.change_border(direction, weight) unless c.nil?
+    }
   end
 
   # merges cells within a rectangular range
@@ -351,11 +377,9 @@ module LegacyWorksheet
       range = cols && cols.find(column_index)
       c.style_index = row.style_index || (range && range.style_index) || 0
       row.cells[column_index] = c
-    
-      add_cell_style(row_index, column_index)
     end
 
-    row.cells[column_index]
+    c
   end
 
   def delete_row(row_index=0)
@@ -733,14 +757,14 @@ module LegacyWorksheet
   # Helper method to update the row styles array
   # change_type - NAME or SIZE or COLOR etc
   # main method to change font, called from each separate font mutator method
-  def change_row_font(row, change_type, arg, font)
+  def change_row_font(row_index, change_type, arg, font)
     validate_workbook
-    ensure_cell_exists(row)
+    ensure_cell_exists(row_index)
 
-    xf = workbook.register_new_font(font, get_row_xf(row))
-    sheet_data.rows[row].style_index = workbook.register_new_xf(xf, get_row_style(row))
-
-    sheet_data[row].cells.each { |c| font_switch(c, change_type, arg) unless c.nil? }
+    xf = workbook.register_new_font(font, get_row_xf(row_index))
+    row = sheet_data[row_index]
+    row.style_index = workbook.register_new_xf(xf, get_row_style(row_index))
+    row.cells.each { |c| c.font_switch(change_type, arg) unless c.nil? }
   end
 
   # Helper method to update the fonts and cell styles array
@@ -750,54 +774,12 @@ module LegacyWorksheet
     ensure_cell_exists(0, column_index)
 
     xf = workbook.register_new_font(font, xf)
-
     cols.get_range(column_index).style_index = workbook.register_new_xf(xf, get_col_style(column_index))
 
     sheet_data.rows.each { |row|
-      c = row[column_index]
-      font_switch(c, change_type, arg) unless c.nil?
+      c = row && row[column_index]
+      c.font_switch(change_type, arg) unless c.nil?
     }
-  end
-
-  #performs correct modification based on what type of change_type is specified
-  def font_switch(c,change_type,arg)
-    case change_type
-      when Worksheet::NAME
-        unless arg.is_a?String
-          raise 'Not a String'
-        end
-        c.change_font_name(arg)
-      when Worksheet::SIZE
-        unless arg.is_a?(Integer) || arg.is_a?(Float)
-          raise 'Not a Number'
-        end
-          c.change_font_size(arg)
-      when Worksheet::COLOR
-        Color.validate_color(arg)
-        c.change_font_color(arg)
-      when Worksheet::ITALICS
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
-        c.change_font_italics(arg)
-      when Worksheet::BOLD
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
-        c.change_font_bold(arg)
-      when Worksheet::UNDERLINE
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
-        c.change_font_underline(arg)
-      when Worksheet::STRIKETHROUGH
-        unless arg == !!arg
-          raise 'Not a boolean'
-        end
-        c.change_font_strikethrough(arg)
-      else
-        raise 'Invalid change_type'
-    end
   end
 
   # Ensures that cell with +row_index+ and +column_index+ exists in
@@ -860,52 +842,6 @@ module LegacyWorksheet
         c.change_vertical_alignment(alignment)
       end
     }
-  end
-
-  def change_row_border(row, direction, weight)
-    validate_workbook
-    ensure_cell_exists(row)
-
-    sheet_data.rows[row].style_index = @workbook.modify_border(get_row_style(row), direction, weight)
-
-    sheet_data[row].cells.each { |c|
-      next if c.nil?
-      case direction
-      when :top      then c.change_border_top(weight)
-      when :left     then c.change_border_left(weight)
-      when :right    then c.change_border_right(weight)
-      when :bottom   then c.change_border_bottom(weight)
-      when :diagonal then c.change_border_diagonal(weight)
-      else raise 'invalid direction'
-      end
-    }
-  end
-
-  def change_column_border(column_index, direction, weight)
-    validate_workbook
-    ensure_cell_exists(0, column_index)
-
-    cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
-
-    sheet_data.rows.each { |row|
-      c = row.cells[column_index]
-      next if c.nil?
-      case direction
-      when :top      then c.change_border_top(weight)
-      when :left     then c.change_border_left(weight)
-      when :right    then c.change_border_right(weight)
-      when :bottom   then c.change_border_bottom(weight)
-      when :diagonal then c.change_border_diagonal(weight)
-      else raise 'invalid direction'
-      end
-    }
-  end
-
-  def add_cell_style(row,column)
-    xf = @workbook.cell_xfs[sheet_data.rows[row].cells[column].style_index]
-    @workbook.fonts[xf.font_id].count += 1
-    @workbook.fills[xf.fill_id].count += 1
-    @workbook.borders[xf.border_id].count += 1
   end
 
   def validate_nonnegative(row_or_col)

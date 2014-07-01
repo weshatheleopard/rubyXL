@@ -29,8 +29,8 @@ module RubyXL
   class Top10 < OOXMLObject
     define_attribute(:top,       :bool,  :default  => true)	
     define_attribute(:percent,   :bool,  :default  => false)
-    define_attribute(:val,       :float, :required => true)
-    define_attribute(:filterVal, :float)
+    define_attribute(:val,       :double, :required => true)
+    define_attribute(:filterVal, :double)
     define_element_name 'top10'
   end
 
@@ -51,8 +51,8 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dynamicFilter-1.html
   class DynamicFilter < OOXMLObject
     define_attribute(:type,   RubyXL::ST_DynamicFilterType, :required => true)
-    define_attribute(:val,    :float)
-    define_attribute(:maxVal, :float)
+    define_attribute(:val,    :double)
+    define_attribute(:maxVal, :double)
     define_element_name 'dynamicFilter'
   end
 

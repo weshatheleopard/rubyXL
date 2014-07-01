@@ -2,6 +2,7 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
+require 'rubyXL/cell'
 
 module RubyXL
 
@@ -98,7 +99,7 @@ module RubyXL
     define_attribute(:spans,        :string)
     define_attribute(:s,            :int,   :default => 0, :accessor => :style_index)
     define_attribute(:customFormat, :bool,  :default => false)
-    define_attribute(:ht,           :float)
+    define_attribute(:ht,           :double)
     define_attribute(:hidden,       :bool,  :default => false)
     define_attribute(:customHeight, :bool,  :default => false)
     define_attribute(:outlineLevel, :int,   :default => 0)
@@ -125,21 +126,21 @@ module RubyXL
 
     def insert_cell_shift_right(c, col_index)
       cells.insert(col_index, c)
-      col_index.upto(cells.size) { |col|
-        cell = cells[col]
-        next if cell.nil?
-        cell.column = col
-      }
+      update_cell_coords(col_index)
     end
 
     def delete_cell_shift_left(col_index)
       cells.delete_at(col_index)
-      col_index.upto(cells.size) { |col|
-        cell = cells[col]
+      update_cell_coords(col_index)
+    end
+
+    def update_cell_coords(start_from_index)
+      cells.drop(start_from_index).each_with_index { |cell, i|
         next if cell.nil?
-        cell.column = col
+        cell.column = start_from_index + i
       }
     end
+    private :update_cell_coords
 
     def xf
       @worksheet.workbook.cell_xfs[self.style_index || 0]

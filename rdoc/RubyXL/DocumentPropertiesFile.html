@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::DocumentPropertiesFile - rubyXL 3.0.1</title>
+<title>class RubyXL::DocumentPropertiesFile - rubyXL 3.1.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -211,14 +211,14 @@ href="http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.htm
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 56</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@workbook</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">heading_pairs</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">VectorValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:vt_vector</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Vector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:base_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'variant'</span>))
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">titles_of_parts</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">VectorValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:vt_vector</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Vector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:base_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'lpstr'</span>))
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">heading_pairs</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">VectorValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:vt_vector</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Vector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:base_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;variant&#39;</span>))
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">titles_of_parts</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">VectorValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:vt_vector</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Vector</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:base_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;lpstr&#39;</span>))
 
-    <span class="ruby-identifier">add_parts_count</span>(<span class="ruby-string">'Worksheets'</span>, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">size</span>)
+    <span class="ruby-identifier">add_parts_count</span>(<span class="ruby-string">&#39;Worksheets&#39;</span>, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">size</span>)
     <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span><span class="ruby-operator">|</span> <span class="ruby-identifier">add_part_title</span>(<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_name</span>) }
 
     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-keyword">then</span>
-      <span class="ruby-identifier">add_parts_count</span>(<span class="ruby-string">'Named Ranges'</span>, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">defined_names</span>.<span class="ruby-identifier">size</span>)
+      <span class="ruby-identifier">add_parts_count</span>(<span class="ruby-string">&#39;Named Ranges&#39;</span>, <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">defined_names</span>.<span class="ruby-identifier">size</span>)
       <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">defined_names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">defined_name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">add_part_title</span>(<span class="ruby-identifier">defined_name</span>.<span class="ruby-identifier">name</span>) }
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
@@ -256,7 +256,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.htm
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'docProps'</span>, <span class="ruby-string">'app.xml'</span>)
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;docProps&#39;</span>, <span class="ruby-string">&#39;app.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

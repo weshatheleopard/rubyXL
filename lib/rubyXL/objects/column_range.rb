@@ -4,10 +4,10 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_col-1.html
   class ColumnRange < OOXMLObject
-    define_attribute(:min,          :int,     :required => true)
-    define_attribute(:max,          :int,     :required => true)
-    define_attribute(:width,        :float)
-    define_attribute(:style,        :int,     :default => 0, :accessor => :style_index)
+    define_attribute(:min,          :uint,    :required => true)
+    define_attribute(:max,          :uint,    :required => true)
+    define_attribute(:width,        :double)
+    define_attribute(:style,        :uint,    :default => 0, :accessor => :style_index)
     define_attribute(:hidden,       :bool,    :default => false)
     define_attribute(:bestFit,      :bool,    :default => false)
     define_attribute(:customWidth,  :bool,    :default => false)

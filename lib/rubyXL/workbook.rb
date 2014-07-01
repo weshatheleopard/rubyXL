@@ -5,7 +5,6 @@ require 'zip'
 module RubyXL
   module LegacyWorkbook
     include Enumerable
-    attr_accessor :worksheets
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
     APPLICATION = 'Microsoft Macintosh Excel'
@@ -68,58 +67,34 @@ module RubyXL
         end until self[name].nil?
       end
 
-      new_worksheet = Worksheet.new(:workbook => self, :sheet_name => name || get_default_name)
+      new_worksheet = Worksheet.new(:workbook => self, :sheet_name => name)
       worksheets << new_worksheet
       new_worksheet
     end
 
     def each
-      worksheets.each{|i| yield i}
+      worksheets.each{ |i| yield i }
     end
 
-    #filepath of xlsx file (including file itself)
-    def write(filepath)
+    # Return the resulting XLSX file in a stream (useful for sending over HTTP)
+    def stream
+      root.stream
+    end
+
+    # Save the resulting XLSX file to the specified location
+    def save(filepath = nil)
       filepath ||= root.filepath
 
       extension = File.extname(filepath)
-      unless %w{.xlsx .xlsm}.include?(extension)
-        raise "Only xlsx and xlsm files are supported. Unsupported extension: #{extension}"
+      unless %w{.xlsx .xlsm}.include?(extension.downcase)
+        raise "Unsupported extension: #{extension} (only .xlsx and .xlsm files are supported)."
       end
 
-      dirpath  = File.dirname(filepath)
-      temppath = File.join(dirpath, Dir::Tmpname.make_tmpname([ File.basename(filepath), '.tmp' ], nil))
-      FileUtils.mkdir_p(temppath)
-      zippath  = File.join(temppath, 'file.zip')
-
-      ::Zip::File.open(zippath, ::Zip::File::CREATE) { |zipfile|
-        root.rels_hash = {}
-        root.relationship_container.owner = root
-        root.content_types.overrides = []
-        root.content_types.owner = root
-        root.collect_related_objects.compact.each { |obj|
-          puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
-          root.rels_hash[obj.class] ||= []
-          root.rels_hash[obj.class] << obj
-        }
-
-        root.rels_hash.keys.sort_by{ |c| c.save_order }.each { |klass|
-          puts "<-- DEBUG: saving related #{klass} files" if @@debug
-          root.rels_hash[klass].each { |obj|
-            obj.workbook = self if obj.respond_to?(:workbook=)
-            puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
-            root.content_types.add_override(obj)
-            obj.add_to_zip(zipfile)
-          }
-        }
-
-        self.add_to_zip(zipfile)
-      }
-
-      FileUtils.mv(zippath, filepath)
-      FileUtils.rm_rf(temppath) if File.exist?(filepath)
+      File.open(filepath, "w") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
 
       return filepath
     end
+    alias_method :write, :save
 
     def base_date
       if date1904 then 
@@ -148,44 +123,26 @@ module RubyXL
 
     def register_new_fill(new_fill, old_xf)
       new_xf = old_xf.dup
-
-      unless fills[old_xf.fill_id].count == 1 && old_xf.fill_id > 2 # If the old fill is not used anymore, just replace it
-        new_xf.fill_id = fills.find_index { |x| x == new_fill } # Use existing fill, if it exists
-        new_xf.fill_id ||= fills.size # If this fill has never existed before, add it to collection.
-      end
-
-      fills[old_xf.fill_id].count -= 1
-      new_fill.count += 1
-      fills[new_xf.fill_id] = new_fill
-
       new_xf.apply_fill = true
+      new_xf.fill_id = fills.find_index { |x| x == new_fill } # Use existing fill, if it exists
+      new_xf.fill_id ||= fills.size # If this fill has never existed before, add it to collection.
+      fills[new_xf.fill_id] = new_fill
       new_xf
     end
 
     def register_new_font(new_font, old_xf)
       new_xf = old_xf.dup
-
-      unless fonts[old_xf.font_id].count == 1 && old_xf.font_id > 1 # If the old font is not used anymore, just replace it
-        new_xf.font_id = fonts.find_index { |x| x == new_font } # Use existing font, if it exists
-        new_xf.font_id ||= fonts.size # If this font has never existed before, add it to collection.
-      end
-
-      fonts[old_xf.font_id].count -= 1
-      new_font.count += 1
-      fonts[new_xf.font_id] = new_font
-
       new_xf.apply_font = true
+      new_xf.font_id = fonts.find_index { |x| x == new_font } # Use existing font, if it exists
+      new_xf.font_id ||= fonts.size # If this font has never existed before, add it to collection.
+      fonts[new_xf.font_id] = new_font
       new_xf
     end
 
     def register_new_xf(new_xf, old_style_index)
       new_xf_id = cell_xfs.find_index { |xf| xf == new_xf } # Use existing XF, if it exists
       new_xf_id ||= cell_xfs.size # If this XF has never existed before, add it to collection.
-
-      cell_xfs[old_style_index].count -= 1
-      new_xf.count += 1
       cell_xfs[new_xf_id] = new_xf
-
       new_xf_id
     end
 
@@ -218,17 +175,11 @@ module RubyXL
       new_border.set_edge_style(direction, weight)
 
       new_xf = old_xf.dup
-
-      unless borders[old_xf.border_id].count == 1 && old_xf.border_id > 0 # If the old border not used anymore, just replace it
-        new_xf.border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
-        new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
-      end
-
-      borders[old_xf.border_id].count -= 1
-      new_border.count += 1
-      borders[new_xf.border_id] = new_border
-
       new_xf.apply_border = true
+
+      new_xf.border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
+      new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
+      borders[new_xf.border_id] = new_border
 
       register_new_xf(new_xf, style_index)
     end

@@ -1,32 +1,30 @@
 require 'zip'
 require 'rubyXL/objects/relationships'
+require 'rubyXL/objects/document_properties'
+require 'rubyXL/objects/content_types'
+require 'rubyXL/objects/workbook'
 
 module RubyXL
 
   class WorkbookRoot
+    @@debug = nil
+
     attr_accessor :filepath
     attr_accessor :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook
     attr_accessor :content_types, :rels_hash
 
+    REL_CLASS    = RubyXL::RootRelationships
+
     include RubyXL::RelationshipSupport
 
+    define_relationship(RubyXL::ThumbnailFile,          :thumbnail)
+    define_relationship(RubyXL::CorePropertiesFile,     :core_properties)
+    define_relationship(RubyXL::DocumentPropertiesFile, :document_properties)
+    define_relationship(RubyXL::CustomPropertiesFile,   :custom_properties)
+    define_relationship(RubyXL::Workbook,               :workbook)
+
     def related_objects
-      [ content_types, thumbnail, core_properties, document_properties, workbook ]
-    end
-
-    def relationship_file_class
-      RubyXL::RootRelationships
-    end
-
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::ThumbnailFile          then self.thumbnail = rf
-      when RubyXL::CorePropertiesFile     then self.core_properties = rf
-      when RubyXL::DocumentPropertiesFile then self.document_properties = rf
-      when RubyXL::CustomPropertiesFile   then self.custom_properties = rf
-      when RubyXL::Workbook               then self.workbook = rf
-      else store_relationship(rf, :unknown)
-      end
+      [ content_types, thumbnail, core_properties, document_properties, custom_properties, workbook ]
     end
 
     def self.default
@@ -38,18 +36,45 @@ module RubyXL
       obj
     end
 
-    def self.parse_file(xl_file_path, opts)
-      raise 'Not .xlsx or .xlsm excel file' unless opts[:skip_filename_check] || 
-                                              %w{.xlsx .xlsm}.include?(File.extname(xl_file_path))
+    def stream
+      stream = Zip::OutputStream.write_buffer { |zipstream|
+        self.rels_hash = {}
+        self.relationship_container.owner = self
+        self.content_types.overrides = []
+        self.content_types.owner = self
+        collect_related_objects.compact.each { |obj|
+          puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
+          self.rels_hash[obj.class] ||= []
+          self.rels_hash[obj.class] << obj
+        }
 
-      ::Zip::File.open(xl_file_path) { |zip_file|
-        root = self.new
-        root.filepath = xl_file_path
-        root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
-        root.load_relationships(zip_file)
-        root.workbook.root = root
-        root
+        self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
+          puts "<-- DEBUG: saving related #{klass} files" if @@debug
+          self.rels_hash[klass].each { |obj|
+            obj.workbook = workbook if obj.respond_to?(:workbook=)
+            puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
+            self.content_types.add_override(obj)
+            obj.add_to_zip(zipstream)
+          }
+        }
       }
+      stream.rewind
+      stream
+    end
+
+    def self.parse_file(xl_file_path, opts)
+      begin
+        ::Zip::File.open(xl_file_path) { |zip_file|
+          root = self.new
+          root.filepath = xl_file_path
+          root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
+          root.load_relationships(zip_file)
+          root.workbook.root = root
+          root
+        }
+      rescue ::Zip::Error => e
+        raise e, "XLSX file format error: #{e}", e.backtrace
+      end
     end
 
   end
