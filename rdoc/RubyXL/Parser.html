@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Parser - rubyXL 3.0.1</title>
+<title>class RubyXL::Parser - rubyXL 3.1.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -213,21 +213,6 @@ cells being interpreted as numbers.</p>
   <span class="ruby-identifier">root</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRoot</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-ivar">@opts</span>)
 
   <span class="ruby-identifier">wb</span> = <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>
-
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">stylesheet</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-comment">#fills out count information for each font, fill, and border</span>
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">style</span><span class="ruby-operator">|</span>
-
-      <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">font_id</span>
-      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
-
-      <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">fill_id</span>
-      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">fills</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
-
-      <span class="ruby-identifier">id</span> = <span class="ruby-identifier">style</span>.<span class="ruby-identifier">border_id</span>
-      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment">#unless id.nil?</span>
-    }
-  <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">sheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">related_files</span>[<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">r_id</span>]

@@ -16,6 +16,7 @@ module RubyXL
 
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-package.relationships+xml'
+    SAVE_ORDER = 0
 
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
@@ -39,10 +40,6 @@ module RubyXL
                                                 :target => obj.xlsx_path)
     end
     protected :add_relationship
-
-    def self.save_order
-      0
-    end
 
     def find_by_rid(r_id)
       relationships.find { |r| r.id == r_id }
@@ -178,7 +175,20 @@ module RubyXL
 
   module RelationshipSupport
 
+    module ClassMehods
+      def define_relationship(klass, accessor = nil)
+        class_variable_get(:@@ooxml_relationships)[klass] = accessor
+        attr_accessor(accessor) if accessor
+      end
+    end
+
+    def self.included(klass)
+      klass.class_variable_set(:@@ooxml_relationships, {})
+      klass.extend RelationshipSupport::ClassMehods
+    end
+
     attr_accessor :generic_storage, :relationship_container
+
     def related_objects # Override this method
       []
     end
@@ -198,19 +208,40 @@ module RubyXL
       res
     end
 
-    def store_relationship(related_file, unknown = false)
-      self.generic_storage ||= []
-      puts "WARNING: #{self.class} is not aware what to do with #{related_file.class}" if unknown
-      self.generic_storage << related_file
-    end
-
     def load_relationships(dir_path, base_file_name = '')
-      self.relationship_container = relationship_file_class.load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = self.class.const_get(:REL_CLASS).load_relationship_file(dir_path, base_file_name)
       return if relationship_container.nil?
 
       relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, related_file|
         attach_relationship(rid, related_file) if related_file
       }
+    end
+
+    def attach_relationship(rid, rf)
+      relationships = self.class.class_variable_get(:@@ooxml_relationships)
+      klass = rf.class
+      if relationships.has_key?(klass) then
+        accessor = relationships[klass]
+        case accessor
+        when NilClass then
+          # Relationship is known, but we don't have a special accessor for it, store as generic
+          store_relationship(rf)
+        when false then
+          # Do nothing, the code will perform attaching on its own
+        else
+          container = self.send(accessor)
+          if container.is_a?(Array) then container << rf
+          else self.send("#{accessor}=", rf)
+          end
+        end
+      else store_relationship(rf, :unknown)
+      end
+    end 
+
+    def store_relationship(related_file, unknown = false)
+      self.generic_storage ||= []
+      puts "WARNING: #{self.class} is not aware what to do with #{related_file.class}" if unknown
+      self.generic_storage << related_file
     end
 
   end

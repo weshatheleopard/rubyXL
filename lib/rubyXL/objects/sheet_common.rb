@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/storage'
 
 module RubyXL
 
@@ -23,12 +24,12 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pageMargins-1.html
   class PageMargins < OOXMLObject
-    define_attribute(:left,   :float, :required => true)
-    define_attribute(:right,  :float, :required => true)
-    define_attribute(:top,    :float, :required => true)
-    define_attribute(:bottom, :float, :required => true)
-    define_attribute(:header, :float, :required => true)
-    define_attribute(:footer, :float, :required => true)
+    define_attribute(:left,   :double, :required => true)
+    define_attribute(:right,  :double, :required => true)
+    define_attribute(:top,    :double, :required => true)
+    define_attribute(:bottom, :double, :required => true)
+    define_attribute(:header, :double, :required => true)
+    define_attribute(:footer, :double, :required => true)
     define_element_name 'pageMargins'
   end
 

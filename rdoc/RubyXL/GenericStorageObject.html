@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::GenericStorageObject - rubyXL 3.0.1</title>
+<title>class RubyXL::GenericStorageObject - rubyXL 3.1.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -239,7 +239,7 @@
   <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">full_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dirpath</span>, <span class="ruby-identifier">file_path</span>)
     <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">full_path</span>)
-    <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">full_path</span>, <span class="ruby-string">'r'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }
+    <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">full_path</span>, <span class="ruby-string">&#39;r&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }
   <span class="ruby-keyword">when</span> <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">entry</span> = <span class="ruby-identifier">dirpath</span>.<span class="ruby-identifier">find_entry</span>(<span class="ruby-identifier">file_path</span>)
     <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">entry</span>.<span class="ruby-identifier">nil?</span>
@@ -304,7 +304,7 @@
         
         <div class="method-heading">
           <span class="method-name">add_to_zip</span><span
-            class="method-args">(zipfile)</span>
+            class="method-args">(zip_stream)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -320,13 +320,12 @@
           
           <div class="method-source-code" id="add_to_zip-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 37</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zipfile</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zip_stream</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">nil?</span>
-
   <span class="ruby-identifier">path</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;/&quot;</span>)) <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">absolute?</span> <span class="ruby-comment"># Zip doesn't like absolute paths.</span>
-
-  <span class="ruby-identifier">zipfile</span>.<span class="ruby-identifier">get_output_stream</span>(<span class="ruby-identifier">path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@data</span> }
+  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;/&quot;</span>)) <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">absolute?</span> <span class="ruby-comment"># Zip doesn&#39;t like absolute paths.</span>
+  <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">put_next_entry</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">write</span>(<span class="ruby-ivar">@data</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

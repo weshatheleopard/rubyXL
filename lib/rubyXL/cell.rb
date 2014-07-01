@@ -19,10 +19,10 @@ module RubyXL
     end
 
     # changes fill color of cell
-    def change_fill(rgb='ffffff')
+    def change_fill(rgb = 'ffffff')
       validate_worksheet
       Color.validate_color(rgb)
-      self.style_index = workbook.modify_fill(self.style_index,rgb)
+      self.style_index = workbook.modify_fill(self.style_index, rgb)
     end
 
     # Changes font name of cell
@@ -114,28 +114,33 @@ module RubyXL
       self.style_index = workbook.modify_text_wrap(self.style_index, wrap)
     end
 
-    # changes top border of cell
+    def change_border(direction, weight)
+      validate_worksheet
+      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+    end
+
     def change_border_top(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:top, weight)
     end
 
-    # changes left border of cell
     def change_border_left(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:left, weight)
     end
 
-    # changes right border of cell
     def change_border_right(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:right, weight)
     end
 
-    # changes bottom border of cell
     def change_border_bottom(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:bottom, weight)
     end
 
-    # changes diagonal border of cell
     def change_border_diagonal(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:diagonal, weight)
     end
 
@@ -256,12 +261,21 @@ module RubyXL
       return str
     end
 
-    private
-
-    def change_border(direction, weight)
-      validate_worksheet
-      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+    # Performs correct modification based on what type of change_type is specified
+    def font_switch(change_type, arg)
+      case change_type
+        when Worksheet::NAME          then change_font_name(arg)
+        when Worksheet::SIZE          then change_font_size(arg)
+        when Worksheet::COLOR         then change_font_color(arg)
+        when Worksheet::ITALICS       then change_font_italics(arg)
+        when Worksheet::BOLD          then change_font_bold(arg)
+        when Worksheet::UNDERLINE     then change_font_underline(arg)
+        when Worksheet::STRIKETHROUGH then change_font_strikethrough(arg)
+        else raise 'Invalid change_type'
+      end
     end
+
+    private
 
     def get_border(direction)
       validate_worksheet
@@ -283,7 +297,7 @@ module RubyXL
 
     def validate_worksheet()
       return if @worksheet && @worksheet[row] && @worksheet[row][column] == self
-      raise "This cell #{self} is not in worksheet #{worksheet}"
+      raise "Cell #{self} is not in worksheet #{worksheet}"
     end
 
     def get_cell_xf
@@ -291,7 +305,7 @@ module RubyXL
     end
 
     def get_cell_font
-      workbook.fonts[workbook.cell_xfs[self.style_index].font_id]
+      workbook.fonts[get_cell_xf.font_id]
     end
 
     def get_cell_border

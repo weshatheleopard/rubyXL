@@ -29,6 +29,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_srgbClr-1.html
   class CT_ScRgbColor < OOXMLObject
+    # -- Choice [0..*] (a:EG_ColorTransform)
     define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
     define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')
@@ -65,6 +66,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-a_srgbClr-1.html
   class CT_SRgbColor < OOXMLObject
+    # -- Choice [0..*] (a:EG_ColorTransform)
     define_child_node(RubyXL::IntegerValue, :node_name => 'a:tint')
     define_child_node(RubyXL::IntegerValue, :node_name => 'a:shade')
     define_child_node(RubyXL::BooleanValue, :node_name => 'a:comp')

@@ -25,7 +25,6 @@ module RubyXL
     define_child_node(RubyXL::StringValue,  :node_name => :vertAlign)
     define_child_node(RubyXL::StringValue,  :node_name => :scheme)
     define_element_name 'font'
-    set_countable # TODO: phase put, eventually.
 
     def ==(other)
      (!(self.i && self.i.val) == !(other.i && other.i.val)) &&

@@ -15,6 +15,8 @@ module RubyXL
   end
 
   class ContentTypes < OOXMLTopLevelObject
+    SAVE_ORDER = 999  # Must be saved last, so it has time to accumulate overrides from all others.
+
     attr_accessor :owner
 
     define_child_node(RubyXL::ContentTypeDefault,  :collection => true, :accessor => :defaults)
@@ -31,9 +33,6 @@ module RubyXL
       self.class.xlsx_path
     end
 
-    def self.save_order
-      999  # Must be saved last, so it has time to accumulate overrides from all others.
-    end
 
     def add_override(obj)
       return unless obj.class.const_defined?(:CONTENT_TYPE)
