@@ -1,6 +1,7 @@
 module RubyXL
 
   class GenericStorageObject
+    SAVE_ORDER = 0
 
     attr_accessor :xlsx_path, :data, :workbook, :generic_storage
 
@@ -9,10 +10,6 @@ module RubyXL
       @xlsx_path = nil
       @data = nil
       @generic_storage = []
-    end
-
-    def self.save_order
-      0
     end
 
     def self.parse_file(dirpath, file_path = nil)
@@ -34,13 +31,12 @@ module RubyXL
       obj
     end
 
-    def add_to_zip(zipfile)
+    def add_to_zip(zip_stream)
       return if @data.nil?
-
       path = self.xlsx_path
       path = path.relative_path_from(Pathname.new("/")) if path.absolute? # Zip doesn't like absolute paths.
-
-      zipfile.get_output_stream(path) { |f| f << @data }
+      zip_stream.put_next_entry(path)
+      zip_stream.write(@data)
     end
   end
 
@@ -51,12 +47,9 @@ module RubyXL
   class DrawingFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
+    REL_CLASS    = RubyXL::DrawingRelationshipsFile
 
     include RubyXL::RelationshipSupport
-
-    def relationship_file_class
-      RubyXL::DrawingRelationshipsFile
-    end
 
     def attach_relationship(rid, rf)
       case rf
@@ -71,18 +64,15 @@ module RubyXL
   class ChartFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
+    REL_CLASS    = RubyXL::ChartRelationshipsFile
 
     include RubyXL::RelationshipSupport
 
-    def relationship_file_class
-      RubyXL::ChartRelationshipsFile
-    end
-
     def attach_relationship(rid, rf)
       case rf
-      when RubyXL::ChartColorsFile     then self.generic_storage << rf # TODO
-      when RubyXL::ChartStyleFile      then self.generic_storage << rf # TODO
-      when RubyXL::ChartUserShapesFile then self.generic_storage << rf # TODO
+      when RubyXL::ChartColorsFile     then store_relationship(rf) # TODO
+      when RubyXL::ChartStyleFile      then store_relationship(rf) # TODO
+      when RubyXL::ChartUserShapesFile then store_relationship(rf) # TODO
       else store_relationship(rf, :unknown)
       end
     end

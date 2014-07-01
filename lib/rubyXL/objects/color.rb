@@ -5,10 +5,10 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_color-4.html
   class Color < OOXMLObject
     define_attribute(:auto,    :bool)
-    define_attribute(:indexed, :int)
+    define_attribute(:indexed, :uint)
     define_attribute(:rgb,     :string)
-    define_attribute(:theme,   :int)
-    define_attribute(:tint,    :float)
+    define_attribute(:theme,   :uint)
+    define_attribute(:tint,    :double, :default => 0.0)
     define_element_name 'color'
 
     #validates hex color code, no '#' allowed

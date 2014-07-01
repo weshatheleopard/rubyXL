@@ -24,7 +24,8 @@ module RubyXL
     #   * Special attibute name <tt>'_'</tt> (underscore) denotes the value of the element rather than attribute.
     # * +attribute_type+ - Specifies the conversion type for the attribute when parsing. Available options are:
     #   * +:int+ - <tt>Integer</tt>
-    #   * +:float+ - <tt>Float</tt>
+    #   * +:uint+ - Unsigned <tt>Integer</tt>
+    #   * +:double+ - <tt>Float</tt></u>
     #   * +:string+ - <tt>String</tt> (no conversion)
     #   * +:sqref+ - RubyXL::Sqref
     #   * +:ref+ - RubyXL::Reference
@@ -89,7 +90,7 @@ module RubyXL
     end
 
     def define_count_attribute
-      define_attribute(:count, :int, :required => true)
+      define_attribute(:count, :uint, :required => true)
     end
     private :define_count_attribute
  
@@ -102,12 +103,6 @@ module RubyXL
     #   define_element_name 'externalReference'
     def define_element_name(element_name)
       self.class_variable_set(:@@ooxml_tag_name, element_name)
-    end
-
-    # #TODO# This method will eventually be obsoleted.
-    def set_countable
-      self.class_variable_set(:@@ooxml_countable, true)
-      self.send(:attr_accessor, :count)
     end
 
     def parse(node, known_namespaces = nil)
@@ -190,13 +185,17 @@ module RubyXL
     def process_attribute(obj, raw_value, params)
       val = raw_value &&
               case params[:attr_type]
-              when :int    then Integer(raw_value)
-              when :float  then Float(raw_value)
+              when :double then Float(raw_value) # http://www.datypic.com/sc/xsd/t-xsd_double.html
               when :string then raw_value
               when Array   then raw_value # Case of Simple Types
               when :sqref  then RubyXL::Sqref.new(raw_value)
               when :ref    then RubyXL::Reference.new(raw_value)
               when :bool   then ['1', 'true'].include?(raw_value)
+              when :int    then Integer(raw_value)
+              when :uint   then
+                v = Integer(raw_value)
+                raise ArgumentError.new("invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
+                v
               end              
       obj.send("#{params[:accessor]}=", val)
     end
@@ -275,8 +274,8 @@ module RubyXL
 
         val = val &&
                 case v[:attr_type]
-                when :bool  then val ? '1' : '0'
-                when :float then val.to_s.gsub(/\.0*\Z/, '') # Trim trailing zeroes
+                when :bool   then val ? '1' : '0'
+                when :double then val.to_s.gsub(/\.0*\Z/, '') # Trim trailing zeroes
                 else val
                 end
 
@@ -385,7 +384,7 @@ module RubyXL
     class << self
       def define_count_attribute
         # Count will be inherited from Array. so no need to define it explicitly.
-        define_attribute(:count, :int, :required => true, :computed => true)
+        define_attribute(:count, :uint, :required => true, :computed => true)
       end
       protected :define_count_attribute
     end
@@ -395,14 +394,12 @@ module RubyXL
   # Extension class providing functionality for top-level OOXML objects that are represented by
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
   class OOXMLTopLevelObject < OOXMLObject
+    SAVE_ORDER = 500
+
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
     def xlsx_path
       raise 'Subclass responsebility'
-    end
-
-    def self.save_order
-      500
     end
 
     # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
@@ -431,17 +428,19 @@ module RubyXL
       when Zip::File then
         file_path = file_path.relative_path_from(::Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
         entry = dirpath.find_entry(file_path)
-        entry && (entry.get_input_stream { |f| parse(f) })
+        # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream
+        entry && (entry.get_input_stream { |f| parse(defined?(JRUBY_VERSION) ? f.read : f) })
       end
     end
 
     # Saves the contents of the object as XML to respective location in <tt>.xslx</tt> zip container.
     # === Parameters
     # * +zipfile+ - ::Zip::File to which the resulting XNMML should be added.
-    def add_to_zip(zipfile)
+    def add_to_zip(zip_stream)
       xml_string = write_xml
       return if xml_string.empty?
-      zipfile.get_output_stream(self.xlsx_path) { |f| f << xml_string }
+      zip_stream.put_next_entry(self.xlsx_path)
+      zip_stream.write(xml_string)
     end
 
     def file_index

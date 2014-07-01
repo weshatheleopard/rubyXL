@@ -6,8 +6,11 @@ require 'rubyXL/objects/sheet_common'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
 require 'rubyXL/objects/sheet_data'
+require 'rubyXL/objects/column_range'
 require 'rubyXL/objects/filters'
 require 'rubyXL/objects/data_validation'
+require 'rubyXL/objects/comments'
+require 'rubyXL/worksheet'
 
 module RubyXL
 
@@ -53,15 +56,15 @@ module RubyXL
   end
 
   class WorksheetFormatProperties < OOXMLObject
-    define_attribute(:baseColWidth,     :int,   :default => 8)
-    define_attribute(:defaultColWidth,  :float)
-    define_attribute(:defaultRowHeight, :float, :required => true)
-    define_attribute(:customHeight,     :bool,  :default => false)
-    define_attribute(:zeroHeight,       :bool,  :default => false)
-    define_attribute(:thickTop,         :bool,  :default => false)
-    define_attribute(:thickBottom,      :bool,  :default => false)
-    define_attribute(:outlineLevelRow,  :int,   :default => 0)
-    define_attribute(:outlineLevelCol,  :int,   :default => 0)
+    define_attribute(:baseColWidth,     :int,    :default => 8)
+    define_attribute(:defaultColWidth,  :double)
+    define_attribute(:defaultRowHeight, :double, :required => true)
+    define_attribute(:customHeight,     :bool,   :default => false)
+    define_attribute(:zeroHeight,       :bool,   :default => false)
+    define_attribute(:thickTop,         :bool,   :default => false)
+    define_attribute(:thickBottom,      :bool,   :default => false)
+    define_attribute(:outlineLevelRow,  :int,    :default => 0)
+    define_attribute(:outlineLevelCol,  :int,    :default => 0)
     define_element_name 'sheetFormatPr'
   end
 
@@ -355,8 +358,8 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_pane-1.html
   class Pane < OOXMLObject
-    define_attribute(:xSplit,      :int)
-    define_attribute(:ySplit,      :int)
+    define_attribute(:xSplit,      :double)
+    define_attribute(:ySplit,      :double)
     define_attribute(:topLeftCell, :string)
     define_attribute(:activePane,  RubyXL::ST_Pane, :default => 'topLeft', )
     define_attribute(:state,       RubyXL::ST_PaneState, :default=> 'split')
@@ -606,6 +609,26 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_worksheet.html
   class Worksheet < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
+    REL_CLASS    = RubyXL::SheetRelationshipsFile
+
+    include RubyXL::RelationshipSupport
+
+    def related_objects
+      comments + printer_settings
+    end
+
+    define_relationship(RubyXL::PrinterSettingsFile,  :printer_settings)
+    define_relationship(RubyXL::CommentsFile,         :comments)
+    define_relationship(RubyXL::VMLDrawingFile)
+    define_relationship(RubyXL::DrawingFile)
+    define_relationship(RubyXL::BinaryImageFile)
+    define_relationship(RubyXL::PivotTableFile)
+    define_relationship(RubyXL::TableFile)
+    define_relationship(RubyXL::ControlPropertiesFile)
+    define_relationship(RubyXL::SlicerFile)
+
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
     define_child_node(RubyXL::WorksheetViews)
@@ -654,9 +677,6 @@ module RubyXL
 
     attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments, :printer_settings
 
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
-
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
       last_nonempty_row = 0
@@ -700,31 +720,6 @@ module RubyXL
       end
 
       true
-    end
-
-    include RubyXL::RelationshipSupport
-
-    def related_objects
-      comments + printer_settings
-    end
-
-    def relationship_file_class
-      RubyXL::SheetRelationshipsFile
-    end
-
-    def attach_relationship(rid, rf)
-      case rf
-      when RubyXL::PrinterSettingsFile   then printer_settings << rf
-      when RubyXL::CommentsFile          then comments << rf
-      when RubyXL::VMLDrawingFile        then store_relationship(rf) # TODO
-      when RubyXL::DrawingFile           then store_relationship(rf) # TODO
-      when RubyXL::BinaryImageFile       then store_relationship(rf) # TODO
-      when RubyXL::PivotTableFile        then store_relationship(rf) # TODO
-      when RubyXL::TableFile             then store_relationship(rf) # TODO
-      when RubyXL::ControlPropertiesFile then store_relationship(rf) # TODO
-      when RubyXL::SlicerFile            then store_relationship(rf) # TODO
-      else store_relationship(rf, :unknown)
-      end
     end
 
     def xlsx_path
