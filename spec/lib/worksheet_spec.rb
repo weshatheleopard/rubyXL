@@ -251,19 +251,13 @@ describe RubyXL::Worksheet do
     end
 
     it 'should make row height a number equivalent of the string passed if it is a string which is a number' do
-      @worksheet.change_row_height(0,'30.0002')
+      @worksheet.change_row_height(0, 30.0002)
       expect(@worksheet.get_row_height(0)).to eq(30.0002)
-    end
-
-    it 'should cause error if a string which is not a number' do
-      expect {
-        @worksheet.change_row_height(0,'TEST')
-      }.to raise_error
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_row_height(-1,30)
+        @worksheet.change_row_height(-1, 30)
       }.to raise_error
     end
 
@@ -318,108 +312,49 @@ describe RubyXL::Worksheet do
     end
   end
 
-  describe '.change_row_border_top' do
-    it 'should cause row and cells to have border at top of specified weight' do
-      @worksheet.change_row_border_top(0, 'thin')
-      expect(@worksheet.get_row_border_top(0)).to eq('thin')
-      expect(@worksheet[0][5].border_top).to eq('thin')
-    end
+  describe '.change_row_border' do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_row_border_top(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_border_top(11,'thin')
-      expect(@worksheet.get_row_border_top(11)).to eq('thin')
-      expect(@worksheet.sheet_data.size).to eq(12)
-    end
-  end
-
-  describe '.change_row_border_left' do
-    it 'should cause row and cells to have border at left of specified weight' do
-      @worksheet.change_row_border_left(0, 'thin')
-      expect(@worksheet.get_row_border_left(0)).to eq('thin')
-      expect(@worksheet[0][5].border_left).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_row_border_left(-1,'thin')
+        @worksheet.change_row_border(-1, :left, 'thin')
       }.to raise_error
     end
 
     it 'should expand matrix to fit argument if nonnegative'  do
       expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_border_left(11,'thin')
+      @worksheet.change_row_border(11, :left, 'thin')
       expect(@worksheet.get_row_border_left(11)).to eq('thin')
       expect(@worksheet.sheet_data.size).to eq(12)
     end
-  end
 
-  describe '.change_row_border_right' do
+    it 'should cause row and cells to have border at top of specified weight' do
+      @worksheet.change_row_border(0, :top, 'thin')
+      expect(@worksheet.get_row_border_top(0)).to eq('thin')
+      expect(@worksheet[0][5].border_top).to eq('thin')
+    end
+
+    it 'should cause row and cells to have border at left of specified weight' do
+      @worksheet.change_row_border(0, :left, 'thin')
+      expect(@worksheet.get_row_border_left(0)).to eq('thin')
+      expect(@worksheet[0][5].border_left).to eq('thin')
+    end
+
     it 'should cause row and cells to have border at right of specified weight' do
-      @worksheet.change_row_border_right(0, 'thin')
+      @worksheet.change_row_border(0, :right, 'thin')
       expect(@worksheet.get_row_border_right(0)).to eq('thin')
       expect(@worksheet[0][5].border_right).to eq('thin')
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_row_border_right(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_border_right(11,'thin')
-      expect(@worksheet.get_row_border_right(11)).to eq('thin')
-      expect(@worksheet.sheet_data.size).to eq(12)
-    end
-  end
-
-  describe '.change_row_border_bottom' do
     it 'should cause row to have border at bottom of specified weight' do
-      @worksheet.change_row_border_bottom(0, 'thin')
+      @worksheet.change_row_border(0, :bottom, 'thin')
       expect(@worksheet.get_row_border_bottom(0)).to eq('thin')
       expect(@worksheet[0][5].border_bottom).to eq('thin')
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_row_border_bottom(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_border_bottom(11,'thin')
-      expect(@worksheet.get_row_border_bottom(11)).to eq('thin')
-      expect(@worksheet.sheet_data.size).to eq(12)
-    end
-  end
-
-  describe '.change_row_border_diagonal' do
     it 'should cause row to have border at diagonal of specified weight' do
-      @worksheet.change_row_border_diagonal(0, 'thin')
+      @worksheet.change_row_border(0, :diagonal, 'thin')
       expect(@worksheet.get_row_border_diagonal(0)).to eq('thin')
       expect(@worksheet[0][5].border_diagonal).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_row_border_diagonal(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_border_diagonal(11,'thin')
-      expect(@worksheet.get_row_border_diagonal(11)).to eq('thin')
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -694,109 +629,50 @@ describe RubyXL::Worksheet do
     end
   end
 
-  describe '.change_column_border_top' do
+  describe '.change_column_border' do
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.change_column_border(-1, :top, 'thin')
+      }.to raise_error
+    end
+
+    it 'should expand matrix to fit argument if nonnegative'do
+      expect(@worksheet.sheet_data[0].size).to eq(11)
+      @worksheet.change_column_border(11, :top, 'thin')
+      expect(@worksheet.get_column_border_top(11)).to eq('thin')
+      expect(@worksheet.sheet_data[0].size).to eq(12)
+    end
+
     it 'should cause column and cells within to have border at top of specified weight' do
-      @worksheet.change_column_border_top(0, 'thin')
+      @worksheet.change_column_border(0, :top, 'thin')
       expect(@worksheet.get_column_border_top(0)).to eq('thin')
       expect(@worksheet[5][0].border_top).to eq('thin')
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_column_border_top(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_border_top(11,'thin')
-      expect(@worksheet.get_column_border_top(11)).to eq('thin')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
-  end
-
-  describe '.change_column_border_left' do
     it 'should cause column and cells within to have border at left of specified weight' do
-      @worksheet.change_column_border_left(0, 'thin')
+      @worksheet.change_column_border(0, :left, 'thin')
       expect(@worksheet.get_column_border_left(0)).to eq('thin')
       expect(@worksheet[5][0].border_left).to eq('thin')
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_column_border_left(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_border_left(11,'thin')
-      expect(@worksheet.get_column_border_left(11)).to eq('thin')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
-  end
-
-  describe '.change_column_border_right' do
     it 'should cause column and cells within to have border at right of specified weight' do
-      @worksheet.change_column_border_right(0, 'thin')
+      @worksheet.change_column_border(0, :right, 'thin')
       expect(@worksheet.get_column_border_right(0)).to eq('thin')
       expect(@worksheet[5][0].border_right).to eq('thin')
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_column_border_right(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_border_right(11,'thin')
-      expect(@worksheet.get_column_border_right(11)).to eq('thin')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
-  end
-
-  describe '.change_column_border_bottom' do
     it 'should cause column and cells within to have border at bottom of specified weight' do
-      @worksheet.change_column_border_bottom(0, 'thin')
+      @worksheet.change_column_border(0, :bottom, 'thin')
       expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
       expect(@worksheet[5][0].border_bottom).to eq('thin')
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_column_border_bottom(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_border_bottom(11,'thin')
-      expect(@worksheet.get_column_border_bottom(11)).to eq('thin')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
-  end
-
-  describe '.change_column_border_diagonal' do
     it 'should cause column and cells within to have border at diagonal of specified weight' do
-      @worksheet.change_column_border_diagonal(0, 'thin')
+      @worksheet.change_column_border(0, :diagonal, 'thin')
       expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
       expect(@worksheet[5][0].border_diagonal).to eq('thin')
     end
 
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.change_column_border_diagonal(-1,'thin')
-      }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_border_diagonal(11,'thin')
-      expect(@worksheet.get_column_border_diagonal(11)).to eq('thin')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
   end
 
   describe '.merge_cells' do
@@ -1239,7 +1115,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this row has on top' do
-      @worksheet.change_row_border_top(0,'thin')
+      @worksheet.change_row_border(0, :top, 'thin')
       expect(@worksheet.get_row_border_top(0)).to eq('thin')
     end
 
@@ -1260,7 +1136,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this row has on left' do
-      @worksheet.change_row_border_left(0,'thin')
+      @worksheet.change_row_border(0, :left, 'thin')
       expect(@worksheet.get_row_border_left(0)).to eq('thin')
     end
 
@@ -1281,7 +1157,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this row has on right' do
-      @worksheet.change_row_border_right(0,'thin')
+      @worksheet.change_row_border(0, :right, 'thin')
       expect(@worksheet.get_row_border_right(0)).to eq('thin')
     end
 
@@ -1303,7 +1179,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this row has on bottom' do
-      @worksheet.change_row_border_bottom(0,'thin')
+      @worksheet.change_row_border(0, :bottom, 'thin')
       expect(@worksheet.get_row_border_bottom(0)).to eq('thin')
     end
 
@@ -1324,7 +1200,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this row has on diagonal' do
-      @worksheet.change_row_border_diagonal(0,'thin')
+      @worksheet.change_row_border(0, :diagonal, 'thin')
       expect(@worksheet.get_row_border_diagonal(0)).to eq('thin')
     end
 
@@ -1573,7 +1449,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this column has on top' do
-      @worksheet.change_column_border_top(0,'thin')
+      @worksheet.change_column_border(0, :top, 'thin')
      expect(@worksheet.get_column_border_top(0)).to eq('thin')
     end
 
@@ -1594,7 +1470,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this column has on left' do
-      @worksheet.change_column_border_left(0,'thin')
+      @worksheet.change_column_border(0, :left, 'thin')
      expect(@worksheet.get_column_border_left(0)).to eq('thin')
     end
 
@@ -1615,7 +1491,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this column has on right' do
-      @worksheet.change_column_border_right(0,'thin')
+      @worksheet.change_column_border(0, :right, 'thin')
      expect(@worksheet.get_column_border_right(0)).to eq('thin')
     end
 
@@ -1636,7 +1512,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this column has on bottom' do
-      @worksheet.change_column_border_bottom(0,'thin')
+      @worksheet.change_column_border(0, :bottom, 'thin')
      expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
     end
 
@@ -1657,7 +1533,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return type of border that this column has on diagonal' do
-      @worksheet.change_column_border_diagonal(0,'thin')
+      @worksheet.change_column_border(0, :diagonal, 'thin')
      expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
     end
 

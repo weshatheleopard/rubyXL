@@ -120,22 +120,27 @@ module RubyXL
     end
 
     def change_border_top(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:top, weight)
     end
 
     def change_border_left(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:left, weight)
     end
 
     def change_border_right(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:right, weight)
     end
 
     def change_border_bottom(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:bottom, weight)
     end
 
     def change_border_diagonal(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
       change_border(:diagonal, weight)
     end
 
@@ -254,6 +259,20 @@ module RubyXL
       str += " =#{self.formula.expression}" if self.formula
       str += ", datatype = #{self.datatype}, style_index = #{self.style_index}>"
       return str
+    end
+
+    # Performs correct modification based on what type of change_type is specified
+    def font_switch(change_type, arg)
+      case change_type
+        when Worksheet::NAME          then change_font_name(arg)
+        when Worksheet::SIZE          then change_font_size(arg)
+        when Worksheet::COLOR         then change_font_color(arg)
+        when Worksheet::ITALICS       then change_font_italics(arg)
+        when Worksheet::BOLD          then change_font_bold(arg)
+        when Worksheet::UNDERLINE     then change_font_underline(arg)
+        when Worksheet::STRIKETHROUGH then change_font_strikethrough(arg)
+        else raise 'Invalid change_type'
+      end
     end
 
     private
