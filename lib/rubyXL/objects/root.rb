@@ -70,7 +70,7 @@ module RubyXL
           root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
           root.load_relationships(zip_file)
           root.workbook.root = root
-          return root
+          root
         }
       rescue ::Zip::Error => e
         raise e, "XLSX file format error: #{e}", e.backtrace

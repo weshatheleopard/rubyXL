@@ -1,5 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/container_nodes'
+require 'time'
 
 module RubyXL
 
