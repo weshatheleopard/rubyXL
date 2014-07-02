@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.1.0</title>
+<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.1.1</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -131,8 +131,8 @@
 source XML. Can be either <code>&quot;String&quot;</code> or
 <code>:Symbol</code></p>
 <ul><li>
-<p>Special attibute name <code>&#39;_&#39;</code> (underscore) denotes the
-value of the element rather than attribute.</p>
+<p>Special attibute name <code>'_'</code> (underscore) denotes the value of
+the element rather than attribute.</p>
 </li></ul>
 </li><li>
 <p><code>attribute_type</code> - Specifies the conversion type for the
@@ -150,7 +150,7 @@ attribute when parsing. Available options are:</p>
 </li><li>
 <p><code>:ref</code> - <a href="Reference.html">RubyXL::Reference</a></p>
 </li><li>
-<p><code>:bool</code> - <code>Boolean</code> (“1” and “true” convert to
+<p><code>:bool</code> - <code>Boolean</code> ("1" and "true" convert to
 <code>true</code>, others to <code>false</code>)</p>
 </li><li>
 <p>one of <code>simple_types</code> - <code>String</code>, plus the list of
@@ -180,12 +180,12 @@ but do call the object-provided read accessor on <code>write_xml</code>.</p>
 <pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">outline</span>, :<span class="ruby-identifier">bool</span>, :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
 </pre>
 
-<p>A <code>Boolean</code> attribute &#39;outline&#39; with default value
+<p>A <code>Boolean</code> attribute ‘outline’ with default value
 <code>true</code> will be accessible by calling <code>obj.outline</code></p>
 
 <pre>define_attribute(:uniqueCount,  :int)</pre>
 
-<p>An <code>Integer</code> attribute &#39;uniqueCount&#39; accessible as
+<p>An <code>Integer</code> attribute ‘uniqueCount’ accessible as
 <code>obj.unique_count</code></p>
 
 <pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">_</span>,  :<span class="ruby-identifier">string</span>, :<span class="ruby-identifier">accessor</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">expression</span>)
@@ -194,11 +194,11 @@ but do call the object-provided read accessor on <code>write_xml</code>.</p>
 <p>The value of the element will be accessible as a <code>String</code> by
 calling <code>obj.expression</code></p>
 
-<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">errorStyle</span>, <span class="ruby-node">%w{ stop warning information }</span>, :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;stop&#39;</span>,)
+<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">errorStyle</span>, <span class="ruby-node">%w{ stop warning information }</span>, :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'stop'</span>,)
 </pre>
 
-<p>A <code>String</code> attribute named &#39;errorStyle&#39; will be
-accessible as <code>obj.error_style</code>, valid values are
+<p>A <code>String</code> attribute named ‘errorStyle’ will be accessible as
+<code>obj.error_style</code>, valid values are
 <code>&quot;stop&quot;</code>, <code>&quot;warning&quot;</code>,
 <code>&quot;information&quot;</code></p>
           
@@ -354,7 +354,7 @@ default element name.</p>
 
 <h4 id="method-i-define_element_name-label-Examples">Examples<span><a href="#method-i-define_element_name-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
-<pre>define_element_name &#39;externalReference&#39;</pre>
+<pre>define_element_name 'externalReference'</pre>
           
           
 
@@ -445,7 +445,7 @@ it in the context of descendant class,  which is what we need.</p>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>) <span class="ruby-keyword">then</span>
         <span class="ruby-ivar">@namespaces</span> = <span class="ruby-identifier">node</span>.<span class="ruby-identifier">namespaces</span>
         <span class="ruby-identifier">node</span> = <span class="ruby-identifier">node</span>.<span class="ruby-identifier">root</span>
-<span class="ruby-comment">#        ignorable_attr = node.attributes[&#39;Ignorable&#39;]</span>
+<span class="ruby-comment">#        ignorable_attr = node.attributes['Ignorable']</span>
 <span class="ruby-comment">#        @ignorables &lt;&lt; ignorable_attr.value if ignorable_attr</span>
       <span class="ruby-keyword">end</span>
 
@@ -453,7 +453,7 @@ it in the context of descendant class,  which is what we need.</p>
 
       <span class="ruby-identifier">known_attributes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>)
 
-      <span class="ruby-identifier">content_params</span> = <span class="ruby-identifier">known_attributes</span>[<span class="ruby-string">&#39;_&#39;</span>]
+      <span class="ruby-identifier">content_params</span> = <span class="ruby-identifier">known_attributes</span>[<span class="ruby-string">'_'</span>]
       <span class="ruby-identifier">process_attribute</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">node</span>.<span class="ruby-identifier">text</span>, <span class="ruby-identifier">content_params</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">content_params</span>
 
       <span class="ruby-identifier">node</span>.<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">attr_name</span>, <span class="ruby-identifier">attr</span><span class="ruby-operator">|</span>
@@ -479,7 +479,7 @@ it in the context of descendant class,  which is what we need.</p>
           <span class="ruby-identifier">prefix</span> = <span class="ruby-identifier">known_namespaces</span>[<span class="ruby-identifier">ns</span>.<span class="ruby-identifier">href</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">prefix</span>
 
           <span class="ruby-identifier">child_node_name</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">prefix</span>
-                            <span class="ruby-keyword">when</span> <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-keyword">nil</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">child_node</span>.<span class="ruby-identifier">name</span> 
+                            <span class="ruby-keyword">when</span> <span class="ruby-string">''</span>, <span class="ruby-keyword">nil</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">child_node</span>.<span class="ruby-identifier">name</span> 
                             <span class="ruby-keyword">else</span> <span class="ruby-node">&quot;#{prefix}:#{child_node.name}&quot;</span>
                             <span class="ruby-keyword">end</span>
 
