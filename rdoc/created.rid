@@ -1,4 +1,4 @@
-Wed, 02 Jul 2014 09:19:09 -0500
+Wed, 02 Jul 2014 10:52:53 -0500
 README.rdoc	Wed, 02 Jul 2014 09:16:05 -0500
 lib/rubyXL.rb	Mon, 30 Jun 2014 20:04:07 -0500
 lib/rubyXL/cell.rb	Wed, 02 Jul 2014 09:16:05 -0500
@@ -12,7 +12,7 @@ lib/rubyXL/objects/comments.rb	Fri, 20 Jun 2014 11:23:44 -0500
 lib/rubyXL/objects/container_nodes.rb	Sat, 28 Jun 2014 18:09:43 -0500
 lib/rubyXL/objects/content_types.rb	Mon, 30 Jun 2014 20:04:07 -0500
 lib/rubyXL/objects/data_validation.rb	Thu, 08 May 2014 12:37:10 -0500
-lib/rubyXL/objects/document_properties.rb	Fri, 20 Jun 2014 11:23:44 -0500
+lib/rubyXL/objects/document_properties.rb	Wed, 02 Jul 2014 10:41:51 -0500
 lib/rubyXL/objects/extensions.rb	Thu, 29 May 2014 03:10:04 -0500
 lib/rubyXL/objects/fill.rb	Mon, 30 Jun 2014 20:04:07 -0500
 lib/rubyXL/objects/filters.rb	Sat, 28 Jun 2014 18:09:43 -0500
@@ -21,7 +21,7 @@ lib/rubyXL/objects/formula.rb	Fri, 20 Jun 2014 11:24:03 -0500
 lib/rubyXL/objects/ooxml_object.rb	Mon, 30 Jun 2014 20:04:07 -0500
 lib/rubyXL/objects/reference.rb	Thu, 29 May 2014 03:10:04 -0500
 lib/rubyXL/objects/relationships.rb	Mon, 30 Jun 2014 20:04:07 -0500
-lib/rubyXL/objects/root.rb	Wed, 02 Jul 2014 09:11:15 -0500
+lib/rubyXL/objects/root.rb	Wed, 02 Jul 2014 10:26:54 -0500
 lib/rubyXL/objects/shared_strings.rb	Fri, 20 Jun 2014 11:23:44 -0500
 lib/rubyXL/objects/sheet_common.rb	Mon, 30 Jun 2014 20:04:07 -0500
 lib/rubyXL/objects/sheet_data.rb	Mon, 30 Jun 2014 20:04:07 -0500

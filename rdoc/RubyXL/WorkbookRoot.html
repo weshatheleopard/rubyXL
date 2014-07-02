@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::WorkbookRoot - rubyXL 3.1.1</title>
+<title>class RubyXL::WorkbookRoot - rubyXL 3.1.2</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -318,7 +318,7 @@
       <span class="ruby-identifier">root</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zip_file</span>)
       <span class="ruby-identifier">root</span>.<span class="ruby-identifier">load_relationships</span>(<span class="ruby-identifier">zip_file</span>)
       <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">root</span> = <span class="ruby-identifier">root</span>
-      <span class="ruby-keyword">return</span> <span class="ruby-identifier">root</span>
+      <span class="ruby-identifier">root</span>
     }
   <span class="ruby-keyword">rescue</span> <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>, <span class="ruby-node">&quot;XLSX file format error: #{e}&quot;</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>
