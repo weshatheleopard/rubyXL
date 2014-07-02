@@ -337,6 +337,7 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/Reference.html",
     "rdoc/RubyXL/Relationship.html",
     "rdoc/RubyXL/RelationshipSupport.html",
+    "rdoc/RubyXL/RelationshipSupport/ClassMehods.html",
     "rdoc/RubyXL/RichText.html",
     "rdoc/RubyXL/RichTextRun.html",
     "rdoc/RubyXL/RootRelationships.html",
