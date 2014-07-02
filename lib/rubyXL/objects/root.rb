@@ -64,14 +64,13 @@ module RubyXL
 
     def self.parse_file(xl_file_path, opts)
       begin
-        ::Zip::File.open(xl_file_path) { |zip_file|
-          root = self.new
-          root.filepath = xl_file_path
-          root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
-          root.load_relationships(zip_file)
-          root.workbook.root = root
-          root
-        }
+        zip_file = ::Zip::File.open(xl_file_path)
+        root = self.new
+        root.filepath = xl_file_path
+        root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
+        root.load_relationships(zip_file)
+        root.workbook.root = root
+        root
       rescue ::Zip::Error => e
         raise e, "XLSX file format error: #{e}", e.backtrace
       end
