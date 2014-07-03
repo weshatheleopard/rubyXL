@@ -62,6 +62,10 @@ module RubyXL
       stream
     end
 
+    def xlsx_path
+      ''
+    end
+
     def self.parse_file(xl_file_path, opts)
       begin
         ::Zip::File.open(xl_file_path) { |zip_file|

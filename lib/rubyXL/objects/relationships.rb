@@ -15,7 +15,7 @@ module RubyXL
   end
 
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
-    SAVE_ORDER = 0
+    SAVE_ORDER = 100
 
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
@@ -106,7 +106,7 @@ module RubyXL
 
     def xlsx_path
       file_path = owner.xlsx_path
-      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+      Pathname.new(File.dirname(file_path)).join('_rels', File.basename(file_path) + '.rels')
     end
 
   end
@@ -155,21 +155,6 @@ module RubyXL
       true
     end
 
-    def xlsx_path
-      File.join('_rels', '.rels')
-    end
-  end
-
-  class SheetRelationshipsFile < OOXMLRelationshipsFile
-    # Insert class specific stuff here once we get to implementing it
-  end
-
-  class DrawingRelationshipsFile < OOXMLRelationshipsFile
-    # Insert class specific stuff here once we get to implementing it
-  end
-
-  class ChartRelationshipsFile < OOXMLRelationshipsFile
-    # Insert class specific stuff here once we get to implementing it
   end
 
   module RelationshipSupport
