@@ -33,10 +33,14 @@ module RubyXL
     protected :new_relationship
 
     def add_relationship(obj)
-      return if obj.nil?
+      return if obj.nil? || !defined?(obj.class::REL_TYPE)
+
+      file_path = Pathname.new(obj.xlsx_path)
+      owner_path = Pathname.new(owner.xlsx_path)
+
       relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
                                                 :type => obj.class::REL_TYPE,
-                                                :target => obj.xlsx_path)
+                                                :target => file_path.relative_path_from(owner_path.dirname))
     end
     protected :add_relationship
 
@@ -45,7 +49,7 @@ module RubyXL
     end
 
     def find_by_target(target)
-      relationships.find { |r| r.target == target }
+      relationships.find { |r| r.target.to_s == target }
     end
 
     def self.get_class_by_rel_type(rel_type)
@@ -109,34 +113,27 @@ module RubyXL
       Pathname.new(File.dirname(file_path)).join('_rels', File.basename(file_path) + '.rels')
     end
 
+=begin
+    def before_write_xml
+puts self.class.inspect
+puts owner.class.inspect
+before = owner.related_objects.size
+
+      self.relationships = []
+      owner.related_objects.compact.each { |f| add_relationship(f) }
+
+puts "before=#{before} after=#{self.relationships.size}"
+super
+    end 
+=end
+
   end
 	
   class WorkbookRelationships < OOXMLRelationshipsFile
 
-    attr_accessor :workbook
-
     def before_write_xml
       self.relationships = []
-
-      @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << new_relationship(sheet.xlsx_path.gsub(/\Axl\//, ''), sheet.class::REL_TYPE)
-      }
-
-#      @workbook.external_links.each_key { |k| 
-#        relationships << new_relationship("externalLinks/#{k}", 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink')
-#      }
-
-      relationships << new_relationship('theme/theme1.xml', @workbook.theme.class::REL_TYPE) if @workbook.theme
-      relationships << new_relationship('styles.xml', @workbook.stylesheet.class::REL_TYPE) if @workbook.stylesheet
-
-      if @workbook.shared_strings_container && !@workbook.shared_strings_container.strings.empty? then
-        relationships << new_relationship('sharedStrings.xml', @workbook.shared_strings_container.class::REL_TYPE)
-      end
-
-      if @workbook.calculation_chain && !@workbook.calculation_chain.cells.empty? then
-        relationships << new_relationship('calcChain.xml', @workbook.calculation_chain.class::REL_TYPE)
-      end
-
+      owner.related_objects.compact.each { |f| add_relationship(f) }
       true
     end
 
@@ -146,12 +143,7 @@ module RubyXL
 
     def before_write_xml
       self.relationships = []
-
-      add_relationship(owner.workbook)
-      add_relationship(owner.thumbnail)
-      add_relationship(owner.core_properties)
-      add_relationship(owner.document_properties)
-
+      owner.related_objects.compact.each { |f| add_relationship(f) }
       true
     end
 
