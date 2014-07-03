@@ -13,7 +13,7 @@ module RubyXL
     attr_accessor :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook
     attr_accessor :content_types, :rels_hash
 
-    REL_CLASS    = RubyXL::RootRelationships
+    REL_CLASS    = RubyXL::OOXMLRelationshipsFileTemp
 
     include RubyXL::RelationshipSupport
 
@@ -31,7 +31,7 @@ module RubyXL
       obj = self.new
       obj.document_properties    = RubyXL::DocumentPropertiesFile.new
       obj.core_properties        = RubyXL::CorePropertiesFile.new
-      obj.relationship_container = RubyXL::RootRelationships.new
+      obj.relationship_container = RubyXL::OOXMLRelationshipsFileTemp.new
       obj.content_types          = RubyXL::ContentTypes.new
       obj
     end

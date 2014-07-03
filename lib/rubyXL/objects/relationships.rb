@@ -129,17 +129,7 @@ super
 
   end
 	
-  class WorkbookRelationships < OOXMLRelationshipsFile
-
-    def before_write_xml
-      self.relationships = []
-      owner.related_objects.compact.each { |f| add_relationship(f) }
-      true
-    end
-
-  end
-
-  class RootRelationships < OOXMLRelationshipsFile
+  class OOXMLRelationshipsFileTemp < OOXMLRelationshipsFile
 
     def before_write_xml
       self.relationships = []

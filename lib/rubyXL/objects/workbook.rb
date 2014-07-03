@@ -297,7 +297,7 @@ module RubyXL
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
-    REL_CLASS    = RubyXL::WorkbookRelationships
+    REL_CLASS    = RubyXL::OOXMLRelationshipsFileTemp
 
     include RubyXL::RelationshipSupport
 
