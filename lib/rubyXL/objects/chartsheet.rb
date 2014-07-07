@@ -59,7 +59,6 @@ module RubyXL
   class Chartsheet < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartsheet'
-    REL_CLASS    = RubyXL::SheetRelationshipsFile
 
     include RubyXL::RelationshipSupport
     define_relationship(RubyXL::DrawingFile)

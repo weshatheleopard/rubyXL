@@ -16,7 +16,7 @@ module RubyXL
 
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-package.relationships+xml'
-    SAVE_ORDER = 0
+    SAVE_ORDER = 100
 
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
     define_element_name 'Relationships'
@@ -34,10 +34,14 @@ module RubyXL
     protected :new_relationship
 
     def add_relationship(obj)
-      return if obj.nil?
+      return if obj.nil? || !defined?(obj.class::REL_TYPE)
+
+      file_path = Pathname.new(obj.xlsx_path)
+      owner_path = Pathname.new(owner.xlsx_path)
+
       relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
                                                 :type => obj.class::REL_TYPE,
-                                                :target => obj.xlsx_path)
+                                                :target => file_path.relative_path_from(owner_path.dirname))
     end
     protected :add_relationship
 
@@ -46,7 +50,7 @@ module RubyXL
     end
 
     def find_by_target(target)
-      relationships.find { |r| r.target == target }
+      relationships.find { |r| r.target.to_s == target }
     end
 
     def self.get_class_by_rel_type(rel_type)
@@ -107,72 +111,26 @@ module RubyXL
 
     def xlsx_path
       file_path = owner.xlsx_path
-      File.join(File.dirname(file_path), '_rels', File.basename(file_path) + '.rels')
+      Pathname.new(File.dirname(file_path)).join('_rels', File.basename(file_path) + '.rels')
     end
 
+    def before_write_xml
+      case owner
+      when RubyXL::WorkbookRoot, RubyXL::Workbook then
+        # Fully implemented objects with no generic (unhandled) relationships -
+        #   (re)generating relationships from scratch.
+        related_objects = owner.related_objects
+        related_objects += owner.generic_storage if owner.generic_storage
+
+        self.relationships = []
+        related_objects.compact.each { |f| add_relationship(f) }
+      end
+      super
+    end 
+
   end
+
 	
-  class WorkbookRelationships < OOXMLRelationshipsFile
-
-    attr_accessor :workbook
-
-    def before_write_xml
-      self.relationships = []
-
-      @workbook.worksheets.each_with_index { |sheet, i|
-        relationships << new_relationship(sheet.xlsx_path.gsub(/\Axl\//, ''), sheet.class::REL_TYPE)
-      }
-
-#      @workbook.external_links.each_key { |k| 
-#        relationships << new_relationship("externalLinks/#{k}", 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink')
-#      }
-
-      relationships << new_relationship('theme/theme1.xml', @workbook.theme.class::REL_TYPE) if @workbook.theme
-      relationships << new_relationship('styles.xml', @workbook.stylesheet.class::REL_TYPE) if @workbook.stylesheet
-
-      if @workbook.shared_strings_container && !@workbook.shared_strings_container.strings.empty? then
-        relationships << new_relationship('sharedStrings.xml', @workbook.shared_strings_container.class::REL_TYPE)
-      end
-
-      if @workbook.calculation_chain && !@workbook.calculation_chain.cells.empty? then
-        relationships << new_relationship('calcChain.xml', @workbook.calculation_chain.class::REL_TYPE)
-      end
-
-      true
-    end
-
-  end
-
-  class RootRelationships < OOXMLRelationshipsFile
-
-    def before_write_xml
-      self.relationships = []
-
-      add_relationship(owner.workbook)
-      add_relationship(owner.thumbnail)
-      add_relationship(owner.core_properties)
-      add_relationship(owner.document_properties)
-
-      true
-    end
-
-    def xlsx_path
-      File.join('_rels', '.rels')
-    end
-  end
-
-  class SheetRelationshipsFile < OOXMLRelationshipsFile
-    # Insert class specific stuff here once we get to implementing it
-  end
-
-  class DrawingRelationshipsFile < OOXMLRelationshipsFile
-    # Insert class specific stuff here once we get to implementing it
-  end
-
-  class ChartRelationshipsFile < OOXMLRelationshipsFile
-    # Insert class specific stuff here once we get to implementing it
-  end
-
   module RelationshipSupport
 
     module ClassMehods
@@ -184,7 +142,7 @@ module RubyXL
 
     def self.included(klass)
       klass.class_variable_set(:@@ooxml_relationships, {})
-      klass.extend RelationshipSupport::ClassMehods
+      klass.extend RubyXL::RelationshipSupport::ClassMehods
     end
 
     attr_accessor :generic_storage, :relationship_container
@@ -195,7 +153,6 @@ module RubyXL
 
     def collect_related_objects
       res = related_objects.compact # Avoid tainting +related_objects+ array
-
       res += generic_storage if generic_storage
 
       if relationship_container then
@@ -209,7 +166,7 @@ module RubyXL
     end
 
     def load_relationships(dir_path, base_file_name = '')
-      self.relationship_container = self.class.const_get(:REL_CLASS).load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = RubyXL::OOXMLRelationshipsFile.load_relationship_file(dir_path, base_file_name)
       return if relationship_container.nil?
 
       relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, related_file|
