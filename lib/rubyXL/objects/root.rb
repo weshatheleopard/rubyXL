@@ -13,8 +13,6 @@ module RubyXL
     attr_accessor :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook
     attr_accessor :content_types, :rels_hash
 
-    REL_CLASS    = RubyXL::OOXMLRelationshipsFileTemp
-
     include RubyXL::RelationshipSupport
 
     define_relationship(RubyXL::ThumbnailFile,          :thumbnail)
@@ -31,7 +29,7 @@ module RubyXL
       obj = self.new
       obj.document_properties    = RubyXL::DocumentPropertiesFile.new
       obj.core_properties        = RubyXL::CorePropertiesFile.new
-      obj.relationship_container = RubyXL::OOXMLRelationshipsFileTemp.new
+      obj.relationship_container = RubyXL::OOXMLRelationshipsFile.new
       obj.content_types          = RubyXL::ContentTypes.new
       obj
     end
@@ -44,6 +42,7 @@ module RubyXL
         self.content_types.owner = self
         collect_related_objects.compact.each { |obj|
           puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
+          obj.root = self if obj.respond_to?(:root=)
           self.rels_hash[obj.class] ||= []
           self.rels_hash[obj.class] << obj
         }
@@ -51,7 +50,6 @@ module RubyXL
         self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
           self.rels_hash[klass].each { |obj|
-            obj.workbook = workbook if obj.respond_to?(:workbook=)
             puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
             self.content_types.add_override(obj)
             obj.add_to_zip(zipstream)

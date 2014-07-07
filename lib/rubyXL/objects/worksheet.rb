@@ -611,7 +611,6 @@ module RubyXL
   class Worksheet < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
-    REL_CLASS    = RubyXL::OOXMLRelationshipsFile
 
     include RubyXL::RelationshipSupport
 

@@ -113,32 +113,23 @@ module RubyXL
       Pathname.new(File.dirname(file_path)).join('_rels', File.basename(file_path) + '.rels')
     end
 
-=begin
     def before_write_xml
-puts self.class.inspect
-puts owner.class.inspect
-before = owner.related_objects.size
+      case owner
+      when RubyXL::WorkbookRoot, RubyXL::Workbook then
+        # Fully implemented objects with no generic (unhandled) relationships -
+        #   (re)generating relationships from scratch.
+        related_objects = owner.related_objects
+        related_objects += owner.generic_storage if owner.generic_storage
 
-      self.relationships = []
-      owner.related_objects.compact.each { |f| add_relationship(f) }
-
-puts "before=#{before} after=#{self.relationships.size}"
-super
+        self.relationships = []
+        related_objects.compact.each { |f| add_relationship(f) }
+      end
+      super
     end 
-=end
 
   end
+
 	
-  class OOXMLRelationshipsFileTemp < OOXMLRelationshipsFile
-
-    def before_write_xml
-      self.relationships = []
-      owner.related_objects.compact.each { |f| add_relationship(f) }
-      true
-    end
-
-  end
-
   module RelationshipSupport
 
     module ClassMehods
@@ -150,7 +141,7 @@ super
 
     def self.included(klass)
       klass.class_variable_set(:@@ooxml_relationships, {})
-      klass.extend RelationshipSupport::ClassMehods
+      klass.extend RubyXL::RelationshipSupport::ClassMehods
     end
 
     attr_accessor :generic_storage, :relationship_container
@@ -161,7 +152,6 @@ super
 
     def collect_related_objects
       res = related_objects.compact # Avoid tainting +related_objects+ array
-
       res += generic_storage if generic_storage
 
       if relationship_container then
@@ -175,7 +165,7 @@ super
     end
 
     def load_relationships(dir_path, base_file_name = '')
-      self.relationship_container = self.class.const_get(:REL_CLASS).load_relationship_file(dir_path, base_file_name)
+      self.relationship_container = RubyXL::OOXMLRelationshipsFile.load_relationship_file(dir_path, base_file_name)
       return if relationship_container.nil?
 
       relationship_container.load_related_files(dir_path, base_file_name).each_pair { |rid, related_file|

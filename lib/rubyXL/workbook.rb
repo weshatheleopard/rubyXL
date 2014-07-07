@@ -29,7 +29,7 @@ module RubyXL
       @theme                    = RubyXL::Theme.defaults
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
-      @relationship_container   = RubyXL::OOXMLRelationshipsFileTemp.new
+      @relationship_container   = RubyXL::OOXMLRelationshipsFile.new
       @root                     = RubyXL::WorkbookRoot.default
       @root.workbook            = self
       @root.filepath            = filepath

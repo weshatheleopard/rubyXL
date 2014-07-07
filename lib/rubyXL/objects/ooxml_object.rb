@@ -397,6 +397,8 @@ module RubyXL
   class OOXMLTopLevelObject < OOXMLObject
     SAVE_ORDER = 500
 
+    attr_accessor :root
+
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
     def xlsx_path
@@ -445,7 +447,7 @@ module RubyXL
     end
 
     def file_index
-      @workbook.root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
+      root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
     end
 
   end
