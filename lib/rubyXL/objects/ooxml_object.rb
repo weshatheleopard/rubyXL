@@ -204,6 +204,9 @@ module RubyXL
 
 
   module OOXMLObjectInstanceMethods
+    def self.included(klass)
+      klass.extend RubyXL::OOXMLObjectClassMethods
+    end
 
     def obtain_class_variable(var_name, default = {})
       self.class.obtain_class_variable(var_name, default)
@@ -340,7 +343,6 @@ module RubyXL
   # and marshalling them to XML.
   class OOXMLObject
     include OOXMLObjectInstanceMethods
-    extend OOXMLObjectClassMethods
   end
 
   # Parent class for OOXML conainer objects (for example,
@@ -348,7 +350,6 @@ module RubyXL
   # that obscures the top-level container, allowing direct access to the contents as +Array+.
   class OOXMLContainerObject < Array
     include OOXMLObjectInstanceMethods
-    extend OOXMLObjectClassMethods
 
     def initialize(params = {})
       array_content = params.delete(:_)
@@ -395,6 +396,8 @@ module RubyXL
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
   class OOXMLTopLevelObject < OOXMLObject
     SAVE_ORDER = 500
+
+    attr_accessor :root
 
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
@@ -444,7 +447,7 @@ module RubyXL
     end
 
     def file_index
-      @workbook.root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
+      root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
     end
 
   end

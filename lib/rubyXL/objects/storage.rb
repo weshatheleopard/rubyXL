@@ -3,10 +3,9 @@ module RubyXL
   class GenericStorageObject
     SAVE_ORDER = 0
 
-    attr_accessor :xlsx_path, :data, :workbook, :generic_storage
+    attr_accessor :xlsx_path, :data, :generic_storage
 
     def initialize
-      @workbook = nil
       @xlsx_path = nil
       @data = nil
       @generic_storage = []
@@ -47,7 +46,6 @@ module RubyXL
   class DrawingFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
-    REL_CLASS    = RubyXL::DrawingRelationshipsFile
 
     include RubyXL::RelationshipSupport
 
@@ -64,7 +62,6 @@ module RubyXL
   class ChartFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
-    REL_CLASS    = RubyXL::ChartRelationshipsFile
 
     include RubyXL::RelationshipSupport
 
