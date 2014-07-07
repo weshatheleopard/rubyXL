@@ -1,5 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/container_nodes'
+require 'time'
 
 module RubyXL
 
@@ -51,20 +52,30 @@ module RubyXL
     def add_part_title(name)
       titles_of_parts.vt_vector.vt_lpstr << RubyXL::StringNode.new(:value => name)
     end
-    private :add_parts_count
+    private :add_part_title
 
     def before_write_xml
-      if @workbook then
-        self.heading_pairs = RubyXL::VectorValue.new(:vt_vector => RubyXL::Vector.new(:base_type => 'variant'))
-        self.titles_of_parts = RubyXL::VectorValue.new(:vt_vector => RubyXL::Vector.new(:base_type => 'lpstr'))
+      workbook = root.workbook
 
-        add_parts_count('Worksheets', @workbook.worksheets.size)
-        @workbook.worksheets.each { |sheet| add_part_title(sheet.sheet_name) }
+      self.heading_pairs   = RubyXL::VectorValue.new(:vt_vector => RubyXL::Vector.new(:base_type => 'variant'))
+      self.titles_of_parts = RubyXL::VectorValue.new(:vt_vector => RubyXL::Vector.new(:base_type => 'lpstr'))
 
-        if @workbook.defined_names then
-          add_parts_count('Named Ranges', @workbook.defined_names.size)
-          @workbook.defined_names.each { |defined_name| add_part_title(defined_name.name) }
+      worksheets = chartsheets = 0
+
+      workbook.worksheets.each { |sheet|
+        add_part_title(sheet.sheet_name) 
+
+        case sheet
+        when RubyXL::Worksheet  then worksheets += 1
+        when RubyXL::Chartsheet then chartsheets += 1
         end
+      }
+      add_parts_count('Worksheets', worksheets) if worksheets > 0
+      add_parts_count('Charts', chartsheets) if chartsheets > 0
+
+      if workbook.defined_names then
+        add_parts_count('Named Ranges', workbook.defined_names.size)
+        workbook.defined_names.each { |defined_name| add_part_title(defined_name.name) }
       end
 
       true

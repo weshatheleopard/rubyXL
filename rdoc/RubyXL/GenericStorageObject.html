@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::GenericStorageObject - rubyXL 3.1.0</title>
+<title>class RubyXL::GenericStorageObject - rubyXL 3.1.2</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -77,8 +77,6 @@
     
     <li ><a href="#method-c-parse_file">::parse_file</a>
     
-    <li ><a href="#method-c-save_order">::save_order</a>
-    
     <li ><a href="#method-i-add_to_zip">#add_to_zip</a>
     
   </ul>
@@ -104,6 +102,20 @@
 
     
 
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="SAVE_ORDER">SAVE_ORDER
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
     
 
     
@@ -194,7 +206,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 7</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 8</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>
   <span class="ruby-ivar">@workbook</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@xlsx_path</span> = <span class="ruby-keyword">nil</span>
@@ -230,7 +242,7 @@
 
           
           <div class="method-source-code" id="parse_file-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">dirpath</span>, <span class="ruby-identifier">file_path</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">file_path</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-identifier">obj</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
@@ -239,7 +251,7 @@
   <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">full_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dirpath</span>, <span class="ruby-identifier">file_path</span>)
     <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">full_path</span>)
-    <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">full_path</span>, <span class="ruby-string">&#39;r&#39;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }
+    <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">data</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">full_path</span>, <span class="ruby-string">'r'</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> }
   <span class="ruby-keyword">when</span> <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">entry</span> = <span class="ruby-identifier">dirpath</span>.<span class="ruby-identifier">find_entry</span>(<span class="ruby-identifier">file_path</span>)
     <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">entry</span>.<span class="ruby-identifier">nil?</span>
@@ -248,39 +260,6 @@
 
   <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">xlsx_path</span> = <span class="ruby-identifier">file_path</span>
   <span class="ruby-identifier">obj</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-c-save_order" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">save_order</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="save_order-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 14</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">save_order</span>
-  <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -319,11 +298,11 @@
 
           
           <div class="method-source-code" id="add_to_zip-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 37</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zip_stream</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">path</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;/&quot;</span>)) <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">absolute?</span> <span class="ruby-comment"># Zip doesn&#39;t like absolute paths.</span>
+  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;/&quot;</span>)) <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">absolute?</span> <span class="ruby-comment"># Zip doesn't like absolute paths.</span>
   <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">put_next_entry</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">write</span>(<span class="ruby-ivar">@data</span>)
 <span class="ruby-keyword">end</span></pre>
