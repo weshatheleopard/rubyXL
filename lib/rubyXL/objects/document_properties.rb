@@ -63,7 +63,7 @@ module RubyXL
       worksheets = chartsheets = 0
 
       workbook.worksheets.each { |sheet|
-        add_part_title(sheet.sheet_name) 
+        add_part_title(sheet.sheet_name)
 
         case sheet
         when RubyXL::Worksheet  then worksheets += 1
@@ -82,7 +82,7 @@ module RubyXL
     end
 
     def xlsx_path
-      File.join('docProps', 'app.xml')
+      ROOT.join('docProps', 'app.xml')
     end
 
   end
@@ -119,7 +119,7 @@ module RubyXL
     define_element_name 'cp:coreProperties'
 
     def xlsx_path
-      File.join('docProps', 'core.xml')
+      ROOT.join('docProps', 'core.xml')
     end
 
     def creator

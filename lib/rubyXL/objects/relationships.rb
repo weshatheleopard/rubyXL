@@ -15,6 +15,7 @@ module RubyXL
   end
 
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-package.relationships+xml'
     SAVE_ORDER = 100
 
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
@@ -26,7 +27,7 @@ module RubyXL
     @@debug = nil # Change to 0 to enable debug output
 
     def new_relationship(target, type)
-      RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
+      RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
                                :type => type,
                                :target => target)
     end
@@ -38,7 +39,7 @@ module RubyXL
       file_path = Pathname.new(obj.xlsx_path)
       owner_path = Pathname.new(owner.xlsx_path)
 
-      relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
+      relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
                                                 :type => obj.class::REL_TYPE,
                                                 :target => file_path.relative_path_from(owner_path.dirname))
     end
@@ -49,7 +50,9 @@ module RubyXL
     end
 
     def find_by_target(target)
-      relationships.find { |r| r.target.to_s == target }
+      relationships.find { |r|
+        (r.target == target) || (r.target == target.relative_path_from(owner.xlsx_path.dirname))
+      }
     end
 
     def self.get_class_by_rel_type(rel_type)
@@ -67,7 +70,7 @@ module RubyXL
       @@rel_hash[rel_type]
     end
 
-    def load_related_files(zipdir_path, base_file_name = '')
+    def load_related_files(zipdir_path, base_file_name)
       self.related_files = {}
 
       @@debug +=2 if @@debug
@@ -78,7 +81,7 @@ module RubyXL
         file_path = Pathname.new(rel.target)
 
         if !file_path.absolute? then
-          file_path = (Pathname.new(File.dirname(base_file_name)) + file_path).cleanpath
+          file_path = (base_file_name.dirname + file_path).cleanpath
         end
 
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
@@ -101,7 +104,7 @@ module RubyXL
     end
 
     def self.load_relationship_file(zipdir_path, base_file_path)
-      rel_file_path = Pathname.new(File.join(File.dirname(base_file_path), '_rels', File.basename(base_file_path) + '.rels')).cleanpath
+      rel_file_path = rel_file_path(base_file_path)
 
       puts "--> DEBUG:  #{'  ' * @@debug}Loading .rel file: #{rel_file_path}" if @@debug
 
@@ -109,8 +112,7 @@ module RubyXL
     end
 
     def xlsx_path
-      file_path = owner.xlsx_path
-      Pathname.new(File.dirname(file_path)).join('_rels', File.basename(file_path) + '.rels')
+      self.class.rel_file_path(owner.xlsx_path)
     end
 
     def before_write_xml
@@ -125,11 +127,16 @@ module RubyXL
         related_objects.compact.each { |f| add_relationship(f) }
       end
       super
-    end 
+    end
+
+    def self.rel_file_path(base_file_path)
+      basename = base_file_path.root? ? '' : base_file_path.basename
+      base_file_path.dirname.join('_rels', "#{basename}.rels").cleanpath
+    end
 
   end
 
-	
+
   module RelationshipSupport
 
     module ClassMehods
@@ -164,7 +171,7 @@ module RubyXL
       res
     end
 
-    def load_relationships(dir_path, base_file_name = '')
+    def load_relationships(dir_path, base_file_name)
       self.relationship_container = RubyXL::OOXMLRelationshipsFile.load_relationship_file(dir_path, base_file_name)
       return if relationship_container.nil?
 
@@ -192,7 +199,7 @@ module RubyXL
         end
       else store_relationship(rf, :unknown)
       end
-    end 
+    end
 
     def store_relationship(related_file, unknown = false)
       self.generic_storage ||= []

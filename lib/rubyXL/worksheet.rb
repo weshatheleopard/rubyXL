@@ -25,7 +25,7 @@ module LegacyWorksheet
 
   #returns 2d array of just the cell values (without style or formula information)
   def extract_data(args = {})
-    sheet_data.rows.map { |row| 
+    sheet_data.rows.map { |row|
       row.cells.map { |c| c && c.value(args) } unless row.nil?
     }
   end
@@ -66,7 +66,7 @@ module LegacyWorksheet
 
         if cell_test then
           table_hash[:table][table_index] ||= {}
-          table_hash[:table][table_index][header] = cell.value 
+          table_hash[:table][table_index][header] = cell.value
         end
 
         current_row += 1
@@ -408,7 +408,7 @@ module LegacyWorksheet
     if row_index > 0 then
       old_row = sheet_data.rows[row_index - 1]
       if old_row then
-        new_cells = old_row.cells.collect { |c| 
+        new_cells = old_row.cells.collect { |c|
                                             if c.nil? then nil
                                             else RubyXL::Cell.new(:style_index => c.style_index)
                                             end }
@@ -580,7 +580,7 @@ module LegacyWorksheet
 
   def get_row_border_left(row = 0)
     return get_row_border(row, :left)
-  end                         
+  end
 
   def get_row_border_right(row = 0)
     return get_row_border(row, :right)
