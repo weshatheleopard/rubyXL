@@ -40,6 +40,7 @@ module RubyXL
   end
 
   class PrinterSettingsFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
   end
 
@@ -77,9 +78,9 @@ module RubyXL
   end
 
   class VMLDrawingFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.vmlDrawing'
 #    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
-
   end
 
   class ChartColorsFile < GenericStorageObject
@@ -109,7 +110,7 @@ module RubyXL
   end
 
   class BinaryImageFile < GenericStorageObject
-#    CONTENT_TYPE = 'image/jpeg'
+    CONTENT_TYPE = 'image/jpeg'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
   end
 
@@ -119,6 +120,7 @@ module RubyXL
 
   class ThumbnailFile < GenericStorageObject
     REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
+    CONTENT_TYPE = 'image/x-wmf'
   end
 
   class ChartUserShapesFile < GenericStorageObject

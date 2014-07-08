@@ -15,6 +15,7 @@ module RubyXL
   end
 
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-package.relationships+xml'
     SAVE_ORDER = 100
 
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
