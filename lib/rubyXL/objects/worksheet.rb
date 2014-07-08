@@ -323,13 +323,13 @@ module RubyXL
     define_attribute(:shapeId,   :int, :required => true)
     define_attribute(:'r:id',    :string)
     define_element_name 'oleObject'
-  end                              
+  end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObjects-1.html
   class OLEObjects < OOXMLContainerObject
     define_child_node(RubyXL::OLEObject, :collection => true)
     define_element_name 'oleObjects'
-  end                              
+  end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataRef-1.html
   class DataConsolidationReference < OOXMLObject
@@ -381,7 +381,7 @@ module RubyXL
         # But, things can be more complex:
         # <selection activeCell="E8" activeCellId="2" sqref="A4:B4 C6:D6 E8:F8"/>
         # Not using .reverse.each here to avoid memory reallocation.
-        @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) } 
+        @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) }
       end
       true
     end
@@ -674,7 +674,7 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
                    'urn:schemas-microsoft-com:mac:vml' => 'mv')
 
-    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments, :printer_settings
+    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
@@ -722,8 +722,9 @@ module RubyXL
     end
 
     def xlsx_path
-      File.join('xl', 'worksheets', "sheet#{file_index}.xml")
+      ROOT.join('xl', 'worksheets', "sheet#{file_index}.xml")
     end
+
     def self.parse(param)
       sheet_obj = super
       sheet_obj.sheet_data.rows.each { |r|

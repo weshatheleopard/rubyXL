@@ -19,8 +19,8 @@ module RubyXL
 
     def initialize(*params)
       super
-      # So far, going by the structure that the original creator had in mind. However, 
-      # since the actual implementation is now extracted into a separate class, 
+      # So far, going by the structure that the original creator had in mind. However,
+      # since the actual implementation is now extracted into a separate class,
       # we will be able to transparrently change it later if needs be.
       @index_by_content = {}
     end
@@ -48,11 +48,11 @@ module RubyXL
     def get_index(str, add_if_missing = false)
       index = @index_by_content[str]
       index = add(str) if index.nil? && add_if_missing
-      index 
+      index
     end
 
     def xlsx_path
-      File.join('xl', 'sharedStrings.xml')
+      ROOT.join('xl', 'sharedStrings.xml')
     end
 
   end

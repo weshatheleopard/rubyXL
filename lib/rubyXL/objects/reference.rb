@@ -19,7 +19,7 @@ module RubyXL
         from, to = params[0].split(':')
         row_from, col_from = self.class.ref2ind(from)
         row_to, col_to = self.class.ref2ind(to) unless to.nil?
-      end      
+      end
 
       @row_range = Range.new(row_from || 0, row_to || row_from || ROW_MAX)
       @col_range = Range.new(col_from || 0, col_to || col_from || COL_MAX)
@@ -50,7 +50,7 @@ module RubyXL
     end
 
     def cover?(other)
-      !other.nil? && (@row_range.cover?(other.row_range.begin) && @row_range.cover?(other.row_range.end) && 
+      !other.nil? && (@row_range.cover?(other.row_range.begin) && @row_range.cover?(other.row_range.end) &&
                       @col_range.cover?(other.col_range.begin) && @col_range.cover?(other.col_range.end))
     end
 
@@ -92,7 +92,7 @@ module RubyXL
       col = 0
       $1.each_byte { |chr| col = col * 26 + (chr - 64) }
       [ $2.to_i - 1, col - 1 ]
-    end  
+    end
 
   end
 

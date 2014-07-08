@@ -4,14 +4,14 @@ module RubyXL
   module OOXMLObjectClassMethods
     # Get the value of a [sub]class variable if it exists, or create the respective variable
     # with the passed-in +default+ (or +{}+, if not specified)
-    # 
+    #
     # Throughout this class, we are setting class variables through explicit method calls
     # rather than by directly addressing the name of the variable because of context issues:
     # addressing variable by name creates it in the context of defining class, while calling
-    # the setter/getter method addresses it in the context of descendant class, 
+    # the setter/getter method addresses it in the context of descendant class,
     # which is what we need.
     def obtain_class_variable(var_name, default = {})
-      if class_variable_defined?(var_name) then 
+      if class_variable_defined?(var_name) then
         self.class_variable_get(var_name)
       else
         self.class_variable_set(var_name, default)
@@ -52,7 +52,7 @@ module RubyXL
       attrs[attr_name.to_s] = attr_hash
       self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
     end
-   
+
     # Defines a child node of OOXML object.
     # === Parameters
     # * +klass+ - Class (descendant of RubyXL::OOXMLObject) of the child nodes. Child node objects will be produced by calling +parse+ method of that class.
@@ -78,7 +78,7 @@ module RubyXL
       child_node_name = (extra_params[:node_name] || klass.class_variable_get(:@@ooxml_tag_name)).to_s
       accessor = (extra_params[:accessor] || accessorize(child_node_name)).to_sym
 
-      child_nodes[child_node_name] = { 
+      child_nodes[child_node_name] = {
         :class => klass,
         :is_array => extra_params[:collection],
         :accessor => accessor
@@ -93,9 +93,9 @@ module RubyXL
       define_attribute(:count, :uint, :required => true)
     end
     private :define_count_attribute
- 
+
     # Defines the name of the element that represents the current OOXML object. Should only be used once per object.
-    # In case of different objects represented by the same class in different parts of OOXML tree, +:node_name+ 
+    # In case of different objects represented by the same class in different parts of OOXML tree, +:node_name+
     # extra parameter can be used to override the default element name.
     # === Parameters
     # * +element_name+
@@ -145,7 +145,7 @@ module RubyXL
           prefix = known_namespaces[ns.href] || ns.prefix
 
           child_node_name = case prefix
-                            when '', nil then child_node.name 
+                            when '', nil then child_node.name
                             else "#{prefix}:#{child_node.name}"
                             end
 
@@ -196,7 +196,7 @@ module RubyXL
                 v = Integer(raw_value)
                 raise ArgumentError.new("invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
                 v
-              end              
+              end
       obj.send("#{params[:accessor]}=", val)
     end
 
@@ -237,7 +237,7 @@ module RubyXL
     end
     private :init_child_nodes
 
-    # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual 
+    # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual
     # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
     # returns +false+, an empty string is returned (rather than +nil+, so Nokogiri::XML's <tt>&lt;&lt;</tt> operator
     # can be used without additional +nil+ checking)
@@ -293,7 +293,7 @@ module RubyXL
         node_obj = get_node_object(child_node_params)
         next if node_obj.nil?
 
-        if node_obj.respond_to?(:write_xml) && !node_obj.equal?(self) then 
+        if node_obj.respond_to?(:write_xml) && !node_obj.equal?(self) then
           # If child node is either +OOXMLObject+, or +OOXMLContainerObject+ on its first (envelope) pass,
           # serialize that object.
           elem << node_obj.write_xml(xml, child_node_name)
@@ -313,7 +313,7 @@ module RubyXL
     end
 
     # Prototype method. For sparse collections (+Rows+, +Cells+, etc.) must return index at which this object
-    # is expected to reside in the collection. If +nil+ is returned, then object is simply added 
+    # is expected to reside in the collection. If +nil+ is returned, then object is simply added
     # to the end of the collection.
     def index_in_collection
       nil
@@ -333,7 +333,7 @@ module RubyXL
       child_nodes.each_pair { |child_node_name, child_node_params|
         self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
       }
-      true 
+      true
     end
 
   end
@@ -396,6 +396,7 @@ module RubyXL
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
   class OOXMLTopLevelObject < OOXMLObject
     SAVE_ORDER = 500
+    ROOT = ::Pathname.new('/')
 
     attr_accessor :root
 
@@ -420,7 +421,7 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(dirpath, file_path = nil)
-      file_path = ::Pathname.new(file_path || self.xlsx_path)
+      file_path = file_path || self.xlsx_path
 
       case dirpath
       when String then
@@ -442,7 +443,7 @@ module RubyXL
     def add_to_zip(zip_stream)
       xml_string = write_xml
       return if xml_string.empty?
-      zip_stream.put_next_entry(self.xlsx_path)
+      zip_stream.put_next_entry(self.xlsx_path.relative_path_from(::Pathname.new("/")))
       zip_stream.write(xml_string)
     end
 

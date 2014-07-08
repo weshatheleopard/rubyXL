@@ -190,11 +190,11 @@ module RubyXL
                                 isometricOffAxis3Left isometricOffAxis3Right isometricOffAxis3Bottom
                                 isometricOffAxis4Left isometricOffAxis4Right isometricOffAxis4Bottom
                                 obliqueTopLeft obliqueTop obliqueTopRight obliqueLeft obliqueRight obliqueBottomLeft
-                                obliqueBottom obliqueBottomRight perspectiveFront perspectiveLeft perspectiveRight 
+                                obliqueBottom obliqueBottomRight perspectiveFront perspectiveLeft perspectiveRight
                                 perspectiveAbove perspectiveBelow perspectiveAboveLeftFacing perspectiveAboveRightFacing
                                 perspectiveContrastingLeftFacing perspectiveContrastingRightFacing
                                 perspectiveHeroicLeftFacing perspectiveHeroicRightFacing
-                                perspectiveHeroicExtremeLeftFacing perspectiveHeroicExtremeRightFacing 
+                                perspectiveHeroicExtremeLeftFacing perspectiveHeroicExtremeRightFacing
                                 perspectiveRelaxed perspectiveRelaxedModerately }
   ST_LightRigType         = %w{ legacyFlat1 legacyFlat2 legacyFlat3 legacyFlat4 legacyNormal1 legacyNormal2
                                 legacyNormal3 legacyNormal4 legacyHarsh1 legacyHarsh2 legacyHarsh3 legacyHarsh4

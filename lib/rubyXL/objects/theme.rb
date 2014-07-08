@@ -1358,7 +1358,7 @@ module RubyXL
     define_child_node(RubyXL::CT_ColorSchemeAndMapping, :collection => [0..-1])
     define_element_name 'a:extraClrSchemeLst'
   end
-  
+
   # http://www.schemacentral.com/sc/ooxml/e-a_custClr-1.html
   class CustomColor < OOXMLObject
     define_child_node(RubyXL::CT_ScRgbColor)
@@ -1394,7 +1394,7 @@ module RubyXL
     set_namespaces('http://schemas.openxmlformats.org/drawingml/2006/main' => 'a')
 
     def xlsx_path
-      File.join('xl', 'theme', 'theme1.xml')
+      ROOT.join('xl', 'theme', 'theme1.xml')
     end
 
     def self.defaults
