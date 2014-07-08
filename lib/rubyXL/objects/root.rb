@@ -61,7 +61,7 @@ module RubyXL
     end
 
     def xlsx_path
-      ''
+      OOXMLTopLevelObject::ROOT
     end
 
     def self.parse_file(xl_file_path, opts)
@@ -70,7 +70,7 @@ module RubyXL
           root = self.new
           root.filepath = xl_file_path
           root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
-          root.load_relationships(zip_file)
+          root.load_relationships(zip_file, OOXMLTopLevelObject::ROOT)
           root.workbook.root = root
           root
         }

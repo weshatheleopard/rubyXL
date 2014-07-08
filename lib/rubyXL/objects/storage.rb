@@ -5,15 +5,15 @@ module RubyXL
 
     attr_accessor :xlsx_path, :data, :generic_storage
 
-    def initialize
-      @xlsx_path = nil
+    def initialize(file_path)
+      @xlsx_path = file_path
       @data = nil
       @generic_storage = []
     end
 
     def self.parse_file(dirpath, file_path = nil)
       file_path ||= self.xlsx_path
-      obj = self.new
+      obj = self.new(file_path)
 
       case dirpath
       when String then
@@ -21,12 +21,12 @@ module RubyXL
         return nil unless File.exist?(full_path)
         obj.data = File.open(full_path, 'r') { |f| f.read }
       when Zip::File then
+        file_path = file_path.relative_path_from(::Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
         entry = dirpath.find_entry(file_path)
         return nil if entry.nil?
         obj.data = entry.get_input_stream { |f| f.read }
       end
 
-      obj.xlsx_path = file_path
       obj
     end
 

@@ -396,6 +396,7 @@ module RubyXL
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
   class OOXMLTopLevelObject < OOXMLObject
     SAVE_ORDER = 500
+    ROOT = ::Pathname.new('/')
 
     attr_accessor :root
 
@@ -420,7 +421,7 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(dirpath, file_path = nil)
-      file_path = ::Pathname.new(file_path || self.xlsx_path)
+      file_path = file_path || self.xlsx_path
 
       case dirpath
       when String then
@@ -442,7 +443,7 @@ module RubyXL
     def add_to_zip(zip_stream)
       xml_string = write_xml
       return if xml_string.empty?
-      zip_stream.put_next_entry(self.xlsx_path)
+      zip_stream.put_next_entry(self.xlsx_path.relative_path_from(::Pathname.new("/")))
       zip_stream.write(xml_string)
     end
 
