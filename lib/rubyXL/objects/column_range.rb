@@ -50,7 +50,7 @@ module RubyXL
         new_range = RubyXL::ColumnRange.new(:min => col_num, :max => col_num)
         self.column_ranges << new_range
         return new_range
-      elsif old_range.min == col_num && 
+      elsif old_range.min == col_num &&
               old_range.max == col_num then # Single column range, OK to change in place
         return old_range
       else

@@ -27,7 +27,7 @@ module RubyXL
     @@debug = nil # Change to 0 to enable debug output
 
     def new_relationship(target, type)
-      RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}", 
+      RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
                                :type => type,
                                :target => target)
     end
@@ -50,7 +50,7 @@ module RubyXL
     end
 
     def find_by_target(target)
-      relationships.find { |r| 
+      relationships.find { |r|
         (r.target == target) || (r.target == target.relative_path_from(owner.xlsx_path.dirname))
       }
     end
@@ -127,7 +127,7 @@ module RubyXL
         related_objects.compact.each { |f| add_relationship(f) }
       end
       super
-    end 
+    end
 
     def self.rel_file_path(base_file_path)
       basename = base_file_path.root? ? '' : base_file_path.basename
@@ -136,7 +136,7 @@ module RubyXL
 
   end
 
-	
+
   module RelationshipSupport
 
     module ClassMehods
@@ -199,7 +199,7 @@ module RubyXL
         end
       else store_relationship(rf, :unknown)
       end
-    end 
+    end
 
     def store_relationship(related_file, unknown = false)
       self.generic_storage ||= []

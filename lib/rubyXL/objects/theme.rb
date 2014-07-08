@@ -1358,7 +1358,7 @@ module RubyXL
     define_child_node(RubyXL::CT_ColorSchemeAndMapping, :collection => [0..-1])
     define_element_name 'a:extraClrSchemeLst'
   end
-  
+
   # http://www.schemacentral.com/sc/ooxml/e-a_custClr-1.html
   class CustomColor < OOXMLObject
     define_child_node(RubyXL::CT_ScRgbColor)

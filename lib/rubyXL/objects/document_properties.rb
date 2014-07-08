@@ -63,7 +63,7 @@ module RubyXL
       worksheets = chartsheets = 0
 
       workbook.worksheets.each { |sheet|
-        add_part_title(sheet.sheet_name) 
+        add_part_title(sheet.sheet_name)
 
         case sheet
         when RubyXL::Worksheet  then worksheets += 1

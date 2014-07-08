@@ -27,7 +27,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_top10-1.html
   class Top10 < OOXMLObject
-    define_attribute(:top,       :bool,  :default  => true)	
+    define_attribute(:top,       :bool,  :default  => true)
     define_attribute(:percent,   :bool,  :default  => false)
     define_attribute(:val,       :double, :required => true)
     define_attribute(:filterVal, :double)
@@ -74,7 +74,7 @@ module RubyXL
   class AutoFilterColumn < OOXMLObject
     define_attribute(:colId,        :int,  :required => true)
     define_attribute(:hiddenButton, :bool, :default  => false)
-    define_attribute(:showButton,   :bool, :default  => true)	
+    define_attribute(:showButton,   :bool, :default  => true)
     define_child_node(RubyXL::FilterContainer)
     define_child_node(RubyXL::Top10)
     define_child_node(RubyXL::CustomFilters)

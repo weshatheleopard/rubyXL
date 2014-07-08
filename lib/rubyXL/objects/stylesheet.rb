@@ -81,7 +81,7 @@ module RubyXL
     define_element_name 'cellXfs'
 
     def self.defaults
-      self.new(:_ => [ 
+      self.new(:_ => [
                  RubyXL::XF.new(
                    :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
                  )
@@ -201,7 +201,7 @@ module RubyXL
 
     def get_number_format_by_id(format_id)
       @format_hash ||= {}
-      
+
       if @format_hash[format_id].nil? then
         @format_hash[format_id] = NumberFormats::DEFAULT_NUMBER_FORMATS.find_by_format_id(format_id) ||
                                     (number_formats && number_formats.find_by_format_id(format_id))
