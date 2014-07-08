@@ -38,6 +38,7 @@ module RubyXL
       overrides << RubyXL::ContentTypeOverride.new(:part_name => obj.xlsx_path, :content_type => obj.class::CONTENT_TYPE)
     end
 
+require 'pp'
     def before_write_xml
       self.defaults = []
 
@@ -48,14 +49,17 @@ module RubyXL
 
         arr.each { |x|
 
-puts "file=#{x.xlsx_path}, ext=#{File.extname(x.xlsx_path)[1..-1]}"
+puts "file=#{x.xlsx_path}, ext=#{x.xlsx_path.extname[1..-1]}"
 puts x.class::CONTENT_TYPE if klass.const_defined?(:CONTENT_TYPE)
 
-          ext = File.extname(x.xlsx_path)[1..-1]
+          ext = x.xlsx_path.extname[1..-1]
           hsh[ext] ||= []
           hsh[ext] << klass::CONTENT_TYPE if klass.const_defined?(:CONTENT_TYPE)
         }
       }
+
+
+
 
       hsh.each_pair { |ext, content_types|
         next if ext.nil?
@@ -67,7 +71,7 @@ puts x.class::CONTENT_TYPE if klass.const_defined?(:CONTENT_TYPE)
         end
       }
 
-puts hsh.inspect
+::PP.pp hsh
 
       defaults << RubyXL::ContentTypeDefault.new(:extension => 'xml', :content_type => 'application/xml' )
 
