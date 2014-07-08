@@ -38,8 +38,6 @@ module RubyXL
       stream = Zip::OutputStream.write_buffer { |zipstream|
         self.rels_hash = {}
         self.relationship_container.owner = self
-        self.content_types.overrides = []
-        self.content_types.owner = self
         collect_related_objects.compact.each { |obj|
           puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
           obj.root = self if obj.respond_to?(:root=)
@@ -51,7 +49,6 @@ module RubyXL
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
           self.rels_hash[klass].each { |obj|
             puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
-            self.content_types.add_override(obj)
             obj.add_to_zip(zipstream)
           }
         }

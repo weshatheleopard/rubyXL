@@ -674,7 +674,7 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
                    'urn:schemas-microsoft-com:mac:vml' => 'mv')
 
-    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels, :comments, :printer_settings
+    attr_accessor :workbook, :state, :sheet_name, :sheet_id, :rels
 
     def before_write_xml # This method may need to be moved higher in the hierarchy
       first_nonempty_row = nil
