@@ -25,7 +25,7 @@ module RubyXL
     set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '')
 
     def xlsx_path
-      File.join('xl', 'calcChain.xml')
+      Pathname.new('/').join('xl', 'calcChain.xml')
     end
   end
 end

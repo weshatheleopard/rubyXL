@@ -26,7 +26,7 @@ module RubyXL
     define_element_name 'Types'
 
     def self.xlsx_path
-      '[Content_Types].xml'
+      Pathname.new('/').join('[Content_Types].xml')
     end
 
     def xlsx_path
@@ -36,7 +36,7 @@ module RubyXL
 
     def add_override(obj)
       return unless obj.class.const_defined?(:CONTENT_TYPE)
-      overrides << RubyXL::ContentTypeOverride.new(:part_name => "/#{obj.xlsx_path}", :content_type => obj.class::CONTENT_TYPE)
+      overrides << RubyXL::ContentTypeOverride.new(:part_name => obj.xlsx_path, :content_type => obj.class::CONTENT_TYPE)
     end
 
     def before_write_xml

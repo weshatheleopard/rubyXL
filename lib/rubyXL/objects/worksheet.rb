@@ -722,8 +722,9 @@ module RubyXL
     end
 
     def xlsx_path
-      File.join('xl', 'worksheets', "sheet#{file_index}.xml")
+      Pathname.new('/').join('xl', 'worksheets', "sheet#{file_index}.xml")
     end
+
     def self.parse(param)
       sheet_obj = super
       sheet_obj.sheet_data.rows.each { |r|

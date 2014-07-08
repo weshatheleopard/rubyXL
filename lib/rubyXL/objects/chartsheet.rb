@@ -84,7 +84,7 @@ module RubyXL
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
 
     def xlsx_path
-      File.join('xl', 'chartsheets', "sheet#{file_index}.xml")
+      Pathname.new('/').join('xl', 'chartsheets', "sheet#{file_index}.xml")
     end
 
   end

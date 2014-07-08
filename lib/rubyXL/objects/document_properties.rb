@@ -82,7 +82,7 @@ module RubyXL
     end
 
     def xlsx_path
-      File.join('docProps', 'app.xml')
+      Pathname.new('/').join('docProps', 'app.xml')
     end
 
   end
@@ -119,7 +119,7 @@ module RubyXL
     define_element_name 'cp:coreProperties'
 
     def xlsx_path
-      File.join('docProps', 'core.xml')
+      Pathname.new('/').join('docProps', 'core.xml')
     end
 
     def creator

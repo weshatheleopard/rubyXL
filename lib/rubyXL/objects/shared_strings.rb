@@ -52,7 +52,7 @@ module RubyXL
     end
 
     def xlsx_path
-      File.join('xl', 'sharedStrings.xml')
+      Pathname.new('/').join('xl', 'sharedStrings.xml')
     end
 
   end

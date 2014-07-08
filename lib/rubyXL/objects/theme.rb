@@ -1394,7 +1394,7 @@ module RubyXL
     set_namespaces('http://schemas.openxmlformats.org/drawingml/2006/main' => 'a')
 
     def xlsx_path
-      File.join('xl', 'theme', 'theme1.xml')
+      Pathname.new('/').join('xl', 'theme', 'theme1.xml')
     end
 
     def self.defaults
