@@ -26,7 +26,7 @@ module RubyXL
     define_element_name 'Types'
 
     def self.xlsx_path
-      Pathname.new('/').join('[Content_Types].xml')
+      ROOT.join('[Content_Types].xml')
     end
 
     def xlsx_path

@@ -722,7 +722,7 @@ module RubyXL
     end
 
     def xlsx_path
-      Pathname.new('/').join('xl', 'worksheets', "sheet#{file_index}.xml")
+      ROOT.join('xl', 'worksheets', "sheet#{file_index}.xml")
     end
 
     def self.parse(param)

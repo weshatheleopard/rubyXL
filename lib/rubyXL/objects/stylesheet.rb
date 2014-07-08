@@ -187,7 +187,7 @@ module RubyXL
     end
 
     def xlsx_path
-      Pathname.new('/').join('xl', 'styles.xml')
+      ROOT.join('xl', 'styles.xml')
     end
 
     def self.default

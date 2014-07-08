@@ -427,7 +427,7 @@ module RubyXL
     end
 
     def xlsx_path
-      Pathname.new('/').join('xl', 'workbook.xml')
+      ROOT.join('xl', 'workbook.xml')
     end
 
     include LegacyWorkbook

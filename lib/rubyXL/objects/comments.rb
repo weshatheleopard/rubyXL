@@ -38,7 +38,7 @@ module RubyXL
     attr_accessor :workbook
 
     def xlsx_path
-      Pathname.new('/').join('xl', "comments#{file_index}.xml")
+      ROOT.join('xl', "comments#{file_index}.xml")
     end
 
   end

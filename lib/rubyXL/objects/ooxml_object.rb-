@@ -10,13 +10,25 @@ module RubyXL
     # addressing variable by name creates it in the context of defining class, while calling
     # the setter/getter method addresses it in the context of descendant class, 
     # which is what we need.
-    def obtain_class_variable(var_name, default = {})
-      if class_variable_defined?(var_name) then 
-        self.class_variable_get(var_name)
-      else
-        self.class_variable_set(var_name, default)
-      end
+#    def obtain_class_variable(var_name, default = {})
+#      if class_variable_defined?(var_name) then 
+#        self.class_variable_get(var_name)
+#      else
+#        self.class_variable_set(var_name, default)
+#      end
+#    end
+
+    def inherited(klass)
+      return if klass.is_a?(RubyXL::OOXMLTopLevelObject) || klass.is_a?(RubyXL::OOXMLRelationshipsFile)
+
+puts "#{self.inspect} inherited by #{klass.inspect}"
+      klass.class_variable_set(:@@ooxml_attributes,  {})
+      klass.class_variable_set(:@@ooxml_child_nodes, {})
+      klass.class_variable_set(:@@ooxml_namespaces,  {})
+      klass.class_variable_set(:@@ooxml_tag_name,    nil)
+      klass.class_variable_set(:@@ooxml_countable,   false)
     end
+ 
 
     # Defines an attribute of OOXML object.
     # === Parameters
@@ -46,7 +58,7 @@ module RubyXL
     #   define_attribute(:errorStyle, %w{ stop warning information }, :default => 'stop',)
     # A <tt>String</tt> attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are <tt>"stop"</tt>, <tt>"warning"</tt>, <tt>"information"</tt>
     def define_attribute(attr_name, attr_type, extra_params = {})
-      attrs = obtain_class_variable(:@@ooxml_attributes)
+      attrs = class_variable_get(:@@ooxml_attributes)
       attr_hash = extra_params.merge({ :attr_type => attr_type })
       attr_hash[:accessor] ||= accessorize(attr_name)
       attrs[attr_name.to_s] = attr_hash
@@ -74,7 +86,7 @@ module RubyXL
     #   define_child_node(RubyXL::Font, :collection => :with_count, :accessor => :fonts)
     # Upon writing of the object this was defined on, its <tt>count</tt> attribute will be set to the count of nodes in <tt>fonts</tt> array
     def define_child_node(klass, extra_params = {})
-      child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
+      child_nodes = class_variable_get(:@@ooxml_child_nodes)
       child_node_name = (extra_params[:node_name] || klass.class_variable_get(:@@ooxml_tag_name)).to_s
       accessor = (extra_params[:accessor] || accessorize(child_node_name)).to_sym
 
@@ -117,7 +129,7 @@ module RubyXL
 
       obj = self.new
 
-      known_attributes = obtain_class_variable(:@@ooxml_attributes)
+      known_attributes = class_variable_get(:@@ooxml_attributes)
 
       content_params = known_attributes['_']
       process_attribute(obj, node.text, content_params) if content_params
@@ -134,10 +146,12 @@ module RubyXL
         process_attribute(obj, attr.value, attr_params) unless attr_params[:computed]
       }
 
-      known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
+puts self.inspect
+      known_child_nodes = class_variable_get(:@@ooxml_child_nodes)
+puts known_child_nodes.inspect
 
       unless known_child_nodes.empty?
-        known_namespaces ||= obtain_class_variable(:@@ooxml_namespaces)
+        known_namespaces ||= class_variable_get(:@@ooxml_namespaces)
 
         node.element_children.each { |child_node|
 
@@ -208,23 +222,23 @@ module RubyXL
       klass.extend RubyXL::OOXMLObjectClassMethods
     end
 
-    def obtain_class_variable(var_name, default = {})
-      self.class.obtain_class_variable(var_name, default)
-    end
-    private :obtain_class_variable
+#    def obtain_class_variable(var_name, default = {})
+#      self.class.class(var_name, default)
+#    end
+#    private :obtain_class_variable
 
     def initialize(params = {})
-      obtain_class_variable(:@@ooxml_attributes).each_value { |v|
+      self.class.class_variable_get(:@@ooxml_attributes).each_value { |v|
         instance_variable_set("@#{v[:accessor]}", params[v[:accessor]]) unless v[:computed]
       }
 
       init_child_nodes(params)
 
-      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
+      instance_variable_set("@count", 0) if self.class.class_variable_get(:@@ooxml_countable)
     end
 
     def init_child_nodes(params)
-      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
+      self.class.class_variable_get(:@@ooxml_child_nodes).each_value { |v|
 
         initial_value =
           if params.has_key?(v[:accessor]) then params[v[:accessor]]
@@ -365,7 +379,7 @@ module RubyXL
     protected :get_node_object
 
     def init_child_nodes(params)
-      obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
+      self.class.class_variable_get(:@@ooxml_child_nodes).each_value { |v|
         next if v[:is_array] # Only one collection node allowed per OOXMLContainerObject, and it is contained in itself.
         instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
       }
@@ -396,9 +410,6 @@ module RubyXL
   # their own <tt>.xml</tt> files in <tt>.xslx</tt> zip container.
   class OOXMLTopLevelObject < OOXMLObject
     SAVE_ORDER = 500
-    ROOT = ::Pathname.new('/')
-
-    attr_accessor :root
 
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xslx</tt> zip container.
@@ -421,7 +432,7 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(dirpath, file_path = nil)
-      file_path = file_path || self.xlsx_path
+      file_path = ::Pathname.new(file_path || self.xlsx_path)
 
       case dirpath
       when String then
@@ -443,12 +454,12 @@ module RubyXL
     def add_to_zip(zip_stream)
       xml_string = write_xml
       return if xml_string.empty?
-      zip_stream.put_next_entry(self.xlsx_path.relative_path_from(::Pathname.new("/")))
+      zip_stream.put_next_entry(self.xlsx_path)
       zip_stream.write(xml_string)
     end
 
     def file_index
-      root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
+      @workbook.root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
     end
 
   end
