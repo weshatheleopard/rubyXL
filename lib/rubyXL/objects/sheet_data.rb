@@ -27,7 +27,7 @@ module RubyXL
     define_attribute(:vm,  :int,  :default => 0)
     define_attribute(:ph,  :bool, :default => false)
     define_child_node(RubyXL::Formula,   :accessor => :formula)
-    define_child_node(RubyXL::CellValue, :accessor => :value_container) 
+    define_child_node(RubyXL::CellValue, :accessor => :value_container)
     define_child_node(RubyXL::RichText)    # is
     define_element_name 'c'
 
@@ -77,7 +77,7 @@ module RubyXL
       case datatype
       when RubyXL::DataType::SHARED_STRING then
         workbook.shared_strings_container[raw_value.to_i].to_s
-      else 
+      else
         if is_date? then workbook.num_to_date(raw_value.to_f)
         elsif raw_value.is_a?(String) && (raw_value =~ /\A-?\d+(\.\d+(?:e[+-]\d+)?)?\Z/i) # Numeric
           if $1 then raw_value.to_f

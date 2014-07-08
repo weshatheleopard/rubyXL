@@ -97,7 +97,7 @@ module RubyXL
     alias_method :write, :save
 
     def base_date
-      if date1904 then 
+      if date1904 then
         DateTime.new(1904, 1, 1)
       else
         # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
@@ -155,14 +155,14 @@ module RubyXL
     def modify_alignment(style_index, is_horizontal, alignment)
       xf = cell_xfs[style_index].dup
       xf.apply_alignment = true
-      xf.alignment = RubyXL::Alignment.new(:horizontal => is_horizontal ? alignment : nil, 
+      xf.alignment = RubyXL::Alignment.new(:horizontal => is_horizontal ? alignment : nil,
                                            :vertical   => is_horizontal ? nil : alignment)
       register_new_xf(xf, style_index)
     end
 
     def modify_fill(style_index, rgb)
       xf = cell_xfs[style_index].dup
-      new_fill = RubyXL::Fill.new(:pattern_fill => 
+      new_fill = RubyXL::Fill.new(:pattern_fill =>
                    RubyXL::PatternFill.new(:pattern_type => 'solid',
                                            :fg_color => RubyXL::Color.new(:rgb => rgb)))
       new_xf = register_new_fill(new_fill, xf)

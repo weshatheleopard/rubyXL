@@ -101,7 +101,7 @@ module RubyXL
     define_element_name 'fonts'
 
     def self.defaults
-      self.new(:_ => [ 
+      self.new(:_ => [
                  RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
                                   :sz => RubyXL::FloatValue.new(:val => 10) ),
                  RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
