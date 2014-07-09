@@ -51,12 +51,10 @@ module RubyXL
       content_types_by_ext.each_pair { |ext, content_types_arr|
         next if ext.nil? || defaults.any? { |d| d.extension == ext } 
 
-        counter = {}  # Count the number of occurrences of a given +content_type+.
-        content_types_arr.each { |ct| counter[ct] = (counter[ct] || 0) + 1 }
-        most_used_content_type = counter.to_a.max_by{ |pair| pair.last }.first
+        type_counts = content_types_arr.each_with_object(Hash.new(0)) { |ct, counts| counts[ct] += 1 }
 
         defaults << RubyXL::ContentTypeDefault.new(:extension => ext,
-                                                   :content_type => most_used_content_type)
+                                                   :content_type => type_counts.max_by{ |k, v| v }.first)
       }
 
       self.overrides = []
