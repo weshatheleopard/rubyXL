@@ -50,11 +50,8 @@ module RubyXL
       # Determine which content types are used most often, and add them to the list of defaults
       content_types_by_ext.each_pair { |ext, content_types_arr|
         next if ext.nil? || defaults.any? { |d| d.extension == ext } 
-
-        type_counts = content_types_arr.each_with_object(Hash.new(0)) { |ct, counts| counts[ct] += 1 }
-
-        defaults << RubyXL::ContentTypeDefault.new(:extension => ext,
-                                                   :content_type => type_counts.max_by{ |k, v| v }.first)
+        most_frequent_ct = content_types_arr.group_by { |ct| ct }.values.max_by(&:size).first
+        defaults << RubyXL::ContentTypeDefault.new(:extension => ext, :content_type => most_frequent_ct )
       }
 
       self.overrides = []
