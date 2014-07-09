@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Cell - rubyXL 3.1.2</title>
+<title>class RubyXL::Cell - rubyXL 3.2.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -467,7 +467,7 @@ Ruby (that includes stripping any special formatting from RichText).</p>
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">datatype</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">shared_strings_container</span>[<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_i</span>].<span class="ruby-identifier">to_s</span>
-  <span class="ruby-keyword">else</span> 
+  <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_date?</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_f</span>)
     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A-?\d+(\.\d+(?:e[+-]\d+)?)?\Z/i</span>) <span class="ruby-comment"># Numeric</span>
       <span class="ruby-keyword">if</span> <span class="ruby-node">$1</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">to_f</span>
