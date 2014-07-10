@@ -420,21 +420,11 @@ module RubyXL
     # directory containing the unzipped contents of <tt>.xslx</tt>
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
-    def self.parse_file(dirpath, file_path = nil)
-      file_path = file_path || self.xlsx_path
-
-      case dirpath
-      when String then
-        full_path = File.join(dirpath, file_path)
-        return nil unless File.exist?(full_path)
-        # Making sure that the file will be automatically closed immediately after it has been read
-        File.open(full_path, 'r') { |f| parse(f) }
-      when Zip::File then
-        file_path = file_path.relative_path_from(ROOT) if file_path.absolute? # Zip doesn't like absolute paths.
-        entry = dirpath.find_entry(file_path)
-        # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream
-        entry && (entry.get_input_stream { |f| parse(defined?(JRUBY_VERSION) ? f.read : f) })
-      end
+    def self.parse_file(zip_file, file_path)
+      file_path = file_path.relative_path_from(ROOT) if file_path.absolute? # Zip doesn't like absolute paths.
+      entry = zip_file.find_entry(file_path)
+      # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream
+      entry && (entry.get_input_stream { |f| parse(defined?(JRUBY_VERSION) ? f.read : f) })
     end
 
     # Saves the contents of the object as XML to respective location in <tt>.xslx</tt> zip container.
