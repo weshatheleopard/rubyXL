@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ContentTypes - rubyXL 3.1.2</title>
+<title>class RubyXL::ContentTypes - rubyXL 3.2.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -75,8 +75,6 @@
     
     <li ><a href="#method-c-xlsx_path">::xlsx_path</a>
     
-    <li ><a href="#method-i-add_override">#add_override</a>
-    
     <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
     
     <li ><a href="#method-i-xlsx_path">#xlsx_path</a>
@@ -121,27 +119,6 @@
     
 
     
-    <section class="attribute-method-details" class="method-section">
-      <header>
-        <h3>Attributes</h3>
-      </header>
-
-      
-      <div id="attribute-i-owner" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">owner</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-    </section>
-    
 
     
      <section id="public-class-5Buntitled-5D-method-details" class="method-section">
@@ -169,9 +146,9 @@
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-string">'[Content_Types].xml'</span>
+  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;[Content_Types].xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -189,40 +166,6 @@
        <header>
          <h3>Public Instance Methods</h3>
        </header>
-
-    
-      <div id="method-i-add_override" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">add_override</span><span
-            class="method-args">(obj)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="add_override-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 37</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_override</span>(<span class="ruby-identifier">obj</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:CONTENT_TYPE</span>)
-  <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-node">&quot;/#{obj.xlsx_path}&quot;</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
 
     
       <div id="method-i-before_write_xml" class="method-detail ">
@@ -244,25 +187,48 @@
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defaults</span> = []
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">owner</span>.<span class="ruby-identifier">rels_hash</span>[<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PrinterSettingsFile</span>] <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'bin'</span>,
-                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings'</span>)
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">content_types_by_ext</span> = {}
 
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'rels'</span>,
-                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-package.relationships+xml'</span> )
+  <span class="ruby-comment"># Collect all extensions and corresponding content types</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">rels_hash</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">klass</span>, <span class="ruby-identifier">objects</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">objects</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">obj</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:CONTENT_TYPE</span>)
+      <span class="ruby-identifier">ext</span> = <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">xlsx_path</span>.<span class="ruby-identifier">extname</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>]
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">ext</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">content_types_by_ext</span>[<span class="ruby-identifier">ext</span>] <span class="ruby-operator">||=</span> []
+      <span class="ruby-identifier">content_types_by_ext</span>[<span class="ruby-identifier">ext</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">klass</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span> 
+    }
+  }
 
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'xml'</span>,
-                  <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/xml'</span> )
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defaults</span> = [ <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;xml&#39;</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;application/xml&#39;</span>) ]
 
-  <span class="ruby-comment"># TODO: Need to only write these types when respective content is actually present.</span>
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'jpeg'</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'image/jpeg'</span>)
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'png'</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'image/png'</span>)
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'wmf'</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'image/x-wmf'</span>)
-  <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'vml'</span>, <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/vnd.openxmlformats-officedocument.vmlDrawing'</span>)
+  <span class="ruby-comment"># Determine which content types are used most often, and add them to the list of defaults</span>
+  <span class="ruby-identifier">content_types_by_ext</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ext</span>, <span class="ruby-identifier">content_types_arr</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">ext</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">defaults</span>.<span class="ruby-identifier">any?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> <span class="ruby-identifier">d</span>.<span class="ruby-identifier">extension</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ext</span> } 
+
+    <span class="ruby-identifier">counter</span> = {}  <span class="ruby-comment"># Count the number of occurrences of a given +content_type+.</span>
+    <span class="ruby-identifier">content_types_arr</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ct</span><span class="ruby-operator">|</span> <span class="ruby-identifier">counter</span>[<span class="ruby-identifier">ct</span>] = (<span class="ruby-identifier">counter</span>[<span class="ruby-identifier">ct</span>] <span class="ruby-operator">||</span> <span class="ruby-value">0</span>) <span class="ruby-operator">+</span> <span class="ruby-value">1</span> }
+    <span class="ruby-identifier">most_used_content_type</span> = <span class="ruby-identifier">counter</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">max_by</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">last</span> }.<span class="ruby-identifier">first</span>
+
+    <span class="ruby-identifier">defaults</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeDefault</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:extension</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ext</span>,
+                                               <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">most_used_content_type</span>)
+  }
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">overrides</span> = []
+
+  <span class="ruby-comment"># Add overrides for the files with known extensions but different content types.</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">rels_hash</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">klass</span>, <span class="ruby-identifier">objects</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">objects</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">obj</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">klass</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>)
+      <span class="ruby-identifier">ext</span> = <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">xlsx_path</span>.<span class="ruby-identifier">extname</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>]
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">ext</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">defaults</span>.<span class="ruby-identifier">any?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">d</span>.<span class="ruby-identifier">content_type</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">klass</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">d</span>.<span class="ruby-identifier">extension</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ext</span>) }
+      <span class="ruby-identifier">overrides</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypeOverride</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:part_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">xlsx_path</span>,
+                                                   <span class="ruby-value">:content_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">klass</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>)
+    }
+  }
 
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -295,7 +261,7 @@
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 32</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/content_types.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">xlsx_path</span>
 <span class="ruby-keyword">end</span></pre>
