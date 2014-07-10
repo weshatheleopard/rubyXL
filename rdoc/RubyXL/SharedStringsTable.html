@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::SharedStringsTable - rubyXL 3.1.2</title>
+<title>class RubyXL::SharedStringsTable - rubyXL 3.2.0</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -170,8 +170,8 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-keyword">super</span>
-  <span class="ruby-comment"># So far, going by the structure that the original creator had in mind. However, </span>
-  <span class="ruby-comment"># since the actual implementation is now extracted into a separate class, </span>
+  <span class="ruby-comment"># So far, going by the structure that the original creator had in mind. However,</span>
+  <span class="ruby-comment"># since the actual implementation is now extracted into a separate class,</span>
   <span class="ruby-comment"># we will be able to transparrently change it later if needs be.</span>
   <span class="ruby-ivar">@index_by_content</span> = {}
 <span class="ruby-keyword">end</span></pre>
@@ -357,7 +357,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_index</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">add_if_missing</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">index</span> = <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">str</span>]
   <span class="ruby-identifier">index</span> = <span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">add_if_missing</span>
-  <span class="ruby-identifier">index</span> 
+  <span class="ruby-identifier">index</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -390,7 +390,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 54</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'sharedStrings.xml'</span>)
+  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;sharedStrings.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
