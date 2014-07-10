@@ -430,7 +430,7 @@ module RubyXL
         # Making sure that the file will be automatically closed immediately after it has been read
         File.open(full_path, 'r') { |f| parse(f) }
       when Zip::File then
-        file_path = file_path.relative_path_from(::Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
+        file_path = file_path.relative_path_from(ROOT) if file_path.absolute? # Zip doesn't like absolute paths.
         entry = dirpath.find_entry(file_path)
         # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream
         entry && (entry.get_input_stream { |f| parse(defined?(JRUBY_VERSION) ? f.read : f) })
@@ -443,7 +443,7 @@ module RubyXL
     def add_to_zip(zip_stream)
       xml_string = write_xml
       return if xml_string.empty?
-      zip_stream.put_next_entry(self.xlsx_path.relative_path_from(::Pathname.new("/")))
+      zip_stream.put_next_entry(self.xlsx_path.relative_path_from(ROOT))
       zip_stream.write(xml_string)
     end
 

@@ -21,7 +21,7 @@ module RubyXL
         return nil unless File.exist?(full_path)
         obj.data = File.open(full_path, 'r') { |f| f.read }
       when Zip::File then
-        file_path = file_path.relative_path_from(::Pathname.new("/")) if file_path.absolute? # Zip doesn't like absolute paths.
+        file_path = file_path.relative_path_from(OOXMLTopLevelObject::ROOT) if file_path.absolute? # Zip doesn't like absolute paths.
         entry = dirpath.find_entry(file_path)
         return nil if entry.nil?
         obj.data = entry.get_input_stream { |f| f.read }
@@ -33,7 +33,7 @@ module RubyXL
     def add_to_zip(zip_stream)
       return if @data.nil?
       path = self.xlsx_path
-      path = path.relative_path_from(Pathname.new("/")) if path.absolute? # Zip doesn't like absolute paths.
+      path = path.relative_path_from(OOXMLTopLevelObject::ROOT) if path.absolute? # Zip doesn't like absolute paths.
       zip_stream.put_next_entry(path)
       zip_stream.write(@data)
     end
