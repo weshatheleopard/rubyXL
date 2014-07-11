@@ -16,6 +16,7 @@ module RubyXL
 
   class ContentTypes < OOXMLTopLevelObject
     SAVE_ORDER = 999  # Must be saved last, so it has time to accumulate overrides from all others.
+    XLSX_PATH = ROOT.join('[Content_Types].xml')
 
     define_child_node(RubyXL::ContentTypeDefault,  :collection => true, :accessor => :defaults)
     define_child_node(RubyXL::ContentTypeOverride, :collection => true, :accessor => :overrides)
@@ -23,12 +24,8 @@ module RubyXL
     set_namespaces('http://schemas.openxmlformats.org/package/2006/content-types' => '')
     define_element_name 'Types'
 
-    def self.xlsx_path
-      ROOT.join('[Content_Types].xml')
-    end
-
     def xlsx_path
-      self.class.xlsx_path
+      XLSX_PATH
     end
 
     def before_write_xml

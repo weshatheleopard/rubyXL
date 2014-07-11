@@ -454,7 +454,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/gilt/rubyXL"
   s.licenses = ["MIT"]
-  s.rubygems_version = "2.2.2"
+  s.rubygems_version = "2.3.0"
   s.summary = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
 
   if s.respond_to? :specification_version then
