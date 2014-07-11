@@ -12,16 +12,12 @@ module RubyXL
     end
 
     def self.parse_file(zip_file, file_path)
-      path = file_path
-      path = path.relative_path_from(OOXMLTopLevelObject::ROOT) if path.absolute? # Zip doesn't like absolute paths.
-      (entry = zip_file.find_entry(path)) && self.new(file_path, entry.get_input_stream { |f| f.read })
+      (entry = zip_file.find_entry(RubyXL::from_root(file_path))) && self.new(file_path, entry.get_input_stream { |f| f.read })
     end
 
     def add_to_zip(zip_stream)
       return if @data.nil?
-      path = self.xlsx_path
-      path = path.relative_path_from(OOXMLTopLevelObject::ROOT) if path.absolute? # Zip doesn't like absolute paths.
-      zip_stream.put_next_entry(path)
+      zip_stream.put_next_entry(RubyXL::from_root(self.xlsx_path))
       zip_stream.write(@data)
     end
   end

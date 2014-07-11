@@ -1,4 +1,4 @@
-require 'pathname'
+require 'rubyXL/objects/reference'
 
 module RubyXL
   module OOXMLObjectClassMethods
@@ -106,7 +106,9 @@ module RubyXL
     end
 
     def parse(node, known_namespaces = nil)
-      node = Nokogiri::XML.parse(node) if node.is_a?(IO) || node.is_a?(String) || node.is_a?(Zip::InputStream)
+      case node
+      when String, IO, Zip::InputStream then node = Nokogiri::XML.parse(node)
+      end
 
       if node.is_a?(Nokogiri::XML::Document) then
         @namespaces = node.namespaces
@@ -421,8 +423,7 @@ module RubyXL
     # === Parameters
     # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
     def self.parse_file(zip_file, file_path)
-      file_path = file_path.relative_path_from(ROOT) if file_path.absolute? # Zip doesn't like absolute paths.
-      entry = zip_file.find_entry(file_path)
+      entry = zip_file.find_entry(RubyXL::from_root(file_path))
       # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream
       entry && (entry.get_input_stream { |f| parse(defined?(JRUBY_VERSION) ? f.read : f) })
     end
@@ -433,7 +434,7 @@ module RubyXL
     def add_to_zip(zip_stream)
       xml_string = write_xml
       return if xml_string.empty?
-      zip_stream.put_next_entry(self.xlsx_path.relative_path_from(ROOT))
+      zip_stream.put_next_entry(RubyXL::from_root(self.xlsx_path))
       zip_stream.write(xml_string)
     end
 

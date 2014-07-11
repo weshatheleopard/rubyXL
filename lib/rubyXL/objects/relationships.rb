@@ -74,11 +74,8 @@ module RubyXL
       self.relationships.each { |rel|
         next if rel.target_mode == 'External'
 
-        file_path = Pathname.new(rel.target)
-
-        if !file_path.absolute? then
-          file_path = (base_file_name.dirname + file_path).cleanpath
-        end
+        file_path = ::Pathname.new(rel.target)
+        file_path = (base_file_name.dirname + file_path).cleanpath if file_path.relative?
 
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
 

@@ -1,6 +1,5 @@
 require 'tmpdir'
 require 'date'
-require 'zip'
 
 module RubyXL
   module LegacyWorkbook
