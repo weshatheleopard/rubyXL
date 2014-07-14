@@ -1,4 +1,4 @@
-require 'rubyXL'
+require 'rubyxl'
 require 'benchmark'
 
 spreadsheets = Dir.glob(File.join("test", "input", "*.xls?")).sort!
