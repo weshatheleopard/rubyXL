@@ -6,7 +6,7 @@
   gem install rubyXL
 
 == To Use:
-  require 'rubyXL' # Assuming rubygems is already required
+  require 'rubyxl' # Assuming rubygems is already required
 
 === Parsing an existing workbook
   workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
