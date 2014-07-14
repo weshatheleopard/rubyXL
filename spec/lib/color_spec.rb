@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rubyXL'
+require 'rubyxl'
 
 describe RubyXL::Color do
   describe '.validate_color' do

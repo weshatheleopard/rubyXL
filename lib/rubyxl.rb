@@ -1,5 +1,5 @@
-require 'rubyXL/objects/root'
-require 'rubyXL/parser'
+require 'rubyxl/objects/root'
+require 'rubyxl/parser'
 
 module RubyXL
 
