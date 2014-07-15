@@ -221,8 +221,6 @@ module RubyXL
       }
 
       init_child_nodes(params)
-
-      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
 
     def init_child_nodes(params)
@@ -306,12 +304,6 @@ module RubyXL
         end
       }
       elem
-    end
-
-    def dup
-      new_copy = super
-      new_copy.count = 0 if obtain_class_variable(:@@ooxml_countable, false)
-      new_copy
     end
 
     # Prototype method. For sparse collections (+Rows+, +Cells+, etc.) must return index at which this object
