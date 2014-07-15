@@ -11,9 +11,9 @@ module RubyXL
     # the setter/getter method addresses it in the context of descendant class,
     # which is what we need.
     def obtain_class_variable(var_name, default = {})
-      if class_variable_defined?(var_name) then
+      begin
         self.class_variable_get(var_name)
-      else
+      rescue NameError
         self.class_variable_set(var_name, default)
       end
     end
