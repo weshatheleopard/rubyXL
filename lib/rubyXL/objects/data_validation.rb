@@ -26,7 +26,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidations-1.html
-  class DataValidations < OOXMLObject
+  class DataValidations < OOXMLContainerObject
     define_attribute(:disablePrompts, :bool, :default => false)
     define_attribute(:xWindow,        :int)
     define_attribute(:yWindow,        :int)

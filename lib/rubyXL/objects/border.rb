@@ -6,10 +6,6 @@ module RubyXL
   class BorderEdge < OOXMLObject
     define_attribute(:style, RubyXL::ST_BorderStyle, :default => 'none')
     define_child_node(RubyXL::Color)
-
-    def ==(other)
-      style == other.style
-    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_border-2.html
@@ -34,20 +30,6 @@ module RubyXL
     def set_edge_style(direction, style)
       self.send("#{direction}=", RubyXL::BorderEdge.new(:style => style))
     end
-
-    def ==(other)
-      (diagonal_up == other.diagonal_up) &&
-        (diagonal_down == other.diagonal_down) &&
-        (outline == other.outline) &&
-        (left == other.left) &&
-        (right == other.right) &&
-        (top == other.top) &&
-        (bottom == other.bottom) &&
-        (diagonal == other.diagonal) &&
-        (vertical == other.vertical) &&
-        (horizontal == other.horizontal)
-    end
-
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_borders-1.html
