@@ -11,11 +11,9 @@ module RubyXL
     # the setter/getter method addresses it in the context of descendant class,
     # which is what we need.
     def obtain_class_variable(var_name, default = {})
-      begin
-        self.class_variable_get(var_name)
-      rescue NameError
-        self.class_variable_set(var_name, default)
-      end
+      self.class_variable_get(var_name)
+    rescue NameError
+      self.class_variable_set(var_name, default)
     end
 
     # Defines an attribute of OOXML object.
