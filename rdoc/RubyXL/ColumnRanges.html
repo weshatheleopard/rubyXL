@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColumnRanges - rubyXL 3.2.0</title>
+<title>class RubyXL::ColumnRanges - rubyXL 3.2.1</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -212,7 +212,7 @@ existing column range into multiples.</p>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">column_ranges</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_range</span>
     <span class="ruby-keyword">return</span> <span class="ruby-identifier">new_range</span>
   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-operator">&amp;&amp;</span>
-          <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># Single column range, OK to change in place</span>
+          <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># Single column range, OK to change in place</span>
     <span class="ruby-keyword">return</span> <span class="ruby-identifier">old_range</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Range splitting not implemented yet&quot;</span>

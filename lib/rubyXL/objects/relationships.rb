@@ -35,13 +35,9 @@ module RubyXL
 
     def add_relationship(obj)
       return if obj.nil? || !defined?(obj.class::REL_TYPE)
-
-      file_path = Pathname.new(obj.xlsx_path)
-      owner_path = Pathname.new(owner.xlsx_path)
-
       relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
                                                 :type => obj.class::REL_TYPE,
-                                                :target => file_path.relative_path_from(owner_path.dirname))
+                                                :target => obj.xlsx_path.relative_path_from(owner.xlsx_path.dirname))
     end
     protected :add_relationship
 
@@ -78,11 +74,8 @@ module RubyXL
       self.relationships.each { |rel|
         next if rel.target_mode == 'External'
 
-        file_path = Pathname.new(rel.target)
-
-        if !file_path.absolute? then
-          file_path = (base_file_name.dirname + file_path).cleanpath
-        end
+        file_path = ::Pathname.new(rel.target)
+        file_path = (base_file_name.dirname + file_path).cleanpath if file_path.relative?
 
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
 

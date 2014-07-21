@@ -66,7 +66,7 @@ module RubyXL
         ::Zip::File.open(xl_file_path) { |zip_file|
           root = self.new
           root.filepath = xl_file_path
-          root.content_types = RubyXL::ContentTypes.parse_file(zip_file)
+          root.content_types = RubyXL::ContentTypes.parse_file(zip_file, ContentTypes::XLSX_PATH)
           root.load_relationships(zip_file, OOXMLTopLevelObject::ROOT)
           root.workbook.root = root
           root

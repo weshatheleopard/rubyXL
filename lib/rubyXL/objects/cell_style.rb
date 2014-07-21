@@ -53,20 +53,6 @@ module RubyXL
     define_child_node(RubyXL::Alignment)
     define_child_node(RubyXL::Protection)
     define_element_name 'xf'
-
-    def ==(other)
-      (self.num_fmt_id == other.num_fmt_id) &&
-        (self.font_id    == other.font_id) &&
-        (self.fill_id    == other.fill_id) &&
-        (self.border_id  == other.border_id) &&
-        (self.apply_number_format == other.apply_number_format) &&
-        (self.apply_font          == other.apply_font) &&
-        (self.apply_fill          == other.apply_fill) &&
-        (self.apply_border        == other.apply_border) &&
-        (self.apply_alignment     == other.apply_alignment) &&
-        (self.apply_protection    == other.apply_protection) &&
-        (self.xf_id               == other.xf_id)
-    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmt-1.html

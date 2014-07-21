@@ -255,7 +255,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_scenario-1.html
-  class Scenario < OOXMLObject
+  class Scenario < OOXMLContainerObject
     define_attribute(:name,    :string)
     define_attribute(:locked,  :bool, :default => false)
     define_attribute(:hidden,  :bool, :default => false)
@@ -496,32 +496,33 @@ module RubyXL
     define_element_name 'customProperties'
   end
 
+  # http://www.datypic.com/sc/ooxml/t-ssml_CT_Index.html
   class FieldItem < OOXMLObject
-    define_attribute(:v, :int, :required => true)
+    define_attribute(:v, :uint, :required => true)
     define_element_name 'x'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_references-1.html
+  # http://www.datypic.com/sc/ooxml/t-ssml_CT_PivotAreaReference.html
   class PivotReference < OOXMLObject
-    define_attribute(:field,           :int)
-    define_attribute(:selected,        :bool,   :default => true)
-    define_attribute(:byPosition,      :bool,   :default => false)
-    define_attribute(:relative,        :bool,   :default => false)
-    define_attribute(:defaultSubtotal, :bool,   :default => false)
-    define_attribute(:sumSubtotal,     :bool,   :default => false)
-    define_attribute(:countASubtotal,  :bool,   :default => false)
-    define_attribute(:avgSubtotal,     :bool,   :default => false)
-    define_attribute(:maxSubtotal,     :bool,   :default => false)
-    define_attribute(:minSubtotal,     :bool,   :default => false)
-    define_attribute(:productSubtotal, :bool,   :default => false)
-    define_attribute(:countSubtotal,   :bool,   :default => false)
-    define_attribute(:stdDevSubtotal,  :bool,   :default => false)
-    define_attribute(:stdDevPSubtotal, :bool,   :default => false)
-    define_attribute(:varSubtotal,     :bool,   :default => false)
-    define_attribute(:varPSubtotal,    :bool,   :default => false)
+    define_attribute(:field,           :uint)
+    define_attribute(:selected,        :bool, :default => true)
+    define_attribute(:byPosition,      :bool, :default => false)
+    define_attribute(:relative,        :bool, :default => false)
+    define_attribute(:defaultSubtotal, :bool, :default => false)
+    define_attribute(:sumSubtotal,     :bool, :default => false)
+    define_attribute(:countASubtotal,  :bool, :default => false)
+    define_attribute(:avgSubtotal,     :bool, :default => false)
+    define_attribute(:maxSubtotal,     :bool, :default => false)
+    define_attribute(:minSubtotal,     :bool, :default => false)
+    define_attribute(:productSubtotal, :bool, :default => false)
+    define_attribute(:countSubtotal,   :bool, :default => false)
+    define_attribute(:stdDevSubtotal,  :bool, :default => false)
+    define_attribute(:stdDevPSubtotal, :bool, :default => false)
+    define_attribute(:varSubtotal,     :bool, :default => false)
+    define_attribute(:varPSubtotal,    :bool, :default => false)
     define_child_node(RubyXL::FieldItem, :collection => :with_count, :accessor => :field_items)
     define_child_node(RubyXL::ExtensionStorageArea)
-    define_element_name 'references'
+    define_element_name 'reference'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_references-1.html

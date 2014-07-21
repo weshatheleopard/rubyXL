@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Font - rubyXL 3.2.0</title>
+<title>class RubyXL::Font - rubyXL 3.2.1</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -72,8 +72,6 @@
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    
-    <li ><a href="#method-i-3D-3D">#==</a>
     
     <li ><a href="#method-i-get_name">#get_name</a>
     
@@ -155,45 +153,6 @@ live with the default.</p>
        </header>
 
     
-      <div id="method-i-3D-3D" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">==</span><span
-            class="method-args">(other)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="3D-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 29</span>
-<span class="ruby-keyword">def</span> <span class="ruby-operator">==</span>(<span class="ruby-identifier">other</span>)
- (<span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">i</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">i</span>.<span class="ruby-identifier">val</span>) <span class="ruby-operator">==</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">i</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">i</span>.<span class="ruby-identifier">val</span>)) <span class="ruby-operator">&amp;&amp;</span>
-   (<span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">b</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">b</span>.<span class="ruby-identifier">val</span>) <span class="ruby-operator">==</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">b</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">b</span>.<span class="ruby-identifier">val</span>)) <span class="ruby-operator">&amp;&amp;</span>
-   (<span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">u</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">u</span>.<span class="ruby-identifier">val</span>) <span class="ruby-operator">==</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">u</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">u</span>.<span class="ruby-identifier">val</span>)) <span class="ruby-operator">&amp;&amp;</span>
-   (<span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">strike</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">strike</span>.<span class="ruby-identifier">val</span>) <span class="ruby-operator">==</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">strike</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">strike</span>.<span class="ruby-identifier">val</span>)) <span class="ruby-operator">&amp;&amp;</span>
-   ((<span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">val</span>) <span class="ruby-operator">==</span> (<span class="ruby-identifier">other</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">val</span>)) <span class="ruby-operator">&amp;&amp;</span>
-   ((<span class="ruby-keyword">self</span>.<span class="ruby-identifier">sz</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sz</span>.<span class="ruby-identifier">val</span>) <span class="ruby-operator">==</span> (<span class="ruby-identifier">other</span>.<span class="ruby-identifier">sz</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">sz</span>.<span class="ruby-identifier">val</span>)) <span class="ruby-operator">&amp;&amp;</span>
-   (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">color</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">color</span>) <span class="ruby-comment"># Need to write proper comparison for color</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
       <div id="method-i-get_name" class="method-detail ">
         
         <div class="method-heading">
@@ -213,7 +172,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="get_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 71</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_name</span>
   <span class="ruby-identifier">name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -246,7 +205,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="get_rgb_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 87</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_rgb_color</span>
   <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span>
 <span class="ruby-keyword">end</span></pre>
@@ -279,7 +238,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="get_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 79</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 69</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_size</span>
   <span class="ruby-identifier">sz</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">sz</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -312,7 +271,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="is_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 47</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_bold</span>
   <span class="ruby-identifier">b</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -345,7 +304,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="is_italic-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 39</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_italic</span>
   <span class="ruby-identifier">i</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -378,7 +337,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="is_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 63</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_strikethrough</span>
   <span class="ruby-identifier">strike</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">strike</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -411,7 +370,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="is_underlined-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 55</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_underlined</span>
   <span class="ruby-identifier">u</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">u</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -444,7 +403,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="set_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 51</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_bold</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">b</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -477,7 +436,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="set_italic-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 43</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_italic</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">i</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -510,7 +469,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="set_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 75</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_name</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -543,7 +502,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="set_rgb_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 92</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_rgb_color</span>(<span class="ruby-identifier">font_color</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">color</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">font_color</span>.<span class="ruby-identifier">to_s</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -576,7 +535,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="set_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 83</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_size</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sz</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">FloatValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -609,7 +568,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="set_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 67</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_strikethrough</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">strike</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -642,7 +601,7 @@ live with the default.</p>
 
           
           <div class="method-source-code" id="set_underline-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 59</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_underline</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">u</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
