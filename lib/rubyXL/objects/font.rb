@@ -26,16 +26,6 @@ module RubyXL
     define_child_node(RubyXL::StringValue,  :node_name => :scheme)
     define_element_name 'font'
 
-    def ==(other)
-     (!(self.i && self.i.val) == !(other.i && other.i.val)) &&
-       (!(self.b && self.b.val) == !(other.b && other.b.val)) &&
-       (!(self.u && self.u.val) == !(other.u && other.u.val)) &&
-       (!(self.strike && self.strike.val) == !(other.strike && other.strike.val)) &&
-       ((self.name && self.name.val) == (other.name && other.name.val)) &&
-       ((self.sz && self.sz.val) == (other.sz && other.sz.val)) &&
-       (self.color == other.color) # Need to write proper comparison for color
-    end
-
     def is_italic
       i && i.val
     end

@@ -11,11 +11,9 @@ module RubyXL
     # the setter/getter method addresses it in the context of descendant class,
     # which is what we need.
     def obtain_class_variable(var_name, default = {})
-      if class_variable_defined?(var_name) then
-        self.class_variable_get(var_name)
-      else
-        self.class_variable_set(var_name, default)
-      end
+      self.class_variable_get(var_name)
+    rescue NameError
+      self.class_variable_set(var_name, default)
     end
 
     # Defines an attribute of OOXML object.
@@ -221,8 +219,6 @@ module RubyXL
       }
 
       init_child_nodes(params)
-
-      instance_variable_set("@count", 0) if obtain_class_variable(:@@ooxml_countable, false)
     end
 
     def init_child_nodes(params)
@@ -238,6 +234,12 @@ module RubyXL
       }
     end
     private :init_child_nodes
+
+    def ==(other)
+      other.is_a?(self.class) &&
+        obtain_class_variable(:@@ooxml_attributes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&
+        obtain_class_variable(:@@ooxml_child_nodes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) }
+    end
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual
     # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
@@ -306,12 +308,6 @@ module RubyXL
         end
       }
       elem
-    end
-
-    def dup
-      new_copy = super
-      new_copy.count = 0 if obtain_class_variable(:@@ooxml_countable, false)
-      new_copy
     end
 
     # Prototype method. For sparse collections (+Rows+, +Cells+, etc.) must return index at which this object

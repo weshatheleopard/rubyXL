@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Parser - rubyXL 3.2.0</title>
+<title>class RubyXL::Parser - rubyXL 3.2.1</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -134,7 +134,7 @@ cells being interpreted as numbers.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 14</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">opts</span> = {})
   <span class="ruby-ivar">@opts</span> = <span class="ruby-identifier">opts</span>
 <span class="ruby-keyword">end</span></pre>
@@ -167,7 +167,7 @@ cells being interpreted as numbers.</p>
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 8</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">file_path</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -208,7 +208,7 @@ cells being interpreted as numbers.</p>
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">xl_file_path</span>)
   <span class="ruby-identifier">root</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRoot</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-ivar">@opts</span>)
 
