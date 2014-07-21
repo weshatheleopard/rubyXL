@@ -237,6 +237,12 @@ module RubyXL
     end
     private :init_child_nodes
 
+    def ==(other)
+      other.is_a?(self.class) &&
+        obtain_class_variable(:@@ooxml_attributes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&
+        obtain_class_variable(:@@ooxml_child_nodes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) }
+    end
+
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual
     # generation, +before_write_xml()+ is called to perform last-minute cleanup and validation operations; if it
     # returns +false+, an empty string is returned (rather than +nil+, so Nokogiri::XML's <tt>&lt;&lt;</tt> operator
