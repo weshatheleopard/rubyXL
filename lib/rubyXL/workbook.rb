@@ -89,7 +89,7 @@ module RubyXL
         raise "Unsupported extension: #{extension} (only .xlsx and .xlsm files are supported)."
       end
 
-      File.open(filepath, "w") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
+      File.open(filepath, "wb") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
 
       return filepath
     end

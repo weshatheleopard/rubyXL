@@ -14,7 +14,7 @@ module RubyXL
     define_element_name 'numFmt'
 
     def is_date_format?
-      #             v----- Toss all the escaped chars ------v v--- and see if any date-related remained
+      #             v-------- Toss all the escaped chars -------v v--- and see if any date-related remained
       !!(format_code.gsub(/(\"[^\"]*\"|\[[^\]]*\]|[\\_*].)/i, '') =~ /[dmyhs]/i)
     end
 
