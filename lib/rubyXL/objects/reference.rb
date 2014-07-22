@@ -3,7 +3,7 @@ module RubyXL
     ROW_MAX = 1024*1024
     COL_MAX = 16393
 
-    attr_reader :row_range, :col_range
+    attr_reader :first_row, :last_row, :first_col, :last_col
 
     # RubyXL::Reference.new(row, col)
     # RubyXL::Reference.new(row_from, row_to, col_from, col_to)
@@ -21,52 +21,41 @@ module RubyXL
         row_to, col_to = self.class.ref2ind(to) unless to.nil?
       end
 
-      @row_range = Range.new(row_from || 0, row_to || row_from || ROW_MAX)
-      @col_range = Range.new(col_from || 0, col_to || col_from || COL_MAX)
+      @first_row = row_from || 0
+      @last_row  = row_to || row_from || ROW_MAX
+      @first_col = col_from || 0
+      @last_col  = col_to || col_from || COL_MAX
     end
 
     def single_cell?
-      (@row_range.begin == @row_range.end) && (@col_range.begin == @col_range.end)
-    end
-
-    def first_row
-      @row_range.begin
-    end
-
-    def last_row
-      @row_range.end
-    end
-
-    def first_col
-      @col_range.begin
-    end
-
-    def last_col
-      @col_range.end
+      (@first_row == @last_row) && (@first_col == @last_col)
     end
 
     def ==(other)
-      !other.nil? && (@row_range == other.row_range) && (@col_range == other.col_range)
+      other &&
+        (@first_row == other.first_row) && (@last_row == other.last_row) && 
+        (@first_col == other.first_col) && (@last_col == other.last_col)
     end
 
     def cover?(other)
-      !other.nil? && (@row_range.cover?(other.row_range.begin) && @row_range.cover?(other.row_range.end) &&
-                      @col_range.cover?(other.col_range.begin) && @col_range.cover?(other.col_range.end))
+      other &&
+        (@first_row <= other.first_row) && (@last_row >= other.last_row) &&
+        (@first_col <= other.first_col) && (@last_col >= other.last_col)
     end
 
     def to_s
       if single_cell? then
-        self.class.ind2ref(@row_range.begin, @col_range.begin)
+        self.class.ind2ref(@first_row, @first_col)
       else
-        self.class.ind2ref(@row_range.begin, @col_range.begin) + ':' + self.class.ind2ref(@row_range.end, @col_range.end)
+        self.class.ind2ref(@first_row, @first_col) + ':' + self.class.ind2ref(@last_row, @last_col)
       end
     end
 
     def inspect
       if single_cell? then
-        "#<#{self.class} @row=#{@row_range.begin} @col=#{@col_range.begin}>"
+        "#<#{self.class} @row=#{@first_row} @col=#{@first_col}>"
       else
-        "#<#{self.class} @row_range=#{@row_range} @col_range=#{@col_range}>"
+        "#<#{self.class} @row_range=#{@first_row..@last_row} @col_range=#{@col_range..@last_col}>"
       end
     end
 

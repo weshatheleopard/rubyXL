@@ -32,7 +32,7 @@ module RubyXL
     define_element_name 'c'
 
     def index_in_collection
-      r.col_range.begin
+      r.first_col
     end
 
     def row
