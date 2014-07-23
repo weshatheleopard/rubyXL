@@ -19,18 +19,20 @@ module RubyXL
         raise ArgumentError.new("invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
         str = params[0]
 
-        str =~ /\A(?:(?:(?:'([^':]+)(?:\:([^':]+))?)'|(?:(\w+)(?:\:(\w+))?))\!)?(\$?[A-Z]+\$?\d+)(?:\:(\$?[A-Z]+\$?\d+))?\Z/
+        str =~ /\A(?:(?:(?:'([^':]+)(?:\:([^':]+))?)'|(?:(\w+)(?:\:(\w+))?))\!)?((?:\$?[A-Z]+)?(?:\$?\d+)?)(?:\:((?:\$?[A-Z]+)?(?:\$?\d+)?))?\Z/
 
         @first_sheet = $1 || $3
         @last_sheet  = $2 || $4 || @first_sheet
-        row_from, col_from, row_from_abs, col_from_abs = self.class.ref2ind($5)
-        row_to, col_to, row_to_abs, col_to_abs = self.class.ref2ind($6) unless $6.nil?
+        str_from = $5
+        str_to = $6
+        row_from, col_from, row_from_abs, col_from_abs = self.class.ref2ind(str_from)
+        row_to, col_to, row_to_abs, col_to_abs = self.class.ref2ind(str_to) unless str_to.nil?
       end
 
-      @first_row = row_from || 0
-      @last_row  = row_to || row_from || ROW_MAX
-      @first_col = col_from || 0
-      @last_col  = col_to || col_from || COL_MAX
+      @first_row = row_from
+      @last_row  = row_to || row_from
+      @first_col = col_from
+      @last_col  = col_to || col_from
       @first_row_abs = row_from_abs
       @first_col_abs = col_from_abs
       @last_row_abs  = row_to_abs || row_from_abs
@@ -39,7 +41,7 @@ module RubyXL
     end
 
     def single_cell?
-      (@first_row == @last_row) && (@first_col == @last_col)
+      (@first_row && @first_col && (@first_row == @last_row) && (@first_col == @last_col)) || false
     end
 
     def ==(other)
@@ -49,9 +51,10 @@ module RubyXL
     end
 
     def cover?(other)
+      # TODO: properly handle nil values
       other &&
         (@first_row <= other.first_row) && (@last_row >= other.last_row) &&
-        (@first_col <= other.first_col) && (@last_col >= other.last_col)
+        (@first_col <= other.first_col) && (@last_col >= other.last_col) 
     end
 
     def to_s
@@ -66,7 +69,7 @@ module RubyXL
       if single_cell? then
         "#<#{self.class} @row=#{@first_row} @col=#{@first_col}>"
       else
-        "#<#{self.class} @row_range=#{@first_row..@last_row} @col_range=#{@col_range..@last_col}>"
+        "#<#{self.class} rows=#{@first_row}..#{@last_row} cols=#{@first_col}..#{@last_col}>"
       end
     end
 
@@ -90,11 +93,19 @@ module RubyXL
 
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
     def self.ref2ind(str)
-      return [ -1, -1 ] unless str =~ /\A(\$)?([A-Z]+)(\$)?(\d+)\Z/
+      str =~ /\A(\$)?([A-Z]+)?(\$)?(\d+)?\Z/
 
-      col = 0
-      $2.each_byte { |chr| col = col * 26 + (chr - 64) }
-      [ $4.to_i - 1, col - 1, !$3.nil?, !$1.nil? ]
+      if $2 then
+        col = 0
+        $2.each_byte { |chr| col = col * 26 + (chr - 64) }
+        col -= 1
+      end
+
+      if $4 then
+        row = $4.to_i - 1
+      end
+
+      [ row, col, !$3.nil?, !$1.nil? ]
     end
 
   end
