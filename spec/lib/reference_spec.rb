@@ -36,12 +36,15 @@ describe RubyXL::Reference do
     it 'should properly parse cases from the manual' do
       # The cell in column A and row 10
       ref = RubyXL::Reference.new('A10')
+      expect(ref.to_s).to eq('A10')
       expect(ref.single_cell?).to eq(true)
       expect(ref.first_row).to eq(9)
       expect(ref.first_col).to eq(0)
+     
 
       # The range of cells in column A and rows 10 through 20
       ref = RubyXL::Reference.new('A10:A20')
+      expect(ref.to_s).to eq('A10:A20')
       expect(ref.single_cell?).to eq(false)
       expect(ref.first_row).to eq(9)
       expect(ref.first_col).to eq(0)
@@ -50,6 +53,7 @@ describe RubyXL::Reference do
 
       # The range of cells in row 15 and columns B through E
       ref = RubyXL::Reference.new('B15:E15')
+      expect(ref.to_s).to eq('B15:E15')
       expect(ref.single_cell?).to eq(false)
       expect(ref.first_row).to eq(14)
       expect(ref.first_col).to eq(1)
@@ -58,6 +62,7 @@ describe RubyXL::Reference do
 
       # All cells in row 5
       ref = RubyXL::Reference.new('5:5')
+      expect(ref.to_s).to eq('5:5')
       expect(ref.single_cell?).to eq(false)
       expect(ref.first_row).to eq(4)
       expect(ref.first_col).to be_nil
@@ -66,6 +71,7 @@ describe RubyXL::Reference do
 
       # All cells in rows 5 through 10
       ref = RubyXL::Reference.new('5:10')
+      expect(ref.to_s).to eq('5:10')
       expect(ref.single_cell?).to eq(false)
       expect(ref.first_row).to eq(4)
       expect(ref.first_col).to be_nil
@@ -74,6 +80,7 @@ describe RubyXL::Reference do
 
       # All cells in column H
       ref = RubyXL::Reference.new('H:H')
+      expect(ref.to_s).to eq('H:H')
       expect(ref.single_cell?).to eq(false)
       expect(ref.first_row).to be_nil
       expect(ref.first_col).to eq(7)
@@ -82,6 +89,7 @@ describe RubyXL::Reference do
 
       # All cells in columns H through J
       ref = RubyXL::Reference.new('H:J')
+      expect(ref.to_s).to eq('H:J')
       expect(ref.single_cell?).to eq(false)
       expect(ref.first_row).to be_nil
       expect(ref.first_col).to eq(7)
@@ -90,6 +98,7 @@ describe RubyXL::Reference do
 
       # The range of cells in row 15 and columns B through E
       ref = RubyXL::Reference.new('A10:E20')
+      expect(ref.to_s).to eq('A10:E20')
       expect(ref.single_cell?).to eq(false)
       expect(ref.first_row).to eq(9)
       expect(ref.first_col).to eq(0)

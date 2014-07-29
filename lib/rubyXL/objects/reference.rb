@@ -61,7 +61,8 @@ module RubyXL
       if single_cell? then
         self.class.ind2ref(@first_row, @first_col, @first_row_abs, @first_col_abs)
       else
-        self.class.ind2ref(@first_row, @first_col) + ':' + self.class.ind2ref(@last_row, @last_col)
+        self.class.ind2ref(@first_row, @first_col, @first_row_abs, @first_col_abs) + 
+          ':' + self.class.ind2ref(@last_row, @last_col, @last_row_abs, @last_col_abs)
       end
     end
 
@@ -78,17 +79,23 @@ module RubyXL
     def self.ind2ref(row = 0, col = 0, row_abs = false, col_abs = false)
       str = ''
 
-      loop do
-        x = col % 26
-        str = ('A'.ord + x).chr + str
-        col = (col / 26).floor - 1
-        break if col < 0
+      if col then
+        loop do
+          x = col % 26
+          str = ('A'.ord + x).chr + str
+          col = (col / 26).floor - 1
+          break if col < 0
+        end
+
+        str = ('$' + str) if col_abs
       end
 
-      str = ('$' + str) if col_abs
-      str += '$' if row_abs
+      if row then
+        str += '$' if row_abs
+        str += (row + 1).to_s
+      end
 
-      str += (row + 1).to_s
+      str
     end
 
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
