@@ -4,7 +4,7 @@ require 'rubyXL'
 describe RubyXL::Cell do
 
   before do
-    @workbook  = RubyXL::Workbook.new
+    @workbook = RubyXL::Workbook.new
     @worksheet = @workbook.add_worksheet('Test Worksheet')
     @workbook.worksheets << @worksheet
     (0..10).each do |i|
@@ -358,4 +358,13 @@ describe RubyXL::Cell do
     end
   end
 
+  context 'with RichText' do
+    subject { RubyXL::Cell.new(is: RubyXL::RichText.new(t: RubyXL::Text.new(value: 'test'))) }
+
+    describe '#raw_value' do
+      it 'returns the value of the RichText' do
+        expect(subject.raw_value).to eq('test')
+      end
+    end
+  end
 end
