@@ -358,4 +358,13 @@ describe RubyXL::Cell do
     end
   end
 
+  context 'with RichText' do
+    subject { RubyXL::Cell.new(is: RubyXL::RichText.new(t: RubyXL::Text.new(value: 'test'))) }
+
+    describe '#value' do
+      it 'returns the value of the RichText' do
+        expect(subject.value).to eq('test')
+      end
+    end
+  end
 end
