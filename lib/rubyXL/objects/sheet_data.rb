@@ -78,7 +78,7 @@ module RubyXL
         when RubyXL::DataType::SHARED_STRING then
           workbook.shared_strings_container[raw_value.to_i].to_s
         else
-          if is
+          if is then
             is.to_s
           else
             if is_date? then
