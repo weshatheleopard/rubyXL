@@ -83,6 +83,11 @@ module RubyXL
       self.color = RubyXL::Color.new(:rgb => font_color.to_s)
     end
 
+    def self.defaults(size = 10)
+      self.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+               :sz   => RubyXL::FloatValue.new(:val => size) )
+    end
+
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fonts-1.html
@@ -91,12 +96,7 @@ module RubyXL
     define_element_name 'fonts'
 
     def self.defaults
-      self.new(:_ => [
-                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-                                  :sz => RubyXL::FloatValue.new(:val => 10) ),
-                 RubyXL::Font.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-                                  :sz => RubyXL::FloatValue.new(:val => 8) )
-               ])
+      self.new(:_ => [ RubyXL::Font.defaults(10), RubyXL::Font.defaults(8) ])
     end
   end
 

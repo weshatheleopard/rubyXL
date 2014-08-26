@@ -9,9 +9,7 @@ module RubyXL
   class WorkbookRoot
     @@debug = nil
 
-    attr_accessor :filepath
-    attr_accessor :thumbnail, :core_properties, :document_properties, :custom_properties, :workbook
-    attr_accessor :content_types, :rels_hash
+    attr_accessor :filepath, :content_types, :rels_hash
 
     include RubyXL::RelationshipSupport
 
