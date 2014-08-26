@@ -387,7 +387,6 @@ module LegacyWorksheet
     validate_nonnegative(row_index)
 
     deleted = sheet_data.rows.delete_at(row_index)
-    row_num = row_index+1
 
     # Change cell row numbers
     row_index.upto(sheet_data.size - 1) { |index|
