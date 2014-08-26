@@ -827,13 +827,6 @@ module RubyXL
     define_element_name 'a:sp3d'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_blur-1.html
-  class CT_BlurEffect < OOXMLObject
-    define_attribute(:rad,  :int,  :default => 0)
-    define_attribute(:grow, :bool, :default => true)
-    define_element_name 'a:blur'
-  end
-
   # http://www.schemacentral.com/sc/ooxml/e-a_effectLst-1.html
   class CT_EffectList < OOXMLObject
     define_child_node(RubyXL::CT_BlurEffect)
