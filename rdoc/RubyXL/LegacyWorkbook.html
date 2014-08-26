@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyWorkbook - rubyXL 3.2.2</title>
+<title>module RubyXL::LegacyWorkbook - rubyXL 3.2.3</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -203,12 +203,12 @@
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/workbook.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">worksheets</span>=[], <span class="ruby-identifier">filepath</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span>=<span class="ruby-keyword">nil</span>,
-               <span class="ruby-identifier">company</span>=<span class="ruby-string">''</span>, <span class="ruby-identifier">application</span>=<span class="ruby-constant">APPLICATION</span>,
+               <span class="ruby-identifier">company</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">application</span>=<span class="ruby-constant">APPLICATION</span>,
                <span class="ruby-identifier">appversion</span>=<span class="ruby-constant">APPVERSION</span>, <span class="ruby-identifier">date1904</span>=<span class="ruby-value">0</span>)
   <span class="ruby-keyword">super</span>()
 
   <span class="ruby-comment"># Order of sheets in the +worksheets+ array corresponds to the order of pages in Excel UI.</span>
-  <span class="ruby-comment"># SheetId's, rId's, etc. are completely unrelated to ordering.</span>
+  <span class="ruby-comment"># SheetId&#39;s, rId&#39;s, etc. are completely unrelated to ordering.</span>
   <span class="ruby-ivar">@worksheets</span> = <span class="ruby-identifier">worksheets</span>
   <span class="ruby-identifier">add_worksheet</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@worksheets</span>.<span class="ruby-identifier">empty?</span>
 
@@ -230,9 +230,9 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">appversion</span>      = <span class="ruby-identifier">appversion</span>
 
   <span class="ruby-keyword">begin</span>
-    <span class="ruby-ivar">@created_at</span>       = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">created_at</span>).<span class="ruby-identifier">strftime</span>(<span class="ruby-string">'%Y-%m-%dT%TZ'</span>)
+    <span class="ruby-ivar">@created_at</span>       = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">created_at</span>).<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&#39;%Y-%m-%dT%TZ&#39;</span>)
   <span class="ruby-keyword">rescue</span>
-    <span class="ruby-ivar">@created_at</span>       = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">'%Y-%m-%dT%TZ'</span>)
+    <span class="ruby-ivar">@created_at</span>       = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&#39;%Y-%m-%dT%TZ&#39;</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-ivar">@modified_at</span>        = <span class="ruby-ivar">@created_at</span>
 <span class="ruby-keyword">end</span></pre>
@@ -557,7 +557,7 @@
   <span class="ruby-identifier">fill</span> = <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">fill_id</span>]
   <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">fill</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">fill</span>.<span class="ruby-identifier">pattern_fill</span>
   <span class="ruby-identifier">color</span> = <span class="ruby-identifier">pattern</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pattern</span>.<span class="ruby-identifier">fg_color</span>
-  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">'ffffff'</span>
+  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;ffffff&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -673,7 +673,7 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_fill</span> =<span class="ruby-operator">&gt;</span>
-               <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'solid'</span>,
+               <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;solid&#39;</span>,
                                        <span class="ruby-value">:fg_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rgb</span>)))
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">xf</span>)
   <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>, <span class="ruby-identifier">style_index</span>)

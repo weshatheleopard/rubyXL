@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::WorkbookRoot - rubyXL 3.2.2</title>
+<title>class RubyXL::WorkbookRoot - rubyXL 3.2.3</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -139,45 +139,6 @@
         </div>
       </div>
       
-      <div id="attribute-i-core_properties" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">core_properties</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-      <div id="attribute-i-custom_properties" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">custom_properties</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-      <div id="attribute-i-document_properties" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">document_properties</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
       <div id="attribute-i-filepath" class="method-detail">
         <div class="method-heading attribute-method-heading">
           <span class="method-name">filepath</span><span
@@ -194,32 +155,6 @@
       <div id="attribute-i-rels_hash" class="method-detail">
         <div class="method-heading attribute-method-heading">
           <span class="method-name">rels_hash</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-      <div id="attribute-i-thumbnail" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">thumbnail</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-      <div id="attribute-i-workbook" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">workbook</span><span
             class="attribute-access-type">[RW]</span>
         </div>
 
@@ -259,7 +194,7 @@
 
           
           <div class="method-source-code" id="default-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>
   <span class="ruby-identifier">obj</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">document_properties</span>    = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DocumentPropertiesFile</span>.<span class="ruby-identifier">new</span>
@@ -297,7 +232,7 @@
 
           
           <div class="method-source-code" id="parse_file-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 64</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-identifier">opts</span>)
   <span class="ruby-keyword">begin</span>
     <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
@@ -349,7 +284,7 @@
 
           
           <div class="method-source-code" id="related_objects-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 24</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">related_objects</span>
   [ <span class="ruby-identifier">content_types</span>, <span class="ruby-identifier">thumbnail</span>, <span class="ruby-identifier">core_properties</span>, <span class="ruby-identifier">document_properties</span>, <span class="ruby-identifier">custom_properties</span>, <span class="ruby-identifier">workbook</span> ]
 <span class="ruby-keyword">end</span></pre>
@@ -382,7 +317,7 @@
 
           
           <div class="method-source-code" id="stream-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 37</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">stream</span>
   <span class="ruby-identifier">stream</span> = <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">OutputStream</span>.<span class="ruby-identifier">write_buffer</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">zipstream</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rels_hash</span> = {}
@@ -434,7 +369,7 @@
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 60</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-constant">OOXMLTopLevelObject</span><span class="ruby-operator">::</span><span class="ruby-constant">ROOT</span>
 <span class="ruby-keyword">end</span></pre>
