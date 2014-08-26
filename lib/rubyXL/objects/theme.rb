@@ -1225,7 +1225,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_defPPr-1.html     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:lnSpc')
- class CT_TextParagraphProperties < OOXMLObject
+  class CT_TextParagraphProperties < OOXMLObject
     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcBef')
     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcAft')
     define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buClrTx')
