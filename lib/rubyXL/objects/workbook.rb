@@ -124,7 +124,7 @@ module RubyXL
     define_attribute(:customMenu,        :string)
     define_attribute(:description,       :string)
     define_attribute(:help,              :string)
-    define_attribute(:description,       :string)
+    define_attribute(:statusBar,         :string)
     define_attribute(:localSheetId,      :string)
 
     define_attribute(:hidden,            :bool, :default => false)
@@ -308,7 +308,6 @@ module RubyXL
     define_relationship(RubyXL::Stylesheet,         :stylesheet)
     define_relationship(RubyXL::Theme,              :theme)
     define_relationship(RubyXL::CalculationChain,   :calculation_chain)
-    define_relationship(RubyXL::Stylesheet,         :stylesheet)
     define_relationship(RubyXL::Worksheet,          false)
     define_relationship(RubyXL::Chartsheet,         false)
     define_relationship(RubyXL::ExternalLinksFile)
@@ -344,7 +343,7 @@ module RubyXL
                    'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
-    attr_accessor :calculation_chain, :theme, :stylesheet, :shared_strings_container, :worksheets
+    attr_accessor :worksheets
 
     def before_write_xml
       self.sheets = RubyXL::Sheets.new

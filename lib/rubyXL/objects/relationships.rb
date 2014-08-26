@@ -1,3 +1,4 @@
+require 'pathname'
 require 'rubyXL/objects/ooxml_object'
 
 module RubyXL

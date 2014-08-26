@@ -1,3 +1,4 @@
+require 'pathname'
 require 'rubyXL/objects/reference'
 
 module RubyXL
@@ -399,14 +400,14 @@ module RubyXL
     attr_accessor :root
 
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
-    # is located within the <tt>.xslx</tt> zip container.
+    # is located within the <tt>.xlsx</tt> zip container.
     def xlsx_path
       raise 'Subclass responsebility'
     end
 
     # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.
     # === Parameters
-    # * +namespace_hash+ - Hash of namespaces in the form of <tt>"prefix" => "url"</tt>
+    # * +namespace_hash+ - Hash of namespaces in the form of <tt>"url" => "prefix"</tt>
     # ==== Examples
     #   set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
     #                  'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')

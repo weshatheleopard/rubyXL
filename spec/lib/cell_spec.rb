@@ -70,21 +70,21 @@ describe RubyXL::Cell do
 
   describe '.change_font_color' do
     it 'should cause an error if hex color code not passed' do
-       expect {
-         @cell.change_font_color('G')
-       }.to raise_error
-     end
+      expect {
+        @cell.change_font_color('G')
+      }.to raise_error
+    end
 
-     it 'should make cell font color equal to hex color code passed' do
-       @cell.change_font_color('0f0f0f')
-       expect(@cell.font_color).to eq('0f0f0f')
-     end
+    it 'should make cell font color equal to hex color code passed' do
+      @cell.change_font_color('0f0f0f')
+      expect(@cell.font_color).to eq('0f0f0f')
+    end
 
-     it 'should cause an error if hex color code includes # character' do
-       expect {
-         @cell.change_font_color('#0f0f0f')
-       }.to raise_error
-     end
+    it 'should cause an error if hex color code includes # character' do
+      expect {
+        @cell.change_font_color('#0f0f0f')
+      }.to raise_error
+    end
   end
 
   describe '.change_font_italics' do
@@ -117,23 +117,23 @@ describe RubyXL::Cell do
 
   describe '.change_horizontal_alignment' do
     it 'should cause cell to horizontally align as specified by the passed in string' do
-       @cell.change_horizontal_alignment('center')
-       expect(@cell.horizontal_alignment).to eq('center')
-     end
+      @cell.change_horizontal_alignment('center')
+      expect(@cell.horizontal_alignment).to eq('center')
+    end
   end
 
   describe '.change_vertical_alignment' do
     it 'should cause cell to vertically align as specified by the passed in string' do
-       @cell.change_vertical_alignment('center')
-       expect(@cell.vertical_alignment).to eq('center')
-     end
+      @cell.change_vertical_alignment('center')
+      expect(@cell.vertical_alignment).to eq('center')
+    end
   end
 
   describe '.change_wrap' do
     it 'should cause cell to wrap align as specified by the passed in value' do
-       @cell.change_text_wrap(true)
-       expect(@cell.text_wrap).to eq(true)
-     end
+      @cell.change_text_wrap(true)
+      expect(@cell.text_wrap).to eq(true)
+    end
   end
 
   describe '.change_border' do
