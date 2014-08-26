@@ -70,21 +70,21 @@ describe RubyXL::Cell do
 
   describe '.change_font_color' do
     it 'should cause an error if hex color code not passed' do
-       expect {
-         @cell.change_font_color('G')
-       }.to raise_error
-     end
+      expect {
+        @cell.change_font_color('G')
+      }.to raise_error
+    end
 
-     it 'should make cell font color equal to hex color code passed' do
-       @cell.change_font_color('0f0f0f')
-       expect(@cell.font_color).to eq('0f0f0f')
-     end
+    it 'should make cell font color equal to hex color code passed' do
+      @cell.change_font_color('0f0f0f')
+      expect(@cell.font_color).to eq('0f0f0f')
+    end
 
-     it 'should cause an error if hex color code includes # character' do
-       expect {
-         @cell.change_font_color('#0f0f0f')
-       }.to raise_error
-     end
+    it 'should cause an error if hex color code includes # character' do
+      expect {
+        @cell.change_font_color('#0f0f0f')
+      }.to raise_error
+    end
   end
 
   describe '.change_font_italics' do
