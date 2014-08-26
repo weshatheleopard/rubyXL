@@ -117,23 +117,23 @@ describe RubyXL::Cell do
 
   describe '.change_horizontal_alignment' do
     it 'should cause cell to horizontally align as specified by the passed in string' do
-       @cell.change_horizontal_alignment('center')
-       expect(@cell.horizontal_alignment).to eq('center')
-     end
+      @cell.change_horizontal_alignment('center')
+      expect(@cell.horizontal_alignment).to eq('center')
+    end
   end
 
   describe '.change_vertical_alignment' do
     it 'should cause cell to vertically align as specified by the passed in string' do
-       @cell.change_vertical_alignment('center')
-       expect(@cell.vertical_alignment).to eq('center')
-     end
+      @cell.change_vertical_alignment('center')
+      expect(@cell.vertical_alignment).to eq('center')
+    end
   end
 
   describe '.change_wrap' do
     it 'should cause cell to wrap align as specified by the passed in value' do
-       @cell.change_text_wrap(true)
-       expect(@cell.text_wrap).to eq(true)
-     end
+      @cell.change_text_wrap(true)
+      expect(@cell.text_wrap).to eq(true)
+    end
   end
 
   describe '.change_border' do
