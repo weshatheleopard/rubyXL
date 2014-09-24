@@ -23,6 +23,10 @@ module LegacyWorksheet
     sheet_data.rows.each { |row| yield(row) }
   end
 
+  def size
+    sheet_data.size
+  end
+
   #returns 2d array of just the cell values (without style or formula information)
   def extract_data(args = {})
     sheet_data.rows.map { |row|

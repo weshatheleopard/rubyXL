@@ -17,9 +17,10 @@
 === Accessing
 
 ==== Accessing a Worksheet
-  workbook.worksheets[0] # Returns first worksheet
-  workbook[0]            # Returns first worksheet
-  workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
+  workbook.worksheets[0]      # Returns first worksheet
+  workbook[0]                 # Returns first worksheet
+  workbook['Sheet1']          # Finds and returns worksheet titled "Sheet1"
+  workbook.worksheets[0].size # Returns the number of rows in a worksheet
 
 ==== Accessing just the values
   worksheet = workbook[0]

@@ -17,6 +17,13 @@ describe RubyXL::Worksheet do
     @old_cell_formula = @worksheet[0][0].formula
   end
 
+  describe '.size' do
+    it 'should return the number of rows in the worksheet' do
+      data = @worksheet.extract_data()
+      expect(data.size).to eq(@worksheet.size)
+    end
+  end
+
   describe '.extract_data' do
     it 'should return a 2d array of just the cell values (without style or formula information)' do
       data = @worksheet.extract_data()
