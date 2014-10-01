@@ -2,6 +2,12 @@
 {<img src="https://badge.fury.io/rb/rubyXL.svg" alt="Gem Version" />}[http://badge.fury.io/rb/rubyXL]
 {<img src="https://codeclimate.com/github/weshatheleopard/rubyXL.png" alt="Code Climate" />}[https://codeclimate.com/github/weshatheleopard/rubyXL]
 
+This gem supports operating on +xlsx+ files (Open XML format). Its current main is on
+reading files produced by Excel, making minor modifications to them and saving them to
+be opened again.
+
+Please note that proprietary binary +xls+ format is NOT supported.
+
 == To Install:
   gem install rubyXL
 
