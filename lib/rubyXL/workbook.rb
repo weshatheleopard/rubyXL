@@ -118,10 +118,8 @@ module RubyXL
       pattern = fill && fill.pattern_fill
       color = pattern && pattern.fg_color
       if color.theme
-        theme_color = ""
-        theme.a_theme_elements.a_clr_scheme.send(theme.a_theme_elements.a_clr_scheme.methods[color.theme*2]).a_srgb_clr.val.scan(/../).each do |component|
-          theme_color+=(component.hex+(color.tint.round(2)*(255-component.hex))).to_i.to_s(16)
-        end
+        theme_color = theme.a_theme_elements.a_clr_scheme.send(theme.a_theme_elements.a_clr_scheme.methods[color.theme*2]).a_srgb_clr.val
+        theme_color=theme_color.scan(/../).map!{|component| component=(component.hex+(color.tint.round(2)*(255-component.hex))).to_i.to_s(16)}.join if color.tint
       end
       color && color.rgb || color && theme_color || 'ffffff'
     end
