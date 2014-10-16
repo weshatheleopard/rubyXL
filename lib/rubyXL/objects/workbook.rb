@@ -367,7 +367,7 @@ module RubyXL
     end
 
     def company
-      self.document_properties.company && self.document_properties.company.value
+      root.document_properties.company && root.document_properties.company.value
     end
 
     def company=(v)
@@ -376,7 +376,7 @@ module RubyXL
     end
 
     def application
-      root.document_properties.application && self.document_properties.application.value
+      root.document_properties.application && root.document_properties.application.value
     end
 
     def application=(v)
