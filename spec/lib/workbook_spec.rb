@@ -54,4 +54,36 @@ describe RubyXL::Workbook do
     end
   end
 
+  describe '.application' do
+    it 'should contain default application string' do
+      expect(@workbook.application).to eq(RubyXL::Workbook::APPLICATION)
+    end
+
+    it 'should set application properly' do
+      @workbook.application = 'TEST APPLICATION'
+      expect(@workbook.application).to eq('TEST APPLICATION')
+    end
+  end
+
+  describe '.company' do
+    it 'should have default company empty' do
+      expect(@workbook.company).to eq('')
+    end
+
+    it 'should set company properly' do
+      @workbook.company = 'TEST COMPANY'
+      expect(@workbook.company).to eq('TEST COMPANY')
+    end
+  end
+
+  describe '.version' do
+    it 'should contain default appversion' do
+      expect(@workbook.appversion).to eq(RubyXL::Workbook::APPVERSION)
+    end
+
+    it 'should set appversion properly' do
+      @workbook.appversion = '12.34'
+      expect(@workbook.appversion).to eq('12.34')
+    end
+  end
 end
