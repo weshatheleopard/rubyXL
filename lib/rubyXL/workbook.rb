@@ -117,7 +117,13 @@ module RubyXL
       fill = fills[xf.fill_id]
       pattern = fill && fill.pattern_fill
       color = pattern && pattern.fg_color
-      color && color.rgb || 'ffffff'
+      if color.theme
+        theme_color = ""
+        theme.a_theme_elements.a_clr_scheme.send(theme.a_theme_elements.a_clr_scheme.methods[color.theme*2]).a_srgb_clr.val.scan(/../).each do |component|
+          theme_color+=(component.hex+(color.tint.round(2)*(255-component.hex))).to_i.to_s(16)
+        end
+      end
+      color && color.rgb || color && theme_color || 'ffffff'
     end
 
     def register_new_fill(new_fill, old_xf)
