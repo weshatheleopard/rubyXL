@@ -384,6 +384,7 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/WebPublishingItems.html",
     "rdoc/RubyXL/WebPublishingProperties.html",
     "rdoc/RubyXL/Workbook.html",
+    "rdoc/RubyXL/WorkbookConvenienceMethods.html",
     "rdoc/RubyXL/WorkbookProperties.html",
     "rdoc/RubyXL/WorkbookProtection.html",
     "rdoc/RubyXL/WorkbookRoot.html",
