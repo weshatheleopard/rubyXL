@@ -140,20 +140,20 @@ module RubyXL
 
     def created_at
       val = dcterms_created && dcterms_created.value
-      val && (val.strip.empty? ? nil : Time.parse(val))
+      val && (val.strip.empty? ? nil : DateTime.parse(val).to_time)
     end
 
     def created_at=(v)
-      self.dcterms_created = RubyXL::StringNodeW3C.new(:value => v.iso8601)
+      self.dcterms_created = RubyXL::StringNodeW3C.new(:value => v.to_datetime.iso8601)
     end
 
     def modified_at
       val = dcterms_modified && dcterms_modified.value
-      val && (val.strip.empty? ? nil : Time.parse(val))
+      val && (val.strip.empty? ? nil : DateTime.parse(val).to_time)
     end
 
     def modified_at=(v)
-      self.dcterms_modified = RubyXL::StringNodeW3C.new(:value => v.iso8601)
+      self.dcterms_modified = RubyXL::StringNodeW3C.new(:value => v.to_datetime.iso8601)
     end
 
   end
