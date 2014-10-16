@@ -118,8 +118,13 @@ module RubyXL
       pattern = fill && fill.pattern_fill
       color = pattern && pattern.fg_color
       if color.theme
-        theme_color = theme.a_theme_elements.a_clr_scheme.send(theme.a_theme_elements.a_clr_scheme.methods[color.theme*2]).a_srgb_clr.val
-        theme_color=theme_color.scan(/../).map!{|component| component=(component.hex+(color.tint.round(2)*(255-component.hex))).to_i.to_s(16)}.join if color.tint
+        themes=["a_dk1","a_lt1","a_dk2","a_lt2","a_accent1","a_accent2","a_accent3","a_accent4","a_accent5","a_accent6","a_hlink","a_fol_hlink"]
+        cell_theme = theme.a_theme_elements.a_clr_scheme.send(themes[color.theme].to_sym)
+        theme_color = cell_theme.a_srgb_clr.val
+        theme_color=theme_color.scan(/../).map!{ |component|
+          #Adjust color component according to tint percentage[formula: component+tint*(255-component)] and save it back to component as hex
+          component=(component.hex+(color.tint.round(2)*(255-component.hex))).round.to_s(16)
+        }.join if color.tint
       end
       color && color.rgb || color && theme_color || 'ffffff'
     end
