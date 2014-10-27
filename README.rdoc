@@ -2,6 +2,13 @@
 {<img src="https://badge.fury.io/rb/rubyXL.svg" alt="Gem Version" />}[http://badge.fury.io/rb/rubyXL]
 {<img src="https://codeclimate.com/github/weshatheleopard/rubyXL.png" alt="Code Climate" />}[https://codeclimate.com/github/weshatheleopard/rubyXL]
 
+This gem supports operating on +xlsx+ files (Open XML format). While it is capable
+of properly parsing the entire OOXML structure, its current main emphasis is on
+reading files produced by MS Excel, making minor modifications to them and saving
+them to be opened again, while preserving as much of the structure as possible.
+
+Please note that proprietary binary +xls+ format is *not* supported.
+
 == To Install:
   gem install rubyXL
 
@@ -67,7 +74,7 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_font_size(0)
   worksheet.get_column_font_color(0)
   worksheet.is_column_underlined(0)
-  worksheet.get_column_height(0)
+  worksheet.get_column_width(0)
   worksheet.get_column_horizontal_alignment(0)
   worksheet.get_column_vertical_alignment(0)
   worksheet.get_column_border_right(0)
