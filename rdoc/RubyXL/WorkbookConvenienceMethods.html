@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.2.5</title>
+
+<link href="../fonts.css" rel="stylesheet">
+<link href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/search_index.js"></script>
+<script src="../js/search.js"></script>
+<script src="../js/searcher.js"></script>
+<script src="../js/darkfish.js"></script>
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-5B-5D">#[]</a>
+    
+    <li ><a href="#method-i-add_worksheet">#add_worksheet</a>
+    
+    <li ><a href="#method-i-application">#application</a>
+    
+    <li ><a href="#method-i-application-3D">#application=</a>
+    
+    <li ><a href="#method-i-appversion">#appversion</a>
+    
+    <li ><a href="#method-i-appversion-3D">#appversion=</a>
+    
+    <li ><a href="#method-i-borders">#borders</a>
+    
+    <li ><a href="#method-i-cell_xfs">#cell_xfs</a>
+    
+    <li ><a href="#method-i-company">#company</a>
+    
+    <li ><a href="#method-i-company-3D">#company=</a>
+    
+    <li ><a href="#method-i-created_at">#created_at</a>
+    
+    <li ><a href="#method-i-created_at-3D">#created_at=</a>
+    
+    <li ><a href="#method-i-creator">#creator</a>
+    
+    <li ><a href="#method-i-creator-3D">#creator=</a>
+    
+    <li ><a href="#method-i-date1904">#date1904</a>
+    
+    <li ><a href="#method-i-date1904-3D">#date1904=</a>
+    
+    <li ><a href="#method-i-each">#each</a>
+    
+    <li ><a href="#method-i-fills">#fills</a>
+    
+    <li ><a href="#method-i-fonts">#fonts</a>
+    
+    <li ><a href="#method-i-get_fill_color">#get_fill_color</a>
+    
+    <li ><a href="#method-i-modified_at">#modified_at</a>
+    
+    <li ><a href="#method-i-modified_at-3D">#modified_at=</a>
+    
+    <li ><a href="#method-i-modifier">#modifier</a>
+    
+    <li ><a href="#method-i-modifier-3D">#modifier=</a>
+    
+    <li ><a href="#method-i-modify_alignment">#modify_alignment</a>
+    
+    <li ><a href="#method-i-modify_border">#modify_border</a>
+    
+    <li ><a href="#method-i-modify_fill">#modify_fill</a>
+    
+    <li ><a href="#method-i-modify_text_wrap">#modify_text_wrap</a>
+    
+    <li ><a href="#method-i-register_new_fill">#register_new_fill</a>
+    
+    <li ><a href="#method-i-register_new_font">#register_new_font</a>
+    
+    <li ><a href="#method-i-register_new_xf">#register_new_xf</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-RubyXL::WorkbookConvenienceMethods">
+  <h1 id="module-RubyXL::WorkbookConvenienceMethods" class="module">
+    module RubyXL::WorkbookConvenienceMethods
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="SHEET_NAME_TEMPLATE">SHEET_NAME_TEMPLATE
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-5B-5D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">[]</span><span
+            class="method-args">(ind)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Finds worksheet by its name or numerical index</p>
+          
+          
+
+          
+          <div class="method-source-code" id="5B-5D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 6</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">ind</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">ind</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">worksheets</span>[<span class="ruby-identifier">ind</span>]
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>  <span class="ruby-keyword">then</span> <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ws</span><span class="ruby-operator">|</span> <span class="ruby-identifier">ws</span>.<span class="ruby-identifier">sheet_name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">ind</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-add_worksheet" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_worksheet</span><span
+            class="method-args">(name = nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create new simple worksheet and add it to the workbook worksheets</p>
+
+<p>@param [String] The name for the new worksheet</p>
+          
+          
+
+          
+          <div class="method-source-code" id="add_worksheet-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 16</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_worksheet</span>(<span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">n</span> = <span class="ruby-value">0</span>
+
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-identifier">name</span> = <span class="ruby-constant">SHEET_NAME_TEMPLATE</span> <span class="ruby-operator">%</span> (<span class="ruby-identifier">n</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>)
+    <span class="ruby-keyword">end</span> <span class="ruby-keyword">until</span> <span class="ruby-keyword">self</span>[<span class="ruby-identifier">name</span>].<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">new_worksheet</span> = <span class="ruby-constant">Worksheet</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:workbook</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>, <span class="ruby-value">:sheet_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">worksheets</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_worksheet</span>
+  <span class="ruby-identifier">new_worksheet</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-application" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">application</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="application-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">application</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-application-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">application=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="application-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 56</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">application=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-appversion" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">appversion</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="appversion-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 61</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">appversion</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span>.<span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-appversion-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">appversion=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="appversion-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">appversion=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-borders" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">borders</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="borders-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 114</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">borders</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+  <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">borders</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cell_xfs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cell_xfs</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cell_xfs-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 102</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cell_xfs</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+  <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-company" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">company</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="company-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">company</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span>.<span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-company-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">company=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="company-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">company=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-created_at" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">created_at</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="created_at-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">created_at</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">created_at</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-created_at-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">created_at=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="created_at-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">created_at=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">created_at</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-creator" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">creator</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="creator-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">creator</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">creator</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-creator-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">creator=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="creator-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">creator=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">creator</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-date1904" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">date1904</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="date1904-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">date1904</span>
+  <span class="ruby-identifier">workbook_properties</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">workbook_properties</span>.<span class="ruby-identifier">date1904</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-date1904-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">date1904=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="date1904-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">date1904=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">workbook_properties</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookProperties</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">workbook_properties</span>.<span class="ruby-identifier">date1904</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-each" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">each</span><span
+            class="method-args">() { |i| ... }</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="each-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 30</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
+  <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-identifier">i</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-fills" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">fills</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="fills-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">fills</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+  <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fills</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-fonts" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">fonts</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="fonts-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 106</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">fonts</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+  <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fonts</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_fill_color" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_fill_color</span><span
+            class="method-args">(xf)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_fill_color-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
+  <span class="ruby-identifier">fill</span> = <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">fill_id</span>]
+  <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">fill</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">fill</span>.<span class="ruby-identifier">pattern_fill</span>
+  <span class="ruby-identifier">color</span> = <span class="ruby-identifier">pattern</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pattern</span>.<span class="ruby-identifier">fg_color</span>
+  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;ffffff&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modified_at" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modified_at</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modified_at-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 94</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modified_at</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modified_at</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modified_at-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modified_at=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modified_at-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modified_at=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modified_at</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modifier" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modifier</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modifier-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modifier</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modifier</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modifier-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modifier=</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modifier-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modifier=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modifier</span> = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modify_alignment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modify_alignment</span><span
+            class="method-args">(style_index, is_horizontal, alignment)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modify_alignment-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 156</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">is_horizontal</span>, <span class="ruby-identifier">alignment</span>)
+  <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">apply_alignment</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:horizontal</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">is_horizontal</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">alignment</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>,
+                                       <span class="ruby-value">:vertical</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">is_horizontal</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">alignment</span>)
+  <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">xf</span>, <span class="ruby-identifier">style_index</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modify_border" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modify_border</span><span
+            class="method-args">(style_index, direction, weight)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modify_border-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 173</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+  <span class="ruby-identifier">old_xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">border_id</span>].<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">set_edge_style</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+
+  <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">apply_border</span> = <span class="ruby-keyword">true</span>
+
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">border_id</span> = <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_border</span> } <span class="ruby-comment"># Use existing border, if it exists</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this border has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">border_id</span>] = <span class="ruby-identifier">new_border</span>
+
+  <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>, <span class="ruby-identifier">style_index</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modify_fill" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modify_fill</span><span
+            class="method-args">(style_index, rgb)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modify_fill-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 164</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
+  <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_fill</span> =<span class="ruby-operator">&gt;</span>
+               <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;solid&#39;</span>,
+                                       <span class="ruby-value">:fg_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rgb</span>)))
+  <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">xf</span>)
+  <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>, <span class="ruby-identifier">style_index</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-modify_text_wrap" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modify_text_wrap</span><span
+            class="method-args">(style_index, wrap = false)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="modify_text_wrap-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_text_wrap</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">wrap</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:wrap_text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">wrap</span>, <span class="ruby-value">:apply_alignment</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">xf</span>, <span class="ruby-identifier">style_index</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-register_new_fill" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register_new_fill</span><span
+            class="method-args">(new_fill, old_xf)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="register_new_fill-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 125</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">old_xf</span>)
+  <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">apply_fill</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">fill_id</span> = <span class="ruby-identifier">fills</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_fill</span> } <span class="ruby-comment"># Use existing fill, if it exists</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">fill_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">fills</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this fill has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">fill_id</span>] = <span class="ruby-identifier">new_fill</span>
+  <span class="ruby-identifier">new_xf</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-register_new_font" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register_new_font</span><span
+            class="method-args">(new_font, old_xf)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="register_new_font-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 134</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_font</span>(<span class="ruby-identifier">new_font</span>, <span class="ruby-identifier">old_xf</span>)
+  <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">apply_font</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span> = <span class="ruby-identifier">fonts</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_font</span> } <span class="ruby-comment"># Use existing font, if it exists</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">fonts</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this font has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span>] = <span class="ruby-identifier">new_font</span>
+  <span class="ruby-identifier">new_xf</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-register_new_xf" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register_new_xf</span><span
+            class="method-args">(new_xf, old_style_index)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="register_new_xf-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 143</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>, <span class="ruby-identifier">old_style_index</span>)
+  <span class="ruby-identifier">new_xf_id</span> = <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">xf</span><span class="ruby-operator">|</span> <span class="ruby-identifier">xf</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_xf</span> } <span class="ruby-comment"># Use existing XF, if it exists</span>
+  <span class="ruby-identifier">new_xf_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this XF has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">new_xf_id</span>] = <span class="ruby-identifier">new_xf</span>
+  <span class="ruby-identifier">new_xf_id</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.2.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
