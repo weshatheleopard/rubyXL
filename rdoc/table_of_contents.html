@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Table of Contents - rubyXL 3.2.3</title>
+<title>Table of Contents - rubyXL 3.2.5</title>
 
 <link href="./fonts.css" rel="stylesheet">
 <link href="./rdoc.css" rel="stylesheet">
@@ -23,7 +23,7 @@
 
 <body id="top" class="table-of-contents">
 <main role="main">
-<h1 class="class">Table of Contents - rubyXL 3.2.3</h1>
+<h1 class="class">Table of Contents - rubyXL 3.2.5</h1>
 
 <h2 id="pages">Pages</h2>
 <ul>
@@ -183,9 +183,6 @@
     <a href="RubyXL/LegacyCell.html">RubyXL::LegacyCell</a>
   </li>
   <li class="module">
-    <a href="RubyXL/LegacyWorkbook.html">RubyXL::LegacyWorkbook</a>
-  </li>
-  <li class="module">
     <a href="RubyXL/LegacyWorksheet.html">RubyXL::LegacyWorksheet</a>
   </li>
   <li class="class">
@@ -251,6 +248,9 @@
   <li class="class">
     <a href="RubyXL/WebPublishingItem.html">RubyXL::WebPublishingItem</a>
   </li>
+  <li class="module">
+    <a href="RubyXL/WorkbookConvenienceMethods.html">RubyXL::WorkbookConvenienceMethods</a>
+  </li>
   <li class="class">
     <a href="RubyXL/WorkbookProperties.html">RubyXL::WorkbookProperties</a>
   </li>
@@ -296,29 +296,9 @@
     <span class="container">RubyXL::OOXMLRelationshipsFile</span>
 
   <li class="method">
-    <a href="RubyXL/Reference.html#method-c-new">::new</a>
+    <a href="RubyXL/Parser.html#method-c-new">::new</a>
     &mdash;
-    <span class="container">RubyXL::Reference</span>
-
-  <li class="method">
-    <a href="RubyXL/GenericStorageObject.html#method-c-new">::new</a>
-    &mdash;
-    <span class="container">RubyXL::GenericStorageObject</span>
-
-  <li class="method">
-    <a href="RubyXL/Sqref.html#method-c-new">::new</a>
-    &mdash;
-    <span class="container">RubyXL::Sqref</span>
-
-  <li class="method">
-    <a href="RubyXL/SharedStringsTable.html#method-c-new">::new</a>
-    &mdash;
-    <span class="container">RubyXL::SharedStringsTable</span>
-
-  <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-c-new">::new</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::Parser</span>
 
   <li class="method">
     <a href="RubyXL/LegacyWorksheet.html#method-c-new">::new</a>
@@ -326,7 +306,27 @@
     <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
-    <a href="RubyXL/Parser.html#method-c-new">::new</a>
+    <a href="RubyXL/Sqref.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">RubyXL::Sqref</span>
+
+  <li class="method">
+    <a href="RubyXL/GenericStorageObject.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">RubyXL::GenericStorageObject</span>
+
+  <li class="method">
+    <a href="RubyXL/Reference.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">RubyXL::Reference</span>
+
+  <li class="method">
+    <a href="RubyXL/SharedStringsTable.html#method-c-new">::new</a>
+    &mdash;
+    <span class="container">RubyXL::SharedStringsTable</span>
+
+  <li class="method">
+    <a href="RubyXL/Parser.html#method-c-parse">::parse</a>
     &mdash;
     <span class="container">RubyXL::Parser</span>
 
@@ -341,19 +341,14 @@
     <span class="container">RubyXL::AExtension</span>
 
   <li class="method">
-    <a href="RubyXL/Parser.html#method-c-parse">::parse</a>
+    <a href="RubyXL/WorkbookRoot.html#method-c-parse_file">::parse_file</a>
     &mdash;
-    <span class="container">RubyXL::Parser</span>
+    <span class="container">RubyXL::WorkbookRoot</span>
 
   <li class="method">
     <a href="RubyXL/GenericStorageObject.html#method-c-parse_file">::parse_file</a>
     &mdash;
     <span class="container">RubyXL::GenericStorageObject</span>
-
-  <li class="method">
-    <a href="RubyXL/WorkbookRoot.html#method-c-parse_file">::parse_file</a>
-    &mdash;
-    <span class="container">RubyXL::WorkbookRoot</span>
 
   <li class="method">
     <a href="RubyXL/Reference.html#method-c-ref2ind">::ref2ind</a>
@@ -376,19 +371,19 @@
     <span class="container">RubyXL::Reference</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-5B-5D">#[]</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-5B-5D">#[]</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
-
-  <li class="method">
-    <a href="RubyXL/LegacyWorksheet.html#method-i-5B-5D">#[]</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorksheet</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/SharedStringsTable.html#method-i-5B-5D">#[]</a>
     &mdash;
     <span class="container">RubyXL::SharedStringsTable</span>
+
+  <li class="method">
+    <a href="RubyXL/LegacyWorksheet.html#method-i-5B-5D">#[]</a>
+    &mdash;
+    <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
     <a href="RubyXL/SharedStringsTable.html#method-i-add">#add</a>
@@ -416,9 +411,29 @@
     <span class="container">RubyXL::GenericStorageObject</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-add_worksheet">#add_worksheet</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-add_worksheet">#add_worksheet</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-application">#application</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-application-3D">#application=</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-appversion">#appversion</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-appversion-3D">#appversion=</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/OOXMLRelationshipsFile.html#method-i-before_write_xml">#before_write_xml</a>
@@ -426,14 +441,19 @@
     <span class="container">RubyXL::OOXMLRelationshipsFile</span>
 
   <li class="method">
-    <a href="RubyXL/ContentTypes.html#method-i-before_write_xml">#before_write_xml</a>
+    <a href="RubyXL/DocumentPropertiesFile.html#method-i-before_write_xml">#before_write_xml</a>
     &mdash;
-    <span class="container">RubyXL::ContentTypes</span>
+    <span class="container">RubyXL::DocumentPropertiesFile</span>
 
   <li class="method">
     <a href="RubyXL/ColumnRanges.html#method-i-before_write_xml">#before_write_xml</a>
     &mdash;
     <span class="container">RubyXL::ColumnRanges</span>
+
+  <li class="method">
+    <a href="RubyXL/Text.html#method-i-before_write_xml">#before_write_xml</a>
+    &mdash;
+    <span class="container">RubyXL::Text</span>
 
   <li class="method">
     <a href="RubyXL/SharedStringsTable.html#method-i-before_write_xml">#before_write_xml</a>
@@ -446,14 +466,9 @@
     <span class="container">RubyXL::CellValue</span>
 
   <li class="method">
-    <a href="RubyXL/DocumentPropertiesFile.html#method-i-before_write_xml">#before_write_xml</a>
+    <a href="RubyXL/ContentTypes.html#method-i-before_write_xml">#before_write_xml</a>
     &mdash;
-    <span class="container">RubyXL::DocumentPropertiesFile</span>
-
-  <li class="method">
-    <a href="RubyXL/Text.html#method-i-before_write_xml">#before_write_xml</a>
-    &mdash;
-    <span class="container">RubyXL::Text</span>
+    <span class="container">RubyXL::ContentTypes</span>
 
   <li class="method">
     <a href="RubyXL/LegacyCell.html#method-i-border_bottom">#border_bottom</a>
@@ -481,14 +496,14 @@
     <span class="container">RubyXL::LegacyCell</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-borders">#borders</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-borders">#borders</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-cell_xfs">#cell_xfs</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-cell_xfs">#cell_xfs</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/LegacyCell.html#method-i-change_border">#change_border</a>
@@ -766,14 +781,49 @@
     <span class="container">RubyXL::Cell</span>
 
   <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-company">#company</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-company-3D">#company=</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
     <a href="RubyXL/Reference.html#method-i-cover-3F">#cover?</a>
     &mdash;
     <span class="container">RubyXL::Reference</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-date_to_num">#date_to_num</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-created_at">#created_at</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-created_at-3D">#created_at=</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-creator">#creator</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-creator-3D">#creator=</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-date1904">#date1904</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-date1904-3D">#date1904=</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/OOXMLObjectClassMethods.html#method-i-define_attribute">#define_attribute</a>
@@ -811,14 +861,14 @@
     <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-each">#each</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
-
-  <li class="method">
     <a href="RubyXL/LegacyWorksheet.html#method-i-each">#each</a>
     &mdash;
     <span class="container">RubyXL::LegacyWorksheet</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-each">#each</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/SharedStringsTable.html#method-i-empty-3F">#empty?</a>
@@ -836,9 +886,9 @@
     <span class="container">RubyXL::LegacyCell</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-fills">#fills</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-fills">#fills</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/ColumnRanges.html#method-i-find">#find</a>
@@ -891,9 +941,9 @@
     <span class="container">RubyXL::LegacyCell</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-fonts">#fonts</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-fonts">#fonts</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/LegacyWorksheet.html#method-i-get_column_border_bottom">#get_column_border_bottom</a>
@@ -961,9 +1011,9 @@
     <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-get_fill_color">#get_fill_color</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-get_fill_color">#get_fill_color</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/SharedStringsTable.html#method-i-get_index">#get_index</a>
@@ -1076,6 +1126,11 @@
     <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
+    <a href="RubyXL/LegacyWorksheet.html#method-i-insert_column">#insert_column</a>
+    &mdash;
+    <span class="container">RubyXL::LegacyWorksheet</span>
+
+  <li class="method">
     <a href="RubyXL/ColumnRanges.html#method-i-insert_column">#insert_column</a>
     &mdash;
     <span class="container">RubyXL::ColumnRanges</span>
@@ -1084,11 +1139,6 @@
     <a href="RubyXL/ColumnRange.html#method-i-insert_column">#insert_column</a>
     &mdash;
     <span class="container">RubyXL::ColumnRange</span>
-
-  <li class="method">
-    <a href="RubyXL/LegacyWorksheet.html#method-i-insert_column">#insert_column</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
     <a href="RubyXL/LegacyWorksheet.html#method-i-insert_row">#insert_row</a>
@@ -1186,14 +1236,14 @@
     <span class="container">RubyXL::LegacyCell</span>
 
   <li class="method">
-    <a href="RubyXL/Font.html#method-i-is_underlined">#is_underlined</a>
-    &mdash;
-    <span class="container">RubyXL::Font</span>
-
-  <li class="method">
     <a href="RubyXL/LegacyCell.html#method-i-is_underlined">#is_underlined</a>
     &mdash;
     <span class="container">RubyXL::LegacyCell</span>
+
+  <li class="method">
+    <a href="RubyXL/Font.html#method-i-is_underlined">#is_underlined</a>
+    &mdash;
+    <span class="container">RubyXL::Font</span>
 
   <li class="method">
     <a href="RubyXL/Reference.html#method-i-last_col">#last_col</a>
@@ -1216,34 +1266,49 @@
     <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-modify_alignment">#modify_alignment</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modified_at">#modified_at</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-modify_border">#modify_border</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modified_at-3D">#modified_at=</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-modify_fill">#modify_fill</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modifier">#modifier</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-modify_text_wrap">#modify_text_wrap</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modifier-3D">#modifier=</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modify_alignment">#modify_alignment</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modify_border">#modify_border</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modify_fill">#modify_fill</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-modify_text_wrap">#modify_text_wrap</a>
+    &mdash;
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/OOXMLRelationshipsFile.html#method-i-new_relationship">#new_relationship</a>
     &mdash;
     <span class="container">RubyXL::OOXMLRelationshipsFile</span>
-
-  <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-num_to_date">#num_to_date</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
 
   <li class="method">
     <a href="RubyXL/Cell.html#method-i-number_format">#number_format</a>
@@ -1276,19 +1341,19 @@
     <span class="container">RubyXL::Cell</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-register_new_fill">#register_new_fill</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-register_new_fill">#register_new_fill</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-register_new_font">#register_new_font</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-register_new_font">#register_new_font</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-register_new_xf">#register_new_xf</a>
+    <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-register_new_xf">#register_new_xf</a>
     &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
+    <span class="container">RubyXL::WorkbookConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/WorkbookRoot.html#method-i-related_objects">#related_objects</a>
@@ -1304,11 +1369,6 @@
     <a href="RubyXL/Cell.html#method-i-row-3D">#row=</a>
     &mdash;
     <span class="container">RubyXL::Cell</span>
-
-  <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-save">#save</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
 
   <li class="method">
     <a href="RubyXL/Font.html#method-i-set_bold">#set_bold</a>
@@ -1351,11 +1411,6 @@
     <span class="container">RubyXL::Reference</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-stream">#stream</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
-
-  <li class="method">
     <a href="RubyXL/WorkbookRoot.html#method-i-stream">#stream</a>
     &mdash;
     <span class="container">RubyXL::WorkbookRoot</span>
@@ -1366,11 +1421,6 @@
     <span class="container">RubyXL::LegacyCell</span>
 
   <li class="method">
-    <a href="RubyXL/Reference.html#method-i-to_s">#to_s</a>
-    &mdash;
-    <span class="container">RubyXL::Reference</span>
-
-  <li class="method">
     <a href="RubyXL/Sqref.html#method-i-to_s">#to_s</a>
     &mdash;
     <span class="container">RubyXL::Sqref</span>
@@ -1379,6 +1429,11 @@
     <a href="RubyXL/Text.html#method-i-to_s">#to_s</a>
     &mdash;
     <span class="container">RubyXL::Text</span>
+
+  <li class="method">
+    <a href="RubyXL/Reference.html#method-i-to_s">#to_s</a>
+    &mdash;
+    <span class="container">RubyXL::Reference</span>
 
   <li class="method">
     <a href="RubyXL/Cell.html#method-i-value">#value</a>
@@ -1396,11 +1451,6 @@
     <span class="container">RubyXL::LegacyCell</span>
 
   <li class="method">
-    <a href="RubyXL/LegacyWorkbook.html#method-i-write">#write</a>
-    &mdash;
-    <span class="container">RubyXL::LegacyWorkbook</span>
-
-  <li class="method">
     <a href="RubyXL/AExtension.html#method-i-write_xml">#write_xml</a>
     &mdash;
     <span class="container">RubyXL::AExtension</span>
@@ -1411,19 +1461,9 @@
     <span class="container">RubyXL::RawOOXML</span>
 
   <li class="method">
-    <a href="RubyXL/OOXMLRelationshipsFile.html#method-i-xlsx_path">#xlsx_path</a>
+    <a href="RubyXL/WorkbookRoot.html#method-i-xlsx_path">#xlsx_path</a>
     &mdash;
-    <span class="container">RubyXL::OOXMLRelationshipsFile</span>
-
-  <li class="method">
-    <a href="RubyXL/ContentTypes.html#method-i-xlsx_path">#xlsx_path</a>
-    &mdash;
-    <span class="container">RubyXL::ContentTypes</span>
-
-  <li class="method">
-    <a href="RubyXL/DocumentPropertiesFile.html#method-i-xlsx_path">#xlsx_path</a>
-    &mdash;
-    <span class="container">RubyXL::DocumentPropertiesFile</span>
+    <span class="container">RubyXL::WorkbookRoot</span>
 
   <li class="method">
     <a href="RubyXL/SharedStringsTable.html#method-i-xlsx_path">#xlsx_path</a>
@@ -1431,9 +1471,19 @@
     <span class="container">RubyXL::SharedStringsTable</span>
 
   <li class="method">
-    <a href="RubyXL/WorkbookRoot.html#method-i-xlsx_path">#xlsx_path</a>
+    <a href="RubyXL/DocumentPropertiesFile.html#method-i-xlsx_path">#xlsx_path</a>
     &mdash;
-    <span class="container">RubyXL::WorkbookRoot</span>
+    <span class="container">RubyXL::DocumentPropertiesFile</span>
+
+  <li class="method">
+    <a href="RubyXL/ContentTypes.html#method-i-xlsx_path">#xlsx_path</a>
+    &mdash;
+    <span class="container">RubyXL::ContentTypes</span>
+
+  <li class="method">
+    <a href="RubyXL/OOXMLRelationshipsFile.html#method-i-xlsx_path">#xlsx_path</a>
+    &mdash;
+    <span class="container">RubyXL::OOXMLRelationshipsFile</span>
 
   <li class="method">
     <a href="RubyXL/CalculationChain.html#method-i-xlsx_path">#xlsx_path</a>
@@ -1445,7 +1495,7 @@
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
+  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.2.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

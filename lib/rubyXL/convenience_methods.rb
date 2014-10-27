@@ -1,50 +1,6 @@
-require 'tmpdir'
-require 'date'
-
 module RubyXL
-  module LegacyWorkbook
-    include Enumerable
-
+  module WorkbookConvenienceMethods
     SHEET_NAME_TEMPLATE = 'Sheet%d'
-    APPLICATION = 'Microsoft Macintosh Excel'
-    APPVERSION  = '12.0000'
-
-    @@debug = nil
-
-    def initialize(worksheets=[], filepath=nil, creator=nil, modifier=nil, created_at=nil,
-                   company='', application=APPLICATION,
-                   appversion=APPVERSION, date1904=0)
-      super()
-
-      # Order of sheets in the +worksheets+ array corresponds to the order of pages in Excel UI.
-      # SheetId's, rId's, etc. are completely unrelated to ordering.
-      @worksheets = worksheets
-      add_worksheet if @worksheets.empty?
-
-      @creator             = creator
-      @modifier            = modifier
-      self.date1904        = date1904 > 0
-
-      @theme                    = RubyXL::Theme.defaults
-      @shared_strings_container = RubyXL::SharedStringsTable.new
-      @stylesheet               = RubyXL::Stylesheet.default
-      @relationship_container   = RubyXL::OOXMLRelationshipsFile.new
-      @root                     = RubyXL::WorkbookRoot.default
-      @root.workbook            = self
-      @root.filepath            = filepath
-      @comments                 = []
-
-      self.company         = company
-      self.application     = application
-      self.appversion      = appversion
-
-      begin
-        @created_at       = DateTime.parse(created_at).strftime('%Y-%m-%dT%TZ')
-      rescue
-        @created_at       = Time.now.strftime('%Y-%m-%dT%TZ')
-      end
-      @modified_at        = @created_at
-    end
 
     # Finds worksheet by its name or numerical index
     def [](ind)
@@ -75,42 +31,88 @@ module RubyXL
       worksheets.each{ |i| yield i }
     end
 
-    # Return the resulting XLSX file in a stream (useful for sending over HTTP)
-    def stream
-      root.stream
+    def date1904
+      workbook_properties && workbook_properties.date1904
     end
 
-    # Save the resulting XLSX file to the specified location
-    def save(filepath = nil)
-      filepath ||= root.filepath
-
-      extension = File.extname(filepath)
-      unless %w{.xlsx .xlsm}.include?(extension.downcase)
-        raise "Unsupported extension: #{extension} (only .xlsx and .xlsm files are supported)."
-      end
-
-      File.open(filepath, "wb") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
-
-      return filepath
-    end
-    alias_method :write, :save
-
-    def base_date
-      if date1904 then
-        DateTime.new(1904, 1, 1)
-      else
-        # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
-        DateTime.new(1899, 12, 31) - 1
-      end
-    end
-    private :base_date
-
-    def date_to_num(date)
-      date && (date.ajd - base_date().ajd).to_f
+    def date1904=(v)
+      self.workbook_properties ||= RubyXL::WorkbookProperties.new
+      workbook_properties.date1904 = v
     end
 
-    def num_to_date(num)
-      num && (base_date + num)
+    def company
+      root.document_properties.company && root.document_properties.company.value
+    end
+
+    def company=(v)
+      root.document_properties.company ||= StringNode.new
+      root.document_properties.company.value = v
+    end
+
+    def application
+      root.document_properties.application && root.document_properties.application.value
+    end
+
+    def application=(v)
+      root.document_properties.application ||= StringNode.new
+      root.document_properties.application.value = v
+    end
+
+    def appversion
+      root.document_properties.app_version && root.document_properties.app_version.value
+    end
+
+    def appversion=(v)
+      root.document_properties.app_version ||= StringNode.new
+      root.document_properties.app_version.value = v
+    end
+
+    def creator
+      root.core_properties.creator
+    end
+
+    def creator=(v)
+      root.core_properties.creator = v
+    end
+
+    def modifier
+      root.core_properties.modifier
+    end
+
+    def modifier=(v)
+      root.core_properties.modifier = v
+    end
+
+    def created_at
+      root.core_properties.created_at
+    end
+
+    def created_at=(v)
+      root.core_properties.created_at = v
+    end
+
+    def modified_at
+      root.core_properties.modified_at
+    end
+
+    def modified_at=(v)
+      root.core_properties.modified_at = v
+    end
+
+    def cell_xfs # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.cell_xfs
+    end
+
+    def fonts # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.fonts
+    end
+
+    def fills # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.fills
+    end
+
+    def borders # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.borders
     end
 
     def get_fill_color(xf)
@@ -183,38 +185,6 @@ module RubyXL
       register_new_xf(new_xf, style_index)
     end
 
-    def cell_xfs # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.cell_xfs
-    end
-
-    def fonts # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.fonts
-    end
-
-    def fills # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.fills
-    end
-
-    def borders # Stylesheet should be pre-filled with defaults on initialize()
-      stylesheet.borders
-    end
-
-    private
-
-=begin
-    #fills shared strings hash, contains each unique string
-    def fill_shared_strings()
-      @worksheets.compact.each { |sheet|
-        sheet.sheet_data.rows.each { |row|
-          row.cells.each { |cell|
-            if cell && cell.value && cell.datatype == RubyXL::DataType::SHARED_STRING then
-              get_index(cell.value.to_s, :add_if_missing)
-            end
-          }
-        }
-      }
-    end
-=end
-
   end
+
 end
