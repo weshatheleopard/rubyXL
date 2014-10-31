@@ -70,7 +70,7 @@ module RubyXL
     define_child_node(RubyXL::XF, :collection => :with_count)
     define_element_name 'cellStyleXfs'
 
-    def self.defaults
+    def self.default
       self.new(:_ => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ])
     end
   end
@@ -80,7 +80,7 @@ module RubyXL
     define_child_node(RubyXL::XF, :collection => :with_count)
     define_element_name 'cellXfs'
 
-    def self.defaults
+    def self.default
       self.new(:_ => [
                  RubyXL::XF.new(
                    :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
@@ -94,7 +94,7 @@ module RubyXL
     define_child_node(RubyXL::CellStyle, :collection => :with_count)
     define_element_name 'cellStyles'
 
-    def self.defaults
+    def self.default
       self.new(:_ => [ RubyXL::CellStyle.new(:builtin_id => 0, :name => 'Normal', :xf_id => 0) ])
     end
   end
@@ -191,12 +191,12 @@ module RubyXL
     end
 
     def self.default
-      self.new(:fonts          => RubyXL::Fonts.defaults,
-               :fills          => RubyXL::Fills.defaults,
-               :borders        => RubyXL::Borders.defaults,
-               :cell_xfs       => RubyXL::CellXFs.defaults,
-               :cell_styles    => RubyXL::CellStyles.defaults,
-               :cell_style_xfs => RubyXL::CellStyleXFs.defaults)
+      self.new(:fonts          => RubyXL::Fonts.default,
+               :fills          => RubyXL::Fills.default,
+               :borders        => RubyXL::Borders.default,
+               :cell_xfs       => RubyXL::CellXFs.default,
+               :cell_styles    => RubyXL::CellStyles.default,
+               :cell_style_xfs => RubyXL::CellStyleXFs.default)
     end
 
     def get_number_format_by_id(format_id)
