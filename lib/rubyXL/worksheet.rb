@@ -370,7 +370,7 @@ module LegacyWorksheet
       c.datatype = RubyXL::DataType::RAW_STRING unless formula || data.is_a?(Numeric)
       c.formula = RubyXL::Formula.new(:expression => formula) if formula
 
-      range = cols && cols.find(column)
+      range = cols && cols.locate_range(column)
       c.style_index = sheet_data.rows[row].style_index || (range && range.style_index) || 0
 
       sheet_data.rows[row].cells[column] = c
@@ -443,7 +443,7 @@ module LegacyWorksheet
       }
     }
 
-    cols.column_ranges.each { |range| range.delete_column(column_index) }
+    cols.each { |range| range.delete_column(column_index) }
   end
 
   # Inserts column at +column_index+, pushes everything right, takes styles from column to left
@@ -635,7 +635,7 @@ module LegacyWorksheet
     validate_nonnegative(column_index)
     return nil unless column_exists(column_index)
 
-    range = cols.find(column_index)
+    range = cols.locate_range(column_index)
     range && range.width
   end
 
@@ -759,7 +759,7 @@ module LegacyWorksheet
   end
 
   def get_cols_style_index(column_index)
-    range = cols.find(column_index)
+    range = cols.locate_range(column_index)
     (range && range.style_index) || 0
   end
 
@@ -823,7 +823,7 @@ module LegacyWorksheet
 
   # Helper method to get the style index for a column
   def get_col_style(column_index)
-    range = cols.find(column_index)
+    range = cols.locate_range(column_index)
     (range && range.style_index) || 0
   end
 
