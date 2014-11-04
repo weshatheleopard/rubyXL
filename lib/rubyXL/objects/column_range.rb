@@ -83,6 +83,7 @@ module RubyXL
     end
 
     def before_write_xml
+      self.sort_by!{ |r| r.min }
       !(self.empty?)
     end
 
