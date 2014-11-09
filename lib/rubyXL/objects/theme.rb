@@ -1224,8 +1224,9 @@ module RubyXL
     define_element_name 'a:defRPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_defPPr-1.html     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:lnSpc')
+  # http://www.schemacentral.com/sc/ooxml/e-a_defPPr-1.html
   class CT_TextParagraphProperties < OOXMLObject
+    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:lnSpc')
     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcBef')
     define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcAft')
     define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buClrTx')
@@ -1390,7 +1391,7 @@ module RubyXL
       ROOT.join('xl', 'theme', 'theme1.xml')
     end
 
-    def self.defaults
+    def self.default
       default_theme = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
 <a:themeElements>

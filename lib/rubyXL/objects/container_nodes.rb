@@ -38,6 +38,15 @@ module RubyXL
   class StringNodeW3C < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
     define_attribute('xsi:type', :string, :required => true, :default => 'dcterms:W3CDTF')
+
+    def to_time
+      value && (value.strip.empty? ? nil : DateTime.parse(value).to_time)
+    end
+
+    def self.default(v)
+      v && self.new(:value => v.to_datetime.iso8601)
+    end
+
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-docPropsVTypes_variant.html

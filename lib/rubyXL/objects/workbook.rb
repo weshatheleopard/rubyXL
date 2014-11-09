@@ -1,3 +1,5 @@
+#require 'tmpdir'
+require 'date'
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/shared_strings'
 require 'rubyXL/objects/stylesheet'
@@ -8,7 +10,6 @@ require 'rubyXL/objects/chartsheet'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
-require 'rubyXL/workbook'
 require 'rubyXL/convenience_methods'
 
 module RubyXL
@@ -362,7 +363,78 @@ module RubyXL
       ROOT.join('xl', 'workbook.xml')
     end
 
-    include LegacyWorkbook
+    # Return the resulting XLSX file in a stream (useful for sending over HTTP)
+    def stream
+      root.stream
+    end
+
+    # Save the resulting XLSX file to the specified location
+    def save(filepath = nil)
+      filepath ||= root.filepath
+
+      extension = File.extname(filepath)
+      unless %w{.xlsx .xlsm}.include?(extension.downcase)
+        raise "Unsupported extension: #{extension} (only .xlsx and .xlsm files are supported)."
+      end
+
+      File.open(filepath, "wb") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
+
+      return filepath
+    end
+    alias_method :write, :save
+
+    DATE1904 = DateTime.new(1904, 1, 1)
+    # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
+    DATE1899 = DateTime.new(1899, 12, 31) - 1
+
+    def base_date
+      (workbook_properties && workbook_properties.date1904) ? DATE1904 : DATE1899
+    end
+    private :base_date
+
+    def date_to_num(date)
+      date && (date.ajd - base_date().ajd).to_f
+    end
+
+    def num_to_date(num)
+      num && (base_date + num)
+    end
+
+    include Enumerable
+
+    APPLICATION = 'Microsoft Macintosh Excel'
+    APPVERSION  = '12.0000'
+
+    @@debug = nil
+
+    def initialize(worksheets = [], filepath = nil, creator = nil, modifier = nil, created_at = nil,
+                   company = '', application = APPLICATION, appversion = APPVERSION, date1904 = 0)
+      super()
+
+      # Order of sheets in the +worksheets+ array corresponds to the order of pages in Excel UI.
+      # SheetId's, rId's, etc. are completely unrelated to ordering.
+      @worksheets = worksheets
+      add_worksheet if @worksheets.empty?
+
+      @theme                    = RubyXL::Theme.default
+      @shared_strings_container = RubyXL::SharedStringsTable.new
+      @stylesheet               = RubyXL::Stylesheet.default
+      @relationship_container   = RubyXL::OOXMLRelationshipsFile.new
+      @root                     = RubyXL::WorkbookRoot.default
+      @root.workbook            = self
+      @root.filepath            = filepath
+
+      creation_time = DateTime.parse(created_at) rescue DateTime.now
+      self.created_at  = creation_time
+      self.modified_at = creation_time
+      self.company     = company
+      self.application = application
+      self.appversion  = appversion
+      self.creator     = creator
+      self.modifier    = modifier
+      self.date1904    = date1904 > 0
+    end
+
     include WorkbookConvenienceMethods
   end
 

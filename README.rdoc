@@ -188,11 +188,17 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
   worksheet.delete_cell(0, 0, :up)    # Deletes A1, shifts contents of first column up
   worksheet.delete_cell(0, 0)         # Deletes A1, does not shift cells
 
+== I/O
+
 === Writing
   workbook.write("path/to/desired/Excel/file.xlsx")
 
+=== Streaming
+The gem can provide +StringIO+ object containing the resulting +xlsx+ file, eliminating the need to save it to disk first. This capability comes in handy for web servers.
 
-=== Miscellaneous
+  workbook.stream
+
+== Miscellaneous
   Reference.ind2ref(0,0) == 'A1'    # Converts row and column index to Excel-style cell reference
   Reference.ref2ind('A1') == [0, 0] # Converts Excel-style cell reference to row and column index
 
