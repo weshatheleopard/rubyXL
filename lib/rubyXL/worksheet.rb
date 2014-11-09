@@ -633,7 +633,6 @@ module LegacyWorksheet
   def get_column_width_raw(column_index = 0)
     validate_workbook
     validate_nonnegative(column_index)
-    return nil unless column_exists(column_index)
 
     range = cols.find(column_index)
     range && range.width
@@ -880,7 +879,7 @@ module LegacyWorksheet
   private :validate_nonnegative
 
   def column_exists(col)
-    sheet_data.rows[0].cells.size > col
+    sheet_data.rows.any? { |r| r && (r.cells.size > col) }
   end
 
   def row_exists(row)

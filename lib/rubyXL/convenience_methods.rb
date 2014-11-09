@@ -71,4 +71,8 @@ module RubyXL
 
   end
 
+  module WorksheetConvenienceMethods
+
+  end
+
 end

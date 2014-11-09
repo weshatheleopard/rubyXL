@@ -11,6 +11,7 @@ require 'rubyXL/objects/filters'
 require 'rubyXL/objects/data_validation'
 require 'rubyXL/objects/comments'
 require 'rubyXL/worksheet'
+require 'rubyXL/convenience_methods'
 
 module RubyXL
 
@@ -737,6 +738,7 @@ module RubyXL
     end
 
     include LegacyWorksheet
+    include WorksheetConvenienceMethods
   end
 
 end
