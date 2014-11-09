@@ -298,51 +298,6 @@ module LegacyWorksheet
     }
   end
 
-  def change_column_horizontal_alignment(column_index, alignment = 'center')
-    change_column_alignment(column_index, alignment,true)
-  end
-
-  def change_column_vertical_alignment(column_index, alignment = 'center')
-    change_column_alignment(column_index, alignment, false)
-  end
-
-  def change_column_border_top(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :top, weight)
-  end
-
-  def change_column_border_left(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :left, weight)
-  end
-
-  def change_column_border_right(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :right, weight)
-  end
-
-  def change_column_border_bottom(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :bottom, weight)
-  end
-
-  def change_column_border_diagonal(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :diagonal, weight)
-  end
-
-  def change_column_border(column_index, direction, weight)
-    validate_workbook
-    ensure_cell_exists(0, column_index)
-
-    cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
-
-    sheet_data.rows.each { |row|
-      c = row.cells[column_index]
-      c.change_border(direction, weight) unless c.nil?
-    }
-  end
-
   # merges cells within a rectangular range
   def merge_cells(row1 = 0, col1 = 0, row2 = 0, col2 = 0)
     validate_workbook
