@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::StringNodeW3C - rubyXL 3.2.6</title>
+<title>class RubyXL::StringNodeW3C - rubyXL 3.2.7</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -67,7 +67,19 @@
 
     
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-c-default">::default</a>
+    
+    <li ><a href="#method-i-to_time">#to_time</a>
+    
+  </ul>
+</div>
+
   </div>
 </nav>
 
@@ -93,6 +105,88 @@
     
 
     
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-default" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">default</span><span
+            class="method-args">(v)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="default-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/container_nodes.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_datetime</span>.<span class="ruby-identifier">iso8601</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-to_time" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_time</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_time-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/container_nodes.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_time</span>
+  <span class="ruby-identifier">value</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>).<span class="ruby-identifier">to_time</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColumnRanges - rubyXL 3.2.6</title>
+<title>class RubyXL::ColumnRanges - rubyXL 3.2.7</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -61,7 +61,7 @@
   <h3>Parent</h3>
 
   
-  <p class="link">OOXMLObject
+  <p class="link">OOXMLContainerObject
   
 </div>
 
@@ -75,11 +75,11 @@
     
     <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
     
-    <li ><a href="#method-i-find">#find</a>
-    
     <li ><a href="#method-i-get_range">#get_range</a>
     
     <li ><a href="#method-i-insert_column">#insert_column</a>
+    
+    <li ><a href="#method-i-locate_range">#locate_range</a>
     
   </ul>
 </div>
@@ -134,42 +134,10 @@
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 69</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 85</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
-  <span class="ruby-operator">!</span>(<span class="ruby-identifier">column_ranges</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">column_ranges</span>.<span class="ruby-identifier">empty?</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-find" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">find</span><span
-            class="method-args">(col_index)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="find-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 61</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">find</span>(<span class="ruby-identifier">col_index</span>)
-  <span class="ruby-identifier">column_ranges</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">column_ranges</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col_index</span>) }
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sort_by!</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">min</span> }
+  <span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -201,22 +169,37 @@ existing column range into multiples.</p>
 
           
           <div class="method-source-code" id="get_range-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_range</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">col_num</span> = <span class="ruby-identifier">col_index</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
 
-  <span class="ruby-identifier">old_range</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">col_index</span>)
+  <span class="ruby-identifier">old_range</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">col_index</span>)
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">new_range</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:min</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">col_num</span>, <span class="ruby-value">:max</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">col_num</span>)
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">column_ranges</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_range</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">new_range</span>
-  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-operator">&amp;&amp;</span>
-          <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># Single column range, OK to change in place</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">old_range</span>
+    <span class="ruby-identifier">new_range</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Range splitting not implemented yet&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-identifier">old_range</span> <span class="ruby-comment"># Single column range, OK to change in place</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">new_range</span> = <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">new_range</span> = <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">range_before</span> = <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">range_before</span>.<span class="ruby-identifier">max</span> = <span class="ruby-identifier">col_index</span> <span class="ruby-comment"># col_num - 1</span>
+      <span class="ruby-keyword">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">range_before</span>
+
+      <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> = <span class="ruby-identifier">col_num</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+
+      <span class="ruby-identifier">new_range</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">new_range</span>.<span class="ruby-identifier">min</span> = <span class="ruby-identifier">new_range</span>.<span class="ruby-identifier">max</span> = <span class="ruby-identifier">col_num</span>
+  <span class="ruby-keyword">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">new_range</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">new_range</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -247,9 +230,42 @@ existing column range into multiples.</p>
 
           
           <div class="method-source-code" id="insert_column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 65</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">col_index</span>)
-  <span class="ruby-identifier">column_ranges</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">column_ranges</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">col_index</span>) }
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">col_index</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-locate_range" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">locate_range</span><span
+            class="method-args">(col_index)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="locate_range-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 77</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">col_index</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col_index</span>) }
 <span class="ruby-keyword">end</span></pre>
           </div>
           
