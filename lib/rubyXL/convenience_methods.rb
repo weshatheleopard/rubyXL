@@ -187,4 +187,299 @@ module RubyXL
 
   end
 
+
+  module WorksheetConvenienceMethods
+
+    def get_row_fill(row = 0)
+      (row = sheet_data.rows[row]) && row.get_fill_color
+    end
+
+    def get_row_font_name(row = 0)
+      (font = row_font(row)) && font.get_name
+    end
+
+    def get_row_font_size(row = 0)
+      (font = row_font(row)) && font.get_size
+    end
+
+    def get_row_font_color(row = 0)
+      font = row_font(row)
+      color = font && font.color
+      color && (color.rgb || '000000')
+    end
+
+    def is_row_italicized(row = 0)
+      (font = row_font(row)) && font.is_italic
+    end
+
+    def is_row_bolded(row = 0)
+      (font = row_font(row)) && font.is_bold
+    end
+
+    def is_row_underlined(row = 0)
+      (font = row_font(row)) && font.is_underlined
+    end
+
+    def is_row_struckthrough(row = 0)
+      (font = row_font(row)) && font.is_strikethrough
+    end
+
+    def get_row_height(row = 0)
+      validate_workbook
+      validate_nonnegative(row)
+      return nil unless row_exists(row)
+      row = sheet_data.rows[row]
+      row && row.ht || 13
+    end
+
+    def get_row_horizontal_alignment(row = 0)
+      return get_row_alignment(row, true)
+    end
+
+    def get_row_vertical_alignment(row = 0)
+      return get_row_alignment(row, false)
+    end
+
+    def get_row_border_top(row = 0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
+      return get_row_border(row, :top)
+    end
+
+    def get_row_border_left(row = 0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
+      return get_row_border(row, :left)
+    end
+
+    def get_row_border_right(row = 0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
+      return get_row_border(row, :right)
+    end
+
+    def get_row_border_bottom(row = 0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
+      return get_row_border(row, :bottom)
+    end
+
+    def get_row_border_diagonal(row = 0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
+      return get_row_border(row, :diagonal)
+    end
+
+    def get_column_font_name(col = 0)
+      font = column_font(col)
+      font && font.get_name
+    end
+
+    def get_column_font_size(col = 0)
+      font = column_font(col)
+      font && font.get_size
+    end
+
+    def get_column_font_color(col = 0)
+      font = column_font(col)
+      font && (font.get_rgb_color || '000000')
+    end
+
+    def is_column_italicized(col = 0)
+      font = column_font(col)
+      font && font.is_italic
+    end
+
+    def is_column_bolded(col = 0)
+      font = column_font(col)
+      font && font.is_bold
+    end
+
+    def is_column_underlined(col = 0)
+      font = column_font(col)
+      font && font.is_underlined
+    end
+
+    def is_column_struckthrough(col = 0)
+      font = column_font(col)
+      font && font.is_strikethrough
+    end
+
+    # Get raw column width value as stored in the file
+    def get_column_width_raw(column_index = 0)
+      validate_workbook
+      validate_nonnegative(column_index)
+
+      range = cols.locate_range(column_index)
+      range && range.width
+    end
+
+    # Get column width measured in number of digits, as per
+    # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
+    def get_column_width(column_index = 0)
+      width = get_column_width_raw(column_index)
+      return RubyXL::ColumnRange::DEFAULT_WIDTH if width.nil?
+      (width - (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)).round
+    end
+
+    def get_column_fill(col=0)
+      validate_workbook
+      validate_nonnegative(col)
+      return nil unless column_exists(col)
+
+      @workbook.get_fill_color(get_col_xf(col))
+    end
+
+    def get_column_horizontal_alignment(col=0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_alignment` instead."
+      get_column_alignment(col, :horizontal)
+    end
+
+    def get_column_vertical_alignment(col=0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_alignment` instead."
+      get_column_alignment(col, :vertical)
+    end
+
+    def get_column_border_top(col=0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
+      get_column_border(col, :top)
+    end
+
+    def get_column_border_left(col=0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
+      get_column_border(col, :left)
+    end
+
+    def get_column_border_right(col=0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
+      get_column_border(col, :right)
+    end
+
+    def get_column_border_bottom(col=0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
+      get_column_border(col, :bottom)
+    end
+
+    def get_column_border_diagonal(col=0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
+      get_column_border(col, :diagonal)
+    end
+
+    def change_column_horizontal_alignment(column_index, alignment = 'center')
+      change_column_alignment(column_index, alignment, true)
+    end
+
+    def change_column_vertical_alignment(column_index, alignment = 'center')
+      change_column_alignment(column_index, alignment, false)
+    end
+
+    def change_column_border_top(column_index, weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
+      change_column_border(column_index, :top, weight)
+    end
+
+    def change_column_border_left(column_index, weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
+      change_column_border(column_index, :left, weight)
+    end
+
+    def change_column_border_right(column_index, weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
+      change_column_border(column_index, :right, weight)
+    end
+
+    def change_column_border_bottom(column_index, weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
+      change_column_border(column_index, :bottom, weight)
+    end
+
+    def change_column_border_diagonal(column_index, weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
+      change_column_border(column_index, :diagonal, weight)
+    end
+
+    def change_column_border(column_index, direction, weight)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+
+      cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
+
+      sheet_data.rows.each { |row|
+        c = row.cells[column_index]
+        c.change_border(direction, weight) unless c.nil?
+      }
+    end
+
+  end
+
+
+  module CellConvenienceMethods
+
+    def change_horizontal_alignment(alignment = 'center')
+      validate_worksheet
+      self.style_index = workbook.modify_alignment(self.style_index, true, alignment)
+    end
+
+    def change_vertical_alignment(alignment = 'center')
+      validate_worksheet
+      self.style_index = workbook.modify_alignment(self.style_index, false, alignment)
+    end
+
+    def change_text_wrap(wrap = false)
+      validate_worksheet
+      self.style_index = workbook.modify_text_wrap(self.style_index, wrap)
+    end
+
+    def change_border(direction, weight)
+      validate_worksheet
+      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+    end
+
+    def change_border_top(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
+      change_border(:top, weight)
+    end
+
+    def change_border_left(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
+      change_border(:left, weight)
+    end
+
+    def change_border_right(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
+      change_border(:right, weight)
+    end
+
+    def change_border_bottom(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
+      change_border(:bottom, weight)
+    end
+
+    def change_border_diagonal(weight = 'thin')
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
+      change_border(:diagonal, weight)
+    end
+
+    def border_top()
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
+      return get_border(:top)
+    end
+
+    def border_left()
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
+      return get_border(:left)
+    end
+
+    def border_right()
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
+      return get_border(:right)
+    end
+
+    def border_bottom()
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
+      return get_border(:bottom)
+    end
+
+    def border_diagonal()
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
+      return get_border(:diagonal)
+    end
+
+  end
+
 end
