@@ -405,6 +405,40 @@ module RubyXL
       }
     end
 
+    def change_row_alignment(row,alignment, is_horizontal)
+      validate_workbook
+      validate_nonnegative(row)
+      ensure_cell_exists(row)
+
+      sheet_data.rows[row].style_index = @workbook.modify_alignment(get_row_style(row), is_horizontal, alignment)
+
+      sheet_data[row].cells.each { |c|
+        next if c.nil?
+        if is_horizontal then c.change_horizontal_alignment(alignment)
+        else                  c.change_vertical_alignment(alignment)
+        end
+      }
+    end
+
+    def change_column_alignment(column_index, alignment, is_horizontal)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+
+      cols.get_range(column_index).style_index = @workbook.modify_alignment(get_col_style(column_index), is_horizontal, alignment)
+      # Excel gets confused if width is not explicitly set for a column that had alignment changes
+      change_column_width(column_index) if get_column_width_raw(column_index).nil?
+
+      sheet_data.rows.each { |row|
+        c = row[column_index]
+        next if c.nil?
+        if is_horizontal
+          c.change_horizontal_alignment(alignment)
+        else
+          c.change_vertical_alignment(alignment)
+        end
+      }
+    end
+
   end
 
 
