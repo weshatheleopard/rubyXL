@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.2.5</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.2.7</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -119,8 +119,6 @@
     <li ><a href="#method-i-modify_border">#modify_border</a>
     
     <li ><a href="#method-i-modify_fill">#modify_fill</a>
-    
-    <li ><a href="#method-i-modify_text_wrap">#modify_text_wrap</a>
     
     <li ><a href="#method-i-register_new_fill">#register_new_fill</a>
     
@@ -994,7 +992,7 @@
         
         <div class="method-heading">
           <span class="method-name">modify_alignment</span><span
-            class="method-args">(style_index, is_horizontal, alignment)</span>
+            class="method-args">(style_index) { |alignment| ... }</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -1009,12 +1007,12 @@
 
           
           <div class="method-source-code" id="modify_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 156</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">is_horizontal</span>, <span class="ruby-identifier">alignment</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">apply_alignment</span> = <span class="ruby-keyword">true</span>
-  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:horizontal</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">is_horizontal</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">alignment</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>,
-                                       <span class="ruby-value">:vertical</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">is_horizontal</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">alignment</span>)
+  <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span>)
   <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">xf</span>, <span class="ruby-identifier">style_index</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -1046,7 +1044,7 @@
 
           
           <div class="method-source-code" id="modify_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 173</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 167</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">old_xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">border_id</span>].<span class="ruby-identifier">dup</span>
@@ -1090,7 +1088,7 @@
 
           
           <div class="method-source-code" id="modify_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 164</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 158</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_fill</span> =<span class="ruby-operator">&gt;</span>
@@ -1098,41 +1096,6 @@
                                        <span class="ruby-value">:fg_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rgb</span>)))
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">xf</span>)
   <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>, <span class="ruby-identifier">style_index</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-modify_text_wrap" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">modify_text_wrap</span><span
-            class="method-args">(style_index, wrap = false)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="modify_text_wrap-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 150</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_text_wrap</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">wrap</span> = <span class="ruby-keyword">false</span>)
-  <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
-  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:wrap_text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">wrap</span>, <span class="ruby-value">:apply_alignment</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
-  <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">xf</span>, <span class="ruby-identifier">style_index</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

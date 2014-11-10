@@ -1459,23 +1459,71 @@ describe RubyXL::Worksheet do
   describe '@column_range' do
     it 'should properly handle range addition and modification' do
       # Ranges should be empty for brand new worskeet
-      expect(@worksheet.cols.column_ranges.size).to eq(0)
+      expect(@worksheet.cols.size).to eq(0)
 
       # Range should be created if the column has not been touched before
       @worksheet.change_column_width(0, 30)
       expect(@worksheet.get_column_width(0)).to eq(30)
-      expect(@worksheet.cols.column_ranges.size).to eq(1)
+      expect(@worksheet.cols.size).to eq(1)
 
-      # Range should be reused if the column has not been touched before
+      # Existing range should be reused
       @worksheet.change_column_width(0, 20)
       expect(@worksheet.get_column_width(0)).to eq(20)
-      expect(@worksheet.cols.column_ranges.size).to eq(1)
+      expect(@worksheet.cols.size).to eq(1)
 
       # Creation of the new range should not affect previously changed columns
-      @worksheet.change_column_width(1, 999)
-      expect(@worksheet.get_column_width(1)).to eq(999)
+      @worksheet.change_column_width(1, 30)
+      expect(@worksheet.get_column_width(1)).to eq(30)
       expect(@worksheet.get_column_width(0)).to eq(20)
-      expect(@worksheet.cols.column_ranges.size).to eq(2)
+      expect(@worksheet.cols.size).to eq(2)
+
+      @worksheet.cols.clear
+      @worksheet.cols << RubyXL::ColumnRange.new(:min => 1, :max => 9, :width => 33) # Note that this is raw width
+
+      r = @worksheet.cols.locate_range(3)
+      expect(r.min).to eq(1)
+      expect(r.max).to eq(9)
+
+      # When a column is modified at the beginning of the range, it should shrink to the right
+      @worksheet.change_column_width(0, 20)
+      expect(@worksheet.cols.size).to eq(2)
+      expect(@worksheet.get_column_width(0)).to eq(20)
+      expect(@worksheet.get_column_width(1)).to eq(32)
+
+      r = @worksheet.cols.locate_range(3)
+      expect(r.min).to eq(2)
+      expect(r.max).to eq(9)
+
+      # When a column is modified at the beginning of the range, it should shrink to the left
+      @worksheet.change_column_width(8, 30)
+      expect(@worksheet.cols.size).to eq(3)
+      expect(@worksheet.get_column_width(8)).to eq(30)
+
+      r = @worksheet.cols.locate_range(3)
+      expect(r.min).to eq(2)
+      expect(r.max).to eq(8)
+
+      # When a column is modified in the middle of the range, it should split into two
+      @worksheet.change_column_width(4, 15)
+      expect(@worksheet.cols.size).to eq(5)
+      expect(@worksheet.get_column_width(3)).to eq(32)
+
+      r = @worksheet.cols.locate_range(2)
+      expect(r.min).to eq(2)
+      expect(r.max).to eq(4)
+
+      expect(@worksheet.get_column_width(4)).to eq(15)
+
+      r = @worksheet.cols.locate_range(4)
+      expect(r.min).to eq(5)
+      expect(r.max).to eq(5)
+
+      expect(@worksheet.get_column_width(5)).to eq(32)
+
+      r = @worksheet.cols.locate_range(6)
+      expect(r.min).to eq(6)
+      expect(r.max).to eq(8)
+
     end
 
   end

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.2.5</title>
+<title>README - rubyXL 3.2.7</title>
 
 <link href="./fonts.css" rel="stylesheet">
 <link href="./rdoc.css" rel="stylesheet">
@@ -92,7 +92,9 @@
     <li><a href="#label-Delete+Column">Delete Column</a>
     <li><a href="#label-Insert+Cell">Insert Cell</a>
     <li><a href="#label-Delete+Cell">Delete Cell</a>
+    <li><a href="#label-I%2FO">I/O</a>
     <li><a href="#label-Writing">Writing</a>
+    <li><a href="#label-Streaming">Streaming</a>
     <li><a href="#label-Miscellaneous">Miscellaneous</a>
     <li><a href="#label-For+more+information">For more information</a>
     <li><a href="#label-Contributing+to+rubyXL">Contributing to rubyXL</a>
@@ -373,11 +375,21 @@ have been moved, as the formulas do not adapt to the shifted cells</p>
 worksheet.delete_cell(0, 0, :up)    # Deletes A1, shifts contents of first column up
 worksheet.delete_cell(0, 0)         # Deletes A1, does not shift cells</pre>
 
+<h2 id="label-I%2FO">I/O<span><a href="#label-I%2FO">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
 <h3 id="label-Writing">Writing<span><a href="#label-Writing">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
 
 <pre>workbook.write(&quot;path/to/desired/Excel/file.xlsx&quot;)</pre>
 
-<h3 id="label-Miscellaneous">Miscellaneous<span><a href="#label-Miscellaneous">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<h3 id="label-Streaming">Streaming<span><a href="#label-Streaming">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<p>The gem can provide <code>StringIO</code> object containing the resulting
+<code>xlsx</code> file, eliminating the need to save it to disk first. This
+capability comes in handy for web servers.</p>
+
+<pre>workbook.stream</pre>
+
+<h2 id="label-Miscellaneous">Miscellaneous<span><a href="#label-Miscellaneous">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
 <pre>Reference.ind2ref(0,0) == &#39;A1&#39;    # Converts row and column index to Excel-style cell reference
 Reference.ref2ind(&#39;A1&#39;) == [0, 0] # Converts Excel-style cell reference to row and column index</pre>

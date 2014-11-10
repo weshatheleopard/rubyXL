@@ -37,7 +37,7 @@ module RubyXL
     define_child_node(RubyXL::Border, :collection => :with_count)
     define_element_name 'borders'
 
-    def self.defaults
+    def self.default
       self.new(:_ => [ RubyXL::Border.new ])
     end
 
