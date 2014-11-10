@@ -416,7 +416,7 @@ module RubyXL
       @worksheets = worksheets
       add_worksheet if @worksheets.empty?
 
-      @theme                    = RubyXL::Theme.defaults
+      @theme                    = RubyXL::Theme.default
       @shared_strings_container = RubyXL::SharedStringsTable.new
       @stylesheet               = RubyXL::Stylesheet.default
       @relationship_container   = RubyXL::OOXMLRelationshipsFile.new

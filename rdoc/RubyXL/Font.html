@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Font - rubyXL 3.2.5</title>
+<title>class RubyXL::Font - rubyXL 3.2.7</title>
 
 <link href="../fonts.css" rel="stylesheet">
 <link href="../rdoc.css" rel="stylesheet">
@@ -73,7 +73,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-defaults">::defaults</a>
+    <li ><a href="#method-c-default">::default</a>
     
     <li ><a href="#method-i-get_name">#get_name</a>
     
@@ -155,10 +155,10 @@ live with the default.</p>
        </header>
 
     
-      <div id="method-c-defaults" class="method-detail ">
+      <div id="method-c-default" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">defaults</span><span
+          <span class="method-name">default</span><span
             class="method-args">(size = 10)</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -173,9 +173,9 @@ live with the default.</p>
           
 
           
-          <div class="method-source-code" id="defaults-source">
+          <div class="method-source-code" id="default-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/font.rb, line 86</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defaults</span>(<span class="ruby-identifier">size</span> = <span class="ruby-value">10</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>(<span class="ruby-identifier">size</span> = <span class="ruby-value">10</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Verdana&#39;</span>),
            <span class="ruby-value">:sz</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">FloatValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">size</span>) )
 <span class="ruby-keyword">end</span></pre>
