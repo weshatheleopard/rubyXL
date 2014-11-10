@@ -99,177 +99,6 @@ module LegacyWorksheet
   end
   private :find_first_row_with_content
 
-  #changes color of fill in (zer0 indexed) row
-  def change_row_fill(row_index = 0, rgb = 'ffffff')
-    validate_workbook
-    ensure_cell_exists(row_index)
-    Color.validate_color(rgb)
-
-    sheet_data.rows[row_index].style_index = @workbook.modify_fill(get_row_style(row_index), rgb)
-    sheet_data[row_index].cells.each { |c| c.change_fill(rgb) unless c.nil? }
-  end
-
-  def change_row_font_name(row = 0, font_name = 'Verdana')
-    ensure_cell_exists(row)
-    font = row_font(row).dup
-    font.set_name(font_name)
-    change_row_font(row, Worksheet::NAME, font_name, font)
-  end
-
-  def change_row_font_size(row = 0, font_size=10)
-    ensure_cell_exists(row)
-    font = row_font(row).dup
-    font.set_size(font_size)
-    change_row_font(row, Worksheet::SIZE, font_size, font)
-  end
-
-  def change_row_font_color(row = 0, font_color = '000000')
-    ensure_cell_exists(row)
-    Color.validate_color(font_color)
-    font = row_font(row).dup
-    font.set_rgb_color(font_color)
-    change_row_font(row, Worksheet::COLOR, font_color, font)
-  end
-
-  def change_row_italics(row = 0, italicized = false)
-    ensure_cell_exists(row)
-    font = row_font(row).dup
-    font.set_italic(italicized)
-    change_row_font(row, Worksheet::ITALICS, italicized, font)
-  end
-
-  def change_row_bold(row = 0, bolded = false)
-    ensure_cell_exists(row)
-    font = row_font(row).dup
-    font.set_bold(bolded)
-    change_row_font(row, Worksheet::BOLD, bolded, font)
-  end
-
-  def change_row_underline(row = 0, underlined=false)
-    ensure_cell_exists(row)
-    font = row_font(row).dup
-    font.set_underline(underlined)
-    change_row_font(row, Worksheet::UNDERLINE, underlined, font)
-  end
-
-  def change_row_strikethrough(row = 0, struckthrough=false)
-    ensure_cell_exists(row)
-    font = row_font(row).dup
-    font.set_strikethrough(struckthrough)
-    change_row_font(row, Worksheet::STRIKETHROUGH, struckthrough, font)
-  end
-
-  def change_row_height(row = 0, height = 10)
-    validate_workbook
-    ensure_cell_exists(row)
-
-    c = sheet_data.rows[row]
-    c.ht = height
-    c.custom_height = true
-  end
-
-  def change_row_horizontal_alignment(row = 0, alignment = 'center')
-    validate_workbook
-    validate_nonnegative(row)
-    change_row_alignment(row, alignment, true)
-  end
-
-  def change_row_vertical_alignment(row = 0, alignment = 'center')
-    validate_workbook
-    validate_nonnegative(row)
-    change_row_alignment(row, alignment, false)
-  end
-
-  def change_row_border_top(row = 0, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-    change_row_border(row, :top, weight)
-  end
-
-  def change_row_border_left(row = 0, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-    change_row_border(row, :left, weight)
-  end
-
-  def change_row_border_right(row = 0, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-    change_row_border(row, :right, weight)
-  end
-
-  def change_row_border_bottom(row = 0, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-    change_row_border(row, :bottom, weight)
-  end
-
-  def change_row_border_diagonal(row = 0, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-    change_row_border(row, :diagonal, weight)
-  end
-
-  def change_row_border(row, direction, weight)
-    validate_workbook
-    ensure_cell_exists(row)
-
-    sheet_data.rows[row].style_index = @workbook.modify_border(get_row_style(row), direction, weight)
-
-    sheet_data[row].cells.each { |c|
-      c.change_border(direction, weight) unless c.nil?
-    }
-  end
-
-  # Changes font name of column
-  def change_column_font_name(column_index = 0, font_name = 'Verdana')
-    xf = get_col_xf(column_index)
-    font = @workbook.fonts[xf.font_id].dup
-    font.set_name(font_name)
-    change_column_font(column_index, Worksheet::NAME, font_name, font, xf)
-  end
-
-  # Changes font size of column
-  def change_column_font_size(column_index, font_size=10)
-    xf = get_col_xf(column_index)
-    font = @workbook.fonts[xf.font_id].dup
-    font.set_size(font_size)
-    change_column_font(column_index, Worksheet::SIZE, font_size, font, xf)
-  end
-
-  # Changes font color of column
-  def change_column_font_color(column_index, font_color='000000')
-    Color.validate_color(font_color)
-
-    xf = get_col_xf(column_index)
-    font = @workbook.fonts[xf.font_id].dup
-    font.set_rgb_color(font_color)
-    change_column_font(column_index, Worksheet::COLOR, font_color, font, xf)
-  end
-
-  def change_column_italics(column_index, italicized = false)
-    xf = get_col_xf(column_index)
-    font = @workbook.fonts[xf.font_id].dup
-    font.set_italic(italicized)
-    change_column_font(column_index, Worksheet::ITALICS, italicized, font, xf)
-  end
-
-  def change_column_bold(column_index, bolded = false)
-    xf = get_col_xf(column_index)
-    font = @workbook.fonts[xf.font_id].dup
-    font.set_bold(bolded)
-    change_column_font(column_index, Worksheet::BOLD, bolded, font, xf)
-  end
-
-  def change_column_underline(column_index, underlined = false)
-    xf = get_col_xf(column_index)
-    font = @workbook.fonts[xf.font_id].dup
-    font.set_underline(underlined)
-    change_column_font(column_index, Worksheet::UNDERLINE, underlined, font, xf)
-  end
-
-  def change_column_strikethrough(column_index, struckthrough=false)
-    xf = get_col_xf(column_index)
-    font = @workbook.fonts[xf.font_id].dup
-    font.set_strikethrough(struckthrough)
-    change_column_font(column_index, Worksheet::STRIKETHROUGH, struckthrough, font, xf)
-  end
-
   # Set raw column width value
   def change_column_width_raw(column_index, width)
     validate_workbook
@@ -295,51 +124,6 @@ module LegacyWorksheet
     sheet_data.rows.each { |row|
       c = row[column_index]
       c.change_fill(color_index) if c
-    }
-  end
-
-  def change_column_horizontal_alignment(column_index, alignment = 'center')
-    change_column_alignment(column_index, alignment,true)
-  end
-
-  def change_column_vertical_alignment(column_index, alignment = 'center')
-    change_column_alignment(column_index, alignment, false)
-  end
-
-  def change_column_border_top(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :top, weight)
-  end
-
-  def change_column_border_left(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :left, weight)
-  end
-
-  def change_column_border_right(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :right, weight)
-  end
-
-  def change_column_border_bottom(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :bottom, weight)
-  end
-
-  def change_column_border_diagonal(column_index, weight = 'thin')
-    warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-    change_column_border(column_index, :diagonal, weight)
-  end
-
-  def change_column_border(column_index, direction, weight)
-    validate_workbook
-    ensure_cell_exists(0, column_index)
-
-    cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
-
-    sheet_data.rows.each { |row|
-      c = row.cells[column_index]
-      c.change_border(direction, weight) unless c.nil?
     }
   end
 
@@ -370,7 +154,7 @@ module LegacyWorksheet
       c.datatype = RubyXL::DataType::RAW_STRING unless formula || data.is_a?(Numeric)
       c.formula = RubyXL::Formula.new(:expression => formula) if formula
 
-      range = cols && cols.find(column)
+      range = cols && cols.locate_range(column)
       c.style_index = sheet_data.rows[row].style_index || (range && range.style_index) || 0
 
       sheet_data.rows[row].cells[column] = c
@@ -443,7 +227,7 @@ module LegacyWorksheet
       }
     }
 
-    cols.column_ranges.each { |range| range.delete_column(column_index) }
+    cols.each { |range| range.delete_column(column_index) }
   end
 
   # Inserts column at +column_index+, pushes everything right, takes styles from column to left
@@ -524,166 +308,6 @@ module LegacyWorksheet
     return cell
   end
 
-  def get_row_fill(row = 0)
-    (row = sheet_data.rows[row]) && row.get_fill_color
-  end
-
-  def get_row_font_name(row = 0)
-    (font = row_font(row)) && font.get_name
-  end
-
-  def get_row_font_size(row = 0)
-    (font = row_font(row)) && font.get_size
-  end
-
-  def get_row_font_color(row = 0)
-    font = row_font(row)
-    color = font && font.color
-    color && (color.rgb || '000000')
-  end
-
-  def is_row_italicized(row = 0)
-    (font = row_font(row)) && font.is_italic
-  end
-
-  def is_row_bolded(row = 0)
-    (font = row_font(row)) && font.is_bold
-  end
-
-  def is_row_underlined(row = 0)
-    (font = row_font(row)) && font.is_underlined
-  end
-
-  def is_row_struckthrough(row = 0)
-    (font = row_font(row)) && font.is_strikethrough
-  end
-
-  def get_row_height(row = 0)
-    validate_workbook
-    validate_nonnegative(row)
-    return nil unless row_exists(row)
-    row = sheet_data.rows[row]
-    row && row.ht || 13
-  end
-
-  def get_row_horizontal_alignment(row = 0)
-    return get_row_alignment(row, true)
-  end
-
-  def get_row_vertical_alignment(row = 0)
-    return get_row_alignment(row, false)
-  end
-
-  def get_row_border_top(row = 0)
-    return get_row_border(row, :top)
-  end
-
-  def get_row_border_left(row = 0)
-    return get_row_border(row, :left)
-  end
-
-  def get_row_border_right(row = 0)
-    return get_row_border(row, :right)
-  end
-
-  def get_row_border_bottom(row = 0)
-    return get_row_border(row, :bottom)
-  end
-
-  def get_row_border_diagonal(row = 0)
-    return get_row_border(row, :diagonal)
-  end
-
-  def get_column_font_name(col = 0)
-    font = column_font(col)
-    font && font.get_name
-  end
-
-  def get_column_font_size(col = 0)
-    font = column_font(col)
-    font && font.get_size
-  end
-
-  def get_column_font_color(col = 0)
-    font = column_font(col)
-    font && (font.get_rgb_color || '000000')
-  end
-
-  def is_column_italicized(col = 0)
-    font = column_font(col)
-    font && font.is_italic
-  end
-
-  def is_column_bolded(col = 0)
-    font = column_font(col)
-    font && font.is_bold
-  end
-
-  def is_column_underlined(col = 0)
-    font = column_font(col)
-    font && font.is_underlined
-  end
-
-  def is_column_struckthrough(col = 0)
-    font = column_font(col)
-    font && font.is_strikethrough
-  end
-
-  # Get raw column width value as stored in the file
-  def get_column_width_raw(column_index = 0)
-    validate_workbook
-    validate_nonnegative(column_index)
-    return nil unless column_exists(column_index)
-
-    range = cols.find(column_index)
-    range && range.width
-  end
-
-  # Get column width measured in number of digits, as per
-  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
-  def get_column_width(column_index = 0)
-    width = get_column_width_raw(column_index)
-    return RubyXL::ColumnRange::DEFAULT_WIDTH if width.nil?
-    (width - (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)).round
-  end
-
-  def get_column_fill(col=0)
-    validate_workbook
-    validate_nonnegative(col)
-    return nil unless column_exists(col)
-
-    @workbook.get_fill_color(get_col_xf(col))
-  end
-
-  def get_column_horizontal_alignment(col=0)
-    get_column_alignment(col, :horizontal)
-  end
-
-  def get_column_vertical_alignment(col=0)
-    get_column_alignment(col, :vertical)
-  end
-
-  def get_column_border_top(col=0)
-    get_column_border(col, :top)
-  end
-
-  def get_column_border_left(col=0)
-    get_column_border(col, :left)
-  end
-
-  def get_column_border_right(col=0)
-    get_column_border(col, :right)
-  end
-
-  def get_column_border_bottom(col=0)
-    get_column_border(col, :bottom)
-  end
-
-  def get_column_border_diagonal(col=0)
-    get_column_border(col, :diagonal)
-  end
-
-
   private
 
   NAME = 0
@@ -759,7 +383,7 @@ module LegacyWorksheet
   end
 
   def get_cols_style_index(column_index)
-    range = cols.find(column_index)
+    range = cols.locate_range(column_index)
     (range && range.style_index) || 0
   end
 
@@ -823,7 +447,7 @@ module LegacyWorksheet
 
   # Helper method to get the style index for a column
   def get_col_style(column_index)
-    range = cols.find(column_index)
+    range = cols.locate_range(column_index)
     (range && range.style_index) || 0
   end
 
@@ -840,47 +464,13 @@ module LegacyWorksheet
     @workbook.cell_xfs[get_row_style(row)]
   end
 
-  def change_row_alignment(row,alignment,is_horizontal)
-    validate_workbook
-    validate_nonnegative(row)
-    ensure_cell_exists(row)
-
-    sheet_data.rows[row].style_index = @workbook.modify_alignment(get_row_style(row), is_horizontal, alignment)
-
-    sheet_data[row].cells.each { |c|
-      next if c.nil?
-      if is_horizontal then c.change_horizontal_alignment(alignment)
-      else                  c.change_vertical_alignment(alignment)
-      end
-    }
-  end
-
-  def change_column_alignment(column_index, alignment, is_horizontal)
-    validate_workbook
-    ensure_cell_exists(0, column_index)
-
-    cols.get_range(column_index).style_index = @workbook.modify_alignment(get_col_style(column_index), is_horizontal, alignment)
-    # Excel gets confused if width is not explicitly set for a column that had alignment changes
-    change_column_width(column_index) if get_column_width_raw(column_index).nil?
-
-    sheet_data.rows.each { |row|
-      c = row[column_index]
-      next if c.nil?
-      if is_horizontal
-        c.change_horizontal_alignment(alignment)
-      else
-        c.change_vertical_alignment(alignment)
-      end
-    }
-  end
-
   def validate_nonnegative(row_or_col)
     raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
   end
   private :validate_nonnegative
 
   def column_exists(col)
-    sheet_data.rows[0].cells.size > col
+    sheet_data.rows.any? { |r| r && (r.cells.size > col) }
   end
 
   def row_exists(row)

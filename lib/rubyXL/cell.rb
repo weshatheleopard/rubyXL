@@ -96,54 +96,6 @@ module RubyXL
     end
     private :update_font_references
 
-    # changes horizontal alignment of cell
-    def change_horizontal_alignment(alignment = 'center')
-      validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index, true, alignment)
-    end
-
-    # changes vertical alignment of cell
-    def change_vertical_alignment(alignment = 'center')
-      validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index, false, alignment)
-    end
-
-    # changes wrap of cell
-    def change_text_wrap(wrap = false)
-      validate_worksheet
-      self.style_index = workbook.modify_text_wrap(self.style_index, wrap)
-    end
-
-    def change_border(direction, weight)
-      validate_worksheet
-      self.style_index = workbook.modify_border(self.style_index, direction, weight)
-    end
-
-    def change_border_top(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:top, weight)
-    end
-
-    def change_border_left(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:left, weight)
-    end
-
-    def change_border_right(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:right, weight)
-    end
-
-    def change_border_bottom(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:bottom, weight)
-    end
-
-    def change_border_diagonal(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:diagonal, weight)
-    end
-
     def change_contents(data, formula_expression = nil)
       validate_worksheet
 
@@ -227,31 +179,6 @@ module RubyXL
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
       xf_obj.alignment.wrap_text
-    end
-
-    # returns cell's top border
-    def border_top()
-      return get_border(:top)
-    end
-
-    # returns cell's left border
-    def border_left()
-      return get_border(:left)
-    end
-
-    # returns cell's right border
-    def border_right()
-      return get_border(:right)
-    end
-
-    # returns cell's bottom border
-    def border_bottom()
-      return get_border(:bottom)
-    end
-
-    # returns cell's diagonal border
-    def border_diagonal()
-      return get_border(:diagonal)
     end
 
     def inspect

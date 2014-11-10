@@ -83,7 +83,7 @@ module RubyXL
       self.color = RubyXL::Color.new(:rgb => font_color.to_s)
     end
 
-    def self.defaults(size = 10)
+    def self.default(size = 10)
       self.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
                :sz   => RubyXL::FloatValue.new(:val => size) )
     end
@@ -95,8 +95,8 @@ module RubyXL
     define_child_node(RubyXL::Font, :collection => :with_count)
     define_element_name 'fonts'
 
-    def self.defaults
-      self.new(:_ => [ RubyXL::Font.defaults(10), RubyXL::Font.defaults(8) ])
+    def self.default
+      self.new(:_ => [ RubyXL::Font.default(10), RubyXL::Font.default(8) ])
     end
   end
 

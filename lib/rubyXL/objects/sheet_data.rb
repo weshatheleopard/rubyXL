@@ -3,6 +3,7 @@ require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/text'
 require 'rubyXL/objects/formula'
 require 'rubyXL/cell'
+require 'rubyXL/convenience_methods'
 
 module RubyXL
 
@@ -89,6 +90,7 @@ module RubyXL
     end
 
     include LegacyCell
+    include CellConvenienceMethods
   end
 
 #TODO#<row r="1" spans="1:1" x14ac:dyDescent="0.25">

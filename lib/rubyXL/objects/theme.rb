@@ -1391,7 +1391,7 @@ module RubyXL
       ROOT.join('xl', 'theme', 'theme1.xml')
     end
 
-    def self.defaults
+    def self.default
       default_theme = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
 <a:themeElements>
