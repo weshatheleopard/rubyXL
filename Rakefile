@@ -1,7 +1,7 @@
 # encoding: utf-8
-
 require 'rubygems'
 require 'bundler'
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -44,7 +44,6 @@ end
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
-
 task :default => :spec
 
 require 'rdoc/task'
@@ -55,4 +54,31 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "rubyXL #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+desc "Dump profiling data"
+task :profile do
+  require 'benchmark'
+  require 'stackprof'
+
+  $:.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
+  require './lib/rubyXL'
+
+  spreadsheets = Dir.glob(File.join("test", "input", "*.xls?")).sort!
+
+  spreadsheets.each { |input|
+    puts "<<<--- Profiling parsing #{input}..."
+    doc = nil
+    StackProf.run(:mode => :cpu, :interval => 100, 
+                  :out  => "tmp/stackprof-cpu-parse-#{File.basename(input)}.dump") { 
+      doc = RubyXL::Parser.parse(input)
+    }
+
+    output = File.join("test", "output", File.basename(input))
+    puts  "--->>> Profiling writing of #{output}..."
+    StackProf.run(:mode => :cpu, :interval => 100, 
+                  :out  => "tmp/stackprof-cpu-write-#{File.basename(input)}.dump") {
+      doc.write(output)
+    }
+  }
 end
