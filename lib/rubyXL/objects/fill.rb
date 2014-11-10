@@ -35,6 +35,11 @@ module RubyXL
     define_child_node(RubyXL::PatternFill)
     define_child_node(RubyXL::GradientFill)
     define_element_name 'fill'
+
+    def self.default(pattern_type)
+      self.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => pattern_type))
+    end
+
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_fills-1.html
@@ -42,11 +47,8 @@ module RubyXL
     define_child_node(RubyXL::Fill, :collection => :with_count)
     define_element_name 'fills'
 
-    def self.defaults
-      self.new(:_ => [
-                 RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'none')),
-                 RubyXL::Fill.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => 'gray125'))
-               ])
+    def self.default
+      self.new(:_ => [ RubyXL::Fill.default('none'), RubyXL::Fill.default('gray125') ])
     end
   end
 
