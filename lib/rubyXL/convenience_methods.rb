@@ -619,56 +619,6 @@ module RubyXL
       self.style_index = workbook.modify_border(self.style_index, direction, weight)
     end
 
-    def change_border_top(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:top, weight)
-    end
-
-    def change_border_left(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:left, weight)
-    end
-
-    def change_border_right(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:right, weight)
-    end
-
-    def change_border_bottom(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:bottom, weight)
-    end
-
-    def change_border_diagonal(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:diagonal, weight)
-    end
-
-    def border_top()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:top)
-    end
-
-    def border_left()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:left)
-    end
-
-    def border_right()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:right)
-    end
-
-    def border_bottom()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:bottom)
-    end
-
-    def border_diagonal()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:diagonal)
-    end
-
   end
 
 end
