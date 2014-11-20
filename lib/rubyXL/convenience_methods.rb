@@ -329,6 +329,25 @@ module RubyXL
       @workbook.get_fill_color(get_col_xf(col))
     end
 
+    def get_column_border(col, border_direction)
+      validate_workbook
+      validate_nonnegative(col)
+      return nil unless column_exists(col)
+
+      xf = @workbook.cell_xfs[get_cols_style_index(col)]
+      border = @workbook.borders[xf.border_id]
+      border && border.get_edge_style(border_direction)
+    end
+
+    def get_column_alignment(col, type)
+      validate_workbook
+      validate_nonnegative(col)
+      return nil unless column_exists(col)
+
+      xf = @workbook.cell_xfs[get_cols_style_index(col)]
+      xf.alignment && xf.alignment.send(type)
+    end
+
     def get_column_horizontal_alignment(col=0)
       warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_alignment` instead."
       get_column_alignment(col, :horizontal)

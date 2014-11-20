@@ -578,8 +578,8 @@ describe RubyXL::Worksheet do
 
   describe '.change_column_horizontal_alignment' do
     it 'should cause column and cell to horizontally align as specified by the passed in string' do
-      @worksheet.change_column_horizontal_alignment(0,'center')
-      expect(@worksheet.get_column_horizontal_alignment(0)).to eq('center')
+      @worksheet.change_column_horizontal_alignment(0, 'center')
+      expect(@worksheet.get_column_alignment(0, :horizontal)).to eq('center')
       expect(@worksheet[5][0].horizontal_alignment).to eq('center')
     end
 
@@ -592,7 +592,7 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       expect(@worksheet.sheet_data[0].size).to eq(11)
       @worksheet.change_column_horizontal_alignment(11,'center')
-      expect(@worksheet.get_column_horizontal_alignment(11)).to eq('center')
+      expect(@worksheet.get_column_alignment(11, :horizontal)).to eq('center')
       expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
@@ -600,7 +600,7 @@ describe RubyXL::Worksheet do
   describe '.change_column_vertical_alignment' do
     it 'should cause column and cell to vertically align as specified by the passed in string' do
       @worksheet.change_column_vertical_alignment(0, 'center')
-      expect(@worksheet.get_column_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_column_alignment(0, :vertical)).to eq('center')
       expect(@worksheet[5][0].vertical_alignment).to eq('center')
     end
 
@@ -613,19 +613,19 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       expect(@worksheet.sheet_data[0].size).to eq(11)
       @worksheet.change_column_vertical_alignment(11,'center')
-      expect(@worksheet.get_column_vertical_alignment(11)).to eq('center')
+      expect(@worksheet.get_column_alignment(11, :vertical)).to eq('center')
       expect(@worksheet.sheet_data[0].size).to eq(12)
     end
 
     it 'should set column width if column alignment is changed' do
       test_column = 2
-      expect(@worksheet.get_column_vertical_alignment(test_column)).to be_nil
+      expect(@worksheet.get_column_alignment(test_column, :vertical)).to be_nil
       expect(@worksheet.get_column_width_raw(test_column)).to be_nil
       expect(@worksheet.get_column_width(test_column)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
       @worksheet.change_column_vertical_alignment(test_column, 'top')
       expect(@worksheet.get_column_width_raw(test_column)).not_to be_nil
       expect(@worksheet.get_column_width(test_column)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
-      expect(@worksheet.get_column_vertical_alignment(test_column)).to eq('top')
+      expect(@worksheet.get_column_alignment(test_column, :vertical)).to eq('top')
     end
   end
 
@@ -639,37 +639,37 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'do
       expect(@worksheet.sheet_data[0].size).to eq(11)
       @worksheet.change_column_border(11, :top, 'thin')
-      expect(@worksheet.get_column_border_top(11)).to eq('thin')
+      expect(@worksheet.get_column_border(11, :top)).to eq('thin')
       expect(@worksheet.sheet_data[0].size).to eq(12)
     end
 
     it 'should cause column and cells within to have border at top of specified weight' do
       @worksheet.change_column_border(0, :top, 'thin')
-      expect(@worksheet.get_column_border_top(0)).to eq('thin')
+      expect(@worksheet.get_column_border(0, :top)).to eq('thin')
       expect(@worksheet[5][0].get_border(:top)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at left of specified weight' do
       @worksheet.change_column_border(0, :left, 'thin')
-      expect(@worksheet.get_column_border_left(0)).to eq('thin')
+      expect(@worksheet.get_column_border(0, :left)).to eq('thin')
       expect(@worksheet[5][0].get_border(:left)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at right of specified weight' do
       @worksheet.change_column_border(0, :right, 'thin')
-      expect(@worksheet.get_column_border_right(0)).to eq('thin')
+      expect(@worksheet.get_column_border(0, :right)).to eq('thin')
       expect(@worksheet[5][0].get_border(:right)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at bottom of specified weight' do
       @worksheet.change_column_border(0, :bottom, 'thin')
-      expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
+      expect(@worksheet.get_column_border(0, :bottom)).to eq('thin')
       expect(@worksheet[5][0].get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at diagonal of specified weight' do
       @worksheet.change_column_border(0, :diagonal, 'thin')
-      expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
+      expect(@worksheet.get_column_border(0, :diagonal)).to eq('thin')
       expect(@worksheet[5][0].get_border(:diagonal)).to eq('thin')
     end
 
@@ -1403,148 +1403,64 @@ describe RubyXL::Worksheet do
 
   describe '.get_column_horizontal_alignment' do
     it 'should return nil if no alignment specified for column' do
-      expect(@worksheet.get_column_horizontal_alignment(0)).to be_nil
+      expect(@worksheet.get_column_alignment(0, :horizontal)).to be_nil
     end
 
     it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_horizontal_alignment(11)).to be_nil
+      expect(@worksheet.get_column_alignment(11, :horizontal)).to be_nil
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.get_column_horizontal_alignment(-1)
+        @worksheet.get_column_alignment(-1, :horizontal)
       }.to raise_error
     end
 
     it 'should return correct horizontal alignment if it is set for that column' do
       @worksheet.change_column_horizontal_alignment(0, 'center')
-      expect(@worksheet.get_column_horizontal_alignment(0)).to eq('center')
+      expect(@worksheet.get_column_alignment(0, :horizontal)).to eq('center')
     end
   end
 
   describe '.get_column_vertical_alignment' do
     it 'should return nil if no alignment specified for column' do
-      expect(@worksheet.get_column_vertical_alignment(0)).to be_nil
+      expect(@worksheet.get_column_alignment(0, :vertical)).to be_nil
     end
 
     it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_vertical_alignment(11)).to be_nil
+      expect(@worksheet.get_column_alignment(11, :vertical)).to be_nil
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.get_column_vertical_alignment(-1)
+        @worksheet.get_column_alignment(-1, :vertical)
       }.to raise_error
     end
 
     it 'should return correct vertical alignment if it is set for that column' do
       @worksheet.change_column_vertical_alignment(0, 'center')
-      expect(@worksheet.get_column_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_column_alignment(0, :vertical)).to eq('center')
     end
   end
 
-  describe '.get_column_border_top' do
+  describe '.get_column_border' do
     it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_top(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on top' do
-      @worksheet.change_column_border(0, :top, 'thin')
-     expect(@worksheet.get_column_border_top(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_top(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_top(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_left' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_left(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on left' do
-      @worksheet.change_column_border(0, :left, 'thin')
-     expect(@worksheet.get_column_border_left(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_left(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_left(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_right' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_right(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on right' do
-      @worksheet.change_column_border(0, :right, 'thin')
-     expect(@worksheet.get_column_border_right(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_right(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_right(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_bottom' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_bottom(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on bottom' do
-      @worksheet.change_column_border(0, :bottom, 'thin')
-     expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_bottom(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_bottom(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_diagonal' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_diagonal(0)).to be_nil
+      expect(@worksheet.get_column_border(0, :diagonal)).to be_nil
     end
 
     it 'should return type of border that this column has on diagonal' do
       @worksheet.change_column_border(0, :diagonal, 'thin')
-     expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
+     expect(@worksheet.get_column_border(0, :diagonal)).to eq('thin')
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.get_column_border_diagonal(-1)
+        @worksheet.get_column_border(-1, :diagonal)
       }.to raise_error
     end
 
     it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_diagonal(11)).to be_nil
+      expect(@worksheet.get_column_border(11, :diagonal)).to be_nil
     end
   end
 
