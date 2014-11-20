@@ -226,6 +226,16 @@ module RubyXL
       row && row.ht || 13
     end
 
+    def get_row_border(row, border_direction)
+      validate_workbook
+      validate_nonnegative(row)
+
+      return nil unless row_exists(row)
+
+      border = @workbook.borders[get_row_xf(row).border_id]
+      border && border.get_edge_style(border_direction)
+    end
+
     def get_row_horizontal_alignment(row = 0)
       return get_row_alignment(row, true)
     end
@@ -598,6 +608,11 @@ module RubyXL
 
 
   module CellConvenienceMethods
+
+    def get_border(direction)
+      validate_worksheet
+      get_cell_border.get_edge_style(direction)
+    end
 
     def change_horizontal_alignment(alignment = 'center')
       validate_worksheet

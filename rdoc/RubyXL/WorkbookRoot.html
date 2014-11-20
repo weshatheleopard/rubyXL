@@ -217,7 +217,7 @@
         
         <div class="method-heading">
           <span class="method-name">parse_file</span><span
-            class="method-args">(xl_file_path, opts)</span>
+            class="method-args">(xl_file_path, opts = {})</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -233,14 +233,28 @@
           
           <div class="method-source-code" id="parse_file-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 62</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-identifier">opts</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-keyword">begin</span>
     <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">xl_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">root</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
       <span class="ruby-identifier">root</span>.<span class="ruby-identifier">filepath</span> = <span class="ruby-identifier">xl_file_path</span>
       <span class="ruby-identifier">root</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-constant">ContentTypes</span><span class="ruby-operator">::</span><span class="ruby-constant">XLSX_PATH</span>)
       <span class="ruby-identifier">root</span>.<span class="ruby-identifier">load_relationships</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-constant">OOXMLTopLevelObject</span><span class="ruby-operator">::</span><span class="ruby-constant">ROOT</span>)
-      <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">root</span> = <span class="ruby-identifier">root</span>
+
+      <span class="ruby-identifier">wb</span> = <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">root</span> = <span class="ruby-identifier">root</span>
+
+      <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">sheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">related_files</span>[<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">r_id</span>]
+
+        <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">worksheets</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">sheet_obj</span> <span class="ruby-comment"># Must be done first so the sheet becomes aware of its number</span>
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-identifier">wb</span>
+
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">name</span>
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_id</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_id</span>
+        <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">state</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">state</span>
+      }
+
       <span class="ruby-identifier">root</span>
     }
   <span class="ruby-keyword">rescue</span> <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>

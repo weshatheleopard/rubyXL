@@ -323,38 +323,38 @@ describe RubyXL::Worksheet do
     it 'should expand matrix to fit argument if nonnegative'  do
       expect(@worksheet.sheet_data.size).to eq(11)
       @worksheet.change_row_border(11, :left, 'thin')
-      expect(@worksheet.get_row_border_left(11)).to eq('thin')
+      expect(@worksheet.get_row_border(11, :left)).to eq('thin')
       expect(@worksheet.sheet_data.size).to eq(12)
     end
 
     it 'should cause row and cells to have border at top of specified weight' do
       @worksheet.change_row_border(0, :top, 'thin')
-      expect(@worksheet.get_row_border_top(0)).to eq('thin')
-      expect(@worksheet[0][5].border_top).to eq('thin')
+      expect(@worksheet.get_row_border_top).to eq('thin')
+      expect(@worksheet[0][5].get_border(:top)).to eq('thin')
     end
 
     it 'should cause row and cells to have border at left of specified weight' do
       @worksheet.change_row_border(0, :left, 'thin')
       expect(@worksheet.get_row_border_left(0)).to eq('thin')
-      expect(@worksheet[0][5].border_left).to eq('thin')
+      expect(@worksheet[0][5].get_border(:left)).to eq('thin')
     end
 
     it 'should cause row and cells to have border at right of specified weight' do
       @worksheet.change_row_border(0, :right, 'thin')
       expect(@worksheet.get_row_border_right(0)).to eq('thin')
-      expect(@worksheet[0][5].border_right).to eq('thin')
+      expect(@worksheet[0][5].get_border(:right)).to eq('thin')
     end
 
     it 'should cause row to have border at bottom of specified weight' do
       @worksheet.change_row_border(0, :bottom, 'thin')
       expect(@worksheet.get_row_border_bottom(0)).to eq('thin')
-      expect(@worksheet[0][5].border_bottom).to eq('thin')
+      expect(@worksheet[0][5].get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause row to have border at diagonal of specified weight' do
       @worksheet.change_row_border(0, :diagonal, 'thin')
       expect(@worksheet.get_row_border_diagonal(0)).to eq('thin')
-      expect(@worksheet[0][5].border_diagonal).to eq('thin')
+      expect(@worksheet[0][5].get_border(:diagonal)).to eq('thin')
     end
   end
 
@@ -646,31 +646,31 @@ describe RubyXL::Worksheet do
     it 'should cause column and cells within to have border at top of specified weight' do
       @worksheet.change_column_border(0, :top, 'thin')
       expect(@worksheet.get_column_border_top(0)).to eq('thin')
-      expect(@worksheet[5][0].border_top).to eq('thin')
+      expect(@worksheet[5][0].get_border(:top)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at left of specified weight' do
       @worksheet.change_column_border(0, :left, 'thin')
       expect(@worksheet.get_column_border_left(0)).to eq('thin')
-      expect(@worksheet[5][0].border_left).to eq('thin')
+      expect(@worksheet[5][0].get_border(:left)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at right of specified weight' do
       @worksheet.change_column_border(0, :right, 'thin')
       expect(@worksheet.get_column_border_right(0)).to eq('thin')
-      expect(@worksheet[5][0].border_right).to eq('thin')
+      expect(@worksheet[5][0].get_border(:right)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at bottom of specified weight' do
       @worksheet.change_column_border(0, :bottom, 'thin')
       expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
-      expect(@worksheet[5][0].border_bottom).to eq('thin')
+      expect(@worksheet[5][0].get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at diagonal of specified weight' do
       @worksheet.change_column_border(0, :diagonal, 'thin')
       expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
-      expect(@worksheet[5][0].border_diagonal).to eq('thin')
+      expect(@worksheet[5][0].get_border(:diagonal)).to eq('thin')
     end
 
   end

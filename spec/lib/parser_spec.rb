@@ -58,14 +58,6 @@ describe RubyXL::Parser do
       expect {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.to raise_error
     end
 
-    it 'should only read the data and not any of the styles (for the sake of speed) when passed true' do
-      @workbook2 = RubyXL::Parser.parse(@file, :data_only => true)
-
-      expect(@workbook2.worksheets.size).to eq(@workbook.worksheets.size)
-      expect(@workbook2[0].extract_data).to eq(@workbook[0].extract_data)
-      expect(@workbook2[0].extract_data).to eq(@workbook[0].extract_data)
-    end
-
 =begin
     it 'should construct consistent number formats' do
       @workbook2 = RubyXL::Parser.parse(@file)

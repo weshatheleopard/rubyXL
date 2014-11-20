@@ -336,16 +336,6 @@ module LegacyWorksheet
     end
   end
 
-  def get_row_border(row, border_direction)
-    validate_workbook
-    validate_nonnegative(row)
-
-    return nil unless row_exists(row)
-
-    border = @workbook.borders[get_row_xf(row).border_id]
-    border && border.get_edge_style(border_direction)
-  end
-
   def column_font(col)
     validate_workbook
     validate_nonnegative(col)
