@@ -1,3 +1,4 @@
+require 'nokogiri'
 require 'pathname'
 require 'rubyXL/objects/reference'
 
@@ -380,6 +381,7 @@ module RubyXL
       vars = self.instance_variables.each { |v| vars << "#{v}=#{instance_variable_get(v).inspect}" }
       "<#{self.class}: #{super} #{vars.join(", ")}>"
     end
+
 
     class << self
       def define_count_attribute
