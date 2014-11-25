@@ -225,6 +225,14 @@ module RubyXL
       row && row.ht || 13
     end
 
+    def get_row_border(row, border_direction)
+      validate_workbook
+      validate_nonnegative(row)
+
+      border = @workbook.borders[get_row_xf(row).border_id]
+      border && border.get_edge_style(border_direction)
+    end
+
     def get_row_horizontal_alignment(row = 0)
       return get_row_alignment(row, true)
     end
@@ -315,6 +323,23 @@ module RubyXL
       validate_nonnegative(col)
 
       @workbook.get_fill_color(get_col_xf(col))
+    end
+
+    def get_column_border(col, border_direction)
+      validate_workbook
+      validate_nonnegative(col)
+
+      xf = @workbook.cell_xfs[get_cols_style_index(col)]
+      border = @workbook.borders[xf.border_id]
+      border && border.get_edge_style(border_direction)
+    end
+
+    def get_column_alignment(col, type)
+      validate_workbook
+      validate_nonnegative(col)
+
+      xf = @workbook.cell_xfs[get_cols_style_index(col)]
+      xf.alignment && xf.alignment.send(type)
     end
 
     def get_column_horizontal_alignment(col=0)
@@ -597,6 +622,11 @@ module RubyXL
 
   module CellConvenienceMethods
 
+    def get_border(direction)
+      validate_worksheet
+      get_cell_border.get_edge_style(direction)
+    end
+
     def change_horizontal_alignment(alignment = 'center')
       validate_worksheet
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.horizontal = alignment }
@@ -615,56 +645,6 @@ module RubyXL
     def change_border(direction, weight)
       validate_worksheet
       self.style_index = workbook.modify_border(self.style_index, direction, weight)
-    end
-
-    def change_border_top(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:top, weight)
-    end
-
-    def change_border_left(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:left, weight)
-    end
-
-    def change_border_right(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:right, weight)
-    end
-
-    def change_border_bottom(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:bottom, weight)
-    end
-
-    def change_border_diagonal(weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_border` instead."
-      change_border(:diagonal, weight)
-    end
-
-    def border_top()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:top)
-    end
-
-    def border_left()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:left)
-    end
-
-    def border_right()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:right)
-    end
-
-    def border_bottom()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:bottom)
-    end
-
-    def border_diagonal()
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_border` instead."
-      return get_border(:diagonal)
     end
 
   end

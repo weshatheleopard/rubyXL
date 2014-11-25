@@ -73,11 +73,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-new">::new</a>
-    
     <li ><a href="#method-c-parse">::parse</a>
-    
-    <li ><a href="#method-i-parse">#parse</a>
     
   </ul>
 </div>
@@ -113,83 +109,7 @@
        </header>
 
     
-      <div id="method-c-new" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">new</span><span
-            class="method-args">(opts = {})</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p><code>:data_only</code> allows only the sheet data to be parsed, so as to
-speed up parsing. However, using this option will result in date-formatted
-cells being interpreted as numbers.</p>
-          
-          
-
-          
-          <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">opts</span> = {})
-  <span class="ruby-ivar">@opts</span> = <span class="ruby-identifier">opts</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
       <div id="method-c-parse" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">parse</span><span
-            class="method-args">(file_path, opts = {})</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 7</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-identifier">opts</span> = {})
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">file_path</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Instance Methods</h3>
-       </header>
-
-    
-      <div id="method-i-parse" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">parse</span><span
@@ -208,24 +128,10 @@ cells being interpreted as numbers.</p>
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 17</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">xl_file_path</span>)
-  <span class="ruby-identifier">root</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRoot</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>, <span class="ruby-ivar">@opts</span>)
-
-  <span class="ruby-identifier">wb</span> = <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>
-
-  <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">sheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">related_files</span>[<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">r_id</span>]
-
-    <span class="ruby-identifier">wb</span>.<span class="ruby-identifier">worksheets</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">sheet_obj</span> <span class="ruby-comment"># Must be done first so the sheet becomes aware of its number</span>
-    <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">workbook</span> = <span class="ruby-identifier">wb</span>
-
-    <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">name</span>
-    <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_id</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_id</span>
-    <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">state</span> = <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">state</span>
-  }
-
-  <span class="ruby-identifier">wb</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 3</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">xl_file_path</span>)
+  <span class="ruby-identifier">root</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRoot</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">xl_file_path</span>)
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

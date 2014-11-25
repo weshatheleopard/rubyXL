@@ -204,11 +204,6 @@ module RubyXL
 
     private
 
-    def get_border(direction)
-      validate_worksheet
-      get_cell_border.get_edge_style(direction)
-    end
-
     def validate_workbook()
       unless workbook.nil? || workbook.worksheets.nil?
         workbook.worksheets.each { |sheet|

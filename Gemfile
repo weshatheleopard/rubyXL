@@ -11,4 +11,6 @@ group :development do
   gem "jeweler"
   gem "simplecov", ">= 0"
   gem "rspec", ">= 1.3.4"
+
+  gem 'stackprof'
 end

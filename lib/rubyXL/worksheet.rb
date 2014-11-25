@@ -334,36 +334,11 @@ module LegacyWorksheet
     end
   end
 
-  def get_row_border(row, border_direction)
-    validate_workbook
-    validate_nonnegative(row)
-
-    border = @workbook.borders[get_row_xf(row).border_id]
-    border && border.get_edge_style(border_direction)
-  end
-
   def column_font(col)
     validate_workbook
     validate_nonnegative(col)
 
     @workbook.fonts[@workbook.cell_xfs[get_cols_style_index(col)].font_id]
-  end
-
-  def get_column_alignment(col, type)
-    validate_workbook
-    validate_nonnegative(col)
-
-    xf = @workbook.cell_xfs[get_cols_style_index(col)]
-    xf.alignment && xf.alignment.send(type)
-  end
-
-  def get_column_border(col, border_direction)
-    validate_workbook
-    validate_nonnegative(col)
-
-    xf = @workbook.cell_xfs[get_cols_style_index(col)]
-    border = @workbook.borders[xf.border_id]
-    border && border.get_edge_style(border_direction)
   end
 
   #validates Workbook, ensures that this worksheet is in @workbook
