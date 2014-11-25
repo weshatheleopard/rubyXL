@@ -1,8 +1,8 @@
-Thu, 20 Nov 2014 20:25:11 +0000
+Tue, 25 Nov 2014 19:52:49 +0000
 README.rdoc	Mon, 10 Nov 2014 23:17:28 +0000
 lib/rubyXL.rb	Thu, 21 Aug 2014 00:19:24 +0000
-lib/rubyXL/cell.rb	Mon, 10 Nov 2014 23:17:28 +0000
-lib/rubyXL/convenience_methods.rb	Thu, 20 Nov 2014 20:22:34 +0000
+lib/rubyXL/cell.rb	Tue, 25 Nov 2014 19:24:10 +0000
+lib/rubyXL/convenience_methods.rb	Tue, 25 Nov 2014 19:52:08 +0000
 lib/rubyXL/objects/border.rb	Mon, 10 Nov 2014 23:17:28 +0000
 lib/rubyXL/objects/calculation_chain.rb	Thu, 21 Aug 2014 00:19:24 +0000
 lib/rubyXL/objects/cell_style.rb	Thu, 21 Aug 2014 00:19:24 +0000
@@ -19,10 +19,10 @@ lib/rubyXL/objects/fill.rb	Mon, 10 Nov 2014 23:17:28 +0000
 lib/rubyXL/objects/filters.rb	Thu, 21 Aug 2014 00:19:24 +0000
 lib/rubyXL/objects/font.rb	Mon, 10 Nov 2014 23:17:28 +0000
 lib/rubyXL/objects/formula.rb	Mon, 10 Nov 2014 23:12:51 +0000
-lib/rubyXL/objects/ooxml_object.rb	Thu, 20 Nov 2014 20:18:23 +0000
+lib/rubyXL/objects/ooxml_object.rb	Tue, 25 Nov 2014 19:24:10 +0000
 lib/rubyXL/objects/reference.rb	Mon, 10 Nov 2014 23:16:30 +0000
 lib/rubyXL/objects/relationships.rb	Tue, 26 Aug 2014 18:59:16 +0000
-lib/rubyXL/objects/root.rb	Thu, 20 Nov 2014 00:47:06 +0000
+lib/rubyXL/objects/root.rb	Tue, 25 Nov 2014 19:24:10 +0000
 lib/rubyXL/objects/shared_strings.rb	Thu, 21 Aug 2014 00:19:24 +0000
 lib/rubyXL/objects/sheet_common.rb	Thu, 21 Aug 2014 00:19:24 +0000
 lib/rubyXL/objects/sheet_data.rb	Mon, 10 Nov 2014 23:17:28 +0000
@@ -33,5 +33,5 @@ lib/rubyXL/objects/text.rb	Thu, 21 Aug 2014 00:19:24 +0000
 lib/rubyXL/objects/theme.rb	Mon, 10 Nov 2014 23:17:28 +0000
 lib/rubyXL/objects/workbook.rb	Mon, 10 Nov 2014 23:17:28 +0000
 lib/rubyXL/objects/worksheet.rb	Mon, 10 Nov 2014 23:17:28 +0000
-lib/rubyXL/parser.rb	Thu, 20 Nov 2014 00:48:16 +0000
-lib/rubyXL/worksheet.rb	Mon, 10 Nov 2014 23:27:17 +0000
+lib/rubyXL/parser.rb	Tue, 25 Nov 2014 19:24:10 +0000
+lib/rubyXL/worksheet.rb	Tue, 25 Nov 2014 19:52:08 +0000
