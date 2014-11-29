@@ -3,6 +3,7 @@
 *.swp
 *.xls?
 *.tmp
+tmp
 .bundle
 bin
 vendor

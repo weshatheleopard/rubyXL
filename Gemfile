@@ -9,8 +9,9 @@ group :development do
   gem "bundler"
   gem "rake"
   gem "jeweler"
-  gem "simplecov", ">= 0"
+#  gem "simplecov", ">= 0"
   gem "rspec", ">= 1.3.4"
 
-  gem 'stackprof'
+#  gem 'stackprof'
+  gem 'ruby-prof'
 end

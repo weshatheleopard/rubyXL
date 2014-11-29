@@ -67,7 +67,7 @@ task :profile do
   spreadsheets = Dir.glob(File.join("test", "input", "*.xls?")).sort!
 
   spreadsheets.each { |input|
-    puts "<<<--- Profiling parsing #{input}..."
+    puts "<<<--- Profiling parsing of #{input}..."
     doc = nil
     StackProf.run(:mode => :cpu, :interval => 100, 
                   :out  => "tmp/stackprof-cpu-parse-#{File.basename(input)}.dump") { 
@@ -80,5 +80,34 @@ task :profile do
                   :out  => "tmp/stackprof-cpu-write-#{File.basename(input)}.dump") {
       doc.write(output)
     }
+  }
+end
+
+desc "Dump profiling data 2"
+task :prof do
+  require 'benchmark'
+  require 'ruby-prof'
+
+  $:.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
+  require './lib/rubyXL'
+
+  spreadsheets = Dir.glob(File.join("test", "input", "*.xls?")).sort!
+
+  spreadsheets.each { |input|
+    puts "<<<--- Profiling parsing of #{input}..."
+    doc = nil
+    result = RubyProf.profile {
+      doc = RubyXL::Parser.parse(input)
+    }
+    printer = RubyProf::CallStackPrinter.new(result)
+    File.open("tmp/ruby-prof-parse-#{File.basename(input)}.html", 'w') { |f| printer.print(f, {}) }
+
+    output = File.join("test", "output", File.basename(input))
+    puts  "--->>> Profiling writing of #{output}..."
+    result = RubyProf.profile {
+      doc.write(output)
+    }
+    printer = RubyProf::CallStackPrinter.new(result)
+    File.open("tmp/ruby-prof-write-#{File.basename(input)}.html", 'w') { |f| printer.print(f, {}) }
   }
 end

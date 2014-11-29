@@ -440,6 +440,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_controls-1.html
   class EmbeddedControls < OOXMLContainerObject
     define_child_node(RubyXL::EmbeddedControl, :collection => true)
+    define_child_node(RubyXL::AlternateContent)
     define_element_name 'controls'
   end
 
