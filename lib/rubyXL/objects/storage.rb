@@ -138,4 +138,9 @@ module RubyXL
     REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicerCache'
   end
 
+  class OLEObjectFile < GenericStorageObject
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/oleObject'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.oleObject'
+  end
+
 end
