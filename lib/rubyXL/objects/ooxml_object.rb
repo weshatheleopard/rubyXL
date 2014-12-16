@@ -382,7 +382,6 @@ module RubyXL
       "<#{self.class}: #{super} #{vars.join(", ")}>"
     end
 
-
     class << self
       def define_count_attribute
         # Count will be inherited from Array. so no need to define it explicitly.
