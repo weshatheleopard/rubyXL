@@ -11,13 +11,15 @@ module RubyXL
     define_attribute(:'xml:space', :string)
     define_element_name 't'
 
+    ESCAPED_UNICODE = /_x([0-9A-F]{4})_/
+
     def before_write_xml
       self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
       true
     end
 
     def to_s
-      value.to_s
+      value.to_s.gsub(ESCAPED_UNICODE) { |m| "0x#{$1}".hex.chr }
     end
   end
 
