@@ -298,12 +298,18 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
+    CONTENT_TYPE_MACRO = 'application/vnd.ms-excel.sheet.macroEnabled.main+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
 
     include RubyXL::RelationshipSupport
 
+    def content_type
+      if macros then CONTENT_TYPE_MACRO else CONTENT_TYPE end
+    end
+
+
     def related_objects
-      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
+      [ calculation_chain, stylesheet, theme, shared_strings_container, macros ] + @worksheets
     end
 
     define_relationship(RubyXL::SharedStringsTable, :shared_strings_container)
@@ -314,8 +320,9 @@ module RubyXL
     define_relationship(RubyXL::Chartsheet,         false)
     define_relationship(RubyXL::ExternalLinksFile)
     define_relationship(RubyXL::PivotCacheDefinitionFile)
+    define_relationship(RubyXL::PivotCacheRecordsFile)
     define_relationship(RubyXL::CustomXMLFile)
-    define_relationship(RubyXL::MacrosFile)
+    define_relationship(RubyXL::MacrosFile,         :macros)
     define_relationship(RubyXL::SlicerCacheFile)
 
     define_child_node(RubyXL::FileVersion)

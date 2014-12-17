@@ -130,7 +130,7 @@ module RubyXL
 
   end
 
-
+  # +RelationshipSupport+ module enables automatic loading and saving of _rels for the respective file
   module RelationshipSupport
 
     module ClassMehods
