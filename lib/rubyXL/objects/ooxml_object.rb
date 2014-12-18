@@ -305,7 +305,7 @@ module RubyXL
           elem << node_obj.write_xml(xml, child_node_name)
         else
           # If child node is either vanilla +Array+, or +OOXMLContainerObject+ on its seconds (content) pass,
-          # serialize write its members.
+          # serialize its members.
           node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
         end
       }
