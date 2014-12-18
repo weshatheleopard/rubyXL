@@ -4,21 +4,18 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.3.1</title>
-
-<link href="./fonts.css" rel="stylesheet">
-<link href="./rdoc.css" rel="stylesheet">
+<title>README - rubyXL 3.3.2</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
 </script>
 
 <script src="./js/jquery.js"></script>
-<script src="./js/navigation.js"></script>
-<script src="./js/search_index.js"></script>
-<script src="./js/search.js"></script>
-<script src="./js/searcher.js"></script>
 <script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="file">
@@ -59,14 +56,14 @@
 
   <ul class="link-list" role="directory">
     <li><a href="#label-rubyXL">rubyXL</a>
-    <li><a href="#label-To+Install%3A">To Install:</a>
-    <li><a href="#label-To+Use%3A">To Use:</a>
+    <li><a href="#label-To+Install-3A">To Install:</a>
+    <li><a href="#label-To+Use-3A">To Use:</a>
     <li><a href="#label-Parsing+an+existing+workbook">Parsing an existing workbook</a>
     <li><a href="#label-Creating+a+new+Workbook">Creating a new Workbook</a>
     <li><a href="#label-Accessing">Accessing</a>
     <li><a href="#label-Accessing+a+Worksheet">Accessing a Worksheet</a>
     <li><a href="#label-Accessing+just+the+values">Accessing just the values</a>
-    <li><a href="#label-Accessing+a+Row+%28Array+of+Cells%29">Accessing a Row (Array of Cells)</a>
+    <li><a href="#label-Accessing+a+Row+-28Array+of+Cells-29">Accessing a Row (Array of Cells)</a>
     <li><a href="#label-Accessing+a+Cell+object">Accessing a Cell object</a>
     <li><a href="#label-Wrappers+for+accessing+Cell+properties">Wrappers for accessing Cell properties</a>
     <li><a href="#label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties </a>
@@ -92,7 +89,7 @@
     <li><a href="#label-Delete+Column">Delete Column</a>
     <li><a href="#label-Insert+Cell">Insert Cell</a>
     <li><a href="#label-Delete+Cell">Delete Cell</a>
-    <li><a href="#label-I%2FO">I/O</a>
+    <li><a href="#label-I-2FO">I/O</a>
     <li><a href="#label-Writing">Writing</a>
     <li><a href="#label-Streaming">Streaming</a>
     <li><a href="#label-Miscellaneous">Miscellaneous</a>
@@ -119,7 +116,7 @@
 
 <main role="main" aria-label="Page README.rdoc">
 
-<h1 id="label-rubyXL">rubyXL<span><a href="#label-rubyXL">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+<h1 id="label-rubyXL">rubyXL<span><a href="#label-rubyXL">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
 <p><a href="http://badge.fury.io/rb/rubyXL"><img
 src="https://badge.fury.io/rb/rubyXL.svg" alt="Gem Version" /></a> <a
@@ -136,179 +133,200 @@ preserving as much of the structure as possible.</p>
 <p>Please note that proprietary binary <code>xls</code> format is
 <strong>not</strong> supported.</p>
 
-<h2 id="label-To+Install%3A">To Install:<span><a href="#label-To+Install%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-To+Install-3A">To Install:<span><a href="#label-To+Install-3A">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<pre>gem install rubyXL</pre>
+<pre class="ruby"><span class="ruby-identifier">gem</span> <span class="ruby-identifier">install</span> <span class="ruby-identifier">rubyXL</span>
+</pre>
 
-<h2 id="label-To+Use%3A">To Use:<span><a href="#label-To+Use%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-To+Use-3A">To Use:<span><a href="#label-To+Use-3A">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL&#39;</span> <span class="ruby-comment"># Assuming rubygems is already required</span>
 </pre>
 
-<h3 id="label-Parsing+an+existing+workbook">Parsing an existing workbook<span><a href="#label-Parsing+an+existing+workbook">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<h3 id="label-Parsing+an+existing+workbook">Parsing an existing workbook<span><a href="#label-Parsing+an+existing+workbook">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<pre>workbook = RubyXL::Parser.parse(&quot;path/to/Excel/file.xlsx&quot;)</pre>
-
-<h3 id="label-Creating+a+new+Workbook">Creating a new Workbook<span><a href="#label-Creating+a+new+Workbook">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
-
-<pre>workbook = RubyXL::Workbook.new</pre>
-
-<h3 id="label-Accessing">Accessing<span><a href="#label-Accessing">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
-
-<h4 id="label-Accessing+a+Worksheet">Accessing a Worksheet<span><a href="#label-Accessing+a+Worksheet">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<pre>workbook.worksheets[0] # Returns first worksheet
-workbook[0]            # Returns first worksheet
-workbook[&#39;Sheet1&#39;]     # Finds and returns worksheet titled &quot;Sheet1&quot;</pre>
-
-<h4 id="label-Accessing+just+the+values">Accessing just the values<span><a href="#label-Accessing+just+the+values">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<pre>worksheet = workbook[0]
-worksheet.extract_data  # Produces a simple rectangular array that consists only of cell values (rather than the Cell objects)</pre>
-
-<h4 id="label-Accessing+a+Row+%28Array+of+Cells%29">Accessing a Row (Array of Cells)<span><a href="#label-Accessing+a+Row+%28Array+of+Cells%29">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<pre>worksheet = workbook[0]
-worksheet.sheet_data[0] # Returns first row of the worksheet
-worksheet[0]            # Returns first row of the worksheet</pre>
-
-<h4 id="label-Accessing+a+Cell+object">Accessing a Cell object<span><a href="#label-Accessing+a+Cell+object">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<pre>worksheet = workbook[0]
-worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
-worksheet[0][0]            # Returns cell A1 in the worksheet</pre>
-
-<h4 id="label-Wrappers+for+accessing+Cell+properties">Wrappers for accessing Cell properties<span><a href="#label-Wrappers+for+accessing+Cell+properties">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<pre>cell = workbook[0][0][0]
-cell.is_struckthrough  # Returns +true+ if the cell is struckthrough, other boolean properties have same syntax
-cell.font_name
-cell.font_size
-cell.font_color
-cell.fill_color
-cell.horizontal_alignment
-cell.vertical_alignment
-cell.border_top</pre>
-
-<h4 id="label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties <span><a href="#label-Wrappers+for+accessing+Row+properties+">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<p>Please note: these methods are being phased out in favor of the OOXML
-object model.</p>
-
-<pre>worksheet = workbook[0]
-worksheet.get_row_fill(0)
-worksheet.get_row_font_name(0)
-worksheet.get_row_font_size(0)
-worksheet.get_row_font_color(0)
-worksheet.is_row_underlined(0)
-worksheet.get_row_height(0)
-worksheet.get_row_horizontal_alignment(0)
-worksheet.get_row_vertical_alignment(0)
-worksheet.get_row_border_right(0)</pre>
-
-<h4 id="label-Accessing+column+properties">Accessing column properties<span><a href="#label-Accessing+column+properties">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<p>Please note: these methods are being phased out in favor of the OOXML
-object model.</p>
-
-<pre>worksheet = workbook[0]
-worksheet.get_column_fill(0)
-worksheet.get_column_font_name(0)
-worksheet.get_column_font_size(0)
-worksheet.get_column_font_color(0)
-worksheet.is_column_underlined(0)
-worksheet.get_column_width(0)
-worksheet.get_column_horizontal_alignment(0)
-worksheet.get_column_vertical_alignment(0)
-worksheet.get_column_border_right(0)</pre>
-
-<h4 id="label-Table+identification">Table identification<span><a href="#label-Table+identification">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-
-<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_table</span>([<span class="ruby-string">&quot;NAME&quot;</span>, <span class="ruby-string">&quot;AGE&quot;</span>, <span class="ruby-string">&quot;HEIGHT&quot;</span>]) <span class="ruby-comment"># Returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column</span>
-<span class="ruby-comment">#it returns the following structure</span>
-{
- :<span class="ruby-constant">Name=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;John&quot;</span>, <span class="ruby-string">&quot;Jane&quot;</span>, <span class="ruby-string">&quot;Joe&quot;</span>], 
- :<span class="ruby-constant">Height=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-value">70</span>, <span class="ruby-value">65</span>, <span class="ruby-value">68</span>], 
- :<span class="ruby-constant">Age=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-value">30</span>, <span class="ruby-value">25</span>, <span class="ruby-value">35</span>]
- :<span class="ruby-identifier">table=</span><span class="ruby-operator">&gt;</span>[
-  {:<span class="ruby-constant">Name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;John&quot;</span>, :<span class="ruby-constant">Height=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">70</span>, :<span class="ruby-constant">Age=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">30</span>},
-  {:<span class="ruby-constant">Name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Jane&quot;</span>, :<span class="ruby-constant">Height=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">65</span>, :<span class="ruby-constant">Age=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">25</span>}, 
-  {:<span class="ruby-constant">Name=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;Joe&quot;</span>, :<span class="ruby-constant">Height=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">68</span>, :<span class="ruby-constant">Age=</span><span class="ruby-operator">&gt;</span><span class="ruby-value">35</span>}
- ]
-}
+<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;path/to/Excel/file.xlsx&quot;</span>)
 </pre>
 
-<h3 id="label-Modifying">Modifying<span><a href="#label-Modifying">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<h3 id="label-Creating+a+new+Workbook">Creating a new Workbook<span><a href="#label-Creating+a+new+Workbook">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<h4 id="label-Adding+Worksheets">Adding Worksheets<span><a href="#label-Adding+Worksheets">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Workbook</span>.<span class="ruby-identifier">new</span>
+</pre>
 
-<pre>worksheet = workbook.add_worksheet(&#39;Sheet2&#39;)</pre>
+<h3 id="label-Accessing">Accessing<span><a href="#label-Accessing">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<h4 id="label-Renaming+Worksheets">Renaming Worksheets<span><a href="#label-Renaming+Worksheets">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Accessing+a+Worksheet">Accessing a Worksheet<span><a href="#label-Accessing+a+Worksheet">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.sheet_name = &#39;Cool New Name&#39;</pre>
+<pre class="ruby"><span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">worksheets</span>[<span class="ruby-value">0</span>] <span class="ruby-comment"># Returns first worksheet</span>
+<span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]            <span class="ruby-comment"># Returns first worksheet</span>
+<span class="ruby-identifier">workbook</span>[<span class="ruby-string">&#39;Sheet1&#39;</span>]     <span class="ruby-comment"># Finds and returns worksheet titled &quot;Sheet1&quot;</span>
+</pre>
 
-<h4 id="label-Adding+Cells">Adding Cells<span><a href="#label-Adding+Cells">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Accessing+just+the+values">Accessing just the values<span><a href="#label-Accessing+just+the+values">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.add_cell(0, 0, &#39;A1&#39;)      # Sets cell A1 to string &quot;A1&quot;
-worksheet.add_cell(0, 1, &#39;&#39;, &#39;A1&#39;)  # Sets formula in the cell B1 to &#39;=A1&#39;</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">extract_data</span>  <span class="ruby-comment"># Produces a simple rectangular array that consists only of cell values (rather than the Cell objects)</span>
+</pre>
 
-<h4 id="label-Changing+Cells">Changing Cells<span><a href="#label-Changing+Cells">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Accessing+a+Row+-28Array+of+Cells-29">Accessing a Row (Array of Cells)<span><a href="#label-Accessing+a+Row+-28Array+of+Cells-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet[0][0].change_contents(&quot;&quot;, worksheet[0][0].formula) # Sets value of cell A1 to empty string, preserves formula</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>] <span class="ruby-comment"># Returns first row of the worksheet</span>
+<span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>]            <span class="ruby-comment"># Returns first row of the worksheet</span>
+</pre>
 
-<h4 id="label-Changing+Fonts">Changing Fonts<span><a href="#label-Changing+Fonts">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Accessing+a+Cell+object">Accessing a Cell object<span><a href="#label-Accessing+a+Cell+object">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.sheet_data[0][0].change_font_bold(true) # Makes A1 bold
-worksheet.change_row_italics(0,true)              # Makes first row italicized
-worksheet.change_column_font_name(0, &#39;Courier&#39;)   # Makes first column have font Courier</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>] <span class="ruby-comment"># Returns cell A1 in the worksheet</span>
+<span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]            <span class="ruby-comment"># Returns cell A1 in the worksheet</span>
+</pre>
 
-<h4 id="label-Changing+Fills+++++">Changing Fills     <span><a href="#label-Changing+Fills+++++">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Wrappers+for+accessing+Cell+properties">Wrappers for accessing Cell properties<span><a href="#label-Wrappers+for+accessing+Cell+properties">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.sheet_data[0][0].change_fill(&#39;0ba53d&#39;)  # Sets A1 to have fill #0ba53d
-worksheet.change_row_fill(0, &#39;0ba53d&#39;)            # Sets first row to have fill #0ba53d
-worksheet.change_column_fill(0, &#39;0ba53d&#39;)         # Sets first column to have fill #0ba53d</pre>
+<pre class="ruby"><span class="ruby-identifier">cell</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">is_struckthrough</span>  <span class="ruby-comment"># Returns +true+ if the cell is struckthrough, other boolean properties have same syntax</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">font_name</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">font_size</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">font_color</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">fill_color</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">horizontal_alignment</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">vertical_alignment</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">border_top</span>
+</pre>
 
-<h4 id="label-Changing+Borders">Changing Borders<span><a href="#label-Changing+Borders">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties <span><a href="#label-Wrappers+for+accessing+Row+properties+">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre># Possible weights: hairline, thin, medium, thick
-# Possible &quot;directions&quot;: top, bottom, left, right, diagonal
-worksheet.sheet_data[0][0].change_border(:top, &#39;thin&#39;)  # Sets A1 to have a top, thin border
-worksheet.change_row_border(0, :left, &#39;hairline&#39;)       # Sets first row to have a left, hairline border
-worksheet.change_column_border(0, :diagonal, &#39;medium&#39;)  # Sets first column to have diagonal, medium border</pre>
+<p>Please note: these methods are being phased out in favor of the OOXML
+object model.</p>
 
-<h4 id="label-Changing+Alignment">Changing Alignment<span><a href="#label-Changing+Alignment">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_fill</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_font_name</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_font_size</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_font_color</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">is_row_underlined</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_height</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_horizontal_alignment</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_vertical_alignment</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_border_right</span>(<span class="ruby-value">0</span>)
+</pre>
 
-<h5 id="label-Horizontal">Horizontal<span><a href="#label-Horizontal">&para;</a> <a href="#documentation">&uarr;</a></span></h5>
+<h4 id="label-Accessing+column+properties">Accessing column properties<span><a href="#label-Accessing+column+properties">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>Please note: these methods are being phased out in favor of the OOXML
+object model.</p>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_fill</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_font_name</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_font_size</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_font_color</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">is_column_underlined</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_width</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_horizontal_alignment</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_vertical_alignment</span>(<span class="ruby-value">0</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border_right</span>(<span class="ruby-value">0</span>)
+</pre>
+
+<h4 id="label-Table+identification">Table identification<span><a href="#label-Table+identification">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>worksheet = workbook[0]
+worksheet.get_table([&quot;NAME&quot;, &quot;AGE&quot;, &quot;HEIGHT&quot;]) # Returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
+#it returns the following structure
+{
+ :Name=&gt;[&quot;John&quot;, &quot;Jane&quot;, &quot;Joe&quot;], 
+ :Height=&gt;[70, 65, 68], 
+ :Age=&gt;[30, 25, 35]
+ :table=&gt;[
+  {:Name=&gt;&quot;John&quot;, :Height=&gt;70, :Age=&gt;30},
+  {:Name=&gt;&quot;Jane&quot;, :Height=&gt;65, :Age=&gt;25}, 
+  {:Name=&gt;&quot;Joe&quot;, :Height=&gt;68, :Age=&gt;35}
+ ]
+}</pre>
+
+<h3 id="label-Modifying">Modifying<span><a href="#label-Modifying">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-Adding+Worksheets">Adding Worksheets<span><a href="#label-Adding+Worksheets">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">add_worksheet</span>(<span class="ruby-string">&#39;Sheet2&#39;</span>)
+</pre>
+
+<h4 id="label-Renaming+Worksheets">Renaming Worksheets<span><a href="#label-Renaming+Worksheets">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-string">&#39;Cool New Name&#39;</span>
+</pre>
+
+<h4 id="label-Adding+Cells">Adding Cells<span><a href="#label-Adding+Cells">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&#39;A1&#39;</span>)      <span class="ruby-comment"># Sets cell A1 to string &quot;A1&quot;</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&#39;A1&#39;</span>)  <span class="ruby-comment"># Sets formula in the cell B1 to &#39;=A1&#39;</span>
+</pre>
+
+<h4 id="label-Changing+Cells">Changing Cells<span><a href="#label-Changing+Cells">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_contents</span>(<span class="ruby-string">&quot;&quot;</span>, <span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">formula</span>) <span class="ruby-comment"># Sets value of cell A1 to empty string, preserves formula</span>
+</pre>
+
+<h4 id="label-Changing+Fonts">Changing Fonts<span><a href="#label-Changing+Fonts">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_font_bold</span>(<span class="ruby-keyword">true</span>) <span class="ruby-comment"># Makes A1 bold</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_italics</span>(<span class="ruby-value">0</span>,<span class="ruby-keyword">true</span>)              <span class="ruby-comment"># Makes first row italicized</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_font_name</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;Courier&#39;</span>)   <span class="ruby-comment"># Makes first column have font Courier</span>
+</pre>
+
+<h4 id="label-Changing+Fills+++++">Changing Fills     <span><a href="#label-Changing+Fills+++++">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_fill</span>(<span class="ruby-string">&#39;0ba53d&#39;</span>)  <span class="ruby-comment"># Sets A1 to have fill #0ba53d</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_fill</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)            <span class="ruby-comment"># Sets first row to have fill #0ba53d</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_fill</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)         <span class="ruby-comment"># Sets first column to have fill #0ba53d</span>
+</pre>
+
+<h4 id="label-Changing+Borders">Changing Borders<span><a href="#label-Changing+Borders">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-comment"># Possible weights: hairline, thin, medium, thick</span>
+<span class="ruby-comment"># Possible &quot;directions&quot;: top, bottom, left, right, diagonal</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_border</span>(:<span class="ruby-identifier">top</span>, <span class="ruby-string">&#39;thin&#39;</span>)  <span class="ruby-comment"># Sets A1 to have a top, thin border</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">left</span>, <span class="ruby-string">&#39;hairline&#39;</span>)       <span class="ruby-comment"># Sets first row to have a left, hairline border</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">diagonal</span>, <span class="ruby-string">&#39;medium&#39;</span>)  <span class="ruby-comment"># Sets first column to have diagonal, medium border</span>
+</pre>
+
+<h4 id="label-Changing+Alignment">Changing Alignment<span><a href="#label-Changing+Alignment">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-Horizontal">Horizontal<span><a href="#label-Horizontal">&para;</a> <a href="#top">&uarr;</a></span></h5>
 
 <p>center, distributed, justify, left, right</p>
 
-<pre>worksheet.sheet_data[0][0].change_horizontal_alignment(&#39;center&#39;) # Sets A1 to be centered
-worksheet.change_row_horizontal_alignment(0, &#39;justify&#39;)          # Sets first row to be justified
-worksheet.change_column_horizontal_alignment(0, &#39;right&#39;)         # Sets first column to be right-aligned</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-string">&#39;center&#39;</span>) <span class="ruby-comment"># Sets A1 to be centered</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_horizontal_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;justify&#39;</span>)          <span class="ruby-comment"># Sets first row to be justified</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_horizontal_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;right&#39;</span>)         <span class="ruby-comment"># Sets first column to be right-aligned</span>
+</pre>
 
-<h5 id="label-Vertical">Vertical<span><a href="#label-Vertical">&para;</a> <a href="#documentation">&uarr;</a></span></h5>
+<h5 id="label-Vertical">Vertical<span><a href="#label-Vertical">&para;</a> <a href="#top">&uarr;</a></span></h5>
 
 <p>bottom, center, distributed, top</p>
 
-<pre>worksheet.sheet_data[0][0].change_vertical_alignment(&#39;bottom&#39;)  # Sets A1 to be bottom aligned
-worksheet.change_row_vertical_alignment(0, &#39;distributed&#39;)       # Sets first row to be distributed vertically
-worksheet.change_column_vertical_alignment(0, &#39;top&#39;)            # Sets first column to be top aligned</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-string">&#39;bottom&#39;</span>)  <span class="ruby-comment"># Sets A1 to be bottom aligned</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_vertical_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;distributed&#39;</span>)       <span class="ruby-comment"># Sets first row to be distributed vertically</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_vertical_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;top&#39;</span>)            <span class="ruby-comment"># Sets first column to be top aligned</span>
+</pre>
 
-<h4 id="label-Changing+Row+Height">Changing Row Height<span><a href="#label-Changing+Row+Height">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Changing+Row+Height">Changing Row Height<span><a href="#label-Changing+Row+Height">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.change_row_height(0, 30)  # Sets first row height to 30</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_height</span>(<span class="ruby-value">0</span>, <span class="ruby-value">30</span>)  <span class="ruby-comment"># Sets first row height to 30</span>
+</pre>
 
-<h4 id="label-Changing+Column+Width">Changing Column Width<span><a href="#label-Changing+Column+Width">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Changing+Column+Width">Changing Column Width<span><a href="#label-Changing+Column+Width">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.change_column_width(0, 30)  # Sets first column width to 30</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_width</span>(<span class="ruby-value">0</span>, <span class="ruby-value">30</span>)  <span class="ruby-comment"># Sets first column width to 30</span>
+</pre>
 
-<h4 id="label-Merging+Cells">Merging Cells<span><a href="#label-Merging+Cells">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Merging+Cells">Merging Cells<span><a href="#label-Merging+Cells">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.merge_cells(0, 0, 1, 1)  # Merges A1:B2</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">1</span>)  <span class="ruby-comment"># Merges A1:B2</span>
+</pre>
 
-<h4 id="label-Insert+Row">Insert Row<span><a href="#label-Insert+Row">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Insert+Row">Insert Row<span><a href="#label-Insert+Row">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
 <p>This method will insert a row at specified index, pushing all rows below it
 down. It also copies styles from row above.</p>
@@ -316,9 +334,10 @@ down. It also copies styles from row above.</p>
 <p>WARNING: Use of this method WILL break formulas referencing cells which
 have been moved, as the formulas do not adapt to the shifted rows</p>
 
-<pre>worksheet.insert_row(1)</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_row</span>(<span class="ruby-value">1</span>)
+</pre>
 
-<h4 id="label-Insert+Column">Insert Column<span><a href="#label-Insert+Column">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Insert+Column">Insert Column<span><a href="#label-Insert+Column">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
 <p>This method will insert a column at specified index, pushing all columns to
 the right of it one to the right. It also copies styles from column to the
@@ -327,9 +346,10 @@ left</p>
 <p>WARNING: Use of this method WILL break formulas referencing cells which
 have been moved, as the formulas do not adapt to the shifted columns</p>
 
-<pre>worksheet.insert_column(1)</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_column</span>(<span class="ruby-value">1</span>)
+</pre>
 
-<h4 id="label-Delete+Row">Delete Row<span><a href="#label-Delete+Row">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Delete+Row">Delete Row<span><a href="#label-Delete+Row">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
 <p>This method will delete a row at specified index, pushing all rows below it
 up.</p>
@@ -337,9 +357,10 @@ up.</p>
 <p>WARNING: Use of this method WILL break formulas referencing cells which
 have been moved, as the formulas do not adapt to the shifted rows</p>
 
-<pre>worksheet.delete_row(1)</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_row</span>(<span class="ruby-value">1</span>)
+</pre>
 
-<h4 id="label-Delete+Column">Delete Column<span><a href="#label-Delete+Column">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Delete+Column">Delete Column<span><a href="#label-Delete+Column">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
 <p>This method will delete a column at specified index, pushing all columns to
 the right of it left.</p>
@@ -347,9 +368,10 @@ the right of it left.</p>
 <p>WARNING: Use of this method WILL break formulas referencing cells which
 have been moved, as the formulas do not adapt to the shifted columns</p>
 
-<pre>worksheet.delete_column(1)</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_column</span>(<span class="ruby-value">1</span>)
+</pre>
 
-<h4 id="label-Insert+Cell">Insert Cell<span><a href="#label-Insert+Cell">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Insert+Cell">Insert Cell<span><a href="#label-Insert+Cell">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
 <p>This method will insert a cell at specified position. It takes a :right or
 :down option, to shift cells either left or down upon inserting (nil means
@@ -358,11 +380,12 @@ replacing the cell)</p>
 <p>WARNING: Use of this method WILL break formulas referencing cells which
 have been moved, as the formulas do not adapt to the shifted cells</p>
 
-<pre>worksheet.insert_cell(0, 0, &quot;blah&quot;, formula = nil, :right)  # Inserts cell at A1, shifts cells in first row right
-worksheet.insert_cell(0, 0, &quot;blah&quot;, formula = nil, :down)   # Inserts cell at A1, shifts cells in first column down
-worksheet.insert_cell(0, 0, &quot;blah&quot;)                         # Inserts cell at A1, shifts nothing</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;blah&quot;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, :<span class="ruby-identifier">right</span>)  <span class="ruby-comment"># Inserts cell at A1, shifts cells in first row right</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;blah&quot;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, :<span class="ruby-identifier">down</span>)   <span class="ruby-comment"># Inserts cell at A1, shifts cells in first column down</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;blah&quot;</span>)                         <span class="ruby-comment"># Inserts cell at A1, shifts nothing</span>
+</pre>
 
-<h4 id="label-Delete+Cell">Delete Cell<span><a href="#label-Delete+Cell">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<h4 id="label-Delete+Cell">Delete Cell<span><a href="#label-Delete+Cell">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
 <p>This method will delete a cell at specified position. It takes a :left or
 :up option, to shift cells either up or left upon deletion (nil means
@@ -371,34 +394,38 @@ simply deleting the cell contents)</p>
 <p>WARNING: Use of this method WILL break formulas referencing cells which
 have been moved, as the formulas do not adapt to the shifted cells</p>
 
-<pre>worksheet.delete_cell(0, 0, :left)  # Deletes A1, shifts contents of first row left
-worksheet.delete_cell(0, 0, :up)    # Deletes A1, shifts contents of first column up
-worksheet.delete_cell(0, 0)         # Deletes A1, does not shift cells</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, :<span class="ruby-identifier">left</span>)  <span class="ruby-comment"># Deletes A1, shifts contents of first row left</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, :<span class="ruby-identifier">up</span>)    <span class="ruby-comment"># Deletes A1, shifts contents of first column up</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>)         <span class="ruby-comment"># Deletes A1, does not shift cells</span>
+</pre>
 
-<h2 id="label-I%2FO">I/O<span><a href="#label-I%2FO">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-I-2FO">I/O<span><a href="#label-I-2FO">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<h3 id="label-Writing">Writing<span><a href="#label-Writing">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<h3 id="label-Writing">Writing<span><a href="#label-Writing">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<pre>workbook.write(&quot;path/to/desired/Excel/file.xlsx&quot;)</pre>
+<pre class="ruby"><span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">write</span>(<span class="ruby-string">&quot;path/to/desired/Excel/file.xlsx&quot;</span>)
+</pre>
 
-<h3 id="label-Streaming">Streaming<span><a href="#label-Streaming">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<h3 id="label-Streaming">Streaming<span><a href="#label-Streaming">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>The gem can provide <code>StringIO</code> object containing the resulting
 <code>xlsx</code> file, eliminating the need to save it to disk first. This
 capability comes in handy for web servers.</p>
 
-<pre>workbook.stream</pre>
+<pre class="ruby"><span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stream</span>
+</pre>
 
-<h2 id="label-Miscellaneous">Miscellaneous<span><a href="#label-Miscellaneous">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-Miscellaneous">Miscellaneous<span><a href="#label-Miscellaneous">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<pre>Reference.ind2ref(0,0) == &#39;A1&#39;    # Converts row and column index to Excel-style cell reference
-Reference.ref2ind(&#39;A1&#39;) == [0, 0] # Converts Excel-style cell reference to row and column index</pre>
+<pre class="ruby"><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-value">0</span>,<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-string">&#39;A1&#39;</span>    <span class="ruby-comment"># Converts row and column index to Excel-style cell reference</span>
+<span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-string">&#39;A1&#39;</span>) <span class="ruby-operator">==</span> [<span class="ruby-value">0</span>, <span class="ruby-value">0</span>] <span class="ruby-comment"># Converts Excel-style cell reference to row and column index</span>
+</pre>
 
-<h2 id="label-For+more+information">For more information<span><a href="#label-For+more+information">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-For+more+information">For more information<span><a href="#label-For+more+information">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>Take a look at the files in spec/lib/ for rspecs on most methods</p>
 
-<h2 id="label-Contributing+to+rubyXL">Contributing to rubyXL<span><a href="#label-Contributing+to+rubyXL">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-Contributing+to+rubyXL">Contributing to rubyXL<span><a href="#label-Contributing+to+rubyXL">&para;</a> <a href="#top">&uarr;</a></span></h2>
 <ul><li>
 <p>Check out the latest master to make sure the feature hasn&#39;t been
 implemented or the bug hasn&#39;t been fixed yet</p>
@@ -420,7 +447,7 @@ to have your own version, or is otherwise necessary, that is fine, but
 please isolate to its own commit so I can cherry-pick around it.</p>
 </li></ul>
 
-<h2 id="label-Copyright">Copyright<span><a href="#label-Copyright">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<h2 id="label-Copyright">Copyright<span><a href="#label-Copyright">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>Copyright © 2011 Vivek Bhagwat, 2013-2014 Wesha. See LICENSE.txt for
 further details.</p>
@@ -430,7 +457,7 @@ further details.</p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.2.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

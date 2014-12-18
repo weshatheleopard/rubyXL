@@ -4,21 +4,18 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Worksheet - rubyXL 3.3.1</title>
-
-<link href="../fonts.css" rel="stylesheet">
-<link href="../rdoc.css" rel="stylesheet">
+<title>class RubyXL::Worksheet - rubyXL 3.3.2</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
 </script>
 
 <script src="../js/jquery.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/search_index.js"></script>
-<script src="../js/search.js"></script>
-<script src="../js/searcher.js"></script>
 <script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="class">
@@ -65,9 +62,44 @@
   
 </div>
 
+    <div id="includes-section" class="nav-section">
+  <h3>Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="RelationshipSupport.html">RubyXL::RelationshipSupport</a>
+  
+  
+  
+    <li><a class="include" href="LegacyWorksheet.html">RubyXL::LegacyWorksheet</a>
+  
+  
+  
+    <li><a class="include" href="WorksheetConvenienceMethods.html">RubyXL::WorksheetConvenienceMethods</a>
+  
+  
+  </ul>
+</div>
+
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li class="calls-super" ><a href="#method-c-parse">::parse</a>
     
+    <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
+    
+    <li ><a href="#method-i-related_objects">#related_objects</a>
+    
+    <li ><a href="#method-i-xlsx_path">#xlsx_path</a>
+    
+  </ul>
+</div>
+
   </div>
 </nav>
 
@@ -78,6 +110,9 @@
 
   <section class="description">
     
+<p><a
+href="http://www.schemacentral.com/sc/ooxml/e-ssml_worksheet.html">www.schemacentral.com/sc/ooxml/e-ssml_worksheet.html</a></p>
+
   </section>
 
   
@@ -89,17 +124,309 @@
     
 
     
-
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="CONTENT_TYPE">CONTENT_TYPE
+        
+        <dd>
+        
+      
+        <dt id="REL_TYPE">REL_TYPE
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
     
 
     
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-rels" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">rels</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-sheet_id" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">sheet_id</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-sheet_name" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">sheet_name</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-state" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">state</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-workbook" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">workbook</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-parse" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parse</span><span
+            class="method-args">(param)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              
+            </div>
+          
+
+          
+          <div class="method-source-code" id="parse-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 733</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">param</span>)
+  <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-keyword">super</span>
+  <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet_obj</span>
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">sheet_obj</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
+  }
+  <span class="ruby-identifier">sheet_obj</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-before_write_xml" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">before_write_xml</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="before_write_xml-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 684</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span> <span class="ruby-comment"># This method may need to be moved higher in the hierarchy</span>
+  <span class="ruby-identifier">first_nonempty_row</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">last_nonempty_row</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">first_nonempty_column</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">last_nonempty_column</span> = <span class="ruby-value">0</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">sheet_data</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span>, <span class="ruby-identifier">row_index</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">empty?</span>
+
+      <span class="ruby-identifier">first_nonempty_cell</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">last_nonempty_cell</span> = <span class="ruby-value">0</span>
+
+      <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span>, <span class="ruby-identifier">col_index</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-identifier">col_index</span>)
+
+        <span class="ruby-identifier">first_nonempty_cell</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">col_index</span>
+        <span class="ruby-identifier">last_nonempty_cell</span> = <span class="ruby-identifier">col_index</span>
+      }
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">first_nonempty_cell</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># If there&#39;s nothing in this row, then +first_nonempty_cell+ will be +nil+.</span>
+        <span class="ruby-identifier">last_nonempty_row</span> = <span class="ruby-identifier">row_index</span>
+        <span class="ruby-identifier">first_nonempty_row</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">row_index</span>
+
+        <span class="ruby-identifier">first_nonempty_column</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">first_nonempty_cell</span>
+        <span class="ruby-identifier">last_nonempty_column</span> = <span class="ruby-identifier">last_nonempty_cell</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">last_nonempty_cell</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">last_nonempty_column</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">row</span>.<span class="ruby-identifier">r</span> = <span class="ruby-identifier">row_index</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">row</span>.<span class="ruby-identifier">spans</span> = <span class="ruby-node">&quot;#{first_nonempty_cell + 1}:#{last_nonempty_cell + 1}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">first_nonempty_cell</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">row</span>.<span class="ruby-identifier">custom_format</span> = (<span class="ruby-identifier">row</span>.<span class="ruby-identifier">style_index</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>)
+    }
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">first_nonempty_row</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dimension</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorksheetDimensions</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dimension</span>.<span class="ruby-identifier">ref</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">first_nonempty_row</span>, <span class="ruby-identifier">last_nonempty_row</span>,
+                                                 <span class="ruby-identifier">first_nonempty_column</span>, <span class="ruby-identifier">last_nonempty_column</span>)
+    <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-related_objects" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">related_objects</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="related_objects-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 621</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">related_objects</span>
+  <span class="ruby-identifier">comments</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">printer_settings</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-xlsx_path" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">xlsx_path</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="xlsx_path-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 729</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
+  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;worksheets&#39;</span>, <span class="ruby-node">&quot;sheet#{file_index}.xml&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.2.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

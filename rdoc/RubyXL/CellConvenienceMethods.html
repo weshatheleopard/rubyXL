@@ -4,21 +4,18 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::CellConvenienceMethods - rubyXL 3.3.1</title>
-
-<link href="../fonts.css" rel="stylesheet">
-<link href="../rdoc.css" rel="stylesheet">
+<title>module RubyXL::CellConvenienceMethods - rubyXL 3.3.2</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
 </script>
 
 <script src="../js/jquery.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/search_index.js"></script>
-<script src="../js/search.js"></script>
-<script src="../js/searcher.js"></script>
 <script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
 
 
 <body id="top" role="document" class="module">
@@ -60,7 +57,25 @@
     
     
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-change_border">#change_border</a>
+    
+    <li ><a href="#method-i-change_horizontal_alignment">#change_horizontal_alignment</a>
+    
+    <li ><a href="#method-i-change_text_wrap">#change_text_wrap</a>
+    
+    <li ><a href="#method-i-change_vertical_alignment">#change_vertical_alignment</a>
+    
+    <li ><a href="#method-i-get_border">#get_border</a>
+    
+  </ul>
+</div>
+
   </div>
 </nav>
 
@@ -86,13 +101,191 @@
     
 
     
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-change_border" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_border</span><span
+            class="method-args">(direction, weight)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_border-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 645</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_border</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+  <span class="ruby-identifier">validate_worksheet</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_border</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_horizontal_alignment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_horizontal_alignment</span><span
+            class="method-args">(alignment = 'center')</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_horizontal_alignment-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 630</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
+  <span class="ruby-identifier">validate_worksheet</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">horizontal</span> = <span class="ruby-identifier">alignment</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_text_wrap" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_text_wrap</span><span
+            class="method-args">(wrap = false)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_text_wrap-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 640</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_text_wrap</span>(<span class="ruby-identifier">wrap</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">validate_worksheet</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">wrap_text</span> = <span class="ruby-identifier">wrap</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_vertical_alignment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_vertical_alignment</span><span
+            class="method-args">(alignment = 'center')</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_vertical_alignment-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 635</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
+  <span class="ruby-identifier">validate_worksheet</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_border" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_border</span><span
+            class="method-args">(direction)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_border-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 625</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_border</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-identifier">validate_worksheet</span>
+  <span class="ruby-identifier">get_cell_border</span>.<span class="ruby-identifier">get_edge_style</span>(<span class="ruby-identifier">direction</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.2.
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
