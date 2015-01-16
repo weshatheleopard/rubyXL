@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.3.2</title>
+<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.3.3</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -422,7 +422,7 @@ the new element name, instead of its default name set by
       <span class="ruby-identifier">elem</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span>, <span class="ruby-identifier">child_node_name</span>)
     <span class="ruby-keyword">else</span>
       <span class="ruby-comment"># If child node is either vanilla +Array+, or +OOXMLContainerObject+ on its seconds (content) pass,</span>
-      <span class="ruby-comment"># serialize write its members.</span>
+      <span class="ruby-comment"># serialize its members.</span>
       <span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span>, <span class="ruby-identifier">child_node_name</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">nil?</span> }
     <span class="ruby-keyword">end</span>
   }

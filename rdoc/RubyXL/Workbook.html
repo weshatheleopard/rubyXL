@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Workbook - rubyXL 3.3.2</title>
+<title>class RubyXL::Workbook - rubyXL 3.3.3</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -173,6 +173,11 @@ compatibility only for 1900 based dates</p>
         <dd>
         
       
+        <dt id="MARCH_1_1900">MARCH_1_1900
+        
+        <dd>
+        
+      
         <dt id="REL_TYPE">REL_TYPE
         
         <dd>
@@ -236,7 +241,7 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 417</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 423</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">worksheets</span> = [], <span class="ruby-identifier">filepath</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span> = <span class="ruby-keyword">nil</span>,
                <span class="ruby-identifier">company</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">application</span> = <span class="ruby-constant">APPLICATION</span>, <span class="ruby-identifier">appversion</span> = <span class="ruby-constant">APPVERSION</span>, <span class="ruby-identifier">date1904</span> = <span class="ruby-value">0</span>)
   <span class="ruby-keyword">super</span>()
@@ -375,7 +380,7 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="date_to_num-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 402</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 403</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">date_to_num</span>(<span class="ruby-identifier">date</span>)
   <span class="ruby-identifier">date</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">date</span>.<span class="ruby-identifier">ajd</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">base_date</span>().<span class="ruby-identifier">ajd</span>).<span class="ruby-identifier">to_f</span>
 <span class="ruby-keyword">end</span></pre>
@@ -408,8 +413,13 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="num_to_date-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 406</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 407</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">num</span>)
+  <span class="ruby-comment"># Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">MARCH_1_1900</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">num</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">workbook_properties</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">workbook_properties</span>.<span class="ruby-identifier">date1904</span>
+  <span class="ruby-keyword">end</span>
+
   <span class="ruby-identifier">num</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">base_date</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">num</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
