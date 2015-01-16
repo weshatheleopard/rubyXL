@@ -180,6 +180,12 @@ describe RubyXL::Cell do
         expect(@cell.value).to eq(Date.parse('April 20, 2012'))
         @cell.change_contents(35981)
         expect(@cell.value).to eq(Date.parse('July 5, 1998'))
+        @cell.change_contents(59)
+        expect(@cell.value).to eq(Date.parse('February 28, 1900'))
+        @cell.change_contents(60)
+        expect(@cell.value).to eq(Date.parse('March 1, 1900')) # 29th doesn't exists, will be parsed as march 1st
+        @cell.change_contents(61)
+        expect(@cell.value).to eq(Date.parse('March 1, 1900'))
       end
     end
     context '1904-based dates' do

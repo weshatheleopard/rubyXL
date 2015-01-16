@@ -393,6 +393,7 @@ module RubyXL
     DATE1904 = DateTime.new(1904, 1, 1)
     # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
     DATE1899 = DateTime.new(1899, 12, 31) - 1
+    DATE1900MARCH1 = 61
 
     def base_date
       (workbook_properties && workbook_properties.date1904) ? DATE1904 : DATE1899
@@ -404,7 +405,9 @@ module RubyXL
     end
 
     def num_to_date(num)
-      num && (base_date + num)
+      # unsubtract that one day if the date is before March 1st
+      leap_fix = (base_date == DATE1899 && num < DATE1900MARCH1) ? 1 : 0
+      num && (base_date + num + leap_fix)
     end
 
     include Enumerable
