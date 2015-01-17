@@ -113,6 +113,7 @@ module RubyXL
     define_element_name 'row'
 
     attr_accessor :worksheet
+    attr_reader :first_nonempty_cell, :last_nonempty_cell
 
     def index_in_collection
       r - 1
@@ -155,6 +156,21 @@ module RubyXL
     def get_font
       @worksheet.workbook.fonts[xf.font_id]
     end
+
+    def before_save
+      @first_nonempty_cell = @last_nonempty_cell = nil
+
+      cells.each_with_index { |cell, col_index|
+        next if cell.nil?
+        cell.r = RubyXL::Reference.new(r - 1, col_index)
+
+        @first_nonempty_cell ||= col_index
+        @last_nonempty_cell = col_index
+      }
+
+      self.spans = "#{@first_nonempty_cell + 1}:#{@last_nonempty_cell + 1}" unless @first_nonempty_cell.nil?
+      self.custom_format = (style_index.to_i != 0)
+    end
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetData-1.html
@@ -162,12 +178,36 @@ module RubyXL
     define_child_node(RubyXL::Row, :collection => true, :accessor => :rows)
     define_element_name 'sheetData'
 
+    attr_reader :first_nonempty_row, :last_nonempty_row, :first_nonempty_column, :last_nonempty_column
+
     def [](ind)
       rows[ind]
     end
 
     def size
       rows.size
+    end
+
+    def before_save
+      @first_nonempty_row = nil
+      @last_nonempty_row = 0
+      @first_nonempty_column = nil
+      @last_nonempty_column = 0
+
+      rows.each_with_index { |row, row_index|
+        next if row.nil?
+
+        row.r = row_index + 1
+        row.before_save
+
+        @first_nonempty_row ||= row_index
+        @last_nonempty_row = row_index
+
+        if row.first_nonempty_cell then # If there's nothing in this row, then +first_nonempty_cell+ will be +nil+.
+          @first_nonempty_column = row.first_nonempty_cell if @first_nonempty_column.nil? || (row.first_nonempty_cell < @first_nonempty_column)
+          @last_nonempty_column  = row.last_nonempty_cell  if row.last_nonempty_cell > @last_nonempty_column
+        end
+      }
     end
 
   end
