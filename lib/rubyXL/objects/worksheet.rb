@@ -51,6 +51,10 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_dimension-3.html
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.sheetdimension%28v=office.14%29.aspx
+  # "This element specifies the used range of the worksheet. It specifies the row and column bounds of used cells
+  # in the worksheet. +This is optional and is not required+. Used cells include cells with formulas, text content,
+  # and cell formatting. When an entire column is formatted, only the first cell in that column is considered used."
   class WorksheetDimensions < OOXMLObject
     define_attribute(:ref, :ref)
     define_element_name 'dimension'
@@ -685,11 +689,14 @@ module RubyXL
       if sheet_data then
         sheet_data.before_save
 
+# Not required as per http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.sheetdimension%28v=office.14%29.aspx
+=begin
         if sheet_data.first_nonempty_row then
           self.dimension ||= RubyXL::WorksheetDimensions.new
           self.dimension.ref = RubyXL::Reference.new(sheet_data.first_nonempty_row, sheet_data.last_nonempty_row,
                                                      sheet_data.first_nonempty_column, sheet_data.last_nonempty_column)
         end
+=end
 
       end
 
