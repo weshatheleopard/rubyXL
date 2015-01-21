@@ -34,68 +34,64 @@ module LegacyWorksheet
     validate_workbook
 
     headers = [headers] unless headers.is_a?(Array)
-    row_num = find_first_row_with_content(headers)
+    normalized_headers = headers.map {|v| normalize_value(v)}
+
+    row_num = find_first_row_with_content(normalized_headers)
     return nil if row_num.nil?
 
-    table_hash = {}
-    table_hash[:table] = []
+    # find the header index of the last header
+    last_header_i = if opts.has_key?(:last_header)
+                      last_header = normalize_value(opts[:last_header])
+                      normalized_headers.find_index { |hv| hv == last_header }
+                    end
 
-    header_row = sheet_data[row_num]
-    header_row.cells.each_with_index { |header_cell, index|
-      break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
-      next if header_cell.nil? || header_cell.value.nil?
-      header = header_cell.value.to_s
-      table_hash[:sorted_headers]||=[]
-      table_hash[:sorted_headers] << header
-      table_hash[header] = []
+    # build a map of header index to column index
+    hi2ci = {}
+    sheet_data[row_num].cells.each_with_index do |cell, cell_i|
+      cv = normalize_value(cell && cell.value)
+      header_i = normalized_headers.find_index{|hv| hv == cv}
+      hi2ci[header_i] = cell_i unless header_i.nil?
+      break if header_i && header_i == last_header_i
+    end
 
-      original_row = row_num + 1
-      current_row = original_row
+    # table_hash has a key for each header. Each key points to a separate array that will contain column values
+    table_hash = Hash[hi2ci.keys.map{|hi| [headers[hi], []]}]
 
-      row = sheet_data.rows[current_row]
-      cell = row && row.cells[index]
+    # build sorted header list... sort headers by their corresponding cell index
+    table_hash[:sorted_headers] = hi2ci.to_a.sort_by{|pair| pair[1]}.map{|pair| headers[pair[0]]} unless hi2ci.empty?
 
-      # makes array of hashes in table_hash[:table]
-      # as well as hash of arrays in table_hash[header]
-      table_index = current_row - original_row
-      cell_test = (!cell.nil? && !cell.value.nil?)
+    # generate table_hash from each non-empty row of the table
+    table_hash[:table] = (row_num + 1..sheet_data.rows.count).map do |i|
+      row = sheet_data[i]
+      next if row.nil?
 
-      while cell_test || (table_hash[:table][table_index] && !table_hash[:table][table_index].empty?)
-        table_hash[header] << cell.value if cell_test
-        table_index = current_row - original_row
+      # collect cell values from row under each column header
+      values = hi2ci.map {|hi, ci| c = row.cells[ci]; [headers[hi], (c.value unless c.nil?)]}
 
-        if cell_test then
-          table_hash[:table][table_index] ||= {}
-          table_hash[:table][table_index][header] = cell.value
-        end
+      # skip rows that consist of only empty cells
+      next if values.all? {|v| v[1].nil?}
 
-        current_row += 1
-        if sheet_data.rows[current_row].nil? then
-          cell = nil
-        else
-          cell = sheet_data.rows[current_row].cells[index]
-        end
-        cell_test = (!cell.nil? && !cell.value.nil?)
-      end
-    }
+      # add each cell value to table_hash[header] columns
+      values.each {|e| hv, cv = *e; table_hash[hv] << cv}
 
-    return table_hash
+      # convert non-empty cell values to a hash and append to table_hash[:table]
+      Hash[values.reject{|v| v[1].nil?}]
+    end.compact
+
+    table_hash
   end
 
+  def normalize_value(v) v.to_s.strip.downcase end
+  private :normalize_value
+
   # finds first row which contains at least all strings in cells_content
-  def find_first_row_with_content(cells_content)
-    validate_workbook
-
-    sheet_data.rows.each_with_index { |row, index|
+  def find_first_row_with_content(header_values)
+    sheet_data.rows.find_index do |row|
       next if row.nil?
-      cells_content = cells_content.map { |header| header.to_s.strip.downcase }
-      original_cells_content = row.cells.map { |cell| (cell && cell.value).to_s.strip.downcase }
+      row_values = row.cells.map {|cell| normalize_value(cell && cell.value) }
 
-      if (cells_content & original_cells_content).size == cells_content.size
-        return index
-      end
-    }
-    return nil
+      (header_values & row_values).size == header_values.size
+    end
   end
   private :find_first_row_with_content
 
