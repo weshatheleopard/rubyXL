@@ -257,23 +257,18 @@ module RubyXL
     # Using the passed-in +Nokogiri+ +xml+ object, creates a new element corresponding to +obj+ according to its definition, along with all its properties and children, and returns the newly created element.
     #   obj.write_xml(seed_xml, 'overriden_element_name')
     # Same as above, but uses the passed-in +node_name_override+ as the new element name, instead of its default name set by +define_element_name+.
-    def write_xml(xml = nil, node_name_override = nil)
-      if xml.nil? then
-        seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
-        seed_xml.encoding = 'UTF-8'
-        result = self.write_xml(seed_xml)
-        return result if result == ''
-        seed_xml << result
-        return seed_xml.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
+    def write_xml(parent = nil, node_name_override = nil)
+      top_level = false
+
+      if parent.nil?
+        parent = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
+        parent.encoding = 'UTF-8'
+        top_level = true
       end
 
       return '' unless before_write_xml
 
-      # Populate namespaces, if any
-      attrs = {}
-      obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| attrs[v.empty? ? 'xmlns' : "xmlns:#{v}"] = k }
-
-      obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
+      attrs = Hash[obtain_class_variable(:@@ooxml_attributes).map do |k, v|
         val = self.send(v[:accessor])
 
         if val.nil? then
@@ -282,35 +277,89 @@ module RubyXL
         end
 
         val = val &&
-                case v[:attr_type]
-                when :bool   then val ? '1' : '0'
-                when :double then val.to_s.gsub(/\.0*\Z/, '') # Trim trailing zeroes
-                else val
-                end
+            case v[:attr_type]
+            when :bool   then val ? '1' : '0'
+            when :double then val.to_s.gsub(/\.0*\Z/, '') # Trim trailing zeroes
+            else val
+            end
 
-        attrs[k] = val
-      }
+        [k, val]
+      end]
 
       element_text = attrs.delete('_')
-      elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
+
+      element_name = node_name_override || obtain_class_variable(:@@ooxml_tag_name)
+
+      # create element and add immediately to hierarchy to
+      # enable namespace lookups for prefixes
+      elem = create_xml_element(parent, element_name, attrs, element_text)
+
+      # now register namespaces, if any
+      obtain_class_variable(:@@ooxml_namespaces).each do |uri, prefix|
+        prefix = nil if prefix == ""
+        elem.add_namespace prefix, uri
+      end
+      # and finally set the node's namespace based on the element_name's prefix (if any)
+      adjust_namespace(elem, element_name)
 
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
-      child_nodes.each_pair { |child_node_name, child_node_params|
+      child_nodes.each do |child_node_name, child_node_params|
         node_obj = get_node_object(child_node_params)
         next if node_obj.nil?
 
         if node_obj.respond_to?(:write_xml) && !node_obj.equal?(self) then
           # If child node is either +OOXMLObject+, or +OOXMLContainerObject+ on its first (envelope) pass,
           # serialize that object.
-          elem << node_obj.write_xml(xml, child_node_name)
+          node_obj.write_xml(elem, child_node_name)
         else
           # If child node is either vanilla +Array+, or +OOXMLContainerObject+ on its seconds (content) pass,
           # serialize its members.
-          node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
+          node_obj.each { |item| item.write_xml(elem, child_node_name) unless item.nil? }
         end
-      }
-      elem
+      end
+
+      if top_level
+        parent.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
+      else
+        elem
+      end
     end
+
+    # correctly handles creation of ns prefixed elements
+    # nokogiri (esp. java version) doesn't like calling create_element with prefixed element name
+    # this method postpones the namespace allocation to later (see: adjust_namespace)
+    def create_xml_element(parent, node, attrs, element_text)
+      prefix, name = prefix_and_tag(node)
+
+      xml = if parent.document?
+              parent
+            else
+              parent.document
+            end
+
+      el = xml.create_element(name, attrs, element_text)
+      parent << el
+
+      el
+    end
+
+    # adjust the nodes's namespace based on the prefix of the elemennt
+    # the node must be added to its parent in order for namespace scoping to work nicely
+    def adjust_namespace(node, node_name)
+      prefix, _ = prefix_and_tag(node_name)
+
+      ns = node.namespace_scopes.find{|n| n.prefix == prefix}
+      node.namespace = ns if ns
+    end
+
+    def prefix_and_tag(node)
+      if /^(([^:]+):)?(.+)$/ =~ node
+        [$2, $3]
+      else
+        [nil, node]
+      end
+    end
+    private :create_xml_element, :adjust_namespace, :prefix_and_tag
 
     # Prototype method. For sparse collections (+Rows+, +Cells+, etc.) must return index at which this object
     # is expected to reside in the collection. If +nil+ is returned, then object is simply added
