@@ -59,7 +59,7 @@ module RubyXL
       OOXMLTopLevelObject::ROOT
     end
 
-    def self.parse_zip_file(zip_file)
+    def self.parse_zip_file(zip_file, xl_file_path = '/buffer')
       root = self.new
       root.filepath = xl_file_path
       root.content_types = RubyXL::ContentTypes.parse_file(zip_file, ContentTypes::XLSX_PATH)
@@ -92,7 +92,7 @@ module RubyXL
 
     def self.parse_file(xl_file_path, opts = {})
       begin
-        ::Zip::File.open(xl_file_path) { |zip_file| parse_zip_file }
+        ::Zip::File.open(xl_file_path) { |zip_file| parse_zip_file(zip_file, xl_file_path) }
       rescue ::Zip::Error => e
         raise e, "XLSX file format error: #{e}", e.backtrace
       end
