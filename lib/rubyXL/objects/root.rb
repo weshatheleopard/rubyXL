@@ -61,9 +61,9 @@ module RubyXL
 
     def self.open_file(file, &block)
       if file.is_a?(IO)
-        ::Zip::File.open_buffer(file) { yield }
+        ::Zip::File.open_buffer(file) { |zip_file| yield(zip_file) }
       else
-        ::Zip::File.open(file) { yield }
+        ::Zip::File.open(file) { |zip_file| yield(zip_file) }
       end
     end
 
