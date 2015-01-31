@@ -59,9 +59,17 @@ module RubyXL
       OOXMLTopLevelObject::ROOT
     end
 
+    def self.open_file(file, &block)
+      if file.is_a?(IO)
+        ::Zip::File.open_buffer(file) { yield }
+      else
+        ::Zip::File.open(file) { yield }
+      end
+    end
+
     def self.parse_file(xl_file_path, opts = {})
       begin
-        ::Zip::File.open(xl_file_path) { |zip_file|
+        open_file(xl_file_path) { |zip_file|
           root = self.new
           root.filepath = xl_file_path
           root.content_types = RubyXL::ContentTypes.parse_file(zip_file, ContentTypes::XLSX_PATH)
