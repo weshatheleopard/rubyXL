@@ -1359,4 +1359,31 @@ describe RubyXL::Worksheet do
 
   end
 
+  describe ".get_column_index_for" do
+
+    context "with string" do
+      it "should return the index of an exactly matching column header" do
+        expect(@worksheet.get_column_index_for("0:2")).to eq(2)
+      end
+
+      it "should raise an error for nonexistent header" do
+        expect{ @worksheet.get_column_index_for("foo") }.to raise_error # doesn't exist at all
+        expect{ @worksheet.get_column_index_for("0:" ) }.to raise_error # partial match doesn't work with strings
+        expect{ @worksheet.get_column_index_for("1:1") }.to raise_error # exists, but not in first row
+      end
+    end
+
+    context "with regular expression" do
+      it "should return the index of the first matching column header by regex" do
+        expect(@worksheet.get_column_index_for(/0:/ )).to eq(0)
+        expect(@worksheet.get_column_index_for(/:9$/)).to eq(9)
+      end
+
+      it "should raise an error for nonexistent header" do
+        expect{ @worksheet.get_column_index_for(/foo/) }.to raise_error # doesn't exist at all
+        expect{ @worksheet.get_column_index_for(/1:1/) }.to raise_error # exists, but not in first row
+      end
+    end
+  end
+
 end

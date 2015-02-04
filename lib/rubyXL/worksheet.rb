@@ -308,6 +308,16 @@ module LegacyWorksheet
     return old_cell
   end
 
+  # Find the index of the first column who's first row cell matches the given header,
+  # either as a string (case sensitive) or regular expression.
+  def get_column_index_for(header)
+    validate_workbook
+    regex = header.is_a?(Regexp) ? header : /\A#{header}\z/
+    sheet_data.rows.first.cells.find_index do |c| 
+      c.value =~ regex
+    end or raise "Header not found: #{header}"
+  end
+
   private
 
   NAME = 0
