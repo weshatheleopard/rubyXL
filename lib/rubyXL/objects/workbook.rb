@@ -93,11 +93,12 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheet-1.html
+  # https://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.sheet%28v=office.14%29.aspx
   class Sheet < OOXMLObject
-    define_attribute(:name,            :string, :required => true)
-    define_attribute(:sheetId,         :int,    :required => true)
-    define_attribute(:state,           RubyXL::ST_Visibility, :default => 'visible')
-    define_attribute(:'r:id',          :string, :required => true)
+    define_attribute(:name,            RubyXL::ST_Xstring,        :required => true)
+    define_attribute(:sheetId,         :uint,                     :required => true)
+    define_attribute(:state,           RubyXL::ST_Visibility,     :default => 'visible')
+    define_attribute(:'r:id',          RubyXL::ST_RelationshipId, :required => true)
     define_element_name 'sheet'
   end
 
@@ -307,7 +308,6 @@ module RubyXL
       if macros then CONTENT_TYPE_MACRO else CONTENT_TYPE end
     end
 
-
     def related_objects
       [ calculation_chain, stylesheet, theme, shared_strings_container, macros ] + @worksheets
     end
@@ -355,14 +355,23 @@ module RubyXL
     attr_accessor :worksheets
 
     def before_write_xml
+      max_sheet_id = 0
+
+      worksheets.each{ |sheet|
+        id = sheet.sheet_id
+        max_sheet_id = id if id && id > max_sheet_id
+      }
+
       self.sheets = RubyXL::Sheets.new
 
       worksheets.each_with_index { |sheet, i|
         rel = relationship_container.find_by_target(sheet.xlsx_path)
-        sheets << RubyXL::Sheet.new(:name => sheet.sheet_name[0..30], # Max sheet name length is 31 char
-                                    :sheet_id => sheet.sheet_id || (i + 1),
-                                    :state => sheet.state, :r_id => rel.id)
+        sheets << RubyXL::Sheet.new(:name     => sheet.sheet_name[0..30], # Max sheet name length is 31 char
+                                    :sheet_id => sheet.sheet_id || (max_sheet_id += 1),
+                                    :state    => sheet.state,
+                                    :r_id     => rel.id)
       }
+
       true
     end
 

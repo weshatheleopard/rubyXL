@@ -367,7 +367,7 @@ module RubyXL
     define_attribute(:xSplit,      :double)
     define_attribute(:ySplit,      :double)
     define_attribute(:topLeftCell, :string)
-    define_attribute(:activePane,  RubyXL::ST_Pane, :default => 'topLeft', )
+    define_attribute(:activePane,  RubyXL::ST_Pane,      :default => 'topLeft')
     define_attribute(:state,       RubyXL::ST_PaneState, :default=> 'split')
     define_element_name 'pane'
   end
@@ -410,7 +410,7 @@ module RubyXL
     define_attribute(:showAutoFilter, :bool,   :default => false)
     define_attribute(:hiddenRows,     :bool,   :default => false)
     define_attribute(:hiddenColumns,  :bool,   :default => false)
-    define_attribute(:state,          RubyXL::ST_Visibility, :default => 'visible')
+    define_attribute(:state,          RubyXL::ST_Visibility,    :default => 'visible')
     define_attribute(:filterUnique,   :bool,   :default => false)
     define_attribute(:view,           RubyXL::ST_SheetViewType, :default => 'normal')
     define_attribute(:showRuler,      :bool,   :default => true)
