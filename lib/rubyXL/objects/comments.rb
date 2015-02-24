@@ -6,6 +6,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_comment-1.html
   class Comment < OOXMLObject
     define_child_node(RubyXL::RichText, :node_name => 'text')
+    define_child_node(RubyXL::AlternateContent)
     define_attribute(:ref,      :ref, :required => true)
     define_attribute(:authorId, :int, :required => true)
     define_attribute(:guid,     :string)
