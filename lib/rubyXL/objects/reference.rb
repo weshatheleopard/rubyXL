@@ -70,6 +70,9 @@ module RubyXL
       end
     end
 
+    # Need to support RC-format:
+    # =RC[-1]-R[1]C[-1]
+ 
     # Converts +row+ and +col+ zero-based indices to Excel-style cell reference
     # (0) A...Z, AA...AZ, BA... ...ZZ, AAA... ...AZZ, BAA... ...XFD (16383)
     def self.ind2ref(row = 0, col = 0)
