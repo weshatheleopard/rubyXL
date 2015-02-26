@@ -329,6 +329,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObjects-1.html
   class OLEObjects < OOXMLContainerObject
     define_child_node(RubyXL::OLEObject, :collection => true)
+    define_child_node(RubyXL::AlternateContent)
     define_element_name 'oleObjects'
   end
 
@@ -440,6 +441,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_controls-1.html
   class EmbeddedControls < OOXMLContainerObject
     define_child_node(RubyXL::EmbeddedControl, :collection => true)
+    define_child_node(RubyXL::AlternateContent)
     define_element_name 'controls'
   end
 
@@ -629,6 +631,7 @@ module RubyXL
     define_relationship(RubyXL::TableFile)
     define_relationship(RubyXL::ControlPropertiesFile)
     define_relationship(RubyXL::SlicerFile)
+    define_relationship(RubyXL::OLEObjectFile)
 
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)

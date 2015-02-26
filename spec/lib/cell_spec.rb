@@ -89,6 +89,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_italics' do
     it 'should make cell font italicized when true is passed' do
+      expect(@cell.is_italicized).to be_nil
       @cell.change_font_italics(true)
       expect(@cell.is_italicized).to eq(true)
     end
@@ -96,6 +97,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_bold' do
     it 'should make cell font bolded when true is passed' do
+      expect(@cell.is_bolded).to be_nil
       @cell.change_font_bold(true)
       expect(@cell.is_bolded).to eq(true)
     end
@@ -103,6 +105,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_underline' do
     it 'should make cell font underlined when true is passed' do
+      expect(@cell.is_underlined).to be_nil
       @cell.change_font_underline(true)
       expect(@cell.is_underlined).to eq(true)
     end
@@ -110,6 +113,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_strikethrough' do
     it 'should make cell font struckthrough when true is passed' do
+      expect(@cell.is_struckthrough).to be_nil
       @cell.change_font_strikethrough(true)
       expect(@cell.is_struckthrough).to eq(true)
     end
@@ -117,6 +121,7 @@ describe RubyXL::Cell do
 
   describe '.change_horizontal_alignment' do
     it 'should cause cell to horizontally align as specified by the passed in string' do
+      expect(@cell.horizontal_alignment).to be_nil
       @cell.change_horizontal_alignment('center')
       expect(@cell.horizontal_alignment).to eq('center')
     end
@@ -124,6 +129,7 @@ describe RubyXL::Cell do
 
   describe '.change_vertical_alignment' do
     it 'should cause cell to vertically align as specified by the passed in string' do
+      expect(@cell.vertical_alignment).to be_nil
       @cell.change_vertical_alignment('center')
       expect(@cell.vertical_alignment).to eq('center')
     end
@@ -131,6 +137,7 @@ describe RubyXL::Cell do
 
   describe '.change_wrap' do
     it 'should cause cell to wrap align as specified by the passed in value' do
+      expect(@cell.text_wrap).to be_nil
       @cell.change_text_wrap(true)
       expect(@cell.text_wrap).to eq(true)
     end
@@ -138,28 +145,33 @@ describe RubyXL::Cell do
 
   describe '.change_border' do
     it 'should cause cell to have border at top with specified weight' do
+      expect(@cell.get_border(:top)).to be_nil
       @cell.change_border(:top, 'thin')
-      expect(@cell.border_top).to eq('thin')
+      expect(@cell.get_border(:top)).to eq('thin')
     end
 
     it 'should cause cell to have border at right with specified weight' do
+      expect(@cell.get_border(:right)).to be_nil
       @cell.change_border(:right, 'thin')
-      expect(@cell.border_right).to eq('thin')
+      expect(@cell.get_border(:right)).to eq('thin')
     end
 
     it 'should cause cell to have border at left with specified weight' do
+      expect(@cell.get_border(:left)).to be_nil
       @cell.change_border(:left, 'thin')
-      expect(@cell.border_left).to eq('thin')
+      expect(@cell.get_border(:left)).to eq('thin')
     end
 
     it 'should cause cell to have border at bottom with specified weight' do
+      expect(@cell.get_border(:bottom)).to be_nil
       @cell.change_border(:bottom, 'thin')
-      expect(@cell.border_bottom).to eq('thin')
+      expect(@cell.get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause cell to have border at diagonal with specified weight' do
+      expect(@cell.get_border(:diagonal)).to be_nil
       @cell.change_border(:diagonal, 'thin')
-      expect(@cell.border_diagonal).to eq('thin')
+      expect(@cell.get_border(:diagonal)).to eq('thin')
     end
   end
 
@@ -180,8 +192,18 @@ describe RubyXL::Cell do
         expect(@cell.value).to eq(Date.parse('April 20, 2012'))
         @cell.change_contents(35981)
         expect(@cell.value).to eq(Date.parse('July 5, 1998'))
+        @cell.change_contents(1)
+        expect(@cell.value).to eq(Date.parse('January 1, 1900'))
+        @cell.change_contents(59)
+        expect(@cell.value).to eq(Date.parse('February 28, 1900'))
+        @cell.change_contents(60)
+        # There's no way Ruby can return the nonexistent February 29th, so it has to be March 1st:
+        expect(@cell.value).to eq(Date.parse('March 1, 1900'))
+        @cell.change_contents(61)
+        expect(@cell.value).to eq(Date.parse('March 1, 1900'))
       end
     end
+
     context '1904-based dates' do
       before(:each) { @workbook.date1904 = true }
       it 'should convert date numbers correctly' do
@@ -306,55 +328,55 @@ describe RubyXL::Cell do
   describe '.border_top' do
     it 'should correctly return the weight of the border on top for this cell' do
       @cell.change_border(:top, 'thin')
-      expect(@cell.border_top).to eq('thin')
+      expect(@cell.get_border(:top)).to eq('thin')
     end
 
     it 'should return nil if no top border has been specified for this cell' do
-      expect(@cell.border_top).to be_nil
+      expect(@cell.get_border(:top)).to be_nil
     end
   end
 
   describe '.border_left' do
     it 'should correctly return the weight of the border on left for this cell' do
       @cell.change_border(:left, 'thin')
-      expect(@cell.border_left).to eq('thin')
+      expect(@cell.get_border(:left)).to eq('thin')
     end
 
     it 'should return nil if no left border has been specified for this cell' do
-      expect(@cell.border_left).to be_nil
+      expect(@cell.get_border(:left)).to be_nil
     end
   end
 
   describe '.border_right' do
     it 'should correctly return the weight of the border on right for this cell' do
       @cell.change_border(:right, 'thin')
-      expect(@cell.border_right).to eq('thin')
+      expect(@cell.get_border(:right)).to eq('thin')
     end
 
     it 'should return nil if no right border has been specified for this cell' do
-      expect(@cell.border_right).to be_nil
+      expect(@cell.get_border(:right)).to be_nil
     end
   end
 
   describe '.border_bottom' do
     it 'should correctly return the weight of the border on bottom for this cell' do
       @cell.change_border(:bottom, 'thin')
-      expect(@cell.border_bottom).to eq('thin')
+      expect(@cell.get_border(:bottom)).to eq('thin')
     end
 
     it 'should return nil if no bottom border has been specified for this cell' do
-      expect(@cell.border_bottom).to be_nil
+      expect(@cell.get_border(:bottom)).to be_nil
     end
   end
 
   describe '.border_diagonal' do
     it 'should correctly return the weight of the diagonal border for this cell' do
       @cell.change_border(:diagonal, 'thin')
-      expect(@cell.border_diagonal).to eq('thin')
+      expect(@cell.get_border(:diagonal)).to eq('thin')
     end
 
     it 'should return nil if no diagonal border has been specified for this cell' do
-      expect(@cell.border_diagonal).to be_nil
+      expect(@cell.get_border(:diagonal)).to be_nil
     end
   end
 

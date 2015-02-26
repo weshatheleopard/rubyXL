@@ -56,11 +56,16 @@ module RubyXL
       # Add overrides for the files with known extensions but different content types.
       root.rels_hash.each_pair { |klass, objects|
         objects.each { |obj|
-          next unless defined?(klass::CONTENT_TYPE)
+          obj_content_type = case
+                             when obj.respond_to?(:content_type) then obj.content_type
+                             when defined?(klass::CONTENT_TYPE)  then klass::CONTENT_TYPE
+                             else next
+                             end
+
           ext = obj.xlsx_path.extname[1..-1]
-          next if defaults.any? { |d| (d.extension == ext) && (d.content_type == klass::CONTENT_TYPE) }
+          next if defaults.any? { |d| (d.extension == ext) && (d.content_type == obj_content_type) }
           overrides << RubyXL::ContentTypeOverride.new(:part_name => obj.xlsx_path,
-                                                       :content_type => klass::CONTENT_TYPE)
+                                                       :content_type => obj_content_type)
         }
       }
 
