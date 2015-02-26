@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.3.3</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.3.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -69,16 +69,6 @@
     
     <li ><a href="#method-i-change_column_border">#change_column_border</a>
     
-    <li ><a href="#method-i-change_column_border_bottom">#change_column_border_bottom</a>
-    
-    <li ><a href="#method-i-change_column_border_diagonal">#change_column_border_diagonal</a>
-    
-    <li ><a href="#method-i-change_column_border_left">#change_column_border_left</a>
-    
-    <li ><a href="#method-i-change_column_border_right">#change_column_border_right</a>
-    
-    <li ><a href="#method-i-change_column_border_top">#change_column_border_top</a>
-    
     <li ><a href="#method-i-change_column_font_color">#change_column_font_color</a>
     
     <li ><a href="#method-i-change_column_font_name">#change_column_font_name</a>
@@ -100,16 +90,6 @@
     <li ><a href="#method-i-change_row_bold">#change_row_bold</a>
     
     <li ><a href="#method-i-change_row_border">#change_row_border</a>
-    
-    <li ><a href="#method-i-change_row_border_bottom">#change_row_border_bottom</a>
-    
-    <li ><a href="#method-i-change_row_border_diagonal">#change_row_border_diagonal</a>
-    
-    <li ><a href="#method-i-change_row_border_left">#change_row_border_left</a>
-    
-    <li ><a href="#method-i-change_row_border_right">#change_row_border_right</a>
-    
-    <li ><a href="#method-i-change_row_border_top">#change_row_border_top</a>
     
     <li ><a href="#method-i-change_row_fill">#change_row_fill</a>
     
@@ -135,16 +115,6 @@
     
     <li ><a href="#method-i-get_column_border">#get_column_border</a>
     
-    <li ><a href="#method-i-get_column_border_bottom">#get_column_border_bottom</a>
-    
-    <li ><a href="#method-i-get_column_border_diagonal">#get_column_border_diagonal</a>
-    
-    <li ><a href="#method-i-get_column_border_left">#get_column_border_left</a>
-    
-    <li ><a href="#method-i-get_column_border_right">#get_column_border_right</a>
-    
-    <li ><a href="#method-i-get_column_border_top">#get_column_border_top</a>
-    
     <li ><a href="#method-i-get_column_fill">#get_column_fill</a>
     
     <li ><a href="#method-i-get_column_font_color">#get_column_font_color</a>
@@ -153,25 +123,13 @@
     
     <li ><a href="#method-i-get_column_font_size">#get_column_font_size</a>
     
-    <li ><a href="#method-i-get_column_horizontal_alignment">#get_column_horizontal_alignment</a>
-    
-    <li ><a href="#method-i-get_column_vertical_alignment">#get_column_vertical_alignment</a>
-    
     <li ><a href="#method-i-get_column_width">#get_column_width</a>
     
     <li ><a href="#method-i-get_column_width_raw">#get_column_width_raw</a>
     
+    <li ><a href="#method-i-get_row_alignment">#get_row_alignment</a>
+    
     <li ><a href="#method-i-get_row_border">#get_row_border</a>
-    
-    <li ><a href="#method-i-get_row_border_bottom">#get_row_border_bottom</a>
-    
-    <li ><a href="#method-i-get_row_border_diagonal">#get_row_border_diagonal</a>
-    
-    <li ><a href="#method-i-get_row_border_left">#get_row_border_left</a>
-    
-    <li ><a href="#method-i-get_row_border_right">#get_row_border_right</a>
-    
-    <li ><a href="#method-i-get_row_border_top">#get_row_border_top</a>
     
     <li ><a href="#method-i-get_row_fill">#get_row_fill</a>
     
@@ -256,7 +214,7 @@
 
           
           <div class="method-source-code" id="change_column_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 605</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 509</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
@@ -300,7 +258,7 @@
 
           
           <div class="method-source-code" id="change_column_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 526</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 455</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_bold</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -336,7 +294,7 @@
 
           
           <div class="method-source-code" id="change_column_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 580</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 484</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
@@ -347,176 +305,6 @@
     <span class="ruby-identifier">c</span> = <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>[<span class="ruby-identifier">column_index</span>]
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span>
   }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_column_border_bottom" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_column_border_bottom</span><span
-            class="method-args">(column_index, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_column_border_bottom-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 570</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border_bottom</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-value">:bottom</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_column_border_diagonal" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_column_border_diagonal</span><span
-            class="method-args">(column_index, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_column_border_diagonal-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 575</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border_diagonal</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-value">:diagonal</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_column_border_left" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_column_border_left</span><span
-            class="method-args">(column_index, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_column_border_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 560</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border_left</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-value">:left</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_column_border_right" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_column_border_right</span><span
-            class="method-args">(column_index, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_column_border_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 565</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border_right</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-value">:right</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_column_border_top" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_column_border_top</span><span
-            class="method-args">(column_index, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_column_border_top-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 555</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border_top</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-value">:top</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -547,7 +335,7 @@
 
           
           <div class="method-source-code" id="change_column_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 510</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 439</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_color</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_color</span>=<span class="ruby-string">&#39;000000&#39;</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">font_color</span>)
 
@@ -585,7 +373,7 @@
 
           
           <div class="method-source-code" id="change_column_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 496</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 425</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_name</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -621,7 +409,7 @@
 
           
           <div class="method-source-code" id="change_column_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 503</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 432</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_size</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -657,7 +445,7 @@
 
           
           <div class="method-source-code" id="change_column_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 547</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 476</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_horizontal_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">horizontal</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -690,7 +478,7 @@
 
           
           <div class="method-source-code" id="change_column_italics-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 519</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 448</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_italics</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -726,7 +514,7 @@
 
           
           <div class="method-source-code" id="change_column_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 540</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 469</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_strikethrough</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -762,7 +550,7 @@
 
           
           <div class="method-source-code" id="change_column_underline-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 533</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 462</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_underline</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">underlined</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -798,7 +586,7 @@
 
           
           <div class="method-source-code" id="change_column_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 551</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 480</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_vertical_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -831,7 +619,7 @@
 
           
           <div class="method-source-code" id="change_row_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 592</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 496</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
@@ -873,7 +661,7 @@
 
           
           <div class="method-source-code" id="change_row_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 466</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 395</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_bold</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -909,7 +697,7 @@
 
           
           <div class="method-source-code" id="change_row_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 417</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 346</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
@@ -919,176 +707,6 @@
   <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">row</span>].<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span>
   }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_row_border_bottom" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_row_border_bottom</span><span
-            class="method-args">(row = 0, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_row_border_bottom-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 407</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border_bottom</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:bottom</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_row_border_diagonal" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_row_border_diagonal</span><span
-            class="method-args">(row = 0, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_row_border_diagonal-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 412</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border_diagonal</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:diagonal</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_row_border_left" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_row_border_left</span><span
-            class="method-args">(row = 0, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_row_border_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 397</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border_left</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:left</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_row_border_right" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_row_border_right</span><span
-            class="method-args">(row = 0, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_row_border_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 402</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border_right</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:right</span>, <span class="ruby-identifier">weight</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-change_row_border_top" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_row_border_top</span><span
-            class="method-args">(row = 0, weight = 'thin')</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_row_border_top-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 392</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border_top</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">weight</span> = <span class="ruby-string">&#39;thin&#39;</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead.&quot;</span>
-  <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:top</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1119,7 +737,7 @@
 
           
           <div class="method-source-code" id="change_row_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 428</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 357</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_fill</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">rgb</span> = <span class="ruby-string">&#39;ffffff&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
@@ -1157,7 +775,7 @@
 
           
           <div class="method-source-code" id="change_row_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 451</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 380</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_color</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_color</span> = <span class="ruby-string">&#39;000000&#39;</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">font_color</span>)
@@ -1194,7 +812,7 @@
 
           
           <div class="method-source-code" id="change_row_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 437</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 366</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_name</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1230,7 +848,7 @@
 
           
           <div class="method-source-code" id="change_row_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 444</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 373</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_size</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1266,7 +884,7 @@
 
           
           <div class="method-source-code" id="change_row_height-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 487</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 416</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_height</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">height</span> = <span class="ruby-value">10</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
@@ -1304,7 +922,7 @@
 
           
           <div class="method-source-code" id="change_row_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 380</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 334</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_horizontal_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
@@ -1339,7 +957,7 @@
 
           
           <div class="method-source-code" id="change_row_italics-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 459</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 388</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_italics</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1375,7 +993,7 @@
 
           
           <div class="method-source-code" id="change_row_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 480</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 409</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_strikethrough</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1411,7 +1029,7 @@
 
           
           <div class="method-source-code" id="change_row_underline-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 473</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 402</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_underline</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">underlined</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1447,7 +1065,7 @@
 
           
           <div class="method-source-code" id="change_row_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 386</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 340</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_vertical_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
@@ -1482,7 +1100,7 @@
 
           
           <div class="method-source-code" id="get_column_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 337</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 326</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">type</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">col</span>)
@@ -1519,7 +1137,7 @@
 
           
           <div class="method-source-code" id="get_column_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 328</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 317</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">border_direction</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">col</span>)
@@ -1527,176 +1145,6 @@
   <span class="ruby-identifier">xf</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)]
   <span class="ruby-identifier">border</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span>]
   <span class="ruby-identifier">border</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">border</span>.<span class="ruby-identifier">get_edge_style</span>(<span class="ruby-identifier">border_direction</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_column_border_bottom" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_column_border_bottom</span><span
-            class="method-args">(col=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_column_border_bottom-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 370</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border_bottom</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-value">:bottom</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_column_border_diagonal" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_column_border_diagonal</span><span
-            class="method-args">(col=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_column_border_diagonal-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 375</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border_diagonal</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-value">:diagonal</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_column_border_left" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_column_border_left</span><span
-            class="method-args">(col=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_column_border_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 360</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border_left</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-value">:left</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_column_border_right" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_column_border_right</span><span
-            class="method-args">(col=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_column_border_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 365</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border_right</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-value">:right</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_column_border_top" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_column_border_top</span><span
-            class="method-args">(col=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_column_border_top-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 355</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border_top</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead.&quot;</span>
-  <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-value">:top</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1727,7 +1175,7 @@
 
           
           <div class="method-source-code" id="get_column_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 321</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 310</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_fill</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">col</span>)
@@ -1763,7 +1211,7 @@
 
           
           <div class="method-source-code" id="get_column_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 279</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 268</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_color</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;000000&#39;</span>)
@@ -1797,7 +1245,7 @@
 
           
           <div class="method-source-code" id="get_column_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 269</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 258</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_name</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_name</span>
@@ -1831,78 +1279,10 @@
 
           
           <div class="method-source-code" id="get_column_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 274</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 263</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_size</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_size</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_column_horizontal_alignment" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_column_horizontal_alignment</span><span
-            class="method-args">(col=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_column_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 345</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_horizontal_alignment</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_alignment` instead.&quot;</span>
-  <span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-identifier">col</span>, <span class="ruby-value">:horizontal</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_column_vertical_alignment" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_column_vertical_alignment</span><span
-            class="method-args">(col=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_column_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 350</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_vertical_alignment</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_alignment` instead.&quot;</span>
-  <span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-identifier">col</span>, <span class="ruby-value">:vertical</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1934,7 +1314,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_column_width-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 315</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 304</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_width</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">width</span> = <span class="ruby-identifier">get_column_width_raw</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">width</span>.<span class="ruby-identifier">nil?</span>
@@ -1969,13 +1349,54 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_column_width_raw-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 305</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 294</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_width_raw</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
 
   <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">width</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_row_alignment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_row_alignment</span><span
+            class="method-args">(row, is_horizontal)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_row_alignment-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 236</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">is_horizontal</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
+
+  <span class="ruby-identifier">xf_obj</span> = <span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_horizontal</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">return</span> <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">horizontal</span>
+  <span class="ruby-keyword">else</span>                  <span class="ruby-keyword">return</span> <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">vertical</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -2013,176 +1434,6 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
   <span class="ruby-identifier">border</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">border_id</span>]
   <span class="ruby-identifier">border</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">border</span>.<span class="ruby-identifier">get_edge_style</span>(<span class="ruby-identifier">border_direction</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_row_border_bottom" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_row_border_bottom</span><span
-            class="method-args">(row = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_row_border_bottom-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 259</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border_bottom</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead.&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:bottom</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_row_border_diagonal" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_row_border_diagonal</span><span
-            class="method-args">(row = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_row_border_diagonal-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 264</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border_diagonal</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead.&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:diagonal</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_row_border_left" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_row_border_left</span><span
-            class="method-args">(row = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_row_border_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 249</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border_left</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead.&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:left</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_row_border_right" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_row_border_right</span><span
-            class="method-args">(row = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_row_border_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 254</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border_right</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead.&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:right</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_row_border_top" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_row_border_top</span><span
-            class="method-args">(row = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_row_border_top-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 244</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border_top</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead.&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-value">:top</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -2383,8 +1634,9 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 236</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 248</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_horizontal_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead.&quot;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-keyword">true</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -2416,8 +1668,9 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 240</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 253</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_vertical_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead.&quot;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -2449,7 +1702,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_bolded-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 289</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 278</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_bolded</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_bold</span>
@@ -2483,7 +1736,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_italicized-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 284</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 273</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_italicized</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_italic</span>
@@ -2517,7 +1770,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_struckthrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 299</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 288</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_struckthrough</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_strikethrough</span>
@@ -2551,7 +1804,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_underlined-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 294</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 283</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_underlined</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_underlined</span>
