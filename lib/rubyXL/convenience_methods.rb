@@ -233,37 +233,26 @@ module RubyXL
       border && border.get_edge_style(border_direction)
     end
 
+    def get_row_alignment(row, is_horizontal)
+      validate_workbook
+      validate_nonnegative(row)
+
+      xf_obj = get_row_xf(row)
+      return nil if xf_obj.alignment.nil?
+
+      if is_horizontal then return xf_obj.alignment.horizontal
+      else                  return xf_obj.alignment.vertical
+      end
+    end
+
     def get_row_horizontal_alignment(row = 0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead."
       return get_row_alignment(row, true)
     end
 
     def get_row_vertical_alignment(row = 0)
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead."
       return get_row_alignment(row, false)
-    end
-
-    def get_row_border_top(row = 0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
-      return get_row_border(row, :top)
-    end
-
-    def get_row_border_left(row = 0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
-      return get_row_border(row, :left)
-    end
-
-    def get_row_border_right(row = 0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
-      return get_row_border(row, :right)
-    end
-
-    def get_row_border_bottom(row = 0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
-      return get_row_border(row, :bottom)
-    end
-
-    def get_row_border_diagonal(row = 0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_border` instead."
-      return get_row_border(row, :diagonal)
     end
 
     def get_column_font_name(col = 0)
@@ -342,41 +331,6 @@ module RubyXL
       xf.alignment && xf.alignment.send(type)
     end
 
-    def get_column_horizontal_alignment(col=0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_alignment` instead."
-      get_column_alignment(col, :horizontal)
-    end
-
-    def get_column_vertical_alignment(col=0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_alignment` instead."
-      get_column_alignment(col, :vertical)
-    end
-
-    def get_column_border_top(col=0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
-      get_column_border(col, :top)
-    end
-
-    def get_column_border_left(col=0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
-      get_column_border(col, :left)
-    end
-
-    def get_column_border_right(col=0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
-      get_column_border(col, :right)
-    end
-
-    def get_column_border_bottom(col=0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
-      get_column_border(col, :bottom)
-    end
-
-    def get_column_border_diagonal(col=0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_column_border` instead."
-      get_column_border(col, :diagonal)
-    end
-
     def change_row_horizontal_alignment(row = 0, alignment = 'center')
       validate_workbook
       validate_nonnegative(row)
@@ -387,31 +341,6 @@ module RubyXL
       validate_workbook
       validate_nonnegative(row)
       change_row_alignment(row) { |a| a.vertical = alignment }
-    end
-
-    def change_row_border_top(row = 0, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-      change_row_border(row, :top, weight)
-    end
-
-    def change_row_border_left(row = 0, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-      change_row_border(row, :left, weight)
-    end
-
-    def change_row_border_right(row = 0, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-      change_row_border(row, :right, weight)
-    end
-
-    def change_row_border_bottom(row = 0, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-      change_row_border(row, :bottom, weight)
-    end
-
-    def change_row_border_diagonal(row = 0, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_row_border` instead."
-      change_row_border(row, :diagonal, weight)
     end
 
     def change_row_border(row, direction, weight)
@@ -552,31 +481,6 @@ module RubyXL
       change_column_alignment(column_index) { |a| a.vertical = alignment }
     end
 
-    def change_column_border_top(column_index, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-      change_column_border(column_index, :top, weight)
-    end
-
-    def change_column_border_left(column_index, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-      change_column_border(column_index, :left, weight)
-    end
-
-    def change_column_border_right(column_index, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-      change_column_border(column_index, :right, weight)
-    end
-
-    def change_column_border_bottom(column_index, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-      change_column_border(column_index, :bottom, weight)
-    end
-
-    def change_column_border_diagonal(column_index, weight = 'thin')
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `change_column_border` instead."
-      change_column_border(column_index, :diagonal, weight)
-    end
-
     def change_column_border(column_index, direction, weight)
       validate_workbook
       ensure_cell_exists(0, column_index)
@@ -645,6 +549,67 @@ module RubyXL
     def change_border(direction, weight)
       validate_worksheet
       self.style_index = workbook.modify_border(self.style_index, direction, weight)
+    end
+
+    def is_italicized()
+      validate_worksheet
+      get_cell_font.is_italic
+    end
+
+    def is_bolded()
+      validate_worksheet
+      get_cell_font.is_bold
+    end
+
+    def is_underlined()
+      validate_worksheet
+      get_cell_font.is_underlined
+    end
+
+    def is_struckthrough()
+      validate_worksheet
+      get_cell_font.is_strikethrough
+    end
+
+    def font_name()
+      validate_worksheet
+      get_cell_font.get_name
+    end
+
+    def font_size()
+      validate_worksheet
+      get_cell_font.get_size
+    end
+
+    def font_color()
+      validate_worksheet
+      get_cell_font.get_rgb_color || '000000'
+    end
+
+    def fill_color()
+      validate_worksheet
+      return workbook.get_fill_color(get_cell_xf)
+    end
+
+    def horizontal_alignment()
+      validate_worksheet
+      xf_obj = get_cell_xf
+      return nil if xf_obj.alignment.nil?
+      xf_obj.alignment.horizontal
+    end
+
+    def vertical_alignment()
+      validate_worksheet
+      xf_obj = get_cell_xf
+      return nil if xf_obj.alignment.nil?
+      xf_obj.alignment.vertical
+    end
+
+    def text_wrap()
+      validate_worksheet
+      xf_obj = get_cell_xf
+      return nil if xf_obj.alignment.nil?
+      xf_obj.alignment.wrap_text
     end
 
   end

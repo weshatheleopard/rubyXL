@@ -89,6 +89,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_italics' do
     it 'should make cell font italicized when true is passed' do
+      expect(@cell.is_italicized).to be_nil
       @cell.change_font_italics(true)
       expect(@cell.is_italicized).to eq(true)
     end
@@ -96,6 +97,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_bold' do
     it 'should make cell font bolded when true is passed' do
+      expect(@cell.is_bolded).to be_nil
       @cell.change_font_bold(true)
       expect(@cell.is_bolded).to eq(true)
     end
@@ -103,6 +105,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_underline' do
     it 'should make cell font underlined when true is passed' do
+      expect(@cell.is_underlined).to be_nil
       @cell.change_font_underline(true)
       expect(@cell.is_underlined).to eq(true)
     end
@@ -110,6 +113,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_strikethrough' do
     it 'should make cell font struckthrough when true is passed' do
+      expect(@cell.is_struckthrough).to be_nil
       @cell.change_font_strikethrough(true)
       expect(@cell.is_struckthrough).to eq(true)
     end
@@ -117,6 +121,7 @@ describe RubyXL::Cell do
 
   describe '.change_horizontal_alignment' do
     it 'should cause cell to horizontally align as specified by the passed in string' do
+      expect(@cell.horizontal_alignment).to be_nil
       @cell.change_horizontal_alignment('center')
       expect(@cell.horizontal_alignment).to eq('center')
     end
@@ -124,6 +129,7 @@ describe RubyXL::Cell do
 
   describe '.change_vertical_alignment' do
     it 'should cause cell to vertically align as specified by the passed in string' do
+      expect(@cell.vertical_alignment).to be_nil
       @cell.change_vertical_alignment('center')
       expect(@cell.vertical_alignment).to eq('center')
     end
@@ -131,6 +137,7 @@ describe RubyXL::Cell do
 
   describe '.change_wrap' do
     it 'should cause cell to wrap align as specified by the passed in value' do
+      expect(@cell.text_wrap).to be_nil
       @cell.change_text_wrap(true)
       expect(@cell.text_wrap).to eq(true)
     end
@@ -138,26 +145,31 @@ describe RubyXL::Cell do
 
   describe '.change_border' do
     it 'should cause cell to have border at top with specified weight' do
+      expect(@cell.get_border(:top)).to be_nil
       @cell.change_border(:top, 'thin')
       expect(@cell.get_border(:top)).to eq('thin')
     end
 
     it 'should cause cell to have border at right with specified weight' do
+      expect(@cell.get_border(:right)).to be_nil
       @cell.change_border(:right, 'thin')
       expect(@cell.get_border(:right)).to eq('thin')
     end
 
     it 'should cause cell to have border at left with specified weight' do
+      expect(@cell.get_border(:left)).to be_nil
       @cell.change_border(:left, 'thin')
       expect(@cell.get_border(:left)).to eq('thin')
     end
 
     it 'should cause cell to have border at bottom with specified weight' do
+      expect(@cell.get_border(:bottom)).to be_nil
       @cell.change_border(:bottom, 'thin')
       expect(@cell.get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause cell to have border at diagonal with specified weight' do
+      expect(@cell.get_border(:diagonal)).to be_nil
       @cell.change_border(:diagonal, 'thin')
       expect(@cell.get_border(:diagonal)).to eq('thin')
     end

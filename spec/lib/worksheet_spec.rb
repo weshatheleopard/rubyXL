@@ -272,7 +272,7 @@ describe RubyXL::Worksheet do
   describe '.change_row_horizontal_alignment' do
     it 'should cause row and cells to horizontally align as specified by the passed in string' do
       @worksheet.change_row_horizontal_alignment(0,'center')
-      expect(@worksheet.get_row_horizontal_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, true)).to eq('center')
       expect(@worksheet[0][5].horizontal_alignment).to eq('center')
     end
 
@@ -286,14 +286,14 @@ describe RubyXL::Worksheet do
       expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_horizontal_alignment(11, 'center')
       expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
-      expect(@worksheet.get_row_horizontal_alignment(11)).to eq('center')
+      expect(@worksheet.get_row_alignment(11, true)).to eq('center')
     end
   end
 
   describe '.change_row_vertical_alignment' do
     it 'should cause row and cells to vertically align as specified by the passed in string' do
       @worksheet.change_row_vertical_alignment(0,'center')
-      expect(@worksheet.get_row_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, false)).to eq('center')
       expect(@worksheet[0][5].vertical_alignment).to eq('center')
     end
 
@@ -307,7 +307,7 @@ describe RubyXL::Worksheet do
       expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_vertical_alignment(11, 'center')
       expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
-      expect(@worksheet.get_row_vertical_alignment(11)).to eq('center')
+      expect(@worksheet.get_row_alignment(11, false)).to eq('center')
     end
   end
 
@@ -975,45 +975,37 @@ describe RubyXL::Worksheet do
     end
   end
 
-  describe '.get_row_horizontal_alignment' do
-    it 'should return nil if no alignment specified for row' do
-      expect(@worksheet.get_row_horizontal_alignment(0)).to be_nil
+  describe '.get_row_alignment' do
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_row_alignment(-1, true)
+      }.to raise_error
+    end
+
+    it 'should return nil if no horizontal alignment specified for row' do
+      expect(@worksheet.get_row_alignment(0, true)).to be_nil
     end
 
     it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_horizontal_alignment(11)).to be_nil
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_horizontal_alignment(-1)
-      }.to raise_error
+      expect(@worksheet.get_row_alignment(11, true)).to be_nil
     end
 
     it 'should return correct horizontal alignment if it is set for that row' do
       @worksheet.change_row_horizontal_alignment(0, 'center')
-      expect(@worksheet.get_row_horizontal_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, true)).to eq('center')
     end
-  end
 
-  describe '.get_row_vertical_alignment' do
     it 'should return nil if no alignment specified for row' do
-      expect(@worksheet.get_row_vertical_alignment(0)).to be_nil
+      expect(@worksheet.get_row_alignment(0, false)).to be_nil
     end
 
     it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_vertical_alignment(11)).to be_nil
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_vertical_alignment(-1)
-      }.to raise_error
+      expect(@worksheet.get_row_alignment(11, false)).to be_nil
     end
 
     it 'should return correct vertical alignment if it is set for that row' do
       @worksheet.change_row_vertical_alignment(0, 'center')
-      expect(@worksheet.get_row_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, false)).to eq('center')
     end
   end
 

@@ -322,18 +322,6 @@ module LegacyWorksheet
     (row = sheet_data.rows[row]) && row.get_font
   end
 
-  def get_row_alignment(row, is_horizontal)
-    validate_workbook
-    validate_nonnegative(row)
-
-    xf_obj = get_row_xf(row)
-    return nil if xf_obj.alignment.nil?
-
-    if is_horizontal then return xf_obj.alignment.horizontal
-    else                  return xf_obj.alignment.vertical
-    end
-  end
-
   def column_font(col)
     validate_workbook
     validate_nonnegative(col)
