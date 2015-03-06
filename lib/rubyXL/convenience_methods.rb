@@ -115,6 +115,10 @@ module RubyXL
       stylesheet.borders
     end
 
+    def number_formats # Stylesheet should be pre-filled with defaults on initialize()
+      stylesheet.number_formats
+    end
+
     def get_fill_color(xf)
       fill = fills[xf.fill_id]
       pattern = fill && fill.pattern_fill
@@ -175,6 +179,25 @@ module RubyXL
       new_xf.border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
       new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
       borders[new_xf.border_id] = new_border
+
+      register_new_xf(new_xf, style_index)
+    end
+
+    def modify_number_format(style_index, format_code)
+      old_xf = cell_xfs[style_index].dup
+      new_num_fmt = number_formats[old_xf.num_fmt_id].dup
+      new_num_fmt.format_code = format_code
+
+      new_xf = old_xf.dup
+      new_xf.apply_number_format = true
+
+      new_xf.num_fmt_id = number_formats.find_index { |x| x == new_num_fmt } # Use existing number format, if it exists
+      new_xf.num_fmt_id ||= number_formats.size # If this number format has never existed before, add it to collection
+      number_formats[new_xf.num_fmt_id] = new_num_fmt
+
+      new_xf.num_fmt_id = new_num_fmt.num_fmt_id
+
+      number_formats[new_xf.num_fmt_id] = new_num_fmt
 
       register_new_xf(new_xf, style_index)
     end

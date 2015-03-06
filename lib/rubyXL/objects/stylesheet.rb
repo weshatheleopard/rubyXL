@@ -184,6 +184,7 @@ module RubyXL
     def initialize(*args)
       super
       @format_hash = nil
+      self.number_formats = RubyXL::NumberFormats.new _: [RubyXL::NumberFormat.new(num_fmt_id: 0, format_code: 'GENERAL')]
     end
 
     def xlsx_path
