@@ -1,11 +1,11 @@
-Thu, 26 Feb 2015 20:33:48 +0000
+Mon, 09 Mar 2015 19:42:59 +0000
 README.rdoc	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/cell.rb	Thu, 26 Feb 2015 20:15:26 +0000
-lib/rubyXL/convenience_methods.rb	Thu, 26 Feb 2015 20:15:26 +0000
+lib/rubyXL/convenience_methods.rb	Mon, 09 Mar 2015 19:38:19 +0000
 lib/rubyXL/objects/border.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/calculation_chain.rb	Wed, 11 Feb 2015 20:38:03 +0000
-lib/rubyXL/objects/cell_style.rb	Wed, 11 Feb 2015 20:38:03 +0000
+lib/rubyXL/objects/cell_style.rb	Fri, 06 Mar 2015 20:02:50 +0000
 lib/rubyXL/objects/chartsheet.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/color.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/column_range.rb	Wed, 11 Feb 2015 20:38:03 +0000
@@ -34,4 +34,4 @@ lib/rubyXL/objects/theme.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/workbook.rb	Thu, 26 Feb 2015 20:17:10 +0000
 lib/rubyXL/objects/worksheet.rb	Thu, 26 Feb 2015 20:15:26 +0000
 lib/rubyXL/parser.rb	Thu, 26 Feb 2015 20:15:26 +0000
-lib/rubyXL/worksheet.rb	Thu, 26 Feb 2015 20:15:26 +0000
+lib/rubyXL/worksheet.rb	Mon, 09 Mar 2015 19:35:53 +0000
