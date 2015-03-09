@@ -192,9 +192,12 @@ module LegacyWorksheet
       old_row = sheet_data.rows[row_index - 1]
       if old_row then
         new_cells = old_row.cells.collect { |c|
-                                            if c.nil? then nil
-                                            else RubyXL::Cell.new(:style_index => c.style_index)
-                                            end }
+                      if c.nil? then nil
+                      else nc = RubyXL::Cell.new(:style_index => c.style_index)
+                           nc.worksheet = self
+                           nc
+                      end
+                    }
       end
     end
 

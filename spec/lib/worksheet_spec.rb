@@ -670,6 +670,9 @@ describe RubyXL::Worksheet do
       expect(@worksheet[0][0]).to be_nil
       expect(@worksheet[1][0].value).to eq(@old_cell_value)
       expect(@worksheet[1][0].formula).to eq(@old_cell_formula)
+
+      @worksheet.insert_row(5)
+      expect(@worksheet[5][0].is_underlined).to eq(123)
     end
 
     it 'should insert a row skipping nil rows that might exist' do
