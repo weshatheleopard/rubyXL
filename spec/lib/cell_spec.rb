@@ -232,6 +232,14 @@ describe RubyXL::Cell do
       expect(@cell.formula).to be_nil
     end
 
+    it 'should case cell value to match a numeric that is passed in' do
+      number = 1.25
+      @cell.change_contents(number)
+      expect(@cell.value).to eq(number)
+      expect(@cell.datatype).to be_nil
+      expect(@cell.formula).to be_nil
+    end
+
     it 'should cause cell value and formula to match what is passed in' do
       @cell.change_contents(nil, 'SUM(A2:A4)')
       expect(@cell.value).to be_nil

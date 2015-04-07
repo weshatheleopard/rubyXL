@@ -104,7 +104,7 @@ module RubyXL
         self.formula = RubyXL::Formula.new(:expression => formula_expression)
       else
         self.datatype = case data
-                        when Date, Integer, Float then nil
+                        when Date, Numeric then nil
                         else RubyXL::DataType::RAW_STRING
                         end
       end
