@@ -1,3 +1,4 @@
+require 'bigdecimal'
 require 'rubygems'
 require 'rubyXL'
 
@@ -229,11 +230,28 @@ describe RubyXL::Cell do
       @cell.change_contents(date)
       expect(@cell).to receive(:is_date?).at_least(1).and_return(true)
       expect(@cell.value).to eq(date)
+      expect(@cell.datatype).to be_nil
       expect(@cell.formula).to be_nil
     end
 
-    it 'should case cell value to match a numeric that is passed in' do
+    it 'should case cell value to match a Float that is passed in' do
       number = 1.25
+      @cell.change_contents(number)
+      expect(@cell.value).to eq(number)
+      expect(@cell.datatype).to be_nil
+      expect(@cell.formula).to be_nil
+    end
+
+    it 'should case cell value to match an Integer that is passed in' do
+      number = 1234567
+      @cell.change_contents(number)
+      expect(@cell.value).to eq(number)
+      expect(@cell.datatype).to be_nil
+      expect(@cell.formula).to be_nil
+    end
+
+    it 'should case cell value to match an BigDecimal that is passed in' do
+      number = BigDecimal.new('1234.5678')
       @cell.change_contents(number)
       expect(@cell.value).to eq(number)
       expect(@cell.datatype).to be_nil
