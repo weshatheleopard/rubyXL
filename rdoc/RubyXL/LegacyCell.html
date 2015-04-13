@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyCell - rubyXL 3.3.7</title>
+<title>module RubyXL::LegacyCell - rubyXL 3.3.8</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -183,7 +183,7 @@
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:expression</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">formula_expression</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
-                    <span class="ruby-keyword">when</span> <span class="ruby-constant">Date</span>, <span class="ruby-constant">Integer</span>, <span class="ruby-constant">Float</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
+                    <span class="ruby-keyword">when</span> <span class="ruby-constant">Date</span>, <span class="ruby-constant">Numeric</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
                     <span class="ruby-keyword">else</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">RAW_STRING</span>
                     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
