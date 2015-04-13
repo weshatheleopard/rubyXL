@@ -237,6 +237,11 @@ module RubyXL
     end
     private :init_child_nodes
 
+    def preserve_whitespace
+      self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
+    end
+    private :preserve_whitespace
+
     def ==(other)
       other.is_a?(self.class) &&
         obtain_class_variable(:@@ooxml_attributes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&

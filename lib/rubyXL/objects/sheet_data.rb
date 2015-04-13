@@ -10,11 +10,11 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_v-1.html
   class CellValue < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
-    define_attribute(:'xml:space', :string)
+    define_attribute(:'xml:space', %w{ preserve })
     define_element_name 'v'
 
     def before_write_xml
-      self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
+      preserve_whitespace
       true
     end
   end
