@@ -574,6 +574,24 @@ module RubyXL
 
   module CellConvenienceMethods
 
+    def change_contents(data, formula_expression = nil)
+      validate_worksheet
+
+      if formula_expression then
+        self.datatype = nil
+        self.formula = RubyXL::Formula.new(:expression => formula_expression)
+      else
+        self.datatype = case data
+                        when Date, Numeric then nil
+                        else RubyXL::DataType::RAW_STRING
+                        end
+      end
+
+      data = workbook.date_to_num(data) if data.is_a?(Date)
+
+      self.raw_value = data
+    end
+
     def get_border(direction)
       validate_worksheet
       get_cell_border.get_edge_style(direction)

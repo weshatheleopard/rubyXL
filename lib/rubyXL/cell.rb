@@ -96,31 +96,6 @@ module RubyXL
     end
     private :update_font_references
 
-    def change_contents(data, formula_expression = nil)
-      validate_worksheet
-
-      if formula_expression then
-        self.datatype = nil
-        self.formula = RubyXL::Formula.new(:expression => formula_expression)
-      else
-        self.datatype = case data
-                        when Date, Numeric then nil
-                        else RubyXL::DataType::RAW_STRING
-                        end
-      end
-
-      data = workbook.date_to_num(data) if data.is_a?(Date)
-
-      self.raw_value = data
-    end
-
-    def inspect
-      str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}"
-      str += " =#{self.formula.expression}" if self.formula
-      str += ", datatype = #{self.datatype}, style_index = #{self.style_index}>"
-      return str
-    end
-
     # Performs correct modification based on what type of change_type is specified
     def font_switch(change_type, arg)
       case change_type

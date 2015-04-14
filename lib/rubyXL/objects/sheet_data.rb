@@ -74,19 +74,27 @@ module RubyXL
     # Gets massaged value of the cell, converting datatypes to those known to Ruby (that includes
     # stripping any special formatting from RichText).
     def value(args = {})
-      return raw_value if args[:raw]
-      case datatype
-      when RubyXL::DataType::SHARED_STRING then
+      if args[:raw] then
+        warn "[DEPRECATION] option :raw to `#{__method__}` is deprecated. Please use `raw_value` instead."
+        raw_value
+      elsif datatype == RubyXL::DataType::SHARED_STRING then
         workbook.shared_strings_container[raw_value.to_i].to_s
-      else
-        if is_date? then workbook.num_to_date(raw_value.to_f)
-        elsif raw_value.is_a?(String) && (raw_value =~ /\A-?\d+(\.\d+(?:e[+-]\d+)?)?\Z/i) # Numeric
-          if $1 then raw_value.to_f
-          else raw_value.to_i
-          end
-        else raw_value
+      elsif is_date? then
+        workbook.num_to_date(raw_value.to_f)
+      elsif raw_value.is_a?(String) && (raw_value =~ /\A-?\d+(\.\d+(?:e[+-]\d+)?)?\Z/i) # Numeric
+        if $1 then raw_value.to_f
+        else raw_value.to_i
         end
+      else
+        raw_value
       end
+    end
+
+    def inspect
+      str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}"
+      str += " =#{self.formula.expression}" if self.formula
+      str += ", datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}>"
+      return str
     end
 
     include LegacyCell
