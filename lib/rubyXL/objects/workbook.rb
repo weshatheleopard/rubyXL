@@ -242,7 +242,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagTypes-1.html
   class SmartTagTypes < OOXMLContainerObject
-    define_child_node(RubyXL::SmartTagType, :collection => :true)
+    define_child_node(RubyXL::SmartTagType, :collection => true)
     define_element_name 'smartTagTypes'
   end
 
@@ -255,7 +255,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_functionGroups-1.html
   class FunctionGroups < OOXMLContainerObject
     define_attribute(:builtInGroupCountpi, :int, :default => 16)
-    define_child_node(RubyXL::FunctionGroup, :collection => :true)
+    define_child_node(RubyXL::FunctionGroup, :collection => true)
     define_element_name 'functionGroups'
   end
 
