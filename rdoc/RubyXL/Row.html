@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Row - rubyXL 3.3.8</title>
+<title>class RubyXL::Row - rubyXL 3.3.9</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -163,7 +163,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 121</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 129</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">ind</span>)
   <span class="ruby-identifier">cells</span>[<span class="ruby-identifier">ind</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -196,7 +196,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="delete_cell_shift_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 134</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 142</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_cell_shift_left</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -230,7 +230,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="get_fill_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 151</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 159</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_fill_color</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -263,7 +263,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="get_font-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 155</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 163</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_font</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -296,7 +296,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 117</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 125</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
@@ -329,7 +329,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="insert_cell_shift_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 129</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 137</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">col_index</span>, <span class="ruby-identifier">c</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -363,7 +363,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 125</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 133</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>
 <span class="ruby-keyword">end</span></pre>
@@ -396,7 +396,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html">www.schemacentral
 
           
           <div class="method-source-code" id="xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 147</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 155</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xf</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>

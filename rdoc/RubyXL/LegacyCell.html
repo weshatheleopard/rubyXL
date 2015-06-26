@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyCell - rubyXL 3.3.8</title>
+<title>module RubyXL::LegacyCell - rubyXL 3.3.9</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -63,8 +63,6 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-change_contents">#change_contents</a>
-    
     <li ><a href="#method-i-change_fill">#change_fill</a>
     
     <li ><a href="#method-i-change_font_bold">#change_font_bold</a>
@@ -82,8 +80,6 @@
     <li ><a href="#method-i-change_font_underline">#change_font_underline</a>
     
     <li ><a href="#method-i-font_switch">#font_switch</a>
-    
-    <li ><a href="#method-i-inspect">#inspect</a>
     
     <li ><a href="#method-i-workbook">#workbook</a>
     
@@ -153,53 +149,6 @@
        <header>
          <h3>Public Instance Methods</h3>
        </header>
-
-    
-      <div id="method-i-change_contents" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">change_contents</span><span
-            class="method-args">(data, formula_expression = nil)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="change_contents-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 99</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_contents</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">formula_expression</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">validate_worksheet</span>
-
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">formula_expression</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-keyword">nil</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:expression</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">formula_expression</span>)
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
-                    <span class="ruby-keyword">when</span> <span class="ruby-constant">Date</span>, <span class="ruby-constant">Numeric</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
-                    <span class="ruby-keyword">else</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">RAW_STRING</span>
-                    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-identifier">data</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">date_to_num</span>(<span class="ruby-identifier">data</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Date</span>)
-
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-identifier">data</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
 
     
       <div id="method-i-change_fill" class="method-detail ">
@@ -518,7 +467,7 @@ specified</p>
 
           
           <div class="method-source-code" id="font_switch-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 125</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">font_switch</span>(<span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>)
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">change_type</span>
     <span class="ruby-keyword">when</span> <span class="ruby-constant">Worksheet</span><span class="ruby-operator">::</span><span class="ruby-constant">NAME</span>          <span class="ruby-keyword">then</span> <span class="ruby-identifier">change_font_name</span>(<span class="ruby-identifier">arg</span>)
@@ -530,42 +479,6 @@ specified</p>
     <span class="ruby-keyword">when</span> <span class="ruby-constant">Worksheet</span><span class="ruby-operator">::</span><span class="ruby-constant">STRIKETHROUGH</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">change_font_strikethrough</span>(<span class="ruby-identifier">arg</span>)
     <span class="ruby-keyword">else</span> <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Invalid change_type&#39;</span>
   <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-inspect" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">inspect</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/cell.rb, line 117</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
-  <span class="ruby-identifier">str</span> = <span class="ruby-node">&quot;#&lt;#{self.class}(#{row},#{column}): #{raw_value.inspect}&quot;</span>
-  <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; =#{self.formula.expression}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span>
-  <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;, datatype = #{self.datatype}, style_index = #{self.style_index}&gt;&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">str</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
