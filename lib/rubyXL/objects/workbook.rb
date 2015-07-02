@@ -10,6 +10,7 @@ require 'rubyXL/objects/chartsheet'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
+require 'rubyXL/objects/external_links'
 require 'rubyXL/convenience_methods'
 
 module RubyXL
