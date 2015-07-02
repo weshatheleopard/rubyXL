@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::CellConvenienceMethods - rubyXL 3.3.9</title>
+<title>module RubyXL::CellConvenienceMethods - rubyXL 3.3.10</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -92,6 +92,8 @@
     <li ><a href="#method-i-is_struckthrough">#is_struckthrough</a>
     
     <li ><a href="#method-i-is_underlined">#is_underlined</a>
+    
+    <li ><a href="#method-i-set_number_format">#set_number_format</a>
     
     <li ><a href="#method-i-text_wrap">#text_wrap</a>
     
@@ -645,6 +647,42 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_underlined</span>()
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_underlined</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-set_number_format" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_number_format</span><span
+            class="method-args">(format_code)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="set_number_format-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 681</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_number_format</span>(<span class="ruby-identifier">format_code</span>)
+  <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">num_fmt_id</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">register_number_format</span>(<span class="ruby-identifier">format_code</span>)
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">apply_number_format</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

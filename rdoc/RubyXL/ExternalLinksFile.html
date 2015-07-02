@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ExternalLinksFile - rubyXL 3.3.9</title>
+<title>class RubyXL::ExternalLinksFile - rubyXL 3.3.10</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -58,13 +58,34 @@
   <h3>Parent</h3>
 
   
-  <p class="link"><a href="GenericStorageObject.html">RubyXL::GenericStorageObject</a>
+  <p class="link">OOXMLTopLevelObject
   
 </div>
 
+    <div id="includes-section" class="nav-section">
+  <h3>Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="RelationshipSupport.html">RubyXL::RelationshipSupport</a>
+  
+  
+  </ul>
+</div>
+
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-xlsx_path">#xlsx_path</a>
     
+  </ul>
+</div>
+
   </div>
 </nav>
 
@@ -109,6 +130,47 @@
     
 
     
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-xlsx_path" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">xlsx_path</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="xlsx_path-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/external_links.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
+  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;externalLinks&#39;</span>, <span class="ruby-node">&quot;externalLink#{file_index}.xml&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 

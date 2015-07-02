@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.3.9</title>
+<title>README - rubyXL 3.3.10</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -89,6 +89,7 @@
     <li><a href="#label-Delete+Column">Delete Column</a>
     <li><a href="#label-Insert+Cell">Insert Cell</a>
     <li><a href="#label-Delete+Cell">Delete Cell</a>
+    <li><a href="#label-Modifying+Cell+Format">Modifying Cell Format</a>
     <li><a href="#label-I-2FO">I/O</a>
     <li><a href="#label-Writing">Writing</a>
     <li><a href="#label-Streaming">Streaming</a>
@@ -399,6 +400,12 @@ have been moved, as the formulas do not adapt to the shifted cells</p>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>)         <span class="ruby-comment"># Deletes A1, does not shift cells</span>
 </pre>
 
+<h4 id="label-Modifying+Cell+Format">Modifying Cell Format<span><a href="#label-Modifying+Cell+Format">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">set_number_format</span> <span class="ruby-string">&#39;0.0000%&#39;</span>    <span class="ruby-comment"># For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68</span>
+</pre>
+
 <h2 id="label-I-2FO">I/O<span><a href="#label-I-2FO">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <h3 id="label-Writing">Writing<span><a href="#label-Writing">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -449,7 +456,7 @@ please isolate to its own commit so I can cherry-pick around it.</p>
 
 <h2 id="label-Copyright">Copyright<span><a href="#label-Copyright">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<p>Copyright © 2011 Vivek Bhagwat, 2013-2014 Wesha. See LICENSE.txt for
+<p>Copyright © 2011 Vivek Bhagwat, 2013-2015 Wesha. See LICENSE.txt for
 further details.</p>
 </main>
 

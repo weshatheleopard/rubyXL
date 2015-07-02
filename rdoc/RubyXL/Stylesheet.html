@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Stylesheet - rubyXL 3.3.9</title>
+<title>class RubyXL::Stylesheet - rubyXL 3.3.10</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -75,6 +75,8 @@
     <li class="calls-super" ><a href="#method-c-new">::new</a>
     
     <li ><a href="#method-i-get_number_format_by_id">#get_number_format_by_id</a>
+    
+    <li ><a href="#method-i-register_number_format">#register_number_format</a>
     
     <li ><a href="#method-i-xlsx_path">#xlsx_path</a>
     
@@ -153,7 +155,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html">www.schemace
 
           
           <div class="method-source-code" id="default-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 193</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 194</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:fonts</span>          =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fonts</span>.<span class="ruby-identifier">default</span>,
            <span class="ruby-value">:fills</span>          =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fills</span>.<span class="ruby-identifier">default</span>,
@@ -196,7 +198,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html">www.schemace
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 184</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 185</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">super</span>
   <span class="ruby-ivar">@format_hash</span> = <span class="ruby-keyword">nil</span>
@@ -238,7 +240,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html">www.schemace
 
           
           <div class="method-source-code" id="get_number_format_by_id-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 202</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 203</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_number_format_by_id</span>(<span class="ruby-identifier">format_id</span>)
   <span class="ruby-ivar">@format_hash</span> <span class="ruby-operator">||=</span> {}
 
@@ -248,6 +250,51 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html">www.schemace
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-ivar">@format_hash</span>[<span class="ruby-identifier">format_id</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-register_number_format" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register_number_format</span><span
+            class="method-args">(format_code)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="register_number_format-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 214</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_number_format</span>(<span class="ruby-identifier">format_code</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">number_formats</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">NumberFormats</span>.<span class="ruby-identifier">new</span>
+
+  <span class="ruby-identifier">max_fmt_id</span> = <span class="ruby-value">163</span>
+
+  (<span class="ruby-constant">NumberFormats</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_NUMBER_FORMATS</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">number_formats</span>).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">fmt</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">num_fmt_id</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">format_code</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">format_code</span>
+    <span class="ruby-identifier">max_fmt_id</span> = <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">num_fmt_id</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">fmt</span>.<span class="ruby-identifier">num_fmt_id</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">max_fmt_id</span>
+  }
+
+  <span class="ruby-identifier">max_fmt_id</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+  <span class="ruby-identifier">number_formats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">NumberFormat</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:num_fmt_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">max_fmt_id</span>, <span class="ruby-value">:format_code</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">format_code</span>)
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">max_fmt_id</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -278,7 +325,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html">www.schemace
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 189</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 190</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;styles.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
