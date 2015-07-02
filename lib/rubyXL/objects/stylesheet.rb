@@ -25,6 +25,7 @@ module RubyXL
     define_child_node(RubyXL::NumberFormat, :collection => :with_count)
     define_element_name 'numFmts'
 
+    # https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68
     DEFAULT_NUMBER_FORMATS = self.new(:_ => [
       RubyXL::NumberFormat.new(:num_fmt_id => 1, :format_code => '0'),
       RubyXL::NumberFormat.new(:num_fmt_id => 2, :format_code => '0.00'),
@@ -208,6 +209,22 @@ module RubyXL
       end
 
       @format_hash[format_id]
+    end
+
+    def register_number_format(format_code)
+      self.number_formats ||= RubyXL::NumberFormats.new
+
+      max_fmt_id = 163
+
+      (NumberFormats::DEFAULT_NUMBER_FORMATS + number_formats).each { |fmt|
+        return fmt.num_fmt_id if fmt.format_code == format_code
+        max_fmt_id = fmt.num_fmt_id if fmt.num_fmt_id > max_fmt_id
+      }
+
+      max_fmt_id += 1
+      number_formats << RubyXL::NumberFormat.new(:num_fmt_id => max_fmt_id, :format_code => format_code)
+
+      return max_fmt_id
     end
 
   end

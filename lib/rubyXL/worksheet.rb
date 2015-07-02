@@ -307,7 +307,7 @@ module LegacyWorksheet
 
     xf = workbook.register_new_font(font, get_row_xf(row_index))
     row = sheet_data[row_index]
-    row.style_index = workbook.register_new_xf(xf, get_row_style(row_index))
+    row.style_index = workbook.register_new_xf(xf)
     row.cells.each { |c| c.font_switch(change_type, arg) unless c.nil? }
   end
 
@@ -318,7 +318,7 @@ module LegacyWorksheet
     ensure_cell_exists(0, column_index)
 
     xf = workbook.register_new_font(font, xf)
-    cols.get_range(column_index).style_index = workbook.register_new_xf(xf, get_col_style(column_index))
+    cols.get_range(column_index).style_index = workbook.register_new_xf(xf)
 
     sheet_data.rows.each { |row|
       c = row && row[column_index]

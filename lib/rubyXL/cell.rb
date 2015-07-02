@@ -92,7 +92,7 @@ module RubyXL
     # Helper method to update the font array and xf array
     def update_font_references(modified_font)
       xf = workbook.register_new_font(modified_font, get_cell_xf)
-      self.style_index = workbook.register_new_xf(xf, self.style_index)
+      self.style_index = workbook.register_new_xf(xf)
     end
     private :update_font_references
 

@@ -140,7 +140,7 @@ module RubyXL
       new_xf
     end
 
-    def register_new_xf(new_xf, old_style_index)
+    def register_new_xf(new_xf)
       new_xf_id = cell_xfs.find_index { |xf| xf == new_xf } # Use existing XF, if it exists
       new_xf_id ||= cell_xfs.size # If this XF has never existed before, add it to collection.
       cell_xfs[new_xf_id] = new_xf
@@ -152,7 +152,7 @@ module RubyXL
       xf.alignment ||= RubyXL::Alignment.new
       xf.apply_alignment = true
       yield(xf.alignment)
-      register_new_xf(xf, style_index)
+      register_new_xf(xf)
     end
 
     def modify_fill(style_index, rgb)
@@ -161,7 +161,7 @@ module RubyXL
                    RubyXL::PatternFill.new(:pattern_type => 'solid',
                                            :fg_color => RubyXL::Color.new(:rgb => rgb)))
       new_xf = register_new_fill(new_fill, xf)
-      register_new_xf(new_xf, style_index)
+      register_new_xf(new_xf)
     end
 
     def modify_border(style_index, direction, weight)
@@ -176,7 +176,7 @@ module RubyXL
       new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
       borders[new_xf.border_id] = new_border
 
-      register_new_xf(new_xf, style_index)
+      register_new_xf(new_xf)
     end
 
   end
@@ -676,6 +676,13 @@ module RubyXL
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
       xf_obj.alignment.wrap_text
+    end
+
+    def set_number_format(format_code)
+      new_xf = get_cell_xf.dup
+      new_xf.num_fmt_id = workbook.stylesheet.register_number_format(format_code)
+      new_xf.apply_number_format = true
+      self.style_index = workbook.register_new_xf(new_xf)
     end
 
   end
