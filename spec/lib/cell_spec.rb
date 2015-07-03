@@ -30,6 +30,20 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '.change_number_format' do
+    let(:number_format) { "[$$-409]#,##0.00;[RED]-[$$-409]#,##0.00" }
+
+    subject(:cell) { @cell }
+
+    before { cell.change_contents 100 }
+
+    it 'should change number format' do
+      cell.change_number_format(number_format)
+      expect(cell.number_format.format_code).to eq(number_format)
+    end
+
+  end
+
   describe '.change_fill' do
     it 'should cause an error if hex color code not passed' do
       expect {

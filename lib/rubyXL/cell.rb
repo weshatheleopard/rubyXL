@@ -18,6 +18,12 @@ module RubyXL
       @worksheet.workbook
     end
 
+    # changes number format of cell 
+    def change_number_format(format_code = 'GENERAL')
+      validate_worksheet
+      self.style_index = workbook.modify_number_format(self.style_index, format_code)
+    end
+
     # changes fill color of cell
     def change_fill(rgb = 'ffffff')
       validate_worksheet
