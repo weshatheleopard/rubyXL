@@ -569,6 +569,67 @@ module RubyXL
       }
     end
 
+    # Returns 2D array of just the cell values (without style or formula information)
+    def extract_data(args = {})
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please access data directly by iterating through .sheet_data.rows"
+      sheet_data.rows.map { |row|
+        row.cells.map { |c| c && c.value(args) } unless row.nil?
+      }
+    end
+
+    def get_table(headers = [], opts = {})
+      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please access data directly by iterating through .sheet_data.rows"
+      validate_workbook
+
+      headers = [headers] unless headers.is_a?(Array)
+      row_num = find_first_row_with_content(headers)
+      return nil if row_num.nil?
+
+      table_hash = {}
+      table_hash[:table] = []
+
+      header_row = sheet_data[row_num]
+      header_row.cells.each_with_index { |header_cell, index|
+        break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
+        next if header_cell.nil? || header_cell.value.nil?
+        header = header_cell.value.to_s
+        table_hash[:sorted_headers]||=[]
+        table_hash[:sorted_headers] << header
+        table_hash[header] = []
+
+        original_row = row_num + 1
+        current_row = original_row
+
+        row = sheet_data.rows[current_row]
+        cell = row && row.cells[index]
+
+        # makes array of hashes in table_hash[:table]
+        # as well as hash of arrays in table_hash[header]
+        table_index = current_row - original_row
+        cell_test = (!cell.nil? && !cell.value.nil?)
+
+        while cell_test || (table_hash[:table][table_index] && !table_hash[:table][table_index].empty?)
+          table_hash[header] << cell.value if cell_test
+          table_index = current_row - original_row
+
+          if cell_test then
+            table_hash[:table][table_index] ||= {}
+            table_hash[:table][table_index][header] = cell.value
+          end
+
+          current_row += 1
+          if sheet_data.rows[current_row].nil? then
+            cell = nil
+          else
+            cell = sheet_data.rows[current_row].cells[index]
+          end
+          cell_test = (!cell.nil? && !cell.value.nil?)
+        end
+      }
+
+      return table_hash
+    end
+
   end
 
 

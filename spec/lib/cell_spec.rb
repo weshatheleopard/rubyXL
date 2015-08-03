@@ -34,7 +34,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code not passed' do
       expect {
         @cell.change_fill('G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make cell fill color equal to hex color code passed' do
@@ -45,7 +45,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code includes # character' do
       expect {
         @cell.change_fill('#0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -65,7 +65,7 @@ describe RubyXL::Cell do
     it 'should cause an error if a string passed' do
       expect {
         @cell.change_font_size('20')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -73,7 +73,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code not passed' do
       expect {
         @cell.change_font_color('G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make cell font color equal to hex color code passed' do
@@ -84,7 +84,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code includes # character' do
       expect {
         @cell.change_font_color('#0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 

@@ -8,7 +8,7 @@ describe RubyXL::Color do
     end
 
     it 'should cause an error if an invalid hex color code or one with a # is passed' do
-      expect {RubyXL::Color.validate_color('#G')}.to raise_error
+      expect {RubyXL::Color.validate_color('#G')}.to raise_error(RuntimeError)
     end
   end
 end
