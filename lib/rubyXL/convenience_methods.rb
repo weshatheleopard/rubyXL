@@ -140,7 +140,7 @@ module RubyXL
       new_xf
     end
 
-    def register_new_xf(new_xf, old_style_index)
+    def register_new_xf(new_xf)
       new_xf_id = cell_xfs.find_index { |xf| xf == new_xf } # Use existing XF, if it exists
       new_xf_id ||= cell_xfs.size # If this XF has never existed before, add it to collection.
       cell_xfs[new_xf_id] = new_xf
@@ -152,7 +152,7 @@ module RubyXL
       xf.alignment ||= RubyXL::Alignment.new
       xf.apply_alignment = true
       yield(xf.alignment)
-      register_new_xf(xf, style_index)
+      register_new_xf(xf)
     end
 
     def modify_fill(style_index, rgb)
@@ -161,7 +161,7 @@ module RubyXL
                    RubyXL::PatternFill.new(:pattern_type => 'solid',
                                            :fg_color => RubyXL::Color.new(:rgb => rgb)))
       new_xf = register_new_fill(new_fill, xf)
-      register_new_xf(new_xf, style_index)
+      register_new_xf(new_xf)
     end
 
     def modify_border(style_index, direction, weight)
@@ -176,13 +176,61 @@ module RubyXL
       new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
       borders[new_xf.border_id] = new_border
 
-      register_new_xf(new_xf, style_index)
+      register_new_xf(new_xf)
     end
 
   end
 
 
   module WorksheetConvenienceMethods
+
+    def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
+      validate_workbook
+      ensure_cell_exists(row, col)
+
+      case shift
+      when nil then # No shifting at all
+      when :right then
+        sheet_data.rows[row].insert_cell_shift_right(nil, col)
+      when :down then
+        add_row(sheet_data.size, :cells => Array.new(sheet_data.rows[row].size))
+        (sheet_data.size - 1).downto(row+1) { |index|
+          sheet_data.rows[index].cells[col] = sheet_data.rows[index-1].cells[col]
+        }
+      else
+        raise 'invalid shift option'
+      end
+
+      return add_cell(row,col,data,formula)
+    end
+
+    # by default, only sets cell to nil
+    # if :left is specified, method will shift row contents to the right of the deleted cell to the left
+    # if :up is specified, method will shift column contents below the deleted cell upward
+    def delete_cell(row_index = 0, column_index=0, shift=nil)
+      validate_workbook
+      validate_nonnegative(row_index)
+      validate_nonnegative(column_index)
+
+      row = sheet_data[row_index]
+      old_cell = row && row[column_index]
+
+      case shift
+      when nil then
+        row.cells[column_index] = nil if row
+      when :left then
+        row.delete_cell_shift_left(column_index) if row
+      when :up then
+        (row_index...(sheet_data.size - 1)).each { |index|
+          c = sheet_data.rows[index].cells[column_index] = sheet_data.rows[index + 1].cells[column_index]
+          c.row -= 1 if c.is_a?(Cell)
+        }
+      else
+        raise 'invalid shift option'
+      end
+
+      return old_cell
+    end
 
     def get_row_fill(row = 0)
       (row = sheet_data.rows[row]) && row.get_fill_color
@@ -526,6 +574,24 @@ module RubyXL
 
   module CellConvenienceMethods
 
+    def change_contents(data, formula_expression = nil)
+      validate_worksheet
+
+      if formula_expression then
+        self.datatype = nil
+        self.formula = RubyXL::Formula.new(:expression => formula_expression)
+      else
+        self.datatype = case data
+                        when Date, Numeric then nil
+                        else RubyXL::DataType::RAW_STRING
+                        end
+      end
+
+      data = workbook.date_to_num(data) if data.is_a?(Date)
+
+      self.raw_value = data
+    end
+
     def get_border(direction)
       validate_worksheet
       get_cell_border.get_edge_style(direction)
@@ -610,6 +676,13 @@ module RubyXL
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
       xf_obj.alignment.wrap_text
+    end
+
+    def set_number_format(format_code)
+      new_xf = get_cell_xf.dup
+      new_xf.num_fmt_id = workbook.stylesheet.register_number_format(format_code)
+      new_xf.apply_number_format = true
+      self.style_index = workbook.register_new_xf(new_xf)
     end
 
   end

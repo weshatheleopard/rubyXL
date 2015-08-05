@@ -5,12 +5,12 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishItem-1.html
   class WebPublishingItem < OOXMLObject
-    define_attribute(:id,              :int,    :required => :true)
-    define_attribute(:divId,           :int,    :required => :true)
-    define_attribute(:sourceType,      RubyXL::ST_WebSourceType, :required => :true)
+    define_attribute(:id,              :int,    :required => true)
+    define_attribute(:divId,           :int,    :required => true)
+    define_attribute(:sourceType,      RubyXL::ST_WebSourceType, :required => true)
     define_attribute(:sourceRef,       :ref)
     define_attribute(:sourceObject,    :string)
-    define_attribute(:destinationFile, :string, :required => :true)
+    define_attribute(:destinationFile, :string, :required => true)
     define_attribute(:title,           :string)
     define_attribute(:autoRepublish,   :bool,   :default => false)
     define_element_name 'webPublishItem'

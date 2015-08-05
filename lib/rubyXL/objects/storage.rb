@@ -141,11 +141,6 @@ module RubyXL
     REL_TYPE     = 'http://schemas.microsoft.com/office/2006/relationships/vbaProject'
   end
 
-  class ExternalLinksFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'
-  end
-
   class CustomXMLFile < GenericStorageObject
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'
   end
@@ -166,4 +161,3 @@ module RubyXL
   end
 
 end
-
