@@ -1009,7 +1009,7 @@ module RubyXL
     define_attribute(:fill,        RubyXL::ST_PathFillMode, :default => 'norm')
     define_attribute(:stroke,      :bool, :default => true)
     define_attribute(:extrusionOk, :bool, :default => true)
-    define_element_name 'a:cxn'
+    define_element_name 'a:path'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-a_pathLst-1.html

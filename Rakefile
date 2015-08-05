@@ -20,7 +20,7 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   gem.description = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   gem.email = "bhagwat.vivek@gmail.com"
-  gem.authors = ["Vivek Bhagwat"]
+  gem.authors = ["Vivek Bhagwat", 'Wesha']
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
