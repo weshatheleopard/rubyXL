@@ -1,3 +1,4 @@
+require 'nokogiri'
 require 'pathname'
 require 'rubyXL/objects/reference'
 
@@ -236,6 +237,11 @@ module RubyXL
     end
     private :init_child_nodes
 
+    def preserve_whitespace
+      self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
+    end
+    private :preserve_whitespace
+
     def ==(other)
       other.is_a?(self.class) &&
         obtain_class_variable(:@@ooxml_attributes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&
@@ -304,7 +310,7 @@ module RubyXL
           elem << node_obj.write_xml(xml, child_node_name)
         else
           # If child node is either vanilla +Array+, or +OOXMLContainerObject+ on its seconds (content) pass,
-          # serialize write its members.
+          # serialize its members.
           node_obj.each { |item| elem << item.write_xml(xml, child_node_name) unless item.nil? }
         end
       }

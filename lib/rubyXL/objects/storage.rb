@@ -60,10 +60,19 @@ module RubyXL
 
   end
 
+  class BinaryImageFile < GenericStorageObject
+    CONTENT_TYPE = 'image/jpeg'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
+  end
+
   class VMLDrawingFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.vmlDrawing'
 #    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
+
+    include RubyXL::RelationshipSupport
+
+    define_relationship(RubyXL::BinaryImageFile)
   end
 
   class ChartColorsFile < GenericStorageObject
@@ -77,6 +86,7 @@ module RubyXL
   end
 
   class TableFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/table'
   end
 
@@ -84,17 +94,27 @@ module RubyXL
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/ctrlProp'
   end
 
-  class PivotTableFile < GenericStorageObject
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'
+  class PivotCacheRecordsFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheRecords+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheRecords'
   end
 
   class PivotCacheDefinitionFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheDefinition+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheDefinition'
+
+    include RubyXL::RelationshipSupport
+
+    define_relationship(RubyXL::PivotCacheRecordsFile)
   end
 
-  class BinaryImageFile < GenericStorageObject
-    CONTENT_TYPE = 'image/jpeg'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
+  class PivotTableFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotTable+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'
+
+    include RubyXL::RelationshipSupport
+
+    define_relationship(RubyXL::PivotCacheDefinitionFile)
   end
 
   class HyperlinkRelFile < GenericStorageObject
@@ -121,21 +141,23 @@ module RubyXL
     REL_TYPE     = 'http://schemas.microsoft.com/office/2006/relationships/vbaProject'
   end
 
-  class ExternalLinksFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'
-  end
-
   class CustomXMLFile < GenericStorageObject
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'
   end
 
   class SlicerFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.ms-excel.slicer+xml'
     REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicer'
   end
 
   class SlicerCacheFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.ms-excel.slicerCache+xml'
     REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicerCache'
+  end
+
+  class OLEObjectFile < GenericStorageObject
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/oleObject'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.oleObject'
   end
 
 end

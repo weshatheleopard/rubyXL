@@ -1,7 +1,7 @@
 # encoding: utf-8
-
 require 'rubygems'
 require 'bundler'
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -20,7 +20,7 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   gem.description = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   gem.email = "bhagwat.vivek@gmail.com"
-  gem.authors = ["Vivek Bhagwat"]
+  gem.authors = ["Vivek Bhagwat", 'Wesha']
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -44,7 +44,6 @@ end
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
-
 task :default => :spec
 
 require 'rdoc/task'
@@ -55,4 +54,60 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "rubyXL #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+desc "Dump profiling data"
+task :profile do
+  require 'benchmark'
+  require 'stackprof'
+
+  $:.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
+  require './lib/rubyXL'
+
+  spreadsheets = Dir.glob(File.join("test", "input", "*.xls?")).sort!
+
+  spreadsheets.each { |input|
+    puts "<<<--- Profiling parsing of #{input}..."
+    doc = nil
+    StackProf.run(:mode => :cpu, :interval => 100, 
+                  :out  => "tmp/stackprof-cpu-parse-#{File.basename(input)}.dump") { 
+      doc = RubyXL::Parser.parse(input)
+    }
+
+    output = File.join("test", "output", File.basename(input))
+    puts  "--->>> Profiling writing of #{output}..."
+    StackProf.run(:mode => :cpu, :interval => 100, 
+                  :out  => "tmp/stackprof-cpu-write-#{File.basename(input)}.dump") {
+      doc.write(output)
+    }
+  }
+end
+
+desc "Dump profiling data 2"
+task :prof do
+  require 'benchmark'
+  require 'ruby-prof'
+
+  $:.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
+  require './lib/rubyXL'
+
+  spreadsheets = Dir.glob(File.join("test", "input", "*.xls?")).sort!
+
+  spreadsheets.each { |input|
+    puts "<<<--- Profiling parsing of #{input}..."
+    doc = nil
+    result = RubyProf.profile {
+      doc = RubyXL::Parser.parse(input)
+    }
+    printer = RubyProf::CallStackPrinter.new(result)
+    File.open("tmp/ruby-prof-parse-#{File.basename(input)}.html", 'w') { |f| printer.print(f, {}) }
+
+    output = File.join("test", "output", File.basename(input))
+    puts  "--->>> Profiling writing of #{output}..."
+    result = RubyProf.profile {
+      doc.write(output)
+    }
+    printer = RubyProf::CallStackPrinter.new(result)
+    File.open("tmp/ruby-prof-write-#{File.basename(input)}.html", 'w') { |f| printer.print(f, {}) }
+  }
 end

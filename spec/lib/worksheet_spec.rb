@@ -71,11 +71,11 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_fill(11,'111111')
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
+      @worksheet.change_row_fill(11, '111111')
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.get_row_fill(11)).to eq('111111')
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -92,11 +92,11 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_font_name(11, 'Arial')
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.get_row_font_name(11)).to eq("Arial")
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -119,11 +119,11 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_font_size(11,20)
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.get_row_font_size(11)).to eq(20)
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -152,11 +152,11 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_font_color(11,'0f0f0f')
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
+      @worksheet.change_row_font_color(11, '0f0f0f')
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.get_row_font_color(11)).to eq('0f0f0f')
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -169,15 +169,15 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_row_italics(-1,false)
+        @worksheet.change_row_italics(-1, false)
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_italics(11,true)
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.is_row_italicized(11)).to eq(true)
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -190,15 +190,15 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_row_bold(-1,false)
+        @worksheet.change_row_bold(-1, false)
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_bold(11,true)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
+      @worksheet.change_row_bold(11, true)
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.is_row_bolded(11)).to eq(true)
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -211,15 +211,15 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_row_underline(-1,false)
+        @worksheet.change_row_underline(-1, false)
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_underline(11,true)
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.is_row_underlined(11)).to eq(true)
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -232,15 +232,15 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_row_strikethrough(-1,false)
+        @worksheet.change_row_strikethrough(-1, false)
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_strikethrough(11,true)
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.is_row_struckthrough(11)).to eq(true)
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
@@ -261,21 +261,20 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_height(11,30)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
+      @worksheet.change_row_height(11, 30)
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.get_row_height(11)).to eq(30)
-      expect(@worksheet.sheet_data.size).to eq(12)
     end
   end
 
   describe '.change_row_horizontal_alignment' do
     it 'should cause row and cells to horizontally align as specified by the passed in string' do
       @worksheet.change_row_horizontal_alignment(0,'center')
-      expect(@worksheet.get_row_horizontal_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, true)).to eq('center')
       expect(@worksheet[0][5].horizontal_alignment).to eq('center')
     end
-
 
     it 'should cause error if a negative argument is passed in' do
       expect {
@@ -283,18 +282,18 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_horizontal_alignment(11,'center')
-      expect(@worksheet.get_row_horizontal_alignment(11)).to eq('center')
-      expect(@worksheet.sheet_data.size).to eq(12)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
+      @worksheet.change_row_horizontal_alignment(11, 'center')
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
+      expect(@worksheet.get_row_alignment(11, true)).to eq('center')
     end
   end
 
   describe '.change_row_vertical_alignment' do
     it 'should cause row and cells to vertically align as specified by the passed in string' do
       @worksheet.change_row_vertical_alignment(0,'center')
-      expect(@worksheet.get_row_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, false)).to eq('center')
       expect(@worksheet[0][5].vertical_alignment).to eq('center')
     end
 
@@ -304,11 +303,11 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data.size).to eq(11)
-      @worksheet.change_row_vertical_alignment(11,'center')
-      expect(@worksheet.get_row_vertical_alignment(11)).to eq('center')
-      expect(@worksheet.sheet_data.size).to eq(12)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
+      @worksheet.change_row_vertical_alignment(11, 'center')
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
+      expect(@worksheet.get_row_alignment(11, false)).to eq('center')
     end
   end
 
@@ -320,41 +319,41 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative'  do
-      expect(@worksheet.sheet_data.size).to eq(11)
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_border(11, :left, 'thin')
-      expect(@worksheet.get_row_border_left(11)).to eq('thin')
-      expect(@worksheet.sheet_data.size).to eq(12)
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
+      expect(@worksheet.get_row_border(11, :left)).to eq('thin')
     end
 
     it 'should cause row and cells to have border at top of specified weight' do
       @worksheet.change_row_border(0, :top, 'thin')
-      expect(@worksheet.get_row_border_top(0)).to eq('thin')
-      expect(@worksheet[0][5].border_top).to eq('thin')
+      expect(@worksheet.get_row_border(0, :top)).to eq('thin')
+      expect(@worksheet[0][5].get_border(:top)).to eq('thin')
     end
 
     it 'should cause row and cells to have border at left of specified weight' do
       @worksheet.change_row_border(0, :left, 'thin')
-      expect(@worksheet.get_row_border_left(0)).to eq('thin')
-      expect(@worksheet[0][5].border_left).to eq('thin')
+      expect(@worksheet.get_row_border(0, :left)).to eq('thin')
+      expect(@worksheet[0][5].get_border(:left)).to eq('thin')
     end
 
     it 'should cause row and cells to have border at right of specified weight' do
       @worksheet.change_row_border(0, :right, 'thin')
-      expect(@worksheet.get_row_border_right(0)).to eq('thin')
-      expect(@worksheet[0][5].border_right).to eq('thin')
+      expect(@worksheet.get_row_border(0, :right)).to eq('thin')
+      expect(@worksheet[0][5].get_border(:right)).to eq('thin')
     end
 
     it 'should cause row to have border at bottom of specified weight' do
       @worksheet.change_row_border(0, :bottom, 'thin')
-      expect(@worksheet.get_row_border_bottom(0)).to eq('thin')
-      expect(@worksheet[0][5].border_bottom).to eq('thin')
+      expect(@worksheet.get_row_border(0, :bottom)).to eq('thin')
+      expect(@worksheet[0][5].get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause row to have border at diagonal of specified weight' do
       @worksheet.change_row_border(0, :diagonal, 'thin')
-      expect(@worksheet.get_row_border_diagonal(0)).to eq('thin')
-      expect(@worksheet[0][5].border_diagonal).to eq('thin')
+      expect(@worksheet.get_row_border(0, :diagonal)).to eq('thin')
+      expect(@worksheet[0][5].get_border(:diagonal)).to eq('thin')
     end
   end
 
@@ -367,15 +366,8 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_font_name(-1,'Arial')
+        @worksheet.change_column_font_name(-1, 'Arial')
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_font_name(11,'Arial')
-      expect(@worksheet.get_column_font_name(11)).to eq('Arial')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
@@ -394,15 +386,8 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_font_size(-1,20)
+        @worksheet.change_column_font_size(-1, 20)
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_font_size(11,20)
-      expect(@worksheet.get_column_font_size(11)).to eq(20)
-      expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
@@ -430,13 +415,6 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_font_color(-1,'0f0f0f')
       }.to raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_font_color(11,'0f0f0f')
-      expect(@worksheet.get_column_font_color(11)).to eq('0f0f0f')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
   end
 
   describe '.change_column_italics' do
@@ -448,15 +426,8 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_italicized(-1,false)
+        @worksheet.change_column_italicized(-1, false)
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_italics(11,true)
-      expect(@worksheet.is_column_italicized(11)).to eq(true)
-      expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
@@ -469,15 +440,8 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_bold(-1,false)
+        @worksheet.change_column_bold(-1, false)
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_bold(11,true)
-      expect(@worksheet.is_column_bolded(11)).to eq(true)
-      expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
@@ -490,15 +454,8 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_underline(-1,false)
+        @worksheet.change_column_underline(-1, false)
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_underline(11,true)
-      expect(@worksheet.is_column_underlined(11)).to eq(true)
-      expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
@@ -511,15 +468,8 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_strikethrough(-1,false)
+        @worksheet.change_column_strikethrough(-1, false)
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_strikethrough(11,true)
-      expect(@worksheet.is_column_struckthrough(11)).to eq(true)
-      expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
@@ -533,13 +483,6 @@ describe RubyXL::Worksheet do
       expect {
         @worksheet.change_column_width_raw(-1, 10)
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_width_raw(11, 30)
-      expect(@worksheet.get_column_width_raw(11)).to eq(30)
-      expect(@worksheet.sheet_data[0].size).to eq(12)
     end
   end
 
@@ -567,19 +510,12 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_fill(-1,'111111')
       }.to raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_fill(11,'111111')
-      expect(@worksheet.get_column_fill(11)).to eq('111111')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
   end
 
   describe '.change_column_horizontal_alignment' do
     it 'should cause column and cell to horizontally align as specified by the passed in string' do
-      @worksheet.change_column_horizontal_alignment(0,'center')
-      expect(@worksheet.get_column_horizontal_alignment(0)).to eq('center')
+      @worksheet.change_column_horizontal_alignment(0, 'center')
+      expect(@worksheet.get_column_alignment(0, :horizontal)).to eq('center')
       expect(@worksheet[5][0].horizontal_alignment).to eq('center')
     end
 
@@ -588,19 +524,12 @@ describe RubyXL::Worksheet do
         @worksheet.change_column_horizontal_alignment(-1,'center')
       }.to raise_error
     end
-
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_horizontal_alignment(11,'center')
-      expect(@worksheet.get_column_horizontal_alignment(11)).to eq('center')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
   end
 
   describe '.change_column_vertical_alignment' do
     it 'should cause column and cell to vertically align as specified by the passed in string' do
       @worksheet.change_column_vertical_alignment(0, 'center')
-      expect(@worksheet.get_column_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_column_alignment(0, :vertical)).to eq('center')
       expect(@worksheet[5][0].vertical_alignment).to eq('center')
     end
 
@@ -610,22 +539,15 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_vertical_alignment(11,'center')
-      expect(@worksheet.get_column_vertical_alignment(11)).to eq('center')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
-
     it 'should set column width if column alignment is changed' do
       test_column = 2
-      expect(@worksheet.get_column_vertical_alignment(test_column)).to be_nil
+      expect(@worksheet.get_column_alignment(test_column, :vertical)).to be_nil
       expect(@worksheet.get_column_width_raw(test_column)).to be_nil
       expect(@worksheet.get_column_width(test_column)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
       @worksheet.change_column_vertical_alignment(test_column, 'top')
       expect(@worksheet.get_column_width_raw(test_column)).not_to be_nil
       expect(@worksheet.get_column_width(test_column)).to eq(RubyXL::ColumnRange::DEFAULT_WIDTH)
-      expect(@worksheet.get_column_vertical_alignment(test_column)).to eq('top')
+      expect(@worksheet.get_column_alignment(test_column, :vertical)).to eq('top')
     end
   end
 
@@ -636,43 +558,35 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should expand matrix to fit argument if nonnegative'do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.change_column_border(11, :top, 'thin')
-      expect(@worksheet.get_column_border_top(11)).to eq('thin')
-      expect(@worksheet.sheet_data[0].size).to eq(12)
-    end
-
     it 'should cause column and cells within to have border at top of specified weight' do
       @worksheet.change_column_border(0, :top, 'thin')
-      expect(@worksheet.get_column_border_top(0)).to eq('thin')
-      expect(@worksheet[5][0].border_top).to eq('thin')
+      expect(@worksheet.get_column_border(0, :top)).to eq('thin')
+      expect(@worksheet[5][0].get_border(:top)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at left of specified weight' do
       @worksheet.change_column_border(0, :left, 'thin')
-      expect(@worksheet.get_column_border_left(0)).to eq('thin')
-      expect(@worksheet[5][0].border_left).to eq('thin')
+      expect(@worksheet.get_column_border(0, :left)).to eq('thin')
+      expect(@worksheet[5][0].get_border(:left)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at right of specified weight' do
       @worksheet.change_column_border(0, :right, 'thin')
-      expect(@worksheet.get_column_border_right(0)).to eq('thin')
-      expect(@worksheet[5][0].border_right).to eq('thin')
+      expect(@worksheet.get_column_border(0, :right)).to eq('thin')
+      expect(@worksheet[5][0].get_border(:right)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at bottom of specified weight' do
       @worksheet.change_column_border(0, :bottom, 'thin')
-      expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
-      expect(@worksheet[5][0].border_bottom).to eq('thin')
+      expect(@worksheet.get_column_border(0, :bottom)).to eq('thin')
+      expect(@worksheet[5][0].get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause column and cells within to have border at diagonal of specified weight' do
       @worksheet.change_column_border(0, :diagonal, 'thin')
-      expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
-      expect(@worksheet[5][0].border_diagonal).to eq('thin')
+      expect(@worksheet.get_column_border(0, :diagonal)).to eq('thin')
+      expect(@worksheet[5][0].get_border(:diagonal)).to eq('thin')
     end
-
   end
 
   describe '.merge_cells' do
@@ -756,6 +670,9 @@ describe RubyXL::Worksheet do
       expect(@worksheet[0][0]).to be_nil
       expect(@worksheet[1][0].value).to eq(@old_cell_value)
       expect(@worksheet[1][0].formula).to eq(@old_cell_formula)
+
+      @worksheet.insert_row(5)
+      expect(@worksheet[5][0].is_underlined).to be_nil
     end
 
     it 'should insert a row skipping nil rows that might exist' do
@@ -862,12 +779,6 @@ describe RubyXL::Worksheet do
       expect {
         @worksheet.insert_column(-1)
       }.to raise_error
-    end
-
-    it 'should expand matrix to fit argument if nonnegative' do
-      expect(@worksheet.sheet_data[0].size).to eq(11)
-      @worksheet.insert_column(11)
-      expect(@worksheet.sheet_data[0].size).to eq(13)
     end
   end
 
@@ -1056,8 +967,8 @@ describe RubyXL::Worksheet do
       expect(@worksheet.get_row_height(0)).to eq(30)
     end
 
-    it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_height(11)).to be_nil
+    it 'should return default row height if a row which does not exist is passed in' do
+      expect(@worksheet.get_row_height(11)).to eq(13)
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1067,157 +978,64 @@ describe RubyXL::Worksheet do
     end
   end
 
-  describe '.get_row_horizontal_alignment' do
-    it 'should return nil if no alignment specified for row' do
-      expect(@worksheet.get_row_horizontal_alignment(0)).to be_nil
+  describe '.get_row_alignment' do
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.get_row_alignment(-1, true)
+      }.to raise_error
+    end
+
+    it 'should return nil if no horizontal alignment specified for row' do
+      expect(@worksheet.get_row_alignment(0, true)).to be_nil
     end
 
     it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_horizontal_alignment(11)).to be_nil
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_horizontal_alignment(-1)
-      }.to raise_error
+      expect(@worksheet.get_row_alignment(11, true)).to be_nil
     end
 
     it 'should return correct horizontal alignment if it is set for that row' do
       @worksheet.change_row_horizontal_alignment(0, 'center')
-      expect(@worksheet.get_row_horizontal_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, true)).to eq('center')
     end
-  end
 
-  describe '.get_row_vertical_alignment' do
     it 'should return nil if no alignment specified for row' do
-      expect(@worksheet.get_row_vertical_alignment(0)).to be_nil
+      expect(@worksheet.get_row_alignment(0, false)).to be_nil
     end
 
     it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_vertical_alignment(11)).to be_nil
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_vertical_alignment(-1)
-      }.to raise_error
+      expect(@worksheet.get_row_alignment(11, false)).to be_nil
     end
 
     it 'should return correct vertical alignment if it is set for that row' do
       @worksheet.change_row_vertical_alignment(0, 'center')
-      expect(@worksheet.get_row_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_row_alignment(0, false)).to eq('center')
     end
   end
 
-  describe '.get_row_border_top' do
+  describe '.get_row_border' do
     it 'should return nil if no border is specified for that row in that direction' do
-      expect(@worksheet.get_row_border_top(0)).to be_nil
+      expect(@worksheet.get_row_border(0, :top)).to be_nil
     end
 
     it 'should return type of border that this row has on top' do
       @worksheet.change_row_border(0, :top, 'thin')
-      expect(@worksheet.get_row_border_top(0)).to eq('thin')
+      expect(@worksheet.get_row_border(0, :top)).to eq('thin')
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.get_row_border_top(-1)
+        @worksheet.get_row_border(-1, :top)
       }.to raise_error
     end
 
     it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_border_top(11)).to be_nil
-    end
-  end
-
-  describe '.get_row_border_left' do
-    it 'should return nil if no border is specified for that row in that direction' do
-      expect(@worksheet.get_row_border_left(0)).to be_nil
-    end
-
-    it 'should return type of border that this row has on left' do
-      @worksheet.change_row_border(0, :left, 'thin')
-      expect(@worksheet.get_row_border_left(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_border_left(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_border_left(11)).to be_nil
-    end
-  end
-
-  describe '.get_row_border_right' do
-    it 'should return nil if no border is specified for that row in that direction' do
-      expect(@worksheet.get_row_border_right(0)).to be_nil
-    end
-
-    it 'should return type of border that this row has on right' do
-      @worksheet.change_row_border(0, :right, 'thin')
-      expect(@worksheet.get_row_border_right(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_border_right(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_border_right(11)).to be_nil
-    end
-  end
-
-
-  describe '.get_row_border_bottom' do
-    it 'should return nil if no border is specified for that row in that direction' do
-      expect(@worksheet.get_row_border_bottom(0)).to be_nil
-    end
-
-    it 'should return type of border that this row has on bottom' do
-      @worksheet.change_row_border(0, :bottom, 'thin')
-      expect(@worksheet.get_row_border_bottom(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_border_bottom(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_border_bottom(11)).to be_nil
-    end
-  end
-
-  describe '.get_row_border_diagonal' do
-    it 'should return nil if no border is specified for that row in that direction' do
-      expect(@worksheet.get_row_border_diagonal(0)).to be_nil
-    end
-
-    it 'should return type of border that this row has on diagonal' do
-      @worksheet.change_row_border(0, :diagonal, 'thin')
-      expect(@worksheet.get_row_border_diagonal(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_border_diagonal(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a row which does not exist is passed in' do
-      expect(@worksheet.get_row_border_diagonal(11)).to be_nil
+      expect(@worksheet.get_row_border(11, :top)).to be_nil
     end
   end
 
   describe '.get_column_font_name' do
     it 'should correctly reflect font name for column' do
-      @worksheet.change_column_font_name(0,'Courier')
+      @worksheet.change_column_font_name(0, 'Courier')
       expect(@worksheet.get_column_font_name(0)).to eq('Courier')
     end
 
@@ -1227,8 +1045,8 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-      expect(@worksheet.get_column_font_name(11)).to be_nil
+    it 'should return default font if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.get_column_font_name(11)).to eq('Verdana')
     end
   end
 
@@ -1244,8 +1062,8 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-      expect(@worksheet.get_column_font_size(11)).to be_nil
+    it 'should return default font size if a column which does not exist is passed in' do
+      expect(@worksheet.get_column_font_size(11)).to eq(10)
     end
   end
 
@@ -1261,11 +1079,11 @@ describe RubyXL::Worksheet do
       }.to raise_error
     end
 
-    it 'should return nil if a (nonnegative) column which does not exist is passed in' do
-      expect(@worksheet.get_column_font_color(11)).to be_nil
+    it 'should return default color (000000) if a (nonnegative) column which does not exist is passed in' do
+      expect(@worksheet.get_column_font_color(11)).to eq('000000')
     end
 
-    it 'should return black (000000) if no rgb font color is specified' do
+    it 'should return default color (000000) if no rgb font color is specified' do
       expect(@worksheet.get_column_font_color(0)).to eq('000000')
     end
   end
@@ -1391,7 +1209,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_fill(11)).to be_nil
+      expect(@worksheet.get_column_fill(11)).to eq('ffffff')
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1403,151 +1221,66 @@ describe RubyXL::Worksheet do
 
   describe '.get_column_horizontal_alignment' do
     it 'should return nil if no alignment specified for column' do
-      expect(@worksheet.get_column_horizontal_alignment(0)).to be_nil
+      expect(@worksheet.get_column_alignment(0, :horizontal)).to be_nil
     end
 
     it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_horizontal_alignment(11)).to be_nil
+      expect(@worksheet.get_column_alignment(11, :horizontal)).to be_nil
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.get_column_horizontal_alignment(-1)
+        @worksheet.get_column_alignment(-1, :horizontal)
       }.to raise_error
     end
 
     it 'should return correct horizontal alignment if it is set for that column' do
       @worksheet.change_column_horizontal_alignment(0, 'center')
-      expect(@worksheet.get_column_horizontal_alignment(0)).to eq('center')
+      expect(@worksheet.get_column_alignment(0, :horizontal)).to eq('center')
     end
   end
 
   describe '.get_column_vertical_alignment' do
     it 'should return nil if no alignment specified for column' do
-      expect(@worksheet.get_column_vertical_alignment(0)).to be_nil
+      expect(@worksheet.get_column_alignment(0, :vertical)).to be_nil
     end
 
     it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_vertical_alignment(11)).to be_nil
+      expect(@worksheet.get_column_alignment(11, :vertical)).to be_nil
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.get_column_vertical_alignment(-1)
+        @worksheet.get_column_alignment(-1, :vertical)
       }.to raise_error
     end
 
     it 'should return correct vertical alignment if it is set for that column' do
       @worksheet.change_column_vertical_alignment(0, 'center')
-      expect(@worksheet.get_column_vertical_alignment(0)).to eq('center')
+      expect(@worksheet.get_column_alignment(0, :vertical)).to eq('center')
     end
   end
 
-  describe '.get_column_border_top' do
+  describe '.get_column_border' do
     it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_top(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on top' do
-      @worksheet.change_column_border(0, :top, 'thin')
-     expect(@worksheet.get_column_border_top(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_top(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_top(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_left' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_left(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on left' do
-      @worksheet.change_column_border(0, :left, 'thin')
-     expect(@worksheet.get_column_border_left(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_left(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_left(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_right' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_right(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on right' do
-      @worksheet.change_column_border(0, :right, 'thin')
-     expect(@worksheet.get_column_border_right(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_right(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_right(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_bottom' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_bottom(0)).to be_nil
-    end
-
-    it 'should return type of border that this column has on bottom' do
-      @worksheet.change_column_border(0, :bottom, 'thin')
-     expect(@worksheet.get_column_border_bottom(0)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_column_border_bottom(-1)
-      }.to raise_error
-    end
-
-    it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_bottom(11)).to be_nil
-    end
-  end
-
-  describe '.get_column_border_diagonal' do
-    it 'should return nil if no border is specified for that column in that direction' do
-      expect(@worksheet.get_column_border_diagonal(0)).to be_nil
+      expect(@worksheet.get_column_border(0, :diagonal)).to be_nil
     end
 
     it 'should return type of border that this column has on diagonal' do
       @worksheet.change_column_border(0, :diagonal, 'thin')
-     expect(@worksheet.get_column_border_diagonal(0)).to eq('thin')
+      expect(@worksheet.get_column_border(0, :diagonal)).to eq('thin')
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.get_column_border_diagonal(-1)
+        @worksheet.get_column_border(-1, :diagonal)
       }.to raise_error
     end
 
     it 'should return nil if a column which does not exist is passed in' do
-      expect(@worksheet.get_column_border_diagonal(11)).to be_nil
+      expect(@worksheet.get_column_border(11, :diagonal)).to be_nil
     end
   end
-
 
   describe '@column_range' do
     it 'should properly handle range addition and modification' do

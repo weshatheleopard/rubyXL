@@ -10,6 +10,7 @@ require 'rubyXL/objects/chartsheet'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
+require 'rubyXL/objects/external_links'
 require 'rubyXL/convenience_methods'
 
 module RubyXL
@@ -242,7 +243,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagTypes-1.html
   class SmartTagTypes < OOXMLContainerObject
-    define_child_node(RubyXL::SmartTagType, :collection => :true)
+    define_child_node(RubyXL::SmartTagType, :collection => true)
     define_element_name 'smartTagTypes'
   end
 
@@ -255,7 +256,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_functionGroups-1.html
   class FunctionGroups < OOXMLContainerObject
     define_attribute(:builtInGroupCountpi, :int, :default => 16)
-    define_child_node(RubyXL::FunctionGroup, :collection => :true)
+    define_child_node(RubyXL::FunctionGroup, :collection => true)
     define_element_name 'functionGroups'
   end
 
@@ -298,12 +299,18 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
+    CONTENT_TYPE_MACRO = 'application/vnd.ms-excel.sheet.macroEnabled.main+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
 
     include RubyXL::RelationshipSupport
 
+    def content_type
+      if macros then CONTENT_TYPE_MACRO else CONTENT_TYPE end
+    end
+
+
     def related_objects
-      [ calculation_chain, stylesheet, theme, shared_strings_container ] + @worksheets
+      [ calculation_chain, stylesheet, theme, shared_strings_container, macros ] + @worksheets
     end
 
     define_relationship(RubyXL::SharedStringsTable, :shared_strings_container)
@@ -314,8 +321,9 @@ module RubyXL
     define_relationship(RubyXL::Chartsheet,         false)
     define_relationship(RubyXL::ExternalLinksFile)
     define_relationship(RubyXL::PivotCacheDefinitionFile)
+    define_relationship(RubyXL::PivotCacheRecordsFile)
     define_relationship(RubyXL::CustomXMLFile)
-    define_relationship(RubyXL::MacrosFile)
+    define_relationship(RubyXL::MacrosFile,         :macros)
     define_relationship(RubyXL::SlicerCacheFile)
 
     define_child_node(RubyXL::FileVersion)
@@ -386,6 +394,7 @@ module RubyXL
     DATE1904 = DateTime.new(1904, 1, 1)
     # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
     DATE1899 = DateTime.new(1899, 12, 31) - 1
+    MARCH_1_1900 = 61
 
     def base_date
       (workbook_properties && workbook_properties.date1904) ? DATE1904 : DATE1899
@@ -397,6 +406,11 @@ module RubyXL
     end
 
     def num_to_date(num)
+      # Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)
+      if num && num < MARCH_1_1900 then
+        num += 1 unless workbook_properties && workbook_properties.date1904
+      end
+
       num && (base_date + num)
     end
 
