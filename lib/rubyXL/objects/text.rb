@@ -25,6 +25,8 @@ module RubyXL
 
     def to_s
       value.to_s.gsub(ESCAPED_UNICODE) { |m| $1.hex.chr }
+    rescue Encoding::CompatibilityError
+      value.to_s
     end
   end
 
