@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.3.10</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.3.11</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -113,6 +113,8 @@
     
     <li ><a href="#method-i-delete_cell">#delete_cell</a>
     
+    <li ><a href="#method-i-extract_data">#extract_data</a>
+    
     <li ><a href="#method-i-get_column_alignment">#get_column_alignment</a>
     
     <li ><a href="#method-i-get_column_border">#get_column_border</a>
@@ -146,6 +148,8 @@
     <li ><a href="#method-i-get_row_horizontal_alignment">#get_row_horizontal_alignment</a>
     
     <li ><a href="#method-i-get_row_vertical_alignment">#get_row_vertical_alignment</a>
+    
+    <li ><a href="#method-i-get_table">#get_table</a>
     
     <li ><a href="#method-i-insert_cell">#insert_cell</a>
     
@@ -1141,6 +1145,43 @@ specified, method will shift column contents below the deleted cell upward</p>
       </div>
 
     
+      <div id="method-i-extract_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">extract_data</span><span
+            class="method-args">(args = {})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns 2D array of just the cell values (without style or formula
+information)</p>
+          
+          
+
+          
+          <div class="method-source-code" id="extract_data-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 573</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">extract_data</span>(<span class="ruby-identifier">args</span> = {})
+  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please access data directly by iterating through .sheet_data.rows&quot;</span>
+  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span>) } <span class="ruby-keyword">unless</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">nil?</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-get_column_alignment" class="method-detail ">
         
         <div class="method-heading">
@@ -1732,6 +1773,88 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_vertical_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead.&quot;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_table" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_table</span><span
+            class="method-args">(headers = [], opts = {})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_table-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 580</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_table</span>(<span class="ruby-identifier">headers</span> = [], <span class="ruby-identifier">opts</span> = {})
+  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please access data directly by iterating through .sheet_data.rows&quot;</span>
+  <span class="ruby-identifier">validate_workbook</span>
+
+  <span class="ruby-identifier">headers</span> = [<span class="ruby-identifier">headers</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+  <span class="ruby-identifier">row_num</span> = <span class="ruby-identifier">find_first_row_with_content</span>(<span class="ruby-identifier">headers</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">row_num</span>.<span class="ruby-identifier">nil?</span>
+
+  <span class="ruby-identifier">table_hash</span> = {}
+  <span class="ruby-identifier">table_hash</span>[<span class="ruby-value">:table</span>] = []
+
+  <span class="ruby-identifier">header_row</span> = <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">row_num</span>]
+  <span class="ruby-identifier">header_row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">header_cell</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span><span class="ruby-operator">&gt;</span><span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:last_header</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">header_row</span>[<span class="ruby-identifier">index</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">header_row</span>[<span class="ruby-identifier">index</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>].<span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">header_row</span>[<span class="ruby-identifier">index</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>].<span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span><span class="ruby-operator">==</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:last_header</span>]
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">header_cell</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">header_cell</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">header</span> = <span class="ruby-identifier">header_cell</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-identifier">table_hash</span>[<span class="ruby-value">:sorted_headers</span>]<span class="ruby-operator">||=</span>[]
+    <span class="ruby-identifier">table_hash</span>[<span class="ruby-value">:sorted_headers</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">header</span>
+    <span class="ruby-identifier">table_hash</span>[<span class="ruby-identifier">header</span>] = []
+
+    <span class="ruby-identifier">original_row</span> = <span class="ruby-identifier">row_num</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">current_row</span> = <span class="ruby-identifier">original_row</span>
+
+    <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">current_row</span>]
+    <span class="ruby-identifier">cell</span> = <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>[<span class="ruby-identifier">index</span>]
+
+    <span class="ruby-comment"># makes array of hashes in table_hash[:table]</span>
+    <span class="ruby-comment"># as well as hash of arrays in table_hash[header]</span>
+    <span class="ruby-identifier">table_index</span> = <span class="ruby-identifier">current_row</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">original_row</span>
+    <span class="ruby-identifier">cell_test</span> = (<span class="ruby-operator">!</span><span class="ruby-identifier">cell</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">cell</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>)
+
+    <span class="ruby-keyword">while</span> <span class="ruby-identifier">cell_test</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">table_hash</span>[<span class="ruby-value">:table</span>][<span class="ruby-identifier">table_index</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">table_hash</span>[<span class="ruby-value">:table</span>][<span class="ruby-identifier">table_index</span>].<span class="ruby-identifier">empty?</span>)
+      <span class="ruby-identifier">table_hash</span>[<span class="ruby-identifier">header</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">value</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cell_test</span>
+      <span class="ruby-identifier">table_index</span> = <span class="ruby-identifier">current_row</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">original_row</span>
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">cell_test</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-identifier">table_hash</span>[<span class="ruby-value">:table</span>][<span class="ruby-identifier">table_index</span>] <span class="ruby-operator">||=</span> {}
+        <span class="ruby-identifier">table_hash</span>[<span class="ruby-value">:table</span>][<span class="ruby-identifier">table_index</span>][<span class="ruby-identifier">header</span>] = <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">value</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">current_row</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">current_row</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
+        <span class="ruby-identifier">cell</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">cell</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">current_row</span>].<span class="ruby-identifier">cells</span>[<span class="ruby-identifier">index</span>]
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">cell_test</span> = (<span class="ruby-operator">!</span><span class="ruby-identifier">cell</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">cell</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>)
+    <span class="ruby-keyword">end</span>
+  }
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">table_hash</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

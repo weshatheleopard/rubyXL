@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Text - rubyXL 3.3.10</title>
+<title>class RubyXL::Text - rubyXL 3.3.11</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -189,7 +189,7 @@ Char ::= x9 | xA | xD | [#x20-#xD7FF] | [#xE000-#xFFFD] |
           <div class="method-source-code" id="to_s-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/text.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
-  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">ESCAPED_UNICODE</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-node">$1</span>.<span class="ruby-identifier">hex</span>.<span class="ruby-identifier">chr</span> }
+  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">ESCAPED_UNICODE</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-node">$1</span>.<span class="ruby-identifier">hex</span>.<span class="ruby-identifier">chr</span>(<span class="ruby-constant">Encoding</span><span class="ruby-operator">::</span><span class="ruby-constant">UTF_8</span>) }
 <span class="ruby-keyword">end</span></pre>
           </div>
           
