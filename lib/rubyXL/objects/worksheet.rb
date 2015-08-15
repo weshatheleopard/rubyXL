@@ -127,7 +127,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_protectedRange-1.html
   class ProtectedRange < OOXMLObject
     define_attribute(:password,           :string)
-    define_attribute(:sqref,              :sqref, :required => true)
+    define_attribute(:sqref,              :sqref,  :required => true)
     define_attribute(:name,               :string, :required => true)
     define_attribute(:securityDescriptor, :string)
     define_element_name 'protectedRange'
@@ -201,7 +201,7 @@ module RubyXL
   class ConditionalFormattingRule < OOXMLObject
     define_attribute(:type,         RubyXL::ST_CfType)
     define_attribute(:dxfId,        :int)
-    define_attribute(:priority,     :int,    :required => 1)
+    define_attribute(:priority,     :int,    :required => true)
     define_attribute(:stopIfTrue,   :bool,   :default  => false)
     define_attribute(:aboveAverage, :bool,   :default  => true)
     define_attribute(:percent,      :bool,   :default  => false)
@@ -237,7 +237,7 @@ module RubyXL
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
-  class ConditionalFormatting < OOXMLContainerObject
+  class ConditionalFormatting < OOXMLObject
     define_attribute(:pivot, :bool, :default => false)
     define_attribute(:sqref, :sqref)
     define_child_node(RubyXL::ConditionalFormattingRule, :collection => true)
@@ -321,7 +321,7 @@ module RubyXL
     define_attribute(:link, :string)
     define_attribute(:oleUpdate, RubyXL::ST_OleUpdate)
     define_attribute(:autoLoad,  :bool, :default => false)
-    define_attribute(:shapeId,   :int, :required => true)
+    define_attribute(:shapeId,   :int,  :required => true)
     define_attribute(:'r:id',    :string)
     define_element_name 'oleObject'
   end
@@ -432,8 +432,8 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_control-1.html
   class EmbeddedControl < OOXMLObject
-    define_attribute(:shapeId, :int,    :required => :true)
-    define_attribute(:'r:id',  :string, :required => :true)
+    define_attribute(:shapeId, :int,    :required => true)
+    define_attribute(:'r:id',  :string, :required => true)
     define_attribute(:name,    :string)
     define_element_name 'control'
   end
@@ -459,43 +459,43 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTagPr-1.html
   class CellSmartTagProperty < OOXMLObject
-    define_attribute(:key, :string, :required => :true)
-    define_attribute(:val, :string, :required => :true)
+    define_attribute(:key, :string, :required => true)
+    define_attribute(:val, :string, :required => true)
     define_element_name 'cellSmartTagPr'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTag-1.html
   class CellSmartTag < OOXMLObject
-    define_attribute(:type,     :int,  :required => :true)
+    define_attribute(:type,     :int,  :required => true)
     define_attribute(:deleted,  :bool, :default => false)
     define_attribute(:xmlBased, :bool, :default => false)
-    define_child_node(RubyXL::CellSmartTagProperty, :collection => :true, :accessor => :smart_tag_props)
+    define_child_node(RubyXL::CellSmartTagProperty, :collection => true, :accessor => :smart_tag_props)
     define_element_name 'cellSmartTag'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTags-1.html
   class CellSmartTags < OOXMLContainerObject
     define_attribute(:r, :ref, :accessor => :ref)
-    define_child_node(RubyXL::CellSmartTag, :collection => :true)
+    define_child_node(RubyXL::CellSmartTag, :collection => true)
     define_element_name 'cellSmartTags'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTags-1.html
   class SmartTags < OOXMLContainerObject
-    define_child_node(RubyXL::CellSmartTags, :collection => :true)
+    define_child_node(RubyXL::CellSmartTags, :collection => true)
     define_element_name 'smartTags'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customPr-1.html
   class CustomProperty < OOXMLObject
-    define_attribute(:name,   :string, :required => :true)
-    define_attribute(:'r:id', :string, :required => :true)
+    define_attribute(:name,   :string, :required => true)
+    define_attribute(:'r:id', :string, :required => true)
     define_element_name 'customPr'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_customProperties-1.html
   class CustomProperties < OOXMLContainerObject
-    define_child_node(RubyXL::CustomProperty, :collection => :true)
+    define_child_node(RubyXL::CustomProperty, :collection => true)
     define_element_name 'customProperties'
   end
 
@@ -647,17 +647,17 @@ module RubyXL
     define_child_node(RubyXL::SortState)
     define_child_node(RubyXL::DataConsolidate)
     define_child_node(RubyXL::CustomSheetViews)
-    define_child_node(RubyXL::MergedCells, :accessor => :merged_cells)
+    define_child_node(RubyXL::MergedCells,           :accessor => :merged_cells)
     define_child_node(RubyXL::PhoneticProperties)
-    define_child_node(RubyXL::ConditionalFormatting)
+    define_child_node(RubyXL::ConditionalFormatting, :collection => [0..-1])
     define_child_node(RubyXL::DataValidations)
     define_child_node(RubyXL::Hyperlinks)
     define_child_node(RubyXL::PrintOptions)
     define_child_node(RubyXL::PageMargins)
     define_child_node(RubyXL::PageSetup)
     define_child_node(RubyXL::HeaderFooterSettings)
-    define_child_node(RubyXL::BreakList,                :node_name => :rowBreaks)
-    define_child_node(RubyXL::BreakList,                :node_name => :colBreaks)
+    define_child_node(RubyXL::BreakList,             :node_name => :rowBreaks)
+    define_child_node(RubyXL::BreakList,             :node_name => :colBreaks)
     define_child_node(RubyXL::CustomProperties)
     define_child_node(RubyXL::CellWatches)
     define_child_node(RubyXL::IgnoredErrors)

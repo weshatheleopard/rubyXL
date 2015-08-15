@@ -8,7 +8,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_t-1.html
   class Text < OOXMLObject
     define_attribute(:_,           :string, :accessor => :value)
-    define_attribute(:'xml:space', :string)
+    define_attribute(:'xml:space', %w{ preserve })
     define_element_name 't'
 
     # http://www.w3.org/TR/REC-xml/#NT-Char:
@@ -18,13 +18,13 @@ module RubyXL
     ESCAPED_UNICODE = /_x([0-9A-F]{4})_/
 
     def before_write_xml
-      self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
+      preserve_whitespace
       self.value.gsub!(INVALID_XML10_CHARS) { |c| "_x%04x_" % c.ord }
       true
     end
 
     def to_s
-      value.to_s.gsub(ESCAPED_UNICODE) { |m| $1.hex.chr }
+      value.to_s.gsub(ESCAPED_UNICODE) { |m| $1.hex.chr(Encoding::UTF_8) }
     end
   end
 

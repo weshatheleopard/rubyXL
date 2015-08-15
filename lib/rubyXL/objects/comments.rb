@@ -6,6 +6,7 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_comment-1.html
   class Comment < OOXMLObject
     define_child_node(RubyXL::RichText, :node_name => 'text')
+    define_child_node(RubyXL::AlternateContent)
     define_attribute(:ref,      :ref, :required => true)
     define_attribute(:authorId, :int, :required => true)
     define_attribute(:guid,     :string)
@@ -14,13 +15,13 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_authors-1.html
   class CommentList < OOXMLContainerObject
-    define_child_node(RubyXL::Comment, :collection => :true)
+    define_child_node(RubyXL::Comment, :collection => true)
     define_element_name 'commentList'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_authors-1.html
   class Authors < OOXMLContainerObject
-    define_child_node(RubyXL::StringNode, :node_name => :author, :collection => :true)
+    define_child_node(RubyXL::StringNode, :node_name => :author, :collection => true)
     define_element_name 'authors'
   end
 

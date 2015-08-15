@@ -188,6 +188,10 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
   worksheet.delete_cell(0, 0, :up)    # Deletes A1, shifts contents of first column up
   worksheet.delete_cell(0, 0)         # Deletes A1, does not shift cells
 
+==== Modifying Cell Format
+  cell = worksheet[0][0]
+  cell.set_number_format '0.0000%'    # For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68
+
 == I/O
 
 === Writing
@@ -217,5 +221,5 @@ Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Copyright
 
-Copyright (c) 2011 Vivek Bhagwat, 2013-2014 Wesha.
+Copyright (c) 2011 Vivek Bhagwat, 2013-2015 Wesha.
 See LICENSE.txt for further details.

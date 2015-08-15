@@ -55,7 +55,7 @@ describe RubyXL::Parser do
     end
 
     it 'should cause an error if an xlsx or xlsm workbook is not passed' do
-      expect {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.to raise_error
+      expect {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.to raise_error(Zip::Error)
     end
 
 =begin

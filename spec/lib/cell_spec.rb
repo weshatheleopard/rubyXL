@@ -1,3 +1,4 @@
+require 'bigdecimal'
 require 'rubygems'
 require 'rubyXL'
 
@@ -33,7 +34,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code not passed' do
       expect {
         @cell.change_fill('G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make cell fill color equal to hex color code passed' do
@@ -44,7 +45,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code includes # character' do
       expect {
         @cell.change_fill('#0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -64,7 +65,7 @@ describe RubyXL::Cell do
     it 'should cause an error if a string passed' do
       expect {
         @cell.change_font_size('20')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -72,7 +73,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code not passed' do
       expect {
         @cell.change_font_color('G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make cell font color equal to hex color code passed' do
@@ -83,12 +84,13 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code includes # character' do
       expect {
         @cell.change_font_color('#0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
   describe '.change_font_italics' do
     it 'should make cell font italicized when true is passed' do
+      expect(@cell.is_italicized).to be_nil
       @cell.change_font_italics(true)
       expect(@cell.is_italicized).to eq(true)
     end
@@ -96,6 +98,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_bold' do
     it 'should make cell font bolded when true is passed' do
+      expect(@cell.is_bolded).to be_nil
       @cell.change_font_bold(true)
       expect(@cell.is_bolded).to eq(true)
     end
@@ -103,6 +106,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_underline' do
     it 'should make cell font underlined when true is passed' do
+      expect(@cell.is_underlined).to be_nil
       @cell.change_font_underline(true)
       expect(@cell.is_underlined).to eq(true)
     end
@@ -110,6 +114,7 @@ describe RubyXL::Cell do
 
   describe '.change_font_strikethrough' do
     it 'should make cell font struckthrough when true is passed' do
+      expect(@cell.is_struckthrough).to be_nil
       @cell.change_font_strikethrough(true)
       expect(@cell.is_struckthrough).to eq(true)
     end
@@ -117,6 +122,7 @@ describe RubyXL::Cell do
 
   describe '.change_horizontal_alignment' do
     it 'should cause cell to horizontally align as specified by the passed in string' do
+      expect(@cell.horizontal_alignment).to be_nil
       @cell.change_horizontal_alignment('center')
       expect(@cell.horizontal_alignment).to eq('center')
     end
@@ -124,6 +130,7 @@ describe RubyXL::Cell do
 
   describe '.change_vertical_alignment' do
     it 'should cause cell to vertically align as specified by the passed in string' do
+      expect(@cell.vertical_alignment).to be_nil
       @cell.change_vertical_alignment('center')
       expect(@cell.vertical_alignment).to eq('center')
     end
@@ -131,6 +138,7 @@ describe RubyXL::Cell do
 
   describe '.change_wrap' do
     it 'should cause cell to wrap align as specified by the passed in value' do
+      expect(@cell.text_wrap).to be_nil
       @cell.change_text_wrap(true)
       expect(@cell.text_wrap).to eq(true)
     end
@@ -138,26 +146,31 @@ describe RubyXL::Cell do
 
   describe '.change_border' do
     it 'should cause cell to have border at top with specified weight' do
+      expect(@cell.get_border(:top)).to be_nil
       @cell.change_border(:top, 'thin')
       expect(@cell.get_border(:top)).to eq('thin')
     end
 
     it 'should cause cell to have border at right with specified weight' do
+      expect(@cell.get_border(:right)).to be_nil
       @cell.change_border(:right, 'thin')
       expect(@cell.get_border(:right)).to eq('thin')
     end
 
     it 'should cause cell to have border at left with specified weight' do
+      expect(@cell.get_border(:left)).to be_nil
       @cell.change_border(:left, 'thin')
       expect(@cell.get_border(:left)).to eq('thin')
     end
 
     it 'should cause cell to have border at bottom with specified weight' do
+      expect(@cell.get_border(:bottom)).to be_nil
       @cell.change_border(:bottom, 'thin')
       expect(@cell.get_border(:bottom)).to eq('thin')
     end
 
     it 'should cause cell to have border at diagonal with specified weight' do
+      expect(@cell.get_border(:diagonal)).to be_nil
       @cell.change_border(:diagonal, 'thin')
       expect(@cell.get_border(:diagonal)).to eq('thin')
     end
@@ -217,6 +230,31 @@ describe RubyXL::Cell do
       @cell.change_contents(date)
       expect(@cell).to receive(:is_date?).at_least(1).and_return(true)
       expect(@cell.value).to eq(date)
+      expect(@cell.datatype).to be_nil
+      expect(@cell.formula).to be_nil
+    end
+
+    it 'should case cell value to match a Float that is passed in' do
+      number = 1.25
+      @cell.change_contents(number)
+      expect(@cell.value).to eq(number)
+      expect(@cell.datatype).to be_nil
+      expect(@cell.formula).to be_nil
+    end
+
+    it 'should case cell value to match an Integer that is passed in' do
+      number = 1234567
+      @cell.change_contents(number)
+      expect(@cell.value).to eq(number)
+      expect(@cell.datatype).to be_nil
+      expect(@cell.formula).to be_nil
+    end
+
+    it 'should case cell value to match an BigDecimal that is passed in' do
+      number = BigDecimal.new('1234.5678')
+      @cell.change_contents(number)
+      expect(@cell.value).to eq(number)
+      expect(@cell.datatype).to be_nil
       expect(@cell.formula).to be_nil
     end
 

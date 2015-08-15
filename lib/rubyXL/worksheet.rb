@@ -23,65 +23,6 @@ module LegacyWorksheet
     sheet_data.rows.each { |row| yield(row) }
   end
 
-  #returns 2d array of just the cell values (without style or formula information)
-  def extract_data(args = {})
-    sheet_data.rows.map { |row|
-      row.cells.map { |c| c && c.value(args) } unless row.nil?
-    }
-  end
-
-  def get_table(headers = [], opts = {})
-    validate_workbook
-
-    headers = [headers] unless headers.is_a?(Array)
-    row_num = find_first_row_with_content(headers)
-    return nil if row_num.nil?
-
-    table_hash = {}
-    table_hash[:table] = []
-
-    header_row = sheet_data[row_num]
-    header_row.cells.each_with_index { |header_cell, index|
-      break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
-      next if header_cell.nil? || header_cell.value.nil?
-      header = header_cell.value.to_s
-      table_hash[:sorted_headers]||=[]
-      table_hash[:sorted_headers] << header
-      table_hash[header] = []
-
-      original_row = row_num + 1
-      current_row = original_row
-
-      row = sheet_data.rows[current_row]
-      cell = row && row.cells[index]
-
-      # makes array of hashes in table_hash[:table]
-      # as well as hash of arrays in table_hash[header]
-      table_index = current_row - original_row
-      cell_test = (!cell.nil? && !cell.value.nil?)
-
-      while cell_test || (table_hash[:table][table_index] && !table_hash[:table][table_index].empty?)
-        table_hash[header] << cell.value if cell_test
-        table_index = current_row - original_row
-
-        if cell_test then
-          table_hash[:table][table_index] ||= {}
-          table_hash[:table][table_index][header] = cell.value
-        end
-
-        current_row += 1
-        if sheet_data.rows[current_row].nil? then
-          cell = nil
-        else
-          cell = sheet_data.rows[current_row].cells[index]
-        end
-        cell_test = (!cell.nil? && !cell.value.nil?)
-      end
-    }
-
-    return table_hash
-  end
-
   # finds first row which contains at least all strings in cells_content
   def find_first_row_with_content(cells_content)
     validate_workbook
@@ -192,9 +133,12 @@ module LegacyWorksheet
       old_row = sheet_data.rows[row_index - 1]
       if old_row then
         new_cells = old_row.cells.collect { |c|
-                                            if c.nil? then nil
-                                            else RubyXL::Cell.new(:style_index => c.style_index)
-                                            end }
+                      if c.nil? then nil
+                      else nc = RubyXL::Cell.new(:style_index => c.style_index)
+                           nc.worksheet = self
+                           nc
+                      end
+                    }
       end
     end
 
@@ -260,54 +204,6 @@ module LegacyWorksheet
     # TODO: update column numbers
   end
 
-  def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
-    validate_workbook
-    ensure_cell_exists(row, col)
-
-    case shift
-    when nil then # No shifting at all
-    when :right then
-      sheet_data.rows[row].insert_cell_shift_right(nil, col)
-    when :down then
-      add_row(sheet_data.size, :cells => Array.new(sheet_data.rows[row].size))
-      (sheet_data.size - 1).downto(row+1) { |index|
-        sheet_data.rows[index].cells[col] = sheet_data.rows[index-1].cells[col]
-      }                                                                             		
-    else
-      raise 'invalid shift option'
-    end
-
-    return add_cell(row,col,data,formula)
-  end
-
-  # by default, only sets cell to nil
-  # if :left is specified, method will shift row contents to the right of the deleted cell to the left
-  # if :up is specified, method will shift column contents below the deleted cell upward
-  def delete_cell(row_index = 0, column_index=0, shift=nil)
-    validate_workbook
-    validate_nonnegative(row_index)
-    validate_nonnegative(column_index)
-
-    row = sheet_data[row_index]
-    old_cell = row && row[column_index]
-
-    case shift
-    when nil then
-      row.cells[column_index] = nil if row
-    when :left then
-      row.delete_cell_shift_left(column_index) if row
-    when :up then
-      (row_index...(sheet_data.size - 1)).each { |index|
-        c = sheet_data.rows[index].cells[column_index] = sheet_data.rows[index + 1].cells[column_index]
-        c.row -= 1 if c.is_a?(Cell)
-      }
-    else
-      raise 'invalid shift option'
-    end
-
-    return old_cell
-  end
-
   private
 
   NAME = 0
@@ -320,18 +216,6 @@ module LegacyWorksheet
 
   def row_font(row)
     (row = sheet_data.rows[row]) && row.get_font
-  end
-
-  def get_row_alignment(row, is_horizontal)
-    validate_workbook
-    validate_nonnegative(row)
-
-    xf_obj = get_row_xf(row)
-    return nil if xf_obj.alignment.nil?
-
-    if is_horizontal then return xf_obj.alignment.horizontal
-    else                  return xf_obj.alignment.vertical
-    end
   end
 
   def column_font(col)
@@ -364,7 +248,7 @@ module LegacyWorksheet
 
     xf = workbook.register_new_font(font, get_row_xf(row_index))
     row = sheet_data[row_index]
-    row.style_index = workbook.register_new_xf(xf, get_row_style(row_index))
+    row.style_index = workbook.register_new_xf(xf)
     row.cells.each { |c| c.font_switch(change_type, arg) unless c.nil? }
   end
 
@@ -375,7 +259,7 @@ module LegacyWorksheet
     ensure_cell_exists(0, column_index)
 
     xf = workbook.register_new_font(font, xf)
-    cols.get_range(column_index).style_index = workbook.register_new_xf(xf, get_col_style(column_index))
+    cols.get_range(column_index).style_index = workbook.register_new_xf(xf)
 
     sheet_data.rows.each { |row|
       c = row && row[column_index]
