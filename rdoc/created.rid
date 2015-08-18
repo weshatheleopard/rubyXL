@@ -1,6 +1,6 @@
-Fri, 07 Aug 2015 00:02:59 +0000
-README.rdoc	Thu, 02 Jul 2015 20:25:14 +0000
-lib/rubyXL.rb	Wed, 11 Feb 2015 20:38:03 +0000
+Tue, 18 Aug 2015 22:11:58 +0000
+README.rdoc	Tue, 18 Aug 2015 22:10:35 +0000
+lib/rubyXL.rb	Tue, 18 Aug 2015 21:10:30 +0000
 lib/rubyXL/cell.rb	Thu, 02 Jul 2015 19:55:56 +0000
 lib/rubyXL/convenience_methods.rb	Mon, 03 Aug 2015 23:01:06 +0000
 lib/rubyXL/objects/border.rb	Wed, 11 Feb 2015 20:38:03 +0000
@@ -15,15 +15,15 @@ lib/rubyXL/objects/content_types.rb	Thu, 26 Feb 2015 20:15:26 +0000
 lib/rubyXL/objects/data_validation.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/document_properties.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/extensions.rb	Wed, 11 Feb 2015 20:38:03 +0000
-lib/rubyXL/objects/external_links.rb	Thu, 02 Jul 2015 18:52:55 +0000
+lib/rubyXL/objects/external_links.rb	Mon, 17 Aug 2015 23:16:29 +0000
 lib/rubyXL/objects/fill.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/filters.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/font.rb	Thu, 26 Feb 2015 20:15:26 +0000
 lib/rubyXL/objects/formula.rb	Thu, 26 Feb 2015 20:17:10 +0000
-lib/rubyXL/objects/ooxml_object.rb	Thu, 02 Jul 2015 01:39:21 +0000
+lib/rubyXL/objects/ooxml_object.rb	Tue, 18 Aug 2015 21:35:22 +0000
 lib/rubyXL/objects/reference.rb	Thu, 26 Feb 2015 20:17:10 +0000
-lib/rubyXL/objects/relationships.rb	Thu, 26 Feb 2015 20:15:26 +0000
-lib/rubyXL/objects/root.rb	Thu, 26 Feb 2015 20:15:26 +0000
+lib/rubyXL/objects/relationships.rb	Tue, 18 Aug 2015 20:51:56 +0000
+lib/rubyXL/objects/root.rb	Tue, 18 Aug 2015 21:39:44 +0000
 lib/rubyXL/objects/shared_strings.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/sheet_common.rb	Fri, 26 Jun 2015 22:19:37 +0000
 lib/rubyXL/objects/sheet_data.rb	Tue, 14 Apr 2015 22:27:15 +0000
@@ -32,7 +32,7 @@ lib/rubyXL/objects/storage.rb	Thu, 02 Jul 2015 00:33:03 +0000
 lib/rubyXL/objects/stylesheet.rb	Thu, 02 Jul 2015 20:25:36 +0000
 lib/rubyXL/objects/text.rb	Thu, 06 Aug 2015 23:55:10 +0000
 lib/rubyXL/objects/theme.rb	Mon, 13 Apr 2015 19:50:17 +0000
-lib/rubyXL/objects/workbook.rb	Thu, 02 Jul 2015 00:34:35 +0000
+lib/rubyXL/objects/workbook.rb	Tue, 18 Aug 2015 21:33:51 +0000
 lib/rubyXL/objects/worksheet.rb	Fri, 26 Jun 2015 22:32:05 +0000
-lib/rubyXL/parser.rb	Thu, 26 Feb 2015 20:15:26 +0000
+lib/rubyXL/parser.rb	Tue, 18 Aug 2015 22:06:05 +0000
 lib/rubyXL/worksheet.rb	Mon, 03 Aug 2015 22:44:27 +0000

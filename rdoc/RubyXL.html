@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL - rubyXL 3.3.11</title>
+<title>module RubyXL - rubyXL 3.3.12</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -556,13 +556,13 @@
 
         <div class="method-description">
           
-          
+          <p>Convert any path passed to absolute path (within the XLSX file).</p>
           
           
 
           
           <div class="method-source-code" id="from_root-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL.rb, line 6</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">from_root</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">absolute?</span>
   <span class="ruby-identifier">path</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-constant">OOXMLTopLevelObject</span><span class="ruby-operator">::</span><span class="ruby-constant">ROOT</span>)

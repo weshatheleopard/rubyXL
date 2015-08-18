@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.3.11</title>
+<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.3.12</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -172,12 +172,15 @@ files in <code>.xslx</code> zip container.</p>
         <div class="method-description">
           
           <p>Generates the top-level OOXML object by parsing its XML file from the
-temporary directory containing the unzipped contents of <code>.xslx</code></p>
+contents of the <code>.xslx</code> container.</p>
 
 <h3 id="method-c-parse_file-label-Parameters">Parameters<span><a href="#method-c-parse_file-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
 <ul><li>
-<p><code>dirpath</code> - path to the directory with the unzipped
-<code>.xslx</code> contents.</p>
+<p><code>zip_file</code> - <code>.xslx</code> file as <code>Zip::File</code>
+object</p>
+</li><li>
+<p><code>file_path</code> - path to the subject file inside the
+<code>.xslx</code> zip archive</p>
 </li></ul>
           
           

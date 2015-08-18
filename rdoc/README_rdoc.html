@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.3.11</title>
+<title>README - rubyXL 3.3.12</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -91,8 +91,6 @@
     <li><a href="#label-Delete+Cell">Delete Cell</a>
     <li><a href="#label-Modifying+Cell+Format">Modifying Cell Format</a>
     <li><a href="#label-I-2FO">I/O</a>
-    <li><a href="#label-Writing">Writing</a>
-    <li><a href="#label-Streaming">Streaming</a>
     <li><a href="#label-Miscellaneous">Miscellaneous</a>
     <li><a href="#label-For+more+information">For more information</a>
     <li><a href="#label-Contributing+to+rubyXL">Contributing to rubyXL</a>
@@ -408,18 +406,18 @@ have been moved, as the formulas do not adapt to the shifted cells</p>
 
 <h2 id="label-I-2FO">I/O<span><a href="#label-I-2FO">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<h3 id="label-Writing">Writing<span><a href="#label-Writing">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<p>By default, the gem operates with files on the local filesystem:</p>
 
-<pre class="ruby"><span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">write</span>(<span class="ruby-string">&quot;path/to/desired/Excel/file.xlsx&quot;</span>)
+<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;path/to/Excel/file.xlsx&quot;</span>)
+<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">write</span>(<span class="ruby-string">&quot;path/to/desired/Excel/file.xlsx&quot;</span>)
 </pre>
 
-<h3 id="label-Streaming">Streaming<span><a href="#label-Streaming">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<p>It can also operate on <code>StringIO</code> objects, thus eliminating the
+need to save the <code>xlsx</code> file to disk. This capability comes in
+handy for web servers.</p>
 
-<p>The gem can provide <code>StringIO</code> object containing the resulting
-<code>xlsx</code> file, eliminating the need to save it to disk first. This
-capability comes in handy for web servers.</p>
-
-<pre class="ruby"><span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stream</span>
+<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">parse_buffer</span>(<span class="ruby-identifier">buffer</span>)
+<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stream</span>
 </pre>
 
 <h2 id="label-Miscellaneous">Miscellaneous<span><a href="#label-Miscellaneous">&para;</a> <a href="#top">&uarr;</a></span></h2>

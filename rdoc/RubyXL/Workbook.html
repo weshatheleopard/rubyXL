@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Workbook - rubyXL 3.3.11</title>
+<title>class RubyXL::Workbook - rubyXL 3.3.12</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -221,7 +221,7 @@ compatibility only for 1900 based dates</p>
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(worksheets = [], filepath = nil, creator = nil, modifier = nil, created_at = nil, company = '', application = APPLICATION, appversion = APPVERSION, date1904 = 0)</span>
+            class="method-args">(worksheets = [], src_file_path = nil, creator = nil, modifier = nil, created_at = nil, company = '', application = APPLICATION, appversion = APPVERSION, date1904 = 0)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -241,8 +241,8 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 424</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">worksheets</span> = [], <span class="ruby-identifier">filepath</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span> = <span class="ruby-keyword">nil</span>,
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 429</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">worksheets</span> = [], <span class="ruby-identifier">src_file_path</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span> = <span class="ruby-keyword">nil</span>,
                <span class="ruby-identifier">company</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">application</span> = <span class="ruby-constant">APPLICATION</span>, <span class="ruby-identifier">appversion</span> = <span class="ruby-constant">APPVERSION</span>, <span class="ruby-identifier">date1904</span> = <span class="ruby-value">0</span>)
   <span class="ruby-keyword">super</span>()
 
@@ -257,7 +257,7 @@ compatibility only for 1900 based dates</p>
   <span class="ruby-ivar">@relationship_container</span>   = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">OOXMLRelationshipsFile</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@root</span>                     = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRoot</span>.<span class="ruby-identifier">default</span>
   <span class="ruby-ivar">@root</span>.<span class="ruby-identifier">workbook</span>            = <span class="ruby-keyword">self</span>
-  <span class="ruby-ivar">@root</span>.<span class="ruby-identifier">filepath</span>            = <span class="ruby-identifier">filepath</span>
+  <span class="ruby-ivar">@root</span>.<span class="ruby-identifier">source_file_path</span>    = <span class="ruby-identifier">src_file_path</span>
 
   <span class="ruby-identifier">creation_time</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">created_at</span>) <span class="ruby-keyword">rescue</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">created_at</span>  = <span class="ruby-identifier">creation_time</span>
@@ -308,14 +308,19 @@ compatibility only for 1900 based dates</p>
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 358</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
+  <span class="ruby-identifier">max_sheet</span> = <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">max_by</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:sheet_id</span>)
+  <span class="ruby-identifier">max_sheet_id</span> = <span class="ruby-identifier">max_sheet</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">max_sheet</span>.<span class="ruby-identifier">sheet_id</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
+
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sheets</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Sheets</span>.<span class="ruby-identifier">new</span>
 
-  <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sheet</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">rel</span> = <span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">find_by_target</span>(<span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">xlsx_path</span>)
-    <span class="ruby-identifier">sheets</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Sheet</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_name</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">30</span>], <span class="ruby-comment"># Max sheet name length is 31 char</span>
-                                <span class="ruby-value">:sheet_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_id</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>),
-                                <span class="ruby-value">:state</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">state</span>, <span class="ruby-value">:r_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rel</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">sheets</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Sheet</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:name</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_name</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">30</span>], <span class="ruby-comment"># Max sheet name length is 31 char</span>
+                                <span class="ruby-value">:sheet_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">sheet_id</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">max_sheet_id</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>),
+                                <span class="ruby-value">:state</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sheet</span>.<span class="ruby-identifier">state</span>,
+                                <span class="ruby-value">:r_id</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rel</span>.<span class="ruby-identifier">id</span>)
   }
+
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -380,7 +385,7 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="date_to_num-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 404</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 409</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">date_to_num</span>(<span class="ruby-identifier">date</span>)
   <span class="ruby-identifier">date</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">date</span>.<span class="ruby-identifier">ajd</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">base_date</span>().<span class="ruby-identifier">ajd</span>).<span class="ruby-identifier">to_f</span>
 <span class="ruby-keyword">end</span></pre>
@@ -413,7 +418,7 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="num_to_date-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 408</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 413</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">num</span>)
   <span class="ruby-comment"># Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">MARCH_1_1900</span> <span class="ruby-keyword">then</span>
@@ -469,7 +474,7 @@ compatibility only for 1900 based dates</p>
         
         <div class="method-heading">
           <span class="method-name">save</span><span
-            class="method-args">(filepath = nil)</span>
+            class="method-args">(dst_file_path = nil)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -484,18 +489,18 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="save-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 380</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>(<span class="ruby-identifier">filepath</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">filepath</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">filepath</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 385</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>(<span class="ruby-identifier">dst_file_path</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">dst_file_path</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">source_file_path</span>
 
-  <span class="ruby-identifier">extension</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">filepath</span>)
+  <span class="ruby-identifier">extension</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">dst_file_path</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-node">%w{.xlsx .xlsm}</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">extension</span>.<span class="ruby-identifier">downcase</span>)
     <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unsupported extension: #{extension} (only .xlsx and .xlsm files are supported).&quot;</span>
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filepath</span>, <span class="ruby-string">&quot;wb&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">output_file</span><span class="ruby-operator">|</span> <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">copy_stream</span>(<span class="ruby-identifier">root</span>.<span class="ruby-identifier">stream</span>, <span class="ruby-identifier">output_file</span>) }
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">dst_file_path</span>, <span class="ruby-string">&quot;wb&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">output_file</span><span class="ruby-operator">|</span> <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">copy_stream</span>(<span class="ruby-identifier">root</span>.<span class="ruby-identifier">stream</span>, <span class="ruby-identifier">output_file</span>) }
 
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">filepath</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">dst_file_path</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -530,7 +535,7 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="stream-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 375</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 380</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">stream</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">stream</span>
 <span class="ruby-keyword">end</span></pre>
@@ -548,7 +553,7 @@ compatibility only for 1900 based dates</p>
         
         <div class="method-heading">
           <span class="method-name">write</span><span
-            class="method-args">(filepath = nil)</span>
+            class="method-args">(dst_file_path = nil)</span>
           
         </div>
         
@@ -591,7 +596,7 @@ compatibility only for 1900 based dates</p>
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 370</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 375</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;workbook.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
