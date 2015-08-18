@@ -3,6 +3,7 @@ require 'rubyXL/parser'
 
 module RubyXL
 
+  # Convert any path passed to absolute path (within the XLSX file).
   def self.from_root(path)
     return path unless path.absolute?
     path.relative_path_from(OOXMLTopLevelObject::ROOT)

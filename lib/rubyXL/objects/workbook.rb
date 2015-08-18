@@ -356,14 +356,19 @@ module RubyXL
     attr_accessor :worksheets
 
     def before_write_xml
+      max_sheet = worksheets.max_by(&:sheet_id)
+      max_sheet_id = max_sheet && max_sheet.sheet_id || 0
+
       self.sheets = RubyXL::Sheets.new
 
-      worksheets.each_with_index { |sheet, i|
+      worksheets.each { |sheet, i|
         rel = relationship_container.find_by_target(sheet.xlsx_path)
-        sheets << RubyXL::Sheet.new(:name => sheet.sheet_name[0..30], # Max sheet name length is 31 char
-                                    :sheet_id => sheet.sheet_id || (i + 1),
-                                    :state => sheet.state, :r_id => rel.id)
+        sheets << RubyXL::Sheet.new(:name     => sheet.sheet_name[0..30], # Max sheet name length is 31 char
+                                    :sheet_id => sheet.sheet_id || (max_sheet_id += 1),
+                                    :state    => sheet.state,
+                                    :r_id     => rel.id)
       }
+
       true
     end
 
@@ -377,17 +382,17 @@ module RubyXL
     end
 
     # Save the resulting XLSX file to the specified location
-    def save(filepath = nil)
-      filepath ||= root.filepath
+    def save(dst_file_path = nil)
+      dst_file_path ||= root.source_file_path
 
-      extension = File.extname(filepath)
+      extension = File.extname(dst_file_path)
       unless %w{.xlsx .xlsm}.include?(extension.downcase)
         raise "Unsupported extension: #{extension} (only .xlsx and .xlsm files are supported)."
       end
 
-      File.open(filepath, "wb") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
+      File.open(dst_file_path, "wb") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
 
-      return filepath
+      return dst_file_path
     end
     alias_method :write, :save
 
@@ -421,7 +426,7 @@ module RubyXL
 
     @@debug = nil
 
-    def initialize(worksheets = [], filepath = nil, creator = nil, modifier = nil, created_at = nil,
+    def initialize(worksheets = [], src_file_path = nil, creator = nil, modifier = nil, created_at = nil,
                    company = '', application = APPLICATION, appversion = APPVERSION, date1904 = 0)
       super()
 
@@ -436,7 +441,7 @@ module RubyXL
       @relationship_container   = RubyXL::OOXMLRelationshipsFile.new
       @root                     = RubyXL::WorkbookRoot.default
       @root.workbook            = self
-      @root.filepath            = filepath
+      @root.source_file_path    = src_file_path
 
       creation_time = DateTime.parse(created_at) rescue DateTime.now
       self.created_at  = creation_time

@@ -421,10 +421,10 @@ module RubyXL
       self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
     end
 
-    # Generates the top-level OOXML object by parsing its XML file from the temporary
-    # directory containing the unzipped contents of <tt>.xslx</tt>
+    # Generates the top-level OOXML object by parsing its XML file from the contents of the <tt>.xslx</tt> container.
     # === Parameters
-    # * +dirpath+ - path to the directory with the unzipped <tt>.xslx</tt> contents.
+    # * +zip_file+ - <tt>.xslx</tt> file as <tt>Zip::File</tt> object
+    # * +file_path+ - path to the subject file inside the <tt>.xslx</tt> zip archive
     def self.parse_file(zip_file, file_path)
       entry = zip_file.find_entry(RubyXL::from_root(file_path))
       # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream

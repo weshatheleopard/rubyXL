@@ -194,12 +194,14 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
 
 == I/O
 
-=== Writing
+By default, the gem operates with files on the local filesystem:
+
+  workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
   workbook.write("path/to/desired/Excel/file.xlsx")
 
-=== Streaming
-The gem can provide +StringIO+ object containing the resulting +xlsx+ file, eliminating the need to save it to disk first. This capability comes in handy for web servers.
+It can also operate on +StringIO+ objects, thus eliminating the need to save the +xlsx+ file to disk. This capability comes in handy for web servers.
 
+  workbook = RubyXL::Parser.parse_buffer(buffer)
   workbook.stream
 
 == Miscellaneous
