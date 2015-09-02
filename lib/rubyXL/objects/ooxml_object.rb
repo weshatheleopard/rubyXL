@@ -274,9 +274,7 @@ module RubyXL
 
       return '' unless before_write_xml
 
-      # Populate namespaces, if any
       attrs = {}
-      obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| attrs[v.empty? ? 'xmlns' : "xmlns:#{v}"] = k }
 
       obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
         val = self.send(v[:accessor])
@@ -298,6 +296,8 @@ module RubyXL
 
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
+
+      obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| elem.add_namespace(v, k) }
 
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
@@ -415,7 +415,7 @@ module RubyXL
     # === Parameters
     # * +namespace_hash+ - Hash of namespaces in the form of <tt>"url" => "prefix"</tt>
     # ==== Examples
-    #   set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
+    #   set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
     #                  'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
     def self.set_namespaces(namespace_hash)
       self.class_variable_set(:@@ooxml_namespaces, namespace_hash)

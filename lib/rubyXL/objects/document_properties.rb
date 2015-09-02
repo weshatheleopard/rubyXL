@@ -38,7 +38,7 @@ module RubyXL
     define_child_node(RubyXL::StringNode,  :node_name => :Application)
     define_child_node(RubyXL::StringNode,  :node_name => :AppVersion)
     define_child_node(RubyXL::IntegerNode, :node_name => :DocSecurity)
-    set_namespaces('http://schemas.openxmlformats.org/officeDocument/2006/extended-properties' => '',
+    set_namespaces('http://schemas.openxmlformats.org/officeDocument/2006/extended-properties' => nil,
                    'http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes' => 'vt')
     define_element_name 'Properties'
 

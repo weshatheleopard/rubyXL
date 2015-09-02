@@ -673,7 +673,7 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
     define_child_node(RubyXL::AlternateContent)
     define_element_name 'worksheet'
-    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
                    'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
                    'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
