@@ -8,41 +8,18 @@ describe RubyXL::Worksheet do
 
     (0..10).each do |i|
       (0..10).each do |j|
-        @worksheet.add_cell(i, j, "#{i}:#{j}")
+        @worksheet.add_cell(i, j, "#{i}:#{j}", "F#{i}:#{j}")
       end
     end
 
-    @old_cell = Marshal.load(Marshal.dump(@worksheet[0][0]))
-    @old_cell_value = @worksheet[0][0].value
-    @old_cell_formula = @worksheet[0][0].formula
-  end
-
-  describe '.extract_data' do
-    it 'should return a 2d array of just the cell values (without style or formula information)' do
-      data = @worksheet.extract_data()
-      expect(data[0][0]).to eq('0:0')
-      expect(data.size).to eq(@worksheet.sheet_data.size)
-      expect(data[0].size).to eq(@worksheet[0].size)
-    end
+    @old_cell = @worksheet[0][0]
+    @old_cell_value = @worksheet[0][0].value.to_s
+    @old_cell_formula = @worksheet[0][0].formula.expression.to_s
   end
 
   describe '.get_table' do
     it 'should return nil if table cannot be found with specified string' do
       expect(@worksheet.get_table('TEST')).to be_nil
-    end
-
-    it 'should return nil if table cannot be found with specified headers' do
-      expect(@worksheet.get_table(['TEST'])).to be_nil
-    end
-
-    it 'should return a hash when given an array of headers it can find, where :table points to an array of hashes (rows), where each symbol is a column' do
-      headers = ["0:0", "0:1", "0:4"]
-      table_hash = @worksheet.get_table(headers)
-
-      expect(table_hash[:table].size).to eq(10)
-      expect(table_hash["0:0"].size).to eq(10)
-      expect(table_hash["0:1"].size).to eq(10)
-      expect(table_hash["0:4"].size).to eq(10)
     end
   end
 
@@ -620,7 +597,7 @@ describe RubyXL::Worksheet do
     it 'should not overwrite when a cell is present when overwrite is specified to be false' do
       @worksheet.add_cell(0,0,'TEST','B2',false)
       expect(@worksheet[0][0].value).to eq(@old_cell_value)
-      expect(@worksheet[0][0].formula).to eq(@old_cell_formula)
+      expect(@worksheet[0][0].formula.expression.to_s).to eq(@old_cell_formula)
     end
 
     it 'should still add a new cell when there is no cell to be overwritten' do
@@ -640,7 +617,7 @@ describe RubyXL::Worksheet do
     it 'should delete a row at index specified, "pushing" everything else "up"' do
       @worksheet.delete_row(0)
       expect(@worksheet[0][0].value).to eq("1:0")
-      expect(@worksheet[0][0].formula).to be_nil
+      expect(@worksheet[0][0].formula.expression.to_s).to eq("F1:0")
       expect(@worksheet[0][0].row).to eq(0)
       expect(@worksheet[0][0].column).to eq(0)
     end
@@ -669,7 +646,7 @@ describe RubyXL::Worksheet do
       @worksheet.insert_row(0)
       expect(@worksheet[0][0]).to be_nil
       expect(@worksheet[1][0].value).to eq(@old_cell_value)
-      expect(@worksheet[1][0].formula).to eq(@old_cell_formula)
+      expect(@worksheet[1][0].formula.expression.to_s).to eq(@old_cell_formula)
 
       @worksheet.insert_row(5)
       expect(@worksheet[5][0].is_underlined).to be_nil
@@ -711,7 +688,7 @@ describe RubyXL::Worksheet do
     it 'should delete a column at index specified, "pushing" everything else "left"' do
       @worksheet.delete_column(0)
       expect(@worksheet[0][0].value).to eq("0:1")
-      expect(@worksheet[0][0].formula).to be_nil
+      expect(@worksheet[0][0].formula.expression.to_s).to eq("F0:1")
       expect(@worksheet[0][0].row).to eq(0)
     end
 
@@ -746,7 +723,7 @@ describe RubyXL::Worksheet do
       @worksheet.insert_column(0)
       expect(@worksheet[0][0]).to be_nil
       expect(@worksheet[0][1].value).to eq(@old_cell_value)
-      expect(@worksheet[0][1].formula).to eq(@old_cell_formula)
+      expect(@worksheet[0][1].formula.expression.to_s).to eq(@old_cell_formula)
     end
 
     it 'should insert a column at index specified, copying styles from column to "left"' do

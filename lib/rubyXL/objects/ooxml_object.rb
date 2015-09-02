@@ -111,13 +111,13 @@ module RubyXL
       end
 
       if node.is_a?(Nokogiri::XML::Document) then
-        @namespaces = node.namespaces
         node = node.root
 #        ignorable_attr = node.attributes['Ignorable']
 #        @ignorables << ignorable_attr.value if ignorable_attr
       end
 
       obj = self.new
+      obj.local_namespaces = node.namespace_definitions
 
       known_attributes = obtain_class_variable(:@@ooxml_attributes)
 
@@ -206,6 +206,8 @@ module RubyXL
 
 
   module OOXMLObjectInstanceMethods
+    attr_accessor :local_namespaces
+
     def self.included(klass)
       klass.extend RubyXL::OOXMLObjectClassMethods
     end
@@ -297,7 +299,12 @@ module RubyXL
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
 
-      obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| elem.add_namespace(v, k) }
+      if @local_namespaces.nil? || @local_namespaces.empty? then # If no local namespaces provided in the original document,
+        # use the defualts
+        obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| elem.add_namespace_definition(v, k) }
+      else # otherwise preserve the original ones
+        @local_namespaces.each { |ns| elem.add_namespace_definition(ns.prefix, ns.href) }
+      end
 
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
