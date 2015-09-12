@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Theme - rubyXL 3.3.12</title>
+<title>class RubyXL::Theme - rubyXL 3.3.13</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -151,7 +151,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-a_theme.html">www.schemacentral.co
           <div class="method-source-code" id="default-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1393</span>
     <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>
-      <span class="ruby-identifier">default_theme</span> = <span class="ruby-string">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+      <span class="ruby-identifier">default_theme</span> = <span class="ruby-string">'&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
 &lt;a:theme xmlns:a=&quot;http://schemas.openxmlformats.org/drawingml/2006/main&quot; name=&quot;Office Theme&quot;&gt;
 &lt;a:themeElements&gt;
 &lt;a:clrScheme name=&quot;Office&quot;&gt;
@@ -466,7 +466,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-a_theme.html">www.schemacentral.co
 &lt;/a:lnDef&gt;
 &lt;/a:objectDefaults&gt;
 &lt;a:extraClrSchemeLst/&gt;
-&lt;/a:theme&gt;&#39;</span>
+&lt;/a:theme&gt;'</span>
       <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">default_theme</span>)
     <span class="ruby-keyword">end</span></pre>
           </div>
@@ -508,7 +508,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-a_theme.html">www.schemacentral.co
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1389</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;theme&#39;</span>, <span class="ruby-string">&#39;theme1.xml&#39;</span>)
+  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'theme'</span>, <span class="ruby-string">'theme1.xml'</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

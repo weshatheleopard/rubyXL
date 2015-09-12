@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.12</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.13</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -841,7 +841,7 @@
   <span class="ruby-identifier">fill</span> = <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">fill_id</span>]
   <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">fill</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">fill</span>.<span class="ruby-identifier">pattern_fill</span>
   <span class="ruby-identifier">color</span> = <span class="ruby-identifier">pattern</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pattern</span>.<span class="ruby-identifier">fg_color</span>
-  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;ffffff&#39;</span>
+  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">'ffffff'</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1089,7 +1089,7 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_fill</span> =<span class="ruby-operator">&gt;</span>
-               <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;solid&#39;</span>,
+               <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'solid'</span>,
                                        <span class="ruby-value">:fg_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rgb</span>)))
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">xf</span>)
   <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>)

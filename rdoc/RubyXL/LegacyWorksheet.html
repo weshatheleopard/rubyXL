@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyWorksheet - rubyXL 3.3.12</title>
+<title>module RubyXL::LegacyWorksheet - rubyXL 3.3.13</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -285,7 +285,7 @@
           
           <div class="method-source-code" id="add_cell-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 85</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_cell</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">data</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">overwrite</span> = <span class="ruby-keyword">true</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_cell</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">data</span> = <span class="ruby-string">''</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">overwrite</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row_index</span>)
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
@@ -374,7 +374,7 @@
           
           <div class="method-source-code" id="change_column_fill-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 58</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_fill</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">color_index</span>=<span class="ruby-string">&#39;ffffff&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_fill</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">color_index</span>=<span class="ruby-string">'ffffff'</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">color_index</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
@@ -661,8 +661,8 @@ which reference cells which are being “pushed right”</p>
         <div class="method-description">
           
           <p>Inserts row at row_index, pushes down, copies style from the row above
-(that&#39;s what Excel 2013 does!) NOTE: use of this method will break
-formulas which reference cells which are being “pushed down”</p>
+(that’s what Excel 2013 does!) NOTE: use of this method will break formulas
+which reference cells which are being “pushed down”</p>
           
           
 
