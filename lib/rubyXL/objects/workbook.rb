@@ -356,8 +356,7 @@ module RubyXL
     attr_accessor :worksheets
 
     def before_write_xml
-      max_sheet = worksheets.max_by(&:sheet_id)
-      max_sheet_id = max_sheet && max_sheet.sheet_id || 0
+      max_sheet_id = worksheets.collect(&:sheet_id).compact.max || 0
 
       self.sheets = RubyXL::Sheets.new
 
