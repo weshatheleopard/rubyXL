@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Vivek Bhagwat", "Wesha"]
-  s.date = "2015-09-12"
+  s.date = "2015-09-14"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
   s.email = "bhagwat.vivek@gmail.com"
   s.extra_rdoc_files = [
@@ -473,7 +473,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/gilt/rubyXL"
   s.licenses = ["MIT"]
-  s.rubygems_version = "2.4.5"
+  s.rubygems_version = "2.4.3"
   s.summary = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents"
 
   if s.respond_to? :specification_version then
