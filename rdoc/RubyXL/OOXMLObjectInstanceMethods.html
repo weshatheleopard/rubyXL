@@ -274,7 +274,7 @@
           <p>Subclass provided filter to perform last-minute operations (cleanup, count,
 etc.) immediately prior to write, along with option to terminate the actual
 write if <code>false</code> is returned (for example, to avoid writing the
-collection’s root node if the collection is empty).</p>
+collection&#39;s root node if the collection is empty).</p>
           
           
 
@@ -352,7 +352,7 @@ object is simply added to the end of the collection.</p>
 Nokogiri::XML. Immediately before the actual generation,
 +before_write_xml()+ is called to perform last-minute cleanup and
 validation operations; if it returns <code>false</code>, an empty string is
-returned (rather than <code>nil</code>, so Nokogiri::XML’s
+returned (rather than <code>nil</code>, so Nokogiri::XML&#39;s
 <code>&amp;lt;&amp;lt;</code> operator can be used without additional
 <code>nil</code> checking)</p>
 
@@ -383,7 +383,7 @@ a new element corresponding to <code>obj</code> according to its
 definition, along with all its properties and children, and returns the
 newly created element.</p>
 
-<pre class="ruby"><span class="ruby-identifier">obj</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">seed_xml</span>, <span class="ruby-string">'overriden_element_name'</span>)
+<pre class="ruby"><span class="ruby-identifier">obj</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">seed_xml</span>, <span class="ruby-string">&#39;overriden_element_name&#39;</span>)
 </pre>
 
 <p>Same as above, but uses the passed-in <code>node_name_override</code> as
@@ -397,15 +397,15 @@ the new element name, instead of its default name set by
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 267</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">'&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;'</span>)
-    <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">encoding</span> = <span class="ruby-string">'UTF-8'</span>
+    <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">&#39;&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;&#39;</span>)
+    <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">encoding</span> = <span class="ruby-string">&#39;UTF-8&#39;</span>
     <span class="ruby-identifier">result</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">seed_xml</span>)
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">==</span> <span class="ruby-string">''</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
     <span class="ruby-identifier">seed_xml</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">result</span>
     <span class="ruby-keyword">return</span> <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">to_xml</span>({ <span class="ruby-value">:indent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value">:save_with</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Node</span><span class="ruby-operator">::</span><span class="ruby-constant">SaveOptions</span><span class="ruby-operator">::</span><span class="ruby-constant">AS_XML</span> })
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-keyword">return</span> <span class="ruby-string">''</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">before_write_xml</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">before_write_xml</span>
 
   <span class="ruby-identifier">attrs</span> = {}
 
@@ -419,15 +419,15 @@ the new element name, instead of its default name set by
 
     <span class="ruby-identifier">val</span> = <span class="ruby-identifier">val</span> <span class="ruby-operator">&amp;&amp;</span>
             <span class="ruby-keyword">case</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:attr_type</span>]
-            <span class="ruby-keyword">when</span> <span class="ruby-value">:bool</span>   <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">?</span> <span class="ruby-string">'1'</span> <span class="ruby-operator">:</span> <span class="ruby-string">'0'</span>
-            <span class="ruby-keyword">when</span> <span class="ruby-value">:double</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\.0*\Z/</span>, <span class="ruby-string">''</span>) <span class="ruby-comment"># Trim trailing zeroes</span>
+            <span class="ruby-keyword">when</span> <span class="ruby-value">:bool</span>   <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;1&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;0&#39;</span>
+            <span class="ruby-keyword">when</span> <span class="ruby-value">:double</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\.0*\Z/</span>, <span class="ruby-string">&#39;&#39;</span>) <span class="ruby-comment"># Trim trailing zeroes</span>
             <span class="ruby-keyword">else</span> <span class="ruby-identifier">val</span>
             <span class="ruby-keyword">end</span>
 
     <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">val</span>
   }
 
-  <span class="ruby-identifier">element_text</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">'_'</span>)
+  <span class="ruby-identifier">element_text</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;_&#39;</span>)
   <span class="ruby-identifier">elem</span> = <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-identifier">node_name_override</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_tag_name</span>), <span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">element_text</span>)
 
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@local_namespaces</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@local_namespaces</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># If no local namespaces provided in the original document,</span>

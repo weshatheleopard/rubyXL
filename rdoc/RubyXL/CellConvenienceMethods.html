@@ -234,7 +234,7 @@
           
           <div class="method-source-code" id="change_horizontal_alignment-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 661</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">'center'</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">horizontal</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -302,7 +302,7 @@
           
           <div class="method-source-code" id="change_vertical_alignment-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 666</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">'center'</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_worksheet</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -372,7 +372,7 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 711</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">font_color</span>()
   <span class="ruby-identifier">validate_worksheet</span>
-  <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">'000000'</span>
+  <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;000000&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

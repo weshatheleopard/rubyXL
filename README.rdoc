@@ -28,10 +28,6 @@ Please note that proprietary binary +xls+ format is *not* supported.
   workbook[0]            # Returns first worksheet
   workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
 
-==== Accessing just the values
-  worksheet = workbook[0]
-  worksheet.extract_data  # Produces a simple rectangular array that consists only of cell values (rather than the Cell objects)
-
 ==== Accessing a Row (Array of Cells)
   worksheet = workbook[0]
   worksheet.sheet_data[0] # Returns first row of the worksheet
@@ -79,19 +75,14 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_vertical_alignment(0)
   worksheet.get_column_border_right(0)
 
-==== Table identification
-  worksheet = workbook[0]
-  worksheet.get_table(["NAME", "AGE", "HEIGHT"]) # Returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
-  #it returns the following structure
-  {
-   :Name=>["John", "Jane", "Joe"], 
-   :Height=>[70, 65, 68], 
-   :Age=>[30, 25, 35]
-   :table=>[
-    {:Name=>"John", :Height=>70, :Age=>30},
-    {:Name=>"Jane", :Height=>65, :Age=>25}, 
-    {:Name=>"Joe", :Height=>68, :Age=>35}
-   ]
+==== Table reading
+In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
+
+  worksheet.each { |row|
+     row && row.cells.each { |cell|
+       val = cell && cell.value
+       do_whatever_you_want(val)
+     }
   }
 
 === Modifying
