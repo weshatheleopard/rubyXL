@@ -746,6 +746,24 @@ module RubyXL
       self.style_index = workbook.register_new_xf(new_xf)
     end
 
+
+=begin
+    def add_hyperlink(l)
+      worksheet.hyperlinks ||= RubyXL::Hyperlinks.new
+      worksheet.hyperlinks << RubyXL::Hyperlink.new(:ref => self.r, :location => l)
+#    define_attribute(:'r:id',   :string)
+#    define_attribute(:location, :string)
+#    define_attribute(:tooltip,  :string)
+#    define_attribute(:display,  :string)
+
+    end
+
+    def add_shared_string(str)
+      self.datatype = RubyXL::DataType::SHARED_STRING
+      self.raw_value = @workbook.shared_strings_container.add(str)
+    end
+=end
+
   end
 
 end
