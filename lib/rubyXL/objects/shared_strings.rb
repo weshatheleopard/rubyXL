@@ -41,7 +41,7 @@ module RubyXL
 
     def add(str, index = nil)
       index ||= strings.size
-      strings[index] = RubyXL::Text.new(:value => str)
+      strings[index] = RubyXL::RichText.new(:t => RubyXL::Text.new(:value => str))
       @index_by_content[str] = index
     end
 
