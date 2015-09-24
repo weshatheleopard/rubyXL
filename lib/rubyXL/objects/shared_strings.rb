@@ -39,10 +39,16 @@ module RubyXL
       strings.empty?
     end
 
-    def add(str, index = nil)
+    def add(v, index = nil)
       index ||= strings.size
-      strings[index] = RubyXL::RichText.new(:t => RubyXL::Text.new(:value => str))
-      @index_by_content[str] = index
+
+      strings[index] = case str
+                       when String       then RubyXL::RichText.new(:t => RubyXL::Text.new(:value => v))
+                       when RubyXL::Text then RubyXL::RichText.new(:t => v)
+                       else                   RubyXL::RichText.new(:t => v.to_s) # FIXME
+                       end
+
+      @index_by_content[v.to_s] = index
     end
 
     def get_index(str, add_if_missing = false)
