@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::SharedStringsTable - rubyXL 3.3.13</title>
+<title>class RubyXL::SharedStringsTable - rubyXL 3.3.14</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -227,7 +227,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
         
         <div class="method-heading">
           <span class="method-name">add</span><span
-            class="method-args">(str, index = nil)</span>
+            class="method-args">(v, index = nil)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -243,10 +243,20 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
           
           <div class="method-source-code" id="add-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 42</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">index</span> = <span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">index</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">index</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">size</span>
-  <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>] = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">str</span>)
-  <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">str</span>] = <span class="ruby-identifier">index</span>
+
+  <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>] =
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">v</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">v</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:t</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v</span>))
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>               <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:t</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichTextRun</span>        <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:r</span> =<span class="ruby-operator">&gt;</span> [ <span class="ruby-identifier">v</span> ])
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PhoneticRun</span>        <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:r_ph</span> =<span class="ruby-operator">&gt;</span> [ <span class="ruby-identifier">v</span> ])
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PhoneticProperties</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:phonetic_pr</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v</span>)
+    <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">index</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -350,7 +360,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="get_index-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 48</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_index</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">add_if_missing</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">index</span> = <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">str</span>]
   <span class="ruby-identifier">index</span> = <span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">add_if_missing</span>
@@ -385,9 +395,9 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_sst.html">www.schemacentral.c
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 54</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;sharedStrings.xml&#39;</span>)
+  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'sharedStrings.xml'</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 3.3.13</title>
+<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 3.3.14</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -244,7 +244,7 @@
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">load_relationship_file</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">base_file_path</span>)
   <span class="ruby-identifier">rel_file_path</span> = <span class="ruby-identifier">rel_file_path</span>(<span class="ruby-identifier">base_file_path</span>)
 
-  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;--&gt; DEBUG:  #{&#39;  &#39; * @@debug}Loading .rel file: #{rel_file_path}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;--&gt; DEBUG:  #{'  ' * @@debug}Loading .rel file: #{rel_file_path}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
 
   <span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">rel_file_path</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -279,8 +279,8 @@
           <div class="method-source-code" id="rel_file_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 126</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rel_file_path</span>(<span class="ruby-identifier">base_file_path</span>)
-  <span class="ruby-identifier">basename</span> = <span class="ruby-identifier">base_file_path</span>.<span class="ruby-identifier">root?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">base_file_path</span>.<span class="ruby-identifier">basename</span>
-  <span class="ruby-identifier">base_file_path</span>.<span class="ruby-identifier">dirname</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;_rels&#39;</span>, <span class="ruby-node">&quot;#{basename}.rels&quot;</span>).<span class="ruby-identifier">cleanpath</span>
+  <span class="ruby-identifier">basename</span> = <span class="ruby-identifier">base_file_path</span>.<span class="ruby-identifier">root?</span> <span class="ruby-operator">?</span> <span class="ruby-string">''</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">base_file_path</span>.<span class="ruby-identifier">basename</span>
+  <span class="ruby-identifier">base_file_path</span>.<span class="ruby-identifier">dirname</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'_rels'</span>, <span class="ruby-node">&quot;#{basename}.rels&quot;</span>).<span class="ruby-identifier">cleanpath</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -442,7 +442,7 @@
   <span class="ruby-identifier">@@debug</span> <span class="ruby-operator">+=</span><span class="ruby-value">2</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
 
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">rel</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">rel</span>.<span class="ruby-identifier">target_mode</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;External&#39;</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">rel</span>.<span class="ruby-identifier">target_mode</span> <span class="ruby-operator">==</span> <span class="ruby-string">'External'</span>
 
     <span class="ruby-identifier">file_path</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">rel</span>.<span class="ruby-identifier">target</span>)
     <span class="ruby-identifier">file_path</span> = (<span class="ruby-identifier">base_file_name</span>.<span class="ruby-identifier">dirname</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">file_path</span>).<span class="ruby-identifier">cleanpath</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">file_path</span>.<span class="ruby-identifier">relative?</span>
@@ -454,7 +454,7 @@
       <span class="ruby-identifier">klass</span> = <span class="ruby-constant">GenericStorageObject</span>
     <span class="ruby-keyword">end</span>
 
-    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;--&gt; DEBUG:#{&#39;  &#39; * @@debug}Loading #{klass} (#{rel.id}): #{file_path}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;--&gt; DEBUG:#{'  ' * @@debug}Loading #{klass} (#{rel.id}): #{file_path}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
 
     <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">file_path</span>)
     <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">load_relationships</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">file_path</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_relationships</span>)

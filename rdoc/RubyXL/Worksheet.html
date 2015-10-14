@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Worksheet - rubyXL 3.3.13</title>
+<title>class RubyXL::Worksheet - rubyXL 3.3.14</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -319,7 +319,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_worksheet.html">www.schemacen
         <span class="ruby-identifier">last_nonempty_cell</span> = <span class="ruby-identifier">col_index</span>
       }
 
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">first_nonempty_cell</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># If there&#39;s nothing in this row, then +first_nonempty_cell+ will be +nil+.</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">first_nonempty_cell</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># If there's nothing in this row, then +first_nonempty_cell+ will be +nil+.</span>
         <span class="ruby-identifier">last_nonempty_row</span> = <span class="ruby-identifier">row_index</span>
         <span class="ruby-identifier">first_nonempty_row</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">row_index</span>
 
@@ -406,7 +406,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_worksheet.html">www.schemacen
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 729</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
-  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;worksheets&#39;</span>, <span class="ruby-node">&quot;sheet#{file_index}.xml&quot;</span>)
+  <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">'xl'</span>, <span class="ruby-string">'worksheets'</span>, <span class="ruby-node">&quot;sheet#{file_index}.xml&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
