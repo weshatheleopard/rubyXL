@@ -189,7 +189,7 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_iconSet-1.html
   class IconSet < OOXMLObject
-    define_attribute(iconSet:,   RubyXL::ST_IconSetType, :default => '3TrafficLights1')
+    define_attribute(:iconSet,   RubyXL::ST_IconSetType, :default => '3TrafficLights1')
     define_attribute(:showValue, :bool, :default => true)
     define_attribute(:percent,   :bool, :default => true)
     define_attribute(:reverse,   :bool, :default => false)
