@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyWorksheet - rubyXL 3.3.14</title>
+<title>module RubyXL::LegacyWorksheet - rubyXL 3.3.15</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -88,15 +88,7 @@
     
     <li ><a href="#method-i-change_column_width_raw">#change_column_width_raw</a>
     
-    <li ><a href="#method-i-delete_column">#delete_column</a>
-    
-    <li ><a href="#method-i-delete_row">#delete_row</a>
-    
     <li ><a href="#method-i-each">#each</a>
-    
-    <li ><a href="#method-i-insert_column">#insert_column</a>
-    
-    <li ><a href="#method-i-insert_row">#insert_row</a>
     
     <li ><a href="#method-i-merge_cells">#merge_cells</a>
     
@@ -123,50 +115,6 @@
 
     
 
-    
-    <section class="constants-list">
-      <header>
-        <h3>Constants</h3>
-      </header>
-      <dl>
-      
-        <dt id="BOLD">BOLD
-        
-        <dd>
-        
-      
-        <dt id="COLOR">COLOR
-        
-        <dd>
-        
-      
-        <dt id="ITALICS">ITALICS
-        
-        <dd>
-        
-      
-        <dt id="NAME">NAME
-        
-        <dd>
-        
-      
-        <dt id="SIZE">SIZE
-        
-        <dd>
-        
-      
-        <dt id="STRIKETHROUGH">STRIKETHROUGH
-        
-        <dd>
-        
-      
-        <dt id="UNDERLINE">UNDERLINE
-        
-        <dd>
-        
-      
-      </dl>
-    </section>
     
 
     
@@ -467,95 +415,6 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
       </div>
 
     
-      <div id="method-i-delete_column" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">delete_column</span><span
-            class="method-args">(column_index = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="delete_column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 161</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
-
-  <span class="ruby-comment">#delete column</span>
-  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">column_index</span>) }
-
-  <span class="ruby-comment"># Change column numbers for cells to the right of the deleted column</span>
-  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span>, <span class="ruby-identifier">row_index</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span>, <span class="ruby-identifier">column_index</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">c</span>.<span class="ruby-identifier">column</span> = <span class="ruby-identifier">column_index</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Cell</span>)
-    }
-  }
-
-  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">delete_column</span>(<span class="ruby-identifier">column_index</span>) }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-delete_row" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">delete_row</span><span
-            class="method-args">(row_index=0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="delete_row-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 110</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_row</span>(<span class="ruby-identifier">row_index</span>=<span class="ruby-value">0</span>)
-  <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row_index</span>)
-
-  <span class="ruby-identifier">deleted</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">row_index</span>)
-
-  <span class="ruby-comment"># Change cell row numbers</span>
-  <span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">index</span>].<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">row</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
-  }
-
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">deleted</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
       <div id="method-i-each" class="method-detail ">
         
         <div class="method-heading">
@@ -578,130 +437,6 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
   <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">row</span>) }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-insert_column" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">insert_column</span><span
-            class="method-args">(column_index = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Inserts column at <code>column_index</code>, pushes everything right, takes
-styles from column to left NOTE: use of this method will break formulas
-which reference cells which are being “pushed right”</p>
-          
-          
-
-          
-          <div class="method-source-code" id="insert_column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 180</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
-
-  <span class="ruby-identifier">old_range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">get_range</span>(<span class="ruby-identifier">column_index</span>)
-
-  <span class="ruby-comment">#go through each cell in column</span>
-  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span>, <span class="ruby-identifier">row_index</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">old_cell</span> = <span class="ruby-identifier">row</span>[<span class="ruby-identifier">column_index</span>]
-    <span class="ruby-identifier">c</span> = <span class="ruby-keyword">nil</span>
-
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_cell</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span>
-         <span class="ruby-identifier">old_range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-keyword">then</span>
-
-      <span class="ruby-identifier">c</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-value">:worksheet</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>,
-                           <span class="ruby-value">:row</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">row_index</span>, <span class="ruby-value">:column</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">column_index</span>,
-                           <span class="ruby-value">:datatype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span>)
-    <span class="ruby-keyword">end</span>
-
-    <span class="ruby-identifier">row</span>.<span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">column_index</span>)
-  }
-
-  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">column_index</span>)
-
-  <span class="ruby-comment"># TODO: update column numbers</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-insert_row" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">insert_row</span><span
-            class="method-args">(row_index = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Inserts row at row_index, pushes down, copies style from the row above
-(that’s what Excel 2013 does!) NOTE: use of this method will break formulas
-which reference cells which are being “pushed down”</p>
-          
-          
-
-          
-          <div class="method-source-code" id="insert_row-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 126</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_row</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
-
-  <span class="ruby-identifier">old_row</span> = <span class="ruby-identifier">new_cells</span> = <span class="ruby-keyword">nil</span>
-
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">row_index</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">old_row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row_index</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>]
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_row</span> <span class="ruby-keyword">then</span>
-      <span class="ruby-identifier">new_cells</span> = <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
-                    <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
-                    <span class="ruby-keyword">else</span> <span class="ruby-identifier">nc</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">style_index</span>)
-                         <span class="ruby-identifier">nc</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-keyword">self</span>
-                         <span class="ruby-identifier">nc</span>
-                    <span class="ruby-keyword">end</span>
-                  }
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-
-  <span class="ruby-identifier">row0</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-value">0</span>]
-  <span class="ruby-identifier">new_cells</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>((<span class="ruby-identifier">row0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row0</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
-
-  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">new_row</span> = <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-value">:cells</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">new_cells</span>, <span class="ruby-value">:style_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">old_row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">style_index</span>)
-
-  <span class="ruby-comment"># Update row values for all rows below</span>
-  <span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">i</span>]
-    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">nil?</span>
-    <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">row</span> = <span class="ruby-identifier">i</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
-  }
-
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">new_row</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

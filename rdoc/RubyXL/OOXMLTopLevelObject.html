@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.3.14</title>
+<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.3.15</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -286,9 +286,10 @@ added.</p>
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 444</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zip_stream</span>)
   <span class="ruby-identifier">xml_string</span> = <span class="ruby-identifier">write_xml</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml_string</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml_string</span>.<span class="ruby-identifier">empty?</span>
   <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">put_next_entry</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-identifier">from_root</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>))
   <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">xml_string</span>)
+  <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -319,7 +320,7 @@ added.</p>
 
           
           <div class="method-source-code" id="file_index-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 451</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 452</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">file_index</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">rels_hash</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>].<span class="ruby-identifier">index</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-keyword">self</span>) }.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
