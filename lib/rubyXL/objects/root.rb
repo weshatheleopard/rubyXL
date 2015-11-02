@@ -46,7 +46,7 @@ module RubyXL
 
         self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
-          self.rels_hash[klass].each { |obj|
+          self.rels_hash[klass].select! { |obj|
             puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
             obj.add_to_zip(zipstream)
           }

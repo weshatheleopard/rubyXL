@@ -443,9 +443,10 @@ module RubyXL
     # * +zipfile+ - ::Zip::File to which the resulting XNMML should be added.
     def add_to_zip(zip_stream)
       xml_string = write_xml
-      return if xml_string.empty?
+      return false if xml_string.empty?
       zip_stream.put_next_entry(RubyXL::from_root(self.xlsx_path))
       zip_stream.write(xml_string)
+      true
     end
 
     def file_index

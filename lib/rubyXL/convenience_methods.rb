@@ -183,6 +183,13 @@ module RubyXL
 
 
   module WorksheetConvenienceMethods
+    NAME = 0
+    SIZE = 1
+    COLOR = 2
+    ITALICS = 3
+    BOLD = 4
+    UNDERLINE = 5
+    STRIKETHROUGH = 6
 
     def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
       validate_workbook
@@ -232,6 +239,109 @@ module RubyXL
       return old_cell
     end
 
+    # Inserts row at row_index, pushes down, copies style from the row above (that's what Excel 2013 does!)
+    # NOTE: use of this method will break formulas which reference cells which are being "pushed down"
+    def insert_row(row_index = 0)
+      validate_workbook
+      ensure_cell_exists(row_index)
+
+      old_row = new_cells = nil
+
+      if row_index > 0 then
+        old_row = sheet_data.rows[row_index - 1]
+        if old_row then
+          new_cells = old_row.cells.collect { |c|
+                        if c.nil? then nil
+                        else nc = RubyXL::Cell.new(:style_index => c.style_index)
+                             nc.worksheet = self
+                             nc
+                        end
+                      }
+        end
+      end
+
+      row0 = sheet_data.rows[0]
+      new_cells ||= Array.new((row0 && row0.cells.size) || 0)
+
+      sheet_data.rows.insert(row_index, nil)
+      new_row = add_row(row_index, :cells => new_cells, :style_index => old_row && old_row.style_index)
+
+      # Update row values for all rows below
+      row_index.upto(sheet_data.rows.size - 1) { |i|
+        row = sheet_data.rows[i]
+        next if row.nil?
+        row.cells.each { |c| c.row = i unless c.nil? }
+      }
+
+      return new_row
+    end
+
+    def delete_row(row_index=0)
+      validate_workbook
+      validate_nonnegative(row_index)
+
+      deleted = sheet_data.rows.delete_at(row_index)
+
+      # Update row number of each cell
+      row_index.upto(sheet_data.size - 1) { |index|
+        row = sheet_data[index]
+        row && row.cells.each{ |c| c.row -= 1 unless c.nil? }
+      }
+
+      return deleted
+    end
+
+    # Inserts column at +column_index+, pushes everything right, takes styles from column to left
+    # NOTE: use of this method will break formulas which reference cells which are being "pushed right"
+    def insert_column(column_index = 0)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+
+      old_range = cols.get_range(column_index)
+
+      #go through each cell in column
+      sheet_data.rows.each_with_index { |row, row_index|
+        old_cell = row[column_index]
+        c = nil
+
+        if old_cell && old_cell.style_index != 0 &&
+             old_range && old_range.style_index != old_cell.style_index then
+
+          c = RubyXL::Cell.new(:style_index => old_cell.style_index, :worksheet => self,
+                               :row => row_index, :column => column_index,
+                               :datatype => RubyXL::DataType::SHARED_STRING)
+        end
+
+        row.insert_cell_shift_right(c, column_index)
+      }
+
+      cols.insert_column(column_index)
+
+      # TODO: update column numbers
+    end
+
+    def delete_column(column_index = 0)
+      validate_workbook
+      validate_nonnegative(column_index)
+
+      #delete column
+      sheet_data.rows.each { |row| row.cells.delete_at(column_index) }
+
+      # Change column numbers for cells to the right of the deleted column
+      sheet_data.rows.each_with_index { |row, row_index|
+        row.cells.each_with_index { |c, column_index|
+          c.column = column_index if c.is_a?(Cell)
+        }
+      }
+
+      cols.each { |range| range.delete_column(column_index) }
+    end
+
+    def get_row_style(row_index)
+      row = sheet_data.rows[row_index]
+      (row && row.style_index) || 0
+    end
+
     def get_row_fill(row = 0)
       (row = sheet_data.rows[row]) && row.get_fill_color
     end
@@ -275,15 +385,17 @@ module RubyXL
 
     def get_row_border(row, border_direction)
       validate_workbook
-      validate_nonnegative(row)
 
       border = @workbook.borders[get_row_xf(row).border_id]
       border && border.get_edge_style(border_direction)
     end
 
+    def row_font(row)
+      (row = sheet_data.rows[row]) && row.get_font
+    end
+
     def get_row_alignment(row, is_horizontal)
       validate_workbook
-      validate_nonnegative(row)
 
       xf_obj = get_row_xf(row)
       return nil if xf_obj.alignment.nil?
@@ -301,6 +413,12 @@ module RubyXL
     def get_row_vertical_alignment(row = 0)
       warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead."
       return get_row_alignment(row, false)
+    end
+
+    def get_cols_style_index(column_index)
+      validate_nonnegative(column_index)
+      range = cols.locate_range(column_index)
+      (range && range.style_index) || 0
     end
 
     def get_column_font_name(col = 0)
@@ -355,6 +473,12 @@ module RubyXL
       (width - (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)).round
     end
 
+    # Helper method to get the style index for a column
+    def get_col_style(column_index)
+      range = cols.locate_range(column_index)
+      (range && range.style_index) || 0
+    end
+
     def get_column_fill(col=0)
       validate_workbook
       validate_nonnegative(col)
@@ -364,16 +488,20 @@ module RubyXL
 
     def get_column_border(col, border_direction)
       validate_workbook
-      validate_nonnegative(col)
 
       xf = @workbook.cell_xfs[get_cols_style_index(col)]
       border = @workbook.borders[xf.border_id]
       border && border.get_edge_style(border_direction)
     end
 
+    def column_font(col)
+      validate_workbook
+
+      @workbook.fonts[@workbook.cell_xfs[get_cols_style_index(col)].font_id]
+    end
+
     def get_column_alignment(col, type)
       validate_workbook
-      validate_nonnegative(col)
 
       xf = @workbook.cell_xfs[get_cols_style_index(col)]
       xf.alignment && xf.alignment.send(type)
@@ -409,6 +537,19 @@ module RubyXL
 
       sheet_data.rows[row_index].style_index = @workbook.modify_fill(get_row_style(row_index), rgb)
       sheet_data[row_index].cells.each { |c| c.change_fill(rgb) unless c.nil? }
+    end
+
+    # Helper method to update the row styles array
+    # change_type - NAME or SIZE or COLOR etc
+    # main method to change font, called from each separate font mutator method
+    def change_row_font(row_index, change_type, arg, font)
+      validate_workbook
+      ensure_cell_exists(row_index)
+
+      xf = workbook.register_new_font(font, get_row_xf(row_index))
+      row = sheet_data[row_index]
+      row.style_index = workbook.register_new_xf(xf)
+      row.cells.each { |c| c.font_switch(change_type, arg) unless c.nil? }
     end
 
     def change_row_font_name(row = 0, font_name = 'Verdana')
@@ -468,6 +609,21 @@ module RubyXL
       c = sheet_data.rows[row]
       c.ht = height
       c.custom_height = true
+    end
+
+    # Helper method to update the fonts and cell styles array
+    # main method to change font, called from each separate font mutator method
+    def change_column_font(column_index, change_type, arg, font, xf)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+
+      xf = workbook.register_new_font(font, xf)
+      cols.get_range(column_index).style_index = workbook.register_new_xf(xf)
+
+      sheet_data.rows.each { |row|
+        c = row && row[column_index]
+        c.font_switch(change_type, arg) unless c.nil?
+      }
     end
 
     def change_column_font_name(column_index = 0, font_name = 'Verdana')
