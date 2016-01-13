@@ -24,7 +24,7 @@ module RubyXL
     end
 
     def to_s
-      value.to_s.gsub(ESCAPED_UNICODE) { |m| $1.hex.chr(Encoding::UTF_8) }
+      value.to_s.gsub(ESCAPED_UNICODE) { |m| $1.hex.chr(::Encoding::UTF_8) }
     end
   end
 

@@ -118,13 +118,13 @@ module LegacyWorksheet
     raise "This worksheet #{self} is not in workbook #{@workbook}"
   end
 
-  # Ensures that cell with +row_index+ and +column_index+ exists in
-  #  +sheet_data+ arrays, growing them up if necessary.
+  # Ensures that storage space for a cell with +row_index+ and +column_index+
+  # exists in +sheet_data+ arrays, growing them up if necessary.
   def ensure_cell_exists(row_index, column_index = 0)
     validate_nonnegative(row_index)
     validate_nonnegative(column_index)
 
-    row = sheet_data.rows[row_index] || add_row(row_index)
+    sheet_data.rows[row_index] || add_row(row_index)
   end  
 
   def get_col_xf(column_index)

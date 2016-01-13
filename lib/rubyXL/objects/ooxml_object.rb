@@ -218,6 +218,8 @@ module RubyXL
     private :obtain_class_variable
 
     def initialize(params = {})
+      @local_namespaces = nil
+
       obtain_class_variable(:@@ooxml_attributes).each_value { |v|
         instance_variable_set("@#{v[:accessor]}", params[v[:accessor]]) unless v[:computed]
       }
@@ -300,7 +302,7 @@ module RubyXL
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
 
       if @local_namespaces.nil? || @local_namespaces.empty? then # If no local namespaces provided in the original document,
-        # use the defualts
+        # use the defaults
         obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| elem.add_namespace_definition(v, k) }
       else # otherwise preserve the original ones
         @local_namespaces.each { |ns| elem.add_namespace_definition(ns.prefix, ns.href) }

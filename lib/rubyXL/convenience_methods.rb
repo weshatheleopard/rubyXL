@@ -324,13 +324,13 @@ module RubyXL
       validate_workbook
       validate_nonnegative(column_index)
 
-      #delete column
+      # Delete column
       sheet_data.rows.each { |row| row.cells.delete_at(column_index) }
 
-      # Change column numbers for cells to the right of the deleted column
+      # Update column numbers for cells to the right of the deleted column
       sheet_data.rows.each_with_index { |row, row_index|
-        row.cells.each_with_index { |c, column_index|
-          c.column = column_index if c.is_a?(Cell)
+        row.cells.each_with_index { |c, ci|
+          c.column = ci if c.is_a?(Cell)
         }
       }
 
