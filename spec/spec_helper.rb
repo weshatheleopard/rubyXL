@@ -1,4 +1,8 @@
 require 'rubygems'
+
+require 'simplecov'
+SimpleCov.start
+
 require 'rubyXL'
 
 RSpec.configure do |c|

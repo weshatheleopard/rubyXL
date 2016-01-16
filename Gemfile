@@ -10,6 +10,7 @@ group :development, :test do
   gem "rake"
   gem "jeweler"
   gem "rspec"
+  gem "simplecov"
 
 #  gem 'stackprof'
   gem 'ruby-prof'
