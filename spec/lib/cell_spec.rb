@@ -1,6 +1,5 @@
+require 'spec_helper'
 require 'bigdecimal'
-require 'rubygems'
-require 'rubyXL'
 
 describe RubyXL::Cell do
 

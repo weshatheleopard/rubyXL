@@ -5,12 +5,11 @@ gem "nokogiri", ">= 1.4.4"
 gem "rubyzip", ">= 1.1.6" , :require => 'zip'
 
 # Development dependencies.
-group :development do
+group :development, :test do
   gem "bundler"
   gem "rake"
   gem "jeweler"
-#  gem "simplecov", ">= 0"
-  gem "rspec", ">= 1.3.4"
+  gem "rspec"
 
 #  gem 'stackprof'
   gem 'ruby-prof'

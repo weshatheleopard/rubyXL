@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'rubyXL'
+require 'spec_helper'
 
 describe RubyXL::Worksheet do
   before do
@@ -15,12 +14,6 @@ describe RubyXL::Worksheet do
     @old_cell = @worksheet[0][0]
     @old_cell_value = @worksheet[0][0].value.to_s
     @old_cell_formula = @worksheet[0][0].formula.expression.to_s
-  end
-
-  describe '.get_table' do
-    it 'should return nil if table cannot be found with specified string' do
-      expect(@worksheet.get_table('TEST')).to be_nil
-    end
   end
 
   describe '.change_row_fill' do

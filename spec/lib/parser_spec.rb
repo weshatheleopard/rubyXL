@@ -1,6 +1,5 @@
-require 'rubygems'
+require 'spec_helper'
 require 'tmpdir'
-require 'rubyXL'
 
 describe RubyXL::Parser do
 
@@ -50,11 +49,11 @@ describe RubyXL::Parser do
     it 'should parse a valid Excel xlsx or xlsm workbook correctly' do
       @workbook2 = RubyXL::Parser.parse(@file)
 
-      expect(@workbook2).to be_instance_of(RubyXL::Workbook)
+      expect(@workbook2).to be_an_instance_of(::RubyXL::Workbook)
 
       expect(@workbook2.worksheets.size).to eq(@workbook.worksheets.size)
       @workbook2.worksheets.each_index { |i|
-        expect(@workbook2[i].extract_data).to eq(@workbook[i].extract_data)
+        expect(@workbook2[i]).to be_an_instance_of(::RubyXL::Worksheet)
       }
     end
 
