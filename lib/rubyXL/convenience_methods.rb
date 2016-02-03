@@ -1,4 +1,5 @@
 module RubyXL
+
   module WorkbookConvenienceMethods
     SHEET_NAME_TEMPLATE = 'Sheet%d'
 
@@ -183,6 +184,13 @@ module RubyXL
 
 
   module WorksheetConvenienceMethods
+    NAME = 0
+    SIZE = 1
+    COLOR = 2
+    ITALICS = 3
+    BOLD = 4
+    UNDERLINE = 5
+    STRIKETHROUGH = 6
 
     def insert_cell(row = 0, col = 0, data = nil, formula = nil, shift = nil)
       validate_workbook
@@ -201,7 +209,7 @@ module RubyXL
         raise 'invalid shift option'
       end
 
-      return add_cell(row,col,data,formula)
+      return add_cell(row, col, data, formula)
     end
 
     # by default, only sets cell to nil
@@ -230,6 +238,109 @@ module RubyXL
       end
 
       return old_cell
+    end
+
+    # Inserts row at row_index, pushes down, copies style from the row above (that's what Excel 2013 does!)
+    # NOTE: use of this method will break formulas which reference cells which are being "pushed down"
+    def insert_row(row_index = 0)
+      validate_workbook
+      ensure_cell_exists(row_index)
+
+      old_row = new_cells = nil
+
+      if row_index > 0 then
+        old_row = sheet_data.rows[row_index - 1]
+        if old_row then
+          new_cells = old_row.cells.collect { |c|
+                        if c.nil? then nil
+                        else nc = RubyXL::Cell.new(:style_index => c.style_index)
+                             nc.worksheet = self
+                             nc
+                        end
+                      }
+        end
+      end
+
+      row0 = sheet_data.rows[0]
+      new_cells ||= Array.new((row0 && row0.cells.size) || 0)
+
+      sheet_data.rows.insert(row_index, nil)
+      new_row = add_row(row_index, :cells => new_cells, :style_index => old_row && old_row.style_index)
+
+      # Update row values for all rows below
+      row_index.upto(sheet_data.rows.size - 1) { |i|
+        row = sheet_data.rows[i]
+        next if row.nil?
+        row.cells.each { |c| c.row = i unless c.nil? }
+      }
+
+      return new_row
+    end
+
+    def delete_row(row_index=0)
+      validate_workbook
+      validate_nonnegative(row_index)
+
+      deleted = sheet_data.rows.delete_at(row_index)
+
+      # Update row number of each cell
+      row_index.upto(sheet_data.size - 1) { |index|
+        row = sheet_data[index]
+        row && row.cells.each{ |c| c.row -= 1 unless c.nil? }
+      }
+
+      return deleted
+    end
+
+    # Inserts column at +column_index+, pushes everything right, takes styles from column to left
+    # NOTE: use of this method will break formulas which reference cells which are being "pushed right"
+    def insert_column(column_index = 0)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+
+      old_range = cols.get_range(column_index)
+
+      #go through each cell in column
+      sheet_data.rows.each_with_index { |row, row_index|
+        old_cell = row[column_index]
+        c = nil
+
+        if old_cell && old_cell.style_index != 0 &&
+             old_range && old_range.style_index != old_cell.style_index then
+
+          c = RubyXL::Cell.new(:style_index => old_cell.style_index, :worksheet => self,
+                               :row => row_index, :column => column_index,
+                               :datatype => RubyXL::DataType::SHARED_STRING)
+        end
+
+        row.insert_cell_shift_right(c, column_index)
+      }
+
+      cols.insert_column(column_index)
+
+      # TODO: update column numbers
+    end
+
+    def delete_column(column_index = 0)
+      validate_workbook
+      validate_nonnegative(column_index)
+
+      # Delete column
+      sheet_data.rows.each { |row| row.cells.delete_at(column_index) }
+
+      # Update column numbers for cells to the right of the deleted column
+      sheet_data.rows.each_with_index { |row, row_index|
+        row.cells.each_with_index { |c, ci|
+          c.column = ci if c.is_a?(Cell)
+        }
+      }
+
+      cols.each { |range| range.delete_column(column_index) }
+    end
+
+    def get_row_style(row_index)
+      row = sheet_data.rows[row_index]
+      (row && row.style_index) || 0
     end
 
     def get_row_fill(row = 0)
@@ -270,20 +381,22 @@ module RubyXL
       validate_workbook
       validate_nonnegative(row)
       row = sheet_data.rows[row]
-      row && row.ht || 13
+      row && row.ht || RubyXL::Row::DEFAULT_HEIGHT
     end
 
     def get_row_border(row, border_direction)
       validate_workbook
-      validate_nonnegative(row)
 
       border = @workbook.borders[get_row_xf(row).border_id]
       border && border.get_edge_style(border_direction)
     end
 
+    def row_font(row)
+      (row = sheet_data.rows[row]) && row.get_font
+    end
+
     def get_row_alignment(row, is_horizontal)
       validate_workbook
-      validate_nonnegative(row)
 
       xf_obj = get_row_xf(row)
       return nil if xf_obj.alignment.nil?
@@ -301,6 +414,12 @@ module RubyXL
     def get_row_vertical_alignment(row = 0)
       warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead."
       return get_row_alignment(row, false)
+    end
+
+    def get_cols_style_index(column_index)
+      validate_nonnegative(column_index)
+      range = cols.locate_range(column_index)
+      (range && range.style_index) || 0
     end
 
     def get_column_font_name(col = 0)
@@ -355,6 +474,27 @@ module RubyXL
       (width - (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)).round
     end
 
+    # Set raw column width value
+    def change_column_width_raw(column_index, width)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+      range = cols.get_range(column_index)
+      range.width = width
+      range.custom_width = true
+    end
+
+    # Get column width measured in number of digits, as per
+    # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
+    def change_column_width(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)
+      change_column_width_raw(column_index, ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
+    end
+
+    # Helper method to get the style index for a column
+    def get_col_style(column_index)
+      range = cols.locate_range(column_index)
+      (range && range.style_index) || 0
+    end
+
     def get_column_fill(col=0)
       validate_workbook
       validate_nonnegative(col)
@@ -362,18 +502,35 @@ module RubyXL
       @workbook.get_fill_color(get_col_xf(col))
     end
 
+    def change_column_fill(column_index, color_code = 'ffffff')
+      validate_workbook
+      RubyXL::Color.validate_color(color_code)
+      ensure_cell_exists(0, column_index)
+
+      cols.get_range(column_index).style_index = @workbook.modify_fill(get_col_style(column_index), color_code)
+
+      sheet_data.rows.each { |row|
+        c = row[column_index]
+        c.change_fill(color_code) if c
+      }
+    end
+
     def get_column_border(col, border_direction)
       validate_workbook
-      validate_nonnegative(col)
 
       xf = @workbook.cell_xfs[get_cols_style_index(col)]
       border = @workbook.borders[xf.border_id]
       border && border.get_edge_style(border_direction)
     end
 
+    def column_font(col)
+      validate_workbook
+
+      @workbook.fonts[@workbook.cell_xfs[get_cols_style_index(col)].font_id]
+    end
+
     def get_column_alignment(col, type)
       validate_workbook
-      validate_nonnegative(col)
 
       xf = @workbook.cell_xfs[get_cols_style_index(col)]
       xf.alignment && xf.alignment.send(type)
@@ -409,6 +566,19 @@ module RubyXL
 
       sheet_data.rows[row_index].style_index = @workbook.modify_fill(get_row_style(row_index), rgb)
       sheet_data[row_index].cells.each { |c| c.change_fill(rgb) unless c.nil? }
+    end
+
+    # Helper method to update the row styles array
+    # change_type - NAME or SIZE or COLOR etc
+    # main method to change font, called from each separate font mutator method
+    def change_row_font(row_index, change_type, arg, font)
+      validate_workbook
+      ensure_cell_exists(row_index)
+
+      xf = workbook.register_new_font(font, get_row_xf(row_index))
+      row = sheet_data[row_index]
+      row.style_index = workbook.register_new_xf(xf)
+      row.cells.each { |c| c.font_switch(change_type, arg) unless c.nil? }
     end
 
     def change_row_font_name(row = 0, font_name = 'Verdana')
@@ -468,6 +638,21 @@ module RubyXL
       c = sheet_data.rows[row]
       c.ht = height
       c.custom_height = true
+    end
+
+    # Helper method to update the fonts and cell styles array
+    # main method to change font, called from each separate font mutator method
+    def change_column_font(column_index, change_type, arg, font, xf)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+
+      xf = workbook.register_new_font(font, xf)
+      cols.get_range(column_index).style_index = workbook.register_new_xf(xf)
+
+      sheet_data.rows.each { |row|
+        c = row && row[column_index]
+        c.font_switch(change_type, arg) unless c.nil?
+      }
     end
 
     def change_column_font_name(column_index = 0, font_name = 'Verdana')
@@ -569,69 +754,15 @@ module RubyXL
       }
     end
 
-    # Returns 2D array of just the cell values (without style or formula information)
-    def extract_data(args = {})
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please access data directly by iterating through .sheet_data.rows"
-      sheet_data.rows.map { |row|
-        row.cells.map { |c| c && c.value(args) } unless row.nil?
-      }
-    end
-
-    def get_table(headers = [], opts = {})
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please access data directly by iterating through .sheet_data.rows"
+    # Merges cells within a rectangular area
+    def merge_cells(start_row, start_col, end_row, end_col)
       validate_workbook
 
-      headers = [headers] unless headers.is_a?(Array)
-      row_num = find_first_row_with_content(headers)
-      return nil if row_num.nil?
-
-      table_hash = {}
-      table_hash[:table] = []
-
-      header_row = sheet_data[row_num]
-      header_row.cells.each_with_index { |header_cell, index|
-        break if index>0 && !opts[:last_header].nil? && !header_row[index-1].nil? && !header_row[index-1].value.nil? && header_row[index-1].value.to_s==opts[:last_header]
-        next if header_cell.nil? || header_cell.value.nil?
-        header = header_cell.value.to_s
-        table_hash[:sorted_headers]||=[]
-        table_hash[:sorted_headers] << header
-        table_hash[header] = []
-
-        original_row = row_num + 1
-        current_row = original_row
-
-        row = sheet_data.rows[current_row]
-        cell = row && row.cells[index]
-
-        # makes array of hashes in table_hash[:table]
-        # as well as hash of arrays in table_hash[header]
-        table_index = current_row - original_row
-        cell_test = (!cell.nil? && !cell.value.nil?)
-
-        while cell_test || (table_hash[:table][table_index] && !table_hash[:table][table_index].empty?)
-          table_hash[header] << cell.value if cell_test
-          table_index = current_row - original_row
-
-          if cell_test then
-            table_hash[:table][table_index] ||= {}
-            table_hash[:table][table_index][header] = cell.value
-          end
-
-          current_row += 1
-          if sheet_data.rows[current_row].nil? then
-            cell = nil
-          else
-            cell = sheet_data.rows[current_row].cells[index]
-          end
-          cell_test = (!cell.nil? && !cell.value.nil?)
-        end
-      }
-
-      return table_hash
+      self.merged_cells ||= RubyXL::MergedCells.new
+      # TODO: add validation to make sure ranges are not intersecting with existing ones
+      merged_cells << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(start_row, end_row, start_col, end_col))
     end
-
   end
-
 
   module CellConvenienceMethods
 
@@ -744,6 +875,98 @@ module RubyXL
       new_xf.num_fmt_id = workbook.stylesheet.register_number_format(format_code)
       new_xf.apply_number_format = true
       self.style_index = workbook.register_new_xf(new_xf)
+    end
+
+    # Changes fill color of cell
+    def change_fill(rgb = 'ffffff')
+      validate_worksheet
+      Color.validate_color(rgb)
+      self.style_index = workbook.modify_fill(self.style_index, rgb)
+    end
+
+    # Changes font name of cell
+    def change_font_name(new_font_name = 'Verdana')
+      validate_worksheet
+
+      font = get_cell_font.dup
+      font.set_name(new_font_name)
+      update_font_references(font)
+    end
+
+    # Changes font size of cell
+    def change_font_size(font_size = 10)
+      validate_worksheet
+      raise 'Argument must be a number' unless font_size.is_a?(Integer) || font_size.is_a?(Float)
+
+      font = get_cell_font.dup
+      font.set_size(font_size)
+      update_font_references(font)
+    end
+
+    # Changes font color of cell
+    def change_font_color(font_color = '000000')
+      validate_worksheet
+      Color.validate_color(font_color)
+
+      font = get_cell_font.dup
+      font.set_rgb_color(font_color)
+      update_font_references(font)
+    end
+
+    # Changes font italics settings of cell
+    def change_font_italics(italicized = false)
+      validate_worksheet
+
+      font = get_cell_font.dup
+      font.set_italic(italicized)
+      update_font_references(font)
+    end
+
+    # Changes font bold settings of cell
+    def change_font_bold(bolded = false)
+      validate_worksheet
+
+      font = get_cell_font.dup
+      font.set_bold(bolded)
+      update_font_references(font)
+    end
+
+    # Changes font underline settings of cell
+    def change_font_underline(underlined = false)
+      validate_worksheet
+
+      font = get_cell_font.dup
+      font.set_underline(underlined)
+      update_font_references(font)
+    end
+
+    def change_font_strikethrough(struckthrough = false)
+      validate_worksheet
+
+      font = get_cell_font.dup
+      font.set_strikethrough(struckthrough)
+      update_font_references(font)
+    end
+
+    # Helper method to update the font array and xf array
+    def update_font_references(modified_font)
+      xf = workbook.register_new_font(modified_font, get_cell_xf)
+      self.style_index = workbook.register_new_xf(xf)
+    end
+    private :update_font_references
+
+    # Performs correct modification based on what type of change_type is specified
+    def font_switch(change_type, arg)
+      case change_type
+      when Worksheet::NAME          then change_font_name(arg)
+      when Worksheet::SIZE          then change_font_size(arg)
+      when Worksheet::COLOR         then change_font_color(arg)
+      when Worksheet::ITALICS       then change_font_italics(arg)
+      when Worksheet::BOLD          then change_font_bold(arg)
+      when Worksheet::UNDERLINE     then change_font_underline(arg)
+      when Worksheet::STRIKETHROUGH then change_font_strikethrough(arg)
+      else raise 'Invalid change_type'
+      end
     end
 
 =begin

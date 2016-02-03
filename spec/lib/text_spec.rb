@@ -1,4 +1,4 @@
-require 'rubyXL'
+require 'spec_helper'
 
 describe RubyXL::Text do
 

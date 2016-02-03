@@ -16,9 +16,10 @@ module RubyXL
     end
 
     def add_to_zip(zip_stream)
-      return if @data.nil?
+      return false if @data.nil?
       zip_stream.put_next_entry(RubyXL::from_root(self.xlsx_path))
       zip_stream.write(@data)
+      true
     end
   end
 

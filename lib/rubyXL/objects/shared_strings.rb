@@ -42,11 +42,15 @@ module RubyXL
     def add(v, index = nil)
       index ||= strings.size
 
-      strings[index] = case str
-                       when String       then RubyXL::RichText.new(:t => RubyXL::Text.new(:value => v))
-                       when RubyXL::Text then RubyXL::RichText.new(:t => v)
-                       else                   RubyXL::RichText.new(:t => v.to_s) # FIXME
-                       end
+      strings[index] =
+        case v
+        when RubyXL::RichText then v
+        when String then RubyXL::RichText.new(:t => RubyXL::Text.new(:value => v))
+        when RubyXL::Text               then RubyXL::RichText.new(:t => v)
+        when RubyXL::RichTextRun        then RubyXL::RichText.new(:r => [ v ])
+        when RubyXL::PhoneticRun        then RubyXL::RichText.new(:r_ph => [ v ])
+        when RubyXL::PhoneticProperties then RubyXL::RichText.new(:phonetic_pr => v)
+        end
 
       @index_by_content[v.to_s] = index
     end
