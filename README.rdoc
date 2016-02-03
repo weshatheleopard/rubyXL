@@ -47,7 +47,7 @@ Please note that proprietary binary +xls+ format is *not* supported.
   cell.fill_color
   cell.horizontal_alignment
   cell.vertical_alignment
-  cell.border_top
+  cell.get_border(:top)
 
 ==== Wrappers for accessing Row properties 
 Please note: these methods are being phased out in favor of the OOXML object model.

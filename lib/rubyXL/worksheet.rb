@@ -68,14 +68,6 @@ module LegacyWorksheet
     }
   end
 
-  # merges cells within a rectangular range
-  def merge_cells(row1 = 0, col1 = 0, row2 = 0, col2 = 0)
-    validate_workbook
-
-    self.merged_cells ||= RubyXL::MergedCells.new
-    merged_cells << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(row1, row2, col1, col2))
-  end
-
   def add_row(row_index = 0, params = {})
     new_row = RubyXL::Row.new(params)
     new_row.worksheet = self

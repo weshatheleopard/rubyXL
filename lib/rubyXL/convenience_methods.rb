@@ -725,6 +725,15 @@ module RubyXL
         c.style_index = @workbook.modify_alignment(c.style_index, &block)
       }
     end
+
+    # Merges cells within a rectangular area
+    def merge_cells(start_row, start_col, end_row, end_col)
+      validate_workbook
+
+      self.merged_cells ||= RubyXL::MergedCells.new
+      # TODO: add validation to make sure ranges are not intersecting with existing ones
+      merged_cells << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(start_row, end_row, start_col, end_col))
+    end
   end
 
   module CellConvenienceMethods
