@@ -9,7 +9,7 @@ module RubyXL
   class WorkbookRoot
     @@debug = nil
 
-    attr_accessor :filepath, :content_types, :rels_hash
+    attr_accessor :source_file_path, :content_types, :rels_hash
 
     include RubyXL::RelationshipSupport
 
@@ -32,6 +32,7 @@ module RubyXL
       obj
     end
 
+    # Write <tt>.xlsx</tt> to a stream (useful for sending over HTTP)
     def stream
       stream = Zip::OutputStream.write_buffer { |zipstream|
         self.rels_hash = {}
@@ -45,7 +46,7 @@ module RubyXL
 
         self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
-          self.rels_hash[klass].each { |obj|
+          self.rels_hash[klass].select! { |obj|
             puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
             obj.add_to_zip(zipstream)
           }
@@ -59,35 +60,27 @@ module RubyXL
       OOXMLTopLevelObject::ROOT
     end
 
-    def self.parse_file(xl_file_path, opts = {})
-      begin
-        ::Zip::File.open(xl_file_path) { |zip_file|
-          root = self.new
-          root.filepath = xl_file_path
-          root.content_types = RubyXL::ContentTypes.parse_file(zip_file, ContentTypes::XLSX_PATH)
-          root.load_relationships(zip_file, OOXMLTopLevelObject::ROOT)
+    def self.parse_zip_file(zip_file)
+      root = self.new
+      root.content_types = RubyXL::ContentTypes.parse_file(zip_file, ContentTypes::XLSX_PATH)
+      root.load_relationships(zip_file, OOXMLTopLevelObject::ROOT)
 
-          wb = root.workbook
-          wb.root = root
+      wb = root.workbook
+      wb.root = root
 
-          wb.sheets.each_with_index { |sheet, i|
-            sheet_obj = wb.relationship_container.related_files[sheet.r_id]
+      wb.sheets.each_with_index { |sheet, i|
+        sheet_obj = wb.relationship_container.related_files[sheet.r_id]
 
-            wb.worksheets[i] = sheet_obj # Must be done first so the sheet becomes aware of its number
-            sheet_obj.workbook = wb
+        wb.worksheets[i] = sheet_obj # Must be done first so the sheet becomes aware of its number
+        sheet_obj.workbook = wb
 
-            sheet_obj.sheet_name = sheet.name
-            sheet_obj.sheet_id = sheet.sheet_id
-            sheet_obj.state = sheet.state
-          }
+        sheet_obj.sheet_name = sheet.name
+        sheet_obj.sheet_id = sheet.sheet_id
+        sheet_obj.state = sheet.state
+      }
 
-          root
-        }
-      rescue ::Zip::Error => e
-        raise e, "XLSX file format error: #{e}", e.backtrace
-      end
+      root
     end
-
   end
 
 end

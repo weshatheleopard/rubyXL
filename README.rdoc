@@ -28,10 +28,6 @@ Please note that proprietary binary +xls+ format is *not* supported.
   workbook[0]            # Returns first worksheet
   workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
 
-==== Accessing just the values
-  worksheet = workbook[0]
-  worksheet.extract_data  # Produces a simple rectangular array that consists only of cell values (rather than the Cell objects)
-
 ==== Accessing a Row (Array of Cells)
   worksheet = workbook[0]
   worksheet.sheet_data[0] # Returns first row of the worksheet
@@ -51,7 +47,7 @@ Please note that proprietary binary +xls+ format is *not* supported.
   cell.fill_color
   cell.horizontal_alignment
   cell.vertical_alignment
-  cell.border_top
+  cell.get_border(:top)
 
 ==== Wrappers for accessing Row properties 
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -79,19 +75,14 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_vertical_alignment(0)
   worksheet.get_column_border_right(0)
 
-==== Table identification
-  worksheet = workbook[0]
-  worksheet.get_table(["NAME", "AGE", "HEIGHT"]) # Returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
-  #it returns the following structure
-  {
-   :Name=>["John", "Jane", "Joe"], 
-   :Height=>[70, 65, 68], 
-   :Age=>[30, 25, 35]
-   :table=>[
-    {:Name=>"John", :Height=>70, :Age=>30},
-    {:Name=>"Jane", :Height=>65, :Age=>25}, 
-    {:Name=>"Joe", :Height=>68, :Age=>35}
-   ]
+==== Table reading
+In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
+
+  worksheet.each { |row|
+     row && row.cells.each { |cell|
+       val = cell && cell.value
+       do_whatever_you_want(val)
+     }
   }
 
 === Modifying
@@ -194,12 +185,14 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
 
 == I/O
 
-=== Writing
+By default, the gem operates with files on the local filesystem:
+
+  workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
   workbook.write("path/to/desired/Excel/file.xlsx")
 
-=== Streaming
-The gem can provide +StringIO+ object containing the resulting +xlsx+ file, eliminating the need to save it to disk first. This capability comes in handy for web servers.
+It can also operate on +StringIO+ objects, thus eliminating the need to save the +xlsx+ file to disk. This capability comes in handy for web servers.
 
+  workbook = RubyXL::Parser.parse_buffer(buffer)
   workbook.stream
 
 == Miscellaneous

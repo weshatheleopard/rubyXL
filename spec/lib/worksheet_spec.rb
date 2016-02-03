@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'rubyXL'
+require 'spec_helper'
 
 describe RubyXL::Worksheet do
   before do
@@ -8,55 +7,26 @@ describe RubyXL::Worksheet do
 
     (0..10).each do |i|
       (0..10).each do |j|
-        @worksheet.add_cell(i, j, "#{i}:#{j}")
+        @worksheet.add_cell(i, j, "#{i}:#{j}", "F#{i}:#{j}")
       end
     end
 
-    @old_cell = Marshal.load(Marshal.dump(@worksheet[0][0]))
-    @old_cell_value = @worksheet[0][0].value
-    @old_cell_formula = @worksheet[0][0].formula
-  end
-
-  describe '.extract_data' do
-    it 'should return a 2d array of just the cell values (without style or formula information)' do
-      data = @worksheet.extract_data()
-      expect(data[0][0]).to eq('0:0')
-      expect(data.size).to eq(@worksheet.sheet_data.size)
-      expect(data[0].size).to eq(@worksheet[0].size)
-    end
-  end
-
-  describe '.get_table' do
-    it 'should return nil if table cannot be found with specified string' do
-      expect(@worksheet.get_table('TEST')).to be_nil
-    end
-
-    it 'should return nil if table cannot be found with specified headers' do
-      expect(@worksheet.get_table(['TEST'])).to be_nil
-    end
-
-    it 'should return a hash when given an array of headers it can find, where :table points to an array of hashes (rows), where each symbol is a column' do
-      headers = ["0:0", "0:1", "0:4"]
-      table_hash = @worksheet.get_table(headers)
-
-      expect(table_hash[:table].size).to eq(10)
-      expect(table_hash["0:0"].size).to eq(10)
-      expect(table_hash["0:1"].size).to eq(10)
-      expect(table_hash["0:4"].size).to eq(10)
-    end
+    @old_cell = @worksheet[0][0]
+    @old_cell_value = @worksheet[0][0].value.to_s
+    @old_cell_formula = @worksheet[0][0].formula.expression.to_s
   end
 
   describe '.change_row_fill' do
     it 'should raise error if hex color code not passed' do
       expect {
         @worksheet.change_row_fill(0, 'G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should raise error if hex color code includes # character' do
       expect {
         @worksheet.change_row_fill(3,'#FFF000')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make row and cell fill colors equal hex color code passed' do
@@ -68,7 +38,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_fill(-1,'111111')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -89,7 +59,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_font_name(-1,'Arial')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -110,13 +80,13 @@ describe RubyXL::Worksheet do
     it 'should cause an error if a string passed' do
       expect {
         @worksheet.change_row_font_size(0, '20')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_font_size(-1,20)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -137,19 +107,19 @@ describe RubyXL::Worksheet do
     it 'should raise error if hex color code not passed' do
       expect {
         @worksheet.change_row_font_color(0, 'G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should raise error if hex color code includes # character' do
       expect {
         @worksheet.change_row_font_color(3,'#FFF000')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_font_color(-1,'0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -170,7 +140,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_italics(-1, false)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -191,7 +161,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_bold(-1, false)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -212,7 +182,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_underline(-1, false)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -233,7 +203,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_strikethrough(-1, false)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -258,7 +228,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_height(-1, 30)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -279,7 +249,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_horizontal_alignment(-1,'center')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -300,7 +270,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_vertical_alignment(-1,'center')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -316,7 +286,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_border(-1, :left, 'thin')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
@@ -367,7 +337,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_font_name(-1, 'Arial')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -381,13 +351,13 @@ describe RubyXL::Worksheet do
     it 'should cause an error if a string passed' do
       expect {
         @worksheet.change_column_font_size(0, '20')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_font_size(-1, 20)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -401,19 +371,19 @@ describe RubyXL::Worksheet do
     it 'should raise error if hex color code not passed' do
       expect {
         @worksheet.change_column_font_color(0, 'G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should raise error if hex color code includes # character' do
       expect {
         @worksheet.change_column_font_color(0,'#FFF000')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_font_color(-1,'0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -426,8 +396,8 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_column_italicized(-1, false)
-      }.to raise_error
+        @worksheet.change_column_italics(-1, false)
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -441,7 +411,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_bold(-1, false)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -455,7 +425,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_underline(-1, false)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -469,7 +439,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_strikethrough(-1, false)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -482,7 +452,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_width_raw(-1, 10)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -490,13 +460,13 @@ describe RubyXL::Worksheet do
     it 'should raise error if hex color code not passed' do
       expect {
         @worksheet.change_column_fill(0, 'G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should raise error if hex color code includes # character' do
       expect {
         @worksheet.change_column_fill(3,'#FFF000')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make column and cell fill colors equal hex color code passed' do
@@ -508,7 +478,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_fill(-1,'111111')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -522,7 +492,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_horizontal_alignment(-1,'center')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -536,7 +506,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_vertical_alignment(-1, 'center')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should set column width if column alignment is changed' do
@@ -555,7 +525,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_column_border(-1, :top, 'thin')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should cause column and cells within to have border at top of specified weight' do
@@ -620,7 +590,7 @@ describe RubyXL::Worksheet do
     it 'should not overwrite when a cell is present when overwrite is specified to be false' do
       @worksheet.add_cell(0,0,'TEST','B2',false)
       expect(@worksheet[0][0].value).to eq(@old_cell_value)
-      expect(@worksheet[0][0].formula).to eq(@old_cell_formula)
+      expect(@worksheet[0][0].formula.expression.to_s).to eq(@old_cell_formula)
     end
 
     it 'should still add a new cell when there is no cell to be overwritten' do
@@ -632,7 +602,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.add_cell(-1,-1,'')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -640,7 +610,7 @@ describe RubyXL::Worksheet do
     it 'should delete a row at index specified, "pushing" everything else "up"' do
       @worksheet.delete_row(0)
       expect(@worksheet[0][0].value).to eq("1:0")
-      expect(@worksheet[0][0].formula).to be_nil
+      expect(@worksheet[0][0].formula.expression.to_s).to eq("F1:0")
       expect(@worksheet[0][0].row).to eq(0)
       expect(@worksheet[0][0].column).to eq(0)
     end
@@ -660,7 +630,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.delete_row(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -669,7 +639,7 @@ describe RubyXL::Worksheet do
       @worksheet.insert_row(0)
       expect(@worksheet[0][0]).to be_nil
       expect(@worksheet[1][0].value).to eq(@old_cell_value)
-      expect(@worksheet[1][0].formula).to eq(@old_cell_formula)
+      expect(@worksheet[1][0].formula.expression.to_s).to eq(@old_cell_formula)
 
       @worksheet.insert_row(5)
       expect(@worksheet[5][0].is_underlined).to be_nil
@@ -697,7 +667,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.insert_row(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should expand matrix to fit argument if nonnegative'  do
@@ -711,7 +681,7 @@ describe RubyXL::Worksheet do
     it 'should delete a column at index specified, "pushing" everything else "left"' do
       @worksheet.delete_column(0)
       expect(@worksheet[0][0].value).to eq("0:1")
-      expect(@worksheet[0][0].formula).to be_nil
+      expect(@worksheet[0][0].formula.expression.to_s).to eq("F0:1")
       expect(@worksheet[0][0].row).to eq(0)
     end
 
@@ -737,7 +707,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if negative argument is passed in' do
       expect {
         @worksheet.delete_column(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -746,7 +716,7 @@ describe RubyXL::Worksheet do
       @worksheet.insert_column(0)
       expect(@worksheet[0][0]).to be_nil
       expect(@worksheet[0][1].value).to eq(@old_cell_value)
-      expect(@worksheet[0][1].formula).to eq(@old_cell_formula)
+      expect(@worksheet[0][1].formula.expression.to_s).to eq(@old_cell_formula)
     end
 
     it 'should insert a column at index specified, copying styles from column to "left"' do
@@ -778,7 +748,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.insert_column(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -814,13 +784,13 @@ describe RubyXL::Worksheet do
     it 'should cause error if shift argument is specified whcih is not :right or :down' do
       expect {
         @worksheet.insert_cell(0,0,'test',nil,:up)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.insert_cell(-1,-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -838,7 +808,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.delete_cell(-1,-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should shift cells to the right of the deleted cell left if :left is specified' do
@@ -861,7 +831,7 @@ describe RubyXL::Worksheet do
     it 'should cause en error if an argument other than :left, :up, or nil is specified for shift' do
       expect {
         @worksheet.delete_cell(0,0,:down)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -974,7 +944,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_row_height(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -982,7 +952,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_row_alignment(-1, true)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if no horizontal alignment specified for row' do
@@ -1025,7 +995,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_row_border(-1, :top)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if a row which does not exist is passed in' do
@@ -1042,7 +1012,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_font_name(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return default font if a (nonnegative) column which does not exist is passed in' do
@@ -1059,7 +1029,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_font_size(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return default font size if a column which does not exist is passed in' do
@@ -1076,7 +1046,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_font_color(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return default color (000000) if a (nonnegative) column which does not exist is passed in' do
@@ -1097,7 +1067,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.is_column_italicized(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
@@ -1114,7 +1084,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.is_column_bolded(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
@@ -1131,7 +1101,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.is_column_underlined(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
@@ -1148,7 +1118,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.is_column_struckthrough(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if a (nonnegative) column which does not exist is passed in' do
@@ -1173,7 +1143,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_width_raw(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -1194,7 +1164,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_width(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -1215,7 +1185,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_fill(-1)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -1231,7 +1201,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_alignment(-1, :horizontal)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return correct horizontal alignment if it is set for that column' do
@@ -1252,7 +1222,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_alignment(-1, :vertical)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return correct vertical alignment if it is set for that column' do
@@ -1274,7 +1244,7 @@ describe RubyXL::Worksheet do
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.get_column_border(-1, :diagonal)
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if a column which does not exist is passed in' do

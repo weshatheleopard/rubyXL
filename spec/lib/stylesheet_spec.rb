@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'rubyXL'
+require 'spec_helper'
 
 describe RubyXL::NumberFormat do
 

@@ -15,7 +15,7 @@ module RubyXL
     define_child_node(RubyXL::RichText, :collection => :with_count, :node_name => 'si', :accessor => :strings)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sst'
-    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '')
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil)
 
     def initialize(*params)
       super
@@ -39,10 +39,20 @@ module RubyXL
       strings.empty?
     end
 
-    def add(str, index = nil)
+    def add(v, index = nil)
       index ||= strings.size
-      strings[index] = RubyXL::Text.new(:value => str)
-      @index_by_content[str] = index
+
+      strings[index] =
+        case v
+        when RubyXL::RichText then v
+        when String then RubyXL::RichText.new(:t => RubyXL::Text.new(:value => v))
+        when RubyXL::Text               then RubyXL::RichText.new(:t => v)
+        when RubyXL::RichTextRun        then RubyXL::RichText.new(:r => [ v ])
+        when RubyXL::PhoneticRun        then RubyXL::RichText.new(:r_ph => [ v ])
+        when RubyXL::PhoneticProperties then RubyXL::RichText.new(:phonetic_pr => v)
+        end
+
+      @index_by_content[v.to_s] = index
     end
 
     def get_index(str, add_if_missing = false)

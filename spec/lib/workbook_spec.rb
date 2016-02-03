@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'rubyXL'
+require 'spec_helper'
 
 describe RubyXL::Workbook do
   before do
@@ -132,5 +131,15 @@ describe RubyXL::Workbook do
       expect(@workbook.modified_at.to_time).to eq(dt)
     end
   end
+
+  describe '.stream' do
+    it "It should not be confused by missing sheet_id" do
+      workbook = RubyXL::Workbook.new
+      workbook[0].sheet_id = 1
+      sheet = workbook.add_worksheet('Sheet2')
+      workbook.stream
+    end
+
+ end
 
 end
