@@ -29,14 +29,14 @@ Please note that proprietary binary +xls+ format is *not* supported.
   workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
 
 ==== Accessing a Row (Array of Cells)
-Please note that worksheets are sparse collections. Your code *must* expect that any row it encounters may be <tt>nil</tt>.
+Please note that worksheet is a _sparse_ array of rows. Your code *must* expect that any row it plucks from the array may be <tt>nil</tt>.
 
   worksheet = workbook[0]
   worksheet.sheet_data[0] # Returns first row of the worksheet
   worksheet[0]            # Returns first row of the worksheet
 
 ==== Accessing a Cell object
-Please note that rows are sparse collections. Your code *must* expect that any cell it encounters may be <tt>nil</tt>.
+Please note that row is a _sparse_ array of cells. Your code *must* expect that any cell it plucks from the array may be <tt>nil</tt>.
 
   worksheet = workbook[0]
   worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
