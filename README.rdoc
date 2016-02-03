@@ -29,14 +29,14 @@ Please note that proprietary binary +xls+ format is *not* supported.
   workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
 
 ==== Accessing a Row (Array of Cells)
-Please note that worksheets are sparse collections. Your code *must* expect that any row it encounters may be `nil`.
+Please note that worksheets are sparse collections. Your code *must* expect that any row it encounters may be <tt>nil</tt>.
 
   worksheet = workbook[0]
   worksheet.sheet_data[0] # Returns first row of the worksheet
   worksheet[0]            # Returns first row of the worksheet
 
 ==== Accessing a Cell object
-Please note that rows are sparse collections. Your code *must* expect that any cell it encounters may be `nil`.
+Please note that rows are sparse collections. Your code *must* expect that any cell it encounters may be <tt>nil</tt>.
 
   worksheet = workbook[0]
   worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
@@ -218,5 +218,5 @@ Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Copyright
 
-Copyright (c) 2011 Vivek Bhagwat, 2013-2015 Wesha.
+Copyright (c) 2011 Vivek Bhagwat, 2013-2016 Wesha.
 See LICENSE.txt for further details.
