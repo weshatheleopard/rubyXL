@@ -23,51 +23,6 @@ module LegacyWorksheet
     sheet_data.rows.each { |row| yield(row) }
   end
 
-  # finds first row which contains at least all strings in cells_content
-  def find_first_row_with_content(cells_content)
-    validate_workbook
-
-    sheet_data.rows.each_with_index { |row, index|
-      next if row.nil?
-      cells_content = cells_content.map { |header| header.to_s.strip.downcase }
-      original_cells_content = row.cells.map { |cell| (cell && cell.value).to_s.strip.downcase }
-
-      if (cells_content & original_cells_content).size == cells_content.size
-        return index
-      end
-    }
-    return nil
-  end
-  private :find_first_row_with_content
-
-  # Set raw column width value
-  def change_column_width_raw(column_index, width)
-    validate_workbook
-    ensure_cell_exists(0, column_index)
-    range = cols.get_range(column_index)
-    range.width = width
-    range.custom_width = true
-  end
-
-  # Get column width measured in number of digits, as per
-  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
-  def change_column_width(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)
-    change_column_width_raw(column_index, ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
-  end
-
-  def change_column_fill(column_index, color_index='ffffff')
-    validate_workbook
-    Color.validate_color(color_index)
-    ensure_cell_exists(0, column_index)
-
-    cols.get_range(column_index).style_index = @workbook.modify_fill(get_col_style(column_index), color_index)
-
-    sheet_data.rows.each { |row|
-      c = row[column_index]
-      c.change_fill(color_index) if c
-    }
-  end
-
   def add_row(row_index = 0, params = {})
     new_row = RubyXL::Row.new(params)
     new_row.worksheet = self

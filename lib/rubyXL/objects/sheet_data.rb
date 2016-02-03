@@ -161,6 +161,8 @@ module RubyXL
     def get_font
       @worksheet.workbook.fonts[xf.font_id]
     end
+
+    DEFAULT_HEIGHT = 13
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetData-1.html

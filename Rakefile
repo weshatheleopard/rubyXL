@@ -46,8 +46,8 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-desc "Dump profiling data"
-task :profile do
+desc "Dump profiling data with stackprof"
+task :stackprof do
   require 'benchmark'
   require 'stackprof'
 
@@ -73,8 +73,8 @@ task :profile do
   }
 end
 
-desc "Dump profiling data 2"
-task :prof do
+desc "Dump profiling data with ruby-prof"
+task :rubyprof do
   require 'benchmark'
   require 'ruby-prof'
 

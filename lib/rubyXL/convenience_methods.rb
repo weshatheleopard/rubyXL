@@ -209,7 +209,7 @@ module RubyXL
         raise 'invalid shift option'
       end
 
-      return add_cell(row,col,data,formula)
+      return add_cell(row, col, data, formula)
     end
 
     # by default, only sets cell to nil
@@ -381,7 +381,7 @@ module RubyXL
       validate_workbook
       validate_nonnegative(row)
       row = sheet_data.rows[row]
-      row && row.ht || 13
+      row && row.ht || RubyXL::Row::DEFAULT_HEIGHT
     end
 
     def get_row_border(row, border_direction)
@@ -474,6 +474,21 @@ module RubyXL
       (width - (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)).round
     end
 
+    # Set raw column width value
+    def change_column_width_raw(column_index, width)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+      range = cols.get_range(column_index)
+      range.width = width
+      range.custom_width = true
+    end
+
+    # Get column width measured in number of digits, as per
+    # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
+    def change_column_width(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)
+      change_column_width_raw(column_index, ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
+    end
+
     # Helper method to get the style index for a column
     def get_col_style(column_index)
       range = cols.locate_range(column_index)
@@ -485,6 +500,19 @@ module RubyXL
       validate_nonnegative(col)
 
       @workbook.get_fill_color(get_col_xf(col))
+    end
+
+    def change_column_fill(column_index, color_code = 'ffffff')
+      validate_workbook
+      RubyXL::Color.validate_color(color_code)
+      ensure_cell_exists(0, column_index)
+
+      cols.get_range(column_index).style_index = @workbook.modify_fill(get_col_style(column_index), color_code)
+
+      sheet_data.rows.each { |row|
+        c = row[column_index]
+        c.change_fill(color_code) if c
+      }
     end
 
     def get_column_border(col, border_direction)
