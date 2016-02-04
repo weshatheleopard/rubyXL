@@ -377,11 +377,17 @@ module RubyXL
       (font = row_font(row)) && font.is_strikethrough
     end
 
-    def get_row_height(row = 0)
+    def get_row_height_raw(row = 0)
       validate_workbook
       validate_nonnegative(row)
       row = sheet_data.rows[row]
-      row && row.ht || RubyXL::Row::DEFAULT_HEIGHT
+      return nil if row.nil?
+      row.ht
+    end
+
+    def get_row_height(row = 0)
+      ht = get_row_height_raw(row)
+      ht || RubyXL::Row::DEFAULT_HEIGHT
     end
 
     def get_row_border(row, border_direction)
