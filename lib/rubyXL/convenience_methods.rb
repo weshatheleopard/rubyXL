@@ -126,7 +126,7 @@ module RubyXL
     def register_new_fill(new_fill, old_xf)
       new_xf = old_xf.dup
       new_xf.apply_fill = true
-      new_xf.fill_id = fills.find_index { |x| x == new_fill } # Use existing fill, if it exists
+      new_xf.fill_id = fills.find_index { |x| x == new_fill } # Reuse existing fill, if it exists
       new_xf.fill_id ||= fills.size # If this fill has never existed before, add it to collection.
       fills[new_xf.fill_id] = new_fill
       new_xf
@@ -134,50 +134,48 @@ module RubyXL
 
     def register_new_font(new_font, old_xf)
       new_xf = old_xf.dup
-      new_xf.apply_font = true
-      new_xf.font_id = fonts.find_index { |x| x == new_font } # Use existing font, if it exists
+      new_xf.font_id = fonts.find_index { |x| x == new_font } # Reuse existing font, if it exists
       new_xf.font_id ||= fonts.size # If this font has never existed before, add it to collection.
       fonts[new_xf.font_id] = new_font
+      new_xf.apply_font = true
       new_xf
     end
 
     def register_new_xf(new_xf)
-      new_xf_id = cell_xfs.find_index { |xf| xf == new_xf } # Use existing XF, if it exists
+      new_xf_id = cell_xfs.find_index { |xf| xf == new_xf } # Reuse existing XF, if it exists
       new_xf_id ||= cell_xfs.size # If this XF has never existed before, add it to collection.
       cell_xfs[new_xf_id] = new_xf
       new_xf_id
     end
 
     def modify_alignment(style_index, &block)
-      xf = cell_xfs[style_index].dup
+      xf = cell_xfs[style_index || 0].dup
       xf.alignment ||= RubyXL::Alignment.new
-      xf.apply_alignment = true
       yield(xf.alignment)
+      xf.apply_alignment = true
+
       register_new_xf(xf)
     end
 
     def modify_fill(style_index, rgb)
-      xf = cell_xfs[style_index].dup
+      xf = cell_xfs[style_index || 0].dup
       new_fill = RubyXL::Fill.new(:pattern_fill =>
                    RubyXL::PatternFill.new(:pattern_type => 'solid',
                                            :fg_color => RubyXL::Color.new(:rgb => rgb)))
-      new_xf = register_new_fill(new_fill, xf)
-      register_new_xf(new_xf)
+      register_new_xf(register_new_fill(new_fill, xf))
     end
 
     def modify_border(style_index, direction, weight)
-      old_xf = cell_xfs[style_index].dup
-      new_border = borders[old_xf.border_id].dup
+      xf = cell_xfs[style_index || 0].dup
+      new_border = borders[xf.border_id || 0].dup
       new_border.set_edge_style(direction, weight)
 
-      new_xf = old_xf.dup
-      new_xf.apply_border = true
+      xf.border_id = borders.find_index { |x| x == new_border } # Reuse existing border, if it exists
+      xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
+      borders[xf.border_id] = new_border
+      xf.apply_border = true
 
-      new_xf.border_id = borders.find_index { |x| x == new_border } # Use existing border, if it exists
-      new_xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
-      borders[new_xf.border_id] = new_border
-
-      register_new_xf(new_xf)
+      register_new_xf(xf)
     end
 
   end
@@ -404,16 +402,6 @@ module RubyXL
       if is_horizontal then return xf_obj.alignment.horizontal
       else                  return xf_obj.alignment.vertical
       end
-    end
-
-    def get_row_horizontal_alignment(row = 0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead."
-      return get_row_alignment(row, true)
-    end
-
-    def get_row_vertical_alignment(row = 0)
-      warn "[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead."
-      return get_row_alignment(row, false)
     end
 
     def get_cols_style_index(column_index)
