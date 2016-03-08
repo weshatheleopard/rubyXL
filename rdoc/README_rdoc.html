@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.3.16</title>
+<title>README - rubyXL 3.3.17</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -162,8 +162,9 @@ preserving as much of the structure as possible.</p>
 
 <h4 id="label-Accessing+a+Row+-28Array+of+Cells-29">Accessing a Row (Array of Cells)<span><a href="#label-Accessing+a+Row+-28Array+of+Cells-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<p>Please note that worksheets are sparse collections. Your code
-<strong>must</strong> expect that any row it encounters may be `nil`.</p>
+<p>Please note that worksheet is a <em>sparse</em> array of rows. Your code
+<strong>must</strong> expect that any row it plucks from the array may be
+<code>nil</code>.</p>
 
 <pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>] <span class="ruby-comment"># Returns first row of the worksheet</span>
@@ -172,8 +173,9 @@ preserving as much of the structure as possible.</p>
 
 <h4 id="label-Accessing+a+Cell+object">Accessing a Cell object<span><a href="#label-Accessing+a+Cell+object">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<p>Please note that rows are sparse collections. Your code
-<strong>must</strong> expect that any cell it encounters may be `nil`.</p>
+<p>Please note that row is a <em>sparse</em> array of cells. Your code
+<strong>must</strong> expect that any cell it plucks from the array may be
+<code>nil</code>.</p>
 
 <pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>] <span class="ruby-comment"># Returns cell A1 in the worksheet</span>
@@ -451,7 +453,7 @@ please isolate to its own commit so I can cherry-pick around it.</p>
 
 <h2 id="label-Copyright">Copyright<span><a href="#label-Copyright">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<p>Copyright © 2011 Vivek Bhagwat, 2013-2015 Wesha. See LICENSE.txt for
+<p>Copyright © 2011 Vivek Bhagwat, 2013-2016 Wesha. See LICENSE.txt for
 further details.</p>
 </main>
 
