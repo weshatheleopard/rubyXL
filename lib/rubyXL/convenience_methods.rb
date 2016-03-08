@@ -266,10 +266,13 @@ module RubyXL
       new_row = add_row(row_index, :cells => new_cells, :style_index => old_row && old_row.style_index)
 
       # Update row values for all rows below
-      row_index.upto(sheet_data.rows.size - 1) { |i|
-        row = sheet_data.rows[i]
+      row_index.upto(sheet_data.rows.size - 1) { |r|
+        row = sheet_data.rows[r]
         next if row.nil?
-        row.cells.each { |c| c.row = i unless c.nil? }
+        row.cells.each_with_index { |cell, c|
+          next if cell.nil?
+          cell.r = RubyXL::Reference.new(r, c)
+        }
       }
 
       return new_row
