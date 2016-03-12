@@ -226,4 +226,5 @@ module RubyXL
   ST_TextStrikeType       = %w{ noStrike sngStrike dblStrike }
   ST_TextCapsType         = %w{ none small all }
 
+  ST_EditAs               = %w{ twoCell oneCell absolute }
 end
