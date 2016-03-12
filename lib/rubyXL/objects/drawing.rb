@@ -1,8 +1,7 @@
 require 'rubyXL/objects/ooxml_object'
-#require 'rubyXL/objects/simple_types'
+require 'rubyXL/objects/simple_types'
 #require 'rubyXL/objects/extensions'
-#require 'rubyXL/objects/relationships'
-#require 'rubyXL/objects/sheet_common'
+require 'rubyXL/objects/relationships'
 
 module RubyXL
 
