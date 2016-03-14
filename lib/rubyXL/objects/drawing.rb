@@ -94,8 +94,8 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_cxnSp-1.html
   class ConnectionShape < OOXMLObject
 #    define_child_node(RubyXL::NVConnectionShapeProperties, :node_name => 'xdr:nvCxnSpPr')
-#    define_child_node(RubyXL::ShapeProperties, :node_name => 'xdr:spPr')
-#    define_child_node(RubyXL::CT_ShapeStyle,   :node_name => 'xdr:style')
+    define_child_node(RubyXL::ShapeProperties)
+    define_child_node(RubyXL::CT_ShapeStyle,   :node_name => 'xdr:style')
     define_attribute(:macro,      :string)
     define_attribute(:fPublished, :bool, :default => false)
     define_element_name 'xdr:cxnSp'
@@ -264,12 +264,6 @@ end
   # http://www.datypic.com/sc/ooxml/e-a_stretch-1.html
   class Stretch < OOXMLObject
   end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_spPr-1.html
-  class ShapeProperties < OOXMLObject
-    define_element_name 'xdr:spPr'
-  end
-
 
     def rel_id
       xdr_pic.xdr_blip_fill.a_blip.r_embed
