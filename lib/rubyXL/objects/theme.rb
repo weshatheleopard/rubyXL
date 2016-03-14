@@ -496,6 +496,7 @@ module RubyXL
     define_child_node(RubyXL::CT_HSLEffect)
     define_child_node(RubyXL::CT_LuminanceEffect)
     define_child_node(RubyXL::CT_TintEffect)
+    define_child_node(RubyXL::AExtensionStorageArea)
     define_attribute(:'r:embed', :string)
     define_attribute(:'r:link',  :string)
     define_attribute(:cstate,    RubyXL::ST_BlipCompression)
