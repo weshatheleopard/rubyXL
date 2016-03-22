@@ -62,9 +62,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_row_font_color(0)
   worksheet.is_row_underlined(0)
   worksheet.get_row_height(0)
-  worksheet.get_row_horizontal_alignment(0)
-  worksheet.get_row_vertical_alignment(0)
-  worksheet.get_row_border_right(0)
+  worksheet.get_row_alignment(0, true)
+  worksheet.get_row_alignment(0, false)
+  worksheet.get_row_border(0, :right)
 
 ==== Accessing column properties
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -75,9 +75,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_font_color(0)
   worksheet.is_column_underlined(0)
   worksheet.get_column_width(0)
-  worksheet.get_column_horizontal_alignment(0)
-  worksheet.get_column_vertical_alignment(0)
-  worksheet.get_column_border_right(0)
+  worksheet.get_column_alignment(0, :horizontal)
+  worksheet.get_column_alignment(0, :vertical)
+  worksheet.get_column_border(0, :right)
 
 ==== Table reading
 In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
