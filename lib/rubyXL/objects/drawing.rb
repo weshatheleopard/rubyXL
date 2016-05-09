@@ -190,9 +190,15 @@ module RubyXL
     define_element_name 'xdr:twoCellAnchor'
   end
 
+  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_pos-1.html
+  class CT_Point2D < OOXMLObject
+    define_attribute(:x, :int, :required => true)
+    define_attribute(:y, :int, :required => true)
+  end
+
   # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_absoluteAnchor-1.html
   class AbsoluteAnchor < OOXMLObject
-    define_child_node(RubyXL::AnchorPoint, :node_name => 'xdr:pos')
+    define_child_node(RubyXL::CT_Point2D,  :node_name => 'xdr:pos')
     define_child_node(RubyXL::ShapeExtent, :node_name => 'xdr:ext')
     define_child_node(RubyXL::Shape)
     define_child_node(RubyXL::GroupShape)
