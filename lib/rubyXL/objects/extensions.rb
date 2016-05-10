@@ -29,6 +29,29 @@ module RubyXL
     define_element_name 'extLst'
   end
 
+  # http://www.schemacentral.com/sc/ooxml/e-a_ext-1.html
+  class AExtension < OOXMLObject
+    define_attribute(:uri, :string)
+    define_element_name 'a:ext'
+    attr_accessor :raw_xml
+
+    def self.parse(node, ignore)
+      obj = new
+      obj.raw_xml = node.to_xml
+      obj
+    end
+
+    def write_xml(xml, node_name_override = nil)
+      self.raw_xml
+    end
+
+  end
+
+  class AExtensionStorageArea < OOXMLObject
+    define_child_node(RubyXL::AExtension, :collection => true)
+    define_element_name 'a:extLst'
+  end
+
   class AlternateContent < RawOOXML
     define_element_name 'mc:AlternateContent'
   end

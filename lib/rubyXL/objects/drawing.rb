@@ -23,10 +23,16 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_sp-1.html
   class Shape < OOXMLObject
+#    draw-ssdraw:nvSpPr [1..1]    Non-Visual Properties for a Shape
+#    draw-ssdraw:spPr [1..1]    Shape Properties
+    define_child_node(RubyXL::CT_ShapeStyle,   :node_name => 'xdr:style')
+#    draw-ssdraw:txBody [0..1]    Shape Text Body
+
     define_attribute(:macro,      :string)
     define_attribute(:textlink,   :string)
     define_attribute(:fLocksText, :bool, :default => true)
     define_attribute(:fPublished, :bool, :default => false)
+
     define_element_name 'xdr:sp'
   end
 
