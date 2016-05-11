@@ -73,17 +73,11 @@ module RubyXL
     define_element_name 'xdr:nvGraphicFramePr'
   end
 
-  # http://www.datypic.com/sc/ooxml/e-a_graphicData-1.html
-  class CT_GraphicalObjectData < OOXMLObject
-    define_child_node(RubyXL::Extension, :node_name => 'a:graphicData')
-    define_element_name 'a:graphic'
-  end
-
   # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_graphicFrame-1.html
   class GraphicFrame < OOXMLObject
     define_child_node(RubyXL::NVGFrameProperties)
-    define_child_node(RubyXL::CT_Transform2D,         :node_name => 'xdr:xfrm')
-    define_child_node(RubyXL::CT_GraphicalObjectData)
+    define_child_node(RubyXL::CT_Transform2D, :node_name => 'xdr:xfrm')
+    define_child_node(RubyXL::CT_GraphicalObject)
     define_attribute(:macro,      :string)
     define_attribute(:fPublished, :bool, :default => false)
     define_element_name 'xdr:graphicFrame'
@@ -194,12 +188,6 @@ module RubyXL
     define_child_node(RubyXL::ClientData)
     define_attribute(:editAs, RubyXL::ST_EditAs, :default => 'twoCell')
     define_element_name 'xdr:twoCellAnchor'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_pos-1.html
-  class CT_Point2D < OOXMLObject
-    define_attribute(:x, :int, :required => true)
-    define_attribute(:y, :int, :required => true)
   end
 
   # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_absoluteAnchor-1.html

@@ -888,4 +888,423 @@ module RubyXL
     define_element_name 'a:ahPolar'
   end
 
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ConnectionSite.html
+  class CT_ConnectionSite < OOXMLObject
+    define_child_node(RubyXL::CT_AdjPoint2D)
+    define_attribute(:ang, :int)
+    define_element_name 'a:cxn'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ConnectionSiteList.html
+  class CT_ConnectionSiteList < OOXMLContainerObject
+    define_child_node(RubyXL::CT_ConnectionSite, :collection => [0..-1])
+    define_element_name 'a:cxnLst'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Path2DLineTo.html
+  class CT_Path2DTo < OOXMLContainerObject
+    define_child_node(RubyXL::CT_AdjPoint2D)
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Path2DArcTo.html
+  class CT_Path2DArcTo < OOXMLObject
+    define_attribute(:wR,    :int, :required => true)
+    define_attribute(:hR,    :int, :required => true)
+    define_attribute(:stAng, :int, :required => true)
+    define_attribute(:swAng, :int, :required => true)
+    define_element_name 'a:arcTo'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Path2DQuadBezierTo.html
+  class CT_Path2DQuadBezierTo < OOXMLContainerObject
+    define_child_node(RubyXL::CT_AdjPoint2D, :collection => [2..2], :node_name => 'a:pt')
+    define_element_name 'a:quadBezTo'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Path2DCubicBezierTo.html
+  class CT_Path2DCubicBezierTo < OOXMLContainerObject
+    define_child_node(RubyXL::CT_AdjPoint2D, :collection => [3..3], :node_name => 'a:pt')
+    define_element_name 'a:cubicBezTo'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Path2D.html
+  class CT_Path2D < OOXMLObject
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:close')
+    define_child_node(RubyXL::CT_Path2DTo,    :node_name => 'a:moveTo')
+    define_child_node(RubyXL::CT_Path2DTo,    :node_name => 'a:lnTo')
+    define_child_node(RubyXL::CT_Path2DArcTo, :node_name => 'a:arcTo')
+    define_child_node(RubyXL::CT_Path2DQuadBezierTo)
+    define_child_node(RubyXL::CT_Path2DCubicBezierTo)
+    define_attribute(:w,           :int,  :default => 0)
+    define_attribute(:h,           :int,  :default => 0)
+    define_attribute(:fill,        RubyXL::ST_PathFillMode, :default => 'norm')
+    define_attribute(:stroke,      :bool, :default => true)
+    define_attribute(:extrusionOk, :bool, :default => true)
+    define_element_name 'a:path'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Path2DList.html
+  class CT_Path2DList < OOXMLContainerObject
+    define_child_node(RubyXL::CT_Path2D, :collection => [0..-1])
+    define_element_name 'a:pathLst'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_PresetTextShape.html
+  class CT_PresetTextShape < OOXMLObject
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:avLst')
+    define_attribute(:prst, RubyXL::ST_TextShapeType)
+    define_element_name 'a:prstTxWarp'
+  end
+
+  # http://www.datypic.com/sc/ooxml/e-a_normAutofit-1.html
+  class CT_TextNormalAutofit < OOXMLObject
+    define_attribute(:fontScale,      :int, :default => 100000)
+    define_attribute(:lnSpcReduction, :int, :default => 0)
+    define_element_name 'a:normAutofit'
+  end
+
+  # http://www.datypic.com/sc/ooxml/e-a_flatTx-1.html
+  class CT_FlatText < OOXMLObject
+    define_attribute(:z, :int, :default => 0)
+    define_element_name 'a:flatTx'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextTabStop.html
+  class CT_TextTabStop < OOXMLObject
+    define_attribute(:pos,  :int)
+    define_attribute(:algn, RubyXL::ST_TextTabAlignType)
+    define_element_name 'a:tabLst'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextTabStopList.html
+  class CT_TextTabStopList < OOXMLContainerObject
+    define_child_node(RubyXL::CT_TextTabStop, :collection => [0..32])
+    define_element_name 'a:tabLst'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextAutonumberBullet.html
+  class CT_TextAutonumberBullet < OOXMLObject
+    define_attribute(:type, RubyXL::ST_TextAutonumberScheme)
+    define_attribute(:startAt, :int)
+    define_element_name 'a:buAutoNum'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextCharBullet.html
+  class CT_TextCharBullet < OOXMLObject
+    define_attribute(:char, :string, :required => true)
+    define_element_name 'a:buChar'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextBlipBullet.html
+  class CT_TextBlipBullet < OOXMLObject
+    define_child_node(RubyXL::CT_Blip)
+    define_element_name 'a:buBlip'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextSpacing.html
+  class CT_TextSpacing < OOXMLObject
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:spcPct')
+    define_child_node(RubyXL::IntegerValue, :node_name => 'a:spcPts')
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_EmbeddedWAVAudioFile.html
+  class CT_EmbeddedWAVAudioFile < OOXMLObject
+    define_attribute(:'r:embed', :string, :required => true)
+    define_attribute(:name,      :string, :default => '')
+    define_attribute(:builtIn,   :bool,   :default => false)
+    define_element_name 'a:snd'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Hyperlink.html
+  class CT_Hyperlink < OOXMLObject
+    define_child_node(RubyXL::CT_EmbeddedWAVAudioFile)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:'r:id',         :string)
+    define_attribute(:invalidUrl,     :string, :default => '')
+    define_attribute(:action,         :string, :default => '')
+    define_attribute(:tgtFrame,       :string, :default => '')
+    define_attribute(:tooltip,        :string, :default => '')
+    define_attribute(:history,        :bool,   :default => true)
+    define_attribute(:highlightClick, :bool,   :default => false)
+    define_attribute(:endSnd,         :bool,   :default => false)
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextCharacterProperties.html
+  class CT_TextCharacterProperties < OOXMLObject
+    define_child_node(RubyXL::CT_LineProperties)
+    # -- EG_FillProperties
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,          :node_name => 'a:solidFill')
+    define_child_node(RubyXL::CT_GradientFillProperties)
+    define_child_node(RubyXL::CT_BlipFillProperties)
+    define_child_node(RubyXL::CT_PatternFillProperties)
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:grpFill')
+    # -- EG_EffectProperties
+    define_child_node(RubyXL::CT_EffectList)
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
+    # --
+    define_child_node(RubyXL::CT_Color,          :node_name => 'a:highlight')
+    # -- EG_TextUnderlineLine
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:uLnTx')
+    define_child_node(RubyXL::CT_LineProperties, :node_name => 'a:uLn')
+    # -- EG_TextUnderlineFill
+    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:uFillTx')
+    define_child_node(RubyXL::CT_FillStyleList,  :node_name => 'a:uFill')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:latin')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:ea')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:cs')
+    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:sym')
+    define_child_node(RubyXL::CT_Hyperlink,      :node_name => 'a:hlinkClick')
+    define_child_node(RubyXL::CT_Hyperlink,      :node_name => 'a:hlinkMouseOver')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:kumimoji,   :bool)
+    define_attribute(:lang,       :string)
+    define_attribute(:altLang,    :string)
+    define_attribute(:sz,         :int)
+    define_attribute(:b,          :bool)
+    define_attribute(:i,          :bool)
+    define_attribute(:u,          RubyXL::ST_TextUnderlineType)
+    define_attribute(:strike,     RubyXL::ST_TextStrikeType)
+    define_attribute(:kern,       :int)
+    define_attribute(:cap,        RubyXL::ST_TextCapsType)
+    define_attribute(:spc,        :int)
+    define_attribute(:normalizeH, :bool)
+    define_attribute(:baseline,   :int)
+    define_attribute(:noProof,    :bool)
+    define_attribute(:dirty,      :bool, :default => true)
+    define_attribute(:err,        :bool, :default => false)
+    define_attribute(:smtClean,   :bool, :default => true)
+    define_attribute(:smtId,      :int,  :default => 0)
+    define_attribute(:bmk,        :string)
+    define_element_name 'a:defRPr'
+  end
+
+  # www.datypic.com/sc/ooxml/t-a_CT_TextParagraphProperties.html
+  class CT_TextParagraphProperties < OOXMLObject
+    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:lnSpc')
+    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcBef')
+    define_child_node(RubyXL::CT_TextSpacing, :node_name => 'a:spcAft')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buClrTx')
+    define_child_node(RubyXL::CT_Color,       :node_name => 'a:buClr')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buSzTx')
+    define_child_node(RubyXL::IntegerValue,   :node_name => 'a:buSzPct')
+    define_child_node(RubyXL::IntegerValue,   :node_name => 'a:buSzPts')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buFontTx')
+    define_child_node(RubyXL::CT_TextFont,    :node_name => 'a:buFont')
+    define_child_node(RubyXL::BooleanValue,   :node_name => 'a:buNone')
+    define_child_node(RubyXL::CT_TextAutonumberBullet)
+    define_child_node(RubyXL::CT_TextCharBullet)
+    define_child_node(RubyXL::CT_TextBlipBullet)
+    define_child_node(RubyXL::CT_TextTabStop)
+    define_child_node(RubyXL::CT_TextCharacterProperties)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:marL,         :int)
+    define_attribute(:marR,         :int)
+    define_attribute(:lvl,          :int)
+    define_attribute(:indent,       :int)
+    define_attribute(:algn,         RubyXL::ST_TextAlignType)
+    define_attribute(:defTabSz,     :int)
+    define_attribute(:rtl,          :bool)
+    define_attribute(:eaLnBrk,      :bool)
+    define_attribute(:fontAlgn,     RubyXL::ST_TextFontAlignType)
+    define_attribute(:latinLnBrk,   :bool)
+    define_attribute(:hangingPunct, :bool)
+    define_element_name 'a:defPPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextListStyle.html
+  class CT_TextListStyle < OOXMLObject
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:defPPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl1pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl2pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl3pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl4pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl5pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl6pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl7pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl8pPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:lvl9pPr')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_element_name 'a:lstStyle'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_StyleMatrixReference.html
+  class CT_StyleMatrixReference < OOXMLObject
+    define_child_node(RubyXL::CT_ScRgbColor)
+    define_child_node(RubyXL::CT_SRgbColor)
+    define_child_node(RubyXL::CT_HslColor)
+    define_child_node(RubyXL::CT_SystemColor)
+    define_child_node(RubyXL::CT_SchemeColor)
+    define_child_node(RubyXL::CT_PresetColor)
+    define_attribute(:idx, :int, :required => true)
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_FontReference.html
+  class CT_FontReference < OOXMLObject
+    define_child_node(RubyXL::CT_ScRgbColor)
+    define_child_node(RubyXL::CT_SRgbColor)
+    define_child_node(RubyXL::CT_HslColor)
+    define_child_node(RubyXL::CT_SystemColor)
+    define_child_node(RubyXL::CT_SchemeColor)
+    define_child_node(RubyXL::CT_PresetColor)
+    define_attribute(:idx, RubyXL::ST_FontCollectionIndex, :required => true)
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ShapeStyle.html
+  class CT_ShapeStyle < OOXMLObject
+    define_child_node(RubyXL::CT_StyleMatrixReference, :node_name => 'a:lnRef')
+    define_child_node(RubyXL::CT_StyleMatrixReference, :node_name => 'a:fillRef')
+    define_child_node(RubyXL::CT_StyleMatrixReference, :node_name => 'a:effectRef')
+    define_child_node(RubyXL::CT_FontReference,        :node_name => 'a:fontRef')
+    define_element_name 'a:style'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_AdjustHandleList.html
+  class CT_AdjustHandleList < OOXMLObject
+    define_child_node(RubyXL::CT_XYAdjustHandle)
+    define_child_node(RubyXL::CT_PolarAdjustHandle)
+    define_element_name 'a:ahLst'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_GeomRect.html
+  class CT_GeomRect < OOXMLObject
+    define_attribute(:l, :int, :required => true)
+    define_attribute(:t, :int, :required => true)
+    define_attribute(:r, :int, :required => true)
+    define_attribute(:b, :int, :required => true)
+    define_element_name 'a:rect'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_CustomGeometry2D.html
+  class CT_CustomGeometry2D < OOXMLObject
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:avLst')
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:gdLst')
+    define_child_node(RubyXL::CT_AdjustHandleList)
+    define_child_node(RubyXL::CT_ConnectionSiteList)
+    define_child_node(RubyXL::CT_GeomRect)
+    define_child_node(RubyXL::CT_Path2DList)
+    define_element_name 'a:custGeom'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_PresetGeometry2D.html
+  class CT_PresetGeometry2D < OOXMLObject
+    define_child_node(RubyXL::CT_GeomGuideList, :node_name => 'a:avLst')
+    define_attribute(:prst, RubyXL::ST_ShapeType, :required => true)
+    define_element_name 'a:prstGeom'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ShapeProperties.html
+  class CT_ShapeProperties < OOXMLObject
+    define_child_node(RubyXL::CT_Transform2D)
+    # -- Choice [0..1] (EG_Geometry)
+    define_child_node(RubyXL::CT_CustomGeometry2D)
+    define_child_node(RubyXL::CT_PresetGeometry2D)
+    # -- Choice [0..1] (EG_FillProperties)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
+    define_child_node(RubyXL::CT_GradientFillProperties)
+    define_child_node(RubyXL::CT_BlipFillProperties)
+    define_child_node(RubyXL::CT_PatternFillProperties)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
+    # --
+    define_child_node(RubyXL::CT_LineProperties)
+    # -- Choice [0..1] (EG_EffectProperties)
+    define_child_node(RubyXL::CT_EffectList)
+    define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
+    # --
+    define_child_node(RubyXL::CT_Scene3D)
+    define_child_node(RubyXL::CT_Shape3D)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:bwMode, RubyXL::ST_BlackWhiteMode)
+    define_element_name 'a:spPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextBodyProperties.html
+  class CT_TextBodyProperties < OOXMLObject
+    define_child_node(RubyXL::CT_PresetTextShape)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noAutofit')
+    define_child_node(RubyXL::CT_TextNormalAutofit)
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:spAutoFit')
+    define_child_node(RubyXL::CT_Scene3D)
+    define_child_node(RubyXL::CT_Shape3D)
+    define_child_node(RubyXL::CT_FlatText)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:rot, :int)
+    define_attribute(:spcFirstLastPara, :bool)
+    define_attribute(:vertOverflow,     RubyXL::ST_TextVertOverflowType)
+    define_attribute(:horzOverflow,     RubyXL::ST_TextHorzOverflowType)
+    define_attribute(:vert,             RubyXL::ST_TextVerticalType)
+    define_attribute(:wrap,             RubyXL::ST_TextWrappingType)
+    define_attribute(:lIns,             :int)
+    define_attribute(:tIns,             :int)
+    define_attribute(:rIns,             :int)
+    define_attribute(:bIns,             :int)
+    define_attribute(:numCol,           :int)
+    define_attribute(:spcCol,           :int)
+    define_attribute(:rtlCol,           :bool)
+    define_attribute(:fromWordArt,      :bool)
+    define_attribute(:anchor,           RubyXL::ST_TextAnchoringType)
+    define_attribute(:anchorCtr,        :bool)
+    define_attribute(:forceAA,          :bool)
+    define_attribute(:upright,          :bool, :default => false)
+    define_attribute(:compatLnSpc,      :bool)
+    define_element_name 'a:bodyPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_DefaultShapeDefinition.html
+  class CT_DefaultShapeDefinition < OOXMLObject
+    define_child_node(RubyXL::CT_ShapeProperties)
+    define_child_node(RubyXL::CT_TextBodyProperties)
+    define_child_node(RubyXL::CT_TextListStyle)
+    define_child_node(RubyXL::CT_ShapeStyle)
+    define_child_node(RubyXL::AExtensionStorageArea)
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ObjectStyleDefaults.html
+  class CT_ObjectStyleDefaults < OOXMLObject
+    define_child_node(RubyXL::CT_DefaultShapeDefinition, :node_name => 'a:spDef')
+    define_child_node(RubyXL::CT_DefaultShapeDefinition, :node_name => 'a:lnDef')
+    define_child_node(RubyXL::CT_DefaultShapeDefinition, :node_name => 'a:txDef')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_element_name 'a:objectDefaults'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ColorMapping.html
+  class CT_ColorMapping < OOXMLObject
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:bg1,      RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:tx1,      RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:bg2,      RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:tx2,      RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:accent1,  RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:accent2,  RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:accent3,  RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:accent4,  RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:accent5,  RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:accent6,  RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:hlink,    RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_attribute(:golHlink, RubyXL::ST_ColorSchemeIndex, :required => true)
+    define_element_name 'a:clrMap'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ColorSchemeAndMapping.html
+  class CT_ColorSchemeAndMapping < OOXMLObject
+    define_child_node(RubyXL::CT_ColorScheme)
+    define_child_node(RubyXL::CT_ColorMapping)
+    define_element_name 'a:extraClrScheme'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_GraphicalObjectData.html
+  class CT_GraphicalObject < OOXMLObject
+    define_attribute(:uri, :string)
+    define_child_node(RubyXL::Extension, :node_name => 'a:graphicData')
+    define_element_name 'a:graphic'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Point2D.html
+  class CT_Point2D < OOXMLObject
+    define_attribute(:x, :int, :required => true)
+    define_attribute(:y, :int, :required => true)
+  end
+
 end
