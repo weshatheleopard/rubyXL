@@ -805,8 +805,10 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_EffectStyleItem.html
   class CT_EffectStyleItem < OOXMLObject
+    # -- Choice [0..1] (EG_EffectProperties)
     define_child_node(RubyXL::CT_EffectList)
     define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
+    # --
     define_child_node(RubyXL::CT_Scene3D)
     define_child_node(RubyXL::CT_Shape3D)
     define_element_name 'a:effectStyle'
@@ -1033,29 +1035,29 @@ module RubyXL
   class CT_TextCharacterProperties < OOXMLObject
     define_child_node(RubyXL::CT_LineProperties)
     # -- EG_FillProperties
-    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:noFill')
-    define_child_node(RubyXL::CT_Color,          :node_name => 'a:solidFill')
+    define_child_node(RubyXL::BooleanValue,       :node_name => 'a:noFill')
+    define_child_node(RubyXL::CT_Color,           :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
     define_child_node(RubyXL::CT_PatternFillProperties)
-    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:grpFill')
+    define_child_node(RubyXL::BooleanValue,       :node_name => 'a:grpFill')
     # -- EG_EffectProperties
     define_child_node(RubyXL::CT_EffectList)
     define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
     # --
-    define_child_node(RubyXL::CT_Color,          :node_name => 'a:highlight')
+    define_child_node(RubyXL::CT_Color,           :node_name => 'a:highlight')
     # -- EG_TextUnderlineLine
-    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:uLnTx')
-    define_child_node(RubyXL::CT_LineProperties, :node_name => 'a:uLn')
+    define_child_node(RubyXL::BooleanValue,       :node_name => 'a:uLnTx')
+    define_child_node(RubyXL::CT_LineProperties,  :node_name => 'a:uLn')
     # -- EG_TextUnderlineFill
-    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:uFillTx')
-    define_child_node(RubyXL::CT_FillStyleList,  :node_name => 'a:uFill')
-    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:latin')
-    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:ea')
-    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:cs')
-    define_child_node(RubyXL::CT_TextFont,       :node_name => 'a:sym')
-    define_child_node(RubyXL::CT_Hyperlink,      :node_name => 'a:hlinkClick')
-    define_child_node(RubyXL::CT_Hyperlink,      :node_name => 'a:hlinkMouseOver')
+    define_child_node(RubyXL::BooleanValue,       :node_name => 'a:uFillTx')
+    define_child_node(RubyXL::CT_FillStyleList,   :node_name => 'a:uFill')
+    define_child_node(RubyXL::CT_TextFont,        :node_name => 'a:latin')
+    define_child_node(RubyXL::CT_TextFont,        :node_name => 'a:ea')
+    define_child_node(RubyXL::CT_TextFont,        :node_name => 'a:cs')
+    define_child_node(RubyXL::CT_TextFont,        :node_name => 'a:sym')
+    define_child_node(RubyXL::CT_Hyperlink,       :node_name => 'a:hlinkClick')
+    define_child_node(RubyXL::CT_Hyperlink,       :node_name => 'a:hlinkMouseOver')
     define_child_node(RubyXL::AExtensionStorageArea)
     define_attribute(:kumimoji,   :bool)
     define_attribute(:lang,       :string)
@@ -1076,7 +1078,6 @@ module RubyXL
     define_attribute(:smtClean,   :bool, :default => true)
     define_attribute(:smtId,      :int,  :default => 0)
     define_attribute(:bmk,        :string)
-    define_element_name 'a:defRPr'
   end
 
   # www.datypic.com/sc/ooxml/t-a_CT_TextParagraphProperties.html
@@ -1096,7 +1097,7 @@ module RubyXL
     define_child_node(RubyXL::CT_TextCharBullet)
     define_child_node(RubyXL::CT_TextBlipBullet)
     define_child_node(RubyXL::CT_TextTabStop)
-    define_child_node(RubyXL::CT_TextCharacterProperties)
+    define_child_node(RubyXL::CT_TextCharacterProperties, :node_name => 'a:defRPr')
     define_child_node(RubyXL::AExtensionStorageArea)
     define_attribute(:marL,         :int)
     define_attribute(:marR,         :int)
@@ -1109,7 +1110,6 @@ module RubyXL
     define_attribute(:fontAlgn,     RubyXL::ST_TextFontAlignType)
     define_attribute(:latinLnBrk,   :bool)
     define_attribute(:hangingPunct, :bool)
-    define_element_name 'a:defPPr'
   end
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_TextListStyle.html
@@ -1156,7 +1156,6 @@ module RubyXL
     define_child_node(RubyXL::CT_StyleMatrixReference, :node_name => 'a:fillRef')
     define_child_node(RubyXL::CT_StyleMatrixReference, :node_name => 'a:effectRef')
     define_child_node(RubyXL::CT_FontReference,        :node_name => 'a:fontRef')
-    define_element_name 'a:style'
   end
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_AdjustHandleList.html
@@ -1216,7 +1215,6 @@ module RubyXL
     define_child_node(RubyXL::CT_Shape3D)
     define_child_node(RubyXL::AExtensionStorageArea)
     define_attribute(:bwMode, RubyXL::ST_BlackWhiteMode)
-    define_element_name 'a:spPr'
   end
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_TextBodyProperties.html
@@ -1253,10 +1251,10 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_DefaultShapeDefinition.html
   class CT_DefaultShapeDefinition < OOXMLObject
-    define_child_node(RubyXL::CT_ShapeProperties)
+    define_child_node(RubyXL::CT_ShapeProperties, :node_name => 'a:spPr')
     define_child_node(RubyXL::CT_TextBodyProperties)
     define_child_node(RubyXL::CT_TextListStyle)
-    define_child_node(RubyXL::CT_ShapeStyle)
+    define_child_node(RubyXL::CT_ShapeStyle, :node_name => 'a:style')
     define_child_node(RubyXL::AExtensionStorageArea)
   end
 
@@ -1305,6 +1303,233 @@ module RubyXL
   class CT_Point2D < OOXMLObject
     define_attribute(:x, :int, :required => true)
     define_attribute(:y, :int, :required => true)
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_NonVisualDrawingProps.html
+  class CT_NonVisualDrawingProps < OOXMLObject
+    define_child_node(RubyXL::CT_Hyperlink, :node_name => 'a:hlinkClick')
+    define_child_node(RubyXL::CT_Hyperlink, :node_name => 'a:hlinkHover')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:id,     :uint)
+    define_attribute(:name,   :string)
+    define_attribute(:descr,  :string, :default => '')
+    define_attribute(:hidden, :bool,   :default => false)
+    define_element_name 'xdr:cNvPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ShapeLocking.html
+  class CT_ShapeLocking < OOXMLObject
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:noGrp,              :bool, :default => false)
+    define_attribute(:noSelect,           :bool, :default => false)
+    define_attribute(:noRot,              :bool, :default => false)
+    define_attribute(:noChangeAspect,     :bool, :default => false)
+    define_attribute(:noMove,             :bool, :default => false)
+    define_attribute(:noResize,           :bool, :default => false)
+    define_attribute(:noEditPoints,       :bool, :default => false)
+    define_attribute(:noAdjustHandles,    :bool, :default => false)
+    define_attribute(:noChangeArrowheads, :bool, :default => false)
+    define_attribute(:noChangeShapeType,  :bool, :default => false)
+    define_attribute(:noTextEdit, :bool,  :default => false)
+    define_element_name 'a:spLocks'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_NonVisualDrawingShapeProps.html
+  class CT_NonVisualDrawingShapeProps < OOXMLObject
+    define_child_node(RubyXL::CT_ShapeLocking)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:txBox, :bool, :default => false)
+    define_element_name 'xdr:cNvSpPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-draw-ssdraw_CT_ShapeNonVisual.html
+  class CT_ShapeNonVisual < OOXMLObject
+    define_child_node(RubyXL::CT_NonVisualDrawingProps)
+    define_child_node(RubyXL::CT_NonVisualDrawingShapeProps)
+    define_element_name 'xdr:nvSpPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextLineBreak.html
+  class CT_TextLineBreak < OOXMLObject
+    define_child_node(RubyXL::CT_TextCharacterProperties, :node_name => 'a:rPr')
+    define_element_name 'a:br'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_RegularTextRun.html
+  class CT_RegularTextRun < OOXMLObject
+    define_child_node(RubyXL::CT_TextCharacterProperties, :node_name => 'a:rPr')
+    define_child_node(RubyXL::StringNode,                 :node_name => 'a:t')
+    define_element_name 'a:r'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextField.html
+  class CT_TextField < OOXMLObject
+    define_child_node(RubyXL::CT_TextCharacterProperties, :node_name => 'a:rPr')
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:pPr')
+    define_child_node(RubyXL::StringNode,                 :node_name => 'a:t')
+    define_attribute(:id,   :string)
+    define_attribute(:type, :string)
+    define_element_name 'a:fld'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextParagraph.html
+  class CT_TextParagraph < OOXMLObject
+    define_child_node(RubyXL::CT_TextParagraphProperties, :node_name => 'a:pPr')
+    # -- Choice [0..*] (EG_TextRun)
+    define_child_node(RubyXL::CT_RegularTextRun)
+    define_child_node(RubyXL::CT_TextLineBreak)
+    define_child_node(RubyXL::CT_TextField)
+    # --
+    define_child_node(RubyXL::CT_TextCharacterProperties, :node_name => 'a:endParaRPr')
+    define_element_name 'a:p'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_TextBody.html
+  class CT_TextBody < OOXMLObject
+    define_child_node(RubyXL::CT_TextBodyProperties)
+    define_child_node(RubyXL::CT_TextListStyle)
+    define_child_node(RubyXL::CT_TextParagraph, :collection => [1..-1])
+    define_element_name 'xdr:txBody'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-draw-ssdraw_CT_Shape.html
+  class CT_Shape < OOXMLObject
+    define_child_node(RubyXL::CT_ShapeNonVisual)
+    define_child_node(RubyXL::CT_ShapeProperties, :node_name => 'xdr:spPr')
+    define_child_node(RubyXL::CT_ShapeStyle,      :node_name => 'xdr:style')
+    define_child_node(RubyXL::CT_TextBody)
+    define_attribute(:macro,      :string)
+    define_attribute(:textlink,   :string)
+    define_attribute(:fLocksText, :bool, :default => true)
+    define_attribute(:fPublished, :bool, :default => false)
+    define_element_name 'xdr:sp'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_PictureLocking.html
+  class CT_PictureLocking < OOXMLObject
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:noGrp,              :bool, :default => false)
+    define_attribute(:noSelect,           :bool, :default => false)
+    define_attribute(:noRot,              :bool, :default => false)
+    define_attribute(:noChangeAspect,     :bool, :default => false)
+    define_attribute(:noMove,             :bool, :default => false)
+    define_attribute(:noResize,           :bool, :default => false)
+    define_attribute(:noEditPoints,       :bool, :default => false)
+    define_attribute(:noAdjustHandles,    :bool, :default => false)
+    define_attribute(:noChangeArrowheads, :bool, :default => false)
+    define_attribute(:noChangeShapeType,  :bool, :default => false)
+    define_attribute(:noCrop,             :bool, :default => false)
+    define_element_name 'a:picLocks'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_GraphicalObjectFrameLocking.html
+  class CT_GraphicalObjectFrameLocking < OOXMLObject
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:noGrp,          :bool, :default => false)
+    define_attribute(:noDrilldown,    :bool, :default => false)
+    define_attribute(:noSelect,       :bool, :default => false)
+    define_attribute(:noChangeAspect, :bool, :default => false)
+    define_attribute(:noMove,         :bool, :default => false)
+    define_attribute(:noResize,       :bool, :default => false)
+    define_element_name 'a:graphicFrameLocks'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_NonVisualPictureProperties.html
+  class CT_NonVisualPictureProperties < OOXMLObject
+    define_child_node(RubyXL::CT_PictureLocking)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:preferRelativeResize, :bool, :default => true)
+    define_element_name 'xdr:cNvPicPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_nvPicPr-1.html
+  class CT_PictureNonVisual < OOXMLObject
+    define_child_node(RubyXL::CT_NonVisualDrawingProps)
+    define_child_node(RubyXL::CT_NonVisualPictureProperties)
+    define_element_name 'xdr:nvPicPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_pic-1.html
+  class CT_Picture < OOXMLObject
+    define_child_node(RubyXL::CT_PictureNonVisual,   :node_name => 'xdr:nvPicPr')
+    define_child_node(RubyXL::CT_BlipFillProperties, :node_name => 'xdr:blipFill')
+    define_child_node(RubyXL::CT_ShapeProperties,    :node_name => 'xdr:spPr')
+    define_child_node(RubyXL::CT_ShapeStyle,   :node_name => 'xdr:style')
+    define_attribute(:macro,      :string)
+    define_attribute(:fPublished, :bool, :default => false)
+    define_element_name 'xdr:pic'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_NonVisualGraphicFrameProperties.html
+  class CT_NonVisualGraphicFrameProperties < OOXMLObject
+    define_child_node(RubyXL::CT_GraphicalObjectFrameLocking)
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_element_name 'xdr:cNvGraphicFramePr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-draw-ssdraw_CT_GraphicalObjectFrameNonVisual.html
+  class CT_GraphicalObjectFrameNonVisual < OOXMLObject
+    define_child_node(RubyXL::CT_NonVisualDrawingProps)
+    define_child_node(RubyXL::CT_NonVisualGraphicFrameProperties)
+    define_element_name 'xdr:nvGraphicFramePr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-draw-ssdraw_CT_GraphicalObjectFrame.html
+  class CT_GraphicalObjectFrame < OOXMLObject
+    define_child_node(RubyXL::CT_GraphicalObjectFrameNonVisual)
+    define_child_node(RubyXL::CT_Transform2D, :node_name => 'xdr:xfrm')
+    define_child_node(RubyXL::CT_GraphicalObject)
+    define_attribute(:macro,      :string)
+    define_attribute(:fPublished, :bool, :default => false)
+    define_element_name 'xdr:graphicFrame'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_ConnectorLocking.html
+  class CT_ConnectorLocking < OOXMLObject
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_attribute(:noGrp,              :bool, :default => false)
+    define_attribute(:noSelect,           :bool, :default => false)
+    define_attribute(:noRot,              :bool, :default => false)
+    define_attribute(:noChangeAspect,     :bool, :default => false)
+    define_attribute(:noMove,             :bool, :default => false)
+    define_attribute(:noResize,           :bool, :default => false)
+    define_attribute(:noEditPoints,       :bool, :default => false)
+    define_attribute(:noAdjustHandles,    :bool, :default => false)
+    define_attribute(:noChangeArrowheads, :bool, :default => false)
+    define_attribute(:noChangeShapeType,  :bool, :default => false)
+    define_element_name 'xdr:cxnSpLocks'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_Connection.html
+  class CT_Connection < OOXMLObject
+    define_attribute(:id,  :uint, :required => true)
+    define_attribute(:idx, :uint, :required => true)
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-a_CT_NonVisualConnectorProperties.html
+  class CT_NonVisualConnectorProperties < OOXMLObject
+    define_child_node(RubyXL::CT_ConnectorLocking)
+    define_child_node(RubyXL::CT_Connection, :node_name => 'xdr:stCxn')
+    define_child_node(RubyXL::CT_Connection, :node_name => 'xdr:endCxn')
+    define_child_node(RubyXL::AExtensionStorageArea)
+    define_element_name 'xdr:cNvCxnSpPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-draw-ssdraw_CT_ConnectorNonVisual.html
+  class CT_ConnectorNonVisual < OOXMLObject
+    define_child_node(RubyXL::CT_NonVisualDrawingProps)
+    define_child_node(RubyXL::CT_NonVisualConnectorProperties)
+    define_element_name 'xdr:nvCxnSpPr'
+  end
+
+  # http://www.datypic.com/sc/ooxml/t-draw-ssdraw_CT_Connector.html
+  class CT_Connector < OOXMLObject
+    define_child_node(RubyXL::CT_ConnectorNonVisual)#, :node_name => 'xdr:nvCxnSpPr'
+    define_child_node(RubyXL::CT_ShapeProperties, :node_name => 'xdr:spPr')
+    define_child_node(RubyXL::CT_ShapeStyle,      :node_name => 'xdr:style')
+    define_attribute(:macro,      :string)
+    define_attribute(:fPublished, :bool, :default => false)
+    define_element_name 'xdr:cxnSp'
   end
 
 end

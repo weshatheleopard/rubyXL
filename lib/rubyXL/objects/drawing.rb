@@ -21,136 +21,12 @@ module RubyXL
     define_element_name 'xdr:ext'
   end
 
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_sp-1.html
-  class Shape < OOXMLObject
-#    draw-ssdraw:nvSpPr [1..1]    Non-Visual Properties for a Shape
-#    draw-ssdraw:spPr [1..1]    Shape Properties
-    define_child_node(RubyXL::CT_ShapeStyle,   :node_name => 'xdr:style')
-#    draw-ssdraw:txBody [0..1]    Shape Text Body
-
-    define_attribute(:macro,      :string)
-    define_attribute(:textlink,   :string)
-    define_attribute(:fLocksText, :bool, :default => true)
-    define_attribute(:fPublished, :bool, :default => false)
-
-    define_element_name 'xdr:sp'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_cNvPr-2.html
-  class ConnectionNVProperties < OOXMLObject
-    define_child_node(RubyXL::CT_Hyperlink, :node_name => 'a:hlinkClick')
-    define_child_node(RubyXL::CT_Hyperlink, :node_name => 'a:hlinkHover')
-    define_attribute(:id,     :int)
-    define_attribute(:name,   :string)
-    define_attribute(:descr,  :string, :default => '')
-    define_attribute(:hidden, :bool,   :default => false)
-    define_element_name 'xdr:cNvPr'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-a_graphicFrameLocks-1.html
-  class AGraphicFrameLocks < OOXMLObject
-    define_child_node(RubyXL::AExtensionStorageArea)
-    define_attribute(:noGrp,          :bool, :default => false)
-    define_attribute(:noDrilldown,    :bool, :default => false)
-    define_attribute(:noSelect,       :bool, :default => false)
-    define_attribute(:noChangeAspect, :bool, :default => false)
-    define_attribute(:noMove,         :bool, :default => false)
-    define_attribute(:noResize,       :bool, :default => false)
-    define_element_name 'a:graphicFrameLocks'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_cNvGraphicFramePr-1.html
-  class CNVGFrameProperties < OOXMLObject
-    define_child_node(RubyXL::AGraphicFrameLocks)
-    define_child_node(RubyXL::AExtensionStorageArea)
-    define_element_name 'xdr:cNvGraphicFramePr'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_nvGraphicFramePr-1.html
-  class NVGFrameProperties < OOXMLObject
-    define_child_node(RubyXL::ConnectionNVProperties)
-    define_child_node(RubyXL::CNVGFrameProperties)
-    define_element_name 'xdr:nvGraphicFramePr'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_graphicFrame-1.html
-  class GraphicFrame < OOXMLObject
-    define_child_node(RubyXL::NVGFrameProperties)
-    define_child_node(RubyXL::CT_Transform2D, :node_name => 'xdr:xfrm')
-    define_child_node(RubyXL::CT_GraphicalObject)
-    define_attribute(:macro,      :string)
-    define_attribute(:fPublished, :bool, :default => false)
-    define_element_name 'xdr:graphicFrame'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_cxnSp-1.html
-  class ShapeProperties < OOXMLObject
-# TODO
-    define_attribute(:macro,      :string)
-    define_attribute(:fPublished, :bool, :default => false)
-    define_element_name 'xdr:spPr'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_cxnSp-1.html
-  class ConnectionShape < OOXMLObject
-#    define_child_node(RubyXL::NVConnectionShapeProperties, :node_name => 'xdr:nvCxnSpPr')
-    define_child_node(RubyXL::ShapeProperties)
-    define_child_node(RubyXL::CT_ShapeStyle,   :node_name => 'xdr:style')
-    define_attribute(:macro,      :string)
-    define_attribute(:fPublished, :bool, :default => false)
-    define_element_name 'xdr:cxnSp'
-  end
-
-
-  # http://www.datypic.com/sc/ooxml/e-a_graphicFrameLocks-1.html
-  class APictureLocks < OOXMLObject
-    define_child_node(RubyXL::AExtensionStorageArea)
-    define_attribute(:noGrp,              :bool, :default => false)
-    define_attribute(:noSelect,           :bool, :default => false)
-    define_attribute(:noRot,              :bool, :default => false)
-    define_attribute(:noChangeAspect,     :bool, :default => false)
-    define_attribute(:noMove,             :bool, :default => false)
-    define_attribute(:noResize,           :bool, :default => false)
-    define_attribute(:noEditPoints,       :bool, :default => false)
-    define_attribute(:noAdjustHandles,    :bool, :default => false)
-    define_attribute(:noChangeArrowheads, :bool, :default => false)
-    define_attribute(:noChangeShapeType,  :bool, :default => false)
-    define_attribute(:noCrop,             :bool, :default => false)
-    define_element_name 'a:picLocks'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_cNvPicPr-1.html
-  class NVPictureDrawingProperties < OOXMLObject
-    define_child_node(RubyXL::APictureLocks)
-    define_child_node(RubyXL::AExtensionStorageArea)
-    define_attribute(:preferRelativeResize, :bool, :default => true)
-    define_element_name 'xdr:cNvPicPr'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_nvPicPr-1.html
-  class NVPictureProperties < OOXMLObject
-    define_child_node(RubyXL::ConnectionNVProperties)
-    define_child_node(RubyXL::NVPictureDrawingProperties)
-    define_element_name 'xdr:nvPicPr'
-  end
-
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_pic-1.html
-  class Picture < OOXMLObject
-    define_child_node(RubyXL::NVPictureProperties,   :node_name => 'xdr:nvPicPr')
-    define_child_node(RubyXL::CT_BlipFillProperties, :node_name => 'xdr:blipFill')
-    define_child_node(RubyXL::ShapeProperties)
-    define_child_node(RubyXL::CT_ShapeStyle,   :node_name => 'xdr:style')
-    define_attribute(:macro,      :string)
-    define_attribute(:fPublished, :bool, :default => false)
-    define_element_name 'xdr:pic'
-  end
-
   # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_grpSp-1.html
   class GroupShape < OOXMLObject
 #    define_child_node(RubyXL::ShapeExtent, :node_name => 'xdr:ext')
 #    define_child_node(RubyXL::Shape)
 #    define_child_node(RubyXL::GroupShape)
-#    define_child_node(RubyXL::GraphicFrame)
+#    define_child_node(RubyXL::CT_GraphicalObjectFrame)
 #    define_child_node(RubyXL::ConnectionShape)
 #    define_child_node(RubyXL::Picture)
     define_element_name 'xdr:grpSp'
@@ -163,15 +39,17 @@ module RubyXL
     define_element_name 'xdr:clientData'
   end
 
-  # http://www.datypic.com/sc/ooxml/e-draw-ssdraw_oneCellAnchor-1.html
+  # http://www.datypic.com/sc/ooxml/t-draw-ssdraw_CT_OneCellAnchor.html
   class OneCellAnchor < OOXMLObject
     define_child_node(RubyXL::AnchorPoint, :node_name => 'xdr:from')
     define_child_node(RubyXL::ShapeExtent, :node_name => 'xdr:ext')
-    define_child_node(RubyXL::Shape)
+    # -- Choice [1..1] (EG_ObjectChoices)
+    define_child_node(RubyXL::CT_Shape)
     define_child_node(RubyXL::GroupShape)
-    define_child_node(RubyXL::GraphicFrame)
-    define_child_node(RubyXL::ConnectionShape)
-    define_child_node(RubyXL::Picture)
+    define_child_node(RubyXL::CT_GraphicalObjectFrame)
+    define_child_node(RubyXL::CT_Connector)
+    define_child_node(RubyXL::CT_Picture)
+    # --
     define_child_node(RubyXL::ClientData)
     define_element_name 'xdr:oneCellAnchor'
   end
@@ -180,11 +58,13 @@ module RubyXL
   class TwoCellAnchor < OOXMLObject
     define_child_node(RubyXL::AnchorPoint, :node_name => 'xdr:from')
     define_child_node(RubyXL::AnchorPoint, :node_name => 'xdr:to')
-    define_child_node(RubyXL::Shape)
+    # -- Choice [1..1] (EG_ObjectChoices)
+    define_child_node(RubyXL::CT_Shape)
     define_child_node(RubyXL::GroupShape)
-    define_child_node(RubyXL::GraphicFrame)
-    define_child_node(RubyXL::ConnectionShape)
-    define_child_node(RubyXL::Picture)
+    define_child_node(RubyXL::CT_GraphicalObjectFrame)
+    define_child_node(RubyXL::CT_Connector)
+    define_child_node(RubyXL::CT_Picture)
+    # --
     define_child_node(RubyXL::ClientData)
     define_attribute(:editAs, RubyXL::ST_EditAs, :default => 'twoCell')
     define_element_name 'xdr:twoCellAnchor'
@@ -194,11 +74,13 @@ module RubyXL
   class AbsoluteAnchor < OOXMLObject
     define_child_node(RubyXL::CT_Point2D,  :node_name => 'xdr:pos')
     define_child_node(RubyXL::ShapeExtent, :node_name => 'xdr:ext')
-    define_child_node(RubyXL::Shape)
+    # -- Choice [1..1] (EG_ObjectChoices)
+    define_child_node(RubyXL::CT_Shape)
     define_child_node(RubyXL::GroupShape)
-    define_child_node(RubyXL::GraphicFrame)
-    define_child_node(RubyXL::ConnectionShape)
-    define_child_node(RubyXL::Picture)
+    define_child_node(RubyXL::CT_GraphicalObjectFrame)
+    define_child_node(RubyXL::CT_Connector)
+    define_child_node(RubyXL::CT_Picture)
+    # --
     define_child_node(RubyXL::ClientData)
     define_element_name 'xdr:absoluteAnchor'
   end
