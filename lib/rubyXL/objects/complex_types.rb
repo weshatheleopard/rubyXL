@@ -478,7 +478,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_FillEffect.html
   class CT_FillEffect < OOXMLObject
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::BooleanNode,  :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
@@ -489,7 +489,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_FillOverlayEffect.html
   class CT_FillOverlayEffect < OOXMLObject
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::BooleanNode,  :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
@@ -641,7 +641,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/t-a_CT_FillStyleList.html
   class CT_FillStyleList < OOXMLObject
     # -- Choice [3..*] (EG_FillProperties)
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::BooleanNode,  :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill', :collection => true)
     define_child_node(RubyXL::CT_GradientFillProperties, :collection => true)
     define_child_node(RubyXL::CT_BlipFillProperties,     :collection => true)
@@ -685,7 +685,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/t-a_CT_LineProperties.html
   class CT_LineProperties < OOXMLObject
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::BooleanNode,  :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_PatternFillProperties)
@@ -1034,24 +1034,25 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/t-a_CT_TextCharacterProperties.html
   class CT_TextCharacterProperties < OOXMLObject
     define_child_node(RubyXL::CT_LineProperties)
-    # -- EG_FillProperties
-    define_child_node(RubyXL::BooleanValue,       :node_name => 'a:noFill')
+    # -- Choice [0..1] (EG_FillProperties)
+    define_child_node(RubyXL::BooleanNode,        :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,           :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
     define_child_node(RubyXL::CT_PatternFillProperties)
     define_child_node(RubyXL::BooleanValue,       :node_name => 'a:grpFill')
-    # -- EG_EffectProperties
+    # -- Choice [0..1] (EG_EffectProperties)
     define_child_node(RubyXL::CT_EffectList)
     define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')
     # --
     define_child_node(RubyXL::CT_Color,           :node_name => 'a:highlight')
-    # -- EG_TextUnderlineLine
+    # -- Choice [0..1] (EG_TextUnderlineLine)
     define_child_node(RubyXL::BooleanValue,       :node_name => 'a:uLnTx')
     define_child_node(RubyXL::CT_LineProperties,  :node_name => 'a:uLn')
-    # -- EG_TextUnderlineFill
+    # -- Choice [0..1] (EG_TextUnderlineFill)
     define_child_node(RubyXL::BooleanValue,       :node_name => 'a:uFillTx')
     define_child_node(RubyXL::CT_FillStyleList,   :node_name => 'a:uFill')
+    # --
     define_child_node(RubyXL::CT_TextFont,        :node_name => 'a:latin')
     define_child_node(RubyXL::CT_TextFont,        :node_name => 'a:ea')
     define_child_node(RubyXL::CT_TextFont,        :node_name => 'a:cs')
@@ -1199,7 +1200,7 @@ module RubyXL
     define_child_node(RubyXL::CT_CustomGeometry2D)
     define_child_node(RubyXL::CT_PresetGeometry2D)
     # -- Choice [0..1] (EG_FillProperties)
-    define_child_node(RubyXL::BooleanValue, :node_name => 'a:noFill')
+    define_child_node(RubyXL::BooleanNode,  :node_name => 'a:noFill')
     define_child_node(RubyXL::CT_Color,     :node_name => 'a:solidFill')
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
