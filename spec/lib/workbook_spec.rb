@@ -140,6 +140,33 @@ describe RubyXL::Workbook do
       workbook.stream
     end
 
+    it 'should raise error if bad characters are present in worksheet name' do
+      workbook = RubyXL::Workbook.new
+      workbook[0].sheet_name = 'Sheet007'
+      expect{workbook.stream}.to_not raise_error
+
+      workbook[0].sheet_name = 'Sheet\007'
+      expect{workbook.stream}.to raise_error(RuntimeError)
+
+      workbook[0].sheet_name = 'Sheet/007'
+      expect{workbook.stream}.to raise_error(RuntimeError)
+
+      workbook[0].sheet_name = 'Sheet*007'
+      expect{workbook.stream}.to raise_error(RuntimeError)
+
+      workbook[0].sheet_name = 'Sheet[007'
+      expect{workbook.stream}.to raise_error(RuntimeError)
+
+      workbook[0].sheet_name = 'Sheet]007'
+      expect{workbook.stream}.to raise_error(RuntimeError)
+
+      workbook[0].sheet_name = 'Sheet:007'
+      expect{workbook.stream}.to raise_error(RuntimeError)
+
+      workbook[0].sheet_name = 'Sheet?007'
+      expect{workbook.stream}.to raise_error(RuntimeError)
+    end
+
  end
 
 end
