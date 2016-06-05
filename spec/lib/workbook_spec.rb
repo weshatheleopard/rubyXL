@@ -145,28 +145,12 @@ describe RubyXL::Workbook do
       workbook[0].sheet_name = 'Sheet007'
       expect{workbook.stream}.to_not raise_error
 
-      workbook[0].sheet_name = 'Sheet\007'
-      expect{workbook.stream}.to raise_error(RuntimeError)
-
-      workbook[0].sheet_name = 'Sheet/007'
-      expect{workbook.stream}.to raise_error(RuntimeError)
-
-      workbook[0].sheet_name = 'Sheet*007'
-      expect{workbook.stream}.to raise_error(RuntimeError)
-
-      workbook[0].sheet_name = 'Sheet[007'
-      expect{workbook.stream}.to raise_error(RuntimeError)
-
-      workbook[0].sheet_name = 'Sheet]007'
-      expect{workbook.stream}.to raise_error(RuntimeError)
-
-      workbook[0].sheet_name = 'Sheet:007'
-      expect{workbook.stream}.to raise_error(RuntimeError)
-
-      workbook[0].sheet_name = 'Sheet?007'
-      expect{workbook.stream}.to raise_error(RuntimeError)
+      '\\/*[]:?'.each_char { |char|
+        workbook = RubyXL::Workbook.new
+        workbook[0].sheet_name = "Sheet#{char}007"
+        expect{workbook.stream}.to raise_error(RuntimeError)
+      }
     end
-
- end
+  end
 
 end
