@@ -154,7 +154,7 @@ describe RubyXL::Workbook do
   end
 
   describe '#related_objects' do
-    it 'should ot include shared string when not present' do
+    it 'should not include shared string when not present' do
       workbook = RubyXL::Workbook.new
       expect(workbook.related_objects.map{|obj|obj.class.name}).not_to include('RubyXL::SharedStringsTable')
     end
