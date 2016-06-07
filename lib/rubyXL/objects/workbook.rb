@@ -313,7 +313,9 @@ module RubyXL
     end
 
     def related_objects
-      [ calculation_chain, stylesheet, theme, shared_strings_container, macros ] + @worksheets
+      objects = [ calculation_chain, stylesheet, theme, macros ]
+      objects += shared_strings_container unless shared_strings_container.strings.empty?
+      objects + @worksheets
     end
 
     define_relationship(RubyXL::SharedStringsTable, :shared_strings_container)
