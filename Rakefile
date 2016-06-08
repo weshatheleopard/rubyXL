@@ -22,6 +22,7 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Vivek Bhagwat", 'Wesha']
   # dependencies defined in Gemfile
 end
+Jeweler::RubygemsDotOrgTasks.new 
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
