@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 3.3.19</title>
+<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 3.3.20</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -439,7 +439,7 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_related_files</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">base_file_name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">related_files</span> = {}
 
-  <span class="ruby-identifier">@@debug</span> <span class="ruby-operator">+=</span><span class="ruby-value">2</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
+  <span class="ruby-identifier">@@debug</span> <span class="ruby-operator">+=</span> <span class="ruby-value">2</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@debug</span>
 
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">rel</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">rel</span>.<span class="ruby-identifier">target_mode</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;External&#39;</span>

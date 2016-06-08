@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Workbook - rubyXL 3.3.19</title>
+<title>class RubyXL::Workbook - rubyXL 3.3.20</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -157,7 +157,7 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html">www.schemacent
         <dd>
         
       
-        <dt id="CONTENT_TYPE_MACRO">CONTENT_TYPE_MACRO
+        <dt id="CONTENT_TYPE_WITH_MACROS">CONTENT_TYPE_WITH_MACROS
         
         <dd>
         
@@ -247,7 +247,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 434</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 432</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">worksheets</span> = [], <span class="ruby-identifier">src_file_path</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span> = <span class="ruby-keyword">nil</span>,
                <span class="ruby-identifier">company</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">application</span> = <span class="ruby-constant">APPLICATION</span>, <span class="ruby-identifier">appversion</span> = <span class="ruby-constant">APPVERSION</span>, <span class="ruby-identifier">date1904</span> = <span class="ruby-value">0</span>)
   <span class="ruby-keyword">super</span>()
@@ -362,7 +362,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
           <div class="method-source-code" id="content_type-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 311</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">content_type</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">macros</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">CONTENT_TYPE_MACRO</span> <span class="ruby-keyword">else</span> <span class="ruby-constant">CONTENT_TYPE</span> <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">macros</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">CONTENT_TYPE_WITH_MACROS</span> <span class="ruby-keyword">else</span> <span class="ruby-constant">CONTENT_TYPE</span> <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
