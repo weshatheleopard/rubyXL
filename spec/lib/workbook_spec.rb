@@ -140,6 +140,27 @@ describe RubyXL::Workbook do
       workbook.stream
     end
 
- end
+    it 'should raise error if bad characters are present in worksheet name' do
+      workbook = RubyXL::Workbook.new
+      workbook[0].sheet_name = 'Sheet007'
+      expect{workbook.stream}.to_not raise_error
+
+      '\\/*[]:?'.each_char { |char|
+        workbook = RubyXL::Workbook.new
+        workbook[0].sheet_name = "Sheet#{char}007"
+        expect{workbook.stream}.to raise_error(RuntimeError)
+      }
+    end
+  end
+
+  describe '.collect_related_objects' do
+    it 'should not save shared strings if there are none' do
+      wb = RubyXL::Workbook.new
+      expect(wb.root.collect_related_objects.map{ |x| x.class }.include?(::RubyXL::SharedStringsTable)).to be false
+
+      wb.shared_strings_container.add('test')
+      expect(wb.root.collect_related_objects.map{ |x| x.class }.include?(::RubyXL::SharedStringsTable)).to be true
+    end
+  end
 
 end

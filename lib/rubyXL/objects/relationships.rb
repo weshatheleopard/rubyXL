@@ -70,7 +70,7 @@ module RubyXL
     def load_related_files(zipdir_path, base_file_name)
       self.related_files = {}
 
-      @@debug +=2 if @@debug
+      @@debug += 2 if @@debug
 
       self.relationships.each { |rel|
         next if rel.target_mode == 'External'
@@ -153,16 +153,22 @@ module RubyXL
 
     def collect_related_objects
       res = related_objects.compact # Avoid tainting +related_objects+ array
-      res += generic_storage if generic_storage
+      res.concat(generic_storage) if generic_storage
 
       if relationship_container then
         relationship_container.owner = self
         res << relationship_container
       end
 
-      res.each { |o| res += o.collect_related_objects if o.respond_to?(:collect_related_objects) }
+      related = []
 
-      res
+      res.each { |o|
+        next if o.respond_to?(:empty?) && o.empty?
+        related << o
+        related.concat(o.collect_related_objects) if o.respond_to?(:collect_related_objects)
+      }
+
+      related
     end
 
     def load_relationships(dir_path, base_file_name)

@@ -29,11 +29,15 @@ Please note that proprietary binary +xls+ format is *not* supported.
   workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
 
 ==== Accessing a Row (Array of Cells)
+Please note that worksheet is a _sparse_ array of rows. Your code *must* expect that any row it plucks from the array may be <tt>nil</tt>.
+
   worksheet = workbook[0]
   worksheet.sheet_data[0] # Returns first row of the worksheet
   worksheet[0]            # Returns first row of the worksheet
 
 ==== Accessing a Cell object
+Please note that row is a _sparse_ array of cells. Your code *must* expect that any cell it plucks from the array may be <tt>nil</tt>.
+
   worksheet = workbook[0]
   worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
   worksheet[0][0]            # Returns cell A1 in the worksheet
@@ -58,9 +62,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_row_font_color(0)
   worksheet.is_row_underlined(0)
   worksheet.get_row_height(0)
-  worksheet.get_row_horizontal_alignment(0)
-  worksheet.get_row_vertical_alignment(0)
-  worksheet.get_row_border_right(0)
+  worksheet.get_row_alignment(0, true)
+  worksheet.get_row_alignment(0, false)
+  worksheet.get_row_border(0, :right)
 
 ==== Accessing column properties
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -71,9 +75,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_font_color(0)
   worksheet.is_column_underlined(0)
   worksheet.get_column_width(0)
-  worksheet.get_column_horizontal_alignment(0)
-  worksheet.get_column_vertical_alignment(0)
-  worksheet.get_column_border_right(0)
+  worksheet.get_column_alignment(0, :horizontal)
+  worksheet.get_column_alignment(0, :vertical)
+  worksheet.get_column_border(0, :right)
 
 ==== Table reading
 In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
@@ -214,5 +218,5 @@ Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Copyright
 
-Copyright (c) 2011 Vivek Bhagwat, 2013-2015 Wesha.
+Copyright (c) 2011 Vivek Bhagwat, 2013-2016 Wesha.
 See LICENSE.txt for further details.
