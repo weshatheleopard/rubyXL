@@ -118,7 +118,7 @@ module RubyXL
         related_objects += owner.generic_storage if owner.generic_storage
 
         self.relationships = []
-        related_objects.compact.each { |f| add_relationship(f) }
+        related_objects.compact.each { |f| add_relationship(f) unless f.respond_to?(:empty?) && f.empty? } 
       end
       super
     end

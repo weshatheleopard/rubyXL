@@ -161,6 +161,16 @@ describe RubyXL::Workbook do
       wb.shared_strings_container.add('test')
       expect(wb.root.collect_related_objects.map{ |x| x.class }.include?(::RubyXL::SharedStringsTable)).to be true
     end
+
+    it 'should not include empty shared strings in relationship_container' do
+      wb = RubyXL::Workbook.new
+      wb.root.stream
+      expect(wb.relationship_container.relationships.map{ |x| x.target.to_s }.include?('sharedStrings.xml')).to be false
+
+      wb.shared_strings_container.add('test')
+      wb.root.stream
+      expect(wb.relationship_container.relationships.map{ |x| x.target.to_s }.include?('sharedStrings.xml')).to be true
+    end
   end
 
 end
