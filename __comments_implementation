@@ -1,0 +1,13 @@
+doc = RubyXL::Workbook.new
+
+cf = RubyXL::CommentsFile.new
+doc[0].comments << cf
+cf.comment_list = RubyXL::CommentList.new
+cf.comment_list << RubyXL::Comment.new({ :ref => RubyXL::Reference.new(1, 1)})
+
+
+
+<authors><author>Author1</author></authors><commentList><comment ref="A10" authorId="0" shapeId="0"><text><r><rPr><b/><sz val="8"/><color indexed="81"/><rFont val="Tahoma"/><family val="2"/>
+</rPr><t>Author1: Comment test 1
+Line 2
+Line 3</t></r></text></comment></commentList></comments>

@@ -25,7 +25,7 @@ module RubyXL
 
     attr_accessor :related_files, :owner
 
-    @@debug = nil # Change to 0 to enable debug output
+    @@debug_indent = ($DEBUG ? 0 : nil)
 
     def new_relationship(target, type)
       RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
@@ -35,7 +35,8 @@ module RubyXL
     protected :new_relationship
 
     def add_relationship(obj)
-      return if obj.nil? || !defined?(obj.class::REL_TYPE)
+      return if obj.nil? || !defined?(obj.class::REL_TYPE) || (obj.respond_to?(:empty?) && obj.empty?)
+
       relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
                                                 :type => obj.class::REL_TYPE,
                                                 :target => obj.xlsx_path.relative_path_from(owner.xlsx_path.dirname))
@@ -70,7 +71,7 @@ module RubyXL
     def load_related_files(zipdir_path, base_file_name)
       self.related_files = {}
 
-      @@debug += 2 if @@debug
+      @@debug_indent += 2 if @@debug_indent
 
       self.relationships.each { |rel|
         next if rel.target_mode == 'External'
@@ -85,14 +86,14 @@ module RubyXL
           klass = GenericStorageObject
         end
 
-        puts "--> DEBUG:#{'  ' * @@debug}Loading #{klass} (#{rel.id}): #{file_path}" if @@debug
+        puts "--> DEBUG:#{'  ' * @@debug_indent}Loading #{klass} (#{rel.id}): #{file_path}" if @@debug_indent
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
         self.related_files[rel.id] = obj
       }
 
-      @@debug -=2 if @@debug
+      @@debug_indent -=2 if @@debug_indent
 
       related_files
     end
@@ -100,7 +101,7 @@ module RubyXL
     def self.load_relationship_file(zipdir_path, base_file_path)
       rel_file_path = rel_file_path(base_file_path)
 
-      puts "--> DEBUG:  #{'  ' * @@debug}Loading .rel file: #{rel_file_path}" if @@debug
+      puts "--> DEBUG:  #{'  ' * @@debug_indent}Loading .rel file: #{rel_file_path}" if @@debug_indent
 
       parse_file(zipdir_path, rel_file_path)
     end
@@ -162,10 +163,10 @@ module RubyXL
 
       related = []
 
-      res.each { |o|
-        next if o.respond_to?(:empty?) && o.empty?
-        related << o
-        related.concat(o.collect_related_objects) if o.respond_to?(:collect_related_objects)
+      res.each { |obj|
+        next if obj.respond_to?(:empty?) && obj.empty?
+        related << obj
+        related.concat(obj.collect_related_objects) if obj.respond_to?(:collect_related_objects)
       }
 
       related
