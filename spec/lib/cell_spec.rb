@@ -183,6 +183,39 @@ describe RubyXL::Cell do
       expect(@cell.value).to eq(date)
     end
 
+    it "should properly handle numeric values" do
+      @cell.datatype = nil
+      @cell.raw_value = '1'
+      expect(@cell.value).to eq(1)
+
+      @cell.raw_value = '10000000'
+      expect(@cell.value).to eq(10000000)
+
+      @cell.raw_value = '10'
+      expect(@cell.value).to eq(10)
+
+      @cell.raw_value = '0'
+      expect(@cell.value).to eq(0)
+
+      @cell.raw_value = '0.001'
+      expect(@cell.value).to eq(0.001)
+
+      @cell.raw_value = '0.00000000001'
+      expect(@cell.value).to eq(0.00000000001)
+
+      @cell.raw_value = '1E5'
+      expect(@cell.value).to eq(100000.0)
+
+      @cell.raw_value = '1E0'
+      expect(@cell.value).to eq(1.0)
+
+      @cell.raw_value = '1E-5'
+      expect(@cell.value).to eq(0.00001)
+
+      @cell.raw_value = '1DE-5'
+      expect(@cell.value).to eq('1DE-5')
+    end
+
     context '1900-based dates' do
       before(:each) { @workbook.date1904 = false }
       it 'should convert date numbers correctly' do
