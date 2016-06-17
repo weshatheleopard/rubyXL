@@ -191,8 +191,8 @@ describe RubyXL::Cell do
       @cell.raw_value = '10000000'
       expect(@cell.value).to eq(10000000)
 
-      @cell.raw_value = '10'
-      expect(@cell.value).to eq(10)
+      @cell.raw_value = '-10'
+      expect(@cell.value).to eq(-10)
 
       @cell.raw_value = '0'
       expect(@cell.value).to eq(0)
@@ -200,8 +200,8 @@ describe RubyXL::Cell do
       @cell.raw_value = '0.001'
       expect(@cell.value).to eq(0.001)
 
-      @cell.raw_value = '0.00000000001'
-      expect(@cell.value).to eq(0.00000000001)
+      @cell.raw_value = '-0.00000000001'
+      expect(@cell.value).to eq(-0.00000000001)
 
       @cell.raw_value = '1E5'
       expect(@cell.value).to eq(100000.0)
@@ -211,6 +211,15 @@ describe RubyXL::Cell do
 
       @cell.raw_value = '1E-5'
       expect(@cell.value).to eq(0.00001)
+
+      @cell.raw_value = '-1E5'
+      expect(@cell.value).to eq(-100000.0)
+
+      @cell.raw_value = '-1E0'
+      expect(@cell.value).to eq(-1.0)
+
+      @cell.raw_value = '-1E-5'
+      expect(@cell.value).to eq(-0.00001)
 
       @cell.raw_value = '1DE-5'
       expect(@cell.value).to eq('1DE-5')
