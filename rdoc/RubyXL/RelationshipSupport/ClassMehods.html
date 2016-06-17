@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::RelationshipSupport::ClassMehods - rubyXL 3.3.20</title>
+<title>module RubyXL::RelationshipSupport::ClassMehods - rubyXL 3.3.21</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
@@ -118,7 +118,7 @@
 
           
           <div class="method-source-code" id="define_relationship-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 137</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 138</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">define_relationship</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">accessor</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">class_variable_get</span>(<span class="ruby-value">:@@ooxml_relationships</span>)[<span class="ruby-identifier">klass</span>] = <span class="ruby-identifier">accessor</span>
   <span class="ruby-identifier">attr_accessor</span>(<span class="ruby-identifier">accessor</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">accessor</span>
