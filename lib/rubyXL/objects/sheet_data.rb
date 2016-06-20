@@ -74,16 +74,18 @@ module RubyXL
     # Gets massaged value of the cell, converting datatypes to those known to Ruby (that includes
     # stripping any special formatting from RichText).
     def value(args = {})
+      r = self.raw_value
+
       case datatype
-      when RubyXL::DataType::SHARED_STRING then workbook.shared_strings_container[raw_value.to_i].to_s
+      when RubyXL::DataType::SHARED_STRING then workbook.shared_strings_container[r.to_i].to_s
       when RubyXL::DataType::RAW_STRING    then raw_value
       else
-        if is_date? then workbook.num_to_date(raw_value.to_f)
-        elsif raw_value.is_a?(String) && (raw_value =~ /\A-?\d+(\.\d+(?:e[+-]\d+)?)?\Z/i) then # Numeric
-          if $1 then raw_value.to_f
-          else raw_value.to_i
+        if is_date? then workbook.num_to_date(r.to_f)
+        elsif r.is_a?(String) && (r =~ /\A-?\d+((?:\.\d+)?(?:e[+-]?\d+)?)?\Z/i) then # Numeric
+          if $1 != '' then r.to_f
+          else r.to_i
           end
-        else raw_value
+        else r
         end
       end
     end
