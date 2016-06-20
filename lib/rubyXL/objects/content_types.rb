@@ -21,7 +21,7 @@ module RubyXL
     define_child_node(RubyXL::ContentTypeDefault,  :collection => true, :accessor => :defaults)
     define_child_node(RubyXL::ContentTypeOverride, :collection => true, :accessor => :overrides)
 
-    set_namespaces('http://schemas.openxmlformats.org/package/2006/content-types' => '')
+    set_namespaces('http://schemas.openxmlformats.org/package/2006/content-types' => nil)
     define_element_name 'Types'
 
     def xlsx_path

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.3.10</title>
+<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.3.21</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -116,6 +116,27 @@
     
 
     
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-local_namespaces" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">local_namespaces</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
+    
 
     
      <section id="public-class-5Buntitled-5D-method-details" class="method-section">
@@ -143,7 +164,7 @@
 
           
           <div class="method-source-code" id="included-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 209</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 211</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">klass</span>)
   <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">extend</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">OOXMLObjectClassMethods</span>
 <span class="ruby-keyword">end</span></pre>
@@ -176,8 +197,10 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 218</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 220</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">params</span> = {})
+  <span class="ruby-ivar">@local_namespaces</span> = <span class="ruby-keyword">nil</span>
+
   <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{v[:accessor]}&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:computed</span>]
   }
@@ -221,7 +244,7 @@
 
           
           <div class="method-source-code" id="3D-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 245</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 249</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">==</span>(<span class="ruby-identifier">other</span>)
   <span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>) <span class="ruby-operator">&amp;&amp;</span>
     <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">all?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) } <span class="ruby-operator">&amp;&amp;</span>
@@ -259,7 +282,7 @@ collection&#39;s root node if the collection is empty).</p>
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 335</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 344</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-comment">#TODO# This will go away once containers are fully implemented.</span>
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
@@ -300,7 +323,7 @@ object is simply added to the end of the collection.</p>
 
           
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 323</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 332</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
@@ -373,7 +396,7 @@ the new element name, instead of its default name set by
 
           
           <div class="method-source-code" id="write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 265</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 269</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">&#39;&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;&#39;</span>)
@@ -386,9 +409,7 @@ the new element name, instead of its default name set by
 
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">before_write_xml</span>
 
-  <span class="ruby-comment"># Populate namespaces, if any</span>
   <span class="ruby-identifier">attrs</span> = {}
-  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_namespaces</span>).<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">v</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;xmlns&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;xmlns:#{v}&quot;</span>] = <span class="ruby-identifier">k</span> }
 
   <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">val</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>])
@@ -410,6 +431,13 @@ the new element name, instead of its default name set by
 
   <span class="ruby-identifier">element_text</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;_&#39;</span>)
   <span class="ruby-identifier">elem</span> = <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-identifier">node_name_override</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_tag_name</span>), <span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">element_text</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@local_namespaces</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@local_namespaces</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># If no local namespaces provided in the original document,</span>
+    <span class="ruby-comment"># use the defaults</span>
+    <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_namespaces</span>).<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">add_namespace_definition</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">k</span>) }
+  <span class="ruby-keyword">else</span> <span class="ruby-comment"># otherwise preserve the original ones</span>
+    <span class="ruby-ivar">@local_namespaces</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ns</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">add_namespace_definition</span>(<span class="ruby-identifier">ns</span>.<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">href</span>) }
+  <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
   <span class="ruby-identifier">child_nodes</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">child_node_name</span>, <span class="ruby-identifier">child_node_params</span><span class="ruby-operator">|</span>
@@ -465,7 +493,7 @@ the new element name, instead of its default name set by
 
           
           <div class="method-source-code" id="get_node_object-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 327</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 336</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_node_object</span>(<span class="ruby-identifier">child_node_params</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:accessor</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -498,7 +526,7 @@ the new element name, instead of its default name set by
 
           
           <div class="method-source-code" id="init_child_nodes-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 226</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 230</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">init_child_nodes</span>(<span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
 
@@ -529,7 +557,7 @@ the new element name, instead of its default name set by
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.2.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

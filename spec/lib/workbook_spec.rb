@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'rubyXL'
+require 'spec_helper'
 
 describe RubyXL::Workbook do
   before do
@@ -132,5 +131,44 @@ describe RubyXL::Workbook do
       expect(@workbook.modified_at.to_time).to eq(dt)
     end
   end
+
+  describe '.stream' do
+    it "It should not be confused by missing sheet_id" do
+      workbook = RubyXL::Workbook.new
+      workbook[0].sheet_id = 1
+      sheet = workbook.add_worksheet('Sheet2')
+      workbook.stream
+    end
+
+    it 'should raise error if bad characters are present in worksheet name' do
+      workbook = RubyXL::Workbook.new
+      workbook[0].sheet_name = 'Sheet007'
+      expect{workbook.stream}.to_not raise_error
+
+      '\\/*[]:?'.each_char { |char|
+        workbook = RubyXL::Workbook.new
+        workbook[0].sheet_name = "Sheet#{char}007"
+        expect{workbook.stream}.to raise_error(RuntimeError)
+      }
+    end
+  end
+
+  describe '.collect_related_objects' do
+    it 'should not save shared strings if there are none' do
+      wb = RubyXL::Workbook.new
+      expect(wb.root.collect_related_objects.map{ |x| x.class }.include?(::RubyXL::SharedStringsTable)).to be false
+      Zip::File.open_buffer(wb.stream) { |zf|
+        expect(zf.entries.any? { |e| e.name =~ /sharedstrings/i }).to be false
+      }
+
+      wb.shared_strings_container.add('test')
+      expect(wb.root.collect_related_objects.map{ |x| x.class }.include?(::RubyXL::SharedStringsTable)).to be true
+      Zip::File.open_buffer(wb.stream) { |zf|
+        expect(zf.entries.any? { |e| e.name =~ /sharedstrings/i }).to be true
+      }
+    end
+  end
+
+
 
 end

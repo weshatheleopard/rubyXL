@@ -28,16 +28,16 @@ Please note that proprietary binary +xls+ format is *not* supported.
   workbook[0]            # Returns first worksheet
   workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
 
-==== Accessing just the values
-  worksheet = workbook[0]
-  worksheet.extract_data  # Produces a simple rectangular array that consists only of cell values (rather than the Cell objects)
-
 ==== Accessing a Row (Array of Cells)
+Please note that worksheet is a _sparse_ array of rows. Your code *must* expect that any row it plucks from the array may be <tt>nil</tt>.
+
   worksheet = workbook[0]
   worksheet.sheet_data[0] # Returns first row of the worksheet
   worksheet[0]            # Returns first row of the worksheet
 
 ==== Accessing a Cell object
+Please note that row is a _sparse_ array of cells. Your code *must* expect that any cell it plucks from the array may be <tt>nil</tt>.
+
   worksheet = workbook[0]
   worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
   worksheet[0][0]            # Returns cell A1 in the worksheet
@@ -51,7 +51,7 @@ Please note that proprietary binary +xls+ format is *not* supported.
   cell.fill_color
   cell.horizontal_alignment
   cell.vertical_alignment
-  cell.border_top
+  cell.get_border(:top)
 
 ==== Wrappers for accessing Row properties 
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -62,9 +62,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_row_font_color(0)
   worksheet.is_row_underlined(0)
   worksheet.get_row_height(0)
-  worksheet.get_row_horizontal_alignment(0)
-  worksheet.get_row_vertical_alignment(0)
-  worksheet.get_row_border_right(0)
+  worksheet.get_row_alignment(0, true)
+  worksheet.get_row_alignment(0, false)
+  worksheet.get_row_border(0, :right)
 
 ==== Accessing column properties
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -75,23 +75,18 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_font_color(0)
   worksheet.is_column_underlined(0)
   worksheet.get_column_width(0)
-  worksheet.get_column_horizontal_alignment(0)
-  worksheet.get_column_vertical_alignment(0)
-  worksheet.get_column_border_right(0)
+  worksheet.get_column_alignment(0, :horizontal)
+  worksheet.get_column_alignment(0, :vertical)
+  worksheet.get_column_border(0, :right)
 
-==== Table identification
-  worksheet = workbook[0]
-  worksheet.get_table(["NAME", "AGE", "HEIGHT"]) # Returns hash of a table in the first worksheet, with the specified strings as headers, accessible by row and column
-  #it returns the following structure
-  {
-   :Name=>["John", "Jane", "Joe"], 
-   :Height=>[70, 65, 68], 
-   :Age=>[30, 25, 35]
-   :table=>[
-    {:Name=>"John", :Height=>70, :Age=>30},
-    {:Name=>"Jane", :Height=>65, :Age=>25}, 
-    {:Name=>"Joe", :Height=>68, :Age=>35}
-   ]
+==== Table reading
+In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
+
+  worksheet.each { |row|
+     row && row.cells.each { |cell|
+       val = cell && cell.value
+       do_whatever_you_want(val)
+     }
   }
 
 === Modifying
@@ -194,12 +189,14 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
 
 == I/O
 
-=== Writing
+By default, the gem operates with files on the local filesystem:
+
+  workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
   workbook.write("path/to/desired/Excel/file.xlsx")
 
-=== Streaming
-The gem can provide +StringIO+ object containing the resulting +xlsx+ file, eliminating the need to save it to disk first. This capability comes in handy for web servers.
+It can also operate on +StringIO+ objects, thus eliminating the need to save the +xlsx+ file to disk. This capability comes in handy for web servers.
 
+  workbook = RubyXL::Parser.parse_buffer(buffer)
   workbook.stream
 
 == Miscellaneous
@@ -221,5 +218,5 @@ Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Copyright
 
-Copyright (c) 2011 Vivek Bhagwat, 2013-2015 Wesha.
+Copyright (c) 2011 Vivek Bhagwat, 2013-2016 Wesha.
 See LICENSE.txt for further details.

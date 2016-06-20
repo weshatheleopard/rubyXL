@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'rubyXL'
+require 'spec_helper'
 
 describe RubyXL::Color do
   describe '.validate_color' do
@@ -8,7 +7,7 @@ describe RubyXL::Color do
     end
 
     it 'should cause an error if an invalid hex color code or one with a # is passed' do
-      expect {RubyXL::Color.validate_color('#G')}.to raise_error
+      expect {RubyXL::Color.validate_color('#G')}.to raise_error(RuntimeError)
     end
   end
 end

@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'rubygems'
-require 'bundler'
 
+require 'bundler'
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -9,7 +9,6 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
-require 'rake'
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
@@ -23,24 +22,15 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Vivek Bhagwat", 'Wesha']
   # dependencies defined in Gemfile
 end
-Jeweler::RubygemsDotOrgTasks.new
+Jeweler::RubygemsDotOrgTasks.new 
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
+  test.warning = true
 end
-
-=begin
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
-end
-=end
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
@@ -56,8 +46,8 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-desc "Dump profiling data"
-task :profile do
+desc "Dump profiling data with stackprof"
+task :stackprof do
   require 'benchmark'
   require 'stackprof'
 
@@ -83,8 +73,8 @@ task :profile do
   }
 end
 
-desc "Dump profiling data 2"
-task :prof do
+desc "Dump profiling data with ruby-prof"
+task :rubyprof do
   require 'benchmark'
   require 'ruby-prof'
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.3.10</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.3.21</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -69,6 +69,10 @@
     
     <li ><a href="#method-i-change_column_border">#change_column_border</a>
     
+    <li ><a href="#method-i-change_column_fill">#change_column_fill</a>
+    
+    <li ><a href="#method-i-change_column_font">#change_column_font</a>
+    
     <li ><a href="#method-i-change_column_font_color">#change_column_font_color</a>
     
     <li ><a href="#method-i-change_column_font_name">#change_column_font_name</a>
@@ -85,6 +89,10 @@
     
     <li ><a href="#method-i-change_column_vertical_alignment">#change_column_vertical_alignment</a>
     
+    <li ><a href="#method-i-change_column_width">#change_column_width</a>
+    
+    <li ><a href="#method-i-change_column_width_raw">#change_column_width_raw</a>
+    
     <li ><a href="#method-i-change_row_alignment">#change_row_alignment</a>
     
     <li ><a href="#method-i-change_row_bold">#change_row_bold</a>
@@ -92,6 +100,8 @@
     <li ><a href="#method-i-change_row_border">#change_row_border</a>
     
     <li ><a href="#method-i-change_row_fill">#change_row_fill</a>
+    
+    <li ><a href="#method-i-change_row_font">#change_row_font</a>
     
     <li ><a href="#method-i-change_row_font_color">#change_row_font_color</a>
     
@@ -111,7 +121,17 @@
     
     <li ><a href="#method-i-change_row_vertical_alignment">#change_row_vertical_alignment</a>
     
+    <li ><a href="#method-i-column_font">#column_font</a>
+    
     <li ><a href="#method-i-delete_cell">#delete_cell</a>
+    
+    <li ><a href="#method-i-delete_column">#delete_column</a>
+    
+    <li ><a href="#method-i-delete_row">#delete_row</a>
+    
+    <li ><a href="#method-i-get_col_style">#get_col_style</a>
+    
+    <li ><a href="#method-i-get_cols_style_index">#get_cols_style_index</a>
     
     <li ><a href="#method-i-get_column_alignment">#get_column_alignment</a>
     
@@ -143,11 +163,13 @@
     
     <li ><a href="#method-i-get_row_height">#get_row_height</a>
     
-    <li ><a href="#method-i-get_row_horizontal_alignment">#get_row_horizontal_alignment</a>
-    
-    <li ><a href="#method-i-get_row_vertical_alignment">#get_row_vertical_alignment</a>
+    <li ><a href="#method-i-get_row_style">#get_row_style</a>
     
     <li ><a href="#method-i-insert_cell">#insert_cell</a>
+    
+    <li ><a href="#method-i-insert_column">#insert_column</a>
+    
+    <li ><a href="#method-i-insert_row">#insert_row</a>
     
     <li ><a href="#method-i-is_column_bolded">#is_column_bolded</a>
     
@@ -164,6 +186,10 @@
     <li ><a href="#method-i-is_row_struckthrough">#is_row_struckthrough</a>
     
     <li ><a href="#method-i-is_row_underlined">#is_row_underlined</a>
+    
+    <li ><a href="#method-i-merge_cells">#merge_cells</a>
+    
+    <li ><a href="#method-i-row_font">#row_font</a>
     
   </ul>
 </div>
@@ -188,6 +214,50 @@
 
     
 
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="BOLD">BOLD
+        
+        <dd>
+        
+      
+        <dt id="COLOR">COLOR
+        
+        <dd>
+        
+      
+        <dt id="ITALICS">ITALICS
+        
+        <dd>
+        
+      
+        <dt id="NAME">NAME
+        
+        <dd>
+        
+      
+        <dt id="SIZE">SIZE
+        
+        <dd>
+        
+      
+        <dt id="STRIKETHROUGH">STRIKETHROUGH
+        
+        <dd>
+        
+      
+        <dt id="UNDERLINE">UNDERLINE
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
     
 
     
@@ -218,7 +288,7 @@
 
           
           <div class="method-source-code" id="change_column_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 557</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 733</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
@@ -262,7 +332,7 @@
 
           
           <div class="method-source-code" id="change_column_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 503</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 679</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_bold</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -298,7 +368,7 @@
 
           
           <div class="method-source-code" id="change_column_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 532</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 708</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
@@ -308,6 +378,91 @@
   <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">c</span> = <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>[<span class="ruby-identifier">column_index</span>]
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_column_fill" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_column_fill</span><span
+            class="method-args">(column_index, color_code = 'ffffff')</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_column_fill-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 496</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_fill</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">color_code</span> = <span class="ruby-string">&#39;ffffff&#39;</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">color_code</span>)
+  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
+
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">get_range</span>(<span class="ruby-identifier">column_index</span>).<span class="ruby-identifier">style_index</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">get_col_style</span>(<span class="ruby-identifier">column_index</span>), <span class="ruby-identifier">color_code</span>)
+
+  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">c</span> = <span class="ruby-identifier">row</span>[<span class="ruby-identifier">column_index</span>]
+    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">change_fill</span>(<span class="ruby-identifier">color_code</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_column_font" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_column_font</span><span
+            class="method-args">(column_index, change_type, arg, font, xf)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Helper method to update the fonts and cell styles array main method to
+change font, called from each separate font mutator method</p>
+          
+          
+
+          
+          <div class="method-source-code" id="change_column_font-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 636</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>, <span class="ruby-identifier">font</span>, <span class="ruby-identifier">xf</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
+
+  <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">register_new_font</span>(<span class="ruby-identifier">font</span>, <span class="ruby-identifier">xf</span>)
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">get_range</span>(<span class="ruby-identifier">column_index</span>).<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">xf</span>)
+
+  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">c</span> = <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>[<span class="ruby-identifier">column_index</span>]
+    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">font_switch</span>(<span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span>
   }
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -339,7 +494,7 @@
 
           
           <div class="method-source-code" id="change_column_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 487</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 663</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_color</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_color</span>=<span class="ruby-string">&#39;000000&#39;</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">font_color</span>)
 
@@ -377,7 +532,7 @@
 
           
           <div class="method-source-code" id="change_column_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 473</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 649</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_name</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -413,7 +568,7 @@
 
           
           <div class="method-source-code" id="change_column_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 480</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 656</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_size</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -449,7 +604,7 @@
 
           
           <div class="method-source-code" id="change_column_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 524</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 700</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_horizontal_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">horizontal</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -482,7 +637,7 @@
 
           
           <div class="method-source-code" id="change_column_italics-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 496</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 672</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_italics</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -518,7 +673,7 @@
 
           
           <div class="method-source-code" id="change_column_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 517</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 693</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_strikethrough</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -554,7 +709,7 @@
 
           
           <div class="method-source-code" id="change_column_underline-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 510</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 686</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_underline</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">underlined</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
@@ -590,9 +745,80 @@
 
           
           <div class="method-source-code" id="change_column_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 528</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 704</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_vertical_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_column_width" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_column_width</span><span
+            class="method-args">(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get column width measured in number of digits, as per <a
+href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx">msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx</a></p>
+          
+          
+
+          
+          <div class="method-source-code" id="change_column_width-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 479</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_width</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">width_in_chars</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span>)
+  <span class="ruby-identifier">change_column_width_raw</span>(<span class="ruby-identifier">column_index</span>, ((<span class="ruby-identifier">width_in_chars</span> <span class="ruby-operator">+</span> (<span class="ruby-value">5.0</span> <span class="ruby-operator">/</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Font</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX_DIGIT_WIDTH</span>)) <span class="ruby-operator">*</span> <span class="ruby-value">256</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">/</span> <span class="ruby-value">256.0</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_column_width_raw" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_column_width_raw</span><span
+            class="method-args">(column_index, width)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set raw column width value</p>
+          
+          
+
+          
+          <div class="method-source-code" id="change_column_width_raw-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 469</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_width_raw</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">width</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
+  <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">get_range</span>(<span class="ruby-identifier">column_index</span>)
+  <span class="ruby-identifier">range</span>.<span class="ruby-identifier">width</span> = <span class="ruby-identifier">width</span>
+  <span class="ruby-identifier">range</span>.<span class="ruby-identifier">custom_width</span> = <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -623,7 +849,7 @@
 
           
           <div class="method-source-code" id="change_row_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 544</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 720</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
@@ -665,7 +891,7 @@
 
           
           <div class="method-source-code" id="change_row_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 443</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 604</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_bold</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -701,7 +927,7 @@
 
           
           <div class="method-source-code" id="change_row_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 394</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 542</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
@@ -741,7 +967,7 @@
 
           
           <div class="method-source-code" id="change_row_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 405</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 553</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_fill</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">rgb</span> = <span class="ruby-string">&#39;ffffff&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
@@ -749,6 +975,49 @@
 
   <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row_index</span>].<span class="ruby-identifier">style_index</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">get_row_style</span>(<span class="ruby-identifier">row_index</span>), <span class="ruby-identifier">rgb</span>)
   <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">row_index</span>].<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">change_fill</span>(<span class="ruby-identifier">rgb</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-change_row_font" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_row_font</span><span
+            class="method-args">(row_index, change_type, arg, font)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Helper method to update the row styles array change_type - <a
+href="WorksheetConvenienceMethods.html#NAME">NAME</a> or <a
+href="WorksheetConvenienceMethods.html#SIZE">SIZE</a> or <a
+href="WorksheetConvenienceMethods.html#COLOR">COLOR</a> etc main method to
+change font, called from each separate font mutator method</p>
+          
+          
+
+          
+          <div class="method-source-code" id="change_row_font-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 565</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>, <span class="ruby-identifier">font</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
+
+  <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">register_new_font</span>(<span class="ruby-identifier">font</span>, <span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row_index</span>))
+  <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">row_index</span>]
+  <span class="ruby-identifier">row</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">xf</span>)
+  <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">font_switch</span>(<span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -779,7 +1048,7 @@
 
           
           <div class="method-source-code" id="change_row_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 428</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 589</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_color</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_color</span> = <span class="ruby-string">&#39;000000&#39;</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">font_color</span>)
@@ -816,7 +1085,7 @@
 
           
           <div class="method-source-code" id="change_row_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 414</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 575</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_name</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -852,7 +1121,7 @@
 
           
           <div class="method-source-code" id="change_row_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 421</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 582</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_size</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -888,7 +1157,7 @@
 
           
           <div class="method-source-code" id="change_row_height-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 464</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 625</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_height</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">height</span> = <span class="ruby-value">10</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
@@ -926,7 +1195,7 @@
 
           
           <div class="method-source-code" id="change_row_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 382</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 530</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_horizontal_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
@@ -961,7 +1230,7 @@
 
           
           <div class="method-source-code" id="change_row_italics-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 436</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 597</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_italics</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -997,7 +1266,7 @@
 
           
           <div class="method-source-code" id="change_row_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 457</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 618</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_strikethrough</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1033,7 +1302,7 @@
 
           
           <div class="method-source-code" id="change_row_underline-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 450</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 611</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_underline</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">underlined</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1069,11 +1338,46 @@
 
           
           <div class="method-source-code" id="change_row_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 388</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 536</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_vertical_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">change_row_alignment</span>(<span class="ruby-identifier">row</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-column_font" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">column_font</span><span
+            class="method-args">(col)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="column_font-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 517</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+
+  <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)].<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1106,7 +1410,7 @@ specified, method will shift column contents below the deleted cell upward</p>
 
           
           <div class="method-source-code" id="delete_cell-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 210</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 216</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_cell</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>=<span class="ruby-value">0</span>, <span class="ruby-identifier">shift</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row_index</span>)
@@ -1141,6 +1445,165 @@ specified, method will shift column contents below the deleted cell upward</p>
       </div>
 
     
+      <div id="method-i-delete_column" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_column</span><span
+            class="method-args">(column_index = 0)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_column-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 325</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
+
+  <span class="ruby-comment"># Delete column</span>
+  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">column_index</span>) }
+
+  <span class="ruby-comment"># Update column numbers for cells to the right of the deleted column</span>
+  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span>, <span class="ruby-identifier">row_index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span>, <span class="ruby-identifier">ci</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">c</span>.<span class="ruby-identifier">column</span> = <span class="ruby-identifier">ci</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Cell</span>)
+    }
+  }
+
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">delete_column</span>(<span class="ruby-identifier">column_index</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-delete_row" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_row</span><span
+            class="method-args">(row_index=0)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_row-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 281</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_row</span>(<span class="ruby-identifier">row_index</span>=<span class="ruby-value">0</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row_index</span>)
+
+  <span class="ruby-identifier">deleted</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">row_index</span>)
+
+  <span class="ruby-comment"># Update row number of each cell</span>
+  <span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">index</span>]
+    <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">row</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
+  }
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">deleted</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_col_style" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_col_style</span><span
+            class="method-args">(column_index)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Helper method to get the style index for a column</p>
+          
+          
+
+          
+          <div class="method-source-code" id="get_col_style-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 484</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_col_style</span>(<span class="ruby-identifier">column_index</span>)
+  <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">column_index</span>)
+  (<span class="ruby-identifier">range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-get_cols_style_index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_cols_style_index</span><span
+            class="method-args">(column_index)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_cols_style_index-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 410</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">column_index</span>)
+  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
+  <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">column_index</span>)
+  (<span class="ruby-identifier">range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-get_column_alignment" class="method-detail ">
         
         <div class="method-heading">
@@ -1160,10 +1623,9 @@ specified, method will shift column contents below the deleted cell upward</p>
 
           
           <div class="method-source-code" id="get_column_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 374</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 523</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">type</span>)
   <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">col</span>)
 
   <span class="ruby-identifier">xf</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)]
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">type</span>)
@@ -1197,10 +1659,9 @@ specified, method will shift column contents below the deleted cell upward</p>
 
           
           <div class="method-source-code" id="get_column_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 365</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 509</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">border_direction</span>)
   <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">col</span>)
 
   <span class="ruby-identifier">xf</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)]
   <span class="ruby-identifier">border</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span>]
@@ -1235,7 +1696,7 @@ specified, method will shift column contents below the deleted cell upward</p>
 
           
           <div class="method-source-code" id="get_column_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 358</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 489</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_fill</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">col</span>)
@@ -1271,7 +1732,7 @@ specified, method will shift column contents below the deleted cell upward</p>
 
           
           <div class="method-source-code" id="get_column_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 316</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 426</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_color</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;000000&#39;</span>)
@@ -1305,7 +1766,7 @@ specified, method will shift column contents below the deleted cell upward</p>
 
           
           <div class="method-source-code" id="get_column_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 306</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 416</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_name</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_name</span>
@@ -1339,7 +1800,7 @@ specified, method will shift column contents below the deleted cell upward</p>
 
           
           <div class="method-source-code" id="get_column_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 311</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 421</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_size</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_size</span>
@@ -1374,7 +1835,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_column_width-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 352</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 462</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_width</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">width</span> = <span class="ruby-identifier">get_column_width_raw</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">width</span>.<span class="ruby-identifier">nil?</span>
@@ -1409,7 +1870,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_column_width_raw-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 342</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 452</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_width_raw</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
@@ -1446,10 +1907,9 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 284</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 399</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">is_horizontal</span>)
   <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
 
   <span class="ruby-identifier">xf_obj</span> = <span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">nil?</span>
@@ -1487,10 +1947,9 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 276</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 388</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">border_direction</span>)
   <span class="ruby-identifier">validate_workbook</span>
-  <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
 
   <span class="ruby-identifier">border</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">border_id</span>]
   <span class="ruby-identifier">border</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">border</span>.<span class="ruby-identifier">get_edge_style</span>(<span class="ruby-identifier">border_direction</span>)
@@ -1524,7 +1983,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 235</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 347</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_fill</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">get_fill_color</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1557,7 +2016,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_font_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 247</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 359</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_font_color</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">color</span> = <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">color</span>
@@ -1592,7 +2051,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_font_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 239</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 351</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_font_name</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1625,7 +2084,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_font_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 243</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 355</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_font_size</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_size</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1658,12 +2117,12 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="get_row_height-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 269</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 381</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_height</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>]
-  <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">ht</span> <span class="ruby-operator">||</span> <span class="ruby-value">13</span>
+  <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">ht</span> <span class="ruby-operator">||</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Row</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_HEIGHT</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1675,11 +2134,11 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
       </div>
 
     
-      <div id="method-i-get_row_horizontal_alignment" class="method-detail ">
+      <div id="method-i-get_row_style" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">get_row_horizontal_alignment</span><span
-            class="method-args">(row = 0)</span>
+          <span class="method-name">get_row_style</span><span
+            class="method-args">(row_index)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -1693,45 +2152,11 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
           
 
           
-          <div class="method-source-code" id="get_row_horizontal_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 296</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_horizontal_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead.&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-keyword">true</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-get_row_vertical_alignment" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_row_vertical_alignment</span><span
-            class="method-args">(row = 0)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="get_row_vertical_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 301</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_vertical_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;[DEPRECATION] `#{__method__}` is deprecated.  Please use `get_row_alignment` instead.&quot;</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-keyword">false</span>)
+          <div class="method-source-code" id="get_row_style-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 342</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_style</span>(<span class="ruby-identifier">row_index</span>)
+  <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row_index</span>]
+  (<span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1762,7 +2187,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="insert_cell-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 187</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 193</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_cell</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">data</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">shift</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">col</span>)
@@ -1780,7 +2205,134 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
     <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;invalid shift option&#39;</span>
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">add_cell</span>(<span class="ruby-identifier">row</span>,<span class="ruby-identifier">col</span>,<span class="ruby-identifier">data</span>,<span class="ruby-identifier">formula</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">add_cell</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">col</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">formula</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-insert_column" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">insert_column</span><span
+            class="method-args">(column_index = 0)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Inserts column at <code>column_index</code>, pushes everything right, takes
+styles from column to left NOTE: use of this method will break formulas
+which reference cells which are being “pushed right”</p>
+          
+          
+
+          
+          <div class="method-source-code" id="insert_column-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 298</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
+
+  <span class="ruby-identifier">old_range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">get_range</span>(<span class="ruby-identifier">column_index</span>)
+
+  <span class="ruby-comment">#go through each cell in column</span>
+  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span>, <span class="ruby-identifier">row_index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">old_cell</span> = <span class="ruby-identifier">row</span>[<span class="ruby-identifier">column_index</span>]
+    <span class="ruby-identifier">c</span> = <span class="ruby-keyword">nil</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_cell</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span>
+         <span class="ruby-identifier">old_range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-keyword">then</span>
+
+      <span class="ruby-identifier">c</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-value">:worksheet</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>,
+                           <span class="ruby-value">:row</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">row_index</span>, <span class="ruby-value">:column</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">column_index</span>,
+                           <span class="ruby-value">:datatype</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">row</span>.<span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">column_index</span>)
+  }
+
+  <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">column_index</span>)
+
+  <span class="ruby-comment"># TODO: update column numbers</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-insert_row" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">insert_row</span><span
+            class="method-args">(row_index = 0)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Inserts row at row_index, pushes down, copies style from the row above
+(that&#39;s what Excel 2013 does!) NOTE: use of this method will break
+formulas which reference cells which are being “pushed down”</p>
+          
+          
+
+          
+          <div class="method-source-code" id="insert_row-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 243</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_row</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+  <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
+
+  <span class="ruby-identifier">old_row</span> = <span class="ruby-identifier">new_cells</span> = <span class="ruby-keyword">nil</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">row_index</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">old_row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row_index</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>]
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_row</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">new_cells</span> = <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+                    <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
+                    <span class="ruby-keyword">else</span> <span class="ruby-identifier">nc</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">style_index</span>)
+                         <span class="ruby-identifier">nc</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-keyword">self</span>
+                         <span class="ruby-identifier">nc</span>
+                    <span class="ruby-keyword">end</span>
+                  }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">row0</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">new_cells</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>((<span class="ruby-identifier">row0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row0</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
+
+  <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">new_row</span> = <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-value">:cells</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">new_cells</span>, <span class="ruby-value">:style_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">old_row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">style_index</span>)
+
+  <span class="ruby-comment"># Update row values for all rows below</span>
+  <span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">r</span>]
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span>, <span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">r</span>, <span class="ruby-identifier">c</span>)
+    }
+  }
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">new_row</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1811,7 +2363,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_bolded-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 326</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 436</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_bolded</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_bold</span>
@@ -1845,7 +2397,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_italicized-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 321</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 431</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_italicized</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_italic</span>
@@ -1879,7 +2431,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_struckthrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 336</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 446</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_struckthrough</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_strikethrough</span>
@@ -1913,7 +2465,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_column_underlined-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 331</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 441</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_underlined</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_underlined</span>
@@ -1947,7 +2499,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_row_bolded-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 257</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 369</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_bolded</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_bold</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1980,7 +2532,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_row_italicized-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 253</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 365</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_italicized</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_italic</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2013,7 +2565,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_row_struckthrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 265</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 377</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_struckthrough</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_strikethrough</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2046,9 +2598,79 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
           
           <div class="method-source-code" id="is_row_underlined-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 261</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 373</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_underlined</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_underlined</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-merge_cells" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">merge_cells</span><span
+            class="method-args">(start_row, start_col, end_row, end_col)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Merges cells within a rectangular area</p>
+          
+          
+
+          
+          <div class="method-source-code" id="merge_cells-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 749</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_cells</span>(<span class="ruby-identifier">start_row</span>, <span class="ruby-identifier">start_col</span>, <span class="ruby-identifier">end_row</span>, <span class="ruby-identifier">end_col</span>)
+  <span class="ruby-identifier">validate_workbook</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCells</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-comment"># TODO: add validation to make sure ranges are not intersecting with existing ones</span>
+  <span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:ref</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">start_row</span>, <span class="ruby-identifier">end_row</span>, <span class="ruby-identifier">start_col</span>, <span class="ruby-identifier">end_col</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-row_font" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">row_font</span><span
+            class="method-args">(row)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="row_font-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 395</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)
+  (<span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">get_font</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -2068,7 +2690,7 @@ href="http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.2.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
