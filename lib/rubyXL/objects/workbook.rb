@@ -299,15 +299,18 @@ module RubyXL
   # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
-    CONTENT_TYPE_MACRO = 'application/vnd.ms-excel.sheet.macroEnabled.main+xml'
+    CONTENT_TYPE_WITH_MACROS = 'application/vnd.ms-excel.sheet.macroEnabled.main+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
+
+    # http://www.accountingweb.com/technology/excel/seven-characters-you-cant-use-in-worksheet-names
+    SHEET_NAME_FORBIDDEN_CHARS = /[\/\\\*\[\]\:\?]/
+    #SHEET_NAME_FORBIDDEN_NAMES = [ 'History' ]
 
     include RubyXL::RelationshipSupport
 
     def content_type
-      if macros then CONTENT_TYPE_MACRO else CONTENT_TYPE end
+      if macros then CONTENT_TYPE_WITH_MACROS else CONTENT_TYPE end
     end
-
 
     def related_objects
       [ calculation_chain, stylesheet, theme, shared_strings_container, macros ] + @worksheets
@@ -362,6 +365,9 @@ module RubyXL
 
       worksheets.each { |sheet, i|
         rel = relationship_container.find_by_target(sheet.xlsx_path)
+
+        raise "Worksheet name '#{sheet.sheet_name}' contains forbidden characters" if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
+
         sheets << RubyXL::Sheet.new(:name     => sheet.sheet_name[0..30], # Max sheet name length is 31 char
                                     :sheet_id => sheet.sheet_id || (max_sheet_id += 1),
                                     :state    => sheet.state,
@@ -422,8 +428,6 @@ module RubyXL
 
     APPLICATION = 'Microsoft Macintosh Excel'
     APPVERSION  = '12.0000'
-
-    @@debug = nil
 
     def initialize(worksheets = [], src_file_path = nil, creator = nil, modifier = nil, created_at = nil,
                    company = '', application = APPLICATION, appversion = APPVERSION, date1904 = 0)
