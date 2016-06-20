@@ -7,7 +7,7 @@ require 'rubyXL/objects/workbook'
 module RubyXL
 
   class WorkbookRoot
-    @@debug = nil
+    @@debug = $DEBUG
 
     attr_accessor :source_file_path, :content_types, :rels_hash
 
