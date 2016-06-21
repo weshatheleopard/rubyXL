@@ -1,6 +1,5 @@
+require 'spec_helper'
 require 'bigdecimal'
-require 'rubygems'
-require 'rubyXL'
 
 describe RubyXL::Cell do
 
@@ -34,7 +33,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code not passed' do
       expect {
         @cell.change_fill('G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make cell fill color equal to hex color code passed' do
@@ -45,7 +44,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code includes # character' do
       expect {
         @cell.change_fill('#0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -65,7 +64,7 @@ describe RubyXL::Cell do
     it 'should cause an error if a string passed' do
       expect {
         @cell.change_font_size('20')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -73,7 +72,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code not passed' do
       expect {
         @cell.change_font_color('G')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
 
     it 'should make cell font color equal to hex color code passed' do
@@ -84,7 +83,7 @@ describe RubyXL::Cell do
     it 'should cause an error if hex color code includes # character' do
       expect {
         @cell.change_font_color('#0f0f0f')
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 
@@ -182,6 +181,48 @@ describe RubyXL::Cell do
       @cell.change_contents(date)
       expect(@cell).to receive(:is_date?).at_least(1).and_return(true)
       expect(@cell.value).to eq(date)
+    end
+
+    it "should properly handle numeric values" do
+      @cell.datatype = nil
+      @cell.raw_value = '1'
+      expect(@cell.value).to eq(1)
+
+      @cell.raw_value = '10000000'
+      expect(@cell.value).to eq(10000000)
+
+      @cell.raw_value = '-10'
+      expect(@cell.value).to eq(-10)
+
+      @cell.raw_value = '0'
+      expect(@cell.value).to eq(0)
+
+      @cell.raw_value = '0.001'
+      expect(@cell.value).to eq(0.001)
+
+      @cell.raw_value = '-0.00000000001'
+      expect(@cell.value).to eq(-0.00000000001)
+
+      @cell.raw_value = '1E5'
+      expect(@cell.value).to eq(100000.0)
+
+      @cell.raw_value = '1E0'
+      expect(@cell.value).to eq(1.0)
+
+      @cell.raw_value = '1E-5'
+      expect(@cell.value).to eq(0.00001)
+
+      @cell.raw_value = '-1E5'
+      expect(@cell.value).to eq(-100000.0)
+
+      @cell.raw_value = '-1E0'
+      expect(@cell.value).to eq(-1.0)
+
+      @cell.raw_value = '-1E-5'
+      expect(@cell.value).to eq(-0.00001)
+
+      @cell.raw_value = '1DE-5'
+      expect(@cell.value).to eq('1DE-5')
     end
 
     context '1900-based dates' do

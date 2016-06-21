@@ -193,11 +193,11 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_iconSet-1.html
   class IconSet < OOXMLObject
-    define_attribute(:type,      RubyXL::ST_IconSetType, :required => true, :default => '3TrafficLights1')
-    define_attribute(:showValue, :bool,   :default => true)
-    define_attribute(:percent,   :bool,   :default => true)
-    define_attribute(:reverse,   :bool,   :default => false)
-    define_child_node(RubyXL::ConditionalFormatValue, :collection => true, :accessor => :cfvo)
+    define_attribute(:iconSet,   RubyXL::ST_IconSetType, :default => '3TrafficLights1')
+    define_attribute(:showValue, :bool, :default => true)
+    define_attribute(:percent,   :bool, :default => true)
+    define_attribute(:reverse,   :bool, :default => false)
+    define_child_node(RubyXL::ConditionalFormatValue, :collection => [2..-1], :accessor => :cfvo)
     define_element_name 'iconSet'
   end
 
@@ -677,7 +677,7 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
     define_child_node(RubyXL::AlternateContent)
     define_element_name 'worksheet'
-    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => '',
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
                    'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
                    'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',

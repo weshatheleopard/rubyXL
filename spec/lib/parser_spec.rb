@@ -1,6 +1,5 @@
-require 'rubygems'
+require 'spec_helper'
 require 'tmpdir'
-require 'rubyXL'
 
 describe RubyXL::Parser do
 
@@ -32,6 +31,8 @@ describe RubyXL::Parser do
     ws.add_cell(3, 2, -123.456e78)
     ws.add_cell(3, 3, -123.456e-78)
 
+    ws[3][3].set_number_format('#.###')
+
     @workbook.add_worksheet(@test_sheet_name)
 
     @workbook.creator = "test creator"
@@ -48,23 +49,23 @@ describe RubyXL::Parser do
     it 'should parse a valid Excel xlsx or xlsm workbook correctly' do
       @workbook2 = RubyXL::Parser.parse(@file)
 
+      expect(@workbook2).to be_an_instance_of(::RubyXL::Workbook)
+
       expect(@workbook2.worksheets.size).to eq(@workbook.worksheets.size)
       @workbook2.worksheets.each_index { |i|
-        expect(@workbook2[i].extract_data).to eq(@workbook[i].extract_data)
+        expect(@workbook2[i]).to be_an_instance_of(::RubyXL::Worksheet)
       }
     end
 
     it 'should cause an error if an xlsx or xlsm workbook is not passed' do
-      expect {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.to raise_error
+      expect {@workbook2 = RubyXL::Parser.parse("nonexistent_file.tmp")}.to raise_error(Zip::Error)
     end
 
-=begin
     it 'should construct consistent number formats' do
       @workbook2 = RubyXL::Parser.parse(@file)
-      @workbook2.num_fmts.should be_an(Array)
-      @workbook2.num_fmts.size.should == @workbook2.num_fmts[:attributes][:count]
+      expect(@workbook2.stylesheet.number_formats).to be_instance_of(RubyXL::NumberFormats)
+      expect(@workbook2.stylesheet.number_formats.size).to eq(1)
     end
-=end
 
     it 'should unescape HTML entities properly' do
       @workbook2 = RubyXL::Parser.parse(@file)
@@ -93,9 +94,25 @@ describe RubyXL::Parser do
 
   end
 
-  after do
-    if File.exist?(@file)
-      File.delete(@file)
+  describe 'parse_buffer' do
+
+    it 'should parse string buffer correctly' do
+      buffer = File.read(@file)
+      expect(buffer).to be_instance_of(String)
+      f = RubyXL::Parser.parse_buffer(buffer)
+      expect(f).to be_instance_of(RubyXL::Workbook)
     end
+
+    it 'should parse an IO object correctly' do
+      io = File.open(@file)
+      expect(io).to be_instance_of(File)
+      f = RubyXL::Parser.parse_buffer(io)
+      expect(f).to be_instance_of(RubyXL::Workbook)
+    end
+
+  end
+
+  after do
+    File.delete(@file) if File.exist?(@file)
   end
 end

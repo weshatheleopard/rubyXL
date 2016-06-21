@@ -39,12 +39,12 @@ module RubyXL
     define_attribute(:differentFirst,   :bool, :default => false)
     define_attribute(:scaleWithDoc,     :bool, :default => true)
     define_attribute(:alignWithMargins, :bool, :default => true)
-    define_child_node(RubyXL::StringValue, :node_name => :oddHeader)
-    define_child_node(RubyXL::StringValue, :node_name => :oddFooter)
-    define_child_node(RubyXL::StringValue, :node_name => :evenHeader)
-    define_child_node(RubyXL::StringValue, :node_name => :evenFooter)
-    define_child_node(RubyXL::StringValue, :node_name => :firstHeader)
-    define_child_node(RubyXL::StringValue, :node_name => :firstFooter)
+    define_child_node(RubyXL::StringNode, :node_name => :oddHeader)
+    define_child_node(RubyXL::StringNode, :node_name => :oddFooter)
+    define_child_node(RubyXL::StringNode, :node_name => :evenHeader)
+    define_child_node(RubyXL::StringNode, :node_name => :evenFooter)
+    define_child_node(RubyXL::StringNode, :node_name => :firstHeader)
+    define_child_node(RubyXL::StringNode, :node_name => :firstFooter)
     define_element_name 'headerFooter'
   end
 
