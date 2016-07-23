@@ -178,6 +178,18 @@ module RubyXL
       register_new_xf(xf)
     end
 
+    def modify_border_color(style_index, direction, color)
+      xf = cell_xfs[style_index || 0].dup
+      new_border = borders[xf.border_id || 0].dup
+      new_border.set_edge_color(direction, color)
+
+      xf.border_id = borders.find_index { |x| x == new_border } # Reuse existing border, if it exists
+      xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
+      borders[xf.border_id] = new_border
+      xf.apply_border = true
+
+      register_new_xf(xf)
+    end
   end
 
 
@@ -392,6 +404,13 @@ module RubyXL
       border && border.get_edge_style(border_direction)
     end
 
+    def get_row_border_color(row, border_direction)
+      validate_workbook
+
+      border = @workbook.borders[get_row_xf(row).border_id]
+      border && border.get_edge_color(border_direction)
+    end
+
     def row_font(row)
       (row = sheet_data.rows[row]) && row.get_font
     end
@@ -514,6 +533,14 @@ module RubyXL
       border && border.get_edge_style(border_direction)
     end
 
+    def get_column_border_color(col, border_direction)
+      validate_workbook
+
+      xf = @workbook.cell_xfs[get_cols_style_index(col)]
+      border = @workbook.borders[xf.border_id]
+      border && border.get_edge_color(border_direction)
+    end
+
     def column_font(col)
       validate_workbook
 
@@ -547,6 +574,18 @@ module RubyXL
 
       sheet_data[row].cells.each { |c|
         c.change_border(direction, weight) unless c.nil?
+      }
+    end
+
+    def change_row_border_color(row, direction, color = '000000')
+      validate_workbook
+      ensure_cell_exists(row)
+      Color.validate_color(color)
+
+      sheet_data.rows[row].style_index = @workbook.modify_border_color(get_row_style(row), direction, color)
+
+      sheet_data[row].cells.each { |c|
+        c.change_border_color(direction, color) unless c.nil?
       }
     end
 
@@ -717,6 +756,19 @@ module RubyXL
       }
     end
 
+    def change_column_border_color(column_index, direction, color)
+      validate_workbook
+      ensure_cell_exists(0, column_index)
+      Color.validate_color(color)
+
+      cols.get_range(column_index).style_index = @workbook.modify_border_color(get_col_style(column_index), direction, color)
+
+      sheet_data.rows.each { |row|
+        c = row.cells[column_index]
+        c.change_border_color(direction, color) unless c.nil?
+      }
+    end
+
     def change_row_alignment(row, &block)
       validate_workbook
       validate_nonnegative(row)
@@ -780,6 +832,11 @@ module RubyXL
       get_cell_border.get_edge_style(direction)
     end
 
+    def get_border_color(direction)
+      validate_worksheet
+      get_cell_border.get_edge_color(direction)
+    end
+
     def change_horizontal_alignment(alignment = 'center')
       validate_worksheet
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.horizontal = alignment }
@@ -798,6 +855,12 @@ module RubyXL
     def change_border(direction, weight)
       validate_worksheet
       self.style_index = workbook.modify_border(self.style_index, direction, weight)
+    end
+
+    def change_border_color(direction, color)
+      validate_worksheet
+      Color.validate_color(color)
+      self.style_index = workbook.modify_border_color(self.style_index, direction, color)
     end
 
     def is_italicized()
