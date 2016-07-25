@@ -143,6 +143,47 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '.change_border_color' do
+    it 'should cause cell to have a colored top border' do
+      expect(@cell.get_border_color(:top)).to be_nil
+      @cell.change_border_color(:top, 'FF0000')
+      expect(@cell.get_border_color(:top)).to eq('FF0000')
+    end
+
+    it 'should cause cell to have a colored bottom border' do
+      expect(@cell.get_border_color(:bottom)).to be_nil
+      @cell.change_border_color(:bottom, 'FF0000')
+      expect(@cell.get_border_color(:bottom)).to eq('FF0000')
+    end
+
+    it 'should cause cell to have a colored left border' do
+      expect(@cell.get_border_color(:left)).to be_nil
+      @cell.change_border_color(:left, 'FF0000')
+      expect(@cell.get_border_color(:left)).to eq('FF0000')
+    end
+
+    it 'should cause cell to have a colored right border' do
+      expect(@cell.get_border_color(:right)).to be_nil
+      @cell.change_border_color(:right, 'FF0000')
+      expect(@cell.get_border_color(:right)).to eq('FF0000')
+    end
+
+    it 'should cause cell to have a colored diagonal border' do
+      expect(@cell.get_border_color(:diagonal)).to be_nil
+      @cell.change_border_color(:diagonal, 'FF0000')
+      expect(@cell.get_border_color(:diagonal)).to eq('FF0000')
+    end
+
+    it 'is not overridden if the border style is set afterwards' do
+      expect(@cell.get_border_color(:top)).to be_nil
+      expect(@cell.get_border(:top)).to be_nil
+      @cell.change_border_color(:top, 'FF0000')
+      @cell.change_border(:top, 'thin')
+      expect(@cell.get_border_color(:top)).to eq('FF0000')
+      expect(@cell.get_border(:top)).to eq('thin')
+    end
+  end
+
   describe '.change_border' do
     it 'should cause cell to have border at top with specified weight' do
       expect(@cell.get_border(:top)).to be_nil

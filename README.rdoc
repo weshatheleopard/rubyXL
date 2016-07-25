@@ -52,6 +52,7 @@ Please note that row is a _sparse_ array of cells. Your code *must* expect that 
   cell.horizontal_alignment
   cell.vertical_alignment
   cell.get_border(:top)
+  cell.get_border_color(:top)
 
 ==== Wrappers for accessing Row properties 
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -65,6 +66,7 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_row_alignment(0, true)
   worksheet.get_row_alignment(0, false)
   worksheet.get_row_border(0, :right)
+  worksheet.get_row_border_color(0, :right)
 
 ==== Accessing column properties
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -78,6 +80,7 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_alignment(0, :horizontal)
   worksheet.get_column_alignment(0, :vertical)
   worksheet.get_column_border(0, :right)
+  worksheet.get_column_border_color(0, :right)
 
 ==== Table reading
 In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
@@ -120,6 +123,10 @@ In order to discourage unnecessary reshuffling of data in memory, methods +extra
   worksheet.sheet_data[0][0].change_border(:top, 'thin')  # Sets A1 to have a top, thin border
   worksheet.change_row_border(0, :left, 'hairline')       # Sets first row to have a left, hairline border
   worksheet.change_column_border(0, :diagonal, 'medium')  # Sets first column to have diagonal, medium border
+
+  # Set the border style first so there's something to color.
+  worksheet.change_row_border_color(0, :top, '0ba53d')    # Sets first row to have a green top border
+  worksheet.change_column_border_color(0, :top, '0ba53d') # Sets first column to have a green top border
 
 ==== Changing Alignment
 ===== Horizontal
