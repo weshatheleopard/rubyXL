@@ -70,7 +70,11 @@
 
   <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-get_edge_color">#get_edge_color</a>
+    
     <li ><a href="#method-i-get_edge_style">#get_edge_style</a>
+    
+    <li ><a href="#method-i-set_edge_color">#set_edge_color</a>
     
     <li ><a href="#method-i-set_edge_style">#set_edge_style</a>
     
@@ -111,6 +115,40 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_border-2.html">www.schemacent
        </header>
 
     
+      <div id="method-i-get_edge_color" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_edge_color</span><span
+            class="method-args">(direction)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_edge_color-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_edge_color</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-identifier">edge</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">get_rgb_color</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-get_edge_style" class="method-detail ">
         
         <div class="method-heading">
@@ -130,10 +168,49 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_border-2.html">www.schemacent
 
           
           <div class="method-source-code" id="get_edge_style-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 25</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_edge_style</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">edge</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">style</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-set_edge_color" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_edge_color</span><span
+            class="method-args">(direction, color)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="set_edge_color-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_edge_color</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
+  <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
+    <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">set_rgb_color</span>(<span class="ruby-identifier">color</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>.<span class="ruby-identifier">new</span>)
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>).<span class="ruby-identifier">set_rgb_color</span>(<span class="ruby-identifier">color</span>)
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -164,9 +241,14 @@ href="http://www.schemacentral.com/sc/ooxml/e-ssml_border-2.html">www.schemacent
 
           
           <div class="method-source-code" id="set_edge_style-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 30</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_edge_style</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">style</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">style</span>))
+  <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
+    <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">style</span> = <span class="ruby-identifier">style</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">style</span>))
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

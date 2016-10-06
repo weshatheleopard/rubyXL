@@ -193,6 +193,7 @@ preserving as much of the structure as possible.</p>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">horizontal_alignment</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">vertical_alignment</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border</span>(:<span class="ruby-identifier">top</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border_color</span>(:<span class="ruby-identifier">top</span>)
 </pre>
 
 <h4 id="label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties <span><a href="#label-Wrappers+for+accessing+Row+properties+">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -210,6 +211,7 @@ object model.</p>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-keyword">true</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-keyword">false</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_border</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">right</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_border_color</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">right</span>)
 </pre>
 
 <h4 id="label-Accessing+column+properties">Accessing column properties<span><a href="#label-Accessing+column+properties">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -227,6 +229,7 @@ object model.</p>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">horizontal</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">vertical</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">right</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border_color</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">right</span>)
 </pre>
 
 <h4 id="label-Table+reading">Table reading<span><a href="#label-Table+reading">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -287,6 +290,10 @@ You should access and iterate through rows and cells directly:</p>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_border</span>(:<span class="ruby-identifier">top</span>, <span class="ruby-string">&#39;thin&#39;</span>)  <span class="ruby-comment"># Sets A1 to have a top, thin border</span>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">left</span>, <span class="ruby-string">&#39;hairline&#39;</span>)       <span class="ruby-comment"># Sets first row to have a left, hairline border</span>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">diagonal</span>, <span class="ruby-string">&#39;medium&#39;</span>)  <span class="ruby-comment"># Sets first column to have diagonal, medium border</span>
+
+<span class="ruby-comment"># Set the border style first so there&#39;s something to color.</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border_color</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)    <span class="ruby-comment"># Sets first row to have a green top border</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border_color</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>) <span class="ruby-comment"># Sets first column to have a green top border</span>
 </pre>
 
 <h4 id="label-Changing+Alignment">Changing Alignment<span><a href="#label-Changing+Alignment">&para;</a> <a href="#top">&uarr;</a></span></h4>
