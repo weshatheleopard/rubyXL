@@ -207,8 +207,8 @@ It can also operate on +StringIO+ objects, thus eliminating the need to save the
   workbook.stream
 
 == Miscellaneous
-  Reference.ind2ref(0,0) == 'A1'    # Converts row and column index to Excel-style cell reference
-  Reference.ref2ind('A1') == [0, 0] # Converts Excel-style cell reference to row and column index
+  RubyXL::Reference.ind2ref(0,0) == 'A1'    # Converts row and column index to Excel-style cell reference
+  RubyXL::Reference.ref2ind('A1') == [0, 0] # Converts Excel-style cell reference to row and column index
 
 == For more information
 Take a look at the files in spec/lib/ for rspecs on most methods
