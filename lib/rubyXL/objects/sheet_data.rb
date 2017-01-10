@@ -53,7 +53,11 @@ module RubyXL
     end
 
     def raw_value
-      value_container && value_container.value
+      if is.nil?
+        value_container && value_container.value
+      else
+        is.to_s
+      end
     end
 
     def raw_value=(v)
@@ -150,6 +154,7 @@ module RubyXL
         cell.column = start_from_index + i
       }
     end
+
     private :update_cell_coords
 
     def xf
