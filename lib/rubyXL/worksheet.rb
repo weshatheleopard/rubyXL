@@ -2,6 +2,9 @@ module RubyXL
 module LegacyWorksheet
   include Enumerable
 
+  KEPT_CHARS = %W(\n \r \t)
+  REJECTED_CHARS = (0..0x1F).map(&:chr).reject{ |c| KEPT_CHARS.include?(c) }.join
+
   def initialize(params = {})
     super
     self.workbook   = params[:workbook]
@@ -34,6 +37,7 @@ module LegacyWorksheet
     validate_nonnegative(row_index)
     validate_nonnegative(column_index)
     row = sheet_data.rows[row_index] || add_row(row_index)
+    data = data.delete(REJECTED_CHARS) if data.is_a?(String)
 
     c = row.cells[column_index]
 
@@ -72,7 +76,7 @@ module LegacyWorksheet
     validate_nonnegative(column_index)
 
     sheet_data.rows[row_index] || add_row(row_index)
-  end  
+  end
 
   def get_col_xf(column_index)
     @workbook.cell_xfs[get_col_style(column_index)]
@@ -86,6 +90,7 @@ module LegacyWorksheet
   def validate_nonnegative(row_or_col)
     raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
   end
+
   private :validate_nonnegative
 
 end #end class
