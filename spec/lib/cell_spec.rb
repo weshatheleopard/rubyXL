@@ -275,6 +275,8 @@ describe RubyXL::Cell do
         expect(@cell.value).to eq(Date.parse('April 20, 2012'))
         @cell.change_contents(35981)
         expect(@cell.value).to eq(Date.parse('July 5, 1998'))
+        @cell.change_contents(0.019467592592592595)
+        expect(@cell.value).to eq(DateTime.parse('1899-12-31T00:28:02+00:00'))
         @cell.change_contents(1)
         expect(@cell.value).to eq(Date.parse('January 1, 1900'))
         @cell.change_contents(59)
@@ -296,6 +298,20 @@ describe RubyXL::Cell do
         expect(@cell.value).to eq(Date.parse('April 20, 2012'))
         @cell.change_contents(34519)
         expect(@cell.value).to eq(Date.parse('July 5, 1998'))
+      end
+    end
+
+    context 'date before January 1, 1900' do
+      it 'should parse as date' do
+        @cell.set_number_format('h:mm:ss')
+        @cell.datatype = nil
+
+        @cell.raw_value = '0.97726851851851848'
+        expect(@cell.is_date?).to be(true)
+        expect(@cell.value).to eq(DateTime.parse('1899-12-31 23:27:16'))
+        @cell.raw_value = '1.9467592592592595E-2'
+        expect(@cell.is_date?).to be(true)
+        expect(@cell.value).to eq(DateTime.parse('1899-12-31 00:28:02'))
       end
     end
   end
