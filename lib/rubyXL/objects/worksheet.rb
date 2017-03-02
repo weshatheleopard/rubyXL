@@ -632,6 +632,7 @@ module RubyXL
     define_relationship(RubyXL::ControlPropertiesFile)
     define_relationship(RubyXL::SlicerFile)
     define_relationship(RubyXL::OLEObjectFile)
+    define_relationship(RubyXL::ActiveX)
 
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
