@@ -168,6 +168,10 @@ module RubyXL
     def modify_border(style_index, direction, weight)
       xf = cell_xfs[style_index || 0].dup
       new_border = borders[xf.border_id || 0].dup
+
+      edge = new_border.send(direction)
+      new_border.send("#{direction}=", edge.dup) if edge
+
       new_border.set_edge_style(direction, weight)
 
       xf.border_id = borders.find_index { |x| x == new_border } # Reuse existing border, if it exists
