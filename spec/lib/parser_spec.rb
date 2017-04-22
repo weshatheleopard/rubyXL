@@ -92,6 +92,25 @@ describe RubyXL::Parser do
       expect(@workbook2[@test_sheet_name[0..30]]).not_to be_nil
     end
 
+    context 'when using the 1904 date system' do
+      before do
+        @workbook.date1904 = true
+        ws = @workbook.add_worksheet("Test 1904 Dates")
+        ws.add_cell(0, 0, Date.new(1999,5,7) )
+        ws.add_cell(1, 0, Date.new(2014,12,31) )
+        ws.add_cell(2, 0, Date.new(1800,1,1) )
+        @workbook.write(@file)
+      end
+
+      it 'should parse the right dates' do
+        @workbook2 = RubyXL::Parser.parse(@file)
+        ws = @workbook2["Test 1904 Dates"]
+        expect(ws[0][0].value).to eq('1999-05-07')
+        expect(ws[1][0].value).to eq('2014-12-31')
+        expect(ws[2][0].value).to eq('1800-01-01')
+      end 
+    end
+
   end
 
   describe 'parse_buffer' do
