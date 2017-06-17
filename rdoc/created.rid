@@ -1,8 +1,8 @@
-Fri, 24 Feb 2017 00:31:56 +0000
+Sat, 17 Jun 2017 01:47:27 +0000
 README.rdoc	Fri, 24 Feb 2017 00:15:35 +0000
 lib/rubyXL.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/cell.rb	Tue, 21 Jun 2016 19:27:00 +0000
-lib/rubyXL/convenience_methods.rb	Mon, 25 Jul 2016 21:42:23 +0000
+lib/rubyXL/convenience_methods.rb	Thu, 20 Apr 2017 22:37:02 +0000
 lib/rubyXL/objects/border.rb	Mon, 25 Jul 2016 21:42:23 +0000
 lib/rubyXL/objects/calculation_chain.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/objects/cell_style.rb	Wed, 03 Feb 2016 21:04:56 +0000
@@ -20,19 +20,19 @@ lib/rubyXL/objects/fill.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/filters.rb	Wed, 11 Feb 2015 20:38:03 +0000
 lib/rubyXL/objects/font.rb	Thu, 06 Oct 2016 20:47:23 +0000
 lib/rubyXL/objects/formula.rb	Wed, 08 Jun 2016 21:08:06 +0000
-lib/rubyXL/objects/ooxml_object.rb	Tue, 21 Jun 2016 19:27:00 +0000
+lib/rubyXL/objects/ooxml_object.rb	Thu, 02 Mar 2017 23:37:53 +0000
 lib/rubyXL/objects/reference.rb	Fri, 24 Feb 2017 00:18:26 +0000
-lib/rubyXL/objects/relationships.rb	Tue, 21 Jun 2016 19:27:00 +0000
+lib/rubyXL/objects/relationships.rb	Sat, 17 Jun 2017 01:41:27 +0000
 lib/rubyXL/objects/root.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/objects/shared_strings.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/objects/sheet_common.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/objects/sheet_data.rb	Fri, 24 Feb 2017 00:25:06 +0000
 lib/rubyXL/objects/simple_types.rb	Tue, 21 Jun 2016 19:39:00 +0000
-lib/rubyXL/objects/storage.rb	Tue, 21 Jun 2016 19:27:00 +0000
+lib/rubyXL/objects/storage.rb	Sat, 17 Jun 2017 01:41:27 +0000
 lib/rubyXL/objects/stylesheet.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/objects/text.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/objects/theme.rb	Wed, 08 Jun 2016 21:08:20 +0000
 lib/rubyXL/objects/workbook.rb	Tue, 21 Jun 2016 19:39:00 +0000
-lib/rubyXL/objects/worksheet.rb	Tue, 21 Jun 2016 19:39:00 +0000
+lib/rubyXL/objects/worksheet.rb	Sat, 17 Jun 2017 01:41:27 +0000
 lib/rubyXL/parser.rb	Tue, 21 Jun 2016 19:27:00 +0000
 lib/rubyXL/worksheet.rb	Fri, 24 Feb 2017 00:15:35 +0000

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::TableFile - rubyXL 3.3.24</title>
+<title>class RubyXL::ActiveX - rubyXL 3.3.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -63,15 +63,36 @@
   
 </div>
 
+    <div id="includes-section" class="nav-section">
+  <h3>Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="RelationshipSupport.html">RubyXL::RelationshipSupport</a>
+  
+  
+  </ul>
+</div>
+
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-attach_relationship">#attach_relationship</a>
     
+  </ul>
+</div>
+
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-RubyXL::TableFile">
-  <h1 id="class-RubyXL::TableFile" class="class">
-    class RubyXL::TableFile
+<main role="main" aria-labelledby="class-RubyXL::ActiveX">
+  <h1 id="class-RubyXL::ActiveX" class="class">
+    class RubyXL::ActiveX
   </h1>
 
   <section class="description">
@@ -93,11 +114,6 @@
       </header>
       <dl>
       
-        <dt id="CONTENT_TYPE">CONTENT_TYPE
-        
-        <dd>
-        
-      
         <dt id="REL_TYPE">REL_TYPE
         
         <dd>
@@ -110,6 +126,50 @@
     
 
     
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-attach_relationship" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attach_relationship</span><span
+            class="method-args">(rid, rf)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="attach_relationship-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 169</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">attach_relationship</span>(<span class="ruby-identifier">rid</span>, <span class="ruby-identifier">rf</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">rf</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ChartFile</span>       <span class="ruby-keyword">then</span> <span class="ruby-identifier">store_relationship</span>(<span class="ruby-identifier">rf</span>) <span class="ruby-comment"># TODO</span>
+  <span class="ruby-keyword">else</span> <span class="ruby-identifier">store_relationship</span>(<span class="ruby-identifier">rf</span>, <span class="ruby-value">:unknown</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 
