@@ -59,7 +59,7 @@ module LegacyWorksheet
   #validates Workbook, ensures that this worksheet is in @workbook
   def validate_workbook()
     unless @workbook.nil? || @workbook.worksheets.nil?
-      return if @workbook.worksheets.include?(self)
+      return if @workbook.worksheets.any? { |sheet| sheet.equal?(self) }
     end
 
     raise "This worksheet #{self} is not in workbook #{@workbook}"
@@ -72,7 +72,7 @@ module LegacyWorksheet
     validate_nonnegative(column_index)
 
     sheet_data.rows[row_index] || add_row(row_index)
-  end  
+  end
 
   def get_col_xf(column_index)
     @workbook.cell_xfs[get_col_style(column_index)]
