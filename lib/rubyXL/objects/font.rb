@@ -27,7 +27,7 @@ module RubyXL
     define_element_name 'font'
 
     def is_italic
-      i && (i.val || true)
+      i && i.val
     end
 
     def set_italic(val)
@@ -35,7 +35,7 @@ module RubyXL
     end
 
     def is_bold
-      b && (b.val || true)
+      b && b.val
     end
 
     def set_bold(val)
@@ -43,7 +43,7 @@ module RubyXL
     end
 
     def is_underlined
-      u && (u.val || true)
+      u && u.val
     end
 
     def set_underline(val)
@@ -51,7 +51,7 @@ module RubyXL
     end
 
     def is_strikethrough
-      strike && (strike.val || true)
+      strike && strike.val
     end
 
     def set_strikethrough(val)
