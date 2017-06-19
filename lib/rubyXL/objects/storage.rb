@@ -157,8 +157,26 @@ module RubyXL
   end
 
   class OLEObjectFile < GenericStorageObject
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/oleObject'
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.oleObject'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/oleObject'
+  end
+
+  class ActiveX < GenericStorageObject
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/control'
+
+    include RubyXL::RelationshipSupport
+
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::ChartFile       then store_relationship(rf) # TODO
+      else store_relationship(rf, :unknown)
+      end
+    end
+
+  end
+
+  class ActiveXBinary < GenericStorageObject
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2006/relationships/activeXControlBinary'
   end
 
 end
