@@ -21,6 +21,8 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
   class Cell < OOXMLObject
+    NUMBER_REGEXP = /\A-?\d+((?:\.\d+)?(?:e[+-]?\d+)?)?\Z/i
+
     define_attribute(:r,   :ref)
     define_attribute(:s,   :int,  :default => 0, :accessor => :style_index)
     define_attribute(:t,   RubyXL::ST_CellType,  :accessor => :datatype, :default => 'n' )
@@ -66,7 +68,7 @@ module RubyXL
     end
 
     def is_date?
-      return false unless raw_value =~ /\A\d+(?:\.\d+)?\Z/ # Only fully numeric values can be dates
+      return false unless raw_value =~ NUMBER_REGEXP # Only fully numeric values can be dates
       num_fmt = self.number_format
       num_fmt && num_fmt.is_date_format?
     end
@@ -81,7 +83,7 @@ module RubyXL
       when RubyXL::DataType::RAW_STRING    then raw_value
       else
         if is_date? then workbook.num_to_date(r.to_f)
-        elsif r.is_a?(String) && (r =~ /\A-?\d+((?:\.\d+)?(?:e[+-]?\d+)?)?\Z/i) then # Numeric
+        elsif r.is_a?(String) && (r =~ NUMBER_REGEXP) then # Numeric
           if $1 != '' then r.to_f
           else r.to_i
           end

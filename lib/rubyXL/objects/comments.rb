@@ -15,13 +15,13 @@ module RubyXL
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_authors-1.html
   class CommentList < OOXMLContainerObject
-    define_child_node(RubyXL::Comment, :collection => true)
+    define_child_node(RubyXL::Comment, :collection => [0..-1])
     define_element_name 'commentList'
   end
 
   # http://www.schemacentral.com/sc/ooxml/e-ssml_authors-1.html
   class Authors < OOXMLContainerObject
-    define_child_node(RubyXL::StringNode, :node_name => :author, :collection => true)
+    define_child_node(RubyXL::StringNode, :node_name => :author, :collection => [0..-1])
     define_element_name 'authors'
   end
 
