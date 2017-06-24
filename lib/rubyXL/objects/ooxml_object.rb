@@ -31,13 +31,11 @@ module RubyXL
           str_hash = "#{symbol}".hash
 
           before_hash = @hash
-          @hash ^= @#{symbol}.hash ^ str_hash # Outmerge the hash component
+          @hash ^= @#{symbol}.hash * str_hash # Outmerge the hash component
           @#{symbol} = value
-          @hash ^= @#{symbol}.hash ^ str_hash # Merge again the new hash component
+          @hash ^= value.hash * str_hash # Merge again the new hash component
 
-          if @parent
-            @parent.force_update_hash @parent_attribute, before_hash, @hash
-          end
+          @parent.hash_dirty! if @parent
 
           value
         end
@@ -53,31 +51,22 @@ module RubyXL
           @#{symbol}
         end
 
-        def #{symbol}= value
+        def #{symbol}= new_value
           str_hash = "#{symbol}".hash
 
           old_value = @#{symbol}
 
-          if old_value && old_value.is_a?(OOXMLObjectInstanceMethods)
-            old_value.parent = nil
-            old_value.parent_attribute = nil
-          end
-
-          if value && value.is_a?(OOXMLObjectInstanceMethods)
-            value.parent = self
-            value.parent_attribute = "#{symbol}"
-          end
+          old_value.parent = nil if old_value.is_a?(OOXMLObjectInstanceMethods)
+          new_value.parent = self if new_value.is_a?(OOXMLObjectInstanceMethods)
 
           before_hash = @hash
-          @hash ^= @#{symbol}.hash ^ str_hash # Outmerge the hash component
-          @#{symbol} = value
-          @hash ^= @#{symbol}.hash ^ str_hash # Merge again the new hash component
+          @hash ^= old_value.hash * str_hash # Outmerge the hash component
+          @#{symbol} = new_value
+          @hash ^= new_value.hash * str_hash # Merge again the new hash component
 
-          if @parent
-            @parent.force_update_hash @parent_attribute, before_hash, @hash
-          end
+          @parent.hash_dirty! if @parent
 
-          value
+          new_value
         end
       RUBY
     end
@@ -273,10 +262,8 @@ module RubyXL
     attr_accessor :local_namespaces
 
     # Accessor used to get back to the parent from this node,
-    # and notify in case of hashing update
-    # Parent attribute show on which attribute the node is connected.
-    # In case of container parent (array like), parent_attribute remain "nil"
-    attr_accessor :parent, :parent_attribute
+    # and dirtyize the parent in case of hash update.
+    attr_accessor :parent
 
     def self.included(klass)
       klass.extend RubyXL::OOXMLObjectClassMethods
@@ -318,24 +305,26 @@ module RubyXL
     private :preserve_whitespace
 
     # Manually update a hashing part.
-    def force_update_hash attribute, before_hash, after_hash
-      @hash ^= before_hash ^ attribute.hash # Outmerge the hash component
-      @hash ^= after_hash ^ attribute.hash # Merge back the hash component
+    def hash_dirty!
+      @need_hash_recompute = true
     end
 
     # Recompute the hash with segment given by the childrens
     def recompute_hash
       @hash = 0
-      @hash = obtain_class_variable(:@@ooxml_attributes).inject(@hash) { |h, (k, v)| h ^ k.hash ^ self.send(v[:accessor]).hash }
-      @hash = obtain_class_variable(:@@ooxml_child_nodes).inject(@hash) { |h, (k, v)| h ^ k.hash ^ self.send(v[:accessor]).hash }
+      @hash = obtain_class_variable(:@@ooxml_attributes).inject(@hash) { |h, (k, v)| h ^ ( v[:accessor].hash * self.send(v[:accessor]).hash ) }
+      @hash = obtain_class_variable(:@@ooxml_child_nodes).inject(@hash) { |h, (k, v)| h ^ ( v[:accessor].hash * self.send(v[:accessor]).hash )  }
+      @need_hash_recompute = false
     end
 
     def hash
+      recompute_hash if @need_hash_recompute
       @hash
     end
 
     def ==(other)
-      self.hash == other.hash && other.is_a?(self.class)
+      other.is_a?(self.class) &&
+        self.hash == other.hash
     end
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual
