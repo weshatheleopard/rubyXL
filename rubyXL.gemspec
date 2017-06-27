@@ -277,6 +277,7 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/FloatNode.html",
     "rdoc/RubyXL/FloatValue.html",
     "rdoc/RubyXL/Font.html",
+    "rdoc/RubyXL/FontConvenienceMethods.html",
     "rdoc/RubyXL/FontScheme.html",
     "rdoc/RubyXL/Fonts.html",
     "rdoc/RubyXL/Formula.html",
