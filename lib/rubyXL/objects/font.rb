@@ -4,7 +4,7 @@ require 'rubyXL/objects/color'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_font-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_font-1.html
   class Font < OOXMLObject
     # Since we have no capability to load the actual fonts, we'll have to live with the default.
     MAX_DIGIT_WIDTH = 7 # Calibri 11 pt @ 96 dpi
@@ -27,7 +27,7 @@ module RubyXL
     define_element_name 'font'
 
     def is_italic
-      i && i.val
+      i && (i.val != false)
     end
 
     def set_italic(val)
@@ -35,7 +35,7 @@ module RubyXL
     end
 
     def is_bold
-      b && b.val
+      b && (b.val != false)
     end
 
     def set_bold(val)
@@ -43,7 +43,7 @@ module RubyXL
     end
 
     def is_underlined
-      u && u.val
+      u && (u.val != false)
     end
 
     def set_underline(val)
@@ -51,7 +51,7 @@ module RubyXL
     end
 
     def is_strikethrough
-      strike && strike.val
+      strike && (strike.val != false)
     end
 
     def set_strikethrough(val)
