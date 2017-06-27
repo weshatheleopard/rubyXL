@@ -17,7 +17,7 @@ module RubyXL
 
   # Eventually, the entire code for Workbook will be moved here.
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_fileVersion-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_fileVersion-1.html
   class FileVersion < OOXMLObject
     define_attribute(:appName,      :string)
     define_attribute(:lastEdited,   :string)
@@ -27,7 +27,7 @@ module RubyXL
     define_element_name 'fileVersion'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_fileSharing-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_fileSharing-1.html
   class FileSharing < OOXMLObject
     define_attribute(:readOnlyRecommended, :bool, :default => false)
     define_attribute(:userName,            :string)
@@ -35,7 +35,7 @@ module RubyXL
     define_element_name 'fileSharing'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_workbookPr-1.html
   class WorkbookProperties < OOXMLObject
     define_attribute(:date1904,                   :bool,   :default => false)
     define_attribute(:showObjects,                RubyXL::ST_Objects, :default => 'all')
@@ -58,7 +58,7 @@ module RubyXL
     define_element_name 'workbookPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookProtection-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_workbookProtection-1.html
   class WorkbookProtection < OOXMLObject
     define_attribute(:workbookPassword,  :string)
     define_attribute(:revisionsPassword, :string)
@@ -68,7 +68,7 @@ module RubyXL
     define_element_name 'workbookProtection'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_workbookView-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_workbookView-1.html
   class WorkbookView < OOXMLObject
     define_attribute(:visibility,             RubyXL::ST_Visibility, :default => 'visible')
     define_attribute(:minimized,              :bool,   :default => false)
@@ -87,13 +87,13 @@ module RubyXL
     define_element_name 'workbookView'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_bookViews-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_bookViews-1.html
   class WorkbookViews < OOXMLContainerObject
     define_child_node(RubyXL::WorkbookView, :collection => true)
     define_element_name 'bookViews'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheet-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheet-1.html
   class Sheet < OOXMLObject
     define_attribute(:name,            :string, :required => true)
     define_attribute(:sheetId,         :int,    :required => true)
@@ -102,25 +102,25 @@ module RubyXL
     define_element_name 'sheet'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheets-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheets-1.html
   class Sheets < OOXMLContainerObject
     define_child_node(RubyXL::Sheet, :collection => true)
     define_element_name 'sheets'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_externalReference-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_externalReference-1.html
   class ExternalReference < OOXMLObject
     define_attribute(:'r:id', :string, :required => true)
     define_element_name 'externalReference'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_externalReferences-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_externalReferences-1.html
   class ExternalReferences < OOXMLContainerObject
     define_child_node(RubyXL::ExternalReference, :collection => true)
     define_element_name 'externalReferences'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_definedName-2.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_definedName-2.html
   class DefinedName < OOXMLObject
     define_attribute(:name,              :string, :required => true)
     define_attribute(:comment,           :string)
@@ -144,32 +144,32 @@ module RubyXL
     define_element_name 'definedName'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_definedName-2.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_definedName-2.html
   class DefinedNames < OOXMLContainerObject
     define_child_node(RubyXL::DefinedName, :collection => true)
     define_element_name 'definedNames'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCache-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pivotCache-1.html
   class PivotCache < OOXMLObject
     define_attribute(:cacheId, :int,    :required => true)
     define_attribute(:'r:id',  :string, :required => true)
     define_element_name 'pivotCache'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotCaches-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pivotCaches-1.html
   class PivotCaches < OOXMLContainerObject
     define_child_node(RubyXL::PivotCache, :collection => true)
     define_element_name 'pivotCaches'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_oleSize-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_oleSize-1.html
   class OLESize < OOXMLObject
     define_attribute(:ref, :ref, :required => true)
     define_element_name 'oleSize'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_fileRecoveryPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_fileRecoveryPr-1.html
   class FileRecoveryProperties < OOXMLObject
     define_attribute(:autoRecover,     :bool, :default => true)
     define_attribute(:crashSave,       :bool, :default => false)
@@ -178,7 +178,7 @@ module RubyXL
     define_element_name 'fileRecoveryPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishing-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_webPublishing-1.html
   class WebPublishingProperties < OOXMLObject
     define_attribute(:css,              :bool,   :default => true)
     define_attribute(:thicket,          :bool,   :default => true)
@@ -191,7 +191,7 @@ module RubyXL
     define_element_name 'webPublishing'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_calcPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_calcPr-1.html
   class CalculationProperties < OOXMLObject
     define_attribute(:calcId,                :int)
     define_attribute(:calcMode,              RubyXL::ST_CalcMode, :default => 'auto')
@@ -209,7 +209,7 @@ module RubyXL
     define_element_name 'calcPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishObject-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_webPublishObject-1.html
   class WebPublishObject < OOXMLObject
     define_attribute(:id,              :int,    :required => true)
     define_attribute(:divId,           :string, :required => true)
@@ -220,20 +220,20 @@ module RubyXL
     define_element_name 'webPublishObject'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_webPublishObjects-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_webPublishObjects-1.html
   class WebPublishObjects < OOXMLContainerObject
     define_child_node(RubyXL::WebPublishObject, :collection => :with_count)
     define_element_name 'webPublishObjects'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_smartTagPr-1.html
   class SmartTagProperties < OOXMLObject
     define_attribute(:embed, :bool,   :default => false)
     define_attribute(:show,  RubyXL::ST_SmartTagShow, :default => 'all')
     define_element_name 'smartTagPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagType-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_smartTagType-1.html
   class SmartTagType < OOXMLObject
     define_attribute(:namespaceUri, :string)
     define_attribute(:name,         :string)
@@ -241,26 +241,26 @@ module RubyXL
     define_element_name 'smartTagType'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTagTypes-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_smartTagTypes-1.html
   class SmartTagTypes < OOXMLContainerObject
     define_child_node(RubyXL::SmartTagType, :collection => true)
     define_element_name 'smartTagTypes'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_functionGroup-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_functionGroup-1.html
   class FunctionGroup < OOXMLObject
     define_attribute(:name, :string)
     define_element_name 'functionGroup'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_functionGroups-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_functionGroups-1.html
   class FunctionGroups < OOXMLContainerObject
     define_attribute(:builtInGroupCountpi, :int, :default => 16)
     define_child_node(RubyXL::FunctionGroup, :collection => true)
     define_element_name 'functionGroups'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_customWorkbookView-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_customWorkbookView-1.html
   class CustomWorkbookView < OOXMLObject
     define_attribute(:name,                 :string, :required => true)
     define_attribute(:guid,                 :string, :required => true)
@@ -290,13 +290,13 @@ module RubyXL
     define_element_name 'customWorkbookView'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_customWorkbookViews-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_customWorkbookViews-1.html
   class CustomWorkbookViews < OOXMLContainerObject
     define_child_node(RubyXL::CustomWorkbookView, :collection => true)
     define_element_name 'customWorkbookViews'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_workbook.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
     CONTENT_TYPE_WITH_MACROS = 'application/vnd.ms-excel.sheet.macroEnabled.main+xml'

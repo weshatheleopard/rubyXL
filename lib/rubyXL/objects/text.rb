@@ -5,7 +5,7 @@ require 'rubyXL/objects/color'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_t-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_t-1.html
   class Text < OOXMLObject
     define_attribute(:_,           :string, :accessor => :value)
     define_attribute(:'xml:space', %w{ preserve })
@@ -28,7 +28,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_rPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_rPr-1.html
   class RunProperties < OOXMLObject
     define_child_node(RubyXL::StringValue,  :node_name => :rFont)
     define_child_node(RubyXL::IntegerValue, :node_name => :charset)
@@ -48,7 +48,7 @@ module RubyXL
     define_element_name 'rPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_r-2.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_r-2.html
   class RichTextRun < OOXMLObject
     define_child_node(RubyXL::RunProperties)
     define_child_node(RubyXL::Text)
@@ -60,7 +60,7 @@ module RubyXL
 
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_rPh-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_rPh-1.html
   class PhoneticRun < OOXMLObject
     define_attribute(:sb, :int, :required => true)
     define_attribute(:eb, :int, :required => true)
@@ -68,7 +68,7 @@ module RubyXL
     define_element_name 'rPh'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_phoneticPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_phoneticPr-1.html
   class PhoneticProperties < OOXMLObject
     define_attribute(:fontId,    :int,    :required => true)
     define_attribute(:type,      RubyXL::ST_PhoneticType,      :default => 'fullwidthKatakana')
@@ -76,7 +76,7 @@ module RubyXL
     define_element_name 'phoneticPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_is-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_is-1.html
   class RichText < OOXMLObject
     define_child_node(RubyXL::Text)
     define_child_node(RubyXL::RichTextRun, :collection => true)
