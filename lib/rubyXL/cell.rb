@@ -34,7 +34,7 @@ module RubyXL
     end
 
     def validate_worksheet()
-      return if @worksheet && @worksheet[row] && @worksheet[row][column] == self
+      return if @worksheet && @worksheet[row] && @worksheet[row][column].equal?(self)
       raise "Cell #{self} is not in worksheet #{worksheet}"
     end
 
