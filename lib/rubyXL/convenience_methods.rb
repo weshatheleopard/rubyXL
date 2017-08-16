@@ -858,7 +858,20 @@ module RubyXL
 
     def change_border(direction, weight)
       validate_worksheet
-      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+      merged_cell = worksheet.merged_cells && worksheet.merged_cells.detect { |mc| mc.cover?(row, column) }
+      cells = []
+      if merged_cell
+        merged_cell.ref.row_range.each do |r|
+          merged_cell.ref.col_range.each do |c|
+            cells << worksheet.add_cell(r, c, '', nil, false)
+          end
+        end
+      else
+        cells << self
+      end
+      cells.each do |cell|
+        cell.style_index = workbook.modify_border(cell.style_index, direction, weight)
+      end
     end
 
     def change_border_color(direction, color)
