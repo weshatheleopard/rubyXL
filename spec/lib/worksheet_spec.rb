@@ -325,6 +325,24 @@ describe RubyXL::Worksheet do
       expect(@worksheet.get_row_border(0, :diagonal)).to eq('thin')
       expect(@worksheet[0][5].get_border(:diagonal)).to eq('thin')
     end
+
+    context "with merged cells" do
+      before :each do
+        @worksheet.merge_cells(0, 2, 1, 2)
+      end
+
+      it "should not add border outside of a merged cell when the border goes across it" do
+        @worksheet.change_row_border(0, :bottom, 'thin')
+        expect(@worksheet[0][0].get_border(:bottom)).to eq('thin')
+        expect(@worksheet[1][2].get_border(:bottom)).to be_nil
+      end
+
+      it "should add border outside of a merged cell when the border is tangential to it" do
+        @worksheet.change_row_border(1, :bottom, 'thin')
+        expect(@worksheet[1][0].get_border(:bottom)).to eq('thin')
+        expect(@worksheet[1][2].get_border(:bottom)).to eq('thin')
+      end
+    end
   end
 
   describe '.change_column_font_name' do
@@ -556,6 +574,24 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_border(0, :diagonal, 'thin')
       expect(@worksheet.get_column_border(0, :diagonal)).to eq('thin')
       expect(@worksheet[5][0].get_border(:diagonal)).to eq('thin')
+    end
+
+    context "with merged cells" do
+      before :each do
+        @worksheet.merge_cells(2, 0, 2, 1)
+      end
+
+      it "should not add border outside of a merged cell when the border goes across it" do
+        @worksheet.change_column_border(0, :right, 'thin')
+        expect(@worksheet[0][0].get_border(:right)).to eq('thin')
+        expect(@worksheet[2][1].get_border(:right)).to be_nil
+      end
+
+      it "should add border outside of a merged cell when the border is tangential to it" do
+        @worksheet.change_column_border(1, :bottom, 'thin')
+        expect(@worksheet[0][1].get_border(:bottom)).to eq('thin')
+        expect(@worksheet[2][1].get_border(:bottom)).to eq('thin')
+      end
     end
   end
 
