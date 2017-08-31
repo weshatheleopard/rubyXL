@@ -856,6 +856,11 @@ module RubyXL
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.wrap_text = wrap }
     end
 
+    def change_text_indent(indent)
+      validate_worksheet
+      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.indent = indent }
+    end
+
     def change_border(direction, weight)
       validate_worksheet
       self.style_index = workbook.modify_border(self.style_index, direction, weight)
@@ -926,6 +931,13 @@ module RubyXL
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
       xf_obj.alignment.wrap_text
+    end
+
+    def text_indent()
+      validate_worksheet
+      xf_obj = get_cell_xf
+      return 0 if xf_obj.alignment.nil?
+      xf_obj.alignment.indent
     end
 
     def set_number_format(format_code)
