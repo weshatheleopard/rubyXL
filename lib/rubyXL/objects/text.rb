@@ -14,7 +14,7 @@ module RubyXL
     # http://www.w3.org/TR/REC-xml/#NT-Char:
     # Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
 
-    INVALID_XML10_CHARS = /([^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF])/
+    INVALID_XML10_CHARS = /([^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}])/
     ESCAPED_UNICODE = /_x([0-9A-F]{4})_/
 
     def before_write_xml
