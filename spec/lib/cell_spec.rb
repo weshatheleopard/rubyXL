@@ -314,6 +314,16 @@ describe RubyXL::Cell do
         expect(@cell.value).to eq(DateTime.parse('1899-12-31 00:28:02'))
       end
     end
+
+    context 'inlineStr' do
+      it 'should return the value of inline string cells' do
+        @cell.datatype = 'inlineStr'
+        @cell.value_container = nil
+        @cell.is = RubyXL::RichText.new(:t => RubyXL::Text.new(:value => 'Hello'))
+
+        expect(@cell.value).to eq('Hello')
+      end
+    end
   end
 
   describe '.change_contents' do
