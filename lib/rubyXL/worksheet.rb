@@ -42,9 +42,22 @@ module LegacyWorksheet
       c.worksheet = self
       c.row = row_index
       c.column = column_index
-      c.raw_value = data
-      c.datatype = RubyXL::DataType::RAW_STRING unless formula || data.is_a?(Numeric)
-      c.formula = RubyXL::Formula.new(:expression => formula) if formula
+
+      if formula then
+        c.formula = RubyXL::Formula.new(:expression => formula)
+        c.raw_value = data
+      else
+        case data
+        when Numeric          then c.raw_value = data
+        when String           then
+          c.raw_value = data
+          c.datatype = RubyXL::DataType::RAW_STRING
+        when RubyXL::RichText then
+          c.is = data
+          c.datatype = RubyXL::DataType::INLINE_STRING
+        when NilClass         then nil
+        end
+      end
 
       range = cols && cols.locate_range(column_index)
       c.style_index = row.style_index || (range && range.style_index) || 0
