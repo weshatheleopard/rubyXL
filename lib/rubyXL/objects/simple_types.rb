@@ -226,4 +226,6 @@ module RubyXL
   ST_TextStrikeType       = %w{ noStrike sngStrike dblStrike }
   ST_TextCapsType         = %w{ none small all }
 
+  ST_UnsignedIntHex       = :string # FIXME
+
 end

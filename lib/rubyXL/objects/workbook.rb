@@ -1,5 +1,6 @@
 #require 'tmpdir'
 require 'date'
+require 'rubyXL/convenience_methods'
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/shared_strings'
 require 'rubyXL/objects/stylesheet'
@@ -11,7 +12,6 @@ require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/external_links'
-require 'rubyXL/convenience_methods'
 
 module RubyXL
 
