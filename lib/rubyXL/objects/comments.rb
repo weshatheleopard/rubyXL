@@ -3,7 +3,7 @@ require 'rubyXL/objects/extensions'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_comment-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_comment-1.html
   class Comment < OOXMLObject
     define_child_node(RubyXL::RichText, :node_name => 'text')
     define_child_node(RubyXL::AlternateContent)
@@ -13,19 +13,19 @@ module RubyXL
     define_element_name 'comment'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_authors-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_authors-1.html
   class CommentList < OOXMLContainerObject
     define_child_node(RubyXL::Comment, :collection => [0..-1])
     define_element_name 'commentList'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_authors-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_authors-1.html
   class Authors < OOXMLContainerObject
     define_child_node(RubyXL::StringNode, :node_name => :author, :collection => [0..-1])
     define_element_name 'authors'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_comments.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_comments.html
   class CommentsFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'

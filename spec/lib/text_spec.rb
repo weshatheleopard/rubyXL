@@ -16,6 +16,14 @@ describe RubyXL::Text do
       expect(str).to be
     end
 
+    it 'should not escape valid XML extended UNICODE characters' do
+      t = RubyXL::Text.new(:value => "\u{10000}\u{10FFFF}")
+
+      xml = t.write_xml[/<t>[^<]+<\/t>/]
+
+      expect(xml).to eq("<t>\u{10000}\u{10FFFF}</t>")
+    end
+
   end
 
 end
