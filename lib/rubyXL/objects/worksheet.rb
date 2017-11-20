@@ -18,7 +18,7 @@ module RubyXL
 
   # Eventually, the entire code for Worksheet will be moved here. One small step at a time!
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_outlinePr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_outlinePr-1.html
   class OutlineProperties < OOXMLObject
     define_attribute(:applyStyles,        :bool, :default => false)
     define_attribute(:summaryBelow,       :bool, :default => true)
@@ -27,14 +27,14 @@ module RubyXL
     define_element_name 'outlinePr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pageSetUpPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pageSetUpPr-1.html
   class PageSetupProperties < OOXMLObject
     define_attribute(:autoPageBreaks, :bool, :default => true)
     define_attribute(:fitToPage,      :bool, :default => false)
     define_element_name 'pageSetUpPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetPr-3.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetPr-3.html
   class WorksheetProperties < OOXMLObject
     define_attribute(:syncHorizontal,                    :bool, :default => false)
     define_attribute(:syncVertical,                      :bool, :default => false)
@@ -51,7 +51,7 @@ module RubyXL
     define_element_name 'sheetPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dimension-3.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dimension-3.html
   class WorksheetDimensions < OOXMLObject
     define_attribute(:ref, :ref)
     define_element_name 'dimension'
@@ -70,7 +70,7 @@ module RubyXL
     define_element_name 'sheetFormatPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pageSetup-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pageSetup-1.html
   class PageSetup < OOXMLObject
     define_attribute(:paperSize,          :int,    :default => 1)
     define_attribute(:scale,              :int,    :default => 100)
@@ -97,19 +97,19 @@ module RubyXL
     define_element_name 'tableParts'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_mergeCell-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_mergeCell-1.html
   class MergedCell < OOXMLObject
     define_attribute(:ref, :ref)
     define_element_name 'mergeCell'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_mergeCells-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_mergeCells-1.html
   class MergedCells < OOXMLContainerObject
     define_child_node(RubyXL::MergedCell, :collection => :with_count)
     define_element_name 'mergeCells'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_printOptions-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_printOptions-1.html
   class PrintOptions < OOXMLObject
     define_attribute(:horizontalCentered, :bool, :default => false)
     define_attribute(:verticalCentered,   :bool, :default => false)
@@ -119,13 +119,13 @@ module RubyXL
     define_element_name 'printOptions'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetCalcPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetCalcPr-1.html
   class SheetCalculationProperties < OOXMLObject
     define_attribute(:fullCalcOnLoad, :bool, :default => false)
     define_element_name 'sheetCalcPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_protectedRange-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_protectedRange-1.html
   class ProtectedRange < OOXMLObject
     define_attribute(:password,           :string)
     define_attribute(:sqref,              :sqref,  :required => true)
@@ -134,13 +134,13 @@ module RubyXL
     define_element_name 'protectedRange'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_protectedRanges-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_protectedRanges-1.html
   class ProtectedRanges < OOXMLContainerObject
     define_child_node(RubyXL::ProtectedRange, :collection => true)
     define_element_name 'protectedRanges'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetProtection-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetProtection-1.html
   class WorksheetProtection < OOXMLObject
     define_attribute(:password,            :string)
     define_attribute(:sheet,               :bool, :default => false)
@@ -162,7 +162,7 @@ module RubyXL
     define_element_name 'sheetProtection'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cfvo-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cfvo-1.html
   class ConditionalFormatValue < OOXMLObject
     define_attribute(:type, RubyXL::ST_CfvoType, :required => true)
     define_attribute(:val,  :string)
@@ -171,14 +171,14 @@ module RubyXL
     define_element_name 'cfvo'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_colorScale-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_colorScale-1.html
   class ColorScale < OOXMLObject
     define_child_node(RubyXL::ConditionalFormatValue, :collection => true, :accessor => :cfvo)
     define_child_node(RubyXL::Color)
     define_element_name 'colorScale'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataBar-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dataBar-1.html
   class DataBar < OOXMLObject
     define_attribute(:minLength, :int,  :default => 10)
     define_attribute(:maxLength, :int,  :default => 90)
@@ -188,7 +188,7 @@ module RubyXL
     define_element_name 'dataBar'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_iconSet-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_iconSet-1.html
   class IconSet < OOXMLObject
     define_attribute(:iconSet,   RubyXL::ST_IconSetType, :default => '3TrafficLights1')
     define_attribute(:showValue, :bool, :default => true)
@@ -198,7 +198,7 @@ module RubyXL
     define_element_name 'iconSet'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cfRule-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cfRule-1.html
   class ConditionalFormattingRule < OOXMLObject
     define_attribute(:type,         RubyXL::ST_CfType)
     define_attribute(:dxfId,        :int)
@@ -221,7 +221,7 @@ module RubyXL
     define_element_name 'cfRule'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_brk-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_brk-1.html
   class Break < OOXMLObject
     define_attribute(:id,  :int,  :default => 0)
     define_attribute(:min, :int,  :default => 0)
@@ -231,13 +231,13 @@ module RubyXL
     define_element_name 'brk'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_rowBreaks-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_rowBreaks-1.html
   class BreakList < OOXMLContainerObject
     define_attribute(:manualBreakCount, :int, :default => 0)
     define_child_node(RubyXL::Break, :collection => :with_count)
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_conditionalFormatting-1.html
   class ConditionalFormatting < OOXMLObject
     define_attribute(:pivot, :bool, :default => false)
     define_attribute(:sqref, :sqref)
@@ -246,7 +246,7 @@ module RubyXL
     define_element_name 'conditionalFormatting'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_inputCells-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_inputCells-1.html
   class InputCells < OOXMLObject
     define_attribute(:r,        :ref,    :required => true)
     define_attribute(:deleted,  :bool,   :default => false)
@@ -256,7 +256,7 @@ module RubyXL
     define_element_name 'inputCells'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_scenario-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_scenario-1.html
   class Scenario < OOXMLContainerObject
     define_attribute(:name,    :string)
     define_attribute(:locked,  :bool, :default => false)
@@ -267,7 +267,7 @@ module RubyXL
     define_element_name 'scenario'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_scenarios-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_scenarios-1.html
   class Scenarios < OOXMLContainerObject
     define_attribute(:current, :int)
     define_attribute(:show,    :int)
@@ -276,7 +276,7 @@ module RubyXL
     define_element_name 'scenarios'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_ignoredError-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_ignoredError-1.html
   class IgnoredError < OOXMLObject
     define_attribute(:sqref,              :sqref, :required => true)
     define_attribute(:pivot,              :bool,  :default  => false)
@@ -292,14 +292,14 @@ module RubyXL
     define_element_name 'ignoredError'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_ignoredErrors-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_ignoredErrors-1.html
   class IgnoredErrors < OOXMLContainerObject
     define_child_node(RubyXL::IgnoredError, :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'ignoredErrors'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_hyperlink-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_hyperlink-1.html
   class Hyperlink < OOXMLObject
     define_attribute(:ref,      :ref,    :required => true)
     define_attribute(:'r:id',   :string)
@@ -309,13 +309,13 @@ module RubyXL
     define_element_name 'hyperlink'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_hyperlinks-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_hyperlinks-1.html
   class Hyperlinks < OOXMLContainerObject
     define_child_node(RubyXL::Hyperlink, :collection => true)
     define_element_name 'hyperlinks'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObject-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_oleObject-1.html
   class OLEObject < OOXMLObject
     define_attribute(:progId,    :string)
     define_attribute(:dvAspect,  RubyXL::ST_DvAspect, :default => 'DVASPECT_CONTENT')
@@ -327,14 +327,14 @@ module RubyXL
     define_element_name 'oleObject'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_oleObjects-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_oleObjects-1.html
   class OLEObjects < OOXMLContainerObject
     define_child_node(RubyXL::OLEObject, :collection => true)
     define_child_node(RubyXL::AlternateContent)
     define_element_name 'oleObjects'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataRef-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dataRef-1.html
   class DataConsolidationReference < OOXMLObject
     define_attribute(:ref,    :ref)
     define_attribute(:name,   :string)
@@ -343,13 +343,13 @@ module RubyXL
     define_element_name 'dataRef'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataRefs-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dataRefs-1.html
   class DataConsolidationReferences < OOXMLContainerObject
     define_child_node(RubyXL::DataConsolidationReference, :collection => :with_count)
     define_element_name 'dataRefs'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataConsolidate-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dataConsolidate-1.html
   class DataConsolidate < OOXMLObject
     define_attribute(:function,   RubyXL::ST_DataConsolidateFunction, :default => 'sum')
     define_attribute(:leftLabels, :bool, :default => false)
@@ -359,7 +359,7 @@ module RubyXL
     define_element_name 'dataConsolidate'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pane-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pane-1.html
   class Pane < OOXMLObject
     define_attribute(:xSplit,      :double)
     define_attribute(:ySplit,      :double)
@@ -369,7 +369,7 @@ module RubyXL
     define_element_name 'pane'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_selection-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_selection-1.html
   class Selection < OOXMLObject
     define_attribute(:pane,         RubyXL::ST_Pane)
     define_attribute(:activeCell,   :ref)
@@ -390,7 +390,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_customSheetView-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_customSheetView-1.html
   class CustomSheetView < OOXMLObject
     define_attribute(:guid,           :string, :required => true)
     define_attribute(:scale,          :int,    :default => 100)
@@ -425,13 +425,13 @@ module RubyXL
     define_element_name 'customSheetView'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_customSheetViews-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_customSheetViews-1.html
   class CustomSheetViews < OOXMLContainerObject
     define_child_node(RubyXL::CustomSheetView, :collection => true)
     define_element_name 'customSheetViews'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_control-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_control-1.html
   class EmbeddedControl < OOXMLObject
     define_attribute(:shapeId, :int,    :required => true)
     define_attribute(:'r:id',  :string, :required => true)
@@ -439,33 +439,33 @@ module RubyXL
     define_element_name 'control'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_controls-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_controls-1.html
   class EmbeddedControls < OOXMLContainerObject
     define_child_node(RubyXL::EmbeddedControl, :collection => true)
     define_child_node(RubyXL::AlternateContent)
     define_element_name 'controls'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellWatch-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellWatch-1.html
   class CellWatch < OOXMLObject
     define_attribute(:r, :ref)
     define_element_name 'cellWatch'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellWatches-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellWatches-1.html
   class CellWatches < OOXMLContainerObject
     define_child_node(RubyXL::CellWatch, :collection => true)
     define_element_name 'cellWatches'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTagPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellSmartTagPr-1.html
   class CellSmartTagProperty < OOXMLObject
     define_attribute(:key, :string, :required => true)
     define_attribute(:val, :string, :required => true)
     define_element_name 'cellSmartTagPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTag-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellSmartTag-1.html
   class CellSmartTag < OOXMLObject
     define_attribute(:type,     :int,  :required => true)
     define_attribute(:deleted,  :bool, :default => false)
@@ -474,27 +474,27 @@ module RubyXL
     define_element_name 'cellSmartTag'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellSmartTags-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellSmartTags-1.html
   class CellSmartTags < OOXMLContainerObject
     define_attribute(:r, :ref, :accessor => :ref)
     define_child_node(RubyXL::CellSmartTag, :collection => true)
     define_element_name 'cellSmartTags'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_smartTags-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_smartTags-1.html
   class SmartTags < OOXMLContainerObject
     define_child_node(RubyXL::CellSmartTags, :collection => true)
     define_element_name 'smartTags'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_customPr-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_customPr-1.html
   class CustomProperty < OOXMLObject
     define_attribute(:name,   :string, :required => true)
     define_attribute(:'r:id', :string, :required => true)
     define_element_name 'customPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_customProperties-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_customProperties-1.html
   class CustomProperties < OOXMLContainerObject
     define_child_node(RubyXL::CustomProperty, :collection => true)
     define_element_name 'customProperties'
@@ -529,13 +529,13 @@ module RubyXL
     define_element_name 'reference'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_references-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_references-1.html
   class PivotReferences < OOXMLContainerObject
     define_child_node(RubyXL::PivotReference, :collection => :with_count)
     define_element_name 'references'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotArea-4.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pivotArea-4.html
   class PivotArea < OOXMLObject
     define_attribute(:field,         :int)
     define_attribute(:type,          RubyXL::ST_PivotAreaType, :default => 'normal')
@@ -554,7 +554,7 @@ module RubyXL
     define_element_name 'pivotArea'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pivotSelection-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pivotSelection-1.html
   class PivotTableSelection < OOXMLObject
     define_attribute(:pane,        RubyXL::ST_Pane, :default => 'topLeft')
     define_attribute(:showHeader,  :bool, :default => false)
@@ -577,7 +577,7 @@ module RubyXL
     define_element_name 'pivotSelection'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetView-1.html
   class WorksheetView < OOXMLObject
     define_attribute(:windowProtection,         :bool, :default => false)
     define_attribute(:showFormulas,             :bool, :default => false)
@@ -605,14 +605,14 @@ module RubyXL
     define_element_name 'sheetView'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-3.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetViews-3.html
   class WorksheetViews < OOXMLContainerObject
     define_child_node(RubyXL::WorksheetView, :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetViews'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_worksheet.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html
   class Worksheet < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'

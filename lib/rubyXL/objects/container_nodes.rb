@@ -49,7 +49,7 @@ module RubyXL
 
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-docPropsVTypes_variant.html
+  # http://www.datypic.com/sc/ooxml/e-docPropsVTypes_variant.html
   class Variant < OOXMLObject
     define_child_node(RubyXL::Variant,      :node_name => 'vt:variant')
 
@@ -91,7 +91,7 @@ module RubyXL
     define_element_name 'vt:vector'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-docPropsVTypes_vector.html
+  # http://www.datypic.com/sc/ooxml/e-docPropsVTypes_vector.html
   class Vector < OOXMLObject
     define_attribute(:baseType, RubyXL::ST_VectorBaseType, :required => true)
     define_attribute(:size,     :int, :required => true)

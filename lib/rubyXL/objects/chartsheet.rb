@@ -6,7 +6,7 @@ require 'rubyXL/objects/sheet_common'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetProtection-4.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetProtection-4.html
   class ChartsheetProtection < OOXMLObject
     define_attribute(:password, :string)
     define_attribute(:content,  :bool, :default => false)
@@ -14,7 +14,7 @@ module RubyXL
     define_element_name 'sheetProtection'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetPr-4.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetPr-4.html
   class ChartsheetProperties < OOXMLObject
     define_attribute(:published,                         :bool, :default => true)
     define_attribute(:codeName,                          :string)
@@ -22,7 +22,7 @@ module RubyXL
     define_element_name 'sheetPr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_pageSetup-5.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_pageSetup-5.html
   class ChartsheetPageSetup < OOXMLObject
     define_attribute(:paperSize,          :int,    :default => 1)
     define_attribute(:firstPageNumber,    :int,    :default => 1)
@@ -38,7 +38,7 @@ module RubyXL
     define_element_name 'pageSetup'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetView-2.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetView-2.html
   class ChartsheetView < OOXMLObject
     define_attribute(:tabSelected,    :bool,  :default => false)
     define_attribute(:zoomScale,      :int,   :default => 100)
@@ -48,14 +48,14 @@ module RubyXL
     define_element_name 'sheetView'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetViews-4.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetViews-4.html
   class ChartsheetViews < OOXMLObject
     define_child_node(RubyXL::ChartsheetView, :collection => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetViews'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_chartsheet.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_chartsheet.html
   class Chartsheet < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartsheet'
