@@ -2,18 +2,18 @@ require 'rubyXL/objects/ooxml_object'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_col-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_col-1.html
   class ColumnRange < OOXMLObject
-    define_attribute(:min,          :uint,    :required => true)
-    define_attribute(:max,          :uint,    :required => true)
+    define_attribute(:min,          :uint, :required => true)
+    define_attribute(:max,          :uint, :required => true)
     define_attribute(:width,        :double)
-    define_attribute(:style,        :uint,    :default => 0, :accessor => :style_index)
-    define_attribute(:hidden,       :bool,    :default => false)
-    define_attribute(:bestFit,      :bool,    :default => false)
-    define_attribute(:customWidth,  :bool,    :default => false)
-    define_attribute(:phonetic,     :bool,    :default => false)
-    define_attribute(:outlineLevel, :int,     :default => 0)
-    define_attribute(:collapsed,    :bool,    :default => false)
+    define_attribute(:style,        :uint, :default => 0, :accessor => :style_index)
+    define_attribute(:hidden,       :bool, :default => false)
+    define_attribute(:bestFit,      :bool, :default => false)
+    define_attribute(:customWidth,  :bool, :default => false)
+    define_attribute(:phonetic,     :bool, :default => false)
+    define_attribute(:outlineLevel, :int,  :default => 0)
+    define_attribute(:collapsed,    :bool, :default => false)
     define_element_name 'col'
 
     def delete_column(col_index)

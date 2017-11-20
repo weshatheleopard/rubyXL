@@ -4,7 +4,7 @@ require 'rubyXL/objects/formula'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidation-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dataValidation-1.html
   class DataValidation < OOXMLObject
     define_attribute(:type,             RubyXL::ST_DataValidationType,       :default => 'none')
     define_attribute(:errorStyle,       RubyXL::ST_DataValidationErrorStyle, :default => 'stop')
@@ -25,7 +25,7 @@ module RubyXL
     define_element_name 'dataValidation'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dataValidations-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dataValidations-1.html
   class DataValidations < OOXMLContainerObject
     define_attribute(:disablePrompts, :bool, :default => false)
     define_attribute(:xWindow,        :int)

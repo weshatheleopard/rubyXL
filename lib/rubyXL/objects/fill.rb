@@ -10,7 +10,7 @@ module RubyXL
     define_element_name 'stop'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_patternFill-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_patternFill-1.html
   class PatternFill < OOXMLObject
     define_attribute(:patternType, RubyXL::ST_PatternType)
     define_child_node(RubyXL::Color, :node_name => :fgColor )
@@ -18,7 +18,7 @@ module RubyXL
     define_element_name 'patternFill'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_gradientFill-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_gradientFill-1.html
   class GradientFill < OOXMLObject
     define_attribute(:type,   RubyXL::ST_GradientType, :default => 'linear')
     define_attribute(:degree, :double, :default => 0)
@@ -30,7 +30,7 @@ module RubyXL
     define_element_name 'gradientFill'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_fill-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_fill-1.html
   class Fill < OOXMLObject
     define_child_node(RubyXL::PatternFill)
     define_child_node(RubyXL::GradientFill)
@@ -42,7 +42,7 @@ module RubyXL
 
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_fills-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_fills-1.html
   class Fills < OOXMLContainerObject
     define_child_node(RubyXL::Fill, :collection => :with_count)
     define_element_name 'fills'

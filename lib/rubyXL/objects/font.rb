@@ -1,10 +1,11 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/container_nodes'
 require 'rubyXL/objects/color'
+require 'rubyXL/convenience_methods'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_font-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_font-1.html
   class Font < OOXMLObject
     # Since we have no capability to load the actual fonts, we'll have to live with the default.
     MAX_DIGIT_WIDTH = 7 # Calibri 11 pt @ 96 dpi
@@ -26,71 +27,15 @@ module RubyXL
     define_child_node(RubyXL::StringValue,  :node_name => :scheme)
     define_element_name 'font'
 
-    def is_italic
-      i && i.val
-    end
-
-    def set_italic(val)
-      self.i = RubyXL::BooleanValue.new(:val => val)
-    end
-
-    def is_bold
-      b && b.val
-    end
-
-    def set_bold(val)
-      self.b = RubyXL::BooleanValue.new(:val => val)
-    end
-
-    def is_underlined
-      u && u.val
-    end
-
-    def set_underline(val)
-      self.u = RubyXL::BooleanValue.new(:val => val)
-    end
-
-    def is_strikethrough
-      strike && strike.val
-    end
-
-    def set_strikethrough(val)
-      self.strike = RubyXL::BooleanValue.new(:val => val)
-    end
-
-    def get_name
-      name && name.val
-    end
-
-    def set_name(val)
-      self.name = RubyXL::StringValue.new(:val => val)
-    end
-
-    def get_size
-      sz && sz.val
-    end
-
-    def set_size(val)
-      self.sz = RubyXL::FloatValue.new(:val => val)
-    end
-
-    def get_rgb_color
-      color && color.rgb
-    end
-
-    # Helper method to modify the font color
-    def set_rgb_color(font_color)
-      self.color = RubyXL::Color.new(:rgb => font_color.to_s)
-    end
-
     def self.default(size = 10)
       self.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
                :sz   => RubyXL::FloatValue.new(:val => size) )
     end
 
+    include FontConvenienceMethods
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_fonts-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_fonts-1.html
   class Fonts < OOXMLContainerObject
     define_child_node(RubyXL::Font, :collection => :with_count)
     define_element_name 'fonts'

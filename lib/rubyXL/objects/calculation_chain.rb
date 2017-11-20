@@ -2,7 +2,7 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_c-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_c-1.html
   class CalculationChainCell < OOXMLObject
     define_attribute(:r, :ref,  :accessor => :ref)
     define_attribute(:i, :int,  :accessor => :sheet_id,    :default => 0)
@@ -13,7 +13,7 @@ module RubyXL
     define_element_name 'c'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_calcChain.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_calcChain.html
   class CalculationChain < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain'
