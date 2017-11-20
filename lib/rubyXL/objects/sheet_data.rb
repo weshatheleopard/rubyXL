@@ -7,7 +7,7 @@ require 'rubyXL/convenience_methods'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_v-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_v-1.html
   class CellValue < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
     define_attribute(:'xml:space', %w{ preserve })
@@ -19,7 +19,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_c-2.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_c-2.html
   class Cell < OOXMLObject
     NUMBER_REGEXP = /\A-?\d+((?:\.\d+)?(?:e[+-]?\d+)?)?\Z/i
 
@@ -80,6 +80,7 @@ module RubyXL
 
       case datatype
       when RubyXL::DataType::SHARED_STRING then workbook.shared_strings_container[r.to_i].to_s
+      when RubyXL::DataType::INLINE_STRING then is.to_s
       when RubyXL::DataType::RAW_STRING    then raw_value
       else
         if is_date? then workbook.num_to_date(r.to_f)
@@ -105,7 +106,7 @@ module RubyXL
 
 #TODO#<row r="1" spans="1:1" x14ac:dyDescent="0.25">
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_row-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_row-1.html
   class Row < OOXMLObject
     define_attribute(:r,            :int)
     # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.row%28v=office.14%29.aspx
@@ -192,7 +193,7 @@ module RubyXL
     DEFAULT_HEIGHT = 13
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_sheetData-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_sheetData-1.html
   class SheetData < OOXMLObject
     define_child_node(RubyXL::Row, :collection => true, :accessor => :rows)
     define_element_name 'sheetData'

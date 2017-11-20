@@ -187,12 +187,12 @@ module RubyXL
     def process_attribute(obj, raw_value, params)
       val = raw_value &&
               case params[:attr_type]
-              when :double then Float(raw_value) # http://www.datypic.com/sc/xsd/t-xsd_double.html
+              when :double then Float(raw_value)  # http://www.datypic.com/sc/xsd/t-xsd_double.html
               when :string then raw_value
               when Array   then raw_value # Case of Simple Types
               when :sqref  then RubyXL::Sqref.new(raw_value)
               when :ref    then RubyXL::Reference.new(raw_value)
-              when :bool   then ['1', 'true'].include?(raw_value)
+              when :bool   then ['1', 'true'].include?(raw_value)  # http://www.datypic.com/sc/xsd/t-xsd_boolean.html
               when :int    then Integer(raw_value)
               when :uint   then
                 v = Integer(raw_value)

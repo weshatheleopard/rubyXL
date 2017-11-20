@@ -4,7 +4,7 @@ require 'time'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-extended-properties_Properties.html
+  # http://www.datypic.com/sc/ooxml/e-extended-properties_Properties.html
   class DocumentPropertiesFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.extended-properties+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties'

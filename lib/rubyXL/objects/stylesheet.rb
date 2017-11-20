@@ -7,7 +7,7 @@ require 'rubyXL/objects/extensions'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmt-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_numFmt-1.html
   class NumberFormat < OOXMLObject
     define_attribute(:numFmtId,   :int,    :required => true)
     define_attribute(:formatCode, :string, :required => true)
@@ -20,7 +20,7 @@ module RubyXL
 
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_numFmts-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_numFmts-1.html
   class NumberFormats < OOXMLContainerObject
     define_child_node(RubyXL::NumberFormat, :collection => :with_count)
     define_element_name 'numFmts'
@@ -66,7 +66,7 @@ module RubyXL
 
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellStyleXfs-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellStyleXfs-1.html
   class CellStyleXFs < OOXMLContainerObject
     define_child_node(RubyXL::XF, :collection => :with_count)
     define_element_name 'cellStyleXfs'
@@ -76,7 +76,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellXfs-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellXfs-1.html
   class CellXFs < OOXMLContainerObject
     define_child_node(RubyXL::XF, :collection => :with_count)
     define_element_name 'cellXfs'
@@ -90,7 +90,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_cellStyles-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_cellStyles-1.html
   class CellStyles < OOXMLContainerObject
     define_child_node(RubyXL::CellStyle, :collection => :with_count)
     define_element_name 'cellStyles'
@@ -100,7 +100,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dxf-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dxf-1.html
   class DXF < OOXMLObject
     define_child_node(RubyXL::Font)
     define_child_node(RubyXL::NumberFormat)
@@ -112,13 +112,13 @@ module RubyXL
     define_element_name 'dxf'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_dxfs-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_dxfs-1.html
   class DXFs < OOXMLContainerObject
     define_child_node(RubyXL::DXF, :collection => :with_count)
     define_element_name 'dxfs'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_tableStyle-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_tableStyle-1.html
   class TableStyle < OOXMLObject
     define_attribute(:name,  :string, :required => true)
     define_attribute(:pivot, :bool,   :default => true)
@@ -127,7 +127,7 @@ module RubyXL
     define_element_name 'tableStyle'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_tableStyles-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_tableStyles-1.html
   class TableStyles < OOXMLContainerObject
     define_attribute(:defaultTableStyle, :string)
     define_attribute(:defaultPivotStyle, :string)
@@ -135,31 +135,31 @@ module RubyXL
     define_element_name 'tableStyles'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_colors-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_colors-1.html
   class ColorSet < OOXMLObject
     define_child_node(RubyXL::Color, :collection => true)
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_colors-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_colors-1.html
   class IndexedColors < OOXMLContainerObject
     define_child_node(RubyXL::Color, :collection => true, :node_name => :rgbColor)
     define_element_name 'indexedColors'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_mruColors-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_mruColors-1.html
   class MRUColors < OOXMLContainerObject
     define_child_node(RubyXL::Color, :collection => true)
     define_element_name 'mruColors'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_colors-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_colors-1.html
   class Colors < OOXMLObject
     define_child_node(RubyXL::IndexedColors)
     define_child_node(RubyXL::MRUColors)
     define_element_name 'colors'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_styleSheet.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_styleSheet.html
   class Stylesheet < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles'
