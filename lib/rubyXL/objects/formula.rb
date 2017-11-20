@@ -3,7 +3,7 @@ require 'rubyXL/objects/simple_types'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_f-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_f-1.html
   class Formula < OOXMLObject
     define_attribute(:_,    :string, :accessor => :expression)
     define_attribute(:t,    RubyXL::ST_CellFormulaType, :default => 'normal')

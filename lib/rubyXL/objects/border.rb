@@ -16,7 +16,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_border-2.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_border-2.html
   class Border < OOXMLObject
     define_attribute(:diagonalUp,   :bool)
     define_attribute(:diagonalDown, :bool)
@@ -60,7 +60,7 @@ module RubyXL
     end
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-ssml_borders-1.html
+  # http://www.datypic.com/sc/ooxml/e-ssml_borders-1.html
   class Borders < OOXMLContainerObject
     define_child_node(RubyXL::Border, :collection => :with_count)
     define_element_name 'borders'

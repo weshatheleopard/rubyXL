@@ -38,7 +38,7 @@ module RubyXL
           ext = obj.xlsx_path.extname[1..-1]
           next if ext.nil?
           content_types_by_ext[ext] ||= []
-          content_types_by_ext[ext] << klass::CONTENT_TYPE 
+          content_types_by_ext[ext] << klass::CONTENT_TYPE
         }
       }
 
@@ -46,7 +46,7 @@ module RubyXL
 
       # Determine which content types are used most often, and add them to the list of defaults
       content_types_by_ext.each_pair { |ext, content_types_arr|
-        next if ext.nil? || defaults.any? { |d| d.extension == ext } 
+        next if ext.nil? || defaults.any? { |d| d.extension == ext }
         most_frequent_ct = content_types_arr.group_by { |ct| ct }.values.max_by(&:size).first
         defaults << RubyXL::ContentTypeDefault.new(:extension => ext, :content_type => most_frequent_ct )
       }
