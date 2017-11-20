@@ -5,7 +5,7 @@ require 'rubyXL/objects/complex_types'
 
 module RubyXL
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_fontScheme-1.html
+  # http://www.datypic.com/sc/ooxml/e-a_fontScheme-1.html
   class FontScheme < OOXMLObject
     # -- Sequence [1..1]
     define_child_node(RubyXL::CT_FontCollection, :node_name => 'a:majorFont')
@@ -16,7 +16,7 @@ module RubyXL
     define_element_name 'a:fontScheme'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_themeElements-1.html
+  # http://www.datypic.com/sc/ooxml/e-a_themeElements-1.html
   class ThemeElements < OOXMLObject
     define_child_node(RubyXL::CT_ColorScheme)
     define_child_node(RubyXL::FontScheme)
@@ -25,13 +25,13 @@ module RubyXL
     define_element_name 'a:themeElements'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_extraClrSchemeLst-1.html
+  # http://www.datypic.com/sc/ooxml/e-a_extraClrSchemeLst-1.html
   class ExtraColorSchemeList < OOXMLContainerObject
     define_child_node(RubyXL::CT_ColorSchemeAndMapping, :collection => [0..-1])
     define_element_name 'a:extraClrSchemeLst'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_custClr-1.html
+  # http://www.datypic.com/sc/ooxml/e-a_custClr-1.html
   class CustomColor < OOXMLObject
     define_child_node(RubyXL::CT_ScRgbColor)
     define_child_node(RubyXL::CT_SRgbColor)
@@ -43,13 +43,13 @@ module RubyXL
     define_element_name 'a:custClr'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_custClrLst-1.html
+  # http://www.datypic.com/sc/ooxml/e-a_custClrLst-1.html
   class CustomColorList < OOXMLContainerObject
     define_child_node(RubyXL::CustomColor, :collection => [0..-1])
     define_element_name 'a:custClrLst'
   end
 
-  # http://www.schemacentral.com/sc/ooxml/e-a_theme.html
+  # http://www.datypic.com/sc/ooxml/e-a_theme.html
   class Theme < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.theme+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme'
