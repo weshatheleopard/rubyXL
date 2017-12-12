@@ -136,7 +136,7 @@ describe RubyXL::Workbook do
     it "It should not be confused by missing sheet_id" do
       workbook = RubyXL::Workbook.new
       workbook[0].sheet_id = 1
-      sheet = workbook.add_worksheet('Sheet2')
+      workbook.add_worksheet('Sheet2')
       workbook.stream
     end
 
