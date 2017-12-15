@@ -85,12 +85,12 @@ Please note: these methods are being phased out in favor of the OOXML object mod
 ==== Table reading
 In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
 
-  worksheet.each { |row|
-     row && row.cells.each { |cell|
+  worksheet.each do |row|
+     row && row.cells.each do |cell|
        val = cell && cell.value
        do_whatever_you_want(val)
-     }
-  }
+     end
+  end
 
 === Modifying
 
