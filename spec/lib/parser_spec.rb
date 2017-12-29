@@ -41,7 +41,8 @@ describe RubyXL::Parser do
     @workbook.modified_at = @time2
 
     @time_str = Time.now.to_s
-    @file = Dir::Tmpname.make_tmpname(['rubyXL', '.xlsx'], nil)
+    t = Time.now.strftime("%Y%m%d")
+    @file = "rubyXL-#{t}-#{$$}-#{rand(0x100000000).to_s(36)}.xlsx"
     @workbook.write(@file)
   end
 
