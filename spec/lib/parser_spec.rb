@@ -41,7 +41,7 @@ describe RubyXL::Parser do
     @workbook.modified_at = @time2
 
     @time_str = Time.now.to_s
-    @file = Dir::Tmpname.make_tmpname(['rubyXL', '.xlsx'], nil)
+    @file = "rubyXL-#{$$}-#{DateTime.now.strftime('%Q')}.xlsx"
     @workbook.write(@file)
   end
 
