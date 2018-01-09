@@ -226,4 +226,7 @@ module RubyXL
   ST_TextStrikeType       = %w{ noStrike sngStrike dblStrike }
   ST_TextCapsType         = %w{ none small all }
 
+  # TODO: http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html
+  ST_UnsignedShortHex     = :string
+
 end

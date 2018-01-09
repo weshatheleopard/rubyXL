@@ -194,6 +194,18 @@ module RubyXL
 
       register_new_xf(xf)
     end
+
+    # https://www.openoffice.org/sc/excelfileformat.pdf
+    def password_hash(pwd)
+      hsh = 0
+      pwd.reverse.each_char { |c|
+        hsh = hsh ^ c.ord
+        hsh = hsh << 1
+        hsh -= 0x7fff if hsh > 0x7fff
+      }
+
+      (hsh ^ pwd.length ^ 0xCE4B).to_s(16)
+    end
   end
 
 

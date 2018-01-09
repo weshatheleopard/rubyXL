@@ -126,7 +126,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_protectedRange-1.html
   class ProtectedRange < OOXMLObject
-    define_attribute(:password,           :string)
+    define_attribute(:password,           RubyXL::ST_UnsignedShortHex)
     define_attribute(:sqref,              :sqref,  :required => true)
     define_attribute(:name,               :string, :required => true)
     define_attribute(:securityDescriptor, :string)
@@ -141,7 +141,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetProtection-1.html
   class WorksheetProtection < OOXMLObject
-    define_attribute(:password,            :string)
+    define_attribute(:password,            RubyXL::ST_UnsignedShortHex)
     define_attribute(:sheet,               :bool, :default => false)
     define_attribute(:objects,             :bool, :default => false)
     define_attribute(:scenarios,           :bool, :default => false)
