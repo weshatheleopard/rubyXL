@@ -195,6 +195,7 @@ module RubyXL
       register_new_xf(xf)
     end
 
+    # Calculate password hash from string for use in 'password' fields.
     # https://www.openoffice.org/sc/excelfileformat.pdf
     def password_hash(pwd)
       hsh = 0
