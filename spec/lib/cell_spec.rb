@@ -184,6 +184,104 @@ describe RubyXL::Cell do
       expect(@cell.get_border_color(:top)).to eq('FF0000')
       expect(@cell.get_border(:top)).to eq('thin')
     end
+
+    context "when the cell is merged horizontally" do
+      before :each do
+        @worksheet.merge_cells(0, 0, 0, 1)
+      end
+
+      it "should change the left border color of both merged cells" do
+        @cell.change_border_color(:left, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:left)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:left)).to eq("FF0000")
+      end
+
+      it "should change the right border color of the both merged cells" do
+        @cell.change_border_color(:right, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:right)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:right)).to eq("FF0000")
+      end
+
+      it "should change the top border color for both merged cells" do
+        @cell.change_border_color(:top, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:top)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:top)).to eq("FF0000")
+      end
+
+      it "should change the bottom border color for both merged cells" do
+        @cell.change_border_color(:bottom, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:bottom)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:bottom)).to eq("FF0000")
+      end
+    end
+
+    context "when the cell is merged vertically" do
+      before :each do
+        @worksheet.merge_cells(0, 0, 1, 0)
+      end
+
+      it "should change the left border color of both merged cells" do
+        @cell.change_border_color(:left, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:left)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:left)).to eq("FF0000")
+      end
+
+      it "should change the right border color of the both merged cells" do
+        @cell.change_border_color(:right, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:right)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:right)).to eq("FF0000")
+      end
+
+      it "should change the top border color for both merged cells" do
+        @cell.change_border_color(:top, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:top)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:top)).to eq("FF0000")
+      end
+
+      it "should change the bottom border color for both merged cells" do
+        @cell.change_border_color(:bottom, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:bottom)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:bottom)).to eq("FF0000")
+      end
+    end
+
+    context "when the cell is merged horizontally and veritically" do
+      before :each do
+        @worksheet.merge_cells(0, 0, 1, 1)
+      end
+
+      it "should change the left border color of both merged cells" do
+        @cell.change_border_color(:left, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:left)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:left)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:left)).to eq("FF0000")
+        expect(@worksheet[1][1].get_border_color(:left)).to eq("FF0000")
+      end
+
+      it "should change the right border color of the both merged cells" do
+        @cell.change_border_color(:right, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:right)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:right)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:right)).to eq("FF0000")
+        expect(@worksheet[1][1].get_border_color(:right)).to eq("FF0000")
+      end
+
+      it "should change the top border color for both merged cells" do
+        @cell.change_border_color(:top, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:top)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:top)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:top)).to eq("FF0000")
+        expect(@worksheet[1][1].get_border_color(:top)).to eq("FF0000")
+      end
+
+      it "should change the bottom border color for both merged cells" do
+        @cell.change_border_color(:bottom, "FF0000")
+        expect(@worksheet[0][0].get_border_color(:bottom)).to eq("FF0000")
+        expect(@worksheet[0][1].get_border_color(:bottom)).to eq("FF0000")
+        expect(@worksheet[1][0].get_border_color(:bottom)).to eq("FF0000")
+        expect(@worksheet[1][1].get_border_color(:bottom)).to eq("FF0000")
+      end
+    end
   end
 
   describe '.change_border' do
@@ -215,6 +313,104 @@ describe RubyXL::Cell do
       expect(@cell.get_border(:diagonal)).to be_nil
       @cell.change_border(:diagonal, 'thin')
       expect(@cell.get_border(:diagonal)).to eq('thin')
+    end
+
+    context "when the cell is merged horizontally" do
+      before :each do
+        @worksheet.merge_cells(0, 0, 0, 1)
+      end
+
+      it "should change the left border of both merged cells" do
+        @cell.change_border(:left, "thin")
+        expect(@worksheet[0][0].get_border(:left)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:left)).to eq("thin")
+      end
+
+      it "should change the right border of the both merged cells" do
+        @cell.change_border(:right, "thin")
+        expect(@worksheet[0][0].get_border(:right)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:right)).to eq("thin")
+      end
+
+      it "should change the top border for both merged cells" do
+        @cell.change_border(:top, "thin")
+        expect(@worksheet[0][0].get_border(:top)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:top)).to eq("thin")
+      end
+
+      it "should change the bottom border for both merged cells" do
+        @cell.change_border(:bottom, "thin")
+        expect(@worksheet[0][0].get_border(:bottom)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:bottom)).to eq("thin")
+      end
+    end
+
+    context "when the cell is merged vertically" do
+      before :each do
+        @worksheet.merge_cells(0, 0, 1, 0)
+      end
+
+      it "should change the left border of both merged cells" do
+        @cell.change_border(:left, "thin")
+        expect(@worksheet[0][0].get_border(:left)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:left)).to eq("thin")
+      end
+
+      it "should change the right border of the both merged cells" do
+        @cell.change_border(:right, "thin")
+        expect(@worksheet[0][0].get_border(:right)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:right)).to eq("thin")
+      end
+
+      it "should change the top border for both merged cells" do
+        @cell.change_border(:top, "thin")
+        expect(@worksheet[0][0].get_border(:top)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:top)).to eq("thin")
+      end
+
+      it "should change the bottom border for both merged cells" do
+        @cell.change_border(:bottom, "thin")
+        expect(@worksheet[0][0].get_border(:bottom)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:bottom)).to eq("thin")
+      end
+    end
+
+    context "when the cell is merged horizontally and veritically" do
+      before :each do
+        @worksheet.merge_cells(0, 0, 1, 1)
+      end
+
+      it "should change the left border of both merged cells" do
+        @cell.change_border(:left, "thin")
+        expect(@worksheet[0][0].get_border(:left)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:left)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:left)).to eq("thin")
+        expect(@worksheet[1][1].get_border(:left)).to eq("thin")
+      end
+
+      it "should change the right border of the both merged cells" do
+        @cell.change_border(:right, "thin")
+        expect(@worksheet[0][0].get_border(:right)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:right)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:right)).to eq("thin")
+        expect(@worksheet[1][1].get_border(:right)).to eq("thin")
+      end
+
+      it "should change the top border for both merged cells" do
+        @cell.change_border(:top, "thin")
+        expect(@worksheet[0][0].get_border(:top)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:top)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:top)).to eq("thin")
+        expect(@worksheet[1][1].get_border(:top)).to eq("thin")
+      end
+
+      it "should change the bottom border for both merged cells" do
+        @cell.change_border(:bottom, "thin")
+        expect(@worksheet[0][0].get_border(:bottom)).to eq("thin")
+        expect(@worksheet[0][1].get_border(:bottom)).to eq("thin")
+        expect(@worksheet[1][0].get_border(:bottom)).to eq("thin")
+        expect(@worksheet[1][1].get_border(:bottom)).to eq("thin")
+      end
     end
   end
 

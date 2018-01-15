@@ -100,6 +100,9 @@ module RubyXL
   class MergedCell < OOXMLObject
     define_attribute(:ref, :ref)
     define_element_name 'mergeCell'
+    def cover?(r,c)
+      ref.row_range.cover?(r) && ref.col_range.cover?(c)
+    end
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_mergeCells-1.html

@@ -590,7 +590,7 @@ module RubyXL
       sheet_data.rows[row].style_index = @workbook.modify_border(get_row_style(row), direction, weight)
 
       sheet_data[row].cells.each { |c|
-        c.change_border(direction, weight) unless c.nil?
+        c.change_border(direction, weight, :direct_match) unless c.nil?
       }
     end
 
@@ -602,7 +602,7 @@ module RubyXL
       sheet_data.rows[row].style_index = @workbook.modify_border_color(get_row_style(row), direction, color)
 
       sheet_data[row].cells.each { |c|
-        c.change_border_color(direction, color) unless c.nil?
+        c.change_border_color(direction, color, :direct_match) unless c.nil?
       }
     end
 
@@ -766,10 +766,9 @@ module RubyXL
       ensure_cell_exists(0, column_index)
 
       cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
-
       sheet_data.rows.each { |row|
         c = row.cells[column_index]
-        c.change_border(direction, weight) unless c.nil?
+        c.change_border(direction, weight, :direct_match) unless c.nil?
       }
     end
 
@@ -782,7 +781,7 @@ module RubyXL
 
       sheet_data.rows.each { |row|
         c = row.cells[column_index]
-        c.change_border_color(direction, color) unless c.nil?
+        c.change_border_color(direction, color, :direct_match) unless c.nil?
       }
     end
 
@@ -869,15 +868,33 @@ module RubyXL
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.wrap_text = wrap }
     end
 
-    def change_border(direction, weight)
+    def change_border(direction, weight, direct_match = false)
       validate_worksheet
-      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+      merged_cell = !direct_match && worksheet.merged_cells && worksheet.merged_cells.detect { |mc| mc.cover?(row, column) }
+      if merged_cell
+        merged_cell.ref.row_range.each do |r|
+          merged_cell.ref.col_range.each do |c|
+            worksheet.add_cell(r, c, '', nil, false).change_border(direction, weight, :direct_match)
+          end
+        end
+      else
+        self.style_index = workbook.modify_border(self.style_index, direction, weight)
+      end
     end
 
-    def change_border_color(direction, color)
+    def change_border_color(direction, color, direct_match = false)
       validate_worksheet
       Color.validate_color(color)
-      self.style_index = workbook.modify_border_color(self.style_index, direction, color)
+      merged_cell = !direct_match && worksheet.merged_cells && worksheet.merged_cells.detect { |mc| mc.cover?(row, column) }
+      if merged_cell
+        merged_cell.ref.row_range.each do |r|
+          merged_cell.ref.col_range.each do |c|
+            worksheet.add_cell(r, c, '', nil, false).change_border_color(direction, color, :direct_match)
+          end
+        end
+      else
+        self.style_index = workbook.modify_border_color(self.style_index, direction, color)
+      end
     end
 
     def is_italicized()

@@ -325,6 +325,88 @@ describe RubyXL::Worksheet do
       expect(@worksheet.get_row_border(0, :diagonal)).to eq('thin')
       expect(@worksheet[0][5].get_border(:diagonal)).to eq('thin')
     end
+
+    context "with merged cells" do
+      before :each do
+        @worksheet.merge_cells(0, 2, 1, 2)
+      end
+
+      it "should not add border outside of a merged cell when the border goes across it" do
+        @worksheet.change_row_border(0, :bottom, 'thin')
+        expect(@worksheet[0][0].get_border(:bottom)).to eq('thin')
+        expect(@worksheet[1][2].get_border(:bottom)).to be_nil
+      end
+
+      it "should add border outside of a merged cell when the border is tangential to it" do
+        @worksheet.change_row_border(1, :bottom, 'thin')
+        expect(@worksheet[1][0].get_border(:bottom)).to eq('thin')
+        expect(@worksheet[1][2].get_border(:bottom)).to eq('thin')
+      end
+    end
+  end
+
+  describe '.change_row_border_color' do
+
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.change_row_border_color(-1, :left, 'FF0000')
+      }.to raise_error(RuntimeError)
+    end
+
+    it 'should create a new row if it did not exist before' do
+      expect(@worksheet.sheet_data[11]).to be_nil
+      @worksheet.change_row_border_color(11, :left, 'FF0000')
+      expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
+      expect(@worksheet.get_row_border_color(11, :left)).to eq('FF0000')
+    end
+
+    it 'should cause row and cells to have border color at top of specified weight' do
+      @worksheet.change_row_border_color(0, :top, 'FF0000')
+      expect(@worksheet.get_row_border_color(0, :top)).to eq('FF0000')
+      expect(@worksheet[0][5].get_border_color(:top)).to eq('FF0000')
+    end
+
+    it 'should cause row and cells to have border color at left of specified weight' do
+      @worksheet.change_row_border_color(0, :left, 'FF0000')
+      expect(@worksheet.get_row_border_color(0, :left)).to eq('FF0000')
+      expect(@worksheet[0][5].get_border_color(:left)).to eq('FF0000')
+    end
+
+    it 'should cause row and cells to have border color at right of specified weight' do
+      @worksheet.change_row_border_color(0, :right, 'FF0000')
+      expect(@worksheet.get_row_border_color(0, :right)).to eq('FF0000')
+      expect(@worksheet[0][5].get_border_color(:right)).to eq('FF0000')
+    end
+
+    it 'should cause row to have border color at bottom of specified weight' do
+      @worksheet.change_row_border_color(0, :bottom, 'FF0000')
+      expect(@worksheet.get_row_border_color(0, :bottom)).to eq('FF0000')
+      expect(@worksheet[0][5].get_border_color(:bottom)).to eq('FF0000')
+    end
+
+    it 'should cause row to have border color at diagonal of specified weight' do
+      @worksheet.change_row_border_color(0, :diagonal, 'FF0000')
+      expect(@worksheet.get_row_border_color(0, :diagonal)).to eq('FF0000')
+      expect(@worksheet[0][5].get_border_color(:diagonal)).to eq('FF0000')
+    end
+
+    context "with merged cells" do
+      before :each do
+        @worksheet.merge_cells(0, 2, 1, 2)
+      end
+
+      it "should not add border color outside of a merged cell when the border goes across it" do
+        @worksheet.change_row_border_color(0, :bottom, 'FF0000')
+        expect(@worksheet[0][0].get_border_color(:bottom)).to eq('FF0000')
+        expect(@worksheet[1][2].get_border_color(:bottom)).to be_nil
+      end
+
+      it "should add border color outside of a merged cell when the border is tangential to it" do
+        @worksheet.change_row_border_color(1, :bottom, 'FF0000')
+        expect(@worksheet[1][0].get_border_color(:bottom)).to eq('FF0000')
+        expect(@worksheet[1][2].get_border_color(:bottom)).to eq('FF0000')
+      end
+    end
   end
 
   describe '.change_column_font_name' do
@@ -556,6 +638,80 @@ describe RubyXL::Worksheet do
       @worksheet.change_column_border(0, :diagonal, 'thin')
       expect(@worksheet.get_column_border(0, :diagonal)).to eq('thin')
       expect(@worksheet[5][0].get_border(:diagonal)).to eq('thin')
+    end
+
+    context "with merged cells" do
+      before :each do
+        @worksheet.merge_cells(2, 0, 2, 1)
+      end
+
+      it "should not add border outside of a merged cell when the border goes across it" do
+        @worksheet.change_column_border(0, :right, 'thin')
+        expect(@worksheet[0][0].get_border(:right)).to eq('thin')
+        expect(@worksheet[2][1].get_border(:right)).to be_nil
+      end
+
+      it "should add border outside of a merged cell when the border is tangential to it" do
+        @worksheet.change_column_border(1, :bottom, 'thin')
+        expect(@worksheet[0][1].get_border(:bottom)).to eq('thin')
+        expect(@worksheet[2][1].get_border(:bottom)).to eq('thin')
+      end
+    end
+  end
+
+  describe '.change_column_border_color' do
+    it 'should cause error if a negative argument is passed in' do
+      expect {
+        @worksheet.change_column_border_color(-1, :top, 'FF0000')
+      }.to raise_error(RuntimeError)
+    end
+
+    it 'should cause column and cells wiFF0000 to have border color at top of specified weight' do
+      @worksheet.change_column_border_color(0, :top, 'FF0000')
+      expect(@worksheet.get_column_border_color(0, :top)).to eq('FF0000')
+      expect(@worksheet[5][0].get_border_color(:top)).to eq('FF0000')
+    end
+
+    it 'should cause column and cells wiFF0000 to have border color at left of specified weight' do
+      @worksheet.change_column_border_color(0, :left, 'FF0000')
+      expect(@worksheet.get_column_border_color(0, :left)).to eq('FF0000')
+      expect(@worksheet[5][0].get_border_color(:left)).to eq('FF0000')
+    end
+
+    it 'should cause column and cells wiFF0000 to have border color at right of specified weight' do
+      @worksheet.change_column_border_color(0, :right, 'FF0000')
+      expect(@worksheet.get_column_border_color(0, :right)).to eq('FF0000')
+      expect(@worksheet[5][0].get_border_color(:right)).to eq('FF0000')
+    end
+
+    it 'should cause column and cells wiFF0000 to have border color at bottom of specified weight' do
+      @worksheet.change_column_border_color(0, :bottom, 'FF0000')
+      expect(@worksheet.get_column_border_color(0, :bottom)).to eq('FF0000')
+      expect(@worksheet[5][0].get_border_color(:bottom)).to eq('FF0000')
+    end
+
+    it 'should cause column and cells wiFF0000 to have border color at diagonal of specified weight' do
+      @worksheet.change_column_border_color(0, :diagonal, 'FF0000')
+      expect(@worksheet.get_column_border_color(0, :diagonal)).to eq('FF0000')
+      expect(@worksheet[5][0].get_border_color(:diagonal)).to eq('FF0000')
+    end
+
+    context "with merged cells" do
+      before :each do
+        @worksheet.merge_cells(2, 0, 2, 1)
+      end
+
+      it "should not add border color outside of a merged cell when the border goes across it" do
+        @worksheet.change_column_border_color(0, :right, 'FF0000')
+        expect(@worksheet[0][0].get_border_color(:right)).to eq('FF0000')
+        expect(@worksheet[2][1].get_border_color(:right)).to be_nil
+      end
+
+      it "should add border color outside of a merged cell when the border is tangential to it" do
+        @worksheet.change_column_border_color(1, :bottom, 'FF0000')
+        expect(@worksheet[0][1].get_border_color(:bottom)).to eq('FF0000')
+        expect(@worksheet[2][1].get_border_color(:bottom)).to eq('FF0000')
+      end
     end
   end
 
