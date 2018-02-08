@@ -53,6 +53,7 @@ Please note that row is a _sparse_ array of cells. Your code *must* expect that 
   cell.vertical_alignment
   cell.get_border(:top)
   cell.get_border_color(:top)
+  cell.rotation
 
 ==== Wrappers for accessing Row properties 
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -140,6 +141,9 @@ bottom, center, distributed, top
   worksheet.sheet_data[0][0].change_vertical_alignment('bottom')  # Sets A1 to be bottom aligned
   worksheet.change_row_vertical_alignment(0, 'distributed')       # Sets first row to be distributed vertically
   worksheet.change_column_vertical_alignment(0, 'top')            # Sets first column to be top aligned
+  
+===== Rotation
+  worksheet.sheet_data[0][0].change_rotation(90)  # Sets A1 to be rotated by 90 degrees
 
 ==== Changing Row Height
   worksheet.change_row_height(0, 30)  # Sets first row height to 30
