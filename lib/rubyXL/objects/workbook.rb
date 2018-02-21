@@ -333,6 +333,7 @@ module RubyXL
     define_child_node(RubyXL::FileSharing)
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
     define_child_node(RubyXL::AlternateContent) # Somehow, order matters here
+    define_child_node(RubyXL::RevisionPointer)
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
     define_child_node(RubyXL::Sheets)
