@@ -33,4 +33,8 @@ module RubyXL
     define_element_name 'mc:AlternateContent'
   end
 
+  class RevisionPointer < RawOOXML
+    define_element_name 'xr:revisionPtr'
+  end
+
 end
