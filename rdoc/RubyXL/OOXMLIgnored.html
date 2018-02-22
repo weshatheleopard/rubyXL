@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::CellStyles - rubyXL 3.3.28</title>
+<title>class RubyXL::OOXMLIgnored - rubyXL 3.3.28</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -59,7 +59,7 @@
   <h3>Parent</h3>
 
   
-  <p class="link"><a href="OOXMLContainerObject.html">RubyXL::OOXMLContainerObject</a>
+  <p class="link">OOXMLObject
   
 </div>
 
@@ -71,7 +71,9 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-default">::default</a>
+    <li ><a href="#method-c-parse">::parse</a>
+    
+    <li ><a href="#method-i-write_xml">#write_xml</a>
     
   </ul>
 </div>
@@ -79,16 +81,13 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-RubyXL::CellStyles">
-  <h1 id="class-RubyXL::CellStyles" class="class">
-    class RubyXL::CellStyles
+<main role="main" aria-labelledby="class-RubyXL::OOXMLIgnored">
+  <h1 id="class-RubyXL::OOXMLIgnored" class="class">
+    class RubyXL::OOXMLIgnored
   </h1>
 
   <section class="description">
     
-<p><a
-href="http://www.datypic.com/sc/ooxml/e-ssml_cellStyles-1.html">www.datypic.com/sc/ooxml/e-ssml_cellStyles-1.html</a></p>
-
   </section>
 
   
@@ -110,11 +109,11 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_cellStyles-1.html">www.datypic.com/
        </header>
 
     
-      <div id="method-c-default" class="method-detail ">
+      <div id="method-c-parse" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">default</span><span
-            class="method-args">()</span>
+          <span class="method-name">parse</span><span
+            class="method-args">(node, ignore)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -128,10 +127,51 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_cellStyles-1.html">www.datypic.com/
           
 
           
-          <div class="method-source-code" id="default-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 98</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:_</span> =<span class="ruby-operator">&gt;</span> [ <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CellStyle</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:builtin_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Normal&#39;</span>, <span class="ruby-value">:xf_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) ])
+          <div class="method-source-code" id="parse-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/extensions.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">ignore</span>)
+  <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-write_xml" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">write_xml</span><span
+            class="method-args">(xml, node_name_override = nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="write_xml-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/extensions.rb, line 41</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-string">&#39;&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
