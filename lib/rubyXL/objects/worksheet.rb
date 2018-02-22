@@ -363,8 +363,8 @@ module RubyXL
     define_attribute(:xSplit,      :double)
     define_attribute(:ySplit,      :double)
     define_attribute(:topLeftCell, :string)
-    define_attribute(:activePane,  RubyXL::ST_Pane, :default => 'topLeft', )
-    define_attribute(:state,       RubyXL::ST_PaneState, :default=> 'split')
+    define_attribute(:activePane,  RubyXL::ST_Pane,      :default => 'topLeft')
+    define_attribute(:state,       RubyXL::ST_PaneState, :default => 'split')
     define_element_name 'pane'
   end
 
@@ -372,15 +372,15 @@ module RubyXL
   class Selection < OOXMLObject
     define_attribute(:pane,         RubyXL::ST_Pane)
     define_attribute(:activeCell,   :ref)
-    define_attribute(:activeCellId, :int)   # 0-based index of @active_cell in @sqref
+    define_attribute(:activeCellId, :uint)  # 0-based index of @active_cell in @sqref
     define_attribute(:sqref,        :sqref) # Array of references to the selected cells.
     define_element_name 'selection'
 
     def before_write_xml
-      # Normally, rindex of activeCellId in sqref:
+      # Normally, +rindex+ of activeCellId in sqref:
       # <selection activeCell="E12" activeCellId="9" sqref="A4 B6 C8 D10 E12 A4 B6 C8 D10 E12"/>
       if @active_cell_id.nil? && !@active_cell.nil? && @sqref.size > 1 then
-        # But, things can be more complex:
+        # But, things can get more complicated:
         # <selection activeCell="E8" activeCellId="2" sqref="A4:B4 C6:D6 E8:F8"/>
         # Not using .reverse.each here to avoid memory reallocation.
         @sqref.each_with_index { |ref, ind| @active_cell_id = ind if ref.cover?(@active_cell) }
