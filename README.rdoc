@@ -107,10 +107,12 @@ In order to discourage unnecessary reshuffling of data in memory, methods +extra
 ==== Changing Cells
   worksheet[0][0].change_contents("", worksheet[0][0].formula) # Sets value of cell A1 to empty string, preserves formula
 
-==== Changing Fonts
+==== Changing Fonts/Formatting
   worksheet.sheet_data[0][0].change_font_bold(true) # Makes A1 bold
   worksheet.change_row_italics(0,true)              # Makes first row italicized
   worksheet.change_column_font_name(0, 'Courier')   # Makes first column have font Courier
+  worksheet.change_text_wrap(true)                  # Makes the text in the cell to wrap.
+  worksheet.change_text_indent(1)                   # Indents the text in the cell by 1 level
 
 ==== Changing Fills	
   worksheet.sheet_data[0][0].change_fill('0ba53d')  # Sets A1 to have fill #0ba53d
