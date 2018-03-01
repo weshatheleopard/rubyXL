@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Selection - rubyXL 3.3.26</title>
+<title>class RubyXL::Selection - rubyXL 3.3.29</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -131,10 +131,10 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_selection-1.html">www.datypic.com/s
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 379</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
-  <span class="ruby-comment"># Normally, rindex of activeCellId in sqref:</span>
+  <span class="ruby-comment"># Normally, +rindex+ of activeCellId in sqref:</span>
   <span class="ruby-comment"># &lt;selection activeCell=&quot;E12&quot; activeCellId=&quot;9&quot; sqref=&quot;A4 B6 C8 D10 E12 A4 B6 C8 D10 E12&quot;/&gt;</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@active_cell_id</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@active_cell</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@sqref</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-comment"># But, things can be more complex:</span>
+    <span class="ruby-comment"># But, things can get more complicated:</span>
     <span class="ruby-comment"># &lt;selection activeCell=&quot;E8&quot; activeCellId=&quot;2&quot; sqref=&quot;A4:B4 C6:D6 E8:F8&quot;/&gt;</span>
     <span class="ruby-comment"># Not using .reverse.each here to avoid memory reallocation.</span>
     <span class="ruby-ivar">@sqref</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">ref</span>, <span class="ruby-identifier">ind</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@active_cell_id</span> = <span class="ruby-identifier">ind</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">ref</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-ivar">@active_cell</span>) }

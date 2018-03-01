@@ -33,4 +33,21 @@ module RubyXL
     define_element_name 'mc:AlternateContent'
   end
 
+  class OOXMLIgnored < OOXMLObject
+    def self.parse(node, ignore)
+      nil
+    end
+
+    def write_xml(xml, node_name_override = nil)
+      ''
+    end
+  end
+
+  # https://msdn.microsoft.com/en-us/library/mt793297(v=office.12).aspx
+  # "A CT_RevisionPtr element that specifies metadata supporting runtime scenarios for Microsoft Excel.
+  # It SHOULD be ignored and SHOULD NOT be saved by all others."
+  class RevisionPointer < OOXMLIgnored
+    define_element_name 'xr:revisionPtr'
+  end
+
 end

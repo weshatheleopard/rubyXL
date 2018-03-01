@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.26</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.29</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -119,6 +119,8 @@
     <li ><a href="#method-i-modify_border_color">#modify_border_color</a>
     
     <li ><a href="#method-i-modify_fill">#modify_fill</a>
+    
+    <li ><a href="#method-i-password_hash">#password_hash</a>
     
     <li ><a href="#method-i-register_new_fill">#register_new_fill</a>
     
@@ -1140,6 +1142,48 @@
                <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;solid&#39;</span>,
                                        <span class="ruby-value">:fg_color</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rgb</span>)))
   <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">xf</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-password_hash" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">password_hash</span><span
+            class="method-args">(pwd)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Calculate password hash from string for use in &#39;password&#39; fields.
+<a
+href="https://www.openoffice.org/sc/excelfileformat.pdf">www.openoffice.org/sc/excelfileformat.pdf</a></p>
+          
+          
+
+          
+          <div class="method-source-code" id="password_hash-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 200</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">password_hash</span>(<span class="ruby-identifier">pwd</span>)
+  <span class="ruby-identifier">hsh</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">pwd</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">each_char</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">hsh</span> = <span class="ruby-identifier">hsh</span> <span class="ruby-operator">^</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">ord</span>
+    <span class="ruby-identifier">hsh</span> = <span class="ruby-identifier">hsh</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">hsh</span> <span class="ruby-operator">-=</span> <span class="ruby-value">0x7fff</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">hsh</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0x7fff</span>
+  }
+
+  (<span class="ruby-identifier">hsh</span> <span class="ruby-operator">^</span> <span class="ruby-identifier">pwd</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">^</span> <span class="ruby-value">0xCE4B</span>).<span class="ruby-identifier">to_s</span>(<span class="ruby-value">16</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

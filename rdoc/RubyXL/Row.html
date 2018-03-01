@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Row - rubyXL 3.3.26</title>
+<title>class RubyXL::Row - rubyXL 3.3.29</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -72,6 +72,8 @@
   <ul class="link-list" role="directory">
     
     <li ><a href="#method-i-5B-5D">#[]</a>
+    
+    <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
     
     <li ><a href="#method-i-delete_cell_shift_left">#delete_cell_shift_left</a>
     
@@ -178,9 +180,42 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 131</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 136</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">ind</span>)
   <span class="ruby-identifier">cells</span>[<span class="ruby-identifier">ind</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-before_write_xml" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">before_write_xml</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="before_write_xml-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 128</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
+  <span class="ruby-operator">!</span>(<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">empty?</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -211,7 +246,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="delete_cell_shift_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 144</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 149</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_cell_shift_left</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -245,7 +280,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="get_fill_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 161</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 166</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_fill_color</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -278,7 +313,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="get_font-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 165</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_font</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -311,7 +346,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
@@ -344,7 +379,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="insert_cell_shift_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 139</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">col_index</span>, <span class="ruby-identifier">c</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -378,7 +413,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 135</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 140</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>
 <span class="ruby-keyword">end</span></pre>
@@ -411,7 +446,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
           
           <div class="method-source-code" id="xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 157</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 162</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xf</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>

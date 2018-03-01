@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Workbook - rubyXL 3.3.26</title>
+<title>class RubyXL::Workbook - rubyXL 3.3.29</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -248,7 +248,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 432</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 433</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">worksheets</span> = [], <span class="ruby-identifier">src_file_path</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span> = <span class="ruby-keyword">nil</span>,
                <span class="ruby-identifier">company</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">application</span> = <span class="ruby-constant">APPLICATION</span>, <span class="ruby-identifier">appversion</span> = <span class="ruby-constant">APPVERSION</span>, <span class="ruby-identifier">date1904</span> = <span class="ruby-value">0</span>)
   <span class="ruby-keyword">super</span>()
@@ -313,7 +313,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 361</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 362</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-identifier">max_sheet_id</span> = <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">collect</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:sheet_id</span>).<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
 
@@ -394,7 +394,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="date_to_num-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 414</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 415</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">date_to_num</span>(<span class="ruby-identifier">date</span>)
   <span class="ruby-identifier">date</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">date</span>.<span class="ruby-identifier">ajd</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">base_date</span>().<span class="ruby-identifier">ajd</span>).<span class="ruby-identifier">to_f</span>
 <span class="ruby-keyword">end</span></pre>
@@ -427,7 +427,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="num_to_date-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 418</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 419</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">num</span>)
   <span class="ruby-comment"># Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">MARCH_1_1900</span> <span class="ruby-keyword">then</span>
@@ -498,7 +498,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="save-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 390</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 391</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>(<span class="ruby-identifier">dst_file_path</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">dst_file_path</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">source_file_path</span>
 
@@ -544,7 +544,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="stream-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 385</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 386</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">stream</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">stream</span>
 <span class="ruby-keyword">end</span></pre>
@@ -605,7 +605,7 @@ href="http://www.accountingweb.com/technology/excel/seven-characters-you-cant-us
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 380</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 381</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;workbook.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
