@@ -107,12 +107,10 @@ In order to discourage unnecessary reshuffling of data in memory, methods +extra
 ==== Changing Cells
   worksheet[0][0].change_contents("", worksheet[0][0].formula) # Sets value of cell A1 to empty string, preserves formula
 
-==== Changing Fonts/Formatting
+==== Changing Fonts
   worksheet.sheet_data[0][0].change_font_bold(true) # Makes A1 bold
   worksheet.change_row_italics(0,true)              # Makes first row italicized
   worksheet.change_column_font_name(0, 'Courier')   # Makes first column have font Courier
-  worksheet.change_text_wrap(true)                  # Makes the text in the cell to wrap.
-  worksheet.change_text_indent(1)                   # Indents the text in the cell by 1 level
 
 ==== Changing Fills	
   worksheet.sheet_data[0][0].change_fill('0ba53d')  # Sets A1 to have fill #0ba53d
@@ -195,6 +193,8 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
 ==== Modifying Cell Format
   cell = worksheet[0][0]
   cell.set_number_format '0.0000%'    # For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68
+  cell.change_text_wrap(true)         # Makes the text in the cell to wrap.
+  cell.change_text_indent(1)          # Indents the text in the cell by 1 level
 
 == I/O
 

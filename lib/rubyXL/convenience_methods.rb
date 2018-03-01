@@ -950,7 +950,7 @@ module RubyXL
     def text_indent()
       validate_worksheet
       xf_obj = get_cell_xf
-      return 0 if xf_obj.alignment.nil?
+      return nil if xf_obj.alignment.nil?
       xf_obj.alignment.indent
     end
 

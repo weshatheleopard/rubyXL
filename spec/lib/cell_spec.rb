@@ -147,7 +147,7 @@ describe RubyXL::Cell do
 
   describe '.change_text_indent' do
     it 'should cause the cell to have the corresponding text indent' do
-      expect(@cell.text_indent).to eq(0)
+      expect(@cell.text_indent).to be_nil
       @cell.change_text_indent(2)
       expect(@cell.text_indent).to eq(2)
     end
@@ -155,9 +155,9 @@ describe RubyXL::Cell do
     it "should not cause other cells with the same style to have text indent" do
       another_cell = @worksheet[1][0]
       another_cell.style_index = @cell.style_index
-      expect(another_cell.text_indent).to eq(0)
+      expect(another_cell.text_indent).to be_nil
       @cell.change_text_indent(2)
-      expect(another_cell.text_indent).to eq(0)
+      expect(another_cell.text_indent).to be_nil
     end
   end
 

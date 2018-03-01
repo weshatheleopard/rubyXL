@@ -18,13 +18,13 @@ module RubyXL
   class Alignment < OOXMLObject
     define_attribute(:horizontal,      RubyXL::ST_HorizontalAlignment)
     define_attribute(:vertical,        RubyXL::ST_VerticalAlignment)
-    define_attribute(:textRotation,    :int)
+    define_attribute(:textRotation,    :uint)
     define_attribute(:wrapText,        :bool)
-    define_attribute(:indent,          :int)
+    define_attribute(:indent,          :uint)
     define_attribute(:relativeIndent,  :int)
     define_attribute(:justifyLastLine, :bool)
     define_attribute(:shrinkToFit,     :bool)
-    define_attribute(:readingOrder,    :int)
+    define_attribute(:readingOrder,    :uint)
     define_element_name 'alignment'
   end
 
