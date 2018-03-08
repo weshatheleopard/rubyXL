@@ -49,13 +49,13 @@ module LegacyWorksheet
       else
         case data
         when Numeric          then c.raw_value = data
-        when String           then
-          c.raw_value = data
-          c.datatype = RubyXL::DataType::RAW_STRING
         when RubyXL::RichText then
           c.is = data
           c.datatype = RubyXL::DataType::INLINE_STRING
         when NilClass         then nil
+        else
+          c.raw_value = data
+          c.datatype = RubyXL::DataType::RAW_STRING
         end
       end
 
