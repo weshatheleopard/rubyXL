@@ -573,6 +573,17 @@ describe RubyXL::Worksheet do
       expect(@worksheet[0][0].value).to eq('TEST')
     end
 
+    it 'should work with symbols' do
+      @worksheet.add_cell(0,0, :TEST)
+      expect(@worksheet[0][0].value).to eq(:TEST)
+    end
+
+    it 'should work with dates' do
+      dt = Date.new
+      @worksheet.add_cell(0,0, dt)
+      expect(@worksheet[0][0].value).to eq(dt)
+    end
+
     it 'should add a new cell below nil rows that might exist' do
       @worksheet.sheet_data.rows << nil << nil
       @worksheet.add_cell(15,0, 'TEST')
