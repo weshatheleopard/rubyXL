@@ -35,8 +35,6 @@ module RubyXL
   
   class RevisionPtr < RawOOXML
     define_element_name 'xr:revisionPtr'
-    define_attribute(:revIDLastSave, :string)
-    define_attribute(:documentId, :string)
   end
 
   class OOXMLIgnored < OOXMLObject
