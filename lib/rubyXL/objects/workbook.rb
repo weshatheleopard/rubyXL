@@ -350,6 +350,7 @@ module RubyXL
     define_child_node(RubyXL::FileRecoveryProperties)
     define_child_node(RubyXL::WebPublishObjects)
     define_child_node(RubyXL::ExtensionStorageArea)
+    define_child_node(RubyXL::RevisionPtr)
 
     define_element_name 'workbook'
     set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,

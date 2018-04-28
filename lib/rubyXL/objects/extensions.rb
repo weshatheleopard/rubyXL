@@ -32,6 +32,10 @@ module RubyXL
   class AlternateContent < RawOOXML
     define_element_name 'mc:AlternateContent'
   end
+  
+  class RevisionPtr < RawOOXML
+    define_element_name 'xr:revisionPtr'
+  end
 
   class OOXMLIgnored < OOXMLObject
     def self.parse(node, ignore)
