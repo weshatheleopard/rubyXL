@@ -362,7 +362,7 @@ module RubyXL
   class Pane < OOXMLObject
     define_attribute(:xSplit,      :double)
     define_attribute(:ySplit,      :double)
-    define_attribute(:topLeftCell, :string)
+    define_attribute(:topLeftCell, :ref)
     define_attribute(:activePane,  RubyXL::ST_Pane,      :default => 'topLeft')
     define_attribute(:state,       RubyXL::ST_PaneState, :default => 'split')
     define_element_name 'pane'

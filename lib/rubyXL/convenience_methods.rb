@@ -869,10 +869,10 @@ module RubyXL
       validate_worksheet
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.wrap_text = wrap }
     end
-    
-    def change_rotation( rotation )
+
+    def change_text_rotation(rot)
       validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index){ |a| a.text_rotation = rotation }
+      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.text_rotation = rot }
     end
 
     def change_text_indent(indent)
@@ -952,7 +952,7 @@ module RubyXL
       xf_obj.alignment.wrap_text
     end
     
-    def rotation
+    def text_rotation
       validate_worksheet
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?

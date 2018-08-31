@@ -528,4 +528,12 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '.text_rotation' do
+    it 'should correctly return the rotation for this cell' do
+      expect(@cell.text_rotation).to be_nil
+      @cell.change_text_rotation(45)
+      expect(@cell.text_rotation).to eq(45)
+    end
+  end
+
 end
