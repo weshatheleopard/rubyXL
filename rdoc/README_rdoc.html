@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.3.29</title>
+<title>README - rubyXL 3.3.30</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -80,6 +80,7 @@
     <li><a href="#label-Changing+Alignment">Changing Alignment</a>
     <li><a href="#label-Horizontal">Horizontal</a>
     <li><a href="#label-Vertical">Vertical</a>
+    <li><a href="#label-Rotation">Rotation</a>
     <li><a href="#label-Changing+Row+Height">Changing Row Height</a>
     <li><a href="#label-Changing+Column+Width">Changing Column Width</a>
     <li><a href="#label-Merging+Cells">Merging Cells</a>
@@ -195,6 +196,7 @@ preserving as much of the structure as possible.</p>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">vertical_alignment</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border</span>(:<span class="ruby-identifier">top</span>)
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border_color</span>(:<span class="ruby-identifier">top</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">text_rotation</span>
 </pre>
 
 <h4 id="label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties <span><a href="#label-Wrappers+for+accessing+Row+properties+">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -317,6 +319,24 @@ You should access and iterate through rows and cells directly:</p>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_vertical_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;top&#39;</span>)            <span class="ruby-comment"># Sets first column to be top aligned</span>
 </pre>
 
+<h5 id="label-Rotation">Rotation<span><a href="#label-Rotation">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_text_rotation</span>(<span class="ruby-value">90</span>)  <span class="ruby-comment"># Sets A1 to be rotated by 90 degrees</span>
+</pre>
+
+<p>Values:</p>
+<ul><li>
+<p>0-90 - degrees counterclockwise, around the bottom LEFT corner of the cell;</p>
+</li><li>
+<p>91-179 - degrees clockwise, around the bottom RIGHT corner of the cell;</p>
+</li><li>
+<p>180-254 - degrees clockwise, around the bottom LEFT corner of the cell,
+text becomes progressively invisible</p>
+</li><li>
+<p>255 - text is in normal rotation but displayed vertically (one letter under
+another), line feed starts new line to the right of the previous.</p>
+</li></ul>
+
 <h4 id="label-Changing+Row+Height">Changing Row Height<span><a href="#label-Changing+Row+Height">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
 <pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_height</span>(<span class="ruby-value">0</span>, <span class="ruby-value">30</span>)  <span class="ruby-comment"># Sets first row height to 30</span>
@@ -409,6 +429,8 @@ have been moved, as the formulas do not adapt to the shifted cells</p>
 
 <pre class="ruby"><span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">set_number_format</span> <span class="ruby-string">&#39;0.0000%&#39;</span>    <span class="ruby-comment"># For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_text_wrap</span>(<span class="ruby-keyword">true</span>)         <span class="ruby-comment"># Makes the text in the cell to wrap.</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_text_indent</span>(<span class="ruby-value">1</span>)          <span class="ruby-comment"># Indents the text in the cell by 1 level</span>
 </pre>
 
 <h2 id="label-I-2FO">I/O<span><a href="#label-I-2FO">&para;</a> <a href="#top">&uarr;</a></span></h2>

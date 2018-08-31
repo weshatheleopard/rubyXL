@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Table of Contents - rubyXL 3.3.29</title>
+<title>Table of Contents - rubyXL 3.3.30</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -21,7 +21,7 @@
 
 <body id="top" class="table-of-contents">
 <main role="main">
-<h1 class="class">Table of Contents - rubyXL 3.3.29</h1>
+<h1 class="class">Table of Contents - rubyXL 3.3.30</h1>
 
 <h2 id="pages">Pages</h2>
 <ul>
@@ -53,6 +53,7 @@
       <li><a href="README_rdoc.html#label-Changing+Alignment">Changing Alignment</a>
       <li><a href="README_rdoc.html#label-Horizontal">Horizontal</a>
       <li><a href="README_rdoc.html#label-Vertical">Vertical</a>
+      <li><a href="README_rdoc.html#label-Rotation">Rotation</a>
       <li><a href="README_rdoc.html#label-Changing+Row+Height">Changing Row Height</a>
       <li><a href="README_rdoc.html#label-Changing+Column+Width">Changing Column Width</a>
       <li><a href="README_rdoc.html#label-Merging+Cells">Merging Cells</a>
@@ -521,6 +522,18 @@
   </li>
   <li class="class">
     <a href="RubyXL/Color.html">RubyXL::Color</a>
+  </li>
+  <li class="module">
+    <a href="RubyXL/ColorConvenienceClasses.html">RubyXL::ColorConvenienceClasses</a>
+  </li>
+  <li class="class">
+    <a href="RubyXL/ColorConvenienceClasses/HlsColor.html">RubyXL::ColorConvenienceClasses::HlsColor</a>
+  </li>
+  <li class="class">
+    <a href="RubyXL/ColorConvenienceClasses/RgbColor.html">RubyXL::ColorConvenienceClasses::RgbColor</a>
+  </li>
+  <li class="module">
+    <a href="RubyXL/ColorConvenienceMethods.html">RubyXL::ColorConvenienceMethods</a>
   </li>
   <li class="class">
     <a href="RubyXL/ColorFilter.html">RubyXL::ColorFilter</a>
@@ -1289,6 +1302,11 @@
     <span class="container">RubyXL::LegacyWorksheet</span>
 
   <li class="method">
+    <a href="RubyXL/ColorConvenienceClasses/RgbColor.html#method-c-parse">::parse</a>
+    &mdash;
+    <span class="container">RubyXL::ColorConvenienceClasses::RgbColor</span>
+
+  <li class="method">
     <a href="RubyXL/RawOOXML.html#method-c-parse">::parse</a>
     &mdash;
     <span class="container">RubyXL::RawOOXML</span>
@@ -1432,6 +1450,11 @@
     <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-application-3D">#application=</a>
     &mdash;
     <span class="container">RubyXL::WorkbookConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/ColorConvenienceClasses/HlsColor.html#method-i-apply_tint">#apply_tint</a>
+    &mdash;
+    <span class="container">RubyXL::ColorConvenienceClasses::HlsColor</span>
 
   <li class="method">
     <a href="RubyXL/WorkbookConvenienceMethods.html#method-i-appversion">#appversion</a>
@@ -1757,6 +1780,16 @@
     <a href="RubyXL/WorksheetConvenienceMethods.html#method-i-change_row_vertical_alignment">#change_row_vertical_alignment</a>
     &mdash;
     <span class="container">RubyXL::WorksheetConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/CellConvenienceMethods.html#method-i-change_text_indent">#change_text_indent</a>
+    &mdash;
+    <span class="container">RubyXL::CellConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/CellConvenienceMethods.html#method-i-change_text_rotation">#change_text_rotation</a>
+    &mdash;
+    <span class="container">RubyXL::CellConvenienceMethods</span>
 
   <li class="method">
     <a href="RubyXL/CellConvenienceMethods.html#method-i-change_text_wrap">#change_text_wrap</a>
@@ -2109,6 +2142,11 @@
     <span class="container">RubyXL::ColumnRanges</span>
 
   <li class="method">
+    <a href="RubyXL/ColorConvenienceMethods.html#method-i-get_rgb">#get_rgb</a>
+    &mdash;
+    <span class="container">RubyXL::ColorConvenienceMethods</span>
+
+  <li class="method">
     <a href="RubyXL/BorderEdge.html#method-i-get_rgb_color">#get_rgb_color</a>
     &mdash;
     <span class="container">RubyXL::BorderEdge</span>
@@ -2167,6 +2205,11 @@
     <a href="RubyXL/FontConvenienceMethods.html#method-i-get_size">#get_size</a>
     &mdash;
     <span class="container">RubyXL::FontConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/Theme.html#method-i-get_theme_color">#get_theme_color</a>
+    &mdash;
+    <span class="container">RubyXL::Theme</span>
 
   <li class="method">
     <a href="RubyXL/CellConvenienceMethods.html#method-i-horizontal_alignment">#horizontal_alignment</a>
@@ -2614,9 +2657,34 @@
     <span class="container">RubyXL::Workbook</span>
 
   <li class="method">
+    <a href="RubyXL/CellConvenienceMethods.html#method-i-text_indent">#text_indent</a>
+    &mdash;
+    <span class="container">RubyXL::CellConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/CellConvenienceMethods.html#method-i-text_rotation">#text_rotation</a>
+    &mdash;
+    <span class="container">RubyXL::CellConvenienceMethods</span>
+
+  <li class="method">
     <a href="RubyXL/CellConvenienceMethods.html#method-i-text_wrap">#text_wrap</a>
     &mdash;
     <span class="container">RubyXL::CellConvenienceMethods</span>
+
+  <li class="method">
+    <a href="RubyXL/ColorConvenienceClasses/RgbColor.html#method-i-to_hls">#to_hls</a>
+    &mdash;
+    <span class="container">RubyXL::ColorConvenienceClasses::RgbColor</span>
+
+  <li class="method">
+    <a href="RubyXL/ColorConvenienceClasses/HlsColor.html#method-i-to_rgb">#to_rgb</a>
+    &mdash;
+    <span class="container">RubyXL::ColorConvenienceClasses::HlsColor</span>
+
+  <li class="method">
+    <a href="RubyXL/ColorConvenienceClasses/RgbColor.html#method-i-to_s">#to_s</a>
+    &mdash;
+    <span class="container">RubyXL::ColorConvenienceClasses::RgbColor</span>
 
   <li class="method">
     <a href="RubyXL/Reference.html#method-i-to_s">#to_s</a>

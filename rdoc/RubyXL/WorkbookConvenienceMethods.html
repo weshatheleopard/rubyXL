@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.29</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.30</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -846,7 +846,8 @@
   <span class="ruby-identifier">fill</span> = <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">fill_id</span>]
   <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">fill</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">fill</span>.<span class="ruby-identifier">pattern_fill</span>
   <span class="ruby-identifier">color</span> = <span class="ruby-identifier">pattern</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">pattern</span>.<span class="ruby-identifier">fg_color</span>
-  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;ffffff&#39;</span>
+  <span class="ruby-identifier">color</span> = <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">get_rgb</span>(<span class="ruby-keyword">self</span>)
+  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;ffffff&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1009,7 +1010,7 @@
 
           
           <div class="method-source-code" id="modify_alignment-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 151</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>
@@ -1047,7 +1048,7 @@
 
           
           <div class="method-source-code" id="modify_border-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 168</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 169</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
@@ -1093,7 +1094,7 @@
 
           
           <div class="method-source-code" id="modify_border_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 185</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 186</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_border_color</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
@@ -1135,7 +1136,7 @@
 
           
           <div class="method-source-code" id="modify_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 160</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 161</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_fill</span> =<span class="ruby-operator">&gt;</span>
@@ -1174,7 +1175,7 @@ href="https://www.openoffice.org/sc/excelfileformat.pdf">www.openoffice.org/sc/e
 
           
           <div class="method-source-code" id="password_hash-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 200</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 201</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">password_hash</span>(<span class="ruby-identifier">pwd</span>)
   <span class="ruby-identifier">hsh</span> = <span class="ruby-value">0</span>
   <span class="ruby-identifier">pwd</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">each_char</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
@@ -1214,7 +1215,7 @@ href="https://www.openoffice.org/sc/excelfileformat.pdf">www.openoffice.org/sc/e
 
           
           <div class="method-source-code" id="register_new_fill-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 126</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 127</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">old_xf</span>)
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">apply_fill</span> = <span class="ruby-keyword">true</span>
@@ -1252,7 +1253,7 @@ href="https://www.openoffice.org/sc/excelfileformat.pdf">www.openoffice.org/sc/e
 
           
           <div class="method-source-code" id="register_new_font-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 135</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 136</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_font</span>(<span class="ruby-identifier">new_font</span>, <span class="ruby-identifier">old_xf</span>)
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span> = <span class="ruby-identifier">fonts</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_font</span> } <span class="ruby-comment"># Reuse existing font, if it exists</span>
@@ -1290,7 +1291,7 @@ href="https://www.openoffice.org/sc/excelfileformat.pdf">www.openoffice.org/sc/e
 
           
           <div class="method-source-code" id="register_new_xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 144</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 145</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>)
   <span class="ruby-identifier">new_xf_id</span> = <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">xf</span><span class="ruby-operator">|</span> <span class="ruby-identifier">xf</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_xf</span> } <span class="ruby-comment"># Reuse existing XF, if it exists</span>
   <span class="ruby-identifier">new_xf_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this XF has never existed before, add it to collection.</span>
