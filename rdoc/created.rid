@@ -1,4 +1,4 @@
-Wed, 28 Nov 2018 22:30:03 +0000
+Wed, 28 Nov 2018 22:39:46 +0000
 README.rdoc	Fri, 31 Aug 2018 23:23:26 +0000
 lib/rubyXL.rb	Tue, 27 Jun 2017 20:19:22 +0000
 lib/rubyXL/cell.rb	Mon, 20 Nov 2017 21:42:33 +0000
@@ -28,11 +28,11 @@ lib/rubyXL/objects/shared_strings.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/sheet_common.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/sheet_data.rb	Mon, 26 Feb 2018 23:44:13 +0000
 lib/rubyXL/objects/simple_types.rb	Thu, 01 Mar 2018 21:33:15 +0000
-lib/rubyXL/objects/storage.rb	Mon, 20 Nov 2017 21:40:55 +0000
+lib/rubyXL/objects/storage.rb	Wed, 28 Nov 2018 22:36:32 +0000
 lib/rubyXL/objects/stylesheet.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/text.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/theme.rb	Thu, 01 Mar 2018 21:33:15 +0000
 lib/rubyXL/objects/workbook.rb	Thu, 01 Mar 2018 21:33:15 +0000
-lib/rubyXL/objects/worksheet.rb	Fri, 31 Aug 2018 22:50:24 +0000
+lib/rubyXL/objects/worksheet.rb	Wed, 28 Nov 2018 22:38:32 +0000
 lib/rubyXL/parser.rb	Tue, 27 Jun 2017 20:19:22 +0000
 lib/rubyXL/worksheet.rb	Mon, 20 Nov 2017 21:42:33 +0000

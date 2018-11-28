@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Worksheet - rubyXL 3.3.31</title>
+<title>class RubyXL::Worksheet - rubyXL 3.3.32</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -251,7 +251,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 734</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 735</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">param</span>)
   <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -298,7 +298,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 685</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 686</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span> <span class="ruby-comment"># This method may need to be moved higher in the hierarchy</span>
   <span class="ruby-identifier">first_nonempty_row</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">last_nonempty_row</span> = <span class="ruby-value">0</span>
@@ -405,7 +405,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 730</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 731</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;worksheets&#39;</span>, <span class="ruby-node">&quot;sheet#{file_index}.xml&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
