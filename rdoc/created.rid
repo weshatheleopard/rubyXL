@@ -1,8 +1,8 @@
-Fri, 31 Aug 2018 23:30:06 +0000
+Wed, 28 Nov 2018 22:30:03 +0000
 README.rdoc	Fri, 31 Aug 2018 23:23:26 +0000
 lib/rubyXL.rb	Tue, 27 Jun 2017 20:19:22 +0000
 lib/rubyXL/cell.rb	Mon, 20 Nov 2017 21:42:33 +0000
-lib/rubyXL/convenience_methods.rb	Fri, 31 Aug 2018 23:24:22 +0000
+lib/rubyXL/convenience_methods.rb	Wed, 28 Nov 2018 21:02:39 +0000
 lib/rubyXL/objects/border.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/calculation_chain.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/cell_style.rb	Thu, 01 Mar 2018 21:43:52 +0000
