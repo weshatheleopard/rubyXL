@@ -1263,7 +1263,7 @@ module RubyXL
         rgb_color
       end
 
-      private def set_color(t1, t2, t3)
+      def set_color(t1, t2, t3)
         color = 0
 
         t3 += 1.0 if (t3 < 0)
@@ -1281,6 +1281,7 @@ module RubyXL
 
         color
       end
+      private :set_color
 
       def apply_tint(tint)
         return self if tint.nil? || tint == 0
