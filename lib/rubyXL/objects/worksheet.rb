@@ -630,6 +630,7 @@ module RubyXL
     define_relationship(RubyXL::PivotTableFile)
     define_relationship(RubyXL::TableFile)
     define_relationship(RubyXL::ControlPropertiesFile)
+    define_relationship(RubyXL::CustomPropertyFile)
     define_relationship(RubyXL::SlicerFile)
     define_relationship(RubyXL::OLEObjectFile)
     define_relationship(RubyXL::ActiveX)
