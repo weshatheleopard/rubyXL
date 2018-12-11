@@ -145,6 +145,22 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '.change_text_indent' do
+    it 'should cause the cell to have the corresponding text indent' do
+      expect(@cell.text_indent).to be_nil
+      @cell.change_text_indent(2)
+      expect(@cell.text_indent).to eq(2)
+    end
+
+    it "should not cause other cells with the same style to have text indent" do
+      another_cell = @worksheet[1][0]
+      another_cell.style_index = @cell.style_index
+      expect(another_cell.text_indent).to be_nil
+      @cell.change_text_indent(2)
+      expect(another_cell.text_indent).to be_nil
+    end
+  end
+
   describe '.change_border_color' do
     it 'should cause cell to have a colored top border' do
       expect(@cell.get_border_color(:top)).to be_nil
@@ -509,6 +525,14 @@ describe RubyXL::Cell do
 
     it 'should return nil if no diagonal border has been specified for this cell' do
       expect(@cell.get_border(:diagonal)).to be_nil
+    end
+  end
+
+  describe '.text_rotation' do
+    it 'should correctly return the rotation for this cell' do
+      expect(@cell.text_rotation).to be_nil
+      @cell.change_text_rotation(45)
+      expect(@cell.text_rotation).to eq(45)
     end
   end
 

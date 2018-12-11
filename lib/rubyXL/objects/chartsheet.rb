@@ -8,7 +8,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetProtection-4.html
   class ChartsheetProtection < OOXMLObject
-    define_attribute(:password, :string)
+    define_attribute(:password, RubyXL::ST_UnsignedShortHex)
     define_attribute(:content,  :bool, :default => false)
     define_attribute(:objects,  :bool, :default => false)
     define_element_name 'sheetProtection'

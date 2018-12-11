@@ -131,6 +131,10 @@ module RubyXL
     attr_accessor :worksheet
 #    attr_reader :first_nonempty_cell, :last_nonempty_cell
 
+    def before_write_xml
+      !(cells.nil? || cells.empty?)
+    end
+
     def index_in_collection
       r - 1
     end

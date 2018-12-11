@@ -1391,6 +1391,25 @@ module RubyXL
       ROOT.join('xl', 'theme', 'theme1.xml')
     end
 
+    def get_theme_color(idx)
+      color_scheme = a_theme_elements && a_theme_elements.a_clr_scheme
+
+      if color_scheme then
+        case idx
+        when 0 then color_scheme.a_lt1
+        when 1 then color_scheme.a_dk1
+        when 2 then color_scheme.a_lt2
+        when 3 then color_scheme.a_dk2
+        when 4 then color_scheme.a_accent1
+        when 5 then color_scheme.a_accent2
+        when 6 then color_scheme.a_accent3
+        when 7 then color_scheme.a_accent4
+        when 8 then color_scheme.a_accent5
+        when 9 then color_scheme.a_accent6
+        end
+      end
+    end
+
     def self.default
       default_theme = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme">
