@@ -129,7 +129,7 @@ module RubyXL
     define_element_name 'row'
 
     attr_accessor :worksheet
-#    attr_reader :first_nonempty_cell, :last_nonempty_cell
+    attr_reader :first_nonempty_cell, :last_nonempty_cell
 
     def before_write_xml
       !(cells.nil? || cells.empty?)
@@ -178,19 +178,18 @@ module RubyXL
     end
 
     def before_save
-
-#      @first_nonempty_cell = @last_nonempty_cell = nil
+      @first_nonempty_cell = @last_nonempty_cell = nil
 
       cells.each_with_index { |cell, col_index|
         next if cell.nil?
         cell.r = RubyXL::Reference.new(r - 1, col_index)
 
-#        @first_nonempty_cell ||= col_index
-#        @last_nonempty_cell = col_index
+        @first_nonempty_cell ||= col_index
+        @last_nonempty_cell = col_index
       }
 
-# http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.row%28v=office.14%29.aspx
-#      self.spans = "#{@first_nonempty_cell + 1}:#{@last_nonempty_cell + 1}" unless @first_nonempty_cell.nil?
+      # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.row%28v=office.14%29.aspx
+      self.spans = "#{@first_nonempty_cell + 1}:#{@last_nonempty_cell + 1}" unless @first_nonempty_cell.nil?
       self.custom_format = (style_index.to_i != 0)
     end
 
@@ -213,8 +212,8 @@ module RubyXL
     end
 
     def before_save
-#      @first_nonempty_row = @first_nonempty_column = nil
-#      @last_nonempty_row = @last_nonempty_column = 0
+      @first_nonempty_row = @first_nonempty_column = nil
+      @last_nonempty_row = @last_nonempty_column = 0
 
       rows.each_with_index { |row, row_index|
         next if row.nil?
@@ -222,7 +221,6 @@ module RubyXL
         row.r = row_index + 1
         row.before_save
 
-=begin
         @first_nonempty_row ||= row_index
         @last_nonempty_row = row_index
 
@@ -230,7 +228,6 @@ module RubyXL
           @first_nonempty_column = row.first_nonempty_cell if @first_nonempty_column.nil? || (row.first_nonempty_cell < @first_nonempty_column)
           @last_nonempty_column  = row.last_nonempty_cell  if row.last_nonempty_cell > @last_nonempty_column
         end
-=end
       }
     end
 
