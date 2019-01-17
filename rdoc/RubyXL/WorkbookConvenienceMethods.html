@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.32</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.3.33</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -1013,7 +1013,7 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
-  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span> = <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">dup</span> <span class="ruby-operator">||</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">alignment</span>)
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">apply_alignment</span> = <span class="ruby-keyword">true</span>
 
