@@ -28,6 +28,11 @@ module RubyXL
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
   end
 
+  class CustomPropertyFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.customProperty'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customProperty'
+  end
+
   class DrawingFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'

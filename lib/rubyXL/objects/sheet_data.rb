@@ -125,6 +125,10 @@ module RubyXL
 
     attr_accessor :worksheet
 
+    def before_write_xml
+      !(cells.nil? || cells.empty?)
+    end
+
     def index_in_collection
       r - 1
     end

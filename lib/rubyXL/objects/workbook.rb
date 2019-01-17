@@ -1,5 +1,6 @@
 #require 'tmpdir'
 require 'date'
+require 'rubyXL/convenience_methods'
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/shared_strings'
 require 'rubyXL/objects/stylesheet'
@@ -11,7 +12,6 @@ require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/external_links'
-require 'rubyXL/convenience_methods'
 
 module RubyXL
 
@@ -31,7 +31,7 @@ module RubyXL
   class FileSharing < OOXMLObject
     define_attribute(:readOnlyRecommended, :bool, :default => false)
     define_attribute(:userName,            :string)
-    define_attribute(:reservationPassword, :string)
+    define_attribute(:reservationPassword, RubyXL::ST_UnsignedShortHex)
     define_element_name 'fileSharing'
   end
 
@@ -60,8 +60,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_workbookProtection-1.html
   class WorkbookProtection < OOXMLObject
-    define_attribute(:workbookPassword,  :string)
-    define_attribute(:revisionsPassword, :string)
+    define_attribute(:workbookPassword,  RubyXL::ST_UnsignedShortHex)
+    define_attribute(:revisionsPassword, RubyXL::ST_UnsignedShortHex)
     define_attribute(:lockStructure,     :bool,   :default => false)
     define_attribute(:lockWindows,       :bool,   :default => false)
     define_attribute(:lockRevision,      :bool,   :default => false)
@@ -332,6 +332,7 @@ module RubyXL
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
+    define_child_node(RubyXL::RevisionPointer)
     define_child_node(RubyXL::AlternateContent) # Somehow, order matters here
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
