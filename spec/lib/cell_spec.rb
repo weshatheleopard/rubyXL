@@ -460,6 +460,18 @@ describe RubyXL::Cell do
     it 'should return nil if no horizontal alignment has been specified for this cell' do
       expect(@cell.horizontal_alignment).to be_nil
     end
+
+    it 'should not create new XFs when changing alignment to already existing values' do
+      @cell.change_horizontal_alignment('left')
+      style_xf1 = @cell.style_index
+      @cell.change_horizontal_alignment('right')
+      expect(@cell.style_index).not_to eq(style_xf1)
+      style_xf2 = @cell.style_index
+      @cell.change_horizontal_alignment('left')
+      expect(@cell.style_index).to eq(style_xf1)
+      @cell.change_horizontal_alignment('right')
+      expect(@cell.style_index).to eq(style_xf2)
+    end
   end
 
   describe '.vertical_alignment' do
