@@ -21,9 +21,6 @@ module RubyXL
         raise 'invalid color'
       end
     end
-
-    include ColorConvenienceMethods
   end
 
-  include ColorConvenienceClasses
 end

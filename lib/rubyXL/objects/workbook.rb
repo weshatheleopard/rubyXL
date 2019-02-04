@@ -1,6 +1,5 @@
 #require 'tmpdir'
 require 'date'
-require 'rubyXL/convenience_methods'
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/shared_strings'
 require 'rubyXL/objects/stylesheet'
@@ -457,8 +456,6 @@ module RubyXL
       self.modifier    = modifier
       self.date1904    = date1904 > 0
     end
-
-    include WorkbookConvenienceMethods
   end
 
 end

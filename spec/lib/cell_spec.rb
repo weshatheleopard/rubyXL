@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'bigdecimal'
+require 'rubyXL/convenience_methods/font'
+require 'rubyXL/convenience_methods/cell'
 
 describe RubyXL::Cell do
 
