@@ -150,12 +150,18 @@ module RubyXL
     end
 
     def modify_alignment(style_index, &block)
-      xf = cell_xfs[style_index || 0].dup
-      xf.alignment = xf.alignment.dup || RubyXL::Alignment.new
-      yield(xf.alignment)
-      xf.apply_alignment = true
+      old_xf = cell_xfs[style_index || 0]
+      new_xf = old_xf.dup
+      if old_xf.alignment then
+        new_xf.alignment = old_xf.alignment.dup
+      else
+        new_xf.alignment = RubyXL::Alignment.new
+      end
 
-      register_new_xf(xf)
+      yield(new_xf.alignment)
+      new_xf.apply_alignment = true
+
+      register_new_xf(new_xf)
     end
 
     def modify_fill(style_index, rgb)
