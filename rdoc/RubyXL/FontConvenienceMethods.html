@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::FontConvenienceMethods - rubyXL 3.3.33</title>
+<title>module RubyXL::FontConvenienceMethods - rubyXL 3.4.0</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -145,7 +145,7 @@
 
           
           <div class="method-source-code" id="get_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1106</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 21</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_name</span>
   <span class="ruby-identifier">name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -178,7 +178,7 @@
 
           
           <div class="method-source-code" id="get_rgb_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1114</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_rgb_color</span>
   <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span>
 <span class="ruby-keyword">end</span></pre>
@@ -211,7 +211,7 @@
 
           
           <div class="method-source-code" id="get_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1110</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_size</span>
   <span class="ruby-identifier">sz</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">sz</span>.<span class="ruby-identifier">val</span>
 <span class="ruby-keyword">end</span></pre>
@@ -244,7 +244,7 @@
 
           
           <div class="method-source-code" id="is_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1094</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_bold</span>
   <span class="ruby-identifier">b</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">b</span>.<span class="ruby-identifier">val</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -278,7 +278,7 @@
 
           
           <div class="method-source-code" id="is_italic-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1090</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 5</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_italic</span>
   <span class="ruby-identifier">i</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">i</span>.<span class="ruby-identifier">val</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -311,7 +311,7 @@
 
           
           <div class="method-source-code" id="is_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1102</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_strikethrough</span>
   <span class="ruby-identifier">strike</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">strike</span>.<span class="ruby-identifier">val</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -344,7 +344,7 @@
 
           
           <div class="method-source-code" id="is_underlined-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1098</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_underlined</span>
   <span class="ruby-identifier">u</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">u</span>.<span class="ruby-identifier">val</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -377,7 +377,7 @@
 
           
           <div class="method-source-code" id="set_bold-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1122</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_bold</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">b</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -410,7 +410,7 @@
 
           
           <div class="method-source-code" id="set_italic-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1118</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_italic</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">i</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -443,7 +443,7 @@
 
           
           <div class="method-source-code" id="set_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1134</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_name</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -476,7 +476,7 @@
 
           
           <div class="method-source-code" id="set_rgb_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1142</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_rgb_color</span>(<span class="ruby-identifier">font_color</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">color</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">font_color</span>.<span class="ruby-identifier">to_s</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -509,7 +509,7 @@
 
           
           <div class="method-source-code" id="set_size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1138</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_size</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sz</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">FloatValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -542,7 +542,7 @@
 
           
           <div class="method-source-code" id="set_strikethrough-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1130</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_strikethrough</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">strike</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -575,7 +575,7 @@
 
           
           <div class="method-source-code" id="set_underline-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods.rb, line 1126</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/font.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_underline</span>(<span class="ruby-identifier">val</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">u</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BooleanValue</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:val</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">val</span>)
 <span class="ruby-keyword">end</span></pre>

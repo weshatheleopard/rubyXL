@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.3.33</title>
+<title>README - rubyXL 3.4.0</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -59,6 +59,7 @@
     <li><a href="#label-rubyXL">rubyXL</a>
     <li><a href="#label-To+Install-3A">To Install:</a>
     <li><a href="#label-To+Use-3A">To Use:</a>
+    <li><a href="#label-Convenience+methods">Convenience methods</a>
     <li><a href="#label-Parsing+an+existing+workbook">Parsing an existing workbook</a>
     <li><a href="#label-Creating+a+new+Workbook">Creating a new Workbook</a>
     <li><a href="#label-Accessing">Accessing</a>
@@ -141,6 +142,28 @@ preserving as much of the structure as possible.</p>
 <h2 id="label-To+Use-3A">To Use:<span><a href="#label-To+Use-3A">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL&#39;</span> <span class="ruby-comment"># Assuming rubygems is already required</span>
+</pre>
+
+<h3 id="label-Convenience+methods">Convenience methods<span><a href="#label-Convenience+methods">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Starting with version 3.4.0, the main data structure has been separated
+from the convenience methods that provide access to individual features of
+the <code>xlsx</code> format, in order to decrease the memory footprint. If
+you intend to use these features, you will need to additionally include the
+respective files:</p>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/cell&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/color&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/font&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/workbook&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/worksheet&#39;</span>
+</pre>
+
+<p>If you do not care about your RAM usage, just include them all at once by
+adding the following line to your code so it can continue operating just as
+before:</p>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods&#39;</span>
 </pre>
 
 <h3 id="label-Parsing+an+existing+workbook">Parsing an existing workbook<span><a href="#label-Parsing+an+existing+workbook">&para;</a> <a href="#top">&uarr;</a></span></h3>

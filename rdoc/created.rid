@@ -1,13 +1,18 @@
-Thu, 17 Jan 2019 23:37:49 +0000
-README.rdoc	Thu, 17 Jan 2019 00:10:56 +0000
+Tue, 05 Feb 2019 00:12:51 +0000
+README.rdoc	Tue, 05 Feb 2019 00:11:47 +0000
 lib/rubyXL.rb	Tue, 27 Jun 2017 20:19:22 +0000
 lib/rubyXL/cell.rb	Mon, 20 Nov 2017 21:42:33 +0000
-lib/rubyXL/convenience_methods.rb	Thu, 17 Jan 2019 23:18:09 +0000
+lib/rubyXL/convenience_methods.rb	Mon, 04 Feb 2019 23:30:53 +0000
+lib/rubyXL/convenience_methods/cell.rb	Mon, 04 Feb 2019 23:43:25 +0000
+lib/rubyXL/convenience_methods/color.rb	Mon, 04 Feb 2019 23:37:13 +0000
+lib/rubyXL/convenience_methods/font.rb	Mon, 04 Feb 2019 23:26:35 +0000
+lib/rubyXL/convenience_methods/workbook.rb	Mon, 04 Feb 2019 23:58:03 +0000
+lib/rubyXL/convenience_methods/worksheet.rb	Mon, 04 Feb 2019 23:28:38 +0000
 lib/rubyXL/objects/border.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/calculation_chain.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/cell_style.rb	Thu, 17 Jan 2019 00:10:56 +0000
 lib/rubyXL/objects/chartsheet.rb	Thu, 17 Jan 2019 00:10:56 +0000
-lib/rubyXL/objects/color.rb	Thu, 17 Jan 2019 00:10:56 +0000
+lib/rubyXL/objects/color.rb	Mon, 04 Feb 2019 23:36:18 +0000
 lib/rubyXL/objects/column_range.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/comments.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/container_nodes.rb	Mon, 20 Nov 2017 21:42:33 +0000
@@ -15,10 +20,10 @@ lib/rubyXL/objects/content_types.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/data_validation.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/document_properties.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/extensions.rb	Thu, 17 Jan 2019 00:10:56 +0000
-lib/rubyXL/objects/external_links.rb	Tue, 27 Jun 2017 22:36:24 +0000
+lib/rubyXL/objects/external_links.rb	Mon, 04 Feb 2019 22:35:25 +0000
 lib/rubyXL/objects/fill.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/filters.rb	Mon, 20 Nov 2017 21:42:33 +0000
-lib/rubyXL/objects/font.rb	Mon, 20 Nov 2017 21:42:33 +0000
+lib/rubyXL/objects/font.rb	Mon, 04 Feb 2019 23:22:37 +0000
 lib/rubyXL/objects/formula.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/ooxml_object.rb	Tue, 09 Jan 2018 21:02:25 +0000
 lib/rubyXL/objects/reference.rb	Thu, 17 Jan 2019 00:38:16 +0000
@@ -26,13 +31,13 @@ lib/rubyXL/objects/relationships.rb	Tue, 27 Jun 2017 20:19:22 +0000
 lib/rubyXL/objects/root.rb	Tue, 27 Jun 2017 20:19:22 +0000
 lib/rubyXL/objects/shared_strings.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/sheet_common.rb	Mon, 20 Nov 2017 21:42:33 +0000
-lib/rubyXL/objects/sheet_data.rb	Thu, 17 Jan 2019 00:38:16 +0000
+lib/rubyXL/objects/sheet_data.rb	Mon, 04 Feb 2019 23:43:04 +0000
 lib/rubyXL/objects/simple_types.rb	Thu, 17 Jan 2019 00:10:56 +0000
 lib/rubyXL/objects/storage.rb	Thu, 17 Jan 2019 00:10:56 +0000
 lib/rubyXL/objects/stylesheet.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/text.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/theme.rb	Thu, 17 Jan 2019 00:10:56 +0000
-lib/rubyXL/objects/workbook.rb	Thu, 17 Jan 2019 00:10:56 +0000
-lib/rubyXL/objects/worksheet.rb	Thu, 17 Jan 2019 00:10:56 +0000
+lib/rubyXL/objects/workbook.rb	Mon, 04 Feb 2019 23:58:08 +0000
+lib/rubyXL/objects/worksheet.rb	Mon, 04 Feb 2019 23:54:02 +0000
 lib/rubyXL/parser.rb	Tue, 27 Jun 2017 20:19:22 +0000
 lib/rubyXL/worksheet.rb	Mon, 20 Nov 2017 21:42:33 +0000
