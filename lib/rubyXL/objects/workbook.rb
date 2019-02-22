@@ -7,6 +7,7 @@ require 'rubyXL/objects/theme'
 require 'rubyXL/objects/calculation_chain'
 require 'rubyXL/objects/worksheet'
 require 'rubyXL/objects/chartsheet'
+require 'rubyXL/objects/connection'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
@@ -321,6 +322,7 @@ module RubyXL
     define_relationship(RubyXL::CalculationChain,   :calculation_chain)
     define_relationship(RubyXL::Worksheet,          false)
     define_relationship(RubyXL::Chartsheet,         false)
+    define_relationship(RubyXL::Connections)
     define_relationship(RubyXL::ExternalLinksFile)
     define_relationship(RubyXL::PivotCacheDefinitionFile)
     define_relationship(RubyXL::PivotCacheRecordsFile)

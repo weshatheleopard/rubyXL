@@ -235,4 +235,13 @@ module RubyXL
 
   # Query Tables
   ST_GrowShrinkType = %w{ insertDelete insertClear overwriteClear }
+
+  # Connections
+  ST_CredMethod = %w{ integrated none stored prompt }
+  ST_ParameterType = %w{ prompt value cell }
+  ST_FileType = %w{ mac win dos }
+  ST_Qualifier = %w{ doubleQuote singleQuote none }
+  ST_ExternalConnectionType = %w{ general text MDY DMY YMD MYD DYM YDM skip EMD }
+
+  ST_HtmlFmt = %w{ none rtf all }
 end

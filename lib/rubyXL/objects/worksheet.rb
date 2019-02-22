@@ -10,6 +10,7 @@ require 'rubyXL/objects/column_range'
 require 'rubyXL/objects/filters'
 require 'rubyXL/objects/data_validation'
 require 'rubyXL/objects/comments'
+require 'rubyXL/objects/connection'
 require 'rubyXL/objects/query_table'
 require 'rubyXL/worksheet'
 
