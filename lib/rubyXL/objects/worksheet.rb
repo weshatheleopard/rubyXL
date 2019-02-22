@@ -10,6 +10,7 @@ require 'rubyXL/objects/column_range'
 require 'rubyXL/objects/filters'
 require 'rubyXL/objects/data_validation'
 require 'rubyXL/objects/comments'
+require 'rubyXL/objects/query_table'
 require 'rubyXL/worksheet'
 
 module RubyXL
@@ -633,6 +634,7 @@ module RubyXL
     define_relationship(RubyXL::SlicerFile)
     define_relationship(RubyXL::OLEObjectFile)
     define_relationship(RubyXL::ActiveX)
+    define_relationship(RubyXL::QueryTable)
 
     define_child_node(RubyXL::WorksheetProperties)
     define_child_node(RubyXL::WorksheetDimensions)
