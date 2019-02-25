@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rubyXL/convenience_methods/color'
 
 describe RubyXL::Color do
   describe '.validate_color' do

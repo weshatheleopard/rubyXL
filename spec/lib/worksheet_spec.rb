@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rubyXL/convenience_methods/worksheet'
 
 describe RubyXL::Worksheet do
   before do
