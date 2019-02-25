@@ -8,6 +8,7 @@ module RubyXL
 
   class WorkbookRoot
     @@debug = $DEBUG
+    @@warn = true
 
     attr_accessor :source_file_path, :content_types, :rels_hash
 
