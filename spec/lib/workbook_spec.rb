@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rubyXL/convenience_methods/workbook'
 
 describe RubyXL::Workbook do
   before do
@@ -136,7 +137,7 @@ describe RubyXL::Workbook do
     it "It should not be confused by missing sheet_id" do
       workbook = RubyXL::Workbook.new
       workbook[0].sheet_id = 1
-      sheet = workbook.add_worksheet('Sheet2')
+      workbook.add_worksheet('Sheet2')
       workbook.stream
     end
 
@@ -169,6 +170,16 @@ describe RubyXL::Workbook do
     end
   end
 
+  describe 'defined names' do
+    it 'should add and access defined names properly' do
+      wb = RubyXL::Workbook.new
+      wb.define_new_name('TEST', 'Sheet1!$A$2')
 
+      wb2 = RubyXL::Parser.parse_buffer(wb.stream)
+      expect(wb2.get_defined_name('TEST')).to_not be_nil
+      expect(wb2.get_defined_name('TEST').reference).to eq('Sheet1!$A$2')
+      expect(wb2.get_defined_name('TEST2')).to be_nil
+    end
+  end
 
 end

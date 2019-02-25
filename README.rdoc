@@ -15,6 +15,18 @@ Please note that proprietary binary +xls+ format is *not* supported.
 == To Use:
   require 'rubyXL' # Assuming rubygems is already required
 
+=== Convenience methods
+
+Starting with version 3.4.0, the main data structure has been separated from the convenience methods that provide access to individual features of the +xlsx+ format, in order to decrease the memory footprint. If you intend to use these features, you will need to additionally include the respective files:
+  require 'rubyXL/convenience_methods/cell'
+  require 'rubyXL/convenience_methods/color'
+  require 'rubyXL/convenience_methods/font'
+  require 'rubyXL/convenience_methods/workbook'
+  require 'rubyXL/convenience_methods/worksheet'
+
+If you do not care about your RAM usage, just include them all at once by adding the following line to your code so it can continue operating just as before:
+  require 'rubyXL/convenience_methods'
+
 === Parsing an existing workbook
   workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
 
@@ -53,6 +65,7 @@ Please note that row is a _sparse_ array of cells. Your code *must* expect that 
   cell.vertical_alignment
   cell.get_border(:top)
   cell.get_border_color(:top)
+  cell.text_rotation
 
 ==== Wrappers for accessing Row properties 
 Please note: these methods are being phased out in favor of the OOXML object model.
@@ -140,6 +153,15 @@ bottom, center, distributed, top
   worksheet.sheet_data[0][0].change_vertical_alignment('bottom')  # Sets A1 to be bottom aligned
   worksheet.change_row_vertical_alignment(0, 'distributed')       # Sets first row to be distributed vertically
   worksheet.change_column_vertical_alignment(0, 'top')            # Sets first column to be top aligned
+  
+===== Rotation
+  worksheet.sheet_data[0][0].change_text_rotation(90)  # Sets A1 to be rotated by 90 degrees
+
+Values:
+* 0-90 - degrees counterclockwise, around the bottom LEFT corner of the cell;
+* 91-179 - degrees clockwise, around the bottom RIGHT corner of the cell;
+* 180-254 - degrees clockwise, around the bottom LEFT corner of the cell, text becomes progressively invisible
+* 255 - text is in normal rotation but displayed vertically (one letter under another), line feed starts new line to the right of the previous.
 
 ==== Changing Row Height
   worksheet.change_row_height(0, 30)  # Sets first row height to 30
@@ -193,6 +215,8 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
 ==== Modifying Cell Format
   cell = worksheet[0][0]
   cell.set_number_format '0.0000%'    # For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68
+  cell.change_text_wrap(true)         # Makes the text in the cell to wrap.
+  cell.change_text_indent(1)          # Indents the text in the cell by 1 level
 
 == I/O
 
