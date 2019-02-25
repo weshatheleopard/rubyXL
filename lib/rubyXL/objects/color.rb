@@ -8,7 +8,7 @@ module RubyXL
 
     define_attribute(:auto,    :bool)
     define_attribute(:indexed, :uint)
-    define_attribute(:rgb,     :string)
+    define_attribute(:rgb,     ST_UnsignedIntHex)
     define_attribute(:theme,   :uint)
     define_attribute(:tint,    :double, :default => 0.0)
     define_element_name 'color'
@@ -21,7 +21,6 @@ module RubyXL
         raise 'invalid color'
       end
     end
-
   end
 
 end

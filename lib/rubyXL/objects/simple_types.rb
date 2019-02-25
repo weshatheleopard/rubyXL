@@ -227,4 +227,10 @@ module RubyXL
   ST_TextCapsType         = %w{ none small all }
 
   ST_EditAs               = %w{ twoCell oneCell absolute }
+
+  # TODO: http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedIntHex.html
+  ST_UnsignedIntHex       = :string # length = 4
+  # TODO: http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html
+  ST_UnsignedShortHex     = :string # length = 2
+
 end

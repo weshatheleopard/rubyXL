@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'bigdecimal'
+require 'rubyXL/convenience_methods/font'
+require 'rubyXL/convenience_methods/cell'
 
 describe RubyXL::Cell do
 
@@ -142,6 +144,22 @@ describe RubyXL::Cell do
       expect(@cell.text_wrap).to be_nil
       @cell.change_text_wrap(true)
       expect(@cell.text_wrap).to eq(true)
+    end
+  end
+
+  describe '.change_text_indent' do
+    it 'should cause the cell to have the corresponding text indent' do
+      expect(@cell.text_indent).to be_nil
+      @cell.change_text_indent(2)
+      expect(@cell.text_indent).to eq(2)
+    end
+
+    it "should not cause other cells with the same style to have text indent" do
+      another_cell = @worksheet[1][0]
+      another_cell.style_index = @cell.style_index
+      expect(another_cell.text_indent).to be_nil
+      @cell.change_text_indent(2)
+      expect(another_cell.text_indent).to be_nil
     end
   end
 
@@ -444,6 +462,18 @@ describe RubyXL::Cell do
     it 'should return nil if no horizontal alignment has been specified for this cell' do
       expect(@cell.horizontal_alignment).to be_nil
     end
+
+    it 'should not create new XFs when changing alignment to already existing values' do
+      @cell.change_horizontal_alignment('left')
+      style_xf1 = @cell.style_index
+      @cell.change_horizontal_alignment('right')
+      expect(@cell.style_index).not_to eq(style_xf1)
+      style_xf2 = @cell.style_index
+      @cell.change_horizontal_alignment('left')
+      expect(@cell.style_index).to eq(style_xf1)
+      @cell.change_horizontal_alignment('right')
+      expect(@cell.style_index).to eq(style_xf2)
+    end
   end
 
   describe '.vertical_alignment' do
@@ -509,6 +539,14 @@ describe RubyXL::Cell do
 
     it 'should return nil if no diagonal border has been specified for this cell' do
       expect(@cell.get_border(:diagonal)).to be_nil
+    end
+  end
+
+  describe '.text_rotation' do
+    it 'should correctly return the rotation for this cell' do
+      expect(@cell.text_rotation).to be_nil
+      @cell.change_text_rotation(45)
+      expect(@cell.text_rotation).to eq(45)
     end
   end
 

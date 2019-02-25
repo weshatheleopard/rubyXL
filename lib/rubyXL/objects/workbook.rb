@@ -11,7 +11,6 @@ require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 require 'rubyXL/objects/external_links'
-require 'rubyXL/convenience_methods'
 
 module RubyXL
 
@@ -31,7 +30,7 @@ module RubyXL
   class FileSharing < OOXMLObject
     define_attribute(:readOnlyRecommended, :bool, :default => false)
     define_attribute(:userName,            :string)
-    define_attribute(:reservationPassword, :string)
+    define_attribute(:reservationPassword, RubyXL::ST_UnsignedShortHex)
     define_element_name 'fileSharing'
   end
 
@@ -60,8 +59,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_workbookProtection-1.html
   class WorkbookProtection < OOXMLObject
-    define_attribute(:workbookPassword,  :string)
-    define_attribute(:revisionsPassword, :string)
+    define_attribute(:workbookPassword,  RubyXL::ST_UnsignedShortHex)
+    define_attribute(:revisionsPassword, RubyXL::ST_UnsignedShortHex)
     define_attribute(:lockStructure,     :bool,   :default => false)
     define_attribute(:lockWindows,       :bool,   :default => false)
     define_attribute(:lockRevision,      :bool,   :default => false)
@@ -332,6 +331,7 @@ module RubyXL
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)
     define_child_node(RubyXL::WorkbookProperties, :accessor => :workbook_properties)
+    define_child_node(RubyXL::RevisionPointer)
     define_child_node(RubyXL::AlternateContent) # Somehow, order matters here
     define_child_node(RubyXL::WorkbookProtection)
     define_child_node(RubyXL::WorkbookViews)
@@ -457,7 +457,101 @@ module RubyXL
       self.date1904    = date1904 > 0
     end
 
-    include WorkbookConvenienceMethods
+    SHEET_NAME_TEMPLATE = 'Sheet%d'
+
+    # Finds worksheet by its name or numerical index
+    def [](ind)
+      case ind
+      when Integer then worksheets[ind]
+      when String  then worksheets.find { |ws| ws.sheet_name == ind }
+      end
+    end
+
+    # Create new simple worksheet and add it to the workbook worksheets
+    #
+    # @param [String] The name for the new worksheet
+    def add_worksheet(name = nil)
+      if name.nil? then
+        n = 0
+
+        begin
+          name = SHEET_NAME_TEMPLATE % (n += 1)
+        end until self[name].nil?
+      end
+
+      new_worksheet = Worksheet.new(:workbook => self, :sheet_name => name)
+      worksheets << new_worksheet
+      new_worksheet
+    end
+
+    def created_at
+      root.core_properties.created_at
+    end
+
+    def created_at=(v)
+      root.core_properties.created_at = v
+    end
+
+    def modified_at
+      root.core_properties.modified_at
+    end
+
+    def modified_at=(v)
+      root.core_properties.modified_at = v
+    end
+
+    def company
+      root.document_properties.company && root.document_properties.company.value
+    end
+
+    def company=(v)
+      root.document_properties.company ||= StringNode.new
+      root.document_properties.company.value = v
+    end
+
+    def application
+      root.document_properties.application && root.document_properties.application.value
+    end
+
+    def application=(v)
+      root.document_properties.application ||= StringNode.new
+      root.document_properties.application.value = v
+    end
+
+    def appversion
+      root.document_properties.app_version && root.document_properties.app_version.value
+    end
+
+    def appversion=(v)
+      root.document_properties.app_version ||= StringNode.new
+      root.document_properties.app_version.value = v
+    end
+
+    def creator
+      root.core_properties.creator
+    end
+
+    def creator=(v)
+      root.core_properties.creator = v
+    end
+
+    def modifier
+      root.core_properties.modifier
+    end
+
+    def modifier=(v)
+      root.core_properties.modifier = v
+    end
+
+    def date1904
+      workbook_properties && workbook_properties.date1904
+    end
+
+    def date1904=(v)
+      self.workbook_properties ||= RubyXL::WorkbookProperties.new
+      workbook_properties.date1904 = v
+    end
+
   end
 
 end

@@ -1,7 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/container_nodes'
 require 'rubyXL/objects/color'
-require 'rubyXL/convenience_methods'
 
 module RubyXL
 
@@ -31,8 +30,6 @@ module RubyXL
       self.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
                :sz   => RubyXL::FloatValue.new(:val => size) )
     end
-
-    include FontConvenienceMethods
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_fonts-1.html

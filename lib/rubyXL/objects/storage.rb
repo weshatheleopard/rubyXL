@@ -28,6 +28,27 @@ module RubyXL
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
   end
 
+  class CustomPropertyFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.customProperty'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customProperty'
+  end
+
+  class DrawingFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
+
+    include RubyXL::RelationshipSupport
+
+    def attach_relationship(rid, rf)
+      case rf
+      when RubyXL::ChartFile       then store_relationship(rf) # TODO
+      when RubyXL::BinaryImageFile then store_relationship(rf) # TODO
+      else store_relationship(rf, :unknown)
+      end
+    end
+
+  end
+
   class ChartFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
