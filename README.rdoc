@@ -95,16 +95,6 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.get_column_border(0, :right)
   worksheet.get_column_border_color(0, :right)
 
-==== Table reading
-In order to discourage unnecessary reshuffling of data in memory, methods +extract_data+ and +get_table+ are being deprecated. You should access and iterate through rows and cells directly:
-
-  worksheet.each { |row|
-     row && row.cells.each { |cell|
-       val = cell && cell.value
-       do_whatever_you_want(val)
-     }
-  }
-
 === Modifying
 
 ==== Adding Worksheets
