@@ -6,6 +6,17 @@ require 'rubyXL/cell'
 
 module RubyXL
 
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.cellvalues(v=office.14).aspx
+  module DataType
+    SHARED_STRING = 's'
+    RAW_STRING    = 'str'
+    INLINE_STRING = 'inlineStr'
+    ERROR         = 'e'
+    BOOLEAN       = 'b'
+    NUMBER        = 'n'
+    DATE          = 'd'  # Only available in Office2010.
+  end
+
   # http://www.datypic.com/sc/ooxml/e-ssml_v-1.html
   class CellValue < OOXMLObject
     define_attribute(:_, :string, :accessor => :value)
@@ -32,6 +43,8 @@ module RubyXL
     define_child_node(RubyXL::CellValue, :accessor => :value_container)
     define_child_node(RubyXL::RichText)    # is
     define_element_name 'c'
+
+    attr_accessor :worksheet
 
     def index_in_collection
       r.col_range.begin
@@ -60,6 +73,18 @@ module RubyXL
     def raw_value=(v)
       self.value_container ||= RubyXL::CellValue.new
       value_container.value = v
+    end
+
+    def get_cell_xf
+      workbook.stylesheet.cell_xfs[self.style_index || 0]
+    end
+
+    def get_cell_font
+      workbook.stylesheet.fonts[get_cell_xf.font_id]
+    end
+
+    def get_cell_border
+      workbook.stylesheet.borders[get_cell_xf.border_id]
     end
 
     def number_format

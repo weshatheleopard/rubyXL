@@ -986,12 +986,6 @@ describe RubyXL::Worksheet do
   end
 
   describe '.get_row_alignment' do
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_alignment(-1, true)
-      }.to raise_error(RuntimeError)
-    end
-
     it 'should return nil if no horizontal alignment specified for row' do
       expect(@worksheet.get_row_alignment(0, true)).to be_nil
     end
@@ -1027,12 +1021,6 @@ describe RubyXL::Worksheet do
     it 'should return type of border that this row has on top' do
       @worksheet.change_row_border(0, :top, 'thin')
       expect(@worksheet.get_row_border(0, :top)).to eq('thin')
-    end
-
-    it 'should cause error if a negative argument is passed in' do
-      expect {
-        @worksheet.get_row_border(-1, :top)
-      }.to raise_error(RuntimeError)
     end
 
     it 'should return nil if a row which does not exist is passed in' do

@@ -87,15 +87,6 @@ module LegacyWorksheet
     sheet_data.rows[row_index] || add_row(row_index)
   end
 
-  def get_col_xf(column_index)
-    @workbook.cell_xfs[get_col_style(column_index)]
-  end
-
-  def get_row_xf(row)
-    validate_nonnegative(row)
-    @workbook.cell_xfs[get_row_style(row)]
-  end
-
   def validate_nonnegative(row_or_col)
     raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
   end

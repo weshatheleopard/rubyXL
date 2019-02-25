@@ -741,6 +741,14 @@ module RubyXL
       sheet_obj
     end
 
+    def get_col_xf(column_index)
+      workbook.stylesheet.cell_xfs[get_col_style(column_index)]
+    end
+
+    def get_row_xf(row)
+      workbook.stylesheet.cell_xfs[get_row_style(row)]
+    end
+
     include LegacyWorksheet
   end
 
