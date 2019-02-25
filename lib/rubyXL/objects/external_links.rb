@@ -16,7 +16,7 @@ module RubyXL
   class DefinedNameExt < OOXMLObject
     define_attribute(:name,     :string, :required => true)
     define_attribute(:refersTo, :string)
-    define_attribute(:sheetId,      :uint)
+    define_attribute(:sheetId,  :uint)
     define_element_name 'definedName'
   end
 
