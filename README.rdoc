@@ -15,6 +15,18 @@ Please note that proprietary binary +xls+ format is *not* supported.
 == To Use:
   require 'rubyXL' # Assuming rubygems is already required
 
+=== Convenience methods
+
+Starting with version 3.4.0, the main data structure has been separated from the convenience methods that provide access to individual features of the +xlsx+ format, in order to decrease the memory footprint. If you intend to use these features, you will need to additionally include the respective files:
+  require 'rubyXL/convenience_methods/cell'
+  require 'rubyXL/convenience_methods/color'
+  require 'rubyXL/convenience_methods/font'
+  require 'rubyXL/convenience_methods/workbook'
+  require 'rubyXL/convenience_methods/worksheet'
+
+If you do not care about your RAM usage, just include them all at once by adding the following line to your code so it can continue operating just as before:
+  require 'rubyXL/convenience_methods'
+
 === Parsing an existing workbook
   workbook = RubyXL::Parser.parse("path/to/Excel/file.xlsx")
 
