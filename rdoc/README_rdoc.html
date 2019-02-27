@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.4.0</title>
+<title>README - rubyXL 3.4.1</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -69,7 +69,6 @@
     <li><a href="#label-Wrappers+for+accessing+Cell+properties">Wrappers for accessing Cell properties</a>
     <li><a href="#label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties </a>
     <li><a href="#label-Accessing+column+properties">Accessing column properties</a>
-    <li><a href="#label-Table+reading">Table reading</a>
     <li><a href="#label-Modifying">Modifying</a>
     <li><a href="#label-Adding+Worksheets">Adding Worksheets</a>
     <li><a href="#label-Renaming+Worksheets">Renaming Worksheets</a>
@@ -258,20 +257,6 @@ object model.</p>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border_color</span>(<span class="ruby-value">0</span>, :<span class="ruby-identifier">right</span>)
 </pre>
 
-<h4 id="label-Table+reading">Table reading<span><a href="#label-Table+reading">&para;</a> <a href="#top">&uarr;</a></span></h4>
-
-<p>In order to discourage unnecessary reshuffling of data in memory, methods
-<code>extract_data</code> and <code>get_table</code> are being deprecated.
-You should access and iterate through rows and cells directly:</p>
-
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
-   <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">cell</span><span class="ruby-operator">|</span>
-     <span class="ruby-identifier">val</span> = <span class="ruby-identifier">cell</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">value</span>
-     <span class="ruby-identifier">do_whatever_you_want</span>(<span class="ruby-identifier">val</span>)
-   }
-}
-</pre>
-
 <h3 id="label-Modifying">Modifying<span><a href="#label-Modifying">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <h4 id="label-Adding+Worksheets">Adding Worksheets<span><a href="#label-Adding+Worksheets">&para;</a> <a href="#top">&uarr;</a></span></h4>
@@ -281,7 +266,7 @@ You should access and iterate through rows and cells directly:</p>
 
 <h4 id="label-Renaming+Worksheets">Renaming Worksheets<span><a href="#label-Renaming+Worksheets">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-string">&#39;Cool New Name&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-string">&#39;Cool New Name&#39;</span> <span class="ruby-comment"># Note that sheet name is limited to 31 characters by Excel.</span>
 </pre>
 
 <h4 id="label-Adding+Cells">Adding Cells<span><a href="#label-Adding+Cells">&para;</a> <a href="#top">&uarr;</a></span></h4>
