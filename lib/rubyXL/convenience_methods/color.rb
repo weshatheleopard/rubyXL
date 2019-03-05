@@ -153,6 +153,6 @@ module RubyXL
     end
   end
 
-  RubyXL::Color.include(RubyXL::ColorConvenienceMethods)
+  RubyXL::Color.send(:include, RubyXL::ColorConvenienceMethods) # ruby 2.1 compat
   include(RubyXL::ColorConvenienceClasses)
 end

@@ -59,5 +59,5 @@ module RubyXL
     end
   end
 
-  RubyXL::Font.include(RubyXL::FontConvenienceMethods)
+  RubyXL::Font.send(:include, RubyXL::FontConvenienceMethods) # ruby 2.1 compat
 end

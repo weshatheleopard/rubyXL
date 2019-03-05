@@ -614,5 +614,5 @@ module RubyXL
     end
   end
 
-  RubyXL::Worksheet.include(RubyXL::WorksheetConvenienceMethods)
+  RubyXL::Worksheet.send(:include, RubyXL::WorksheetConvenienceMethods) # ruby 2.1 compat
 end

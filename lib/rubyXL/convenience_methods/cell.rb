@@ -258,5 +258,5 @@ module RubyXL
 
   end
 
-  RubyXL::Cell.include(RubyXL::CellConvenienceMethods)
+  RubyXL::Cell.send(:include, RubyXL::CellConvenienceMethods) # ruby 2.1 compat
 end
