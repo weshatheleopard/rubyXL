@@ -19,8 +19,14 @@ module RubyXL
         sheet_data.rows[row].insert_cell_shift_right(nil, col)
       when :down then
         add_row(sheet_data.size, :cells => Array.new(sheet_data.rows[row].size))
-        (sheet_data.size - 1).downto(row+1) { |index|
-          sheet_data.rows[index].cells[col] = sheet_data.rows[index-1].cells[col]
+        (sheet_data.size - 1).downto(row + 1) { |index|
+          old_row = sheet_data.rows[index - 1]
+          if old_row.nil? then
+            sheet_data.rows[index] = nil
+          else
+            new_row = sheet_data.rows[index] || add_row(index)
+            new_row.cells[col] = old_row.cells[col]
+          end
         }
       else
         raise 'invalid shift option'
@@ -47,8 +53,14 @@ module RubyXL
         row.delete_cell_shift_left(column_index) if row
       when :up then
         (row_index...(sheet_data.size - 1)).each { |index|
-          c = sheet_data.rows[index].cells[column_index] = sheet_data.rows[index + 1].cells[column_index]
-          c.row -= 1 if c.is_a?(Cell)
+          old_row = sheet_data.rows[index + 1]
+          if old_row.nil? then
+            sheet_data.rows[index] = nil
+          else
+            new_row = sheet_data.rows[index] || add_row(index)
+            c = new_row.cells[column_index] = old_row.cells[column_index]
+            c.row = (index + 1) if c.is_a?(Cell)
+          end
         }
       else
         raise 'invalid shift option'
@@ -120,8 +132,10 @@ module RubyXL
 
       old_range = cols.get_range(column_index)
 
-      #go through each cell in column
+      # Go through each cell in column
       sheet_data.rows.each_with_index { |row, row_index|
+        next if row.nil? # Do not process blank rows
+
         old_cell = row[column_index]
         c = nil
 
@@ -146,10 +160,11 @@ module RubyXL
       validate_nonnegative(column_index)
 
       # Delete column
-      sheet_data.rows.each { |row| row.cells.delete_at(column_index) }
+      sheet_data.rows.each { |row| row && row.cells.delete_at(column_index) }
 
       # Update column numbers for cells to the right of the deleted column
       sheet_data.rows.each_with_index { |row, row_index|
+        next if row.nil?
         row.cells.each_with_index { |c, ci|
           c.column = ci if c.is_a?(Cell)
         }
@@ -327,8 +342,10 @@ module RubyXL
       cols.get_range(column_index).style_index = @workbook.modify_fill(get_col_style(column_index), color_code)
 
       sheet_data.rows.each { |row|
+        next if row.nil?
         c = row[column_index]
-        c.change_fill(color_code) if c
+        next if c.nil?
+        c.change_fill(color_code)
       }
     end
 
@@ -558,8 +575,10 @@ module RubyXL
       cols.get_range(column_index).style_index = @workbook.modify_border(get_col_style(column_index), direction, weight)
 
       sheet_data.rows.each { |row|
+        next if row.nil?
         c = row.cells[column_index]
-        c.change_border(direction, weight) unless c.nil?
+        next if c.nil?
+        c.change_border(direction, weight)
       }
     end
 
@@ -598,6 +617,7 @@ module RubyXL
       change_column_width(column_index) if get_column_width_raw(column_index).nil?
 
       sheet_data.rows.each { |row|
+        next if row.nil?
         c = row[column_index]
         next if c.nil?
         c.style_index = @workbook.modify_alignment(c.style_index, &block)
