@@ -16,8 +16,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetPr-4.html
   class ChartsheetProperties < OOXMLObject
-    define_attribute(:published,                         :bool, :default => true)
-    define_attribute(:codeName,                          :string)
+    define_attribute(:published,     :bool, :default => true)
+    define_attribute(:codeName,      :string)
     define_child_node(RubyXL::Color, :node_name => :tabColor)
     define_element_name 'sheetPr'
   end

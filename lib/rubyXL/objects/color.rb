@@ -1,4 +1,5 @@
 require 'rubyXL/objects/ooxml_object'
+require 'rubyXL/objects/simple_types'
 
 module RubyXL
 
@@ -8,7 +9,7 @@ module RubyXL
 
     define_attribute(:auto,    :bool)
     define_attribute(:indexed, :uint)
-    define_attribute(:rgb,     ST_UnsignedIntHex)
+    define_attribute(:rgb,     RubyXL::ST_UnsignedIntHex)
     define_attribute(:theme,   :uint)
     define_attribute(:tint,    :double, :default => 0.0)
     define_element_name 'color'
