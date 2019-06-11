@@ -82,7 +82,10 @@ module RubyXL
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
 
         if klass.nil? then
-          puts "*** WARNING: storage class not found for #{rel.target} (#{rel.type})"
+          if !RubyXL.class_variable_get(:@@suppress_warnings) then
+            puts "*** WARNING: storage class not found for #{rel.target} (#{rel.type})"
+          end
+
           klass = GenericStorageObject
         end
 
@@ -204,7 +207,9 @@ module RubyXL
 
     def store_relationship(related_file, unknown = false)
       self.generic_storage ||= []
-      puts "WARNING: #{self.class} is not aware what to do with #{related_file.class}" if unknown
+      if unknown && !RubyXL.class_variable_get(:@@suppress_warnings) then
+        puts "WARNING: #{self.class} is not aware how to process #{related_file.class}"
+      end
       self.generic_storage << related_file
     end
 
