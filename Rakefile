@@ -34,8 +34,8 @@ Rake::TestTask.new(:test) do |test|
 end
 
 require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec)
-task :default => :spec
+RSpec::Core::RakeTask.new(:rspec)
+task :default => :rspec
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
