@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL - rubyXL 3.4.3</title>
+<title>module RubyXL - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -56,18 +56,7 @@
   <div id="class-metadata">
     
     
-    <div id="includes-section" class="nav-section">
-  <h3>Included Modules</h3>
-
-  <ul class="link-list">
-  
-  
-    <li><a class="include" href="RubyXL/ColorConvenienceClasses.html">RubyXL::ColorConvenienceClasses</a>
-  
-  
-  </ul>
-</div>
-
+    
     
     <!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
@@ -90,10 +79,12 @@
 
   <section class="description">
     
+<p><a href="RubyXL/Connections.html"><code>Connections</code></a> <a href="https://msdn.microsoft.com/en-us/library/dd908547(v=office.12).aspx">msdn.microsoft.com/en-us/library/dd908547(v=office.12).aspx</a> <a href="http://www.datypic.com/sc/ooxml/s-sml-externalConnections.xsd.html">www.datypic.com/sc/ooxml/s-sml-externalConnections.xsd.html</a></p>
+
+<p>Query Tables <a href="https://msdn.microsoft.com/en-us/library/hh643563(v=office.12).aspx">msdn.microsoft.com/en-us/library/hh643563(v=office.12).aspx</a></p>
+
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -192,6 +183,11 @@
         <dd>
         
       
+        <dt id="ST_CredMethod">ST_CredMethod
+        
+        <dd><p><a href="RubyXL/Connections.html"><code>Connections</code></a></p>
+        
+      
         <dt id="ST_DataConsolidateFunction">ST_DataConsolidateFunction
         
         <dd>
@@ -237,6 +233,16 @@
         <dd>
         
       
+        <dt id="ST_ExternalConnectionType">ST_ExternalConnectionType
+        
+        <dd>
+        
+      
+        <dt id="ST_FileType">ST_FileType
+        
+        <dd>
+        
+      
         <dt id="ST_FilterOperator">ST_FilterOperator
         
         <dd>
@@ -252,7 +258,17 @@
         <dd>
         
       
+        <dt id="ST_GrowShrinkType">ST_GrowShrinkType
+        
+        <dd><p>Query Tables</p>
+        
+      
         <dt id="ST_HorizontalAlignment">ST_HorizontalAlignment
+        
+        <dd>
+        
+      
+        <dt id="ST_HtmlFmt">ST_HtmlFmt
         
         <dd>
         
@@ -318,6 +334,11 @@
         
       
         <dt id="ST_PaneState">ST_PaneState
+        
+        <dd>
+        
+      
+        <dt id="ST_ParameterType">ST_ParameterType
         
         <dd>
         
@@ -388,6 +409,11 @@
         
       
         <dt id="ST_PrintError">ST_PrintError
+        
+        <dd>
+        
+      
+        <dt id="ST_Qualifier">ST_Qualifier
         
         <dd>
         
@@ -519,14 +545,12 @@
       
         <dt id="ST_UnsignedIntHex">ST_UnsignedIntHex
         
-        <dd><p>TODO: <a
-href="http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedIntHex.html">www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedIntHex.html</a></p>
+        <dd><p>TODO: <a href="http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedIntHex.html">www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedIntHex.html</a></p>
         
       
         <dt id="ST_UnsignedShortHex">ST_UnsignedShortHex
         
-        <dd><p>TODO: <a
-href="http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html">www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html</a></p>
+        <dd>
         
       
         <dt id="ST_UpdateLinks">ST_UpdateLinks
@@ -550,6 +574,11 @@ href="http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html">www.datyp
         
       
         <dt id="ST_WebSourceType">ST_WebSourceType
+        
+        <dd>
+        
+      
+        <dt id="ST_Xstring">ST_Xstring
         
         <dd>
         
@@ -586,8 +615,8 @@ href="http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html">www.datyp
 
           
           <div class="method-source-code" id="from_root-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL.rb, line 7</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">from_root</span>(<span class="ruby-identifier">path</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL.rb, line 8</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">from_root</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">absolute?</span>
   <span class="ruby-identifier">path</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-constant">OOXMLTopLevelObject</span><span class="ruby-operator">::</span><span class="ruby-constant">ROOT</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -608,8 +637,8 @@ href="http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html">www.datyp
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

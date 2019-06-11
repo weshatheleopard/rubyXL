@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::LegacyWorksheet - rubyXL 3.4.3</title>
+<title>module RubyXL::LegacyWorksheet - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -101,8 +101,6 @@
   </section>
 
   
-  
-  
   <section id="5Buntitled-5D" class="documentation-section">
     
 
@@ -144,7 +142,7 @@
           
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 5</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">params</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">params</span> = {})
   <span class="ruby-keyword">super</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">workbook</span>   = <span class="ruby-identifier">params</span>[<span class="ruby-value">:workbook</span>]
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:sheet_name</span>]
@@ -193,7 +191,7 @@
           
           <div class="method-source-code" id="5B-5D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">row</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -210,7 +208,7 @@
         
         <div class="method-heading">
           <span class="method-name">add_cell</span><span
-            class="method-args">(row_index = 0, column_index = 0, data = '', formula = nil, overwrite = true)</span>
+            class="method-args">(row_index = 0, column_index = 0, data = &#39;&#39;, formula = nil, overwrite = true)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -226,7 +224,7 @@
           
           <div class="method-source-code" id="add_cell-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 32</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_cell</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">data</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">overwrite</span> = <span class="ruby-keyword">true</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_cell</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">data</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">overwrite</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row_index</span>)
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
@@ -241,7 +239,7 @@
     <span class="ruby-identifier">c</span>.<span class="ruby-identifier">column</span> = <span class="ruby-identifier">column_index</span>
 
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">formula</span> <span class="ruby-keyword">then</span>
-      <span class="ruby-identifier">c</span>.<span class="ruby-identifier">formula</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:expression</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">formula</span>)
+      <span class="ruby-identifier">c</span>.<span class="ruby-identifier">formula</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:expression</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">formula</span>)
       <span class="ruby-identifier">c</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-identifier">data</span>
     <span class="ruby-keyword">else</span>
       <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
@@ -293,7 +291,7 @@
           
           <div class="method-source-code" id="add_row-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 26</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">params</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_row</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">params</span> = {})
   <span class="ruby-identifier">new_row</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Row</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">new_row</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-keyword">self</span>
   <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row_index</span>] = <span class="ruby-identifier">new_row</span>
@@ -328,7 +326,7 @@
           
           <div class="method-source-code" id="each-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/worksheet.rb, line 22</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each</span>
   <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">row</span>) }
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -348,8 +346,8 @@
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

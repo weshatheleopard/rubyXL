@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Reference - rubyXL 3.4.3</title>
+<title>class RubyXL::Reference - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -111,8 +111,6 @@
   </section>
 
   
-  
-  
   <section id="5Buntitled-5D" class="documentation-section">
     
 
@@ -195,16 +193,14 @@
 
         <div class="method-description">
           
-          <p>Converts <code>row</code> and <code>col</code> zero-based indices to
-Excel-style cell reference (0) A…Z, AA…AZ, BA… …ZZ, AAA… …AZZ, BAA… …XFD
-(16383)</p>
+          <p>Converts <code>row</code> and <code>col</code> zero-based indices to Excel-style cell reference (0) A…Z, AA…AZ, BA… …ZZ, AAA… …AZZ, BAA… …XFD (16383)</p>
           
           
 
           
           <div class="method-source-code" id="ind2ref-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 75</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">ind2ref</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">str</span> = <span class="ruby-string">&#39;&#39;</span>
 
   <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>
@@ -239,16 +235,14 @@ Excel-style cell reference (0) A…Z, AA…AZ, BA… …ZZ, AAA… …AZZ, BAA�
 
         <div class="method-description">
           
-          <p><a href="Reference.html#method-c-new">::new</a>(row, col) <a
-href="Reference.html#method-c-new">::new</a>(row_from, row_to, col_from,
-col_to) <a href="Reference.html#method-c-new">::new</a></p>
+          <p><a href="Reference.html#method-c-new"><code>RubyXL::Reference.new</code></a>(row, col) <a href="Reference.html#method-c-new"><code>RubyXL::Reference.new</code></a>(row_from, row_to, col_from, col_to) <a href="Reference.html#method-c-new"><code>RubyXL::Reference.new(reference_string)</code></a></p>
           
           
 
           
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 11</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">row_from</span> = <span class="ruby-identifier">row_to</span> = <span class="ruby-identifier">col_from</span> = <span class="ruby-identifier">col_to</span> = <span class="ruby-keyword">nil</span>
 
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">size</span>
@@ -287,15 +281,14 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
 
         <div class="method-description">
           
-          <p>Converts Excel-style cell reference to <code>row</code> and
-<code>col</code> zero-based indices.</p>
+          <p>Converts Excel-style cell reference to <code>row</code> and <code>col</code> zero-based indices.</p>
           
           
 
           
           <div class="method-source-code" id="ref2ind-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 89</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">str</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">ref2ind</span>(<span class="ruby-identifier">str</span>)
   <span class="ruby-keyword">return</span> [ <span class="ruby-value">-1</span>, <span class="ruby-value">-1</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">str</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A([A-Z]+)(\d+)\Z/</span>
 
   <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>
@@ -340,7 +333,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="3D-3D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 48</span>
-<span class="ruby-keyword">def</span> <span class="ruby-operator">==</span>(<span class="ruby-identifier">other</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">==</span>(<span class="ruby-identifier">other</span>)
   <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@row_range</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@col_range</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -373,7 +366,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="cover-3F-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 52</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cover?</span>(<span class="ruby-identifier">other</span>)
   <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">end</span>) <span class="ruby-operator">&amp;&amp;</span>
                   <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">end</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -407,7 +400,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="first_col-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 40</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">first_col</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">first_col</span>
   <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -440,7 +433,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="first_row-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 32</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">first_row</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">first_row</span>
   <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -473,7 +466,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="inspect-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 65</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">single_cell?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-node">&quot;#&lt;#{self.class} @row=#{@row_range.begin} @col=#{@col_range.begin}&gt;&quot;</span>
   <span class="ruby-keyword">else</span>
@@ -510,7 +503,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="last_col-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 44</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">last_col</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">last_col</span>
   <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -543,7 +536,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="last_row-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 36</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">last_row</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">last_row</span>
   <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -576,7 +569,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="single_cell-3F-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 28</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">single_cell?</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">single_cell?</span>
   (<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -609,7 +602,7 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
           
           <div class="method-source-code" id="to_s-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 57</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">single_cell?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>)
   <span class="ruby-keyword">else</span>
@@ -633,8 +626,8 @@ col_to) <a href="Reference.html#method-c-new">::new</a></p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

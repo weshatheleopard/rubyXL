@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::RelationshipSupport - rubyXL 3.4.3</title>
+<title>module RubyXL::RelationshipSupport - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -100,13 +100,10 @@
 
   <section class="description">
     
-<p><code>RelationshipSupport</code> module enables automatic loading and
-saving of _rels for the respective file</p>
+<p><code>RelationshipSupport</code> module enables automatic loading and saving of _rels for the respective file</p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -177,8 +174,8 @@ saving of _rels for the respective file</p>
 
           
           <div class="method-source-code" id="included-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 144</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">klass</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 147</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">included</span>(<span class="ruby-identifier">klass</span>)
   <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_relationships</span>, {})
   <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">extend</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RelationshipSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMehods</span>
 <span class="ruby-keyword">end</span></pre>
@@ -219,8 +216,8 @@ saving of _rels for the respective file</p>
 
           
           <div class="method-source-code" id="attach_relationship-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 184</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">attach_relationship</span>(<span class="ruby-identifier">rid</span>, <span class="ruby-identifier">rf</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 187</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">attach_relationship</span>(<span class="ruby-identifier">rid</span>, <span class="ruby-identifier">rf</span>)
   <span class="ruby-identifier">relationships</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">class_variable_get</span>(<span class="ruby-value">:@@ooxml_relationships</span>)
   <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">rf</span>.<span class="ruby-identifier">class</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">klass</span>) <span class="ruby-keyword">then</span>
@@ -269,8 +266,8 @@ saving of _rels for the respective file</p>
 
           
           <div class="method-source-code" id="collect_related_objects-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 155</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">collect_related_objects</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 158</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">collect_related_objects</span>
   <span class="ruby-identifier">res</span> = <span class="ruby-identifier">related_objects</span>.<span class="ruby-identifier">compact</span> <span class="ruby-comment"># Avoid tainting +related_objects+ array</span>
   <span class="ruby-identifier">res</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">generic_storage</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">generic_storage</span>
 
@@ -318,8 +315,8 @@ saving of _rels for the respective file</p>
 
           
           <div class="method-source-code" id="load_relationships-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 175</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_relationships</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-identifier">base_file_name</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 178</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_relationships</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-identifier">base_file_name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">relationship_container</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">OOXMLRelationshipsFile</span>.<span class="ruby-identifier">load_relationship_file</span>(<span class="ruby-identifier">dir_path</span>, <span class="ruby-identifier">base_file_name</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">nil?</span>
 
@@ -356,8 +353,8 @@ saving of _rels for the respective file</p>
 
           
           <div class="method-source-code" id="related_objects-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 151</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">related_objects</span> <span class="ruby-comment"># Override this method</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 154</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">related_objects</span> <span class="ruby-comment"># Override this method</span>
   []
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -389,10 +386,12 @@ saving of _rels for the respective file</p>
 
           
           <div class="method-source-code" id="store_relationship-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 205</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">store_relationship</span>(<span class="ruby-identifier">related_file</span>, <span class="ruby-identifier">unknown</span> = <span class="ruby-keyword">false</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 208</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">store_relationship</span>(<span class="ruby-identifier">related_file</span>, <span class="ruby-identifier">unknown</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">generic_storage</span> <span class="ruby-operator">||=</span> []
-  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;WARNING: #{self.class} is not aware what to do with #{related_file.class}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">unknown</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">unknown</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-constant">RubyXL</span>.<span class="ruby-identifier">class_variable_get</span>(<span class="ruby-value">:@@suppress_warnings</span>) <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;WARNING: #{self.class} is not aware how to process #{related_file.class}&quot;</span>
+  <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">generic_storage</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">related_file</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -412,8 +411,8 @@ saving of _rels for the respective file</p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

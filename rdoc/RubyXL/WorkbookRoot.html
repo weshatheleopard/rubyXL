@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::WorkbookRoot - rubyXL 3.4.3</title>
+<title>class RubyXL::WorkbookRoot - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -108,8 +108,6 @@
   </section>
 
   
-  
-  
   <section id="5Buntitled-5D" class="documentation-section">
     
 
@@ -193,7 +191,7 @@
           
           <div class="method-source-code" id="default-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 26</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">default</span>
   <span class="ruby-identifier">obj</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">document_properties</span>    = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DocumentPropertiesFile</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">core_properties</span>        = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CorePropertiesFile</span>.<span class="ruby-identifier">new</span>
@@ -231,7 +229,7 @@
           
           <div class="method-source-code" id="parse_zip_file-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 63</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_zip_file</span>(<span class="ruby-identifier">zip_file</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse_zip_file</span>(<span class="ruby-identifier">zip_file</span>)
   <span class="ruby-identifier">root</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">content_types</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ContentTypes</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-constant">ContentTypes</span><span class="ruby-operator">::</span><span class="ruby-constant">XLSX_PATH</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">load_relationships</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-constant">OOXMLTopLevelObject</span><span class="ruby-operator">::</span><span class="ruby-constant">ROOT</span>)
@@ -290,7 +288,7 @@
           
           <div class="method-source-code" id="related_objects-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 22</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">related_objects</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">related_objects</span>
   [ <span class="ruby-identifier">content_types</span>, <span class="ruby-identifier">thumbnail</span>, <span class="ruby-identifier">core_properties</span>, <span class="ruby-identifier">document_properties</span>, <span class="ruby-identifier">custom_properties</span>, <span class="ruby-identifier">workbook</span> ]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -323,7 +321,7 @@
           
           <div class="method-source-code" id="stream-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 36</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">stream</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">stream</span>
   <span class="ruby-identifier">stream</span> = <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">OutputStream</span>.<span class="ruby-identifier">write_buffer</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">zipstream</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rels_hash</span> = {}
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">relationship_container</span>.<span class="ruby-identifier">owner</span> = <span class="ruby-keyword">self</span>
@@ -375,7 +373,7 @@
           
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/root.rb, line 59</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">OOXMLTopLevelObject</span><span class="ruby-operator">::</span><span class="ruby-constant">ROOT</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -395,8 +393,8 @@
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

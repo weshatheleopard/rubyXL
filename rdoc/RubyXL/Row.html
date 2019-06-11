@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Row - rubyXL 3.4.3</title>
+<title>class RubyXL::Row - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -102,13 +102,10 @@
 
   <section class="description">
     
-<p><a
-href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxml/e-ssml_row-1.html</a></p>
+<p><a href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxml/e-ssml_row-1.html</a></p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -181,7 +178,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="5B-5D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 159</span>
-<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">ind</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">ind</span>)
   <span class="ruby-identifier">cells</span>[<span class="ruby-identifier">ind</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -214,7 +211,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 151</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-operator">!</span>(<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">empty?</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -247,7 +244,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="delete_cell_shift_left-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 172</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_cell_shift_left</span>(<span class="ruby-identifier">col_index</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_cell_shift_left</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -281,7 +278,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="get_fill_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 189</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_fill_color</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_fill_color</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -314,7 +311,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="get_font-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 193</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_font</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_font</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -347,7 +344,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="index_in_collection-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 155</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index_in_collection</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -380,7 +377,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="insert_cell_shift_right-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 167</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">col_index</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">col_index</span>, <span class="ruby-identifier">c</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -414,7 +411,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="size-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 163</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">size</span>
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -447,7 +444,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
           
           <div class="method-source-code" id="xf-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 185</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">xf</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xf</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -467,8 +464,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_row-1.html">www.datypic.com/sc/ooxm
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

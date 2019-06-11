@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.4.3</title>
+<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -94,14 +94,10 @@
 
   <section class="description">
     
-<p><a href="Extension.html">Extension</a> class providing functionality for
-top-level OOXML objects that are represented by their own <code>.xml</code>
-files in <code>.xslx</code> zip container.</p>
+<p><a href="Extension.html"><code>Extension</code></a> class providing functionality for top-level OOXML objects that are represented by their own <code>.xml</code> files in <code>.xslx</code> zip container.</p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -172,16 +168,13 @@ files in <code>.xslx</code> zip container.</p>
 
         <div class="method-description">
           
-          <p>Generates the top-level OOXML object by parsing its XML file from the
-contents of the <code>.xslx</code> container.</p>
+          <p>Generates the top-level OOXML object by parsing its XML file from the contents of the <code>.xslx</code> container.</p>
 
 <h3 id="method-c-parse_file-label-Parameters">Parameters<span><a href="#method-c-parse_file-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
 <ul><li>
-<p><code>zip_file</code> - <code>.xslx</code> file as <code>Zip::File</code>
-object</p>
+<p><code>zip_file</code> - <code>.xslx</code> file as <code>Zip::File</code> object</p>
 </li><li>
-<p><code>file_path</code> - path to the subject file inside the
-<code>.xslx</code> zip archive</p>
+<p><code>file_path</code> - path to the subject file inside the <code>.xslx</code> zip archive</p>
 </li></ul>
           
           
@@ -189,7 +182,7 @@ object</p>
           
           <div class="method-source-code" id="parse_file-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 437</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-identifier">file_path</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse_file</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-identifier">file_path</span>)
   <span class="ruby-identifier">entry</span> = <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">find_entry</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-identifier">from_root</span>(<span class="ruby-identifier">file_path</span>))
   <span class="ruby-comment"># Accomodate for Nokogiri Java implementation which is incapable of reading from a stream</span>
   <span class="ruby-identifier">entry</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">entry</span>.<span class="ruby-identifier">get_input_stream</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">parse</span>(<span class="ruby-keyword">defined?</span>(<span class="ruby-constant">JRUBY_VERSION</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">f</span>) })
@@ -217,19 +210,17 @@ object</p>
 
         <div class="method-description">
           
-          <p>Sets the list of namespaces on this object to be added when writing out
-XML. Valid only on top-level objects.</p>
+          <p>Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.</p>
 
 <h3 id="method-c-set_namespaces-label-Parameters">Parameters<span><a href="#method-c-set_namespaces-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
 <ul><li>
-<p><code>namespace_hash</code> - Hash of namespaces in the form of
-<code>&quot;url&quot; =&gt; &quot;prefix&quot;</code></p>
+<p><code>namespace_hash</code> - Hash of namespaces in the form of <code>&quot;url&quot; =&gt; &quot;prefix&quot;</code></p>
 </li></ul>
 
 <h4 id="method-c-set_namespaces-label-Examples">Examples<span><a href="#method-c-set_namespaces-label-Examples">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">set_namespaces</span>(<span class="ruby-string">&#39;http://schemas.openxmlformats.org/spreadsheetml/2006/main&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>,
-               <span class="ruby-string">&#39;http://schemas.openxmlformats.org/officeDocument/2006/relationships&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;r&#39;</span>)
+<pre class="ruby"><span class="ruby-identifier">set_namespaces</span>(<span class="ruby-string">&#39;http://schemas.openxmlformats.org/spreadsheetml/2006/main&#39;</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">nil</span>,
+               <span class="ruby-string">&#39;http://schemas.openxmlformats.org/officeDocument/2006/relationships&#39;</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;r&#39;</span>)
 </pre>
           
           
@@ -237,7 +228,7 @@ XML. Valid only on top-level objects.</p>
           
           <div class="method-source-code" id="set_namespaces-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 429</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_namespaces</span>(<span class="ruby-identifier">namespace_hash</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">set_namespaces</span>(<span class="ruby-identifier">namespace_hash</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_namespaces</span>, <span class="ruby-identifier">namespace_hash</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -271,13 +262,11 @@ XML. Valid only on top-level objects.</p>
 
         <div class="method-description">
           
-          <p>Saves the contents of the object as XML to respective location in
-<code>.xslx</code> zip container.</p>
+          <p>Saves the contents of the object as XML to respective location in <code>.xslx</code> zip container.</p>
 
 <h3 id="method-i-add_to_zip-label-Parameters">Parameters<span><a href="#method-i-add_to_zip-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
 <ul><li>
-<p><code>zipfile</code> - ::Zip::File to which the resulting XNMML should be
-added.</p>
+<p><code>zipfile</code> - ::Zip::File to which the resulting XNMML should be added.</p>
 </li></ul>
           
           
@@ -285,7 +274,7 @@ added.</p>
           
           <div class="method-source-code" id="add_to_zip-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 446</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_to_zip</span>(<span class="ruby-identifier">zip_stream</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_to_zip</span>(<span class="ruby-identifier">zip_stream</span>)
   <span class="ruby-identifier">xml_string</span> = <span class="ruby-identifier">write_xml</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml_string</span>.<span class="ruby-identifier">empty?</span>
   <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">put_next_entry</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-identifier">from_root</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>))
@@ -322,7 +311,7 @@ added.</p>
           
           <div class="method-source-code" id="file_index-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 454</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">file_index</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">file_index</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">rels_hash</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>].<span class="ruby-identifier">index</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-keyword">self</span>) }.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -348,16 +337,14 @@ added.</p>
 
         <div class="method-description">
           
-          <p>Prototype method. For top-level OOXML object, returns the path at which the
-current object&#39;s XML file is located within the <code>.xlsx</code> zip
-container.</p>
+          <p>Prototype method. For top-level OOXML object, returns the path at which the current object&#39;s XML file is located within the <code>.xlsx</code> zip container.</p>
           
           
 
           
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 419</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Subclass responsebility&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -377,8 +364,8 @@ container.</p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

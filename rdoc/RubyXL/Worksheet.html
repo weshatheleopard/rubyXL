@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Worksheet - rubyXL 3.4.3</title>
+<title>class RubyXL::Worksheet - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -111,13 +111,10 @@
 
   <section class="description">
     
-<p><a
-href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/ooxml/e-ssml_worksheet.html</a></p>
+<p><a href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/ooxml/e-ssml_worksheet.html</a></p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -251,8 +248,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 734</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">param</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 737</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse</span>(<span class="ruby-identifier">param</span>)
   <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">nil?</span>
@@ -298,8 +295,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 685</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span> <span class="ruby-comment"># This method may need to be moved higher in the hierarchy</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 688</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span> <span class="ruby-comment"># This method may need to be moved higher in the hierarchy</span>
   <span class="ruby-identifier">first_nonempty_row</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">last_nonempty_row</span> = <span class="ruby-value">0</span>
   <span class="ruby-identifier">first_nonempty_column</span> = <span class="ruby-keyword">nil</span>
@@ -372,8 +369,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="get_col_xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 744</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 747</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_col_style</span>(<span class="ruby-identifier">column_index</span>)]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -405,8 +402,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="get_row_xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 748</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 751</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_xf</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_row_style</span>(<span class="ruby-identifier">row</span>)]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -438,8 +435,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="related_objects-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 620</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">related_objects</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 622</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">related_objects</span>
   <span class="ruby-identifier">comments</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">printer_settings</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -471,8 +468,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 730</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 733</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;worksheets&#39;</span>, <span class="ruby-node">&quot;sheet#{file_index}.xml&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -492,8 +489,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html">www.datypic.com/sc/
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

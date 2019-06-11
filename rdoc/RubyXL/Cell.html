@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Cell - rubyXL 3.4.3</title>
+<title>class RubyXL::Cell - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -123,13 +123,10 @@
 
   <section class="description">
     
-<p><a
-href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/e-ssml_c-2.html</a></p>
+<p><a href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/e-ssml_c-2.html</a></p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -202,7 +199,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="column-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 61</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">column</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">column</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">first_col</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -235,7 +232,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="column-3D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 65</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">column=</span>(<span class="ruby-identifier">v</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">column=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -268,7 +265,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="get_cell_border-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 86</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cell_border</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_cell_border</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">border_id</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -301,7 +298,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="get_cell_font-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 82</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cell_font</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_cell_font</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -334,7 +331,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="get_cell_xf-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 78</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cell_xf</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_cell_xf</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -367,7 +364,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="index_in_collection-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 49</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index_in_collection</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -400,7 +397,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="inspect-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 120</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
   <span class="ruby-identifier">str</span> = <span class="ruby-node">&quot;#&lt;#{self.class}(#{row},#{column}): #{raw_value.inspect}&quot;</span>
   <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; =#{self.formula.expression}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span>
   <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;, datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}&gt;&quot;</span>
@@ -436,7 +433,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="is_date-3F-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 94</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_date?</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_date?</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">=~</span> <span class="ruby-constant">NUMBER_REGEXP</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
   <span class="ruby-identifier">num_fmt</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">number_format</span>
   <span class="ruby-identifier">num_fmt</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num_fmt</span>.<span class="ruby-identifier">is_date_format?</span>
@@ -471,7 +468,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="number_format-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 90</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">number_format</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">number_format</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">get_number_format_by_id</span>(<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">num_fmt_id</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -504,7 +501,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="raw_value-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 69</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">raw_value</span>
   <span class="ruby-identifier">value_container</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value_container</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -537,7 +534,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="raw_value-3D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 73</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value=</span>(<span class="ruby-identifier">v</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">raw_value=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value_container</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CellValue</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">value_container</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
 <span class="ruby-keyword">end</span></pre>
@@ -571,7 +568,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="row-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 53</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">row</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">row</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">first_row</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -604,7 +601,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="row-3D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 57</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">row=</span>(<span class="ruby-identifier">v</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">row=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">column</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -630,16 +627,14 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_c-2.html">www.datypic.com/sc/ooxml/
 
         <div class="method-description">
           
-          <p>Gets massaged value of the cell, converting datatypes to those known to
-Ruby (that includes stripping any special formatting from <a
-href="RichText.html">RichText</a>).</p>
+          <p>Gets massaged value of the cell, converting datatypes to those known to Ruby (that includes stripping any special formatting from <a href="RichText.html"><code>RichText</code></a>).</p>
           
           
 
           
           <div class="method-source-code" id="value-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 102</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">value</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-identifier">r</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_value</span>
 
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">datatype</span>
@@ -673,8 +668,8 @@ href="RichText.html">RichText</a>).</p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

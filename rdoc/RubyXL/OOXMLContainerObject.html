@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLContainerObject - rubyXL 3.4.3</title>
+<title>class RubyXL::OOXMLContainerObject - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -107,15 +107,10 @@
 
   <section class="description">
     
-<p>Parent class for OOXML conainer objects (for example,
-<code>&amp;lt;fonts&amp;gt;&amp;lt;font&amp;gt;...&amp;lt;/font&amp;gt;&amp;lt;font&amp;gt;...&amp;lt;/font&amp;gt;&amp;lt;/fonts&amp;gt;</code>
-that obscures the top-level container, allowing direct access to the
-contents as <code>Array</code>.</p>
+<p>Parent class for OOXML conainer objects (for example, <code>&amp;lt;fonts&amp;gt;&amp;lt;font&amp;gt;...&amp;lt;/font&amp;gt;&amp;lt;font&amp;gt;...&amp;lt;/font&amp;gt;&amp;lt;/fonts&amp;gt;</code> that obscures the top-level container, allowing direct access to the contents as <code>Array</code>.</p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -151,14 +146,14 @@ contents as <code>Array</code>.</p>
           
             <div class="method-calls-super">
               Calls superclass method
-              <a href="OOXMLObjectInstanceMethods.html#method-c-new">RubyXL::OOXMLObjectInstanceMethods.new</a>
+              <a href="OOXMLObjectInstanceMethods.html#method-c-new"><code>RubyXL::OOXMLObjectInstanceMethods::new</code></a>
             </div>
           
 
           
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 368</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">params</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">params</span> = {})
   <span class="ruby-identifier">array_content</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:_</span>)
   <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">array_content</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">v</span> } <span class="ruby-keyword">if</span> <span class="ruby-identifier">array_content</span>
@@ -201,9 +196,9 @@ contents as <code>Array</code>.</p>
           
           <div class="method-source-code" id="define_count_attribute-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 400</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_count_attribute</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_count_attribute</span>
   <span class="ruby-comment"># Count will be inherited from Array. so no need to define it explicitly.</span>
-  <span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:count</span>, <span class="ruby-value">:uint</span>, <span class="ruby-value">:required</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:computed</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:count</span>, <span class="ruby-value">:uint</span>, <span class="ruby-value">:required</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:computed</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -243,7 +238,7 @@ contents as <code>Array</code>.</p>
           
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 389</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -281,7 +276,7 @@ contents as <code>Array</code>.</p>
           
           <div class="method-source-code" id="inspect-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 393</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
   <span class="ruby-identifier">vars</span> = [ <span class="ruby-keyword">super</span> ]
   <span class="ruby-identifier">vars</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">instance_variables</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">vars</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{v}=#{instance_variable_get(v).inspect}&quot;</span> }
   <span class="ruby-node">&quot;&lt;#{self.class}: #{super} #{vars.join(&quot;, &quot;)}&gt;&quot;</span>
@@ -322,14 +317,14 @@ contents as <code>Array</code>.</p>
           
             <div class="method-calls-super">
               Calls superclass method
-              <a href="OOXMLObjectInstanceMethods.html#method-i-get_node_object">RubyXL::OOXMLObjectInstanceMethods#get_node_object</a>
+              <a href="OOXMLObjectInstanceMethods.html#method-i-get_node_object"><code>RubyXL::OOXMLObjectInstanceMethods#get_node_object</code></a>
             </div>
           
 
           
           <div class="method-source-code" id="get_node_object-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 374</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_node_object</span>(<span class="ruby-identifier">child_node_params</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_node_object</span>(<span class="ruby-identifier">child_node_params</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:is_array</span>] <span class="ruby-keyword">then</span> <span class="ruby-keyword">self</span>
   <span class="ruby-keyword">else</span> <span class="ruby-keyword">super</span>
   <span class="ruby-keyword">end</span>
@@ -364,7 +359,7 @@ contents as <code>Array</code>.</p>
           
           <div class="method-source-code" id="init_child_nodes-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 381</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">init_child_nodes</span>(<span class="ruby-identifier">params</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">init_child_nodes</span>(<span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:is_array</span>] <span class="ruby-comment"># Only one collection node allowed per OOXMLContainerObject, and it is contained in itself.</span>
     <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{v[:accessor]}&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]])
@@ -387,8 +382,8 @@ contents as <code>Array</code>.</p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Border - rubyXL 3.4.3</title>
+<title>class RubyXL::Border - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -92,13 +92,10 @@
 
   <section class="description">
     
-<p><a
-href="http://www.datypic.com/sc/ooxml/e-ssml_border-2.html">www.datypic.com/sc/ooxml/e-ssml_border-2.html</a></p>
+<p><a href="http://www.datypic.com/sc/ooxml/e-ssml_border-2.html">www.datypic.com/sc/ooxml/e-ssml_border-2.html</a></p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -136,7 +133,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_border-2.html">www.datypic.com/sc/o
           
           <div class="method-source-code" id="get_edge_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 47</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_edge_color</span>(<span class="ruby-identifier">direction</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_edge_color</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">edge</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">get_rgb_color</span>
 <span class="ruby-keyword">end</span></pre>
@@ -170,7 +167,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_border-2.html">www.datypic.com/sc/o
           
           <div class="method-source-code" id="get_edge_style-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 33</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_edge_style</span>(<span class="ruby-identifier">direction</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_edge_style</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">edge</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">style</span>
 <span class="ruby-keyword">end</span></pre>
@@ -204,7 +201,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_border-2.html">www.datypic.com/sc/o
           
           <div class="method-source-code" id="set_edge_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 52</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_edge_color</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_edge_color</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
   <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
     <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">set_rgb_color</span>(<span class="ruby-identifier">color</span>)
@@ -243,12 +240,12 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_border-2.html">www.datypic.com/sc/o
           
           <div class="method-source-code" id="set_edge_style-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/border.rb, line 38</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_edge_style</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">style</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_edge_style</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">style</span>)
   <span class="ruby-identifier">edge</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
     <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">style</span> = <span class="ruby-identifier">style</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">style</span>))
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">style</span>))
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -268,8 +265,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_border-2.html">www.datypic.com/sc/o
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

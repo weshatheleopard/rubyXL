@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::SharedStringsTable - rubyXL 3.4.3</title>
+<title>class RubyXL::SharedStringsTable - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -98,13 +98,10 @@
 
   <section class="description">
     
-<p><a
-href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/e-ssml_sst.html</a></p>
+<p><a href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/e-ssml_sst.html</a></p>
 
   </section>
 
-  
-  
   
   <section id="5Buntitled-5D" class="documentation-section">
     
@@ -159,14 +156,14 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
           
             <div class="method-calls-super">
               Calls superclass method
-              <a href="OOXMLObjectInstanceMethods.html#method-c-new">RubyXL::OOXMLObjectInstanceMethods.new</a>
+              <a href="OOXMLObjectInstanceMethods.html#method-c-new"><code>RubyXL::OOXMLObjectInstanceMethods::new</code></a>
             </div>
           
 
           
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 20</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-keyword">super</span>
   <span class="ruby-comment"># So far, going by the structure that the original creator had in mind. However,</span>
   <span class="ruby-comment"># since the actual implementation is now extracted into a separate class,</span>
@@ -211,7 +208,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="5B-5D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 34</span>
-<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">index</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">index</span>)
   <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -244,17 +241,17 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="add-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 42</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">index</span> = <span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">index</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">index</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">size</span>
 
   <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>] =
     <span class="ruby-keyword">case</span> <span class="ruby-identifier">v</span>
     <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">v</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:t</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v</span>))
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>               <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:t</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v</span>)
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichTextRun</span>        <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:r</span> =<span class="ruby-operator">&gt;</span> [ <span class="ruby-identifier">v</span> ])
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PhoneticRun</span>        <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:r_ph</span> =<span class="ruby-operator">&gt;</span> [ <span class="ruby-identifier">v</span> ])
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PhoneticProperties</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:phonetic_pr</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:t</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>))
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>               <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:t</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichTextRun</span>        <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:r</span> <span class="ruby-operator">=&gt;</span> [ <span class="ruby-identifier">v</span> ])
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PhoneticRun</span>        <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:r_ph</span> <span class="ruby-operator">=&gt;</span> [ <span class="ruby-identifier">v</span> ])
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PhoneticProperties</span> <span class="ruby-keyword">then</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:phonetic_pr</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
     <span class="ruby-keyword">end</span>
 
   <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">index</span>
@@ -287,14 +284,14 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
           
             <div class="method-calls-super">
               Calls superclass method
-              <a href="OOXMLObjectInstanceMethods.html#method-i-before_write_xml">RubyXL::OOXMLObjectInstanceMethods#before_write_xml</a>
+              <a href="OOXMLObjectInstanceMethods.html#method-i-before_write_xml"><code>RubyXL::OOXMLObjectInstanceMethods#before_write_xml</code></a>
             </div>
           
 
           
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 28</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-keyword">super</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">unique_count</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
@@ -329,7 +326,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="empty-3F-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 38</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">empty?</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">empty?</span>
   <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -362,7 +359,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="get_index-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 58</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_index</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">add_if_missing</span> = <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_index</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">add_if_missing</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">index</span> = <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">str</span>]
   <span class="ruby-identifier">index</span> = <span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">add_if_missing</span>
   <span class="ruby-identifier">index</span>
@@ -397,7 +394,7 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
           
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 64</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">xlsx_path</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;sharedStrings.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -417,8 +414,8 @@ href="http://www.datypic.com/sc/ooxml/e-ssml_sst.html">www.datypic.com/sc/ooxml/
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

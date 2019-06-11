@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.3</title>
+<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.4</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -90,8 +90,6 @@
   </section>
 
   
-  
-  
   <section id="5Buntitled-5D" class="documentation-section">
     
 
@@ -125,16 +123,12 @@
 
 <h3 id="method-i-define_attribute-label-Parameters">Parameters<span><a href="#method-i-define_attribute-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
 <ul><li>
-<p><code>attribute_name</code> - Name of the element attribute as seen in the
-source XML. Can be either <code>&quot;String&quot;</code> or
-<code>:Symbol</code></p>
+<p><code>attribute_name</code> - Name of the element attribute as seen in the source XML. Can be either <code>&quot;String&quot;</code> or <code>:Symbol</code></p>
 <ul><li>
-<p>Special attibute name <code>&#39;_&#39;</code> (underscore) denotes the
-value of the element rather than attribute.</p>
+<p>Special attibute name <code>&#39;_&#39;</code> (underscore) denotes the value of the element rather than attribute.</p>
 </li></ul>
 </li><li>
-<p><code>attribute_type</code> - Specifies the conversion type for the
-attribute when parsing. Available options are:</p>
+<p><code>attribute_type</code> - Specifies the conversion type for the attribute when parsing. Available options are:</p>
 <ul><li>
 <p><code>:int</code> - <code>Integer</code></p>
 </li><li>
@@ -144,71 +138,57 @@ attribute when parsing. Available options are:</p>
 </li><li>
 <p><code>:string</code> - <code>String</code> (no conversion)</p>
 </li><li>
-<p><code>:sqref</code> - <a href="Sqref.html">RubyXL::Sqref</a></p>
+<p><code>:sqref</code> - <a href="Sqref.html"><code>RubyXL::Sqref</code></a></p>
 </li><li>
-<p><code>:ref</code> - <a href="Reference.html">RubyXL::Reference</a></p>
+<p><code>:ref</code> - <a href="Reference.html"><code>RubyXL::Reference</code></a></p>
 </li><li>
-<p><code>:bool</code> - <code>Boolean</code> (“1” and “true” convert to
-<code>true</code>, others to <code>false</code>)</p>
+<p><code>:bool</code> - <code>Boolean</code> (“1” and “true” convert to <code>true</code>, others to <code>false</code>)</p>
 </li><li>
-<p>one of <code>simple_types</code> - <code>String</code>, plus the list of
-acceptable values is saved for future validation (not used yet).</p>
+<p>one of <code>simple_types</code> - <code>String</code>, plus the list of acceptable values is saved for future validation (not used yet).</p>
 </li></ul>
 </li><li>
 <p><code>extra_parameters</code> - Hash of optional parameters as follows:</p>
 <ul><li>
-<p><code>:accessor</code> - Name of the accessor for this attribute to be
-defined on the object. If not provided, defaults to classidied
-<code>attribute_name</code>.</p>
+<p><code>:accessor</code> - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied <code>attribute_name</code>.</p>
 </li><li>
-<p><code>:default</code> - Value this attribute defaults to if not explicitly
-provided.</p>
+<p><code>:default</code> - Value this attribute defaults to if not explicitly provided.</p>
 </li><li>
-<p><code>:required</code> - Whether this attribute is required when writing
-XML. If the value of the attrinute is not explicitly provided,
-<code>:default</code> is written instead.</p>
+<p><code>:required</code> - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, <code>:default</code> is written instead.</p>
 </li><li>
-<p><code>:computed</code> - Do not store this attribute on <code>parse</code>,
-but do call the object-provided read accessor on <code>write_xml</code>.</p>
+<p><code>:computed</code> - Do not store this attribute on <code>parse</code>, but do call the object-provided read accessor on <code>write_xml</code>.</p>
 </li></ul>
 </li></ul>
 
 <h4 id="method-i-define_attribute-label-Examples">Examples<span><a href="#method-i-define_attribute-label-Examples">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">outline</span>, :<span class="ruby-identifier">bool</span>, :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:outline</span>, <span class="ruby-value">:bool</span>, <span class="ruby-value">:default</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>)
 </pre>
 
-<p>A <code>Boolean</code> attribute &#39;outline&#39; with default value
-<code>true</code> will be accessible by calling <code>obj.outline</code></p>
+<p>A <code>Boolean</code> attribute &#39;outline&#39; with default value <code>true</code> will be accessible by calling <code>obj.outline</code></p>
 
-<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">uniqueCount</span>,  :<span class="ruby-identifier">int</span>)
+<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:uniqueCount</span>,  <span class="ruby-value">:int</span>)
 </pre>
 
-<p>An <code>Integer</code> attribute &#39;uniqueCount&#39; accessible as
-<code>obj.unique_count</code></p>
+<p>An <code>Integer</code> attribute &#39;uniqueCount&#39; accessible as <code>obj.unique_count</code></p>
 
-<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">_</span>,  :<span class="ruby-identifier">string</span>, :<span class="ruby-identifier">accessor</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">expression</span>)
+<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:_</span>,  <span class="ruby-value">:string</span>, <span class="ruby-value">:accessor</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:expression</span>)
 </pre>
 
-<p>The value of the element will be accessible as a <code>String</code> by
-calling <code>obj.expression</code></p>
+<p>The value of the element will be accessible as a <code>String</code> by calling <code>obj.expression</code></p>
 
-<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(:<span class="ruby-identifier">errorStyle</span>, <span class="ruby-node">%w{ stop warning information }</span>, :<span class="ruby-identifier">default</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;stop&#39;</span>,)
+<pre class="ruby"><span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:errorStyle</span>, <span class="ruby-node">%w{ stop warning information }</span>, <span class="ruby-value">:default</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;stop&#39;</span>,)
 </pre>
 
-<p>A <code>String</code> attribute named &#39;errorStyle&#39; will be
-accessible as <code>obj.error_style</code>, valid values are
-<code>&quot;stop&quot;</code>, <code>&quot;warning&quot;</code>,
-<code>&quot;information&quot;</code></p>
+<p>A <code>String</code> attribute named &#39;errorStyle&#39; will be accessible as <code>obj.error_style</code>, valid values are <code>&quot;stop&quot;</code>, <code>&quot;warning&quot;</code>, <code>&quot;information&quot;</code></p>
           
           
 
           
           <div class="method-source-code" id="define_attribute-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 48</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_attribute</span>(<span class="ruby-identifier">attr_name</span>, <span class="ruby-identifier">attr_type</span>, <span class="ruby-identifier">extra_params</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_attribute</span>(<span class="ruby-identifier">attr_name</span>, <span class="ruby-identifier">attr_type</span>, <span class="ruby-identifier">extra_params</span> = {})
   <span class="ruby-identifier">attrs</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>)
-  <span class="ruby-identifier">attr_hash</span> = <span class="ruby-identifier">extra_params</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-value">:attr_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">attr_type</span> })
+  <span class="ruby-identifier">attr_hash</span> = <span class="ruby-identifier">extra_params</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-value">:attr_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">attr_type</span> })
   <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:accessor</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">accessorize</span>(<span class="ruby-identifier">attr_name</span>)
   <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">attr_name</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">attr_hash</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:attr_accessor</span>, <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:computed</span>]
@@ -240,33 +220,21 @@ accessible as <code>obj.error_style</code>, valid values are
 
 <h3 id="method-i-define_child_node-label-Parameters">Parameters<span><a href="#method-i-define_child_node-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
 <ul><li>
-<p><code>klass</code> - Class (descendant of <a
-href="OOXMLObject.html">RubyXL::OOXMLObject</a>) of the child nodes. Child
-node objects will be produced by calling <code>parse</code> method of that
-class.</p>
+<p><code>klass</code> - Class (descendant of <a href="OOXMLObject.html"><code>RubyXL::OOXMLObject</code></a>) of the child nodes. Child node objects will be produced by calling <code>parse</code> method of that class.</p>
 </li><li>
 <p><code>extra_parameters</code> - Hash of optional parameters as follows:</p>
 <ul><li>
-<p><code>:accessor</code> - Name of the accessor for this attribute to be
-defined on the object. If not provided, defaults to classidied
-<code>attribute_name</code>.</p>
+<p><code>:accessor</code> - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied <code>attribute_name</code>.</p>
 </li><li>
-<p><code>:node_name</code> - Node name for the child node, in case it does not
-match the one defined by the <code>klass</code>.</p>
+<p><code>:node_name</code> - Node name for the child node, in case it does not match the one defined by the <code>klass</code>.</p>
 </li><li>
-<p><code>:collection</code> - Whether the child node should be treated as a
-single node or a collection of nodes:</p>
+<p><code>:collection</code> - Whether the child node should be treated as a single node or a collection of nodes:</p>
 <ul><li>
-<p><code>false</code> (default) - child node is directly accessible through
-the respective accessor;</p>
+<p><code>false</code> (default) - child node is directly accessible through the respective accessor;</p>
 </li><li>
-<p><code>true</code> - a collection of child nodes is accessed as
-<code>Array</code> through the respective accessor;</p>
+<p><code>true</code> - a collection of child nodes is accessed as <code>Array</code> through the respective accessor;</p>
 </li><li>
-<p><code>:with_count</code> - same as <code>true</code>, but in addition, the
-attribute <code>count</code> is defined on the current object, that will be
-automatically set to the number of elements in the collection at the start
-of <code>write_xml</code> call.</p>
+<p><code>:with_count</code> - same as <code>true</code>, but in addition, the attribute <code>count</code> is defined on the current object, that will be automatically set to the number of elements in the collection at the start of <code>write_xml</code> call.</p>
 </li></ul>
 </li></ul>
 </li></ul>
@@ -276,43 +244,38 @@ of <code>write_xml</code> call.</p>
 <pre class="ruby"><span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Alignment</span>)
 </pre>
 
-<p>Define a singular child node parsed by the RubyXL::BorderEdge.parse() and
-accessed by the default <code>obj.alignment</code> accessor</p>
+<p>Define a singular child node parsed by the RubyXL::BorderEdge.parse() and accessed by the default <code>obj.alignment</code> accessor</p>
 
-<pre class="ruby"><span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Hyperlink</span>, :<span class="ruby-identifier">collection</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, :<span class="ruby-identifier">accessor</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">hyperlinks</span>)
+<pre class="ruby"><span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Hyperlink</span>, <span class="ruby-value">:collection</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:accessor</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:hyperlinks</span>)
 </pre>
 
-<p>Define an array of nodes accessed by <code>obj.hyperlinks</code> accessor,
-each of which will be parsed by the RubyXL::Hyperlink.parse()</p>
+<p>Define an array of nodes accessed by <code>obj.hyperlinks</code> accessor, each of which will be parsed by the RubyXL::Hyperlink.parse()</p>
 
-<pre class="ruby"><span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>, :<span class="ruby-identifier">node_name</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">left</span>)
-<span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>, :<span class="ruby-identifier">node_name</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">right</span>)
+<pre class="ruby"><span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>, <span class="ruby-value">:node_name</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:left</span>)
+<span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">BorderEdge</span>, <span class="ruby-value">:node_name</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:right</span>)
 </pre>
 
-<p>Use class <a href="BorderEdge.html">RubyXL::BorderEdge</a> when parsing
-both the elements <code>&lt;left ...&gt;</code> and <code>&lt;right
-...&gt;</code> elements.</p>
+<p>Use class <a href="BorderEdge.html"><code>RubyXL::BorderEdge</code></a> when parsing both the elements <code>&lt;left ...&gt;</code> and <code>&lt;right ...&gt;</code> elements.</p>
 
-<pre class="ruby"><span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Font</span>, :<span class="ruby-identifier">collection</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">with_count</span>, :<span class="ruby-identifier">accessor</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">fonts</span>)
+<pre class="ruby"><span class="ruby-identifier">define_child_node</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Font</span>, <span class="ruby-value">:collection</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:with_count</span>, <span class="ruby-value">:accessor</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:fonts</span>)
 </pre>
 
-<p>Upon writing of the object this was defined on, its <code>count</code>
-attribute will be set to the count of nodes in <code>fonts</code> array</p>
+<p>Upon writing of the object this was defined on, its <code>count</code> attribute will be set to the count of nodes in <code>fonts</code> array</p>
           
           
 
           
           <div class="method-source-code" id="define_child_node-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 76</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_child_node</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">extra_params</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_child_node</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">extra_params</span> = {})
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
   <span class="ruby-identifier">child_node_name</span> = (<span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:node_name</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">class_variable_get</span>(<span class="ruby-value">:@@ooxml_tag_name</span>)).<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">accessor</span> = (<span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:accessor</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">accessorize</span>(<span class="ruby-identifier">child_node_name</span>)).<span class="ruby-identifier">to_sym</span>
 
   <span class="ruby-identifier">child_nodes</span>[<span class="ruby-identifier">child_node_name</span>] = {
-    <span class="ruby-value">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">klass</span>,
-    <span class="ruby-value">:is_array</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:collection</span>],
-    <span class="ruby-value">:accessor</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">accessor</span>
+    <span class="ruby-value">:class</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">klass</span>,
+    <span class="ruby-value">:is_array</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:collection</span>],
+    <span class="ruby-value">:accessor</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">accessor</span>
   }
 
   <span class="ruby-identifier">define_count_attribute</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:collection</span>] <span class="ruby-operator">==</span> <span class="ruby-value">:with_count</span>
@@ -342,11 +305,7 @@ attribute will be set to the count of nodes in <code>fonts</code> array</p>
 
         <div class="method-description">
           
-          <p>Defines the name of the element that represents the current OOXML object.
-Should only be used once per object. In case of different objects
-represented by the same class in different parts of OOXML tree,
-<code>:node_name</code> extra parameter can be used to override the default
-element name.</p>
+          <p>Defines the name of the element that represents the current OOXML object. Should only be used once per object. In case of different objects represented by the same class in different parts of OOXML tree, <code>:node_name</code> extra parameter can be used to override the default element name.</p>
 
 <h3 id="method-i-define_element_name-label-Parameters">Parameters<span><a href="#method-i-define_element_name-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
 <ul><li>
@@ -363,7 +322,7 @@ element name.</p>
           
           <div class="method-source-code" id="define_element_name-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 104</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_element_name</span>(<span class="ruby-identifier">element_name</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_element_name</span>(<span class="ruby-identifier">element_name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_tag_name</span>, <span class="ruby-identifier">element_name</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -389,22 +348,16 @@ element name.</p>
 
         <div class="method-description">
           
-          <p>Get the value of a [sub]class variable if it exists, or create the
-respective variable with the passed-in <code>default</code> (or +{}+, if
-not specified)</p>
+          <p>Get the value of a [sub]class variable if it exists, or create the respective variable with the passed-in <code>default</code> (or +{}+, if not specified)</p>
 
-<p>Throughout this class, we are setting class variables through explicit
-method calls rather than by directly addressing the name of the variable
-because of context issues: addressing variable by name creates it in the
-context of defining class, while calling the setter/getter method addresses
-it in the context of descendant class, which is what we need.</p>
+<p>Throughout this class, we are setting class variables through explicit method calls rather than by directly addressing the name of the variable because of context issues: addressing variable by name creates it in the context of defining class, while calling the setter/getter method addresses it in the context of descendant class, which is what we need.</p>
           
           
 
           
           <div class="method-source-code" id="obtain_class_variable-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 15</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">obtain_class_variable</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span> = {})
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_get</span>(<span class="ruby-identifier">var_name</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">NameError</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span>)
@@ -439,7 +392,7 @@ it in the context of descendant class, which is what we need.</p>
           
           <div class="method-source-code" id="parse-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 108</span>
-    <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">known_namespaces</span> = <span class="ruby-keyword">nil</span>)
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">parse</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">known_namespaces</span> = <span class="ruby-keyword">nil</span>)
       <span class="ruby-keyword">case</span> <span class="ruby-identifier">node</span>
       <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">IO</span>, <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">InputStream</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">node</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>)
       <span class="ruby-keyword">end</span>
@@ -525,8 +478,8 @@ it in the context of descendant class, which is what we need.</p>
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
