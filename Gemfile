@@ -14,4 +14,5 @@ group :development, :test do
 
 #  gem 'stackprof'
   gem 'ruby-prof'
+  gem 'rspec_junit_formatter'
 end

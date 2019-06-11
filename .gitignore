@@ -8,5 +8,4 @@ tmp
 bin
 vendor
 lib/tests/
-Gemfile.lock
 coverage
