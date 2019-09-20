@@ -299,6 +299,8 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_workbook.html
   class Workbook < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml'
+    CONTENT_TYPE_TEMPLATE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.template.main+xml'
+    CONTENT_TYPE_TEMPLATE_WITH_MACROS = 'application/vnd.ms-excel.template.macroEnabled.main+xml'
     CONTENT_TYPE_WITH_MACROS = 'application/vnd.ms-excel.sheet.macroEnabled.main+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
 
@@ -309,7 +311,10 @@ module RubyXL
     include RubyXL::RelationshipSupport
 
     def content_type
-      if macros then CONTENT_TYPE_WITH_MACROS else CONTENT_TYPE end
+      content_type_name = 'CONTENT_TYPE'
+      content_type_name << '_TEMPLATE' if is_template
+      content_type_name << '_WITH_MACROS' if macros
+      self.class.const_get(content_type_name)
     end
 
     def related_objects
@@ -359,6 +364,7 @@ module RubyXL
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
 
     attr_accessor :worksheets
+    attr_accessor :is_template
 
     def before_write_xml
       max_sheet_id = worksheets.collect(&:sheet_id).compact.max || 0
@@ -393,8 +399,8 @@ module RubyXL
       dst_file_path ||= root.source_file_path
 
       extension = File.extname(dst_file_path)
-      unless %w{.xlsx .xlsm}.include?(extension.downcase)
-        raise "Unsupported extension: #{extension} (only .xlsx and .xlsm files are supported)."
+      unless %w{.xlsx .xlsm .xltx .xltm}.include?(extension.downcase)
+        raise "Unsupported extension: #{extension} (only .xlsx, .xlsm, .xltx and .xltm files are supported)."
       end
 
       File.open(dst_file_path, "wb") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
@@ -432,7 +438,8 @@ module RubyXL
     APPVERSION  = '12.0000'
 
     def initialize(worksheets = [], src_file_path = nil, creator = nil, modifier = nil, created_at = nil,
-                   company = '', application = APPLICATION, appversion = APPVERSION, date1904 = 0)
+                   company = '', application = APPLICATION, appversion = APPVERSION, date1904 = 0,
+                   is_template = false)
       super()
 
       # Order of sheets in the +worksheets+ array corresponds to the order of pages in Excel UI.
@@ -457,6 +464,7 @@ module RubyXL
       self.creator     = creator
       self.modifier    = modifier
       self.date1904    = date1904 > 0
+      self.is_template = is_template
     end
 
     SHEET_NAME_TEMPLATE = 'Sheet%d'
