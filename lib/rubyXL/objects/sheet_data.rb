@@ -107,7 +107,7 @@ module RubyXL
       when RubyXL::DataType::INLINE_STRING then is.to_s
       when RubyXL::DataType::RAW_STRING    then raw_value
       else
-        if is_date? then workbook.num_to_date(r.to_f)
+        if r.is_a?(String) && is_date? then workbook.num_to_date(r.to_f)
         elsif r.is_a?(String) && (r =~ NUMBER_REGEXP) then # Numeric
           if $1 != '' then r.to_f
           else r.to_i
