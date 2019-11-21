@@ -520,7 +520,7 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<nokogiri>.freeze, [">= 1.4.4"])
-      s.add_runtime_dependency(%q<rubyzip>.freeze, [">= 1.1.6"])
+      s.add_runtime_dependency(%q<rubyzip>.freeze, [">= 1.3.0"])
       s.add_development_dependency(%q<bundler>.freeze, [">= 0"])
       s.add_development_dependency(%q<rake>.freeze, [">= 0"])
       s.add_development_dependency(%q<jeweler>.freeze, [">= 0"])
@@ -530,7 +530,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec_junit_formatter>.freeze, [">= 0"])
     else
       s.add_dependency(%q<nokogiri>.freeze, [">= 1.4.4"])
-      s.add_dependency(%q<rubyzip>.freeze, [">= 1.1.6"])
+      s.add_dependency(%q<rubyzip>.freeze, [">= 1.3.0"])
       s.add_dependency(%q<bundler>.freeze, [">= 0"])
       s.add_dependency(%q<rake>.freeze, [">= 0"])
       s.add_dependency(%q<jeweler>.freeze, [">= 0"])
@@ -541,7 +541,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<nokogiri>.freeze, [">= 1.4.4"])
-    s.add_dependency(%q<rubyzip>.freeze, [">= 1.1.6"])
+    s.add_dependency(%q<rubyzip>.freeze, [">= 1.3.0"])
     s.add_dependency(%q<bundler>.freeze, [">= 0"])
     s.add_dependency(%q<rake>.freeze, [">= 0"])
     s.add_dependency(%q<jeweler>.freeze, [">= 0"])
