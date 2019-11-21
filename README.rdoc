@@ -39,7 +39,7 @@ If you do not care about your RAM usage, just include them all at once by adding
 ==== Accessing a Worksheet
   workbook.worksheets[0] # Returns first worksheet
   workbook[0]            # Returns first worksheet
-  workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1"
+  workbook['Sheet1']     # Finds and returns worksheet titled "Sheet1". Note that sheet names in Excel are limited to 31 character.
 
 ==== Accessing a Row (Array of Cells)
 Please note that worksheet is a _sparse_ array of rows. Your code *must* expect that any row it plucks from the array may be <tt>nil</tt>.

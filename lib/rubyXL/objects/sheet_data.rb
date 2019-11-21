@@ -92,7 +92,13 @@ module RubyXL
     end
 
     def is_date?
-      return false unless raw_value =~ NUMBER_REGEXP # Only fully numeric values can be dates
+      return false unless # Only fully numeric values can be dates
+        case raw_value
+        when Numeric then true
+        when String  then raw_value =~ NUMBER_REGEXP
+        else false
+        end
+
       num_fmt = self.number_format
       num_fmt && num_fmt.is_date_format?
     end

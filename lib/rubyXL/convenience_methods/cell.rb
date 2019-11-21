@@ -19,6 +19,16 @@ module RubyXL
       self.raw_value = data
     end
 
+    def remove_formula
+      self.formula = nil
+
+      calculation_chain = workbook && workbook.calculation_chain
+      calculation_cells = calculation_chain && calculation_chain.cells
+      calculation_cells && calculation_cells.reject! { |c|
+        c.ref.col_range.c == self.column && c.ref.row_range.begin == self.row
+      }
+    end
+
     def get_border(direction)
       validate_worksheet
       get_cell_border.get_edge_style(direction)
