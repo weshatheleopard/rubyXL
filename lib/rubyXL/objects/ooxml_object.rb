@@ -144,7 +144,9 @@ module RubyXL
         node.element_children.each { |child_node|
 
           ns = child_node.namespace
-          prefix = known_namespaces[ns.href] || ns.prefix
+          prefix = if known_namespaces.has_key?(ns.href) then known_namespaces[ns.href]
+                   else ns.prefix
+                   end
 
           child_node_name = case prefix
                             when '', nil then child_node.name
