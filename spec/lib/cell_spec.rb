@@ -31,6 +31,23 @@ describe RubyXL::Cell do
       cell = @worksheet.add_cell(r, c, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => 'Hello')))
       expect(cell.datatype).to eq(RubyXL::DataType::INLINE_STRING)
     end
+
+    it 'should properly handle dates' do
+      r = 3
+      c = 3
+
+      dt = Date.today
+      cell = @worksheet.add_cell(r, c, dt)
+      cell.set_number_format('ddd mmm dd, yyyy')
+      expect(cell.value).to eq(dt)
+
+      tm = DateTime.now
+      cell = @worksheet.add_cell(r, c, tm)
+      cell.set_number_format('ddd mmm dd, yyyy HH:MM:SS')
+
+      # Due to rounding errors, we allow microsecond precision on DateTime.
+      expect((cell.value - tm).to_f).to be_within(2.0/384000000000).of(0)
+    end
   end
 
   describe '.change_fill' do
