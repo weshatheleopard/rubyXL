@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.4.8</title>
+<title>class RubyXL::OOXMLTopLevelObject - rubyXL 3.4.9</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -181,7 +181,7 @@
 
           
           <div class="method-source-code" id="parse_file-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 437</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 439</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse_file</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-identifier">file_path</span>)
   <span class="ruby-identifier">entry</span> = <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">find_entry</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-identifier">from_root</span>(<span class="ruby-identifier">file_path</span>))
   <span class="ruby-comment"># Accomodate for Nokogiri Java implementation which is incapable of reading from a stream</span>
@@ -227,7 +227,7 @@
 
           
           <div class="method-source-code" id="set_namespaces-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 429</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 431</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">set_namespaces</span>(<span class="ruby-identifier">namespace_hash</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_namespaces</span>, <span class="ruby-identifier">namespace_hash</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -273,7 +273,7 @@
 
           
           <div class="method-source-code" id="add_to_zip-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 446</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 448</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_to_zip</span>(<span class="ruby-identifier">zip_stream</span>)
   <span class="ruby-identifier">xml_string</span> = <span class="ruby-identifier">write_xml</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml_string</span>.<span class="ruby-identifier">empty?</span>
@@ -310,7 +310,7 @@
 
           
           <div class="method-source-code" id="file_index-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 454</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 456</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">file_index</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">rels_hash</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>].<span class="ruby-identifier">index</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-keyword">self</span>) }.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
@@ -343,7 +343,7 @@
 
           
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 419</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 421</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-string">&#39;Subclass responsebility&#39;</span>
 <span class="ruby-keyword">end</span></pre>
