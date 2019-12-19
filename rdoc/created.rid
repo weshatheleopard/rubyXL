@@ -1,4 +1,4 @@
-Fri, 22 Nov 2019 20:38:08 +0000
+Thu, 19 Dec 2019 21:29:15 +0000
 README.rdoc	Tue, 10 Sep 2019 20:36:08 +0000
 lib/rubyXL.rb	Wed, 12 Jun 2019 18:44:04 +0000
 lib/rubyXL/cell.rb	Mon, 25 Feb 2019 21:46:23 +0000
@@ -39,7 +39,7 @@ lib/rubyXL/objects/storage.rb	Mon, 25 Feb 2019 21:06:24 +0000
 lib/rubyXL/objects/stylesheet.rb	Tue, 10 Sep 2019 20:32:35 +0000
 lib/rubyXL/objects/text.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/theme.rb	Mon, 25 Feb 2019 21:06:24 +0000
-lib/rubyXL/objects/workbook.rb	Fri, 22 Nov 2019 20:22:28 +0000
+lib/rubyXL/objects/workbook.rb	Fri, 22 Nov 2019 21:54:29 +0000
 lib/rubyXL/objects/worksheet.rb	Fri, 22 Nov 2019 20:22:28 +0000
 lib/rubyXL/parser.rb	Tue, 27 Jun 2017 20:19:22 +0000
-lib/rubyXL/worksheet.rb	Mon, 25 Feb 2019 21:50:06 +0000
+lib/rubyXL/worksheet.rb	Fri, 22 Nov 2019 21:59:43 +0000
