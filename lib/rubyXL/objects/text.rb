@@ -86,7 +86,7 @@ module RubyXL
 
     def to_s
       str = t.to_s
-      r && r.each { |rtr| str << rtr.to_s if rtr }
+      r && r.each { |rtr| str += rtr.to_s if rtr }
       str
     end
   end
