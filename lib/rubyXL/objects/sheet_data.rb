@@ -125,8 +125,8 @@ module RubyXL
 
     def inspect
       str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}"
-      str += " =#{self.formula.expression}" if self.formula
-      str += ", datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}>"
+      str << " =#{self.formula.expression}" if self.formula
+      str << ", datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}>"
       return str
     end
 

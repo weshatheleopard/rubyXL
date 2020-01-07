@@ -85,7 +85,7 @@ module RubyXL
     define_element_name 'is'
 
     def to_s
-      str = t.to_s
+      str = if t.nil? then '' else t.to_s end
       r && r.each { |rtr| str << rtr.to_s if rtr }
       str
     end
