@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Cell - rubyXL 3.4.10</title>
+<title>class RubyXL::Cell - rubyXL 3.4.11</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -402,8 +402,8 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 126</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
   <span class="ruby-identifier">str</span> = <span class="ruby-node">&quot;#&lt;#{self.class}(#{row},#{column}): #{raw_value.inspect}&quot;</span>
-  <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; =#{self.formula.expression}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span>
-  <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;, datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}&gt;&quot;</span>
+  <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot; =#{self.formula.expression}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span>
+  <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;, datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}&gt;&quot;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">str</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
