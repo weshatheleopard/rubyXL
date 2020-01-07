@@ -244,5 +244,5 @@ Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Copyright
 
-Copyright (c) 2011 Vivek Bhagwat, 2013-2016 Wesha.
+Copyright (c) 2011 Vivek Bhagwat, 2013-2020 Wesha.
 See LICENSE.txt for further details.
