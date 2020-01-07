@@ -46,7 +46,7 @@ describe RubyXL::Cell do
       cell.set_number_format('ddd mmm dd, yyyy HH:MM:SS')
 
       # Due to rounding errors, we allow microsecond precision on DateTime.
-      expect((cell.value - tm).to_f).to be_within(2.0/384000000000).of(0)
+      expect((cell.value - tm).to_f).to be_within(1.0/86400e6).of(0)
     end
   end
 
