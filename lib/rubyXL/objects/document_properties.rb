@@ -127,7 +127,7 @@ module RubyXL
     end
 
     def creator=(v)
-      self.dc_creator = v && RubyXL::StringNodeW3C.new(:value => v)
+      self.dc_creator = v && RubyXL::StringNode.new(:value => v)
     end
 
     def modifier
@@ -135,7 +135,7 @@ module RubyXL
     end
 
     def modifier=(v)
-      self.cp_last_modified_by = v && RubyXL::StringNodeW3C.new(:value => v)
+      self.cp_last_modified_by = v && RubyXL::StringNode.new(:value => v)
     end
 
     def created_at
