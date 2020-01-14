@@ -1,5 +1,5 @@
-Tue, 07 Jan 2020 19:45:12 +0000
-README.rdoc	Tue, 10 Sep 2019 20:36:08 +0000
+Tue, 14 Jan 2020 22:14:54 +0000
+README.rdoc	Tue, 07 Jan 2020 20:07:39 +0000
 lib/rubyXL.rb	Wed, 12 Jun 2019 18:44:04 +0000
 lib/rubyXL/cell.rb	Mon, 25 Feb 2019 21:46:23 +0000
 lib/rubyXL/convenience_methods.rb	Mon, 25 Feb 2019 21:06:24 +0000
@@ -19,14 +19,14 @@ lib/rubyXL/objects/connection.rb	Tue, 11 Jun 2019 16:38:41 +0000
 lib/rubyXL/objects/container_nodes.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/content_types.rb	Fri, 22 Nov 2019 20:22:28 +0000
 lib/rubyXL/objects/data_validation.rb	Mon, 20 Nov 2017 21:42:33 +0000
-lib/rubyXL/objects/document_properties.rb	Fri, 22 Nov 2019 20:22:28 +0000
+lib/rubyXL/objects/document_properties.rb	Fri, 10 Jan 2020 21:38:59 +0000
 lib/rubyXL/objects/extensions.rb	Mon, 25 Feb 2019 21:06:24 +0000
 lib/rubyXL/objects/external_links.rb	Fri, 22 Nov 2019 20:22:28 +0000
 lib/rubyXL/objects/fill.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/filters.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/font.rb	Mon, 25 Feb 2019 21:06:24 +0000
 lib/rubyXL/objects/formula.rb	Mon, 25 Feb 2019 21:06:21 +0000
-lib/rubyXL/objects/ooxml_object.rb	Fri, 22 Nov 2019 20:23:35 +0000
+lib/rubyXL/objects/ooxml_object.rb	Tue, 14 Jan 2020 22:11:11 +0000
 lib/rubyXL/objects/query_table.rb	Tue, 11 Jun 2019 16:40:50 +0000
 lib/rubyXL/objects/reference.rb	Mon, 25 Feb 2019 21:06:21 +0000
 lib/rubyXL/objects/relationships.rb	Fri, 22 Nov 2019 20:22:28 +0000

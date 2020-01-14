@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.11</title>
+<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.12</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -281,7 +281,7 @@
 
           
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 346</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 351</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-comment">#TODO# This will go away once containers are fully implemented.</span>
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
@@ -319,7 +319,7 @@
 
           
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 334</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 339</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index_in_collection</span>
   <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
@@ -381,6 +381,11 @@
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">&#39;&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;&#39;</span>)
     <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">encoding</span> = <span class="ruby-string">&#39;UTF-8&#39;</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">Nokogiri</span>.<span class="ruby-identifier">jruby?</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># Issue 188 workaround for JRuby</span>
+      <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">to_java</span>.<span class="ruby-identifier">strict_error_checking</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+
     <span class="ruby-identifier">result</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">seed_xml</span>)
     <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
     <span class="ruby-identifier">seed_xml</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">result</span>
@@ -473,7 +478,7 @@
 
           
           <div class="method-source-code" id="get_node_object-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 338</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 343</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_node_object</span>(<span class="ruby-identifier">child_node_params</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:accessor</span>])
 <span class="ruby-keyword">end</span></pre>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::CorePropertiesFile - rubyXL 3.4.11</title>
+<title>class RubyXL::CorePropertiesFile - rubyXL 3.4.12</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -284,7 +284,7 @@
           <div class="method-source-code" id="creator-3D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 129</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">creator=</span>(<span class="ruby-identifier">v</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dc_creator</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNodeW3C</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dc_creator</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -416,7 +416,7 @@
           <div class="method-source-code" id="modifier-3D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 137</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modifier=</span>(<span class="ruby-identifier">v</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">cp_last_modified_by</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNodeW3C</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">cp_last_modified_by</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
