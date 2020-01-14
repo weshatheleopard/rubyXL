@@ -272,6 +272,11 @@ module RubyXL
       if xml.nil? then
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
         seed_xml.encoding = 'UTF-8'
+
+        if Nokogiri.jruby? then # Issue 188 workaround for JRuby
+          seed_xml.to_java.strict_error_checking = false
+        end
+
         result = self.write_xml(seed_xml)
         return result if result == ''
         seed_xml << result
