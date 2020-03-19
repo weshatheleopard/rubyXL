@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColorConvenienceClasses::RgbColor - rubyXL 3.4.13</title>
+<title>class RubyXL::ColorConvenienceClasses::RgbColor - rubyXL 3.4.14</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
@@ -311,9 +311,11 @@
           <div class="method-source-code" id="to_s-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/color.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>
-  <span class="ruby-identifier">str</span> = <span class="ruby-identifier">r</span>.<span class="ruby-identifier">to_s</span>(<span class="ruby-value">16</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">g</span>.<span class="ruby-identifier">to_s</span>(<span class="ruby-value">16</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">to_s</span>(<span class="ruby-value">16</span>)
-  <span class="ruby-identifier">str</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">to_s</span>(<span class="ruby-value">16</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>
-  <span class="ruby-identifier">str</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-string">&quot;%02x%02x%02x%02x&quot;</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">r</span>, <span class="ruby-identifier">g</span>, <span class="ruby-identifier">b</span>, <span class="ruby-identifier">a</span> ]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-string">&quot;%02x%02x%02x&quot;</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">r</span>, <span class="ruby-identifier">g</span>, <span class="ruby-identifier">b</span> ]
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
