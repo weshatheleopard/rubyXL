@@ -72,9 +72,11 @@ module RubyXL
       end
 
       def to_s
-        str = r.to_s(16) + g.to_s(16) + b.to_s(16)
-        str += a.to_s(16) if a && a != 0
-        str
+        if a && a != 0 then
+          "%02x%02x%02x%02x" % [ r, g, b, a ]
+        else
+          "%02x%02x%02x" % [ r, g, b ]
+        end
       end
 
     end
