@@ -64,6 +64,26 @@ module RubyXL
     define_attribute(:'r:id', :string, :required => true)
     define_element_name 'externalBook'
   end
+  # http://www.datypic.com/sc/ooxml/e-ssml_oleItem-1.html
+  class OleItem < OOXMLObject
+    define_attribute(:name, :string)
+    define_attribute(:icon, :bool)
+    define_attribute(:advise, :bool)
+    define_attribute(:preferPic, :bool)
+    define_element_name 'oleItem'
+  end
+  # http://www.datypic.com/sc/ooxml/e-ssml_oleItems-1.html
+  class OleItems < OOXMLObject
+    define_child_node(RubyXL::OleItem)
+    define_element_name 'oleItems'
+  end
+  # http://www.datypic.com/sc/ooxml/t-ssml_CT_OleLink.html
+  class OleLink < OOXMLObject
+    define_child_node(RubyXL::OleItems)
+    define_attribute(:'r:id', :string, :required => true)
+    define_attribute(:'progId', :string)
+    define_element_name 'oleLink'
+  end
 
   class ExternalLinksFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
@@ -71,6 +91,7 @@ module RubyXL
 
     include RubyXL::RelationshipSupport
     define_child_node(RubyXL::ExternalBook)
+    define_child_node(RubyXL::OleLink)
 
     define_element_name 'externalLink'
     set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
