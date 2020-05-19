@@ -97,6 +97,7 @@ module RubyXL
   end
 
   class ControlPropertiesFile < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.ms-excel.controlproperties+xml'
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/ctrlProp'
   end
 
