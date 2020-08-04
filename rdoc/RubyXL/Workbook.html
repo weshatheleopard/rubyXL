@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Workbook - rubyXL 3.4.14</title>
+<title>class RubyXL::Workbook - rubyXL 3.4.15</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -19,6 +19,7 @@
 
 <link href="../css/fonts.css" rel="stylesheet">
 <link href="../css/rdoc.css" rel="stylesheet">
+
 
 
 
@@ -306,7 +307,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 440</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 443</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">worksheets</span> = [], <span class="ruby-identifier">src_file_path</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">creator</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">modifier</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">created_at</span> = <span class="ruby-keyword">nil</span>,
                <span class="ruby-identifier">company</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">application</span> = <span class="ruby-constant">APPLICATION</span>, <span class="ruby-identifier">appversion</span> = <span class="ruby-constant">APPVERSION</span>, <span class="ruby-identifier">date1904</span> = <span class="ruby-value">0</span>,
                <span class="ruby-identifier">is_template</span> = <span class="ruby-keyword">false</span>)
@@ -373,7 +374,7 @@
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 473</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 476</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">ind</span>)
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">ind</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">worksheets</span>[<span class="ruby-identifier">ind</span>]
@@ -411,7 +412,7 @@
 
           
           <div class="method-source-code" id="add_worksheet-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 483</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 486</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_worksheet</span>(<span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">n</span> = <span class="ruby-value">0</span>
@@ -454,7 +455,7 @@
 
           
           <div class="method-source-code" id="application-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 522</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 525</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">application</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -487,7 +488,7 @@
 
           
           <div class="method-source-code" id="application-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 526</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 529</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">application=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
@@ -521,7 +522,7 @@
 
           
           <div class="method-source-code" id="appversion-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 531</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 534</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">appversion</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -554,7 +555,7 @@
 
           
           <div class="method-source-code" id="appversion-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 535</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 538</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">appversion=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
@@ -636,7 +637,7 @@
 
           
           <div class="method-source-code" id="company-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 513</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 516</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">company</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -669,7 +670,7 @@
 
           
           <div class="method-source-code" id="company-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 517</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 520</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">company=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
@@ -739,7 +740,7 @@
 
           
           <div class="method-source-code" id="created_at-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 497</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 500</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">created_at</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">created_at</span>
 <span class="ruby-keyword">end</span></pre>
@@ -772,7 +773,7 @@
 
           
           <div class="method-source-code" id="created_at-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 501</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 504</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">created_at=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">created_at</span> = <span class="ruby-identifier">v</span>
 <span class="ruby-keyword">end</span></pre>
@@ -805,7 +806,7 @@
 
           
           <div class="method-source-code" id="creator-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 540</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 543</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">creator</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">creator</span>
 <span class="ruby-keyword">end</span></pre>
@@ -838,7 +839,7 @@
 
           
           <div class="method-source-code" id="creator-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 544</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 547</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">creator=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">creator</span> = <span class="ruby-identifier">v</span>
 <span class="ruby-keyword">end</span></pre>
@@ -871,7 +872,7 @@
 
           
           <div class="method-source-code" id="date1904-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 556</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 559</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">date1904</span>
   <span class="ruby-identifier">workbook_properties</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">workbook_properties</span>.<span class="ruby-identifier">date1904</span>
 <span class="ruby-keyword">end</span></pre>
@@ -904,7 +905,7 @@
 
           
           <div class="method-source-code" id="date1904-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 560</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 563</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">date1904=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">workbook_properties</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookProperties</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">workbook_properties</span>.<span class="ruby-identifier">date1904</span> = <span class="ruby-identifier">v</span>
@@ -940,7 +941,10 @@
           <div class="method-source-code" id="date_to_num-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 422</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">date_to_num</span>(<span class="ruby-identifier">date</span>)
-  <span class="ruby-identifier">date</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">date</span>.<span class="ruby-identifier">ajd</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">base_date</span>().<span class="ruby-identifier">ajd</span>).<span class="ruby-identifier">to_f</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">date</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Date</span>, <span class="ruby-constant">DateTime</span> <span class="ruby-keyword">then</span> (<span class="ruby-identifier">date</span>.<span class="ruby-identifier">ajd</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">base_date</span>().<span class="ruby-identifier">ajd</span>).<span class="ruby-identifier">to_f</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Time</span> <span class="ruby-keyword">then</span> ((<span class="ruby-identifier">date</span>.<span class="ruby-identifier">to_r</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">base_date</span>().<span class="ruby-identifier">to_time</span>.<span class="ruby-identifier">to_r</span>) <span class="ruby-operator">/</span> <span class="ruby-value">86400</span>).<span class="ruby-identifier">to_f</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -971,7 +975,7 @@
 
           
           <div class="method-source-code" id="modified_at-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 505</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 508</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modified_at</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modified_at</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1004,7 +1008,7 @@
 
           
           <div class="method-source-code" id="modified_at-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 509</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 512</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modified_at=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modified_at</span> = <span class="ruby-identifier">v</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1037,7 +1041,7 @@
 
           
           <div class="method-source-code" id="modifier-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 548</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 551</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modifier</span>
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modifier</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1070,7 +1074,7 @@
 
           
           <div class="method-source-code" id="modifier-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 552</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 555</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modifier=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">modifier</span> = <span class="ruby-identifier">v</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1103,7 +1107,7 @@
 
           
           <div class="method-source-code" id="num_to_date-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 426</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 429</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">num_to_date</span>(<span class="ruby-identifier">num</span>)
   <span class="ruby-comment"># Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">MARCH_1_1900</span> <span class="ruby-keyword">then</span>
@@ -1298,6 +1302,7 @@
     </section>
   
   </section>
+
 </main>
 
 

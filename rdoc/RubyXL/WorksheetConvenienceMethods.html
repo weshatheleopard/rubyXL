@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.14</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.15</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -19,6 +19,7 @@
 
 <link href="../css/fonts.css" rel="stylesheet">
 <link href="../css/rdoc.css" rel="stylesheet">
+
 
 
 
@@ -66,6 +67,8 @@
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-add_validation_list">#add_validation_list</a>
     
     <li ><a href="#method-i-change_column_alignment">#change_column_alignment</a>
     
@@ -277,6 +280,47 @@
        <header>
          <h3>Public Instance Methods</h3>
        </header>
+
+    
+      <div id="method-i-add_validation_list" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_validation_list</span><span
+            class="method-args">(ref, list_arr)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="add_validation_list-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 636</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_validation_list</span>(<span class="ruby-identifier">ref</span>, <span class="ruby-identifier">list_arr</span>)
+  <span class="ruby-comment"># &quot;Any double quote characters in the value should be escaped with another double quote.</span>
+  <span class="ruby-comment"># If the value does not contain a comma, newline or double quote, then the String value should be returned unchanged.</span>
+  <span class="ruby-comment"># If the value contains a comma, newline or double quote, then the String value should be returned enclosed in double quotes.&quot;</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-string">&#39;&quot;&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">list_arr</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">str</span><span class="ruby-operator">|</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;&quot;&#39;</span>, <span class="ruby-string">&#39;&quot;&quot;&#39;</span>)}.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;&quot;&#39;</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_validations</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidations</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_validations</span> <span class="ruby-operator">&lt;&lt;</span>
+    <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidation</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:sqref</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ref</span>),
+                                <span class="ruby-value">:formula1</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:expression</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">expr</span>),
+                                <span class="ruby-value">:type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;list&#39;</span>})
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
 
     
       <div id="method-i-change_column_alignment" class="method-detail ">
@@ -2858,6 +2902,7 @@
     </section>
   
   </section>
+
 </main>
 
 
