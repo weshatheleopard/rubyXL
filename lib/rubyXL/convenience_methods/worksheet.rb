@@ -632,6 +632,18 @@ module RubyXL
       # TODO: add validation to make sure ranges are not intersecting with existing ones
       merged_cells << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(start_row, end_row, start_col, end_col))
     end
+
+    def add_validation_list(ref, list_arr)
+      # "Any double quote characters in the value should be escaped with another double quote.
+      # If the value does not contain a comma, newline or double quote, then the String value should be returned unchanged.
+      # If the value contains a comma, newline or double quote, then the String value should be returned enclosed in double quotes."
+      expr = '"' + list_arr.collect{|str| str.gsub('"', '""')}.join(',') + '"'
+      self.data_validations ||= RubyXL::DataValidations.new
+      self.data_validations <<
+        RubyXL::DataValidation.new({:sqref => RubyXL::Reference.new(ref),
+                                    :formula1 => RubyXL::Formula.new(:expression => expr),
+                                    :type => 'list'})
+    end
   end
 
   RubyXL::Worksheet.send(:include, RubyXL::WorksheetConvenienceMethods) # ruby 2.1 compat

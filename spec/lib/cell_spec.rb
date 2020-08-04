@@ -391,8 +391,8 @@ describe RubyXL::Cell do
       expect(@cell.formula).to be_nil
     end
 
-    it 'should case cell value to match an BigDecimal that is passed in' do
-      number = BigDecimal.new('1234.5678')
+    it 'should cause cell value to match a BigDecimal that is passed in' do
+      number = BigDecimal('1234.5678')
       @cell.change_contents(number)
       expect(@cell.value).to eq(number)
       expect(@cell.datatype).to be_nil

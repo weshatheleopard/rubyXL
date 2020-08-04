@@ -11,6 +11,8 @@ module RubyXL
     define_attribute(:imeMode,          RubyXL::ST_DataValidationImeMode,    :default => 'noControl')
     define_attribute(:operator,         RubyXL::ST_DataValidationOperator,   :default => 'between')
     define_attribute(:allowBlank,       :bool, :default => false)
+    # Documentation lies. This property should have been called "HIDE dropdown",
+    #   since that's what happens when it is set to true.
     define_attribute(:showDropDown,     :bool, :default => false)
     define_attribute(:showInputMessage, :bool, :default => false)
     define_attribute(:showErrorMessage, :bool, :default => false)
