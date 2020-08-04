@@ -55,7 +55,7 @@ module LegacyWorksheet
         when RubyXL::RichText then
           c.is = data
           c.datatype = RubyXL::DataType::INLINE_STRING
-        when Date, DateTime then
+        when Time, Date, DateTime then
           c.raw_value = workbook.date_to_num(data)
         when NilClass         then nil
         end

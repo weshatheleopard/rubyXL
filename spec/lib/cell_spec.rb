@@ -47,6 +47,13 @@ describe RubyXL::Cell do
 
       # Due to rounding errors, we allow microsecond precision on DateTime.
       expect((cell.value - tm).to_f).to be_within(1.0/86400e6).of(0)
+
+      tm = Time.now
+      cell = @worksheet.add_cell(r, c, tm)
+      cell.set_number_format('ddd mmm dd, yyyy HH:MM:SS')
+
+      # Due to rounding errors, we allow microsecond precision on Time.
+      expect(cell.value - tm.to_datetime).to be_within(1.0/86400e6).of(0)
     end
   end
 

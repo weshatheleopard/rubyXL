@@ -420,7 +420,10 @@ module RubyXL
     private :base_date
 
     def date_to_num(date)
-      date && (date.ajd - base_date().ajd).to_f
+      case date
+      when Date, DateTime then (date.ajd - base_date().ajd).to_f
+      when Time then ((date.to_r - base_date().to_time.to_r) / 86400).to_f
+      end
     end
 
     def num_to_date(num)
