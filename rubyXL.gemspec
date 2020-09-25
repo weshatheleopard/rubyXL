@@ -510,7 +510,7 @@ Gem::Specification.new do |s|
     "test/test_parse_write.rb",
     "tmp/.gitignore"
   ]
-  s.homepage = "http://github.com/gilt/rubyXL".freeze
+  s.homepage = "https://github.com/gilt/rubyXL".freeze
   s.licenses = ["MIT".freeze]
   s.rubygems_version = "3.1.2".freeze
   s.summary = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents".freeze
