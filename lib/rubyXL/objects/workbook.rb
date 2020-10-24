@@ -110,7 +110,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_externalReference-1.html
   class ExternalReference < OOXMLObject
-    define_telationship(:required => true)
+    define_relationship(:required => true)
     define_element_name 'externalReference'
   end
 
