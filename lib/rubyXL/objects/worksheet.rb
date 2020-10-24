@@ -302,7 +302,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_hyperlink-1.html
   class Hyperlink < OOXMLObject
     define_attribute(:ref,      :ref,    :required => true)
-    define_relationsip
+    define_relationship
     define_attribute(:location, :string)
     define_attribute(:tooltip,  :string)
     define_attribute(:display,  :string)
@@ -323,7 +323,7 @@ module RubyXL
     define_attribute(:oleUpdate, RubyXL::ST_OleUpdate)
     define_attribute(:autoLoad,  :bool, :default => false)
     define_attribute(:shapeId,   :int,  :required => true)
-    define_relationsip
+    define_relationship
     define_element_name 'oleObject'
   end
 
@@ -339,7 +339,7 @@ module RubyXL
     define_attribute(:ref,    :ref)
     define_attribute(:name,   :string)
     define_attribute(:sheet,  :string)
-    define_relationsip
+    define_relationship
     define_element_name 'dataRef'
   end
 
@@ -434,7 +434,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_control-1.html
   class EmbeddedControl < OOXMLObject
     define_attribute(:shapeId, :int,    :required => true)
-    define_relationsip(:required => true)
+    define_relationship(:required => true)
     define_attribute(:name,    :string)
     define_element_name 'control'
   end
@@ -490,7 +490,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_customPr-1.html
   class CustomProperty < OOXMLObject
     define_attribute(:name,   :string, :required => true)
-    define_relationsip(:required => true)
+    define_relationship(:required => true)
     define_element_name 'customPr'
   end
 
@@ -572,7 +572,7 @@ module RubyXL
     define_attribute(:previousRow, :uint, :default => 0)
     define_attribute(:previousCol, :uint, :default => 0)
     define_attribute(:click,       :uint, :default => 0)
-    define_relationsip
+    define_relationship
     define_child_node(RubyXL::PivotArea)
     define_element_name 'pivotSelection'
   end
