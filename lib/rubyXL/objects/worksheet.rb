@@ -88,7 +88,7 @@ module RubyXL
     define_attribute(:horizontalDpi,      :int,    :default => 600)
     define_attribute(:verticalDpi,        :int,    :default => 600)
     define_attribute(:copies,             :int,    :default => 1)
-    define_relationsip
+    define_relationship
     define_element_name 'pageSetup'
   end
 
