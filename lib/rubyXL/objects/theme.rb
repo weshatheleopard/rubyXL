@@ -1164,7 +1164,7 @@ module RubyXL
   class CT_Hyperlink < OOXMLObject
     define_child_node(RubyXL::CT_EmbeddedWAVAudioFile)
     define_child_node(RubyXL::AExtensionStorageArea)
-    define_attribute(:'r:id',         :string)
+    define_relationship
     define_attribute(:invalidUrl,     :string, :default => '')
     define_attribute(:action,         :string, :default => '')
     define_attribute(:tgtFrame,       :string, :default => '')

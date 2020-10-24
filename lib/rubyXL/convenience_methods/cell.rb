@@ -253,7 +253,7 @@ module RubyXL
     def add_hyperlink(l)
       worksheet.hyperlinks ||= RubyXL::Hyperlinks.new
       worksheet.hyperlinks << RubyXL::Hyperlink.new(:ref => self.r, :location => l)
-#    define_attribute(:'r:id',   :string)
+#    define_relationship
 #    define_attribute(:location, :string)
 #    define_attribute(:tooltip,  :string)
 #    define_attribute(:display,  :string)

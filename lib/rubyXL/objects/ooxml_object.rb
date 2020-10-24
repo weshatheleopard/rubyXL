@@ -53,6 +53,11 @@ module RubyXL
       self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
     end
 
+    # Defines a `r:id` attribute
+    def define_relationship(extra_params = {})
+      define_attribute(:'r:id', :string, extra_params)
+    end
+
     # Defines a child node of OOXML object.
     # === Parameters
     # * +klass+ - Class (descendant of RubyXL::OOXMLObject) of the child nodes. Child node objects will be produced by calling +parse+ method of that class.

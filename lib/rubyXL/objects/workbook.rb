@@ -98,7 +98,7 @@ module RubyXL
     define_attribute(:name,            :string, :required => true)
     define_attribute(:sheetId,         :int,    :required => true)
     define_attribute(:state,           RubyXL::ST_Visibility, :default => 'visible')
-    define_attribute(:'r:id',          :string, :required => true)
+    define_relationship(:required => true)
     define_element_name 'sheet'
   end
 
@@ -110,7 +110,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_externalReference-1.html
   class ExternalReference < OOXMLObject
-    define_attribute(:'r:id', :string, :required => true)
+    define_telationship(:required => true)
     define_element_name 'externalReference'
   end
 
@@ -153,7 +153,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_pivotCache-1.html
   class PivotCache < OOXMLObject
     define_attribute(:cacheId, :int,    :required => true)
-    define_attribute(:'r:id',  :string, :required => true)
+    define_relationship(:required => true)
     define_element_name 'pivotCache'
   end
 
