@@ -427,12 +427,15 @@ module RubyXL
     end
 
     def num_to_date(num)
+      return nil if num.nil?
+
       # Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)
-      if num && num < MARCH_1_1900 then
+      if num < MARCH_1_1900 then
         num += 1 unless workbook_properties && workbook_properties.date1904
       end
 
-      num && (base_date + num)
+      dateparts = num.divmod(1)
+      base_date + (dateparts[0] + (dateparts[1] * 86400).round(6) / 86400)
     end
 
     include Enumerable
