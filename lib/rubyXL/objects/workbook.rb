@@ -432,7 +432,9 @@ module RubyXL
         num += 1 unless workbook_properties && workbook_properties.date1904
       end
 
-      num && (base_date + num)
+      days = num.to_i
+      seconds_in_day = ((num - days) * 86400).round(6)
+      num && (base_date + days + (seconds_in_day / 86400))
     end
 
     include Enumerable
