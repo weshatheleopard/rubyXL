@@ -376,6 +376,12 @@ describe RubyXL::Cell do
       end
     end
 
+    context 'with RichText' do
+      it 'returns the value of the RichText' do
+        cell = RubyXL::Cell.new(is: RubyXL::RichText.new(t: RubyXL::Text.new(value: 'test')))
+        expect(cell.value).to eq('test')
+      end
+    end
   end
 
   describe '.change_contents' do
