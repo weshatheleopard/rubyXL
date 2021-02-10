@@ -653,6 +653,95 @@ describe RubyXL::Worksheet do
         end
       }
     end
+
+    describe 'merged_cells updating' do
+      context 'merged cells in the row' do
+        # | A1 | B1 | C1 | D1 | E1 |
+        # | A2 |    MERGED    | E2 |
+        # | A3 | B3 | C3 | D3 | E3 |
+        before do
+          @worksheet.merge_cells(1, 1, 1, 3)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D2"
+        end
+        it 'should delete merged cell' do
+          @worksheet.delete_row(1)
+          expect(@worksheet.merged_cells.size).to eq 0
+        end
+      end
+      context 'merged vertical two cells' do
+        # | A1 | B1     | C1 |
+        # | A2 | MERGED | C2 |
+        # | A3 |        | C3 |
+        # | A4 | B4     | C4 |
+        before do
+          @worksheet.merge_cells(1, 1, 2, 1)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:B3"
+        end
+        it 'should delete merged cell' do
+          @worksheet.delete_row(1)
+          expect(@worksheet.merged_cells.size).to eq 0
+        end
+      end
+      context 'merged three or more rows' do
+        # | A1 | B1 | C1 | D1 | E1 |
+        # | A2 |              | E2 |
+        # | A3 |    MERGED    | E3 |
+        # | A4 |              | E4 |
+        # | A5 | B5 | C5 | D5 | E5 |
+        before do
+          @worksheet.merge_cells(1, 1, 3, 3)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+        end
+        # | A2 |              | E2 |
+        # | A3 |    MERGED    | E3 |
+        # | A4 |              | E4 |
+        # | A5 | B5 | C5 | D5 | E5 |
+        it 'should updates merged cell when delete above the cell' do
+          @worksheet.delete_row(0)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B1:D3"
+        end
+        # | A1 | B1 | C1 | D1 | E1 |
+        # | A3 |    MERGED    | E3 |
+        # | A4 |              | E4 |
+        # | A5 | B5 | C5 | D5 | E5 |
+        it 'should updates merged cell when delete top of the cell' do
+          @worksheet.delete_row(1)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+        end
+        # | A1 | B1 | C1 | D1 | E1 |
+        # | A2 |    MERGED    | E2 |
+        # | A4 |              | E4 |
+        # | A5 | B5 | C5 | D5 | E5 |
+        it 'should updates merged cell when delete middle of the cell' do
+          @worksheet.delete_row(2)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+        end
+        # | A1 | B1 | C1 | D1 | E1 |
+        # | A2 |    MERGED    | E2 |
+        # | A3 |              | E3 |
+        # | A5 | B5 | C5 | D5 | E5 |
+        it 'should updates merged cell when delete bottom of the cell' do
+          @worksheet.delete_row(3)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+        end
+        # | A1 | B1 | C1 | D1 | E1 |
+        # | A2 |              | E2 |
+        # | A3 |    MERGED    | E3 |
+        # | A4 |              | E4 |
+        it 'should not updates merged cell when ldelete below the cell' do
+          @worksheet.delete_row(4)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+        end
+      end
+    end
   end
 
   describe '.insert_row' do
@@ -712,6 +801,48 @@ describe RubyXL::Worksheet do
           }
         end
       }
+    end
+
+    describe 'merged_cells updating' do
+      # | A1 | B1 | C1 | D1 |
+      # | A2 | MERGED  | D2 |
+      # | A3 |         | D3 |
+      # | A4 | B4 | C4 | D4 |
+      before do
+        @worksheet.merge_cells(1, 1, 2, 2)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+      end
+      # | A1 | B1 | C1 | D1 |
+      # |    |    |    |    |
+      # | A2 | MERGED  | D2 |
+      # | A3 |         | D3 |
+      # | A4 | B4 | C4 | D4 |
+      it 'should updates merged cell when insert above the cell' do
+        @worksheet.insert_row(1)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B3:C4"
+      end
+      # | A1 | B1 | C1 | D1 |
+      # | A2 |         | D2 |
+      # |    | MERGED  |    |
+      # | A3 |         | D3 |
+      # | A4 | B4 | C4 | D4 |
+      it 'should updates merged cell when insert into the cell' do
+        @worksheet.insert_row(2)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+      end
+      # | A1 | B1 | C1 | D1 |
+      # | A2 | MERGED  | D2 |
+      # | A3 |         | D3 |
+      # |    |    |    |    |
+      # | A4 | B4 | C4 | D4 |
+      it 'should not updates merged cell when insert below the cell' do
+        @worksheet.insert_row(3)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+      end
     end
   end
 
@@ -776,6 +907,101 @@ describe RubyXL::Worksheet do
         end
       }
     end
+
+    describe 'merged_cells updating' do
+      context 'merged cells in the column' do
+        # | A1 | B1     | C1 |
+        # | A2 |        | C2 |
+        # | A3 | MERGED | C3 |
+        # | A4 |        | C4 |
+        # | A5 | B5     | C5 |
+        before do
+          @worksheet.merge_cells(1, 1, 3, 1)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:B4"
+        end
+        it 'should delete merged cell' do
+          @worksheet.delete_column(1)
+          expect(@worksheet.merged_cells.size).to eq 0
+        end
+      end
+      context 'merged horizontal two cells' do
+        # | A1 | B1 | C1 | D1 |
+        # | A2 | MERGED  | D2 |
+        # | A3 | B3 | C3 | D3 |
+        before do
+          @worksheet.merge_cells(1, 1, 1, 2)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C2"
+        end
+        it 'should delete merged cell' do
+          @worksheet.delete_column(1)
+          expect(@worksheet.merged_cells.size).to eq 0
+        end
+      end
+      context 'merged three or more columns' do
+        # | A1 | B1 | C1 | D1 | E1 |
+        # | A2 |              | E2 |
+        # | A3 |    MERGED    | E3 |
+        # | A4 |              | E4 |
+        # | A5 | B5 | C5 | D5 | E5 |
+        before do
+          @worksheet.merge_cells(1, 1, 3, 3)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+        end
+        # | B1 | C1 | D1 | E1 |
+        # |              | E2 |
+        # |    MERGED    | E3 |
+        # |              | E4 |
+        # | B5 | C5 | D5 | E5 |
+        it 'should updates merged cell when delete before the cell' do
+          @worksheet.delete_column(0)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "A2:C4"
+        end
+        # | A1 | C1 | D1 | E1 |
+        # | A2 |         | E2 |
+        # | A3 | MERGED  | E3 |
+        # | A4 |         | E4 |
+        # | A5 | C5 | D5 | E5 |
+        it 'should updates merged cell when delete left of the cell' do
+          @worksheet.delete_column(1)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+        end
+        # | A1 | B1 | D1 | E1 |
+        # | A2 |         | E2 |
+        # | A3 | MERGED  | E3 |
+        # | A4 |         | E4 |
+        # | A5 | B5 | D5 | E5 |
+        it 'should updates merged cell when delete center of the cell' do
+          @worksheet.delete_column(2)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+        end
+        # | A1 | B1 | C1 | E1 |
+        # | A2 |         | E2 |
+        # | A3 | MERGED  | E3 |
+        # | A4 |         | E4 |
+        # | A5 | B5 | C5 | E5 |
+        it 'should updates merged cell when delete right of the cell' do
+          @worksheet.delete_column(3)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+        end
+        # | A1 | B1 | C1 | D1 |
+        # | A2 |              |
+        # | A3 |    MERGED    |
+        # | A4 |              |
+        # | A5 | B5 | C5 | D5 |
+        it 'should not updates merged cell when delete after the cell' do
+          @worksheet.delete_column(4)
+          expect(@worksheet.merged_cells.size).to eq 1
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+        end
+      end
+    end
   end
 
   describe '.insert_column' do
@@ -833,6 +1059,45 @@ describe RubyXL::Worksheet do
           }
         end
       }
+    end
+
+    describe 'merged_cells updating' do
+      # | A1 | B1 | C1 | D1 |
+      # | A2 | MERGED  | D2 |
+      # | A3 |         | D3 |
+      # | A4 | B4 | C4 | D4 |
+      before do
+        @worksheet.merge_cells(1, 1, 2, 2)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+      end
+      # | A1 |    | B1 | C1 | D1 |
+      # | A2 |    | MERGED  | D2 |
+      # | A3 |    |         | D3 |
+      # | A4 |    | B4 | C4 | D4 |
+      it 'should updates merged cell when insert before the cell' do
+        @worksheet.insert_column(1)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "C2:D3"
+      end
+      # | A1 | B1 |    | C1 | D1 |
+      # | A2 |    MERGED    | D2 |
+      # | A3 |              | D3 |
+      # | A4 | B4 |    | C4 | D4 |
+      it 'should updates merged cell when insert into the cell' do
+        @worksheet.insert_column(2)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+      end
+      # | A1 | B1 | C1 |    | D1 |
+      # | A2 | MERGED  |    | D2 |
+      # | A3 |         |    | D3 |
+      # | A4 | B4 | C4 |    | D4 |
+      it 'should not updates merged cell when insert after the cell' do
+        @worksheet.insert_column(3)
+        expect(@worksheet.merged_cells.size).to eq 1
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+      end
     end
   end
 
