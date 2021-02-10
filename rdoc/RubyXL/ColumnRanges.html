@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColumnRanges - rubyXL 3.4.16</title>
+<title>class RubyXL::ColumnRanges - rubyXL 3.4.17</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -19,8 +19,6 @@
 
 <link href="../css/fonts.css" rel="stylesheet">
 <link href="../css/rdoc.css" rel="stylesheet">
-
-
 
 
 <body id="top" role="document" class="class">
@@ -59,30 +57,25 @@
 
   <div id="class-metadata">
     
-    <div id="parent-class-section" class="nav-section">
+    
+<div id="parent-class-section" class="nav-section">
   <h3>Parent</h3>
 
-  
   <p class="link">OOXMLContainerObject
-  
 </div>
 
     
     
-    <!-- Method Quickref -->
+    
+<!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    
     <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
-    
     <li ><a href="#method-i-get_range">#get_range</a>
-    
     <li ><a href="#method-i-insert_column">#insert_column</a>
-    
     <li ><a href="#method-i-locate_range">#locate_range</a>
-    
   </ul>
 </div>
 
@@ -98,41 +91,27 @@
     
   </section>
 
-  
   <section id="5Buntitled-5D" class="documentation-section">
-    
 
-    
 
-    
 
-    
 
-    
+
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
 
-    
       <div id="method-i-before_write_xml" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">before_write_xml</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 85</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
@@ -140,33 +119,21 @@
   <span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-get_range" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">get_range</span><span
             class="method-args">(col_index)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Locate an existing column range, make a new one if not found, or split existing column range into multiples.</p>
-          
-          
 
-          
           <div class="method-source-code" id="get_range-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_range</span>(<span class="ruby-identifier">col_index</span>)
@@ -201,91 +168,62 @@
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">new_range</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-insert_column" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">insert_column</span><span
             class="method-args">(col_index)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="insert_column-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_column</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">col_index</span>) }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-locate_range" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">locate_range</span><span
             class="method-args">(col_index)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="locate_range-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">locate_range</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col_index</span>) }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
-  </section>
 
+  </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

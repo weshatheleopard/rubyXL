@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::CellConvenienceMethods - rubyXL 3.4.16</title>
+<title>module RubyXL::CellConvenienceMethods - rubyXL 3.4.17</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -19,8 +19,6 @@
 
 <link href="../css/fonts.css" rel="stylesheet">
 <link href="../css/rdoc.css" rel="stylesheet">
-
-
 
 
 <body id="top" role="document" class="module">
@@ -62,80 +60,46 @@
     
     
     
-    <!-- Method Quickref -->
+    
+<!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    
     <li ><a href="#method-i-change_border">#change_border</a>
-    
     <li ><a href="#method-i-change_border_color">#change_border_color</a>
-    
     <li ><a href="#method-i-change_contents">#change_contents</a>
-    
     <li ><a href="#method-i-change_fill">#change_fill</a>
-    
     <li ><a href="#method-i-change_font_bold">#change_font_bold</a>
-    
     <li ><a href="#method-i-change_font_color">#change_font_color</a>
-    
     <li ><a href="#method-i-change_font_italics">#change_font_italics</a>
-    
     <li ><a href="#method-i-change_font_name">#change_font_name</a>
-    
     <li ><a href="#method-i-change_font_size">#change_font_size</a>
-    
     <li ><a href="#method-i-change_font_strikethrough">#change_font_strikethrough</a>
-    
     <li ><a href="#method-i-change_font_underline">#change_font_underline</a>
-    
     <li ><a href="#method-i-change_horizontal_alignment">#change_horizontal_alignment</a>
-    
     <li ><a href="#method-i-change_text_indent">#change_text_indent</a>
-    
     <li ><a href="#method-i-change_text_rotation">#change_text_rotation</a>
-    
     <li ><a href="#method-i-change_text_wrap">#change_text_wrap</a>
-    
     <li ><a href="#method-i-change_vertical_alignment">#change_vertical_alignment</a>
-    
     <li ><a href="#method-i-fill_color">#fill_color</a>
-    
     <li ><a href="#method-i-font_color">#font_color</a>
-    
     <li ><a href="#method-i-font_name">#font_name</a>
-    
     <li ><a href="#method-i-font_size">#font_size</a>
-    
     <li ><a href="#method-i-font_switch">#font_switch</a>
-    
     <li ><a href="#method-i-get_border">#get_border</a>
-    
     <li ><a href="#method-i-get_border_color">#get_border_color</a>
-    
     <li ><a href="#method-i-horizontal_alignment">#horizontal_alignment</a>
-    
     <li ><a href="#method-i-is_bolded">#is_bolded</a>
-    
     <li ><a href="#method-i-is_italicized">#is_italicized</a>
-    
     <li ><a href="#method-i-is_struckthrough">#is_struckthrough</a>
-    
     <li ><a href="#method-i-is_underlined">#is_underlined</a>
-    
     <li ><a href="#method-i-remove_formula">#remove_formula</a>
-    
     <li ><a href="#method-i-set_number_format">#set_number_format</a>
-    
     <li ><a href="#method-i-text_indent">#text_indent</a>
-    
     <li ><a href="#method-i-text_rotation">#text_rotation</a>
-    
     <li ><a href="#method-i-text_wrap">#text_wrap</a>
-    
     <li ><a href="#method-i-vertical_alignment">#vertical_alignment</a>
-    
   </ul>
 </div>
 
@@ -151,41 +115,27 @@
     
   </section>
 
-  
   <section id="5Buntitled-5D" class="documentation-section">
-    
 
-    
 
-    
 
-    
 
-    
+
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
 
-    
       <div id="method-i-change_border" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_border</span><span
             class="method-args">(direction, weight)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_border-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 67</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_border</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
@@ -193,33 +143,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_border</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_border_color" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_border_color</span><span
             class="method-args">(direction, color)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_border_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_border_color</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
@@ -228,33 +166,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_border_color</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_contents" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_contents</span><span
             class="method-args">(data, formula_expression = nil)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_contents-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 4</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_contents</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">formula_expression</span> = <span class="ruby-keyword">nil</span>)
@@ -275,33 +201,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-identifier">data</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_fill" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_fill</span><span
             class="method-args">(rgb = &#39;ffffff&#39;)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Changes fill color of cell</p>
-          
-          
 
-          
           <div class="method-source-code" id="change_fill-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 161</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_fill</span>(<span class="ruby-identifier">rgb</span> = <span class="ruby-string">&#39;ffffff&#39;</span>)
@@ -310,33 +224,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_fill</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_font_bold" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_font_bold</span><span
             class="method-args">(bolded = false)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Changes font bold settings of cell</p>
-          
-          
 
-          
           <div class="method-source-code" id="change_font_bold-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 206</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_font_bold</span>(<span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
@@ -347,33 +249,21 @@
   <span class="ruby-identifier">update_font_references</span>(<span class="ruby-identifier">font</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_font_color" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_font_color</span><span
             class="method-args">(font_color = &#39;000000&#39;)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Changes font color of cell</p>
-          
-          
 
-          
           <div class="method-source-code" id="change_font_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 187</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_font_color</span>(<span class="ruby-identifier">font_color</span> = <span class="ruby-string">&#39;000000&#39;</span>)
@@ -385,33 +275,21 @@
   <span class="ruby-identifier">update_font_references</span>(<span class="ruby-identifier">font</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_font_italics" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_font_italics</span><span
             class="method-args">(italicized = false)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Changes font italics settings of cell</p>
-          
-          
 
-          
           <div class="method-source-code" id="change_font_italics-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 197</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_font_italics</span>(<span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
@@ -422,33 +300,21 @@
   <span class="ruby-identifier">update_font_references</span>(<span class="ruby-identifier">font</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_font_name" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_font_name</span><span
             class="method-args">(new_font_name = &#39;Verdana&#39;)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Changes font name of cell</p>
-          
-          
 
-          
           <div class="method-source-code" id="change_font_name-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 168</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_font_name</span>(<span class="ruby-identifier">new_font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
@@ -459,33 +325,21 @@
   <span class="ruby-identifier">update_font_references</span>(<span class="ruby-identifier">font</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_font_size" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_font_size</span><span
             class="method-args">(font_size = 10)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Changes font size of cell</p>
-          
-          
 
-          
           <div class="method-source-code" id="change_font_size-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 177</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_font_size</span>(<span class="ruby-identifier">font_size</span> = <span class="ruby-value">10</span>)
@@ -497,33 +351,21 @@
   <span class="ruby-identifier">update_font_references</span>(<span class="ruby-identifier">font</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_font_strikethrough" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_font_strikethrough</span><span
             class="method-args">(struckthrough = false)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_font_strikethrough-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 223</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_font_strikethrough</span>(<span class="ruby-identifier">struckthrough</span> = <span class="ruby-keyword">false</span>)
@@ -534,33 +376,21 @@
   <span class="ruby-identifier">update_font_references</span>(<span class="ruby-identifier">font</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_font_underline" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_font_underline</span><span
             class="method-args">(underlined = false)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Changes font underline settings of cell</p>
-          
-          
 
-          
           <div class="method-source-code" id="change_font_underline-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 215</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_font_underline</span>(<span class="ruby-identifier">underlined</span> = <span class="ruby-keyword">false</span>)
@@ -571,33 +401,21 @@
   <span class="ruby-identifier">update_font_references</span>(<span class="ruby-identifier">font</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_horizontal_alignment" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_horizontal_alignment</span><span
             class="method-args">(alignment = &#39;center&#39;)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_horizontal_alignment-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_horizontal_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
@@ -605,33 +423,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">horizontal</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_text_indent" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_text_indent</span><span
             class="method-args">(indent)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_text_indent-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_text_indent</span>(<span class="ruby-identifier">indent</span>)
@@ -639,33 +445,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">indent</span> = <span class="ruby-identifier">indent</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_text_rotation" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_text_rotation</span><span
             class="method-args">(rot)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_text_rotation-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_text_rotation</span>(<span class="ruby-identifier">rot</span>)
@@ -673,33 +467,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">text_rotation</span> = <span class="ruby-identifier">rot</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_text_wrap" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_text_wrap</span><span
             class="method-args">(wrap = false)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_text_wrap-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_text_wrap</span>(<span class="ruby-identifier">wrap</span> = <span class="ruby-keyword">false</span>)
@@ -707,33 +489,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">wrap_text</span> = <span class="ruby-identifier">wrap</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-change_vertical_alignment" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">change_vertical_alignment</span><span
             class="method-args">(alignment = &#39;center&#39;)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="change_vertical_alignment-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_vertical_alignment</span>(<span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
@@ -741,33 +511,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">modify_alignment</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-fill_color" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">fill_color</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="fill_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fill_color</span>()
@@ -775,33 +533,21 @@
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">get_cell_xf</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-font_color" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">font_color</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="font_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 108</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">font_color</span>()
@@ -809,33 +555,21 @@
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;000000&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-font_name" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">font_name</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="font_name-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 98</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">font_name</span>()
@@ -843,33 +577,21 @@
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_name</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-font_size" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">font_size</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="font_size-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 103</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">font_size</span>()
@@ -877,33 +599,21 @@
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">get_size</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-font_switch" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">font_switch</span><span
             class="method-args">(change_type, arg)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Performs correct modification based on what type of change_type is specified</p>
-          
-          
 
-          
           <div class="method-source-code" id="font_switch-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 239</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">font_switch</span>(<span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>)
@@ -919,33 +629,21 @@
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-get_border" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">get_border</span><span
             class="method-args">(direction)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="get_border-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 32</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_border</span>(<span class="ruby-identifier">direction</span>)
@@ -953,33 +651,21 @@
   <span class="ruby-identifier">get_cell_border</span>.<span class="ruby-identifier">get_edge_style</span>(<span class="ruby-identifier">direction</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-get_border_color" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">get_border_color</span><span
             class="method-args">(direction)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="get_border_color-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_border_color</span>(<span class="ruby-identifier">direction</span>)
@@ -987,33 +673,21 @@
   <span class="ruby-identifier">get_cell_border</span>.<span class="ruby-identifier">get_edge_color</span>(<span class="ruby-identifier">direction</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-horizontal_alignment" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">horizontal_alignment</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="horizontal_alignment-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 118</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">horizontal_alignment</span>()
@@ -1023,33 +697,21 @@
   <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">horizontal</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-is_bolded" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">is_bolded</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="is_bolded-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_bolded</span>()
@@ -1057,33 +719,21 @@
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_bold</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-is_italicized" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">is_italicized</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="is_italicized-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_italicized</span>()
@@ -1091,33 +741,21 @@
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_italic</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-is_struckthrough" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">is_struckthrough</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="is_struckthrough-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_struckthrough</span>()
@@ -1125,33 +763,21 @@
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_strikethrough</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-is_underlined" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">is_underlined</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="is_underlined-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 88</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_underlined</span>()
@@ -1159,33 +785,21 @@
   <span class="ruby-identifier">get_cell_font</span>.<span class="ruby-identifier">is_underlined</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-remove_formula" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">remove_formula</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="remove_formula-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">remove_formula</span>
@@ -1198,33 +812,21 @@
   }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-set_number_format" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">set_number_format</span><span
             class="method-args">(format_code)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="set_number_format-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 153</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_number_format</span>(<span class="ruby-identifier">format_code</span>)
@@ -1234,33 +836,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-text_indent" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">text_indent</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="text_indent-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 146</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">text_indent</span>()
@@ -1270,33 +860,21 @@
   <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">indent</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-text_rotation" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">text_rotation</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="text_rotation-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 139</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">text_rotation</span>
@@ -1306,33 +884,21 @@
   <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">text_rotation</span>    
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-text_wrap" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">text_wrap</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="text_wrap-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">text_wrap</span>()
@@ -1342,33 +908,21 @@
   <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">wrap_text</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-vertical_alignment" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">vertical_alignment</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="vertical_alignment-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 125</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">vertical_alignment</span>()
@@ -1378,25 +932,20 @@
   <span class="ruby-identifier">xf_obj</span>.<span class="ruby-identifier">alignment</span>.<span class="ruby-identifier">vertical</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
-  </section>
 
+  </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

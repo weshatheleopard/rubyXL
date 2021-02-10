@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.16</title>
+<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.17</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -19,8 +19,6 @@
 
 <link href="../css/fonts.css" rel="stylesheet">
 <link href="../css/rdoc.css" rel="stylesheet">
-
-
 
 
 <body id="top" role="document" class="module">
@@ -62,24 +60,18 @@
     
     
     
-    <!-- Method Quickref -->
+    
+<!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    
     <li ><a href="#method-i-define_attribute">#define_attribute</a>
-    
     <li ><a href="#method-i-define_child_node">#define_child_node</a>
-    
     <li ><a href="#method-i-define_element_name">#define_element_name</a>
-    
     <li ><a href="#method-i-define_relationship">#define_relationship</a>
-    
     <li ><a href="#method-i-obtain_class_variable">#obtain_class_variable</a>
-    
     <li ><a href="#method-i-parse">#parse</a>
-    
   </ul>
 </div>
 
@@ -95,36 +87,25 @@
     
   </section>
 
-  
   <section id="5Buntitled-5D" class="documentation-section">
-    
 
-    
 
-    
 
-    
 
-    
+
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
 
-    
       <div id="method-i-define_attribute" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">define_attribute</span><span
             class="method-args">(attr_name, attr_type, extra_params = {})</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Defines an attribute of OOXML object.</p>
 
 <h3 id="method-i-define_attribute-label-Parameters">Parameters<span><a href="#method-i-define_attribute-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -186,10 +167,7 @@
 </pre>
 
 <p>A <code>String</code> attribute named &#39;errorStyle&#39; will be accessible as <code>obj.error_style</code>, valid values are <code>&quot;stop&quot;</code>, <code>&quot;warning&quot;</code>, <code>&quot;information&quot;</code></p>
-          
-          
 
-          
           <div class="method-source-code" id="define_attribute-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_attribute</span>(<span class="ruby-identifier">attr_name</span>, <span class="ruby-identifier">attr_type</span>, <span class="ruby-identifier">extra_params</span> = {})
@@ -200,28 +178,19 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:attr_accessor</span>, <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:computed</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-define_child_node" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">define_child_node</span><span
             class="method-args">(klass, extra_params = {})</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Defines a child node of OOXML object.</p>
 
 <h3 id="method-i-define_child_node-label-Parameters">Parameters<span><a href="#method-i-define_child_node-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -267,10 +236,7 @@
 </pre>
 
 <p>Upon writing of the object this was defined on, its <code>count</code> attribute will be set to the count of nodes in <code>fonts</code> array</p>
-          
-          
 
-          
           <div class="method-source-code" id="define_child_node-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_child_node</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">extra_params</span> = {})
@@ -289,28 +255,19 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:attr_accessor</span>, <span class="ruby-identifier">accessor</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-define_element_name" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">define_element_name</span><span
             class="method-args">(element_name)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Defines the name of the element that represents the current OOXML object. Should only be used once per object. In case of different objects represented by the same class in different parts of OOXML tree, <code>:node_name</code> extra parameter can be used to override the default element name.</p>
 
 <h3 id="method-i-define_element_name-label-Parameters">Parameters<span><a href="#method-i-define_element_name-label-Parameters">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -322,78 +279,51 @@
 
 <pre class="ruby"><span class="ruby-identifier">define_element_name</span> <span class="ruby-string">&#39;externalReference&#39;</span>
 </pre>
-          
-          
 
-          
           <div class="method-source-code" id="define_element_name-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_element_name</span>(<span class="ruby-identifier">element_name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_tag_name</span>, <span class="ruby-identifier">element_name</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-define_relationship" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">define_relationship</span><span
             class="method-args">(extra_params = {})</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Defines a `r:id` attribute</p>
-          
-          
 
-          
           <div class="method-source-code" id="define_relationship-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_relationship</span>(<span class="ruby-identifier">extra_params</span> = {})
   <span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:&#39;r:id&#39;</span>, <span class="ruby-value">:string</span>, <span class="ruby-identifier">extra_params</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-obtain_class_variable" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">obtain_class_variable</span><span
             class="method-args">(var_name, default = {})</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
           <p>Get the value of a [sub]class variable if it exists, or create the respective variable with the passed-in <code>default</code> (or +{}+, if not specified)</p>
 
 <p>Throughout this class, we are setting class variables through explicit method calls rather than by directly addressing the name of the variable because of context issues: addressing variable by name creates it in the context of defining class, while calling the setter/getter method addresses it in the context of descendant class, which is what we need.</p>
-          
-          
 
-          
           <div class="method-source-code" id="obtain_class_variable-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">obtain_class_variable</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span> = {})
@@ -402,33 +332,21 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-parse" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">parse</span><span
             class="method-args">(node, known_namespaces = nil)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="parse-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 113</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">parse</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">known_namespaces</span> = <span class="ruby-keyword">nil</span>)
@@ -503,25 +421,20 @@
       <span class="ruby-identifier">obj</span>
     <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
-  </section>
 
+  </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::SharedStringsTable - rubyXL 3.4.16</title>
+<title>class RubyXL::SharedStringsTable - rubyXL 3.4.17</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -19,8 +19,6 @@
 
 <link href="../css/fonts.css" rel="stylesheet">
 <link href="../css/rdoc.css" rel="stylesheet">
-
-
 
 
 <body id="top" role="document" class="class">
@@ -59,36 +57,28 @@
 
   <div id="class-metadata">
     
-    <div id="parent-class-section" class="nav-section">
+    
+<div id="parent-class-section" class="nav-section">
   <h3>Parent</h3>
 
-  
   <p class="link"><a href="OOXMLTopLevelObject.html">RubyXL::OOXMLTopLevelObject</a>
-  
 </div>
 
     
     
-    <!-- Method Quickref -->
+    
+<!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    
     <li class="calls-super" ><a href="#method-c-new">::new</a>
-    
     <li ><a href="#method-i-5B-5D">#[]</a>
-    
     <li ><a href="#method-i-add">#add</a>
-    
     <li class="calls-super" ><a href="#method-i-before_write_xml">#before_write_xml</a>
-    
     <li ><a href="#method-i-empty-3F">#empty?</a>
-    
     <li ><a href="#method-i-get_index">#get_index</a>
-    
     <li ><a href="#method-i-xlsx_path">#xlsx_path</a>
-    
   </ul>
 </div>
 
@@ -106,65 +96,42 @@
 
   </section>
 
-  
   <section id="5Buntitled-5D" class="documentation-section">
-    
 
-    
 
-    
     <section class="constants-list">
       <header>
         <h3>Constants</h3>
       </header>
       <dl>
-      
         <dt id="CONTENT_TYPE">CONTENT_TYPE
-        
         <dd>
-        
-      
         <dt id="REL_TYPE">REL_TYPE
-        
         <dd>
-        
-      
       </dl>
     </section>
-    
 
-    
 
-    
+
      <section id="public-class-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Class Methods</h3>
        </header>
 
-    
       <div id="method-c-new" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">new</span><span
             class="method-args">(*params)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
-          
-          
           
             <div class="method-calls-super">
               Calls superclass method
               <a href="OOXMLObjectInstanceMethods.html#method-c-new"><code>RubyXL::OOXMLObjectInstanceMethods::new</code></a>
             </div>
-          
 
-          
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
@@ -175,74 +142,49 @@
   <span class="ruby-ivar">@index_by_content</span> = {}
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
+
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
 
-    
       <div id="method-i-5B-5D" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">[]</span><span
             class="method-args">(index)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="5B-5D-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">index</span>)
   <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-add" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">add</span><span
             class="method-args">(v, index = nil)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="add-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">index</span> = <span class="ruby-keyword">nil</span>)
@@ -261,38 +203,25 @@
   <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">index</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-before_write_xml" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">before_write_xml</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
-          
-          
           
             <div class="method-calls-super">
               Calls superclass method
               <a href="OOXMLObjectInstanceMethods.html#method-i-before_write_xml"><code>RubyXL::OOXMLObjectInstanceMethods#before_write_xml</code></a>
             </div>
-          
 
-          
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
@@ -301,66 +230,42 @@
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-empty-3F" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">empty?</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="empty-3F-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">empty?</span>
   <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-get_index" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">get_index</span><span
             class="method-args">(str, add_if_missing = false)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="get_index-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_index</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">add_if_missing</span> = <span class="ruby-keyword">false</span>)
@@ -369,58 +274,41 @@
   <span class="ruby-identifier">index</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-xlsx_path" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">xlsx_path</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;sharedStrings.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
-  </section>
 
+  </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

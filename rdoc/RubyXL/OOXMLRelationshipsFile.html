@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 3.4.16</title>
+<title>class RubyXL::OOXMLRelationshipsFile - rubyXL 3.4.17</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -19,8 +19,6 @@
 
 <link href="../css/fonts.css" rel="stylesheet">
 <link href="../css/rdoc.css" rel="stylesheet">
-
-
 
 
 <body id="top" role="document" class="class">
@@ -59,42 +57,31 @@
 
   <div id="class-metadata">
     
-    <div id="parent-class-section" class="nav-section">
+    
+<div id="parent-class-section" class="nav-section">
   <h3>Parent</h3>
 
-  
   <p class="link"><a href="OOXMLTopLevelObject.html">RubyXL::OOXMLTopLevelObject</a>
-  
 </div>
 
     
     
-    <!-- Method Quickref -->
+    
+<!-- Method Quickref -->
 <div id="method-list-section" class="nav-section">
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
-    
     <li ><a href="#method-c-get_class_by_rel_type">::get_class_by_rel_type</a>
-    
     <li ><a href="#method-c-load_relationship_file">::load_relationship_file</a>
-    
     <li ><a href="#method-c-rel_file_path">::rel_file_path</a>
-    
     <li ><a href="#method-i-add_relationship">#add_relationship</a>
-    
     <li class="calls-super" ><a href="#method-i-before_write_xml">#before_write_xml</a>
-    
     <li ><a href="#method-i-find_by_rid">#find_by_rid</a>
-    
     <li ><a href="#method-i-find_by_target">#find_by_target</a>
-    
     <li ><a href="#method-i-load_related_files">#load_related_files</a>
-    
     <li ><a href="#method-i-new_relationship">#new_relationship</a>
-    
     <li ><a href="#method-i-xlsx_path">#xlsx_path</a>
-    
   </ul>
 </div>
 
@@ -110,40 +97,26 @@
     
   </section>
 
-  
   <section id="5Buntitled-5D" class="documentation-section">
-    
 
-    
 
-    
     <section class="constants-list">
       <header>
         <h3>Constants</h3>
       </header>
       <dl>
-      
         <dt id="CONTENT_TYPE">CONTENT_TYPE
-        
         <dd>
-        
-      
         <dt id="SAVE_ORDER">SAVE_ORDER
-        
         <dd>
-        
-      
       </dl>
     </section>
-    
 
-    
     <section class="attribute-method-details" class="method-section">
       <header>
         <h3>Attributes</h3>
       </header>
 
-      
       <div id="attribute-i-owner" class="method-detail">
         <div class="method-heading attribute-method-heading">
           <span class="method-name">owner</span><span
@@ -152,11 +125,8 @@
 
         <div class="method-description">
         
-        
-        
         </div>
       </div>
-      
       <div id="attribute-i-related_files" class="method-detail">
         <div class="method-heading attribute-method-heading">
           <span class="method-name">related_files</span><span
@@ -165,39 +135,26 @@
 
         <div class="method-description">
         
-        
-        
         </div>
       </div>
-      
     </section>
-    
 
-    
+
      <section id="public-class-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Class Methods</h3>
        </header>
 
-    
       <div id="method-c-get_class_by_rel_type" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">get_class_by_rel_type</span><span
             class="method-args">(rel_type)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="get_class_by_rel_type-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 56</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_class_by_rel_type</span>(<span class="ruby-identifier">rel_type</span>)
@@ -215,33 +172,21 @@
   <span class="ruby-identifier">@@rel_hash</span>[<span class="ruby-identifier">rel_type</span>]
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-c-load_relationship_file" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">load_relationship_file</span><span
             class="method-args">(zipdir_path, base_file_path)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="load_relationship_file-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_relationship_file</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">base_file_path</span>)
@@ -252,33 +197,21 @@
   <span class="ruby-identifier">parse_file</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">rel_file_path</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-c-rel_file_path" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">rel_file_path</span><span
             class="method-args">(base_file_path)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="rel_file_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 130</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">rel_file_path</span>(<span class="ruby-identifier">base_file_path</span>)
@@ -286,46 +219,32 @@
   <span class="ruby-identifier">base_file_path</span>.<span class="ruby-identifier">dirname</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;_rels&#39;</span>, <span class="ruby-node">&quot;#{basename}.rels&quot;</span>).<span class="ruby-identifier">cleanpath</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
+
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
 
-    
       <div id="method-i-before_write_xml" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">before_write_xml</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
-          
-          
-          
           
             <div class="method-calls-super">
               Calls superclass method
               <a href="OOXMLObjectInstanceMethods.html#method-i-before_write_xml"><code>RubyXL::OOXMLObjectInstanceMethods#before_write_xml</code></a>
             </div>
-          
 
-          
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 116</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
@@ -342,66 +261,42 @@
   <span class="ruby-keyword">super</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-find_by_rid" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">find_by_rid</span><span
             class="method-args">(r_id)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="find_by_rid-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">find_by_rid</span>(<span class="ruby-identifier">r_id</span>)
   <span class="ruby-identifier">relationships</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">r_id</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-find_by_target" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">find_by_target</span><span
             class="method-args">(target)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="find_by_target-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">find_by_target</span>(<span class="ruby-identifier">target</span>)
@@ -410,33 +305,21 @@
   }
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-load_related_files" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">load_related_files</span><span
             class="method-args">(zipdir_path, base_file_name)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="load_related_files-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_related_files</span>(<span class="ruby-identifier">zipdir_path</span>, <span class="ruby-identifier">base_file_name</span>)
@@ -472,74 +355,49 @@
   <span class="ruby-identifier">related_files</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-xlsx_path" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">xlsx_path</span><span
             class="method-args">()</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="xlsx_path-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 112</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">rel_file_path</span>(<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">xlsx_path</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
+
      <section id="protected-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Protected Instance Methods</h3>
        </header>
 
-    
       <div id="method-i-add_relationship" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">add_relationship</span><span
             class="method-args">(obj)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="add_relationship-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_relationship</span>(<span class="ruby-identifier">obj</span>)
@@ -550,33 +408,21 @@
                                             <span class="ruby-value">:target</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">xlsx_path</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">xlsx_path</span>.<span class="ruby-identifier">dirname</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
       <div id="method-i-new_relationship" class="method-detail ">
-        
         <div class="method-heading">
           <span class="method-name">new_relationship</span><span
             class="method-args">(target, type)</span>
-          
           <span class="method-click-advice">click to toggle source</span>
-          
         </div>
-        
 
         <div class="method-description">
           
-          
-          
-          
 
-          
           <div class="method-source-code" id="new_relationship-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/relationships.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">new_relationship</span>(<span class="ruby-identifier">target</span>, <span class="ruby-identifier">type</span>)
@@ -585,25 +431,20 @@
                            <span class="ruby-value">:target</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">target</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
-          
         </div>
 
-        
 
-        
       </div>
 
-    
     </section>
-  
-  </section>
 
+  </section>
 </main>
 
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.3.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
