@@ -742,6 +742,12 @@ describe RubyXL::Worksheet do
         end
       end
     end
+
+    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+      @worksheet.delete_row(0)
+      expect(@worksheet.merged_cells).to be_nil
+    end
   end
 
   describe '.insert_row' do
@@ -843,6 +849,12 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
       end
+    end
+
+    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+      @worksheet.insert_row(0)
+      expect(@worksheet.merged_cells).to be_nil
     end
   end
 
@@ -1002,6 +1014,12 @@ describe RubyXL::Worksheet do
         end
       end
     end
+
+    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+      @worksheet.delete_column(0)
+      expect(@worksheet.merged_cells).to be_nil
+    end
   end
 
   describe '.insert_column' do
@@ -1098,6 +1116,12 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
       end
+    end
+
+    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+      @worksheet.insert_column(0)
+      expect(@worksheet.merged_cells).to be_nil
     end
   end
 
