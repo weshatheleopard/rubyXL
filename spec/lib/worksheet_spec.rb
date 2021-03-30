@@ -684,6 +684,7 @@ describe RubyXL::Worksheet do
           expect(@worksheet.merged_cells.size).to eq 0
         end
       end
+
       context 'merged three or more rows' do
         # | A1 | B1 | C1 | D1 | E1 |
         # | A2 |              | E2 |
@@ -695,6 +696,7 @@ describe RubyXL::Worksheet do
           expect(@worksheet.merged_cells.size).to eq 1
           expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
         end
+
         # | A2 |              | E2 |
         # | A3 |    MERGED    | E3 |
         # | A4 |              | E4 |
@@ -704,6 +706,7 @@ describe RubyXL::Worksheet do
           expect(@worksheet.merged_cells.size).to eq 1
           expect(@worksheet.merged_cells.first.ref.to_s).to eq "B1:D3"
         end
+
         # | A1 | B1 | C1 | D1 | E1 |
         # | A3 |    MERGED    | E3 |
         # | A4 |              | E4 |
@@ -713,6 +716,7 @@ describe RubyXL::Worksheet do
           expect(@worksheet.merged_cells.size).to eq 1
           expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
         end
+
         # | A1 | B1 | C1 | D1 | E1 |
         # | A2 |    MERGED    | E2 |
         # | A4 |              | E4 |
@@ -722,6 +726,7 @@ describe RubyXL::Worksheet do
           expect(@worksheet.merged_cells.size).to eq 1
           expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
         end
+
         # | A1 | B1 | C1 | D1 | E1 |
         # | A2 |    MERGED    | E2 |
         # | A3 |              | E3 |
@@ -731,6 +736,7 @@ describe RubyXL::Worksheet do
           expect(@worksheet.merged_cells.size).to eq 1
           expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
         end
+
         # | A1 | B1 | C1 | D1 | E1 |
         # | A2 |              | E2 |
         # | A3 |    MERGED    | E3 |
@@ -741,6 +747,12 @@ describe RubyXL::Worksheet do
           expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
         end
       end
+    end
+
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
+      @worksheet.delete_row(0)
+      expect(@worksheet.merged_cells).to be_nil
     end
   end
 
@@ -813,6 +825,7 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
       end
+
       # | A1 | B1 | C1 | D1 |
       # |    |    |    |    |
       # | A2 | MERGED  | D2 |
@@ -823,6 +836,7 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B3:C4"
       end
+
       # | A1 | B1 | C1 | D1 |
       # | A2 |         | D2 |
       # |    | MERGED  |    |
@@ -833,6 +847,7 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
       end
+
       # | A1 | B1 | C1 | D1 |
       # | A2 | MERGED  | D2 |
       # | A3 |         | D3 |
@@ -843,6 +858,12 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
       end
+    end
+
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
+      @worksheet.insert_row(0)
+      expect(@worksheet.merged_cells).to be_nil
     end
   end
 
@@ -1002,6 +1023,12 @@ describe RubyXL::Worksheet do
         end
       end
     end
+
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
+      @worksheet.delete_column(0)
+      expect(@worksheet.merged_cells).to be_nil
+    end
   end
 
   describe '.insert_column' do
@@ -1071,6 +1098,7 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
       end
+
       # | A1 |    | B1 | C1 | D1 |
       # | A2 |    | MERGED  | D2 |
       # | A3 |    |         | D3 |
@@ -1080,6 +1108,7 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "C2:D3"
       end
+
       # | A1 | B1 |    | C1 | D1 |
       # | A2 |    MERGED    | D2 |
       # | A3 |              | D3 |
@@ -1089,6 +1118,7 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
       end
+
       # | A1 | B1 | C1 |    | D1 |
       # | A2 | MERGED  |    | D2 |
       # | A3 |         |    | D3 |
@@ -1098,6 +1128,12 @@ describe RubyXL::Worksheet do
         expect(@worksheet.merged_cells.size).to eq 1
         expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
       end
+    end
+
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
+      @worksheet.insert_column(0)
+      expect(@worksheet.merged_cells).to be_nil
     end
   end
 
