@@ -743,8 +743,8 @@ describe RubyXL::Worksheet do
       end
     end
 
-    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
-      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
       @worksheet.delete_row(0)
       expect(@worksheet.merged_cells).to be_nil
     end
@@ -851,8 +851,8 @@ describe RubyXL::Worksheet do
       end
     end
 
-    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
-      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
       @worksheet.insert_row(0)
       expect(@worksheet.merged_cells).to be_nil
     end
@@ -1015,8 +1015,8 @@ describe RubyXL::Worksheet do
       end
     end
 
-    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
-      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
       @worksheet.delete_column(0)
       expect(@worksheet.merged_cells).to be_nil
     end
@@ -1118,8 +1118,8 @@ describe RubyXL::Worksheet do
       end
     end
 
-    it 'should not make an empty merged_cells when a worksheet does not have a merged cell' do
-      # If a worksheet has an empty merged_cells, the xlsx has XML error and has to repair.
+    it 'should not make empty merged_cells when a worksheet does not have a merged cell' do
+      # If a worksheet has empty merged_cells, the xlsx file has an XML error and has to repair.
       @worksheet.insert_column(0)
       expect(@worksheet.merged_cells).to be_nil
     end
