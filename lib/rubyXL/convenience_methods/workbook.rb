@@ -130,6 +130,14 @@ module RubyXL
       self.defined_names && self.defined_names.find { |n| n.name == name }
     end
 
+    def title
+      self.root.core_properties.dc_title && self.root.core_properties.dc_title.value
+    end
+
+    def title=(v)
+      self.root.core_properties.dc_title = v && RubyXL::StringNode.new(:value => v)
+    end
+
   end
 
   RubyXL::Workbook.send(:include, RubyXL::WorkbookConvenienceMethods) # ruby 2.1 compat
