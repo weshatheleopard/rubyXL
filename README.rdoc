@@ -54,6 +54,7 @@ Please note that row is a _sparse_ array of cells. Your code *must* expect that 
   worksheet = workbook[0]
   worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
   worksheet[0][0]            # Returns cell A1 in the worksheet
+  worksheet[0][0].value      # Returns cell A1 in the worksheet's value
 
 ==== Wrappers for accessing Cell properties
   cell = workbook[0][0][0]
