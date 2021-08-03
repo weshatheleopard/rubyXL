@@ -10,8 +10,8 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
+require 'juwelier'
+Juwelier::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "rubyXL"
   gem.homepage = "http://github.com/gilt/rubyXL"
@@ -23,7 +23,7 @@ Jeweler::Tasks.new do |gem|
 #  gem.required_ruby_version = '>2.1'
   # dependencies defined in Gemfile
 end
-Jeweler::RubygemsDotOrgTasks.new 
+Juwelier::RubygemsDotOrgTasks.new 
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|

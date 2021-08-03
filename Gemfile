@@ -8,7 +8,7 @@ gem "rubyzip", ">= 1.3.0" , :require => 'zip'
 group :development, :test do
   gem "bundler"
   gem "rake"
-  gem "jeweler"
+  gem "juwelier"
   gem "rspec"
   gem "simplecov"
 
