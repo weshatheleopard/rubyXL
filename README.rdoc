@@ -55,6 +55,10 @@ Please note that row is a _sparse_ array of cells. Your code *must* expect that 
   worksheet.sheet_data[0][0] # Returns cell A1 in the worksheet
   worksheet[0][0]            # Returns cell A1 in the worksheet
 
+  cell = worksheet[0][0]
+  cell.value                 # Returns a properly converted value in the cell (if the file claims that the cell
+                             # is holding a number, returns a respective Integer or Float, and so on).
+
 ==== Wrappers for accessing Cell properties
   cell = workbook[0][0][0]
   cell.is_struckthrough  # Returns +true+ if the cell is struckthrough, other boolean properties have same syntax
@@ -229,10 +233,9 @@ It can also operate on +StringIO+ objects, thus eliminating the need to save the
 
   RubyXL.class_variable_set(:@@suppress_warnings, true)
 
-== Data validation ("dropdown list")
+== Data validation (colloquially referred to as "dropdown list")
 
   worksheet.add_validation_list("A1", [ "value1", "value2" ])
-
 
 == For more information
 Take a look at the files in spec/lib/ for rspecs on most methods
@@ -249,5 +252,5 @@ Take a look at the files in spec/lib/ for rspecs on most methods
 
 == Copyright
 
-Copyright (c) 2011 Vivek Bhagwat, 2013-2020 Wesha.
+Copyright (c) 2011 Vivek Bhagwat, 2013-2021 Wesha.
 See LICENSE.txt for further details.
