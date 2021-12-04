@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
     ".circleci/config.yml",
     ".codeclimate.yml",
     "Gemfile",
-    "Gemfile.lock",
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
