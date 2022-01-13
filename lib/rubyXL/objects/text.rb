@@ -85,7 +85,8 @@ module RubyXL
     define_element_name 'is'
 
     def to_s
-      str = if t.nil? then '' else t.to_s end
+      # `dup` here unfreezes the string since it's not a constant but initial value
+      str = if t.nil? then ''.dup else t.to_s end
       r && r.each { |rtr| str << rtr.to_s if rtr }
       str
     end
