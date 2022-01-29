@@ -224,7 +224,8 @@ module RubyXL
     end
     private :obtain_class_variable
 
-    def initialize(params = {})
+    DEFAULT_HASH = {}
+    def initialize(params = DEFAULT_HASH)
       @local_namespaces = nil
 
       obtain_class_variable(:@@ooxml_attributes).each_value { |v|
