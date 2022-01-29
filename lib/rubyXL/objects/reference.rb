@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RubyXL
   class Reference
     ROW_MAX = 1024*1024

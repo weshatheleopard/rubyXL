@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RubyXL
   module FontConvenienceMethods
     # Funny enough, but presence of <i> without value (equivalent to `val == nul`) means "italic = true"!

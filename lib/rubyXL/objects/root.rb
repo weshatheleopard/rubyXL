@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'zip'
 require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/document_properties'

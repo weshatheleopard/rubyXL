@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 require 'pathname'
 require 'rubyXL/objects/reference'

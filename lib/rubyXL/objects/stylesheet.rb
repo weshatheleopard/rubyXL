@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/cell_style'
 require 'rubyXL/objects/font'

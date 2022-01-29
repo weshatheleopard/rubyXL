@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubyXL/objects/ooxml_object'
 
 module RubyXL

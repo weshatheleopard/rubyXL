@@ -1,4 +1,6 @@
 # encoding: UTF-8  <-- magic comment, need this because of sime fancy fonts in the default scheme below. See http://stackoverflow.com/questions/6444826/ruby-utf-8-file-encoding
+# frozen_string_literal: true
+
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 

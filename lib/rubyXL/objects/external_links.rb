@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetName-1.html

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/text'
@@ -125,7 +127,7 @@ module RubyXL
     end
 
     def inspect
-      str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}"
+      str = +"#<#{self.class}(#{row},#{column}): #{raw_value.inspect}"
       str << " =#{self.formula.expression}" if self.formula
       str << ", datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}>"
       return str

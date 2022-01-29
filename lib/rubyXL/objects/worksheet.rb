@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
