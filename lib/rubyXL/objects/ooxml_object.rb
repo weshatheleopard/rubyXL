@@ -12,10 +12,10 @@ module RubyXL
     # addressing variable by name creates it in the context of defining class, while calling
     # the setter/getter method addresses it in the context of descendant class,
     # which is what we need.
-    def obtain_class_variable(var_name, default = {})
+    def obtain_class_variable(var_name, default = nil)
       self.class_variable_get(var_name)
     rescue NameError
-      self.class_variable_set(var_name, default)
+      self.class_variable_set(var_name, default || {})
     end
 
     # Defines an attribute of OOXML object.
@@ -219,7 +219,7 @@ module RubyXL
       klass.extend RubyXL::OOXMLObjectClassMethods
     end
 
-    def obtain_class_variable(var_name, default = {})
+    def obtain_class_variable(var_name, default = nil)
       self.class.obtain_class_variable(var_name, default)
     end
     private :obtain_class_variable
