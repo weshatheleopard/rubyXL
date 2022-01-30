@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.20</title>
+<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.21</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -101,7 +101,7 @@
       <div id="method-i-define_attribute" class="method-detail ">
         <div class="method-heading">
           <span class="method-name">define_attribute</span><span
-            class="method-args">(attr_name, attr_type, extra_params = {})</span>
+            class="method-args">(attr_name, attr_type, extra_params = nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
 
@@ -170,9 +170,10 @@
 
           <div class="method-source-code" id="define_attribute-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 48</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_attribute</span>(<span class="ruby-identifier">attr_name</span>, <span class="ruby-identifier">attr_type</span>, <span class="ruby-identifier">extra_params</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_attribute</span>(<span class="ruby-identifier">attr_name</span>, <span class="ruby-identifier">attr_type</span>, <span class="ruby-identifier">extra_params</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">attrs</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>)
-  <span class="ruby-identifier">attr_hash</span> = <span class="ruby-identifier">extra_params</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-value">:attr_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">attr_type</span> })
+  <span class="ruby-identifier">attr_hash</span> = { <span class="ruby-value">:attr_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">attr_type</span> }
+  <span class="ruby-identifier">attr_hash</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">extra_params</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">extra_params</span>
   <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:accessor</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">accessorize</span>(<span class="ruby-identifier">attr_name</span>)
   <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">attr_name</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">attr_hash</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:attr_accessor</span>, <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">attr_hash</span>[<span class="ruby-value">:computed</span>]
@@ -238,7 +239,7 @@
 <p>Upon writing of the object this was defined on, its <code>count</code> attribute will be set to the count of nodes in <code>fonts</code> array</p>
 
           <div class="method-source-code" id="define_child_node-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 81</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_child_node</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">extra_params</span> = {})
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
   <span class="ruby-identifier">child_node_name</span> = (<span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:node_name</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">class_variable_get</span>(<span class="ruby-value">:@@ooxml_tag_name</span>)).<span class="ruby-identifier">to_s</span>
@@ -281,7 +282,7 @@
 </pre>
 
           <div class="method-source-code" id="define_element_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 109</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 110</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_element_name</span>(<span class="ruby-identifier">element_name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@ooxml_tag_name</span>, <span class="ruby-identifier">element_name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -302,7 +303,7 @@
           <p>Defines a ‘r:id` attribute</p>
 
           <div class="method-source-code" id="define_relationship-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 57</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_relationship</span>(<span class="ruby-identifier">extra_params</span> = {})
   <span class="ruby-identifier">define_attribute</span>(<span class="ruby-value">:&#39;r:id&#39;</span>, <span class="ruby-value">:string</span>, <span class="ruby-identifier">extra_params</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -315,7 +316,7 @@
       <div id="method-i-obtain_class_variable" class="method-detail ">
         <div class="method-heading">
           <span class="method-name">obtain_class_variable</span><span
-            class="method-args">(var_name, default = {})</span>
+            class="method-args">(var_name, default = nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
 
@@ -326,10 +327,10 @@
 
           <div class="method-source-code" id="obtain_class_variable-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 15</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">obtain_class_variable</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">obtain_class_variable</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_get</span>(<span class="ruby-identifier">var_name</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">NameError</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-identifier">var_name</span>, <span class="ruby-identifier">default</span> <span class="ruby-operator">||</span> {})
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -348,7 +349,7 @@
           
 
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 113</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 114</span>
     <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">parse</span>(<span class="ruby-identifier">node</span>, <span class="ruby-identifier">known_namespaces</span> = <span class="ruby-keyword">nil</span>)
       <span class="ruby-keyword">case</span> <span class="ruby-identifier">node</span>
       <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">IO</span>, <span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">InputStream</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">node</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">node</span>)

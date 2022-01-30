@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.20</title>
+<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.21</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -135,7 +135,7 @@
           
 
           <div class="method-source-code" id="included-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 218</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 219</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">included</span>(<span class="ruby-identifier">klass</span>)
   <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">extend</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">OOXMLObjectClassMethods</span>
 <span class="ruby-keyword">end</span></pre>
@@ -148,7 +148,7 @@
       <div id="method-c-new" class="method-detail ">
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(params = {})</span>
+            class="method-args">(params = nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
 
@@ -156,9 +156,10 @@
           
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 227</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">params</span> = {})
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 228</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">params</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@local_namespaces</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">params</span> <span class="ruby-operator">||=</span> {}
 
   <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{v[:accessor]}&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:computed</span>]
@@ -190,7 +191,7 @@
           
 
           <div class="method-source-code" id="3D-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 256</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 258</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">==</span>(<span class="ruby-identifier">other</span>)
   <span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>) <span class="ruby-operator">&amp;&amp;</span>
     <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">all?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) } <span class="ruby-operator">&amp;&amp;</span>
@@ -213,7 +214,7 @@
           <p>Subclass provided filter to perform last-minute operations (cleanup, count, etc.) immediately prior to write, along with option to terminate the actual write if <code>false</code> is returned (for example, to avoid writing the collection’s root node if the collection is empty).</p>
 
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 356</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 358</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-comment">#TODO# This will go away once containers are fully implemented.</span>
   <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
@@ -239,7 +240,7 @@
           <p>Prototype method. For sparse collections (<code>Rows</code>, <code>Cells</code>, etc.) must return index at which this object is expected to reside in the collection. If <code>nil</code> is returned, then object is simply added to the end of the collection.</p>
 
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 344</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 346</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index_in_collection</span>
   <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
@@ -284,7 +285,7 @@
 <p>Same as above, but uses the passed-in <code>node_name_override</code> as the new element name, instead of its default name set by <code>define_element_name</code>.</p>
 
           <div class="method-source-code" id="write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 276</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 278</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">write_xml</span>(<span class="ruby-identifier">xml</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">&#39;&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;&#39;</span>)
@@ -373,7 +374,7 @@
           
 
           <div class="method-source-code" id="get_node_object-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 348</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 350</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_node_object</span>(<span class="ruby-identifier">child_node_params</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:accessor</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -394,7 +395,7 @@
           
 
           <div class="method-source-code" id="init_child_nodes-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 237</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 239</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">init_child_nodes</span>(<span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
 
