@@ -21,7 +21,7 @@ module RubyXL
     define_child_node(RubyXL::BooleanValue, :node_name => :extend)
     define_child_node(RubyXL::Color)
     define_child_node(RubyXL::FloatValue,   :node_name => :sz)
-    define_child_node(RubyXL::BooleanValue, :node_name => :u)
+    define_child_node(RubyXL::StringValue,  :node_name => :u) # ST_UnderlineValues (http://www.datypic.com/sc/ooxml/e-ssml_u-1.html)
     define_child_node(RubyXL::StringValue,  :node_name => :vertAlign)
     define_child_node(RubyXL::StringValue,  :node_name => :scheme)
     define_element_name 'font'

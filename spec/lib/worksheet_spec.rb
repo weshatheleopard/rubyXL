@@ -10,7 +10,7 @@ describe RubyXL::Worksheet do
 
     (0..10).each do |i|
       (0..10).each do |j|
-        next if i == SKIP_ROW_COL || j == SKIP_ROW_COL # Skip some rows/cells 
+        next if i == SKIP_ROW_COL || j == SKIP_ROW_COL # Skip some rows/cells
         @worksheet.add_cell(i, j, "#{i}:#{j}", "F#{i}:#{j}")
       end
     end
@@ -1059,7 +1059,7 @@ describe RubyXL::Worksheet do
 
     it 'should update cell indices after deleting the column' do
       @worksheet.insert_column(5)
-      @worksheet[0].cells.each_with_index { |cell, i| 
+      @worksheet[0].cells.each_with_index { |cell, i|
         next if cell.nil?
         expect(cell.column).to eq(i)
       }

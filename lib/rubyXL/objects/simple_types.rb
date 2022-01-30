@@ -223,6 +223,8 @@ module RubyXL
 
   ST_TextUnderlineType    = %w{ none words sng dbl heavy dotted dottedHeavy dash dashHeavy dashLong dashLongHeavy
                                 dotDash dotDashHeavy dotDotDash dotDotDashHeavy wavy wavyHeavy wavyDbl }
+  ST_UnderlineValues      = %w{ single double singleAccounting doubleAccounting none }
+
   ST_TextStrikeType       = %w{ noStrike sngStrike dblStrike }
   ST_TextCapsType         = %w{ none small all }
 
