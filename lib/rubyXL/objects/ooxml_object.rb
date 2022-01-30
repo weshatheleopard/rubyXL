@@ -12,10 +12,10 @@ module RubyXL
     # addressing variable by name creates it in the context of defining class, while calling
     # the setter/getter method addresses it in the context of descendant class,
     # which is what we need.
-    def obtain_class_variable(var_name, default = {})
+    def obtain_class_variable(var_name, default = nil)
       self.class_variable_get(var_name)
     rescue NameError
-      self.class_variable_set(var_name, default)
+      self.class_variable_set(var_name, default || {})
     end
 
     # Defines an attribute of OOXML object.
@@ -45,9 +45,10 @@ module RubyXL
     # The value of the element will be accessible as a <tt>String</tt> by calling +obj.expression+
     #   define_attribute(:errorStyle, %w{ stop warning information }, :default => 'stop',)
     # A <tt>String</tt> attribute named 'errorStyle' will be accessible as +obj.error_style+, valid values are <tt>"stop"</tt>, <tt>"warning"</tt>, <tt>"information"</tt>
-    def define_attribute(attr_name, attr_type, extra_params = {})
+    def define_attribute(attr_name, attr_type, extra_params = nil)
       attrs = obtain_class_variable(:@@ooxml_attributes)
-      attr_hash = extra_params.merge({ :attr_type => attr_type })
+      attr_hash = { :attr_type => attr_type }
+      attr_hash.merge!(extra_params) if extra_params
       attr_hash[:accessor] ||= accessorize(attr_name)
       attrs[attr_name.to_s] = attr_hash
       self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
@@ -224,8 +225,9 @@ module RubyXL
     end
     private :obtain_class_variable
 
-    def initialize(params = {})
+    def initialize(params = nil)
       @local_namespaces = nil
+      params ||= {}
 
       obtain_class_variable(:@@ooxml_attributes).each_value { |v|
         instance_variable_set("@#{v[:accessor]}", params[v[:accessor]]) unless v[:computed]
