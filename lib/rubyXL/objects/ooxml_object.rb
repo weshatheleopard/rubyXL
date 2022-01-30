@@ -224,11 +224,17 @@ module RubyXL
     end
     private :obtain_class_variable
 
+    @@_variable_keys = {}
     def initialize(params = {})
       @local_namespaces = nil
 
       obtain_class_variable(:@@ooxml_attributes).each_value { |v|
-        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]]) unless v[:computed]
+        unless v[:computed]
+          unless @@_variable_keys[v[:accessor]]
+            @@_variable_keys[v[:accessor]] = "@#{v[:accessor]}".freeze
+          end
+          instance_variable_set(@@_variable_keys[v[:accessor]], params[v[:accessor]])
+        end
       }
 
       init_child_nodes(params)
@@ -243,7 +249,10 @@ module RubyXL
           else nil
           end
 
-        instance_variable_set("@#{v[:accessor]}", initial_value)
+        unless @@_variable_keys[v[:accessor]]
+          @@_variable_keys[v[:accessor]] = "@#{v[:accessor]}".freeze
+        end
+        instance_variable_set(@@_variable_keys[v[:accessor]], initial_value)
       }
     end
     private :init_child_nodes
