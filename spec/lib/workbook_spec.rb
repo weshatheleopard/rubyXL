@@ -133,6 +133,17 @@ describe RubyXL::Workbook do
     end
   end
 
+  describe '.title' do
+    it 'should contain default title' do
+      expect(@workbook.title).to be_nil
+    end
+
+    it 'should set title properly' do
+      @workbook.title = 'TITLE'
+      expect(@workbook.title).to eq('TITLE')
+    end
+  end
+
   describe '.stream' do
     it "It should not be confused by missing sheet_id" do
       workbook = RubyXL::Workbook.new
