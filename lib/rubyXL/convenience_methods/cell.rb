@@ -54,6 +54,11 @@ module RubyXL
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.wrap_text = wrap }
     end
 
+    def change_shrink_to_fit(shrink_to_fit = false)
+      validate_worksheet
+      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.shrink_to_fit = shrink_to_fit }
+    end
+
     def change_text_rotation(rot)
       validate_worksheet
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.text_rotation = rot }
