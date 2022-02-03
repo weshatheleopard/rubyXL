@@ -211,6 +211,7 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
   cell = worksheet[0][0]
   cell.set_number_format '0.0000%'    # For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68
   cell.change_text_wrap(true)         # Makes the text in the cell to wrap.
+  cell.change_shrink_to_fit(true)     # Makes the text in the cell to shrink to fit.
   cell.change_text_indent(1)          # Indents the text in the cell by 1 level
 
 == I/O
