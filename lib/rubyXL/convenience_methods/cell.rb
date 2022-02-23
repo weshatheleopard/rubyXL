@@ -9,12 +9,12 @@ module RubyXL
         self.formula = RubyXL::Formula.new(:expression => formula_expression)
       else
         self.datatype = case data
-                        when Date, Numeric then nil
+                        when Date, Time, Numeric then nil
                         else RubyXL::DataType::RAW_STRING
                         end
       end
 
-      data = workbook.date_to_num(data) if data.is_a?(Date)
+      data = workbook.date_to_num(data) if data.is_a?(Date) || data.is_a?(Time)
 
       self.raw_value = data
     end
@@ -140,12 +140,12 @@ module RubyXL
       return nil if xf_obj.alignment.nil?
       xf_obj.alignment.wrap_text
     end
-    
+
     def text_rotation
       validate_worksheet
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
-      xf_obj.alignment.text_rotation    
+      xf_obj.alignment.text_rotation
     end
 
     def text_indent()
