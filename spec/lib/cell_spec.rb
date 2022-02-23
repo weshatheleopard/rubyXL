@@ -400,6 +400,15 @@ describe RubyXL::Cell do
       expect(@cell.formula).to be_nil
     end
 
+    it 'should cause cell value to match a time that is passed in' do
+      time = Time.parse('January 1, 2011')
+      @cell.change_contents(time)
+      expect(@cell).to receive(:is_date?).at_least(1).and_return(true)
+      expect(@cell.value).to eq(time.to_datetime)
+      expect(@cell.datatype).to be_nil
+      expect(@cell.formula).to be_nil
+    end
+
     it 'should case cell value to match a Float that is passed in' do
       number = 1.25
       @cell.change_contents(number)
