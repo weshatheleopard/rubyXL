@@ -1,12 +1,12 @@
-Sun, 30 Jan 2022 06:42:57 +0000
-README.rdoc	Tue, 03 Aug 2021 21:03:50 +0000
+Sat, 26 Feb 2022 05:38:59 +0000
+README.rdoc	Thu, 03 Feb 2022 17:50:23 +0000
 lib/rubyXL.rb	Wed, 12 Jun 2019 18:44:04 +0000
 lib/rubyXL/cell.rb	Mon, 25 Feb 2019 21:46:23 +0000
 lib/rubyXL/convenience_methods.rb	Mon, 25 Feb 2019 21:06:24 +0000
-lib/rubyXL/convenience_methods/cell.rb	Sat, 24 Oct 2020 01:52:35 +0000
+lib/rubyXL/convenience_methods/cell.rb	Wed, 23 Feb 2022 06:16:42 +0000
 lib/rubyXL/convenience_methods/color.rb	Wed, 10 Feb 2021 13:08:29 +0000
 lib/rubyXL/convenience_methods/font.rb	Tue, 05 Mar 2019 21:52:31 +0000
-lib/rubyXL/convenience_methods/workbook.rb	Wed, 10 Feb 2021 13:08:45 +0000
+lib/rubyXL/convenience_methods/workbook.rb	Thu, 03 Feb 2022 17:55:36 +0000
 lib/rubyXL/convenience_methods/worksheet.rb	Tue, 30 Mar 2021 14:57:12 +0000
 lib/rubyXL/objects/border.rb	Mon, 20 Nov 2017 21:42:33 +0000
 lib/rubyXL/objects/calculation_chain.rb	Fri, 22 Nov 2019 20:22:28 +0000

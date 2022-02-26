@@ -82,6 +82,8 @@
     <li ><a href="#method-i-register_new_fill">#register_new_fill</a>
     <li ><a href="#method-i-register_new_font">#register_new_font</a>
     <li ><a href="#method-i-register_new_xf">#register_new_xf</a>
+    <li ><a href="#method-i-title">#title</a>
+    <li ><a href="#method-i-title-3D">#title=</a>
   </ul>
 </div>
 
@@ -499,6 +501,48 @@
   <span class="ruby-identifier">new_xf_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this XF has never existed before, add it to collection.</span>
   <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">new_xf_id</span>] = <span class="ruby-identifier">new_xf</span>
   <span class="ruby-identifier">new_xf_id</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-title" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">title</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="title-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 133</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span>.<span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-title-3D" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">title=</span><span
+            class="method-args">(v)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="title-3D-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 137</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
