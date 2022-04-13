@@ -1,4 +1,4 @@
-Sat, 26 Feb 2022 05:42:21 +0000
+Wed, 13 Apr 2022 03:19:16 +0000
 README.rdoc	Sat, 26 Feb 2022 05:40:14 +0000
 lib/rubyXL.rb	Wed, 12 Jun 2019 18:44:04 +0000
 lib/rubyXL/cell.rb	Mon, 25 Feb 2019 21:46:23 +0000
@@ -35,7 +35,7 @@ lib/rubyXL/objects/shared_strings.rb	Fri, 22 Nov 2019 20:22:28 +0000
 lib/rubyXL/objects/sheet_common.rb	Tue, 11 Jun 2019 16:34:29 +0000
 lib/rubyXL/objects/sheet_data.rb	Wed, 10 Feb 2021 12:40:15 +0000
 lib/rubyXL/objects/simple_types.rb	Sun, 30 Jan 2022 03:51:18 +0000
-lib/rubyXL/objects/storage.rb	Tue, 19 May 2020 01:45:42 +0000
+lib/rubyXL/objects/storage.rb	Tue, 29 Mar 2022 06:55:56 +0000
 lib/rubyXL/objects/stylesheet.rb	Tue, 10 Sep 2019 20:32:35 +0000
 lib/rubyXL/objects/text.rb	Thu, 13 Jan 2022 20:16:13 +0000
 lib/rubyXL/objects/theme.rb	Sat, 24 Oct 2020 02:04:09 +0000
