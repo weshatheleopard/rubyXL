@@ -167,6 +167,11 @@ module RubyXL
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/oleObject'
   end
 
+  class SheetMetadata < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheetMetadata+xml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata'
+  end
+
   class ActiveX < GenericStorageObject
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/control'
 
