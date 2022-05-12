@@ -1,7 +1,5 @@
 module RubyXL
-
   module WorkbookConvenienceMethods
-
     def each
       worksheets.each{ |i| yield i }
     end
@@ -137,7 +135,6 @@ module RubyXL
     def title=(v)
       self.root.core_properties.dc_title = v && RubyXL::StringNode.new(:value => v)
     end
-
   end
 
   RubyXL::Workbook.send(:include, RubyXL::WorkbookConvenienceMethods) # ruby 2.1 compat

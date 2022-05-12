@@ -1,7 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_col-1.html
   class ColumnRange < OOXMLObject
     define_attribute(:min,          :uint, :required => true)
@@ -86,7 +85,5 @@ module RubyXL
       self.sort_by!{ |r| r.min }
       !(self.empty?)
     end
-
   end
-
 end

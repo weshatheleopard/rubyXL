@@ -3,11 +3,10 @@ require 'rubyXL/objects/text'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_sst.html
   class SharedStringsTable < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings'.freeze
 
     # According to http://msdn.microsoft.com/en-us/library/office/gg278314.aspx,
     # +count+ and +uniqueCount+ may be either both missing, or both present. Need to validate.
@@ -64,7 +63,5 @@ module RubyXL
     def xlsx_path
       ROOT.join('xl', 'sharedStrings.xml')
     end
-
   end
-
 end

@@ -1,6 +1,5 @@
 module RubyXL
   module ColorConvenienceMethods
-
     def get_rgb(workbook)
       if rgb then
         return rgb
@@ -13,7 +12,6 @@ module RubyXL
         RubyXL::RgbColor.parse(color_value).to_hls.apply_tint(tint).to_rgb.to_s
       end
     end
-
   end
 
   module ColorConvenienceClasses
@@ -78,7 +76,6 @@ module RubyXL
           '%02x%02x%02x' % [ r, g, b ]
         end
       end
-
     end
 
     class HlsColor
@@ -151,7 +148,6 @@ module RubyXL
 
         self
       end
-
     end
   end
 

@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 
 module RubyXL
-
   class BooleanValue < OOXMLObject
     define_attribute(:val, :bool, :required => true, :default => true)
   end
@@ -46,7 +45,6 @@ module RubyXL
     def self.default(v)
       v && self.new(:value => v.to_datetime.iso8601)
     end
-
   end
 
   # http://www.datypic.com/sc/ooxml/e-docPropsVTypes_variant.html
@@ -125,11 +123,9 @@ module RubyXL
       known_child_nodes.values.each { |v| self.size += self.send(v[:accessor]).size }
       true
     end
-
   end
 
   class VectorValue < OOXMLObject
     define_child_node(RubyXL::Vector)
   end
-
 end

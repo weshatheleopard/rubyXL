@@ -5,7 +5,6 @@ require 'rubyXL/objects/content_types'
 require 'rubyXL/objects/workbook'
 
 module RubyXL
-
   class WorkbookRoot
     @@debug = $DEBUG
 
@@ -82,5 +81,4 @@ module RubyXL
       root
     end
   end
-
 end

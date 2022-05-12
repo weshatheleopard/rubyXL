@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_cellStyle-1.html
   class CellStyle < OOXMLObject
     define_attribute(:name,          :string)
@@ -61,5 +60,4 @@ module RubyXL
     define_attribute(:formatCode, :string, :required => true)
     define_element_name 'numFmt'
   end
-
 end

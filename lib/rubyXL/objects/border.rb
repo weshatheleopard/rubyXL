@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 
 module RubyXL
-
   class BorderEdge < OOXMLObject
     define_attribute(:style, RubyXL::ST_BorderStyle, :default => 'none')
     define_child_node(RubyXL::Color)
@@ -68,7 +67,5 @@ module RubyXL
     def self.default
       self.new(:_ => [ RubyXL::Border.new ])
     end
-
   end
-
 end

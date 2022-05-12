@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_color-4.html
   class Color < OOXMLObject
     COLOR_REGEXP = /\A([a-f]|[A-F]|[0-9]){6}\Z/
@@ -23,5 +22,4 @@ module RubyXL
       end
     end
   end
-
 end

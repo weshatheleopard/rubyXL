@@ -2,7 +2,6 @@ require 'pathname'
 require 'rubyXL/objects/ooxml_object'
 
 module RubyXL
-
   class RID < OOXMLObject
     define_relationship(:required => true)
   end
@@ -16,7 +15,7 @@ module RubyXL
   end
 
   class OOXMLRelationshipsFile < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-package.relationships+xml'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-package.relationships+xml'.freeze
     SAVE_ORDER = 100
 
     define_child_node(RubyXL::Relationship, :collection => true, :accessor => :relationships)
@@ -131,12 +130,10 @@ module RubyXL
       basename = base_file_path.root? ? '' : base_file_path.basename
       base_file_path.dirname.join('_rels', "#{basename}.rels").cleanpath
     end
-
   end
 
   # +RelationshipSupport+ module enables automatic loading and saving of _rels for the respective file
   module RelationshipSupport
-
     module ClassMehods
       def define_relationship(klass, accessor = nil)
         class_variable_get(:@@ooxml_relationships)[klass] = accessor
@@ -212,7 +209,5 @@ module RubyXL
       end
       self.generic_storage << related_file
     end
-
   end
-
 end

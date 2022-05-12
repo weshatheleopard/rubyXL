@@ -1,6 +1,5 @@
 module RubyXL
   class Parser
-
     # Parse <tt>.xslx</tt> file by reading it from local disk.
     def self.parse(src_file_path)
       begin
@@ -24,6 +23,5 @@ module RubyXL
         raise e, "XLSX file format error: #{e}", e.backtrace
       end
     end
-
   end
 end

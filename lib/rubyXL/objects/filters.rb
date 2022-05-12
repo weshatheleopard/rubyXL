@@ -3,7 +3,6 @@ require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_dateGroupItem-1.html
   class DateGroupItem < OOXMLObject
     define_attribute(:year,   :int, :required => true)
@@ -116,5 +115,4 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'autoFilter'
   end
-
 end

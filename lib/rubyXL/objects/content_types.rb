@@ -1,7 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 
 module RubyXL
-
   class ContentTypeDefault < OOXMLObject
     define_attribute(:Extension,   :string)
     define_attribute(:ContentType, :string)
@@ -48,7 +47,7 @@ module RubyXL
       content_types_by_ext.each_pair { |ext, content_types_arr|
         next if ext.nil? || defaults.any? { |d| d.extension == ext }
         most_frequent_ct = content_types_arr.group_by { |ct| ct }.values.max_by(&:size).first
-        defaults << RubyXL::ContentTypeDefault.new(:extension => ext, :content_type => most_frequent_ct )
+        defaults << RubyXL::ContentTypeDefault.new(:extension => ext, :content_type => most_frequent_ct)
       }
 
       self.overrides = []
@@ -71,7 +70,5 @@ module RubyXL
 
       true
     end
-
   end
-
 end

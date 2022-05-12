@@ -544,4 +544,3 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec_junit_formatter>.freeze, ['>= 0'])
   end
 end
-

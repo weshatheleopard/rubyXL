@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/storage'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_webPublishItem-1.html
   class WebPublishingItem < OOXMLObject
     define_attribute(:id,              :int,    :required => true)
@@ -47,5 +46,4 @@ module RubyXL
     define_child_node(RubyXL::StringNode, :node_name => :firstFooter)
     define_element_name 'headerFooter'
   end
-
 end

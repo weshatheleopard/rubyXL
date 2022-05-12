@@ -208,7 +208,6 @@ module RubyXL
               end
       obj.send("#{params[:accessor]}=", val)
     end
-
   end
 
 
@@ -361,7 +360,6 @@ module RubyXL
       }
       true
     end
-
   end
 
   # Parent class for defining OOXML based objects (not unlike Rails' +ActiveRecord+!)
@@ -415,7 +413,6 @@ module RubyXL
       end
       protected :define_count_attribute
     end
-
   end
 
   # Extension class providing functionality for top-level OOXML objects that are represented by
@@ -466,7 +463,5 @@ module RubyXL
     def file_index
       root.rels_hash[self.class].index{ |f| f.equal?(self) }.to_i + 1
     end
-
   end
-
 end

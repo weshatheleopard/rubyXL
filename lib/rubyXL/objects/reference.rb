@@ -90,11 +90,9 @@ module RubyXL
       return [ -1, -1 ] unless str =~ /\A([A-Z]+)(\d+)\Z/
       [ $2.to_i - 1, $1.each_byte.inject(0) { |col, chr| col * 26 + (chr - 64) } - 1 ]
     end
-
   end
 
   class Sqref < Array
-
     def initialize(str)
       str.split.each { |ref_str| self << RubyXL::Reference.new(ref_str) }
     end
@@ -102,6 +100,5 @@ module RubyXL
     def to_s
       self.collect{ |ref| ref.to_s }.join(' ')
     end
-
   end
 end

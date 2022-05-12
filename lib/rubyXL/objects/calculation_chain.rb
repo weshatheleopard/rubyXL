@@ -15,8 +15,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_calcChain.html
   class CalculationChain < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain'.freeze
 
     define_child_node(RubyXL::CalculationChainCell, :collection => true, :accessor => :cells)
     define_child_node(RubyXL::ExtensionStorageArea)

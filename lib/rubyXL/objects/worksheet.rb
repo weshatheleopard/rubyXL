@@ -15,7 +15,6 @@ require 'rubyXL/objects/query_table'
 require 'rubyXL/worksheet'
 
 module RubyXL
-
   # Eventually, the entire code for Worksheet will be moved here. One small step at a time!
 
   # http://www.datypic.com/sc/ooxml/e-ssml_outlinePr-1.html
@@ -597,10 +596,10 @@ module RubyXL
     define_attribute(:zoomScaleNormal,          :uint, :default => 0)
     define_attribute(:zoomScaleSheetLayoutView, :uint, :default => 0)
     define_attribute(:zoomScalePageLayoutView,  :uint, :default => 0)
-    define_attribute(:workbookViewId,           :uint, :required => true, :default => 0 )
+    define_attribute(:workbookViewId,           :uint, :required => true, :default => 0)
     define_child_node(RubyXL::Pane)
     define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections)
-    define_child_node(RubyXL::PivotTableSelection, :collection => true, :accessor => :pivot_table_selections )
+    define_child_node(RubyXL::PivotTableSelection, :collection => true, :accessor => :pivot_table_selections)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetView'
   end
@@ -614,8 +613,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_worksheet.html
   class Worksheet < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet'.freeze
 
     include RubyXL::RelationshipSupport
 
@@ -754,5 +753,4 @@ module RubyXL
 
     include LegacyWorksheet
   end
-
 end

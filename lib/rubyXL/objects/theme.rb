@@ -3,7 +3,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-a_ext-1.html
   class AExtension < OOXMLObject
     define_attribute(:uri, :string)
@@ -19,7 +18,6 @@ module RubyXL
     def write_xml(xml, node_name_override = nil)
       self.raw_xml
     end
-
   end
 
   class AExtensionStorageArea < OOXMLObject
@@ -1373,8 +1371,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-a_theme.html
   class Theme < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.theme+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.theme+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme'.freeze
 
     define_attribute(:name, :string, :default => '')
     define_child_node(RubyXL::ThemeElements)
@@ -1729,7 +1727,5 @@ module RubyXL
 </a:theme>'
       self.parse(default_theme)
     end
-
   end
-
 end

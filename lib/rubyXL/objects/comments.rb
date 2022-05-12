@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_comment-1.html
   class Comment < OOXMLObject
     define_child_node(RubyXL::RichText, :node_name => 'text')
@@ -28,7 +27,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_comments.html
   class CommentsFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments'.freeze
 
     define_child_node(RubyXL::Authors)
     define_child_node(RubyXL::CommentList)
@@ -41,7 +40,5 @@ module RubyXL
     def xlsx_path
       ROOT.join('xl', "comments#{file_index}.xml")
     end
-
   end
-
 end

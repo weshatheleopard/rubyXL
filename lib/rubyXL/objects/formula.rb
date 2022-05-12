@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_f-1.html
   class Formula < OOXMLObject
     define_attribute(:_,    :string, :accessor => :expression)
@@ -20,5 +19,4 @@ module RubyXL
     define_attribute(:bx,   :bool, :default => false)
     define_element_name 'f'
   end
-
 end

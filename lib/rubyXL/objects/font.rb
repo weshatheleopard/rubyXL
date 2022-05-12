@@ -3,7 +3,6 @@ require 'rubyXL/objects/container_nodes'
 require 'rubyXL/objects/color'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_font-1.html
   class Font < OOXMLObject
     # Since we have no capability to load the actual fonts, we'll have to live with the default.
@@ -28,7 +27,7 @@ module RubyXL
 
     def self.default(size = 10)
       self.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-               :sz   => RubyXL::FloatValue.new(:val => size) )
+               :sz   => RubyXL::FloatValue.new(:val => size))
     end
   end
 
@@ -41,5 +40,4 @@ module RubyXL
       self.new(:_ => [ RubyXL::Font.default(10), RubyXL::Font.default(8) ])
     end
   end
-
 end

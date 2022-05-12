@@ -1,7 +1,6 @@
 require 'rubyXL/objects/ooxml_object'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_ext-1.html
   class RawOOXML < OOXMLObject
     attr_accessor :raw_xml
@@ -49,5 +48,4 @@ module RubyXL
   class RevisionPointer < OOXMLIgnored
     define_element_name 'xr:revisionPtr'
   end
-
 end

@@ -4,7 +4,6 @@ require 'rubyXL/objects/container_nodes'
 require 'rubyXL/objects/color'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_t-1.html
   class Text < OOXMLObject
     define_attribute(:_,           :string, :accessor => :value)
@@ -57,7 +56,6 @@ module RubyXL
     def to_s
       t.to_s
     end
-
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_rPh-1.html
@@ -91,5 +89,4 @@ module RubyXL
       str
     end
   end
-
 end

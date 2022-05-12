@@ -6,7 +6,6 @@ require 'rubyXL/objects/border'
 require 'rubyXL/objects/extensions'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_numFmt-1.html
   class NumberFormat < OOXMLObject
     define_attribute(:numFmtId,   :int,    :required => true)
@@ -17,7 +16,6 @@ module RubyXL
       #             v-------- Toss all the escaped chars -------v v--- and see if any date-related remained
       !!(format_code.gsub(/(\"[^\"]*\"|\[[^\]]*\]|[\\_*].)/i, '') =~ /[dmyhs]/i)
     end
-
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_numFmts-1.html
@@ -63,7 +61,6 @@ module RubyXL
     def find_by_format_id(format_id)
       self.find { |fmt| fmt.num_fmt_id == format_id }
     end
-
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_cellStyleXfs-1.html
@@ -159,8 +156,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_styleSheet.html
   class Stylesheet < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles'.freeze
 
     define_child_node(RubyXL::NumberFormats, :accessor => :number_formats)
     define_child_node(RubyXL::Fonts)
@@ -224,7 +221,5 @@ module RubyXL
 
       return max_fmt_id
     end
-
   end
-
 end

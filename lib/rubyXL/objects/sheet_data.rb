@@ -5,7 +5,6 @@ require 'rubyXL/objects/formula'
 require 'rubyXL/cell'
 
 module RubyXL
-
   # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.cellvalues(v=office.14).aspx
   module DataType
     SHARED_STRING = 's'
@@ -35,7 +34,7 @@ module RubyXL
 
     define_attribute(:r,   :ref)
     define_attribute(:s,   :int,  :default => 0, :accessor => :style_index)
-    define_attribute(:t,   RubyXL::ST_CellType,  :accessor => :datatype, :default => 'n' )
+    define_attribute(:t,   RubyXL::ST_CellType,  :accessor => :datatype, :default => 'n')
     define_attribute(:cm,  :int,  :default => 0)
     define_attribute(:vm,  :int,  :default => 0)
     define_attribute(:ph,  :bool, :default => false)
@@ -216,7 +215,5 @@ module RubyXL
     def size
       rows.size
     end
-
   end
-
 end

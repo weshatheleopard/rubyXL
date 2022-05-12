@@ -1,5 +1,4 @@
 module RubyXL
-
   module WorksheetConvenienceMethods
     NAME = 0
     SIZE = 1

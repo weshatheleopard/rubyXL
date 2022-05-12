@@ -3,7 +3,6 @@ require 'rubyXL/objects/simple_types'
 require 'rubyXL/objects/formula'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_dataValidation-1.html
   class DataValidation < OOXMLObject
     define_attribute(:type,             RubyXL::ST_DataValidationType,       :default => 'none')
@@ -35,5 +34,4 @@ module RubyXL
     define_child_node(RubyXL::DataValidation, :collection => :with_count)
     define_element_name 'dataValidations'
   end
-
 end

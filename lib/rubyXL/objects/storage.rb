@@ -1,5 +1,4 @@
 module RubyXL
-
   class GenericStorageObject
     SAVE_ORDER = 0
 
@@ -24,18 +23,18 @@ module RubyXL
   end
 
   class PrinterSettingsFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings'.freeze
   end
 
   class CustomPropertyFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.customProperty'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customProperty'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.customProperty'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customProperty'.freeze
   end
 
   class DrawingFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawing+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing'.freeze
 
     include RubyXL::RelationshipSupport
 
@@ -46,12 +45,11 @@ module RubyXL
       else store_relationship(rf, :unknown)
       end
     end
-
   end
 
   class ChartFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart'.freeze
 
     include RubyXL::RelationshipSupport
 
@@ -63,18 +61,17 @@ module RubyXL
       else store_relationship(rf, :unknown)
       end
     end
-
   end
 
   class BinaryImageFile < GenericStorageObject
-    CONTENT_TYPE = 'image/jpeg'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
+    CONTENT_TYPE = 'image/jpeg'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'.freeze
   end
 
   class VMLDrawingFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.vmlDrawing'
-#    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'
-    REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.vmlDrawing'.freeze
+#    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'.freeze
+    REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'.freeze
 
     include RubyXL::RelationshipSupport
 
@@ -82,33 +79,33 @@ module RubyXL
   end
 
   class ChartColorsFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.ms-office.chartcolorstyle+xml'
-    REL_TYPE     = 'http://schemas.microsoft.com/office/2011/relationships/chartColorStyle'
+    CONTENT_TYPE = 'application/vnd.ms-office.chartcolorstyle+xml'.freeze
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2011/relationships/chartColorStyle'.freeze
   end
 
   class ChartStyleFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.ms-office.chartstyle+xml'
-    REL_TYPE     = 'http://schemas.microsoft.com/office/2011/relationships/chartStyle'
+    CONTENT_TYPE = 'application/vnd.ms-office.chartstyle+xml'.freeze
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2011/relationships/chartStyle'.freeze
   end
 
   class TableFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/table'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/table'.freeze
   end
 
   class ControlPropertiesFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.ms-excel.controlproperties+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/ctrlProp'
+    CONTENT_TYPE = 'application/vnd.ms-excel.controlproperties+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/ctrlProp'.freeze
   end
 
   class PivotCacheRecordsFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheRecords+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheRecords'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheRecords+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheRecords'.freeze
   end
 
   class PivotCacheDefinitionFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheDefinition+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheDefinition'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheDefinition+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotCacheDefinition'.freeze
 
     include RubyXL::RelationshipSupport
 
@@ -116,8 +113,8 @@ module RubyXL
   end
 
   class PivotTableFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotTable+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.pivotTable+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable'.freeze
 
     include RubyXL::RelationshipSupport
 
@@ -125,55 +122,55 @@ module RubyXL
   end
 
   class HyperlinkRelFile < GenericStorageObject
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink'.freeze
   end
 
   class ThumbnailFile < GenericStorageObject
-    REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'
-    CONTENT_TYPE = 'image/x-wmf'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail'.freeze
+    CONTENT_TYPE = 'image/x-wmf'.freeze
   end
 
   class ChartUserShapesFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartUserShapes'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartUserShapes'.freeze
   end
 
   class CustomPropertiesFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.custom-properties+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.custom-properties+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties'.freeze
   end
 
   class MacrosFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.ms-office.vbaProject'
-    REL_TYPE     = 'http://schemas.microsoft.com/office/2006/relationships/vbaProject'
+    CONTENT_TYPE = 'application/vnd.ms-office.vbaProject'.freeze
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2006/relationships/vbaProject'.freeze
   end
 
   class CustomXMLFile < GenericStorageObject
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml'.freeze
   end
 
   class SlicerFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.ms-excel.slicer+xml'
-    REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicer'
+    CONTENT_TYPE = 'application/vnd.ms-excel.slicer+xml'.freeze
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicer'.freeze
   end
 
   class SlicerCacheFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.ms-excel.slicerCache+xml'
-    REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicerCache'
+    CONTENT_TYPE = 'application/vnd.ms-excel.slicerCache+xml'.freeze
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2007/relationships/slicerCache'.freeze
   end
 
   class OLEObjectFile < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.oleObject'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/oleObject'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.oleObject'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/oleObject'.freeze
   end
 
   class SheetMetadata < GenericStorageObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheetMetadata+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheetMetadata+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata'.freeze
   end
 
   class ActiveX < GenericStorageObject
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/control'
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/control'.freeze
 
     include RubyXL::RelationshipSupport
 
@@ -183,11 +180,9 @@ module RubyXL
       else store_relationship(rf, :unknown)
       end
     end
-
   end
 
   class ActiveXBinary < GenericStorageObject
-    REL_TYPE = 'http://schemas.microsoft.com/office/2006/relationships/activeXControlBinary'
+    REL_TYPE = 'http://schemas.microsoft.com/office/2006/relationships/activeXControlBinary'.freeze
   end
-
 end

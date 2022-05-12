@@ -9,5 +9,4 @@ module RubyXL
     return path unless path.absolute?
     path.relative_path_from(OOXMLTopLevelObject::ROOT)
   end
-
 end

@@ -2,7 +2,6 @@ require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_stop-1.html
   class Stop < OOXMLObject
     define_attribute(:position, :double, :required => true)
@@ -13,8 +12,8 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_patternFill-1.html
   class PatternFill < OOXMLObject
     define_attribute(:patternType, RubyXL::ST_PatternType)
-    define_child_node(RubyXL::Color, :node_name => :fgColor )
-    define_child_node(RubyXL::Color, :node_name => :bgColor )
+    define_child_node(RubyXL::Color, :node_name => :fgColor)
+    define_child_node(RubyXL::Color, :node_name => :bgColor)
     define_element_name 'patternFill'
   end
 
@@ -39,7 +38,6 @@ module RubyXL
     def self.default(pattern_type)
       self.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => pattern_type))
     end
-
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_fills-1.html
@@ -51,5 +49,4 @@ module RubyXL
       self.new(:_ => [ RubyXL::Fill.default('none'), RubyXL::Fill.default('gray125') ])
     end
   end
-
 end

@@ -5,7 +5,6 @@ require 'rubyXL/objects/relationships'
 require 'rubyXL/objects/sheet_common'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetProtection-4.html
   class ChartsheetProtection < OOXMLObject
     define_attribute(:password, RubyXL::ST_UnsignedShortHex)
@@ -42,7 +41,7 @@ module RubyXL
   class ChartsheetView < OOXMLObject
     define_attribute(:tabSelected,    :bool,  :default => false)
     define_attribute(:zoomScale,      :int,   :default => 100)
-    define_attribute(:workbookViewId, :int,   :required => true, :default => 0 )
+    define_attribute(:workbookViewId, :int,   :required => true, :default => 0)
     define_attribute(:zoomToFit,      :bool,  :default => false)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetView'
@@ -57,8 +56,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_chartsheet.html
   class Chartsheet < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartsheet'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/chartsheet'.freeze
 
     include RubyXL::RelationshipSupport
     define_relationship(RubyXL::DrawingFile)
@@ -86,7 +85,5 @@ module RubyXL
     def xlsx_path
       ROOT.join('xl', 'chartsheets', "sheet#{file_index}.xml")
     end
-
   end
-
 end

@@ -159,8 +159,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_connections.html
   class Connections < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/connections'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/connections'.freeze
 
     define_child_node(RubyXL::Connection, :collection => true, :accessor => :connections)
 

@@ -3,11 +3,10 @@ require 'rubyXL/objects/container_nodes'
 require 'time'
 
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-extended-properties_Properties.html
   class DocumentPropertiesFile < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.extended-properties+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.extended-properties+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties'.freeze
 
     attr_accessor :workbook
 
@@ -84,13 +83,12 @@ module RubyXL
     def xlsx_path
       ROOT.join('docProps', 'app.xml')
     end
-
   end
 
 
   class CorePropertiesFile < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-package.core-properties+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-package.core-properties+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'.freeze
 
     attr_accessor :workbook
 
@@ -153,7 +151,5 @@ module RubyXL
     def modified_at=(v)
       self.dcterms_modified = RubyXL::StringNodeW3C.default(v)
     end
-
   end
-
 end

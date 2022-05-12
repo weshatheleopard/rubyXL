@@ -62,8 +62,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_queryTable.html
   class QueryTable < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.queryTable+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/queryTable'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.queryTable+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/queryTable'.freeze
 
     include RubyXL::RelationshipSupport
 

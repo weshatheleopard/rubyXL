@@ -1,5 +1,4 @@
 module RubyXL
-
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetName-1.html
   class SheetName < OOXMLObject
     define_attribute(:val, :string)
@@ -89,8 +88,8 @@ module RubyXL
   end
 
   class ExternalLinksFile < OOXMLTopLevelObject
-    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'
+    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'.freeze
+    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'.freeze
 
     include RubyXL::RelationshipSupport
     define_child_node(RubyXL::ExternalBook)
@@ -105,5 +104,4 @@ module RubyXL
       ROOT.join('xl', 'externalLinks', "externalLink#{file_index}.xml")
     end
   end
-
 end

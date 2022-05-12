@@ -1,5 +1,4 @@
 module RubyXL
-
   module LegacyCell
     def workbook
       @worksheet.workbook
@@ -24,6 +23,5 @@ module RubyXL
       return if @worksheet && @worksheet[row] && @worksheet[row][column].equal?(self)
       raise "Cell #{self} is not in worksheet #{worksheet}"
     end
-
   end
 end

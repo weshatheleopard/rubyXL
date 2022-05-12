@@ -1,6 +1,5 @@
 module RubyXL
   module CellConvenienceMethods
-
     def change_contents(data, formula_expression = nil)
       validate_worksheet
 
@@ -273,7 +272,6 @@ module RubyXL
       self.raw_value = @workbook.shared_strings_container.add(str)
     end
 =end
-
   end
 
   RubyXL::Cell.send(:include, RubyXL::CellConvenienceMethods) # ruby 2.1 compat
