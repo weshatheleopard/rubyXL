@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe RubyXL::NumberFormat do
-
   describe '.is_date_format?' do
     it 'should return true if number format = dd// yy// mm' do
       expect(RubyXL::NumberFormat.new(:num_fmt_id => 1, :format_code => 'dd// yy// mm').is_date_format?()).to eq(true)
@@ -22,7 +21,5 @@ describe RubyXL::NumberFormat do
       id_list = all_formats.collect { |fmt| fmt.num_fmt_id if fmt.is_date_format? }.compact.sort
       expect(id_list).to eq([14, 15, 16, 17, 18, 19, 20, 21, 22, 45, 46, 47])
     end
-
   end
-
 end

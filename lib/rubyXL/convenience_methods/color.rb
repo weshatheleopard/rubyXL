@@ -60,7 +60,7 @@ module RubyXL
       end
 
       def self.parse(str)
-        r, g, b, a = str.unpack("A2A2A2A2")
+        r, g, b, a = str.unpack('A2A2A2A2')
 
         rgb_color = RgbColor.new
         rgb_color.r = r && r.to_i(16)
@@ -73,9 +73,9 @@ module RubyXL
 
       def to_s
         if a && a != 0 then
-          "%02x%02x%02x%02x" % [ r, g, b, a ]
+          '%02x%02x%02x%02x' % [ r, g, b, a ]
         else
-          "%02x%02x%02x" % [ r, g, b ]
+          '%02x%02x%02x' % [ r, g, b ]
         end
       end
 

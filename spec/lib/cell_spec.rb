@@ -4,7 +4,6 @@ require 'rubyXL/convenience_methods/font'
 require 'rubyXL/convenience_methods/cell'
 
 describe RubyXL::Cell do
-
   before do
     @workbook  = RubyXL::Workbook.new
     @worksheet = @workbook.add_worksheet('Test Worksheet')
@@ -55,13 +54,13 @@ describe RubyXL::Cell do
       # Due to rounding errors, we allow microsecond precision on Time.
       expect(cell.value - tm.to_datetime).to be_within(1.0/86400e6).of(0)
 
-      expected_date = "2020-10-15T14:00:00Z"
+      expected_date = '2020-10-15T14:00:00Z'
       expected_datetime = Time.parse(expected_date).utc
-      raw_value = "44119.583333333328" # Obtained from parsing a xlsx file with the expected date
+      raw_value = '44119.583333333328' # Obtained from parsing a xlsx file with the expected date
       cell = @worksheet.add_cell(r, c, Time.now) # Force a date cell type
       cell.set_number_format('ddd mmm dd, yyyy HH:MM:SS')
       cell.raw_value = raw_value
-      expect(cell.raw_value).to eq(raw_value), "Wrong raw value"
+      expect(cell.raw_value).to eq(raw_value), 'Wrong raw value'
       cell.set_number_format('ddd mmm dd, yyyy HH:MM:SS')
 
       # We expect exactly the same date
@@ -190,7 +189,7 @@ describe RubyXL::Cell do
       expect(@cell.text_indent).to eq(2)
     end
 
-    it "should not cause other cells with the same style to have text indent" do
+    it 'should not cause other cells with the same style to have text indent' do
       another_cell = @worksheet[1][0]
       another_cell.style_index = @cell.style_index
       expect(another_cell.text_indent).to be_nil
@@ -285,7 +284,7 @@ describe RubyXL::Cell do
       expect(cell.value).to eq('Hello')
     end
 
-    it "should properly handle numeric values" do
+    it 'should properly handle numeric values' do
       @cell.datatype = nil
       @cell.raw_value = '1'
       expect(@cell.value).to eq(1)
@@ -600,5 +599,4 @@ describe RubyXL::Cell do
       expect(@cell.text_rotation).to eq(45)
     end
   end
-
 end

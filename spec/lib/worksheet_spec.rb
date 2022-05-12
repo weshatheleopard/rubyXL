@@ -70,7 +70,7 @@ describe RubyXL::Worksheet do
       expect(@worksheet.sheet_data[11]).to be_nil
       @worksheet.change_row_font_name(11, 'Arial')
       expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
-      expect(@worksheet.get_row_font_name(11)).to eq("Arial")
+      expect(@worksheet.get_row_font_name(11)).to eq('Arial')
     end
   end
 
@@ -89,13 +89,13 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.change_row_font_size(-1,20)
+        @worksheet.change_row_font_size(-1, 20)
       }.to raise_error(RuntimeError)
     end
 
     it 'should create a new row if it did not exist before' do
       expect(@worksheet.sheet_data[11]).to be_nil
-      @worksheet.change_row_font_size(11,20)
+      @worksheet.change_row_font_size(11, 20)
       expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.get_row_font_size(11)).to eq(20)
     end
@@ -149,7 +149,7 @@ describe RubyXL::Worksheet do
 
     it 'should create a new row if it did not exist before' do
       expect(@worksheet.sheet_data[11]).to be_nil
-      @worksheet.change_row_italics(11,true)
+      @worksheet.change_row_italics(11, true)
       expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.is_row_italicized(11)).to eq(true)
     end
@@ -191,7 +191,7 @@ describe RubyXL::Worksheet do
 
     it 'should create a new row if it did not exist before' do
       expect(@worksheet.sheet_data[11]).to be_nil
-      @worksheet.change_row_underline(11,true)
+      @worksheet.change_row_underline(11, true)
       expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.is_row_underlined(11)).to eq(true)
     end
@@ -212,7 +212,7 @@ describe RubyXL::Worksheet do
 
     it 'should create a new row if it did not exist before' do
       expect(@worksheet.sheet_data[11]).to be_nil
-      @worksheet.change_row_strikethrough(11,true)
+      @worksheet.change_row_strikethrough(11, true)
       expect(@worksheet.sheet_data[11]).to be_a(RubyXL::Row)
       expect(@worksheet.is_row_struckthrough(11)).to eq(true)
     end
@@ -220,7 +220,7 @@ describe RubyXL::Worksheet do
 
   describe '.change_row_height' do
     it 'should make row height match number which is passed' do
-      @worksheet.change_row_height(0,30.0002)
+      @worksheet.change_row_height(0, 30.0002)
       expect(@worksheet.get_row_height(0)).to eq(30.0002)
     end
 
@@ -286,7 +286,6 @@ describe RubyXL::Worksheet do
   end
 
   describe '.change_row_border' do
-
     it 'should cause error if a negative argument is passed in' do
       expect {
         @worksheet.change_row_border(-1, :left, 'thin')
@@ -566,25 +565,25 @@ describe RubyXL::Worksheet do
   describe '.merge_cells' do
     it 'should merge cells in any valid range specified by indices' do
       @worksheet.merge_cells(0, 0, 1, 1)
-      expect(@worksheet.merged_cells.collect{ |r| r.ref.to_s }).to eq(["A1:B2"])
+      expect(@worksheet.merged_cells.collect{ |r| r.ref.to_s }).to eq(['A1:B2'])
     end
   end
 
   describe '.add_cell' do
     it 'should add new cell where specified, even if a cell is already there (default)' do
-      @worksheet.add_cell(0,0, 'TEST')
+      @worksheet.add_cell(0, 0, 'TEST')
       expect(@worksheet[0][0].value).not_to eq(@old_cell_value)
       expect(@worksheet[0][0].value).to eq('TEST')
     end
 
     it 'should add a new cell below nil rows that might exist' do
       @worksheet.sheet_data.rows << nil << nil
-      @worksheet.add_cell(15,0, 'TEST')
+      @worksheet.add_cell(15, 0, 'TEST')
       expect(@worksheet[15][0].value).to eq('TEST')
     end
 
     it 'should add new cell where specified with formula, even if a cell is already there (default)' do
-      @worksheet.add_cell(0,0, '', 'SUM(A2:A10)')
+      @worksheet.add_cell(0, 0, '', 'SUM(A2:A10)')
       expect(@worksheet[0][0].value).not_to eq(@old_cell_value)
       expect(@worksheet[0][0].formula).not_to eq(@old_cell_formula)
       expect(@worksheet[0][0].value).to eq('')
@@ -592,20 +591,20 @@ describe RubyXL::Worksheet do
     end
 
     it 'should not overwrite when a cell is present when overwrite is specified to be false' do
-      @worksheet.add_cell(0,0, 'TEST', 'B2',false)
+      @worksheet.add_cell(0, 0, 'TEST', 'B2', false)
       expect(@worksheet[0][0].value).to eq(@old_cell_value)
       expect(@worksheet[0][0].formula.expression.to_s).to eq(@old_cell_formula)
     end
 
     it 'should still add a new cell when there is no cell to be overwritten' do
-      @worksheet.add_cell(11,11, 'TEST', 'B2',false)
+      @worksheet.add_cell(11, 11, 'TEST', 'B2', false)
       expect(@worksheet[11][11].value).to eq('TEST')
       expect(@worksheet[11][11].formula.expression).to eq('B2')
     end
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.add_cell(-1,-1, '')
+        @worksheet.add_cell(-1, -1, '')
       }.to raise_error(RuntimeError)
     end
   end
@@ -613,16 +612,16 @@ describe RubyXL::Worksheet do
   describe '.delete_row' do
     it 'should delete a row at index specified, "pushing" everything else "up"' do
       @worksheet.delete_row(0)
-      expect(@worksheet[0][0].value).to eq("1:0")
-      expect(@worksheet[0][0].formula.expression.to_s).to eq("F1:0")
+      expect(@worksheet[0][0].value).to eq('1:0')
+      expect(@worksheet[0][0].formula.expression.to_s).to eq('F1:0')
       expect(@worksheet[0][0].row).to eq(0)
       expect(@worksheet[0][0].column).to eq(0)
     end
 
     it 'should delete a row at index specified, adjusting styles for other rows' do
-      @worksheet.change_row_font_name(1,"Courier")
+      @worksheet.change_row_font_name(1, 'Courier')
       @worksheet.delete_row(0)
-      expect(@worksheet.get_row_font_name(0)).to eq("Courier")
+      expect(@worksheet.get_row_font_name(0)).to eq('Courier')
     end
 
     it 'should preserve (rather than fix) formulas that reference cells in "pushed up" rows' do
@@ -662,7 +661,7 @@ describe RubyXL::Worksheet do
         before do
           @worksheet.merge_cells(1, 1, 1, 3)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D2"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D2'
         end
         it 'should delete merged cell' do
           @worksheet.delete_row(1)
@@ -677,7 +676,7 @@ describe RubyXL::Worksheet do
         before do
           @worksheet.merge_cells(1, 1, 2, 1)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:B3"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:B3'
         end
         it 'should delete merged cell' do
           @worksheet.delete_row(1)
@@ -694,7 +693,7 @@ describe RubyXL::Worksheet do
         before do
           @worksheet.merge_cells(1, 1, 3, 3)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D4'
         end
 
         # | A2 |              | E2 |
@@ -704,7 +703,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete above the cell' do
           @worksheet.delete_row(0)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B1:D3"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B1:D3'
         end
 
         # | A1 | B1 | C1 | D1 | E1 |
@@ -714,7 +713,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete top of the cell' do
           @worksheet.delete_row(1)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D3'
         end
 
         # | A1 | B1 | C1 | D1 | E1 |
@@ -724,7 +723,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete middle of the cell' do
           @worksheet.delete_row(2)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D3'
         end
 
         # | A1 | B1 | C1 | D1 | E1 |
@@ -734,7 +733,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete bottom of the cell' do
           @worksheet.delete_row(3)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D3'
         end
 
         # | A1 | B1 | C1 | D1 | E1 |
@@ -744,7 +743,7 @@ describe RubyXL::Worksheet do
         it 'should not updates merged cell when ldelete below the cell' do
           @worksheet.delete_row(4)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D4'
         end
       end
     end
@@ -781,7 +780,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should preserve (rather than fix) formulas that reference cells "pushed down" rows' do
-      @worksheet.add_cell(5,0,nil, 'SUM(A1:A4)')
+      @worksheet.add_cell(5, 0, nil, 'SUM(A1:A4)')
       @worksheet.insert_row(0)
       expect(@worksheet[6][0].formula.expression).to eq('SUM(A1:A4)')
     end
@@ -823,7 +822,7 @@ describe RubyXL::Worksheet do
       before do
         @worksheet.merge_cells(1, 1, 2, 2)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C3'
       end
 
       # | A1 | B1 | C1 | D1 |
@@ -834,7 +833,7 @@ describe RubyXL::Worksheet do
       it 'should updates merged cell when insert above the cell' do
         @worksheet.insert_row(1)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B3:C4"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B3:C4'
       end
 
       # | A1 | B1 | C1 | D1 |
@@ -845,7 +844,7 @@ describe RubyXL::Worksheet do
       it 'should updates merged cell when insert into the cell' do
         @worksheet.insert_row(2)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C4'
       end
 
       # | A1 | B1 | C1 | D1 |
@@ -856,7 +855,7 @@ describe RubyXL::Worksheet do
       it 'should not updates merged cell when insert below the cell' do
         @worksheet.insert_row(3)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C3'
       end
     end
 
@@ -870,19 +869,19 @@ describe RubyXL::Worksheet do
   describe '.delete_column' do
     it 'should delete a column at index specified, "pushing" everything else "left"' do
       @worksheet.delete_column(0)
-      expect(@worksheet[0][0].value).to eq("0:1")
-      expect(@worksheet[0][0].formula.expression.to_s).to eq("F0:1")
+      expect(@worksheet[0][0].value).to eq('0:1')
+      expect(@worksheet[0][0].formula.expression.to_s).to eq('F0:1')
       expect(@worksheet[0][0].row).to eq(0)
     end
 
     it 'should delete a column at index specified, "pushing" styles "left"' do
-      @worksheet.change_column_font_name(1,"Courier")
+      @worksheet.change_column_font_name(1, 'Courier')
       @worksheet.delete_column(0)
-      expect(@worksheet.get_column_font_name(0)).to eq("Courier")
+      expect(@worksheet.get_column_font_name(0)).to eq('Courier')
     end
 
     it 'should preserve (rather than fix) formulas that reference cells in "pushed left" columns' do
-      @worksheet.add_cell(0,4,nil, 'SUM(A1:D1)')
+      @worksheet.add_cell(0, 4, nil, 'SUM(A1:D1)')
       @worksheet.delete_column(0)
       expect(@worksheet[0][3].formula.expression).to eq('SUM(A1:D1)')
     end
@@ -939,7 +938,7 @@ describe RubyXL::Worksheet do
         before do
           @worksheet.merge_cells(1, 1, 3, 1)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:B4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:B4'
         end
         it 'should delete merged cell' do
           @worksheet.delete_column(1)
@@ -953,7 +952,7 @@ describe RubyXL::Worksheet do
         before do
           @worksheet.merge_cells(1, 1, 1, 2)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C2"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C2'
         end
         it 'should delete merged cell' do
           @worksheet.delete_column(1)
@@ -969,7 +968,7 @@ describe RubyXL::Worksheet do
         before do
           @worksheet.merge_cells(1, 1, 3, 3)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D4'
         end
         # | B1 | C1 | D1 | E1 |
         # |              | E2 |
@@ -979,7 +978,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete before the cell' do
           @worksheet.delete_column(0)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "A2:C4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'A2:C4'
         end
         # | A1 | C1 | D1 | E1 |
         # | A2 |         | E2 |
@@ -989,7 +988,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete left of the cell' do
           @worksheet.delete_column(1)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C4'
         end
         # | A1 | B1 | D1 | E1 |
         # | A2 |         | E2 |
@@ -999,7 +998,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete center of the cell' do
           @worksheet.delete_column(2)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C4'
         end
         # | A1 | B1 | C1 | E1 |
         # | A2 |         | E2 |
@@ -1009,7 +1008,7 @@ describe RubyXL::Worksheet do
         it 'should updates merged cell when delete right of the cell' do
           @worksheet.delete_column(3)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C4'
         end
         # | A1 | B1 | C1 | D1 |
         # | A2 |              |
@@ -1019,7 +1018,7 @@ describe RubyXL::Worksheet do
         it 'should not updates merged cell when delete after the cell' do
           @worksheet.delete_column(4)
           expect(@worksheet.merged_cells.size).to eq 1
-          expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D4"
+          expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D4'
         end
       end
     end
@@ -1052,7 +1051,7 @@ describe RubyXL::Worksheet do
     end
 
     it 'should preserve (rather than fix) formulas that reference cells in "pushed right" column' do
-      @worksheet.add_cell(0,5,nil, 'SUM(A1:D1)')
+      @worksheet.add_cell(0, 5, nil, 'SUM(A1:D1)')
       @worksheet.insert_column(0)
       expect(@worksheet[0][6].formula.expression).to eq('SUM(A1:D1)')
     end
@@ -1096,7 +1095,7 @@ describe RubyXL::Worksheet do
       before do
         @worksheet.merge_cells(1, 1, 2, 2)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C3'
       end
 
       # | A1 |    | B1 | C1 | D1 |
@@ -1106,7 +1105,7 @@ describe RubyXL::Worksheet do
       it 'should updates merged cell when insert before the cell' do
         @worksheet.insert_column(1)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "C2:D3"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'C2:D3'
       end
 
       # | A1 | B1 |    | C1 | D1 |
@@ -1116,7 +1115,7 @@ describe RubyXL::Worksheet do
       it 'should updates merged cell when insert into the cell' do
         @worksheet.insert_column(2)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:D3"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:D3'
       end
 
       # | A1 | B1 | C1 |    | D1 |
@@ -1126,7 +1125,7 @@ describe RubyXL::Worksheet do
       it 'should not updates merged cell when insert after the cell' do
         @worksheet.insert_column(3)
         expect(@worksheet.merged_cells.size).to eq 1
-        expect(@worksheet.merged_cells.first.ref.to_s).to eq "B2:C3"
+        expect(@worksheet.merged_cells.first.ref.to_s).to eq 'B2:C3'
       end
     end
 
@@ -1139,7 +1138,7 @@ describe RubyXL::Worksheet do
 
   describe '.insert_cell' do
     it 'should simply add a cell if no shift argument is specified' do
-      @worksheet.insert_cell(0,0, 'test')
+      @worksheet.insert_cell(0, 0, 'test')
       expect(@worksheet[0][0].value).to eq('test')
       expect(@worksheet[0][1].value).to eq('0:1')
       expect(@worksheet[1][0].value).to eq('1:0')
@@ -1203,7 +1202,7 @@ describe RubyXL::Worksheet do
 
     it 'should cause error if a negative argument is passed in' do
       expect {
-        @worksheet.delete_cell(-1,-1)
+        @worksheet.delete_cell(-1, -1)
       }.to raise_error(RuntimeError)
     end
 
@@ -1224,13 +1223,13 @@ describe RubyXL::Worksheet do
     end
 
     it 'should shift cells below the deleted cell up if :up is specified' do
-      @worksheet.delete_cell(0,0,:up)
+      @worksheet.delete_cell(0, 0, :up)
       expect(@worksheet[0][0].value).to eq('1:0')
     end
 
     it 'should cause en error if an argument other than :left, :up, or nil is specified for shift' do
       expect {
-        @worksheet.delete_cell(0,0,:down)
+        @worksheet.delete_cell(0, 0, :down)
       }.to raise_error(RuntimeError)
     end
   end
@@ -1263,7 +1262,7 @@ describe RubyXL::Worksheet do
 
   describe '.get_row_font_size' do
     it 'should correctly reflect font size for row' do
-      @worksheet.change_row_font_size(0,30)
+      @worksheet.change_row_font_size(0, 30)
       expect(@worksheet.get_row_font_size(0)).to eq(30)
     end
 
@@ -1410,8 +1409,8 @@ describe RubyXL::Worksheet do
 
   describe '.get_column_font_size' do
     it 'should correctly reflect font size for column' do
-      @worksheet.change_column_font_size(0,30)
-     expect(@worksheet.get_column_font_size(0)).to eq(30)
+      @worksheet.change_column_font_size(0, 30)
+      expect(@worksheet.get_column_font_size(0)).to eq(30)
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1428,7 +1427,7 @@ describe RubyXL::Worksheet do
   describe '.get_column_font_color' do
     it 'should correctly reflect font color for column' do
       @worksheet.change_column_font_color(0, '0f0f0f')
-     expect(@worksheet.get_column_font_color(0)).to eq('0f0f0f')
+      expect(@worksheet.get_column_font_color(0)).to eq('0f0f0f')
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1449,7 +1448,7 @@ describe RubyXL::Worksheet do
   describe '.is_column_italicized' do
     it 'should correctly return whether column is italicized' do
       @worksheet.change_column_italics(0, true)
-     expect(@worksheet.is_column_italicized(0)).to eq(true)
+      expect(@worksheet.is_column_italicized(0)).to eq(true)
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1466,7 +1465,7 @@ describe RubyXL::Worksheet do
   describe '.is_column_bolded' do
     it 'should correctly return whether column is bolded' do
       @worksheet.change_column_bold(0, true)
-     expect(@worksheet.is_column_bolded(0)).to eq(true)
+      expect(@worksheet.is_column_bolded(0)).to eq(true)
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1483,7 +1482,7 @@ describe RubyXL::Worksheet do
   describe '.is_column_underlined' do
     it 'should correctly return whether column is underlined' do
       @worksheet.change_column_underline(0, true)
-     expect(@worksheet.is_column_underlined(0)).to eq(true)
+      expect(@worksheet.is_column_underlined(0)).to eq(true)
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1500,7 +1499,7 @@ describe RubyXL::Worksheet do
   describe '.is_column_struckthrough' do
     it 'should correctly return whether column is struckthrough' do
       @worksheet.change_column_strikethrough(0, true)
-     expect(@worksheet.is_column_struckthrough(0)).to eq(true)
+      expect(@worksheet.is_column_struckthrough(0)).to eq(true)
     end
 
     it 'should cause error if a negative argument is passed in' do
@@ -1563,7 +1562,7 @@ describe RubyXL::Worksheet do
 
     it 'should correctly reflect fill color if specified for column' do
       @worksheet.change_column_fill(0, '000000')
-     expect(@worksheet.get_column_fill(0)).to eq('000000')
+      expect(@worksheet.get_column_fill(0)).to eq('000000')
     end
 
     it 'should return nil if a column which does not exist is passed in' do
@@ -1707,9 +1706,6 @@ describe RubyXL::Worksheet do
       r = @worksheet.cols.locate_range(6)
       expect(r.min).to eq(6)
       expect(r.max).to eq(8)
-
     end
-
   end
-
 end

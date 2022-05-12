@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe RubyXL::Reference do
-
   describe '.ind2ref + .ref2ind' do
     it 'should correctly return the "Excel Style" description of cells when given a row/column number' do
       expect(RubyXL::Reference.ind2ref(0, 26)).to eq('AA1')
@@ -24,5 +23,4 @@ describe RubyXL::Reference do
       expect(RubyXL::Reference.ref2ind('A1B')).to eq([-1, -1])
     end
   end
-
 end

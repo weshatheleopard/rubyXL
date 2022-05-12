@@ -1,16 +1,16 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 # Dependencies required to run this gem.
-gem "nokogiri", ">= 1.10.8"
-gem "rubyzip", ">= 1.3.0" , :require => 'zip'
+gem 'nokogiri', '>= 1.10.8'
+gem 'rubyzip', '>= 1.3.0' , :require => 'zip'
 
 # Development dependencies.
 group :development, :test do
-  gem "bundler"
-  gem "rake"
-  gem "juwelier"
-  gem "rspec"
-  gem "simplecov"
+  gem 'bundler'
+  gem 'rake'
+  gem 'juwelier'
+  gem 'rspec'
+  gem 'simplecov'
 
 #  gem 'stackprof'
   gem 'ruby-prof'

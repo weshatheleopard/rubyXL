@@ -145,7 +145,7 @@ describe RubyXL::Workbook do
   end
 
   describe '.stream' do
-    it "It should not be confused by missing sheet_id" do
+    it 'It should not be confused by missing sheet_id' do
       workbook = RubyXL::Workbook.new
       workbook[0].sheet_id = 1
       workbook.add_worksheet('Sheet2')
@@ -192,5 +192,4 @@ describe RubyXL::Workbook do
       expect(wb2.get_defined_name('TEST2')).to be_nil
     end
   end
-
 end

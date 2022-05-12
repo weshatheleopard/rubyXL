@@ -258,7 +258,7 @@ module RubyXL
       worksheet.relationship_container ||= RubyXL::OOXMLRelationshipsFile.new
       relationships = worksheet.relationship_container.relationships
       r_id = "rId#{relationships.size + 1}"
-      relationships << RubyXL::Relationship.new(:id => r_id, :target => url, :target_mode => "External",
+      relationships << RubyXL::Relationship.new(:id => r_id, :target => url, :target_mode => 'External',
                                                 :type => RubyXL::HyperlinkRelFile::REL_TYPE)
 
       hyperlink = RubyXL::Hyperlink.new(:ref => self.r, :r_id => r_id)

@@ -19,7 +19,7 @@ module RubyXL
 
     def before_write_xml
       preserve_whitespace
-      self.value.gsub!(INVALID_XML10_CHARS) { |c| "_x%04x_" % c.ord }
+      self.value.gsub!(INVALID_XML10_CHARS) { |c| '_x%04x_' % c.ord }
       true
     end
 

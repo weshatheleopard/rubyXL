@@ -148,7 +148,6 @@ module RubyXL
         known_namespaces ||= obtain_class_variable(:@@ooxml_namespaces)
 
         node.element_children.each { |child_node|
-
           ns = child_node.namespace
           prefix = if known_namespaces.has_key?(ns.href) then known_namespaces[ns.href]
                    else ns.prefix
@@ -186,9 +185,9 @@ module RubyXL
     private
     def accessorize(str)
       acc = str.to_s.dup
-      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
-      acc.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
-      acc.gsub!(':','_')
+      acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
+      acc.gsub!(/([a-z\d])([A-Z])/, '\1_\2')
+      acc.gsub!(':', '_')
       acc.downcase.to_sym
     end
 
@@ -238,7 +237,6 @@ module RubyXL
 
     def init_child_nodes(params)
       obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
-
         initial_value =
           if params.has_key?(v[:accessor]) then params[v[:accessor]]
           elsif v[:is_array] then []

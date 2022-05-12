@@ -59,7 +59,7 @@ module RubyXL
     define_attribute(:url,         RubyXL::ST_Xstring)
     define_attribute(:post,        RubyXL::ST_Xstring)
     define_attribute(:htmlTables,  :bool, :default => false)
-    define_attribute(:htmlFormat,  ssml:ST_HtmlFmt, :default => "none")
+    define_attribute(:htmlFormat,  ssml:ST_HtmlFmt, :default => 'none')
     define_attribute(:editPage,    RubyXL::ST_Xstring)
 
     define_child_node(RubyXL::ConnectionTables)
@@ -69,7 +69,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_textField-1.html
   class ConnectionTextField < OOXMLObject
-    define_attribute(:type, RubyXL::ST_ExternalConnectionType, :default => "general")
+    define_attribute(:type, RubyXL::ST_ExternalConnectionType, :default => 'general')
     define_attribute(:position, :uint, :default => 0)
   end
 
@@ -83,19 +83,19 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_textPr-1.html
   class TextImportSettings < OOXMLObject
     define_attribute(:prompt, :bool, :default => true)
-    define_attribute(:fileType,    RubyXL::ST_FileType, :default => "win")
+    define_attribute(:fileType,    RubyXL::ST_FileType, :default => 'win')
     define_attribute(:codePage,    :uint, :default => 1252)
     define_attribute(:firstRow,    :uint, :default => 1)
-    define_attribute(:sourceFile,  RubyXL::ST_Xstring,  :default => "")
+    define_attribute(:sourceFile,  RubyXL::ST_Xstring,  :default => '')
     define_attribute(:delimited,   :bool, :default => true)
-    define_attribute(:decimal,     RubyXL::ST_Xstring,  :default => ".")
-    define_attribute(:thousands,   RubyXL::ST_Xstring,  :default => ",")
+    define_attribute(:decimal,     RubyXL::ST_Xstring,  :default => '.')
+    define_attribute(:thousands,   RubyXL::ST_Xstring,  :default => ',')
     define_attribute(:tab,         :bool, :default => true)
     define_attribute(:space,       :bool, :default => false)
     define_attribute(:comma,       :bool, :default => false)
     define_attribute(:semicolon,   :bool, :default => false)
     define_attribute(:consecutive, :bool, :default => false)
-    define_attribute(:qualifier,   ssml:ST_Qualifier, :default => "doubleQuote")
+    define_attribute(:qualifier,   ssml:ST_Qualifier, :default => 'doubleQuote')
     define_attribute(:delimiter,   RubyXL::ST_Xstring)
 
     define_child_node(RubyXL::ConnectionTextFields)
@@ -107,7 +107,7 @@ module RubyXL
   class QueryParameter < OOXMLObject
     define_attribute(:name,            RubyXL::ST_Xstring)
     define_attribute(:sqlType,         :int, :default => 0)
-    define_attribute(:parameterType,   RubyXL::ST_ParameterType, :default => "prompt")
+    define_attribute(:parameterType,   RubyXL::ST_ParameterType, :default => 'prompt')
     define_attribute(:refreshOnChange, :bool, :default => false)
     define_attribute(:prompt,          RubyXL::ST_Xstring)
     define_attribute(:boolean,         :bool)
@@ -144,7 +144,7 @@ module RubyXL
     define_attribute(:background,            :bool, :default => false)
     define_attribute(:refreshOnLoad,         :bool, :default => false)
     define_attribute(:saveData,              :bool, :default => false)
-    define_attribute(:credentials,           RubyXL::ST_CredMethod, :default => "integrated")
+    define_attribute(:credentials,           RubyXL::ST_CredMethod, :default => 'integrated')
     define_attribute(:singleSignOnId,        RubyXL::ST_Xstring)
 
     define_child_node(RubyXL::OdbcOleDbProperties)

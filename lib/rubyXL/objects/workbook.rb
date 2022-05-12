@@ -403,7 +403,7 @@ module RubyXL
         raise "Unsupported extension: #{extension} (only .xlsx, .xlsm, .xltx and .xltm files are supported)."
       end
 
-      File.open(dst_file_path, "wb") { |output_file| FileUtils.copy_stream(root.stream, output_file) }
+      File.open(dst_file_path, 'wb') { |output_file| FileUtils.copy_stream(root.stream, output_file) }
 
       return dst_file_path
     end

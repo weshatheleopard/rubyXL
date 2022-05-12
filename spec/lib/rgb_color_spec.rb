@@ -24,5 +24,4 @@ describe RubyXL::RgbColor do
       expect(rgb_color.to_s).to eq('0b1621ff')
     end
   end
-
 end
