@@ -254,17 +254,20 @@ module RubyXL
       end
     end
 
-=begin
-    def add_hyperlink(l)
-      worksheet.hyperlinks ||= RubyXL::Hyperlinks.new
-      worksheet.hyperlinks << RubyXL::Hyperlink.new(:ref => self.r, :location => l)
-#    define_relationship
-#    define_attribute(:location, :string)
-#    define_attribute(:tooltip,  :string)
-#    define_attribute(:display,  :string)
+    def add_hyperlink(url, tooltip = nil)
+      worksheet.relationship_container ||= RubyXL::OOXMLRelationshipsFile.new
+      relationships = worksheet.relationship_container.relationships
+      r_id = "rId#{relationships.size + 1}"
+      relationships << RubyXL::Relationship.new(:id => r_id, :target => url, :target_mode => "External",
+                                                :type => RubyXL::HyperlinkRelFile::REL_TYPE)
 
+      hyperlink = RubyXL::Hyperlink.new(:ref => self.r, :r_id => r_id)
+      hyperlink.tooltip = tooltip if tooltip
+      worksheet.hyperlinks ||= RubyXL::Hyperlinks.new
+      worksheet.hyperlinks << hyperlink
     end
 
+=begin
     def add_shared_string(str)
       self.datatype = RubyXL::DataType::SHARED_STRING
       self.raw_value = @workbook.shared_strings_container.add(str)

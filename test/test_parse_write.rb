@@ -9,7 +9,7 @@ spreadsheets.each { |input|
   tm = Benchmark.realtime { doc = RubyXL::Parser.parse(input) }
   puts "Elapsed: #{tm} sec"
   output = File.join("test", "output", File.basename(input))
-  puts  "--->>> Writing #{output}..."
+  puts "--->>> Writing #{output}..."
   tm = Benchmark.realtime { doc.write(output) }
   puts "Elapsed: #{tm} sec"
 }

@@ -66,7 +66,7 @@ task :stackprof do
     }
 
     output = File.join("test", "output", File.basename(input))
-    puts  "--->>> Profiling writing of #{output}..."
+    puts "--->>> Profiling writing of #{output}..."
     StackProf.run(:mode => :cpu, :interval => 100, 
                   :out  => "tmp/stackprof-cpu-write-#{File.basename(input)}.dump") {
       doc.write(output)
@@ -94,7 +94,7 @@ task :rubyprof do
     File.open("tmp/ruby-prof-parse-#{File.basename(input)}.html", 'w') { |f| printer.print(f, {}) }
 
     output = File.join("test", "output", File.basename(input))
-    puts  "--->>> Profiling writing of #{output}..."
+    puts "--->>> Profiling writing of #{output}..."
     result = RubyProf.profile {
       doc.write(output)
     }

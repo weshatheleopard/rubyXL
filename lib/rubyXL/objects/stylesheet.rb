@@ -83,9 +83,7 @@ module RubyXL
 
     def self.default
       self.new(:_ => [
-                 RubyXL::XF.new(
-                   :num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0
-                 )
+                 RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0)
                ])
     end
   end
