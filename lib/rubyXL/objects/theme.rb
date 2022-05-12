@@ -1183,7 +1183,7 @@ module RubyXL
     define_child_node(RubyXL::CT_GradientFillProperties)
     define_child_node(RubyXL::CT_BlipFillProperties)
     define_child_node(RubyXL::CT_PatternFillProperties)
-    define_child_node(RubyXL::BooleanValue,      :node_name => 'a:grpFill')
+    define_child_node(RubyXL::BooleanValue, :node_name => 'a:grpFill')
     # -- EG_EffectProperties
     define_child_node(RubyXL::CT_EffectList)
     define_child_node(RubyXL::CT_EffectContainer, :node_name => 'a:effectDag')

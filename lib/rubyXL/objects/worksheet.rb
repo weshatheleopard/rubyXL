@@ -58,7 +58,7 @@ module RubyXL
   end
 
   class WorksheetFormatProperties < OOXMLObject
-    define_attribute(:baseColWidth,     :int,    :default => 8)
+    define_attribute(:baseColWidth,     :int, :default => 8)
     define_attribute(:defaultColWidth,  :double)
     define_attribute(:defaultRowHeight, :double, :required => true)
     define_attribute(:customHeight,     :bool,   :default => false)
@@ -83,7 +83,7 @@ module RubyXL
     define_attribute(:blackAndWhite,      :bool,   :default => false)
     define_attribute(:draft,              :bool,   :default => false)
     define_attribute(:cellComments,       RubyXL::ST_CellComments, :default => 'none')
-    define_attribute(:useFirstPageNumber, :bool,   :default => false)
+    define_attribute(:useFirstPageNumber, :bool, :default => false)
     define_attribute(:errors,             RubyXL::ST_PrintError, :default => 'displayed')
     define_attribute(:horizontalDpi,      :int,    :default => 600)
     define_attribute(:verticalDpi,        :int,    :default => 600)
@@ -166,7 +166,7 @@ module RubyXL
   class ConditionalFormatValue < OOXMLObject
     define_attribute(:type, RubyXL::ST_CfvoType, :required => true)
     define_attribute(:val,  :string)
-    define_attribute(:gte,  :bool,   :default => true)
+    define_attribute(:gte,  :bool, :default => true)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'cfvo'
   end
@@ -212,7 +212,7 @@ module RubyXL
     define_attribute(:timePeriod,   RubyXL::ST_TimePeriod)
     define_attribute(:rank,         :int)
     define_attribute(:stdDev,       :int)
-    define_attribute(:equalAverage, :bool,   :default  => false)
+    define_attribute(:equalAverage, :bool, :default => false)
     define_child_node(RubyXL::Formula, :collection => true, :node_name => :formula, :accessor => :formulas)
     define_child_node(RubyXL::ColorScale)
     define_child_node(RubyXL::DataBar)
@@ -301,7 +301,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_hyperlink-1.html
   class Hyperlink < OOXMLObject
-    define_attribute(:ref,      :ref,    :required => true)
+    define_attribute(:ref, :ref, :required => true)
     define_relationship
     define_attribute(:location, :string)
     define_attribute(:tooltip,  :string)
@@ -408,9 +408,9 @@ module RubyXL
     define_attribute(:hiddenRows,     :bool,   :default => false)
     define_attribute(:hiddenColumns,  :bool,   :default => false)
     define_attribute(:state,          RubyXL::ST_Visibility, :default => 'visible')
-    define_attribute(:filterUnique,   :bool,   :default => false)
+    define_attribute(:filterUnique,   :bool, :default => false)
     define_attribute(:view,           RubyXL::ST_SheetViewType, :default => 'normal')
-    define_attribute(:showRuler,      :bool,   :default => true)
+    define_attribute(:showRuler,      :bool, :default => true)
     define_attribute(:topLeftCell,    :ref)
     define_child_node(RubyXL::Pane)
     define_child_node(RubyXL::Selection)
@@ -433,9 +433,9 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_control-1.html
   class EmbeddedControl < OOXMLObject
-    define_attribute(:shapeId, :int,    :required => true)
+    define_attribute(:shapeId, :int, :required => true)
     define_relationship(:required => true)
-    define_attribute(:name,    :string)
+    define_attribute(:name, :string)
     define_element_name 'control'
   end
 
@@ -489,7 +489,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_customPr-1.html
   class CustomProperty < OOXMLObject
-    define_attribute(:name,   :string, :required => true)
+    define_attribute(:name, :string, :required => true)
     define_relationship(:required => true)
     define_element_name 'customPr'
   end
@@ -546,7 +546,7 @@ module RubyXL
     define_attribute(:cacheIndex,    :bool, :default => false)
     define_attribute(:outline,       :bool, :default => true)
     define_attribute(:offset,        :ref)
-    define_attribute(:collapsedLevelsAreSubtotals, :bool,   :default => false)
+    define_attribute(:collapsedLevelsAreSubtotals, :bool, :default => false)
     define_attribute(:axis,          RubyXL::ST_Axis)
     define_attribute(:fieldPosition, :int,  :default => 0)
     define_child_node(RubyXL::PivotReferences)
@@ -651,7 +651,7 @@ module RubyXL
     define_child_node(RubyXL::SortState)
     define_child_node(RubyXL::DataConsolidate)
     define_child_node(RubyXL::CustomSheetViews)
-    define_child_node(RubyXL::MergedCells,           :accessor => :merged_cells)
+    define_child_node(RubyXL::MergedCells, :accessor => :merged_cells)
     define_child_node(RubyXL::PhoneticProperties)
     define_child_node(RubyXL::ConditionalFormatting, :collection => [0..-1])
     define_child_node(RubyXL::DataValidations)

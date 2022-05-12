@@ -9,7 +9,7 @@ module RubyXL
   end
 
   class ContentTypeOverride < OOXMLObject
-    define_attribute(:PartName,   :string)
+    define_attribute(:PartName, :string)
     define_attribute(:ContentType, :string)
     define_element_name 'Override'
   end

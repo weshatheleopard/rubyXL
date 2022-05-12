@@ -18,7 +18,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_filters-1.html
   class FilterContainer < OOXMLObject
-    define_attribute(:blank,        :bool,  :default  => false)
+    define_attribute(:blank,        :bool, :default => false)
     define_attribute(:calendarType, RubyXL::ST_CalendarType, :default => 'none')
     define_child_node(RubyXL::StringValue,   :collection => true, :accessor => :filters, :node_name => :filter)
     define_child_node(RubyXL::DateGroupItem, :collection => true, :accessor => :date_group_items)
@@ -43,7 +43,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_customFilters-1.html
   class CustomFilters < OOXMLContainerObject
-    define_attribute(:and, :bool,  :default => false)
+    define_attribute(:and, :bool, :default => false)
     define_child_node(RubyXL::CustomFilter, :collection => true)
     define_element_name 'customFilters'
   end
@@ -87,9 +87,9 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_sortCondition-1.html
   class SortCondition < OOXMLObject
-    define_attribute(:descending, :bool,   :default  => false)
+    define_attribute(:descending, :bool, :default => false)
     define_attribute(:sortBy,     RubyXL::ST_SortBy, :default => 'value')
-    define_attribute(:ref,        :ref,    :required => true)
+    define_attribute(:ref,        :ref, :required => true)
     define_attribute(:customList, :string)
     define_attribute(:dxfId,      :int)
     define_attribute(:iconSet,    RubyXL::ST_IconSetType, :required => true, :default => '3Arrows')

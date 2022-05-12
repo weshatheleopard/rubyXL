@@ -70,7 +70,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_phoneticPr-1.html
   class PhoneticProperties < OOXMLObject
-    define_attribute(:fontId,    :int,    :required => true)
+    define_attribute(:fontId,    :int, :required => true)
     define_attribute(:type,      RubyXL::ST_PhoneticType,      :default => 'fullwidthKatakana')
     define_attribute(:alignment, RubyXL::ST_PhoneticAlignment, :default => 'left')
     define_element_name 'phoneticPr'

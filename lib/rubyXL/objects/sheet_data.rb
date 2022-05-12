@@ -14,7 +14,7 @@ module RubyXL
     ERROR         = 'e'
     BOOLEAN       = 'b'
     NUMBER        = 'n'
-    DATE          = 'd'  # Only available in Office2010.
+    DATE          = 'd' # Only available in Office2010.
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_v-1.html
@@ -41,7 +41,7 @@ module RubyXL
     define_attribute(:ph,  :bool, :default => false)
     define_child_node(RubyXL::Formula,   :accessor => :formula)
     define_child_node(RubyXL::CellValue, :accessor => :value_container)
-    define_child_node(RubyXL::RichText)    # is
+    define_child_node(RubyXL::RichText) # is
     define_element_name 'c'
 
     attr_accessor :worksheet

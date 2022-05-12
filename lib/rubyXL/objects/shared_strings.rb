@@ -11,7 +11,7 @@ module RubyXL
 
     # According to http://msdn.microsoft.com/en-us/library/office/gg278314.aspx,
     # +count+ and +uniqueCount+ may be either both missing, or both present. Need to validate.
-    define_attribute(:uniqueCount,  :int)
+    define_attribute(:uniqueCount, :int)
     define_child_node(RubyXL::RichText, :collection => :with_count, :node_name => 'si', :accessor => :strings)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sst'

@@ -140,7 +140,7 @@ module RubyXL
   ST_TextHorzOverflowType = %w{ overflow clip }
   ST_TextVerticalType     = %w{ horz vert vert270 wordArtVert eaVert mongolianVert wordArtVertRtl }
   ST_TextWrappingType     = %w{ none square }
-  ST_TextAnchoringType	  = %w{ t ctr b just dist }
+  ST_TextAnchoringType = %w{ t ctr b just dist }
   ST_TextShapeType        = %w{ textNoShape textPlain textStop textTriangle textTriangleInverted textChevron
                                 textChevronInverted textRingInside textRingOutside textArchUp textArchDown
                                 textCircle textButton textArchUpPour textArchDownPour textCirclePour textButtonPour

@@ -86,7 +86,7 @@ module RubyXL
     define_attribute(:fileType,    RubyXL::ST_FileType, :default => 'win')
     define_attribute(:codePage,    :uint, :default => 1252)
     define_attribute(:firstRow,    :uint, :default => 1)
-    define_attribute(:sourceFile,  RubyXL::ST_Xstring,  :default => '')
+    define_attribute(:sourceFile,  RubyXL::ST_Xstring, :default => '')
     define_attribute(:delimited,   :bool, :default => true)
     define_attribute(:decimal,     RubyXL::ST_Xstring,  :default => '.')
     define_attribute(:thousands,   RubyXL::ST_Xstring,  :default => ',')

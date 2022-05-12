@@ -7,7 +7,7 @@ module RubyXL
   class Formula < OOXMLObject
     define_attribute(:_,    :string, :accessor => :expression)
     define_attribute(:t,    RubyXL::ST_CellFormulaType, :default => 'normal')
-    define_attribute(:aca,  :bool,   :default => false)
+    define_attribute(:aca,  :bool, :default => false)
     define_attribute(:ref,  :ref)
     define_attribute(:dt2D, :bool,   :default => false)
     define_attribute(:dtr,  :bool,   :default => false)
@@ -15,9 +15,9 @@ module RubyXL
     define_attribute(:del2, :bool,   :default => false)
     define_attribute(:r1,   :ref)
     define_attribute(:r2,   :ref)
-    define_attribute(:ca,   :bool,   :default => false)
+    define_attribute(:ca,   :bool, :default => false)
     define_attribute(:si,   :int)
-    define_attribute(:bx,   :bool,   :default => false)
+    define_attribute(:bx,   :bool, :default => false)
     define_element_name 'f'
   end
 

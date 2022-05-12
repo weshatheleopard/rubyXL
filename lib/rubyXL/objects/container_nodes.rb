@@ -51,7 +51,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-docPropsVTypes_variant.html
   class Variant < OOXMLObject
-    define_child_node(RubyXL::Variant,      :node_name => 'vt:variant')
+    define_child_node(RubyXL::Variant, :node_name => 'vt:variant')
 
 #   vector    Vector
 #    array    Array

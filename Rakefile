@@ -23,7 +23,7 @@ Juwelier::Tasks.new do |gem|
 #  gem.required_ruby_version = '>2.1'
   # dependencies defined in Gemfile
 end
-Juwelier::RubygemsDotOrgTasks.new 
+Juwelier::RubygemsDotOrgTasks.new
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
@@ -60,14 +60,14 @@ task :stackprof do
   spreadsheets.each { |input|
     puts "<<<--- Profiling parsing of #{input}..."
     doc = nil
-    StackProf.run(:mode => :cpu, :interval => 100, 
-                  :out  => "tmp/stackprof-cpu-parse-#{File.basename(input)}.dump") { 
+    StackProf.run(:mode => :cpu, :interval => 100,
+                  :out  => "tmp/stackprof-cpu-parse-#{File.basename(input)}.dump") {
       doc = RubyXL::Parser.parse(input)
     }
 
     output = File.join('test', 'output', File.basename(input))
     puts "--->>> Profiling writing of #{output}..."
-    StackProf.run(:mode => :cpu, :interval => 100, 
+    StackProf.run(:mode => :cpu, :interval => 100,
                   :out  => "tmp/stackprof-cpu-write-#{File.basename(input)}.dump") {
       doc.write(output)
     }

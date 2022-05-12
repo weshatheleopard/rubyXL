@@ -6,7 +6,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_cellStyle-1.html
   class CellStyle < OOXMLObject
     define_attribute(:name,          :string)
-    define_attribute(:xfId,          :int,  :required => true)
+    define_attribute(:xfId,          :int, :required => true)
     define_attribute(:builtinId,     :int)
     define_attribute(:iLevel,        :int)
     define_attribute(:hidden,        :bool)

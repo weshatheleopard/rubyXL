@@ -37,7 +37,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_workbookPr-1.html
   class WorkbookProperties < OOXMLObject
-    define_attribute(:date1904,                   :bool,   :default => false)
+    define_attribute(:date1904,                   :bool, :default => false)
     define_attribute(:showObjects,                RubyXL::ST_Objects, :default => 'all')
     define_attribute(:showBorderUnselectedTables, :bool,   :default => true)
     define_attribute(:filterPrivacy,              :bool,   :default => false)
@@ -152,7 +152,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_pivotCache-1.html
   class PivotCache < OOXMLObject
-    define_attribute(:cacheId, :int,    :required => true)
+    define_attribute(:cacheId, :int, :required => true)
     define_relationship(:required => true)
     define_element_name 'pivotCache'
   end
@@ -186,7 +186,7 @@ module RubyXL
     define_attribute(:vml,              :bool,   :default => false)
     define_attribute(:allowPng,         :bool,   :default => false)
     define_attribute(:targetScreenSize, RubyXL::ST_TargetScreenSize, :default => '800x600')
-    define_attribute(:dpi,              :int,    :default => 96)
+    define_attribute(:dpi,              :int, :default => 96)
     define_attribute(:codePage,         :int)
     define_element_name 'webPublishing'
   end
@@ -195,7 +195,7 @@ module RubyXL
   class CalculationProperties < OOXMLObject
     define_attribute(:calcId,                :int)
     define_attribute(:calcMode,              RubyXL::ST_CalcMode, :default => 'auto')
-    define_attribute(:fullCalcOnLoad,        :bool,   :default => false)
+    define_attribute(:fullCalcOnLoad,        :bool, :default => false)
     define_attribute(:refMode,               RubyXL::ST_RefMode, :default => 'A1')
     define_attribute(:iterate,               :bool,   :default => false)
     define_attribute(:iterateCount,          :int,    :default => 100)
@@ -216,7 +216,7 @@ module RubyXL
     define_attribute(:sourceObject,    :string)
     define_attribute(:destinationFile, :string, :required => true)
     define_attribute(:title,           :string)
-    define_attribute(:autoRepublish,   :bool,   :default => false)
+    define_attribute(:autoRepublish,   :bool, :default => false)
     define_element_name 'webPublishObject'
   end
 
@@ -228,7 +228,7 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_smartTagPr-1.html
   class SmartTagProperties < OOXMLObject
-    define_attribute(:embed, :bool,   :default => false)
+    define_attribute(:embed, :bool, :default => false)
     define_attribute(:show,  RubyXL::ST_SmartTagShow, :default => 'all')
     define_element_name 'smartTagPr'
   end
@@ -280,7 +280,7 @@ module RubyXL
     define_attribute(:yWindow,              :int,    :default => 0)
     define_attribute(:windowWidth,          :int)
     define_attribute(:windowHeight,         :int)
-    define_attribute(:tabRatio,             :int,    :default => 600)
+    define_attribute(:tabRatio,             :int, :default => 600)
     define_attribute(:activeSheetId,        :int)
     define_attribute(:showFormulaBar,       :bool,   :default => true)
     define_attribute(:showStatusbar,        :bool,   :default => true)
@@ -302,7 +302,7 @@ module RubyXL
     CONTENT_TYPE_TEMPLATE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.template.main+xml'
     CONTENT_TYPE_TEMPLATE_WITH_MACROS = 'application/vnd.ms-excel.template.macroEnabled.main+xml'
     CONTENT_TYPE_WITH_MACROS = 'application/vnd.ms-excel.sheet.macroEnabled.main+xml'
-    REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
+    REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'
 
     # http://www.accountingweb.com/technology/excel/seven-characters-you-cant-use-in-worksheet-names
     SHEET_NAME_FORBIDDEN_CHARS = /[\/\\\*\[\]\:\?]/
@@ -332,7 +332,7 @@ module RubyXL
     define_relationship(RubyXL::PivotCacheDefinitionFile)
     define_relationship(RubyXL::PivotCacheRecordsFile)
     define_relationship(RubyXL::CustomXMLFile)
-    define_relationship(RubyXL::MacrosFile,         :macros)
+    define_relationship(RubyXL::MacrosFile, :macros)
     define_relationship(RubyXL::SlicerCacheFile)
 
     define_child_node(RubyXL::FileVersion)

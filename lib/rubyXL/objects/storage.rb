@@ -179,7 +179,7 @@ module RubyXL
 
     def attach_relationship(rid, rf)
       case rf
-      when RubyXL::ChartFile       then store_relationship(rf) # TODO
+      when RubyXL::ChartFile then store_relationship(rf) # TODO
       else store_relationship(rf, :unknown)
       end
     end
@@ -187,7 +187,7 @@ module RubyXL
   end
 
   class ActiveXBinary < GenericStorageObject
-    REL_TYPE     = 'http://schemas.microsoft.com/office/2006/relationships/activeXControlBinary'
+    REL_TYPE = 'http://schemas.microsoft.com/office/2006/relationships/activeXControlBinary'
   end
 
 end

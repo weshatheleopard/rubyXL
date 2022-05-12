@@ -12,7 +12,7 @@ module RubyXL
     define_attribute(:sourceObject,    :string)
     define_attribute(:destinationFile, :string, :required => true)
     define_attribute(:title,           :string)
-    define_attribute(:autoRepublish,   :bool,   :default => false)
+    define_attribute(:autoRepublish,   :bool, :default => false)
     define_element_name 'webPublishItem'
   end
 

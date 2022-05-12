@@ -791,13 +791,13 @@ describe RubyXL::Worksheet do
       }.to raise_error(RuntimeError)
     end
 
-    it 'should expand matrix to fit argument if nonnegative'  do
+    it 'should expand matrix to fit argument if nonnegative' do
       expect(@worksheet.sheet_data.size).to eq(11)
       @worksheet.insert_row(11)
       expect(@worksheet.sheet_data.size).to eq(13)
     end
 
-    it 'should properly reindex the cells'  do
+    it 'should properly reindex the cells' do
       @worksheet.sheet_data.rows.each_with_index { |row, r|
         if (SKIP_ROW_COL == r) then
           expect(row).to be_nil
@@ -911,7 +911,7 @@ describe RubyXL::Worksheet do
       }.to raise_error(RuntimeError)
     end
 
-    it 'should properly reindex the cells'  do
+    it 'should properly reindex the cells' do
       @worksheet.sheet_data.rows.each_with_index { |row, r|
         if (SKIP_ROW_COL == r) then
           expect(row).to be_nil
@@ -1070,7 +1070,7 @@ describe RubyXL::Worksheet do
       }.to raise_error(RuntimeError)
     end
 
-    it 'should properly reindex the cells'  do
+    it 'should properly reindex the cells' do
       @worksheet.sheet_data.rows.each_with_index { |row, r|
         if (SKIP_ROW_COL == r) then
           expect(row).to be_nil
