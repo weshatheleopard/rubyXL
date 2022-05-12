@@ -85,7 +85,7 @@ module RubyXL
       accessor = (extra_params[:accessor] || accessorize(child_node_name)).to_sym
 
       child_nodes[child_node_name] = {
-        :class => klass,
+        :class    => klass,
         :is_array => extra_params[:collection],
         :accessor => accessor
       }

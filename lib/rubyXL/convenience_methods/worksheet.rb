@@ -704,9 +704,9 @@ module RubyXL
       expr = '"' + list_arr.collect{|str| str.gsub('"', '""')}.join(',') + '"'
       self.data_validations ||= RubyXL::DataValidations.new
       self.data_validations <<
-        RubyXL::DataValidation.new({:sqref => RubyXL::Reference.new(ref),
+        RubyXL::DataValidation.new({:sqref    => RubyXL::Reference.new(ref),
                                     :formula1 => RubyXL::Formula.new(:expression => expr),
-                                    :type => 'list'})
+                                    :type     => 'list'})
     end
   end
 

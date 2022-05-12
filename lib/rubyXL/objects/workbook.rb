@@ -304,7 +304,7 @@ module RubyXL
     REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'.freeze
 
     # http://www.accountingweb.com/technology/excel/seven-characters-you-cant-use-in-worksheet-names
-    SHEET_NAME_FORBIDDEN_CHARS = /[\/\\\*\[\]\:\?]/
+    SHEET_NAME_FORBIDDEN_CHARS = /[\/\\*\[\]:?]/
     #SHEET_NAME_FORBIDDEN_NAMES = [ 'History' ]
 
     include RubyXL::RelationshipSupport
@@ -357,10 +357,10 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
 
     define_element_name 'workbook'
-    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main'           => nil,
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
-                   'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
-                   'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main' => 'x15')
+                   'http://schemas.openxmlformats.org/markup-compatibility/2006'         => 'mc',
+                   'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main'      => 'x15')
 
     attr_accessor :worksheets
     attr_accessor :is_template

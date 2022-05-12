@@ -71,8 +71,8 @@ module RubyXL
     def modify_fill(style_index, rgb)
       xf = cell_xfs[style_index || 0].dup
       new_fill = RubyXL::Fill.new(:pattern_fill =>
-                   RubyXL::PatternFill.new(:pattern_type => 'solid',
-                                           :fg_color => RubyXL::Color.new(:rgb => rgb)))
+                                                   RubyXL::PatternFill.new(:pattern_type => 'solid',
+                                                                           :fg_color     => RubyXL::Color.new(:rgb => rgb)))
       register_new_xf(register_new_fill(new_fill, xf))
     end
 

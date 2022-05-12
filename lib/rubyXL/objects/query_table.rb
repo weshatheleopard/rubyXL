@@ -94,7 +94,7 @@ module RubyXL
     define_child_node(RubyXL::ExtensionStorageArea)
 
     define_element_name 'queryTable'
-    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main'           => nil,
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
 
     def xlsx_path

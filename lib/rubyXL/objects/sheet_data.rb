@@ -115,7 +115,7 @@ module RubyXL
         if is then is.to_s
         elsif is_date? then workbook.num_to_date(r.to_f)
         elsif r.is_a?(String) && (r =~ NUMBER_REGEXP) then # Numeric
-          if $1 != '' then r.to_f
+          if Regexp.last_match(1) != '' then r.to_f
           else r.to_i
           end
         else r

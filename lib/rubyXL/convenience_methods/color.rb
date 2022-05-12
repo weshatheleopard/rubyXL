@@ -71,9 +71,9 @@ module RubyXL
 
       def to_s
         if a && a != 0 then
-          '%02x%02x%02x%02x' % [ r, g, b, a ]
+          format('%02x%02x%02x%02x', r, g, b, a)
         else
-          '%02x%02x%02x' % [ r, g, b ]
+          format('%02x%02x%02x', r, g, b)
         end
       end
     end

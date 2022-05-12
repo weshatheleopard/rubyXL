@@ -88,7 +88,7 @@ module RubyXL
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
     def self.ref2ind(str)
       return [ -1, -1 ] unless str =~ /\A([A-Z]+)(\d+)\Z/
-      [ $2.to_i - 1, $1.each_byte.inject(0) { |col, chr| col * 26 + (chr - 64) } - 1 ]
+      [ Regexp.last_match(2).to_i - 1, Regexp.last_match(1).each_byte.inject(0) { |col, chr| col * 26 + (chr - 64) } - 1 ]
     end
   end
 

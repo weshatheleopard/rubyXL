@@ -63,7 +63,7 @@ module RubyXL
 
           ext = obj.xlsx_path.extname[1..-1]
           next if defaults.any? { |d| (d.extension == ext) && (d.content_type == obj_content_type) }
-          overrides << RubyXL::ContentTypeOverride.new(:part_name => obj.xlsx_path,
+          overrides << RubyXL::ContentTypeOverride.new(:part_name    => obj.xlsx_path,
                                                        :content_type => obj_content_type)
         }
       }

@@ -27,8 +27,8 @@ module RubyXL
     @@debug_indent = ($DEBUG ? 0 : nil)
 
     def new_relationship(target, type)
-      RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
-                               :type => type,
+      RubyXL::Relationship.new(:id     => "rId#{relationships.size + 1}",
+                               :type   => type,
                                :target => target)
     end
     protected :new_relationship
@@ -36,8 +36,8 @@ module RubyXL
     def add_relationship(obj)
       return if obj.nil? || !defined?(obj.class::REL_TYPE) || (obj.respond_to?(:empty?) && obj.empty?)
 
-      relationships << RubyXL::Relationship.new(:id => "rId#{relationships.size + 1}",
-                                                :type => obj.class::REL_TYPE,
+      relationships << RubyXL::Relationship.new(:id     => "rId#{relationships.size + 1}",
+                                                :type   => obj.class::REL_TYPE,
                                                 :target => obj.xlsx_path.relative_path_from(owner.xlsx_path.dirname))
     end
     protected :add_relationship

@@ -14,7 +14,7 @@ module RubyXL
 
     def is_date_format?
       #             v-------- Toss all the escaped chars -------v v--- and see if any date-related remained
-      !!(format_code.gsub(/(\"[^\"]*\"|\[[^\]]*\]|[\\_*].)/i, '') =~ /[dmyhs]/i)
+      !!(format_code.gsub(/("[^"]*"|\[[^\]]*\]|[\\_*].)/i, '') =~ /[dmyhs]/i)
     end
   end
 
@@ -171,11 +171,11 @@ module RubyXL
     define_child_node(RubyXL::Colors)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'styleSheet'
-    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
+    set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main'           => nil,
                    'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r',
-                   'http://schemas.openxmlformats.org/markup-compatibility/2006' => 'mc',
-                   'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac' => 'x14ac',
-                   'urn:schemas-microsoft-com:mac:vml' => 'mv')
+                   'http://schemas.openxmlformats.org/markup-compatibility/2006'         => 'mc',
+                   'http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac'         => 'x14ac',
+                   'urn:schemas-microsoft-com:mac:vml'                                   => 'mv')
 
     def initialize(*args)
       super
