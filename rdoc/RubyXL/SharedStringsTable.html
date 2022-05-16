@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::SharedStringsTable - rubyXL 3.4.23</title>
+<title>class RubyXL::SharedStringsTable - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -133,7 +133,7 @@
             </div>
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 20</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-keyword">super</span>
   <span class="ruby-comment"># So far, going by the structure that the original creator had in mind. However,</span>
@@ -165,7 +165,7 @@
           
 
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 34</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">index</span>)
   <span class="ruby-identifier">strings</span>[<span class="ruby-identifier">index</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -186,7 +186,7 @@
           
 
           <div class="method-source-code" id="add-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">index</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">index</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">size</span>
 
@@ -223,7 +223,7 @@
             </div>
 
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-keyword">super</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">unique_count</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span>
@@ -246,7 +246,7 @@
           
 
           <div class="method-source-code" id="empty-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 38</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">empty?</span>
   <span class="ruby-identifier">strings</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -267,7 +267,7 @@
           
 
           <div class="method-source-code" id="get_index-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 58</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_index</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">add_if_missing</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">index</span> = <span class="ruby-ivar">@index_by_content</span>[<span class="ruby-identifier">str</span>]
   <span class="ruby-identifier">index</span> = <span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">add_if_missing</span>
@@ -290,7 +290,7 @@
           
 
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 64</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/shared_strings.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;sharedStrings.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>

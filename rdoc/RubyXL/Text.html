@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Text - rubyXL 3.4.23</title>
+<title>class RubyXL::Text - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -124,10 +124,10 @@
           
 
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/text.rb, line 20</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/text.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-identifier">preserve_whitespace</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-constant">INVALID_XML10_CHARS</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-string">&quot;_x%04x_&quot;</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">ord</span> }
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-constant">INVALID_XML10_CHARS</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-string">&#39;_x%04x_&#39;</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">ord</span> }
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -147,9 +147,9 @@
           
 
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/text.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/text.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>
-  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">ESCAPED_UNICODE</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-node">$1</span>.<span class="ruby-identifier">hex</span>.<span class="ruby-identifier">chr</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Encoding</span><span class="ruby-operator">::</span><span class="ruby-constant">UTF_8</span>) }
+  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">ESCAPED_UNICODE</span>) { <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">hex</span>.<span class="ruby-identifier">chr</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Encoding</span><span class="ruby-operator">::</span><span class="ruby-constant">UTF_8</span>) }
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

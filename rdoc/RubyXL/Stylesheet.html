@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Stylesheet - rubyXL 3.4.23</title>
+<title>class RubyXL::Stylesheet - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -127,7 +127,7 @@
           
 
           <div class="method-source-code" id="default-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 194</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 189</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">default</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:fonts</span>          <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fonts</span>.<span class="ruby-identifier">default</span>,
            <span class="ruby-value">:fills</span>          <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fills</span>.<span class="ruby-identifier">default</span>,
@@ -157,7 +157,7 @@
             </div>
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 185</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 180</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">super</span>
   <span class="ruby-ivar">@format_hash</span> = <span class="ruby-keyword">nil</span>
@@ -186,7 +186,7 @@
           
 
           <div class="method-source-code" id="get_number_format_by_id-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 203</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 198</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_number_format_by_id</span>(<span class="ruby-identifier">format_id</span>)
   <span class="ruby-ivar">@format_hash</span> <span class="ruby-operator">||=</span> {}
 
@@ -214,7 +214,7 @@
           
 
           <div class="method-source-code" id="register_number_format-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 214</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 209</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">register_number_format</span>(<span class="ruby-identifier">format_code</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">number_formats</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">NumberFormats</span>.<span class="ruby-identifier">new</span>
 
@@ -247,7 +247,7 @@
           
 
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 190</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/stylesheet.rb, line 185</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;styles.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>

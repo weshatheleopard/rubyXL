@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColumnRange - rubyXL 3.4.23</title>
+<title>class RubyXL::ColumnRange - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -123,7 +123,7 @@
           
 
           <div class="method-source-code" id="delete_column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 19</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_column</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">col</span> = <span class="ruby-identifier">col_index</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">-=</span><span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">min</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">col</span>
@@ -146,7 +146,7 @@
           
 
           <div class="method-source-code" id="include-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 31</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">include?</span>(<span class="ruby-identifier">col_index</span>)
   ((<span class="ruby-identifier">min</span><span class="ruby-value">-1</span>)<span class="ruby-operator">..</span>(<span class="ruby-identifier">max</span><span class="ruby-value">-1</span>)).<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col_index</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -167,7 +167,7 @@
           
 
           <div class="method-source-code" id="insert_column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 25</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 24</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_column</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">col</span> = <span class="ruby-identifier">col_index</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">+=</span><span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">min</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">col</span>

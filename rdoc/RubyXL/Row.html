@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Row - rubyXL 3.4.23</title>
+<title>class RubyXL::Row - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -145,7 +145,7 @@
           
 
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 166</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 165</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">ind</span>)
   <span class="ruby-identifier">cells</span>[<span class="ruby-identifier">ind</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -166,7 +166,7 @@
           
 
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 158</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 157</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-operator">!</span>(<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">empty?</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -187,7 +187,7 @@
           
 
           <div class="method-source-code" id="delete_cell_shift_left-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 179</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 178</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_cell_shift_left</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -209,7 +209,7 @@
           
 
           <div class="method-source-code" id="get_fill_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 196</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 195</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_fill_color</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -230,7 +230,7 @@
           
 
           <div class="method-source-code" id="get_font-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 200</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 199</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_font</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -251,7 +251,7 @@
           
 
           <div class="method-source-code" id="index_in_collection-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 162</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 161</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index_in_collection</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
@@ -272,7 +272,7 @@
           
 
           <div class="method-source-code" id="insert_cell_shift_right-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 174</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 173</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">col_index</span>, <span class="ruby-identifier">c</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -294,7 +294,7 @@
           
 
           <div class="method-source-code" id="size-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 170</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 169</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">size</span>
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>
 <span class="ruby-keyword">end</span></pre>
@@ -315,7 +315,7 @@
           
 
           <div class="method-source-code" id="xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 192</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 191</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xf</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>

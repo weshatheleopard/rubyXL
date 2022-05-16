@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColumnRanges - rubyXL 3.4.23</title>
+<title>class RubyXL::ColumnRanges - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -113,7 +113,7 @@
           
 
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 85</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sort_by!</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">min</span> }
   <span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span>)
@@ -135,7 +135,7 @@
           <p>Locate an existing column range, make a new one if not found, or split existing column range into multiples.</p>
 
           <div class="method-source-code" id="get_range-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_range</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">col_num</span> = <span class="ruby-identifier">col_index</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
 
@@ -184,7 +184,7 @@
           
 
           <div class="method-source-code" id="insert_column-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 81</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 80</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_column</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">col_index</span>) }
 <span class="ruby-keyword">end</span></pre>
@@ -205,7 +205,7 @@
           
 
           <div class="method-source-code" id="locate_range-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 77</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">locate_range</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col_index</span>) }
 <span class="ruby-keyword">end</span></pre>

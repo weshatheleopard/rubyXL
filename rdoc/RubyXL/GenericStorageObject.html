@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::GenericStorageObject - rubyXL 3.4.23</title>
+<title>class RubyXL::GenericStorageObject - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -157,7 +157,7 @@
           
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 8</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-ivar">@xlsx_path</span> = <span class="ruby-identifier">file_path</span>
   <span class="ruby-ivar">@data</span> = <span class="ruby-identifier">data</span>
@@ -180,7 +180,7 @@
           
 
           <div class="method-source-code" id="parse_file-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 14</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse_file</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-identifier">file_path</span>)
   (<span class="ruby-identifier">entry</span> = <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">find_entry</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-identifier">from_root</span>(<span class="ruby-identifier">file_path</span>))) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">file_path</span>, <span class="ruby-identifier">entry</span>.<span class="ruby-identifier">get_input_stream</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> })
 <span class="ruby-keyword">end</span></pre>
@@ -208,7 +208,7 @@
           
 
           <div class="method-source-code" id="add_to_zip-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/storage.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_to_zip</span>(<span class="ruby-identifier">zip_stream</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">zip_stream</span>.<span class="ruby-identifier">put_next_entry</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-identifier">from_root</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">xlsx_path</span>))

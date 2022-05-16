@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Worksheet - rubyXL 3.4.23</title>
+<title>class RubyXL::Worksheet - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -83,6 +83,7 @@
   <ul class="link-list" role="directory">
     <li class="calls-super" ><a href="#method-c-parse">::parse</a>
     <li ><a href="#method-i-before_write_xml">#before_write_xml</a>
+    <li ><a href="#method-i-cell_at">#cell_at</a>
     <li ><a href="#method-i-get_col_xf">#get_col_xf</a>
     <li ><a href="#method-i-get_row_xf">#get_row_xf</a>
     <li ><a href="#method-i-related_objects">#related_objects</a>
@@ -197,7 +198,7 @@
             </div>
 
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 737</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 736</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse</span>(<span class="ruby-identifier">param</span>)
   <span class="ruby-identifier">sheet_obj</span> = <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">sheet_obj</span>.<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -231,7 +232,7 @@
           
 
           <div class="method-source-code" id="before_write_xml-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 688</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 687</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span> <span class="ruby-comment"># This method may need to be moved higher in the hierarchy</span>
   <span class="ruby-identifier">first_nonempty_row</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">last_nonempty_row</span> = <span class="ruby-value">0</span>
@@ -282,6 +283,29 @@
 
       </div>
 
+      <div id="method-i-cell_at" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">cell_at</span><span
+            class="method-args">(ref)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="cell_at-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 754</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cell_at</span>(<span class="ruby-identifier">ref</span>)
+  <span class="ruby-identifier">reference</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ref</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Invalid reference: #{ref}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">reference</span>.<span class="ruby-identifier">valid?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">reference</span>.<span class="ruby-identifier">single_cell?</span>
+  <span class="ruby-identifier">sheet_data</span>&amp;.<span class="ruby-identifier">rows</span>&amp;.<span class="ruby-identifier">[]</span>(<span class="ruby-identifier">reference</span>.<span class="ruby-identifier">first_row</span>)&amp;.<span class="ruby-identifier">cells</span>&amp;.<span class="ruby-identifier">[]</span>(<span class="ruby-identifier">reference</span>.<span class="ruby-identifier">first_col</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
       <div id="method-i-get_col_xf" class="method-detail ">
         <div class="method-heading">
           <span class="method-name">get_col_xf</span><span
@@ -293,7 +317,7 @@
           
 
           <div class="method-source-code" id="get_col_xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 747</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 746</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_col_style</span>(<span class="ruby-identifier">column_index</span>)]
 <span class="ruby-keyword">end</span></pre>
@@ -314,7 +338,7 @@
           
 
           <div class="method-source-code" id="get_row_xf-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 751</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 750</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_xf</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_row_style</span>(<span class="ruby-identifier">row</span>)]
 <span class="ruby-keyword">end</span></pre>
@@ -335,7 +359,7 @@
           
 
           <div class="method-source-code" id="related_objects-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 622</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 621</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">related_objects</span>
   <span class="ruby-identifier">comments</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">printer_settings</span>
 <span class="ruby-keyword">end</span></pre>
@@ -356,7 +380,7 @@
           
 
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 733</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/worksheet.rb, line 732</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;worksheets&#39;</span>, <span class="ruby-node">&quot;sheet#{file_index}.xml&quot;</span>)
 <span class="ruby-keyword">end</span></pre>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::StringNodeW3C - rubyXL 3.4.23</title>
+<title>class RubyXL::StringNodeW3C - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -111,7 +111,7 @@
           
 
           <div class="method-source-code" id="default-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/container_nodes.rb, line 46</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/container_nodes.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">default</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_datetime</span>.<span class="ruby-identifier">iso8601</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -139,7 +139,7 @@
           
 
           <div class="method-source-code" id="to_time-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/container_nodes.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/container_nodes.rb, line 41</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_time</span>
   <span class="ruby-identifier">value</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">value</span>).<span class="ruby-identifier">to_time</span>)
 <span class="ruby-keyword">end</span></pre>

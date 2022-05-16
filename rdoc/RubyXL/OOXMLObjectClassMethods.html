@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.23</title>
+<title>module RubyXL::OOXMLObjectClassMethods - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -246,7 +246,7 @@
   <span class="ruby-identifier">accessor</span> = (<span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:accessor</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">accessorize</span>(<span class="ruby-identifier">child_node_name</span>)).<span class="ruby-identifier">to_sym</span>
 
   <span class="ruby-identifier">child_nodes</span>[<span class="ruby-identifier">child_node_name</span>] = {
-    <span class="ruby-value">:class</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">klass</span>,
+    <span class="ruby-value">:class</span>    <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">klass</span>,
     <span class="ruby-value">:is_array</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">extra_params</span>[<span class="ruby-value">:collection</span>],
     <span class="ruby-value">:accessor</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">accessor</span>
   }
@@ -387,7 +387,6 @@
         <span class="ruby-identifier">known_namespaces</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_namespaces</span>)
 
         <span class="ruby-identifier">node</span>.<span class="ruby-identifier">element_children</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">child_node</span><span class="ruby-operator">|</span>
-
           <span class="ruby-identifier">ns</span> = <span class="ruby-identifier">child_node</span>.<span class="ruby-identifier">namespace</span>
           <span class="ruby-identifier">prefix</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">known_namespaces</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">ns</span>.<span class="ruby-identifier">href</span>) <span class="ruby-keyword">then</span> <span class="ruby-identifier">known_namespaces</span>[<span class="ruby-identifier">ns</span>.<span class="ruby-identifier">href</span>]
                    <span class="ruby-keyword">else</span> <span class="ruby-identifier">ns</span>.<span class="ruby-identifier">prefix</span>

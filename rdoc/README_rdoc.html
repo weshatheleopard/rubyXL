@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.4.23</title>
+<title>README - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -93,6 +93,7 @@
     <li><a href="#label-Insert+Cell">Insert Cell</a>
     <li><a href="#label-Delete+Cell">Delete Cell</a>
     <li><a href="#label-Modifying+Cell+Format">Modifying Cell Format</a>
+    <li><a href="#label-Add+hyperlink+to+a+Cell">Add hyperlink to a Cell</a>
     <li><a href="#label-I-2FO">I/O</a>
     <li><a href="#label-Miscellaneous">Miscellaneous</a>
     <li><a href="#label-Suppress+warnings+about+malformed+input+files">Suppress warnings about malformed input files</a>
@@ -401,6 +402,12 @@
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_text_wrap</span>(<span class="ruby-keyword">true</span>)         <span class="ruby-comment"># Makes the text in the cell to wrap.</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_shrink_to_fit</span>(<span class="ruby-keyword">true</span>)     <span class="ruby-comment"># Makes the text in the cell to shrink to fit.</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_text_indent</span>(<span class="ruby-value">1</span>)          <span class="ruby-comment"># Indents the text in the cell by 1 level</span>
+</pre>
+
+<h4 id="label-Add+hyperlink+to+a+Cell">Add hyperlink to a Cell<span><a href="#label-Add+hyperlink+to+a+Cell">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">cell</span>.<span class="ruby-identifier">add_hyperlink</span>(<span class="ruby-string">&#39;http://example.com&#39;</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">add_hyperlink</span>(<span class="ruby-string">&#39;http://example.com&#39;</span>, <span class="ruby-string">&#39;Some tooltip text&#39;</span>)
 </pre>
 
 <h2 id="label-I-2FO">I/O<span><a href="#label-I-2FO">&para;</a> <a href="#top">&uarr;</a></span></h2>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Parser - rubyXL 3.4.23</title>
+<title>class RubyXL::Parser - rubyXL 3.4.24</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -111,7 +111,7 @@
           <p>Parse <code>.xslx</code> file by reading it from local disk.</p>
 
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 5</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 4</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse</span>(<span class="ruby-identifier">src_file_path</span>)
   <span class="ruby-keyword">begin</span>
     <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">src_file_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span>
@@ -140,11 +140,11 @@
           <p>Parse <code>.xslx</code> file contained in a stream (useful for receiving over HTTP).</p>
 
           <div class="method-source-code" id="parse_buffer-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/parser.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse_buffer</span>(<span class="ruby-identifier">buffer</span>)
   <span class="ruby-identifier">root</span> = <span class="ruby-keyword">nil</span> <span class="ruby-comment"># Zip::File.open_buffer somehow fails to return the value from the block :(</span>
   <span class="ruby-keyword">begin</span>
-    <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open_buffer</span>(<span class="ruby-identifier">buffer</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">root</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRoot</span>.<span class="ruby-identifier">parse_zip_file</span>(<span class="ruby-identifier">zip_file</span>)  } 
+    <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open_buffer</span>(<span class="ruby-identifier">buffer</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">zip_file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">root</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">WorkbookRoot</span>.<span class="ruby-identifier">parse_zip_file</span>(<span class="ruby-identifier">zip_file</span>) }
     <span class="ruby-identifier">root</span>.<span class="ruby-identifier">workbook</span>
   <span class="ruby-keyword">rescue</span> <span class="ruby-operator">::</span><span class="ruby-constant">Zip</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>, <span class="ruby-node">&quot;XLSX file format error: #{e}&quot;</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>
