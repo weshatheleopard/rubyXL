@@ -59,6 +59,10 @@ Please note that row is a _sparse_ array of cells. Your code *must* expect that 
   cell.value                 # Returns a properly converted value in the cell (if the file claims that the cell
                              # is holding a number, returns a respective Integer or Float, and so on).
 
+Or, if you prefer Excel-style references (single-cell only!)
+
+  cell = worksheet.cell_at('B11')
+
 ==== Wrappers for accessing Cell properties
   cell = workbook[0][0][0]
   cell.is_struckthrough  # Returns +true+ if the cell is struckthrough, other boolean properties have same syntax
