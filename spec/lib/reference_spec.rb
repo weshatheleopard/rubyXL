@@ -19,6 +19,14 @@ describe RubyXL::Reference do
       end
     end
 
+    it 'valid? should be true on valid references' do
+      expect(RubyXL::Reference.new('C23').valid?).to be true
+    end
+
+    it 'valid? should be false on invalid references' do
+      expect(RubyXL::Reference.new('C2A').valid?).to be false
+    end
+
     it 'should return [-1, -1] if the Excel index is not well-formed' do
       expect(RubyXL::Reference.ref2ind('A1B')).to eq([-1, -1])
     end

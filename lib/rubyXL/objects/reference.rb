@@ -29,6 +29,10 @@ module RubyXL
       (@row_range.begin == @row_range.end) && (@col_range.begin == @col_range.end)
     end
 
+    def valid?
+      !(row_range.begin.negative? || col_range.begin.negative?)
+    end
+
     def first_row
       @row_range.begin
     end

@@ -751,6 +751,12 @@ module RubyXL
       workbook.stylesheet.cell_xfs[get_row_style(row)]
     end
 
+    def cell_at(ref)
+      reference = RubyXL::Reference.new(ref)
+      raise "Invalid reference: #{ref}" unless reference.valid? && reference.single_cell?
+      sheet_data&.rows&.[](reference.first_row)&.cells&.[](reference.first_col)
+    end
+
     include LegacyWorksheet
   end
 end

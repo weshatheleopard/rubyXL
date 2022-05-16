@@ -8,14 +8,24 @@ describe RubyXL::Worksheet do
     workbook  = RubyXL::Workbook.new
     worksheet = workbook.add_worksheet
 
-    (0..10).each do |i|
-      (0..10).each do |j|
-        next if i == SKIP_ROW_COL || j == SKIP_ROW_COL # Skip some rows/cells
-        worksheet.add_cell(i, j, "#{i}:#{j}", "F#{i}:#{j}")
+    (0..10).each do |y|
+      (0..10).each do |x|
+        next if y == SKIP_ROW_COL || x == SKIP_ROW_COL # Skip some rows/cells
+        worksheet.add_cell(y, x, "#{x}:#{y}", "F#{x}:#{y}")
       end
     end
 
     worksheet
+  end
+
+  describe 'addressing cells' do
+    it 'should be able to address cells by row and column indices' do
+      expect(subject[2][4].value).to eq('4:2')
+    end
+
+    it 'should be able to address cells by reference' do
+      expect(subject.cell_at('B5').value).to eq('1:4')
+    end
   end
 
   describe '.change_row_fill' do
@@ -621,8 +631,8 @@ describe RubyXL::Worksheet do
   describe '.delete_row' do
     it 'should delete a row at index specified, "pushing" everything else "up"' do
       subject.delete_row(0)
-      expect(subject[0][0].value).to eq('1:0')
-      expect(subject[0][0].formula.expression.to_s).to eq('F1:0')
+      expect(subject[0][0].value).to eq('0:1')
+      expect(subject[0][0].formula.expression.to_s).to eq('F0:1')
       expect(subject[0][0].row).to eq(0)
       expect(subject[0][0].column).to eq(0)
     end
@@ -882,8 +892,8 @@ describe RubyXL::Worksheet do
   describe '.delete_column' do
     it 'should delete a column at index specified, "pushing" everything else "left"' do
       subject.delete_column(0)
-      expect(subject[0][0].value).to eq('0:1')
-      expect(subject[0][0].formula.expression.to_s).to eq('F0:1')
+      expect(subject[0][0].value).to eq('1:0')
+      expect(subject[0][0].formula.expression.to_s).to eq('F1:0')
       expect(subject[0][0].row).to eq(0)
     end
 
@@ -1157,15 +1167,15 @@ describe RubyXL::Worksheet do
     it 'should simply add a cell if no shift argument is specified' do
       subject.insert_cell(0, 0, 'test')
       expect(subject[0][0].value).to eq('test')
-      expect(subject[0][1].value).to eq('0:1')
-      expect(subject[1][0].value).to eq('1:0')
+      expect(subject[0][1].value).to eq('1:0')
+      expect(subject[1][0].value).to eq('0:1')
     end
 
     it 'should shift cells to the right if :right is specified' do
       subject.insert_cell(0, 0, 'test', nil, :right)
       expect(subject[0][0].value).to eq('test')
       expect(subject[0][1].value).to eq('0:0')
-      expect(subject[1][0].value).to eq('1:0')
+      expect(subject[1][0].value).to eq('0:1')
     end
 
     it 'should update cell indices after inserting the cell' do
@@ -1189,7 +1199,7 @@ describe RubyXL::Worksheet do
     it 'should shift cells down if :down is specified' do
       subject.insert_cell(0, 0, 'test', nil, :down)
       expect(subject[0][0].value).to eq('test')
-      expect(subject[0][1].value).to eq('0:1')
+      expect(subject[0][1].value).to eq('1:0')
       expect(subject[1][0].value).to eq('0:0')
     end
 
@@ -1227,7 +1237,7 @@ describe RubyXL::Worksheet do
 
     it 'should shift cells to the right of the deleted cell left if :left is specified' do
       subject.delete_cell(0, 0, :left)
-      expect(subject[0][0].value).to eq('0:1')
+      expect(subject[0][0].value).to eq('1:0')
     end
 
     it 'should update cell indices after deleting the cell' do
@@ -1243,7 +1253,7 @@ describe RubyXL::Worksheet do
 
     it 'should shift cells below the deleted cell up if :up is specified' do
       subject.delete_cell(0, 0, :up)
-      expect(subject[0][0].value).to eq('1:0')
+      expect(subject[0][0].value).to eq('0:1')
     end
 
     it 'should cause en error if an argument other than :left, :up, or nil is specified for shift' do
