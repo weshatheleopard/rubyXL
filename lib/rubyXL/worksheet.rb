@@ -71,7 +71,7 @@ module RubyXL
 
     private
 
-    #validates Workbook, ensures that this worksheet is in @workbook
+    # validates Workbook, ensures that this worksheet is in @workbook
     def validate_workbook()
       unless @workbook.nil? || @workbook.worksheets.nil?
         return if @workbook.worksheets.any? { |sheet| sheet.equal?(self) }
@@ -93,5 +93,5 @@ module RubyXL
       raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
     end
     private :validate_nonnegative
-  end #end class
+  end # end class
 end

@@ -13,7 +13,7 @@ module RubyXL
     define_attribute(:tint,    :double, :default => 0.0)
     define_element_name 'color'
 
-    #validates hex color code, no '#' allowed
+    # validates hex color code, no '#' allowed
     def self.validate_color(color)
       if color =~ COLOR_REGEXP
         return true

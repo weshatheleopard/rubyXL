@@ -1,4 +1,3 @@
-#require 'tmpdir'
 require 'date'
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/shared_strings'
@@ -305,7 +304,9 @@ module RubyXL
 
     # http://www.accountingweb.com/technology/excel/seven-characters-you-cant-use-in-worksheet-names
     SHEET_NAME_FORBIDDEN_CHARS = /[\/\\*\[\]:?]/
-    #SHEET_NAME_FORBIDDEN_NAMES = [ 'History' ]
+
+    # https://answers.microsoft.com/en-us/msoffice/forum/all/excel-history-is-a-reserved-name-help/f8a398a4-b72c-48e3-82da-4f132c305e91
+    SHEET_NAME_FORBIDDEN_NAMES = [ 'History' ]
 
     include RubyXL::RelationshipSupport
 
@@ -374,6 +375,7 @@ module RubyXL
         rel = relationship_container.find_by_target(sheet.xlsx_path)
 
         raise "Worksheet name '#{sheet.sheet_name}' contains forbidden characters" if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
+        raise "Worksheet name '#{sheet.sheet_name}' is forbidden" if SHEET_NAME_FORBIDDEN_NAMES.include?(sheet.sheet_name)
 
         sheets << RubyXL::Sheet.new(:name     => sheet.sheet_name[0..30], # Max sheet name length is 31 char
                                     :sheet_id => sheet.sheet_id || (max_sheet_id += 1),

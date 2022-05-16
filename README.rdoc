@@ -157,7 +157,6 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   # * 255 - text is in normal rotation but displayed vertically (one letter under another), line feed starts new line to the right of the previous.
   worksheet.sheet_data[0][0].change_text_rotation(90)  # Sets A1 to be rotated by 90 degrees
 
-
 ==== Changing Row Height
   worksheet.change_row_height(0, 30)  # Sets first row height to 30
 
@@ -213,6 +212,11 @@ WARNING: Use of this method WILL break formulas referencing cells which have bee
   cell.change_text_wrap(true)         # Makes the text in the cell to wrap.
   cell.change_shrink_to_fit(true)     # Makes the text in the cell to shrink to fit.
   cell.change_text_indent(1)          # Indents the text in the cell by 1 level
+
+==== Add hyperlink to a Cell
+  cell.add_hyperlink('http://example.com')
+  cell.add_hyperlink('http://example.com', 'Some tooltip text')
+
 
 == I/O
 
