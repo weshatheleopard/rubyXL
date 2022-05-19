@@ -79,61 +79,61 @@ module RubyXL
       self.style_index = workbook.modify_border_color(self.style_index, direction, color)
     end
 
-    def is_italicized()
+    def is_italicized
       validate_worksheet
       get_cell_font.is_italic
     end
 
-    def is_bolded()
+    def is_bolded
       validate_worksheet
       get_cell_font.is_bold
     end
 
-    def is_underlined()
+    def is_underlined
       validate_worksheet
       get_cell_font.is_underlined
     end
 
-    def is_struckthrough()
+    def is_struckthrough
       validate_worksheet
       get_cell_font.is_strikethrough
     end
 
-    def font_name()
+    def font_name
       validate_worksheet
       get_cell_font.get_name
     end
 
-    def font_size()
+    def font_size
       validate_worksheet
       get_cell_font.get_size
     end
 
-    def font_color()
+    def font_color
       validate_worksheet
       get_cell_font.get_rgb_color || '000000'
     end
 
-    def fill_color()
+    def fill_color
       validate_worksheet
       return workbook.get_fill_color(get_cell_xf)
     end
 
-    def horizontal_alignment()
+    def horizontal_alignment
       validate_worksheet
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
       xf_obj.alignment.horizontal
     end
 
-    def vertical_alignment()
+    def vertical_alignment
       validate_worksheet
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
       xf_obj.alignment.vertical
     end
 
-    def text_wrap()
+    def text_wrap
       validate_worksheet
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
@@ -147,7 +147,7 @@ module RubyXL
       xf_obj.alignment.text_rotation
     end
 
-    def text_indent()
+    def text_indent
       validate_worksheet
       xf_obj = get_cell_xf
       return nil if xf_obj.alignment.nil?
@@ -266,12 +266,10 @@ module RubyXL
       worksheet.hyperlinks << hyperlink
     end
 
-=begin
-    def add_shared_string(str)
-      self.datatype = RubyXL::DataType::SHARED_STRING
-      self.raw_value = @workbook.shared_strings_container.add(str)
-    end
-=end
+#     def add_shared_string(str)
+#       self.datatype = RubyXL::DataType::SHARED_STRING
+#       self.raw_value = @workbook.shared_strings_container.add(str)
+#     end
   end
 
   RubyXL::Cell.send(:include, RubyXL::CellConvenienceMethods) # ruby 2.1 compat

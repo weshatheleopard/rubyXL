@@ -62,8 +62,7 @@ module RubyXL
     include RubyXL::RelationshipSupport
     define_relationship(RubyXL::DrawingFile)
 
-    attr_accessor :state, :rels
-    attr_accessor :workbook, :sheet_name, :sheet_id
+    attr_accessor :state, :rels, :workbook, :sheet_name, :sheet_id
 
     define_child_node(RubyXL::ChartsheetProperties)
     define_child_node(RubyXL::ChartsheetViews)

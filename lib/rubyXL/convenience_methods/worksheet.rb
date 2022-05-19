@@ -701,7 +701,7 @@ module RubyXL
       # "Any double quote characters in the value should be escaped with another double quote.
       # If the value does not contain a comma, newline or double quote, then the String value should be returned unchanged.
       # If the value contains a comma, newline or double quote, then the String value should be returned enclosed in double quotes."
-      expr = '"' + list_arr.collect{|str| str.gsub('"', '""')}.join(',') + '"'
+      expr = '"' + list_arr.collect{ |str| str.gsub('"', '""') }.join(',') + '"'
       self.data_validations ||= RubyXL::DataValidations.new
       self.data_validations <<
         RubyXL::DataValidation.new({:sqref    => RubyXL::Reference.new(ref),

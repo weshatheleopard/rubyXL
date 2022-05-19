@@ -72,7 +72,7 @@ module RubyXL
     private
 
     # validates Workbook, ensures that this worksheet is in @workbook
-    def validate_workbook()
+    def validate_workbook
       unless @workbook.nil? || @workbook.worksheets.nil?
         return if @workbook.worksheets.any? { |sheet| sheet.equal?(self) }
       end

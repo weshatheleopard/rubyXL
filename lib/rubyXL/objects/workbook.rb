@@ -363,8 +363,7 @@ module RubyXL
                    'http://schemas.openxmlformats.org/markup-compatibility/2006'         => 'mc',
                    'http://schemas.microsoft.com/office/spreadsheetml/2010/11/main'      => 'x15')
 
-    attr_accessor :worksheets
-    attr_accessor :is_template
+    attr_accessor :worksheets, :is_template
 
     def before_write_xml
       max_sheet_id = worksheets.collect(&:sheet_id).compact.max || 0
@@ -422,8 +421,8 @@ module RubyXL
 
     def date_to_num(date)
       case date
-      when Date, DateTime then (date.ajd - base_date().ajd).to_f
-      when Time then ((date.to_r - base_date().to_time.to_r) / 86400).to_f
+      when Date, DateTime then (date.ajd - base_date.ajd).to_f
+      when Time then ((date.to_r - base_date.to_time.to_r) / 86400).to_f
       end
     end
 

@@ -1,13 +1,11 @@
-# encoding: utf-8
-
 require 'rubygems'
 
 require 'bundler'
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
-  $stderr.puts e.message
-  $stderr.puts 'Run `bundle install` to install missing gems'
+  warn e.message
+  warn 'Run `bundle install` to install missing gems'
   exit e.status_code
 end
 
@@ -17,8 +15,8 @@ Juwelier::Tasks.new do |gem|
   gem.name = 'rubyXL'
   gem.homepage = 'http://github.com/gilt/rubyXL'
   gem.license = 'MIT'
-  gem.summary = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
-  gem.description = %Q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
+  gem.summary = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
+  gem.description = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   gem.email = 'bhagwat.vivek@gmail.com'
   gem.authors = ['Vivek Bhagwat', 'Wesha']
 #  gem.required_ruby_version = '>2.1'
@@ -53,7 +51,7 @@ task :stackprof do
   require 'benchmark'
   require 'stackprof'
 
-  $:.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
+  $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
   require './lib/rubyXL'
 
   spreadsheets = Dir.glob(File.join('test', 'input', '*.xls?')).sort!
@@ -80,7 +78,7 @@ task :rubyprof do
   require 'benchmark'
   require 'ruby-prof'
 
-  $:.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
+  $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
   require './lib/rubyXL'
 
   spreadsheets = Dir.glob(File.join('test', 'input', '*.xls?')).sort!

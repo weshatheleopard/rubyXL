@@ -155,12 +155,12 @@ describe RubyXL::Workbook do
     it 'should raise error if bad characters are present in worksheet name' do
       workbook = RubyXL::Workbook.new
       workbook[0].sheet_name = 'Sheet007'
-      expect{workbook.stream}.to_not raise_error
+      expect{ workbook.stream }.to_not raise_error
 
       '\\/*[]:?'.each_char { |char|
         workbook = RubyXL::Workbook.new
         workbook[0].sheet_name = "Sheet#{char}007"
-        expect{workbook.stream}.to raise_error(RuntimeError)
+        expect{ workbook.stream }.to raise_error(RuntimeError)
       }
     end
   end

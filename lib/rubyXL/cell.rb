@@ -6,7 +6,7 @@ module RubyXL
 
     private
 
-    def validate_workbook()
+    def validate_workbook
       unless workbook.nil? || workbook.worksheets.nil?
         workbook.worksheets.each { |sheet|
           unless sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[row].nil?
@@ -19,7 +19,7 @@ module RubyXL
       raise "This cell #{self} is not in workbook #{workbook}"
     end
 
-    def validate_worksheet()
+    def validate_worksheet
       return if @worksheet && @worksheet[row] && @worksheet[row][column].equal?(self)
       raise "Cell #{self} is not in worksheet #{worksheet}"
     end

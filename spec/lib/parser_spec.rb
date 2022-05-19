@@ -1,3 +1,4 @@
+require 'English'
 require 'spec_helper'
 require 'tmpdir'
 
@@ -40,7 +41,7 @@ describe RubyXL::Parser do
     @workbook.modified_at = @time2
 
     @time_str = Time.now.to_s
-    @file = "rubyXL-#{$$}-#{DateTime.now.strftime('%Q')}.xlsx"
+    @file = "rubyXL-#{$PROCESS_ID}-#{DateTime.now.strftime('%Q')}.xlsx"
     @workbook.write(@file)
   end
 
@@ -57,7 +58,7 @@ describe RubyXL::Parser do
     end
 
     it 'should cause an error if an xlsx or xlsm workbook is not passed' do
-      expect {@workbook2 = RubyXL::Parser.parse('nonexistent_file.tmp')}.to raise_error(Zip::Error)
+      expect { @workbook2 = RubyXL::Parser.parse('nonexistent_file.tmp') }.to raise_error(Zip::Error)
     end
 
     it 'should construct consistent number formats' do
