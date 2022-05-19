@@ -3,11 +3,11 @@
 # Instead, edit Juwelier::Tasks in Rakefile, and run 'rake gemspec'
 # -*- encoding: utf-8 -*-
 
-# stub: rubyXL 3.4.24 ruby lib
+# stub: rubyXL 3.4.25 ruby lib
 
 Gem::Specification.new do |s|
   s.name = 'rubyXL'.freeze
-  s.version = '3.4.24'
+  s.version = '3.4.25'
 
   s.required_rubygems_version = Gem::Requirement.new('>= 0'.freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ['lib'.freeze]

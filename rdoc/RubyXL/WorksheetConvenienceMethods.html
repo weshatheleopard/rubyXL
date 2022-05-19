@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.24</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.25</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -198,7 +198,7 @@
   <span class="ruby-comment"># &quot;Any double quote characters in the value should be escaped with another double quote.</span>
   <span class="ruby-comment"># If the value does not contain a comma, newline or double quote, then the String value should be returned unchanged.</span>
   <span class="ruby-comment"># If the value contains a comma, newline or double quote, then the String value should be returned enclosed in double quotes.&quot;</span>
-  <span class="ruby-identifier">expr</span> = <span class="ruby-string">&#39;&quot;&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">list_arr</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">str</span><span class="ruby-operator">|</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;&quot;&#39;</span>, <span class="ruby-string">&#39;&quot;&quot;&#39;</span>)}.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;&quot;&#39;</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-string">&#39;&quot;&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">list_arr</span>.<span class="ruby-identifier">collect</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">str</span><span class="ruby-operator">|</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;&quot;&#39;</span>, <span class="ruby-string">&#39;&quot;&quot;&#39;</span>) }.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;&quot;&#39;</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_validations</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidations</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_validations</span> <span class="ruby-operator">&lt;&lt;</span>
     <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidation</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:sqref</span>    <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ref</span>),

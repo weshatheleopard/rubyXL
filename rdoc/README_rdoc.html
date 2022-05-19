@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.4.24</title>
+<title>README - rubyXL 3.4.25</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -193,6 +193,11 @@
 <span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">value</span>                 <span class="ruby-comment"># Returns a properly converted value in the cell (if the file claims that the cell</span>
                            <span class="ruby-comment"># is holding a number, returns a respective Integer or Float, and so on).</span>
+</pre>
+
+<p>Or, if you prefer Excel-style references (single-cell only!)</p>
+
+<pre class="ruby"><span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">cell_at</span>(<span class="ruby-string">&#39;B11&#39;</span>)
 </pre>
 
 <h4 id="label-Wrappers+for+accessing+Cell+properties">Wrappers for accessing Cell properties<span><a href="#label-Wrappers+for+accessing+Cell+properties">&para;</a> <a href="#top">&uarr;</a></span></h4>
