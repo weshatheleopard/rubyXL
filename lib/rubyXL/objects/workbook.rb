@@ -334,6 +334,7 @@ module RubyXL
     define_relationship(RubyXL::CustomXMLFile)
     define_relationship(RubyXL::MacrosFile, :macros)
     define_relationship(RubyXL::SlicerCacheFile)
+    define_relationship(RubyXL::PersonMetadata)
 
     define_child_node(RubyXL::FileVersion)
     define_child_node(RubyXL::FileSharing)

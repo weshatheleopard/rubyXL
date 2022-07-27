@@ -169,6 +169,11 @@ module RubyXL
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata'.freeze
   end
 
+  class PersonMetadata < GenericStorageObject
+    CONTENT_TYPE = 'application/vnd.ms-excel.person+xml'.freeze
+    REL_TYPE     = 'http://schemas.microsoft.com/office/2017/10/relationships/person'.freeze
+  end
+
   class ActiveX < GenericStorageObject
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/control'.freeze
 
