@@ -1,0 +1,96 @@
+#inherit_from: .rubocop_todo.yml
+
+#require:
+#  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 2.6
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - test/**/*
+    - tmp/*
+    - vendor/**/*
+    - Gemfile
+    - rubyXL.gemspec
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/MultilineIfThen:
+  Enabled: false
+
+Style/ParenthesesAroundCondition:
+  Enabled: false
+
+Style/MultilineWhenThen:
+  Enabled: false
+
+Style/RedundantPercentQ:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/ExponentialNotation:
+  Enabled: false
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  EnforcedStyle: space 
+  Enabled: false
+
+Layout/SpaceBeforeBlockBraces:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/ClassAndModuleCamelCase:
+  Enabled: false
+
+Naming/ConstantName:
+  Enabled: false
+
+
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table 
+
+Layout/SpaceInsidePercentLiteralDelimiters:
+  Enabled: false
+
+
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false

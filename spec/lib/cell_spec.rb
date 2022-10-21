@@ -8,8 +8,8 @@ describe RubyXL::Cell do
     @workbook  = RubyXL::Workbook.new
     @worksheet = @workbook.add_worksheet('Test Worksheet')
     @workbook.worksheets << @worksheet
-    (0..10).each do |i|
-      (0..10).each do |j|
+    11.times do |i|
+      11.times do |j|
         @worksheet.add_cell(i, j, "#{i}:#{j}")
       end
     end

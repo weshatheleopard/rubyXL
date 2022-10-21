@@ -8,8 +8,8 @@ describe RubyXL::Worksheet do
     workbook  = RubyXL::Workbook.new
     worksheet = workbook.add_worksheet
 
-    (0..10).each do |y|
-      (0..10).each do |x|
+    11.times do |y|
+      11.times do |x|
         next if y == SKIP_ROW_COL || x == SKIP_ROW_COL # Skip some rows/cells
         worksheet.add_cell(y, x, "#{x}:#{y}", "F#{x}:#{y}")
       end
