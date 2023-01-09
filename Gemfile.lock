@@ -32,7 +32,7 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
-    git (1.12.0)
+    git (1.13.0)
       addressable (~> 2.8)
       rchardet (~> 1.8)
     github_api (0.19.0)
@@ -77,7 +77,7 @@ GEM
       ast (~> 2.4.1)
     psych (4.0.6)
       stringio
-    public_suffix (5.0.0)
+    public_suffix (5.0.1)
     racc (1.6.0)
     rack (3.0.0)
     rainbow (3.1.1)
