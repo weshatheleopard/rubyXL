@@ -1,7 +1,7 @@
 = rubyXL
-{<img src="https://badge.fury.io/rb/rubyXL.svg" alt="Gem Version" />}[http://badge.fury.io/rb/rubyXL]
-{<img src="https://codeclimate.com/github/weshatheleopard/rubyXL.png" alt="Code Climate" />}[https://codeclimate.com/github/weshatheleopard/rubyXL]
-{<img src="https://circleci.com/gh/weshatheleopard/rubyXL.svg?style=svg" alt="CircleCI" />}[https://circleci.com/gh/weshatheleopard/rubyXL]
+{rdoc-image:https://badge.fury.io/rb/rubyXL.svg}[http://badge.fury.io/rb/rubyXL]
+{rdoc-image:https://codeclimate.com/github/weshatheleopard/rubyXL.png}[https://codeclimate.com/github/weshatheleopard/rubyXL]
+{rdoc-image:https://circleci.com/gh/weshatheleopard/rubyXL.svg?style=svg}[https://circleci.com/gh/weshatheleopard/rubyXL]
 
 This gem supports operating on +xlsx+ files (Open XML format). While it is capable
 of properly parsing the entire OOXML structure, its current main emphasis is on
