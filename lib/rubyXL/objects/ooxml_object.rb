@@ -18,6 +18,59 @@ module RubyXL
       self.class_variable_set(var_name, default || {})
     end
 
+    # This is like attr_accessor method, creating the getter and setter
+    # However, in this case the setter update the hash of the object containing it.
+    # It also trigger the parent in case of change
+    def hash_attr_accessor symbol
+      class_eval <<-RUBY, __FILE__, __LINE__
+        def #{symbol}
+          @#{symbol}
+        end
+
+        def #{symbol}= value
+          str_hash = "#{symbol}".hash
+
+          before_hash = @hash
+          @hash ^= @#{symbol}.hash * str_hash # Outmerge the hash component
+          @#{symbol} = value
+          @hash ^= value.hash * str_hash # Merge again the new hash component
+
+          @parent.hash_dirty! if @parent
+
+          value
+        end
+      RUBY
+    end
+
+    # This is like attr_accessor method, creating the getter and setter
+    # However, in this case the setter update the hash of the object containing it.
+    # It also register the parent link on setup
+    def hash_attr_accessor_child_node symbol
+      class_eval <<-RUBY, __FILE__, __LINE__
+        def #{symbol}
+          @#{symbol}
+        end
+
+        def #{symbol}= new_value
+          str_hash = "#{symbol}".hash
+
+          old_value = @#{symbol}
+
+          old_value.parent = nil if old_value.is_a?(OOXMLObjectInstanceMethods)
+          new_value.parent = self if new_value.is_a?(OOXMLObjectInstanceMethods)
+
+          before_hash = @hash
+          @hash ^= old_value.hash * str_hash # Outmerge the hash component
+          @#{symbol} = new_value
+          @hash ^= new_value.hash * str_hash # Merge again the new hash component
+
+          @parent.hash_dirty! if @parent
+
+          new_value
+        end
+      RUBY
+    end
+
     # Defines an attribute of OOXML object.
     # === Parameters
     # * +attribute_name+ - Name of the element attribute as seen in the source XML. Can be either <tt>"String"</tt> or <tt>:Symbol</tt>
@@ -51,7 +104,7 @@ module RubyXL
       attr_hash.merge!(extra_params) if extra_params
       attr_hash[:accessor] ||= accessorize(attr_name)
       attrs[attr_name.to_s] = attr_hash
-      self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
+      self.send(:hash_attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
     end
 
     # Defines a `r:id` attribute
@@ -92,7 +145,7 @@ module RubyXL
 
       define_count_attribute if extra_params[:collection] == :with_count
 
-      self.send(:attr_accessor, accessor)
+      self.send(:hash_attr_accessor_child_node, accessor)
     end
 
     def define_count_attribute
@@ -214,6 +267,10 @@ module RubyXL
   module OOXMLObjectInstanceMethods
     attr_accessor :local_namespaces
 
+    # Accessor used to get back to the parent from this node,
+    # and dirtyize the parent in case of hash update.
+    attr_accessor :parent
+
     def self.included(klass)
       klass.extend RubyXL::OOXMLObjectClassMethods
     end
@@ -232,6 +289,7 @@ module RubyXL
       }
 
       init_child_nodes(params)
+      recompute_hash
     end
 
     def init_child_nodes(params)
@@ -252,10 +310,27 @@ module RubyXL
     end
     private :preserve_whitespace
 
+    # Manually update a hashing part.
+    def hash_dirty!
+      @need_hash_recompute = true
+    end
+
+    # Recompute the hash with segment given by the childrens
+    def recompute_hash
+      @hash = 0
+      @hash = obtain_class_variable(:@@ooxml_attributes).inject(@hash) { |h, (k, v)| h ^ ( v[:accessor].hash * self.send(v[:accessor]).hash ) }
+      @hash = obtain_class_variable(:@@ooxml_child_nodes).inject(@hash) { |h, (k, v)| h ^ ( v[:accessor].hash * self.send(v[:accessor]).hash )  }
+      @need_hash_recompute = false
+    end
+
+    def hash
+      recompute_hash if @need_hash_recompute
+      @hash
+    end
+
     def ==(other)
       other.is_a?(self.class) &&
-        obtain_class_variable(:@@ooxml_attributes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&
-        obtain_class_variable(:@@ooxml_child_nodes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) }
+        self.hash == other.hash
     end
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual
