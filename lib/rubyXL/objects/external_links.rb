@@ -95,7 +95,6 @@ module RubyXL
     define_element_name 'oleLink'
   end
 
-
   class ExternalLinksFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'.freeze
     REL_TYPE     = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLink'.freeze
