@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Reference - rubyXL 3.4.25</title>
+<title>class RubyXL::Reference - rubyXL 3.4.26</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -41,7 +41,7 @@
     <div id="search-field-wrapper">
       <input id="search-field" role="combobox" aria-label="Search"
              aria-autocomplete="list" aria-controls="search-results"
-             type="text" name="search" placeholder="Search" spellcheck="false"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
              title="Type to search, Up and Down to navigate, Enter to load">
     </div>
 
@@ -149,17 +149,19 @@
        </header>
 
       <div id="method-c-ind2ref" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">ind2ref</span><span
-            class="method-args">(row = 0, col = 0)</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">ind2ref</span><span
+              class="method-args">(row = 0, col = 0)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           <p>Converts <code>row</code> and <code>col</code> zero-based indices to Excel-style cell reference &lt;0&gt; A…Z, AA…AZ, BA… …ZZ, AAA… …AZZ, BAA… …XFD &lt;16383&gt;</p>
 
           <div class="method-source-code" id="ind2ref-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 79</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">ind2ref</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">str</span> = <span class="ruby-string">&#39;&#39;</span>
 
@@ -179,17 +181,19 @@
       </div>
 
       <div id="method-c-new" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">new</span><span
-            class="method-args">(*params)</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">new</span><span
+              class="method-args">(*params)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
-          <p><a href="Reference.html#method-c-new"><code>RubyXL::Reference.new</code></a>(row, col) <a href="Reference.html#method-c-new"><code>RubyXL::Reference.new</code></a>(row_from, row_to, col_from, col_to) <a href="Reference.html#method-c-new"><code>RubyXL::Reference.new(reference_string)</code></a></p>
+          <p><a href="Reference.html#method-c-new"><code>RubyXL::Reference.new(row, col)</code></a> <a href="Reference.html#method-c-new"><code>RubyXL::Reference.new(row_from, row_to, col_from, col_to)</code></a> <a href="Reference.html#method-c-new"><code>RubyXL::Reference.new(reference_string)</code></a> <a href="Reference.html#method-c-new"><code>RubyXL::Reference.new</code></a>(row_from:, row_to:, col_from:, col_to:)</p>
 
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 11</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">row_from</span> = <span class="ruby-identifier">row_to</span> = <span class="ruby-identifier">col_from</span> = <span class="ruby-identifier">col_to</span> = <span class="ruby-keyword">nil</span>
 
@@ -197,10 +201,16 @@
   <span class="ruby-keyword">when</span> <span class="ruby-value">4</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-identifier">params</span>
   <span class="ruby-keyword">when</span> <span class="ruby-value">2</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span> = <span class="ruby-identifier">params</span>
   <span class="ruby-keyword">when</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;invalid value for #{self.class}: #{params[0].inspect}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
-    <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;:&#39;</span>)
-    <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">from</span>)
-    <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">to</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">first</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">fetch_values</span>(<span class="ruby-value">:row_from</span>, <span class="ruby-value">:row_to</span>, <span class="ruby-value">:col_from</span>, <span class="ruby-value">:col_to</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;:&#39;</span>)
+      <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">from</span>)
+      <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">to</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;invalid value for #{self.class}: #{params[0].inspect}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-ivar">@row_range</span> = <span class="ruby-constant">Range</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row_from</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">row_to</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">row_from</span> <span class="ruby-operator">||</span> <span class="ruby-constant">ROW_MAX</span>)
@@ -213,17 +223,19 @@
       </div>
 
       <div id="method-c-ref2ind" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">ref2ind</span><span
-            class="method-args">(str)</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">ref2ind</span><span
+              class="method-args">(str)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           <p>Converts Excel-style cell reference to <code>row</code> and <code>col</code> zero-based indices.</p>
 
           <div class="method-source-code" id="ref2ind-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 93</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">ref2ind</span>(<span class="ruby-identifier">str</span>)
   <span class="ruby-keyword">return</span> [ <span class="ruby-value">-1</span>, <span class="ruby-value">-1</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">str</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A([A-Z]+)(\d+)\Z/</span>
   [ <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">2</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>, <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">each_byte</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">col</span>, <span class="ruby-identifier">chr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">col</span> <span class="ruby-operator">*</span> <span class="ruby-value">26</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">chr</span> <span class="ruby-operator">-</span> <span class="ruby-value">64</span>) } <span class="ruby-operator">-</span> <span class="ruby-value">1</span> ]
@@ -242,17 +254,19 @@
        </header>
 
       <div id="method-i-3D-3D" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">==</span><span
-            class="method-args">(other)</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">==</span><span
+              class="method-args">(other)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="3D-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 52</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">==</span>(<span class="ruby-identifier">other</span>)
   <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@row_range</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@col_range</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -263,17 +277,19 @@
       </div>
 
       <div id="method-i-cover-3F" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">cover?</span><span
-            class="method-args">(other)</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">cover?</span><span
+              class="method-args">(other)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="cover-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cover?</span>(<span class="ruby-identifier">other</span>)
   <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">end</span>) <span class="ruby-operator">&amp;&amp;</span>
                   <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">end</span>))
@@ -285,17 +301,19 @@
       </div>
 
       <div id="method-i-first_col" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">first_col</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">first_col</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="first_col-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">first_col</span>
   <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>
 <span class="ruby-keyword">end</span></pre>
@@ -306,17 +324,19 @@
       </div>
 
       <div id="method-i-first_row" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">first_row</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">first_row</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="first_row-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 36</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">first_row</span>
   <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>
 <span class="ruby-keyword">end</span></pre>
@@ -327,17 +347,19 @@
       </div>
 
       <div id="method-i-inspect" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">inspect</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">inspect</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 69</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">single_cell?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-node">&quot;#&lt;#{self.class} @row=#{@row_range.begin} @col=#{@col_range.begin}&gt;&quot;</span>
@@ -352,17 +374,19 @@
       </div>
 
       <div id="method-i-last_col" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">last_col</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">last_col</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="last_col-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 48</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">last_col</span>
   <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>
 <span class="ruby-keyword">end</span></pre>
@@ -373,17 +397,19 @@
       </div>
 
       <div id="method-i-last_row" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">last_row</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">last_row</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="last_row-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 40</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">last_row</span>
   <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>
 <span class="ruby-keyword">end</span></pre>
@@ -394,17 +420,19 @@
       </div>
 
       <div id="method-i-single_cell-3F" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">single_cell?</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">single_cell?</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="single_cell-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">single_cell?</span>
   (<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -415,17 +443,19 @@
       </div>
 
       <div id="method-i-to_s" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">to_s</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">to_s</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 61</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">single_cell?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>)
@@ -440,17 +470,19 @@
       </div>
 
       <div id="method-i-valid-3F" class="method-detail ">
-        <div class="method-heading">
-          <span class="method-name">valid?</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">valid?</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
         </div>
 
         <div class="method-description">
           
 
           <div class="method-source-code" id="valid-3F-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 32</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">valid?</span>
   <span class="ruby-operator">!</span>(<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">begin</span>.<span class="ruby-identifier">negative?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>.<span class="ruby-identifier">negative?</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -468,7 +500,7 @@
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.4.0.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.6.3.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

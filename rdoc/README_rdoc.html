@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.4.25</title>
+<title>README - rubyXL 3.4.26</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -41,7 +41,7 @@
     <div id="search-field-wrapper">
       <input id="search-field" role="combobox" aria-label="Search"
              aria-autocomplete="list" aria-controls="search-results"
-             type="text" name="search" placeholder="Search" spellcheck="false"
+             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
              title="Type to search, Up and Down to navigate, Enter to load">
     </div>
 
@@ -57,50 +57,101 @@
 <div class="nav-section">
   <h3>Table of Contents</h3>
 
+
+
   <ul class="link-list" role="directory">
-    <li><a href="#label-rubyXL">rubyXL</a>
-    <li><a href="#label-To+Install-3A">To Install:</a>
-    <li><a href="#label-To+Use-3A">To Use:</a>
-    <li><a href="#label-Convenience+methods">Convenience methods</a>
-    <li><a href="#label-Parsing+an+existing+workbook">Parsing an existing workbook</a>
-    <li><a href="#label-Creating+a+new+Workbook">Creating a new Workbook</a>
-    <li><a href="#label-Accessing">Accessing</a>
-    <li><a href="#label-Accessing+a+Worksheet">Accessing a Worksheet</a>
-    <li><a href="#label-Accessing+a+Row+-28Array+of+Cells-29">Accessing a Row (Array of Cells)</a>
-    <li><a href="#label-Accessing+a+Cell+object">Accessing a Cell object</a>
-    <li><a href="#label-Wrappers+for+accessing+Cell+properties">Wrappers for accessing Cell properties</a>
-    <li><a href="#label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties </a>
-    <li><a href="#label-Accessing+column+properties">Accessing column properties</a>
-    <li><a href="#label-Modifying">Modifying</a>
-    <li><a href="#label-Adding+Worksheets">Adding Worksheets</a>
-    <li><a href="#label-Renaming+Worksheets">Renaming Worksheets</a>
-    <li><a href="#label-Adding+Cells">Adding Cells</a>
-    <li><a href="#label-Changing+Cells">Changing Cells</a>
-    <li><a href="#label-Changing+Fonts">Changing Fonts</a>
-    <li><a href="#label-Changing+Fills+++++">Changing Fills     </a>
-    <li><a href="#label-Changing+Borders">Changing Borders</a>
-    <li><a href="#label-Changing+Alignment">Changing Alignment</a>
-    <li><a href="#label-Horizontal">Horizontal</a>
-    <li><a href="#label-Vertical">Vertical</a>
-    <li><a href="#label-Rotation">Rotation</a>
-    <li><a href="#label-Changing+Row+Height">Changing Row Height</a>
-    <li><a href="#label-Changing+Column+Width">Changing Column Width</a>
-    <li><a href="#label-Merging+Cells">Merging Cells</a>
-    <li><a href="#label-Insert+Row">Insert Row</a>
-    <li><a href="#label-Insert+Column">Insert Column</a>
-    <li><a href="#label-Delete+Row">Delete Row</a>
-    <li><a href="#label-Delete+Column">Delete Column</a>
-    <li><a href="#label-Insert+Cell">Insert Cell</a>
-    <li><a href="#label-Delete+Cell">Delete Cell</a>
-    <li><a href="#label-Modifying+Cell+Format">Modifying Cell Format</a>
-    <li><a href="#label-Add+hyperlink+to+a+Cell">Add hyperlink to a Cell</a>
-    <li><a href="#label-I-2FO">I/O</a>
-    <li><a href="#label-Miscellaneous">Miscellaneous</a>
-    <li><a href="#label-Suppress+warnings+about+malformed+input+files">Suppress warnings about malformed input files</a>
-    <li><a href="#label-Data+validation+-28colloquially+referred+to+as+-22dropdown+list-22-29">Data validation (colloquially referred to as “dropdown list”)</a>
-    <li><a href="#label-For+more+information">For more information</a>
-    <li><a href="#label-Contributing+to+rubyXL">Contributing to rubyXL</a>
-    <li><a href="#label-Copyright">Copyright</a>
+              <li>
+            <details open>
+              <summary>      <a href="#label-rubyXL">rubyXL</a>
+</summary>
+              <ul class="link-list" role="directory">
+                          <li>      <a href="#label-To+Install-3A">To Install:</a>
+          <li>
+            <details open>
+              <summary>      <a href="#label-To+Use-3A">To Use:</a>
+</summary>
+              <ul class="link-list" role="directory">
+                          <li>      <a href="#label-Convenience+methods">Convenience methods</a>
+          <li>      <a href="#label-Parsing+an+existing+workbook">Parsing an existing workbook</a>
+          <li>      <a href="#label-Creating+a+new+Workbook">Creating a new Workbook</a>
+          <li>
+            <details open>
+              <summary>      <a href="#label-Accessing">Accessing</a>
+</summary>
+              <ul class="link-list" role="directory">
+                          <li>      <a href="#label-Accessing+a+Worksheet">Accessing a Worksheet</a>
+          <li>      <a href="#label-Accessing+a+Row+-28Array+of+Cells-29">Accessing a Row (Array of Cells)</a>
+          <li>      <a href="#label-Accessing+a+Cell+object">Accessing a Cell object</a>
+          <li>      <a href="#label-Wrappers+for+accessing+Cell+properties">Wrappers for accessing Cell properties</a>
+          <li>      <a href="#label-Wrappers+for+accessing+Row+properties+">Wrappers for accessing Row properties </a>
+          <li>      <a href="#label-Accessing+column+properties">Accessing column properties</a>
+
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details open>
+              <summary>      <a href="#label-Modifying">Modifying</a>
+</summary>
+              <ul class="link-list" role="directory">
+                          <li>      <a href="#label-Adding+Worksheets">Adding Worksheets</a>
+          <li>      <a href="#label-Renaming+Worksheets">Renaming Worksheets</a>
+          <li>      <a href="#label-Adding+Cells">Adding Cells</a>
+          <li>      <a href="#label-Changing+Cells">Changing Cells</a>
+          <li>      <a href="#label-Changing+Fonts">Changing Fonts</a>
+          <li>      <a href="#label-Changing+Fills+++++">Changing Fills     </a>
+          <li>      <a href="#label-Changing+Borders">Changing Borders</a>
+          <li>
+            <details open>
+              <summary>      <a href="#label-Changing+Alignment">Changing Alignment</a>
+</summary>
+              <ul class="link-list" role="directory">
+                          <li>      <a href="#label-Horizontal">Horizontal</a>
+          <li>      <a href="#label-Vertical">Vertical</a>
+          <li>      <a href="#label-Rotation">Rotation</a>
+
+              </ul>
+            </details>
+          </li>
+          <li>      <a href="#label-Changing+Row+Height">Changing Row Height</a>
+          <li>      <a href="#label-Changing+Column+Width">Changing Column Width</a>
+          <li>      <a href="#label-Merging+Cells">Merging Cells</a>
+          <li>      <a href="#label-Insert+Row">Insert Row</a>
+          <li>      <a href="#label-Insert+Column">Insert Column</a>
+          <li>      <a href="#label-Delete+Row">Delete Row</a>
+          <li>      <a href="#label-Delete+Column">Delete Column</a>
+          <li>      <a href="#label-Insert+Cell">Insert Cell</a>
+          <li>      <a href="#label-Delete+Cell">Delete Cell</a>
+          <li>      <a href="#label-Modifying+Cell+Format">Modifying Cell Format</a>
+          <li>      <a href="#label-Add+hyperlink+to+a+Cell">Add hyperlink to a Cell</a>
+
+              </ul>
+            </details>
+          </li>
+
+              </ul>
+            </details>
+          </li>
+          <li>      <a href="#label-I-2FO">I/O</a>
+          <li>
+            <details open>
+              <summary>      <a href="#label-Miscellaneous">Miscellaneous</a>
+</summary>
+              <ul class="link-list" role="directory">
+                          <li>      <a href="#label-Suppress+warnings+about+malformed+input+files">Suppress warnings about malformed input files</a>
+
+              </ul>
+            </details>
+          </li>
+          <li>      <a href="#label-Data+validation+-28colloquially+referred+to+as+-22dropdown+list-22-29">Data validation (colloquially referred to as “dropdown list”)</a>
+          <li>      <a href="#label-For+more+information">For more information</a>
+          <li>      <a href="#label-Contributing+to+rubyXL">Contributing to rubyXL</a>
+          <li>      <a href="#label-Copyright">Copyright</a>
+
+              </ul>
+            </details>
+          </li>
+
   </ul>
 </div>
 
@@ -122,7 +173,7 @@
 
 <h1 id="label-rubyXL">rubyXL<span><a href="#label-rubyXL">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
-<p><a href="http://badge.fury.io/rb/rubyXL"><img src="https://badge.fury.io/rb/rubyXL.svg" alt="Gem Version" /></a> <a href="https://codeclimate.com/github/weshatheleopard/rubyXL"><img src="https://codeclimate.com/github/weshatheleopard/rubyXL.png" alt="Code Climate" /></a> <a href="https://circleci.com/gh/weshatheleopard/rubyXL"><img src="https://circleci.com/gh/weshatheleopard/rubyXL.svg?style=svg" alt="CircleCI" /></a></p>
+<p><a href="http://badge.fury.io/rb/rubyXL"><img src="https://badge.fury.io/rb/rubyXL.svg"></a> <a href="https://codeclimate.com/github/weshatheleopard/rubyXL"><img src="https://codeclimate.com/github/weshatheleopard/rubyXL.png"></a> <a href="https://circleci.com/gh/weshatheleopard/rubyXL"><img src="https://circleci.com/gh/weshatheleopard/rubyXL.svg?style=svg"></a></p>
 
 <p>This gem supports operating on <code>xlsx</code> files (Open XML format). While it is capable of properly parsing the entire OOXML structure, its current main emphasis is on reading files produced by MS Excel, making minor modifications to them and saving them to be opened again, while preserving as much of the structure as possible.</p>
 
@@ -476,7 +527,7 @@
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="https://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.4.0.
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.6.3.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 
