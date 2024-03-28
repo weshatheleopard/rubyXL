@@ -55,11 +55,19 @@ module RubyXL
     define_element_name 'sheetDataSet'
   end
 
+  # https://learn.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/452524b4-b22f-45a9-aac1-81fdd1f1db6c
+  class AlternateUrls < OOXMLObject
+    define_attribute(:absoluteUrl, :string, :required => false)
+    define_attribute(:relativeUrl, :string, :required => false)
+    define_element_name 'xxl21:alternateUrls'
+  end
+
   # http://www.datypic.com/sc/ooxml/e-ssml_externalBook-1.html
   class ExternalBook < OOXMLObject
     define_child_node(RubyXL::SheetNames)
     define_child_node(RubyXL::DefinedNamesExt)
     define_child_node(RubyXL::SheetDataSet)
+    define_child_node(RubyXL::AlternateUrls)
     define_relationship(:required => true)
     define_element_name 'externalBook'
   end
@@ -86,6 +94,7 @@ module RubyXL
     define_attribute(:progId, :string, :required => true)
     define_element_name 'oleLink'
   end
+
 
   class ExternalLinksFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml'.freeze
