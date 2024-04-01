@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
     ".rubocop.yml",
     "CHANGELOG.md",
     "Gemfile",
-    "Gemfile.lock",
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
