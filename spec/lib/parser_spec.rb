@@ -101,6 +101,13 @@ describe RubyXL::Parser do
       expect(f).to be_instance_of(RubyXL::Workbook)
     end
 
+    it 'should not modify the buffer state' do
+      buffer = File.read(@file)
+      expect(buffer).to be_instance_of(String)
+      RubyXL::Parser.parse_buffer(buffer)
+      expect(buffer.bytes).to eq(File.read(@file).bytes)
+    end
+
     it 'should parse an IO object correctly' do
       io = File.open(@file)
       expect(io).to be_instance_of(File)
