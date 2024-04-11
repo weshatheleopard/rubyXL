@@ -1,5 +1,7 @@
 module RubyXL
   module LegacyWorksheet
+    TEXT_LENGTH_LIMIT_IN_CELL = 32767 # 2 ** 15 - 1
+
     include Enumerable
 
     def initialize(params = {})
@@ -50,9 +52,15 @@ module RubyXL
           case data
           when Numeric          then c.raw_value = data
           when String           then
+            if TEXT_LENGTH_LIMIT_IN_CELL < data.length
+              raise ArgumentError, "The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters"
+            end
             c.raw_value = data
             c.datatype = RubyXL::DataType::RAW_STRING
           when RubyXL::RichText then
+            if TEXT_LENGTH_LIMIT_IN_CELL < data.to_s.length
+              raise ArgumentError, "The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters"
+            end
             c.is = data
             c.datatype = RubyXL::DataType::INLINE_STRING
           when Time, Date, DateTime then
