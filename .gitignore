@@ -9,3 +9,4 @@ bin
 vendor
 lib/tests/
 coverage
+Gemfile.lock
