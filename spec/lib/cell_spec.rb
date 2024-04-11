@@ -66,6 +66,30 @@ describe RubyXL::Cell do
       # We expect exactly the same date
       expect(cell.value.to_time.utc.iso8601).to eq(expected_datetime.iso8601)
     end
+
+    it 'should raise against too long String' do
+      ok_data = 'A' * 32767  # The limit is 32767
+
+      expect {
+         @worksheet.add_cell(0,1, ok_data) # 32767 -> OK
+      }.not_to raise_error
+      expect {
+         # 1 longer than the limit, so an exception must be thrown.
+         @worksheet.add_cell(0,2, ok_data + 'B')
+      }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise against too long RichText' do
+      ok_data = 'A' * 32767  # The limit is 32767
+
+      expect {
+         @worksheet.add_cell(0,1, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data))) # 32767 -> OK
+      }.not_to raise_error
+      expect {
+         # 1 longer than the limit, so an exception must be thrown.
+         @worksheet.add_cell(0,2, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data + 'B')))
+      }.to raise_error(ArgumentError)
+    end
   end
 
   describe '.change_fill' do
