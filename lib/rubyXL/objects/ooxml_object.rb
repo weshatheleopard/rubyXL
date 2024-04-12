@@ -369,7 +369,7 @@ module RubyXL
     include OOXMLObjectInstanceMethods
   end
 
-  # Parent class for OOXML conainer objects (for example,
+  # Parent class for OOXML container objects (for example,
   # <tt>&lt;fonts&gt;&lt;font&gt;...&lt;/font&gt;&lt;font&gt;...&lt;/font&gt;&lt;/fonts&gt;</tt>
   # that obscures the top-level container, allowing direct access to the contents as +Array+.
   class OOXMLContainerObject < Array
