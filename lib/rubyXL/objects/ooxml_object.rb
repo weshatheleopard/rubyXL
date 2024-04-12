@@ -445,7 +445,7 @@ module RubyXL
     # * +file_path+ - path to the subject file inside the <tt>.xslx</tt> zip archive
     def self.parse_file(zip_file, file_path)
       entry = zip_file.find_entry(RubyXL::from_root(file_path))
-      # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream
+      # Accommodate for Nokogiri Java implementation which is incapable of reading from a stream
       entry && (entry.get_input_stream { |f| parse(defined?(JRUBY_VERSION) ? f.read : f) })
     end
 
