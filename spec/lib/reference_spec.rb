@@ -21,11 +21,11 @@ describe RubyXL::Reference do
   end
 
   describe '.valid?' do
-    it 'should retun true for valid references' do
+    it 'should return true for valid references' do
       expect(RubyXL::Reference.new('C23').valid?).to be true
     end
 
-    it 'should retun false for invalid references' do
+    it 'should return false for invalid references' do
       expect(RubyXL::Reference.new('C2A').valid?).to be false
     end
   end
