@@ -155,7 +155,7 @@
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 446</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">parse_file</span>(<span class="ruby-identifier">zip_file</span>, <span class="ruby-identifier">file_path</span>)
   <span class="ruby-identifier">entry</span> = <span class="ruby-identifier">zip_file</span>.<span class="ruby-identifier">find_entry</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-identifier">from_root</span>(<span class="ruby-identifier">file_path</span>))
-  <span class="ruby-comment"># Accomodate for Nokogiri Java implementation which is incapable of reading from a stream</span>
+  <span class="ruby-comment"># Accommodate for Nokogiri Java implementation which is incapable of reading from a stream</span>
   <span class="ruby-identifier">entry</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">entry</span>.<span class="ruby-identifier">get_input_stream</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">parse</span>(<span class="ruby-keyword">defined?</span>(<span class="ruby-constant">JRUBY_VERSION</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">f</span>) })
 <span class="ruby-keyword">end</span></pre>
           </div>
