@@ -24,7 +24,7 @@ module RubyXL
       calculation_chain = workbook && workbook.calculation_chain
       calculation_cells = calculation_chain && calculation_chain.cells
       calculation_cells && calculation_cells.reject! { |c|
-        c.ref.col_range.c == self.column && c.ref.row_range.begin == self.row
+        c.ref.col_range.c == column && c.ref.row_range.begin == row
       }
     end
 
@@ -40,43 +40,43 @@ module RubyXL
 
     def change_horizontal_alignment(alignment = 'center')
       validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.horizontal = alignment }
+      self.style_index = workbook.modify_alignment(style_index) { |a| a.horizontal = alignment }
     end
 
     def change_vertical_alignment(alignment = 'center')
       validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.vertical = alignment }
+      self.style_index = workbook.modify_alignment(style_index) { |a| a.vertical = alignment }
     end
 
     def change_text_wrap(wrap = false)
       validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.wrap_text = wrap }
+      self.style_index = workbook.modify_alignment(style_index) { |a| a.wrap_text = wrap }
     end
 
     def change_shrink_to_fit(shrink_to_fit = false)
       validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.shrink_to_fit = shrink_to_fit }
+      self.style_index = workbook.modify_alignment(style_index) { |a| a.shrink_to_fit = shrink_to_fit }
     end
 
     def change_text_rotation(rot)
       validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.text_rotation = rot }
+      self.style_index = workbook.modify_alignment(style_index) { |a| a.text_rotation = rot }
     end
 
     def change_text_indent(indent)
       validate_worksheet
-      self.style_index = workbook.modify_alignment(self.style_index) { |a| a.indent = indent }
+      self.style_index = workbook.modify_alignment(style_index) { |a| a.indent = indent }
     end
 
     def change_border(direction, weight)
       validate_worksheet
-      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+      self.style_index = workbook.modify_border(style_index, direction, weight)
     end
 
     def change_border_color(direction, color)
       validate_worksheet
       Color.validate_color(color)
-      self.style_index = workbook.modify_border_color(self.style_index, direction, color)
+      self.style_index = workbook.modify_border_color(style_index, direction, color)
     end
 
     def is_italicized
@@ -116,7 +116,7 @@ module RubyXL
 
     def fill_color
       validate_worksheet
-      return workbook.get_fill_color(get_cell_xf)
+      workbook.get_fill_color(get_cell_xf)
     end
 
     def horizontal_alignment
@@ -165,7 +165,7 @@ module RubyXL
     def change_fill(rgb = 'ffffff')
       validate_worksheet
       Color.validate_color(rgb)
-      self.style_index = workbook.modify_fill(self.style_index, rgb)
+      self.style_index = workbook.modify_fill(style_index, rgb)
     end
 
     # Changes font name of cell
@@ -260,17 +260,17 @@ module RubyXL
       relationships << RubyXL::Relationship.new(:id => r_id, :target => url, :target_mode => 'External',
                                                 :type => RubyXL::HyperlinkRelFile::REL_TYPE)
 
-      hyperlink = RubyXL::Hyperlink.new(:ref => self.r, :r_id => r_id)
+      hyperlink = RubyXL::Hyperlink.new(:ref => r, :r_id => r_id)
       hyperlink.tooltip = tooltip if tooltip
       worksheet.hyperlinks ||= RubyXL::Hyperlinks.new
       worksheet.hyperlinks << hyperlink
     end
 
-#     def add_shared_string(str)
-#       self.datatype = RubyXL::DataType::SHARED_STRING
-#       self.raw_value = @workbook.shared_strings_container.add(str)
-#     end
+    #     def add_shared_string(str)
+    #       self.datatype = RubyXL::DataType::SHARED_STRING
+    #       self.raw_value = @workbook.shared_strings_container.add(str)
+    #     end
   end
 
-  RubyXL::Cell.send(:include, RubyXL::CellConvenienceMethods) # ruby 2.1 compat
+  RubyXL::Cell.include RubyXL::CellConvenienceMethods # ruby 2.1 compat
 end

@@ -15,11 +15,9 @@ module RubyXL
 
     # validates hex color code, no '#' allowed
     def self.validate_color(color)
-      if color =~ COLOR_REGEXP
-        return true
-      else
-        raise 'invalid color'
-      end
+      return true if color =~ COLOR_REGEXP
+
+      raise 'invalid color'
     end
   end
 end

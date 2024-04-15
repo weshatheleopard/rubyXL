@@ -85,7 +85,6 @@ module RubyXL
     end
   end
 
-
   class CorePropertiesFile < OOXMLTopLevelObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-package.core-properties+xml'.freeze
     REL_TYPE     = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'.freeze

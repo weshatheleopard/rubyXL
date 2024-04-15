@@ -36,7 +36,7 @@ module RubyXL
     define_element_name 'fill'
 
     def self.default(pattern_type)
-      self.new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => pattern_type))
+      new(:pattern_fill => RubyXL::PatternFill.new(:pattern_type => pattern_type))
     end
   end
 
@@ -46,7 +46,7 @@ module RubyXL
     define_element_name 'fills'
 
     def self.default
-      self.new(:_ => [ RubyXL::Fill.default('none'), RubyXL::Fill.default('gray125') ])
+      new(:_ => [ RubyXL::Fill.default('none'), RubyXL::Fill.default('gray125') ])
     end
   end
 end

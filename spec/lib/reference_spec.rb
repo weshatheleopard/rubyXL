@@ -60,4 +60,3 @@ describe RubyXL::Reference do
     end
   end
 end
-

@@ -58,9 +58,7 @@ module RubyXL
         RubyXL.constants.each { |c|
           klass = RubyXL.const_get(c)
 
-          if klass.is_a?(Class) && klass.const_defined?(:REL_TYPE) then
-            @@rel_hash[klass::REL_TYPE] = klass
-          end
+          @@rel_hash[klass::REL_TYPE] = klass if klass.is_a?(Class) && klass.const_defined?(:REL_TYPE)
         }
       end
 
@@ -72,7 +70,7 @@ module RubyXL
 
       @@debug_indent += 2 if @@debug_indent
 
-      self.relationships.each { |rel|
+      relationships.each { |rel|
         next if rel.target_mode == 'External'
 
         file_path = ::Pathname.new(rel.target)
@@ -81,7 +79,7 @@ module RubyXL
         klass = RubyXL::OOXMLRelationshipsFile.get_class_by_rel_type(rel.type)
 
         if klass.nil? then
-          if !RubyXL.class_variable_get(:@@suppress_warnings) then
+          unless RubyXL.class_variable_get(:@@suppress_warnings) then
             puts "*** WARNING: storage class not found for #{rel.target} (#{rel.type})"
           end
 
@@ -92,10 +90,10 @@ module RubyXL
 
         obj = klass.parse_file(zipdir_path, file_path)
         obj.load_relationships(zipdir_path, file_path) if obj.respond_to?(:load_relationships)
-        self.related_files[rel.id] = obj
+        related_files[rel.id] = obj
       }
 
-      @@debug_indent -=2 if @@debug_indent
+      @@debug_indent -= 2 if @@debug_indent
 
       related_files
     end
@@ -181,7 +179,7 @@ module RubyXL
       }
     end
 
-    def attach_relationship(rid, rf)
+    def attach_relationship(_rid, rf)
       relationships = self.class.class_variable_get(:@@ooxml_relationships)
       klass = rf.class
       if relationships.has_key?(klass) then
@@ -193,12 +191,14 @@ module RubyXL
         when false then
           # Do nothing, the code will perform attaching on its own
         else
-          container = self.send(accessor)
+          container = send(accessor)
           if container.is_a?(Array) then container << rf
-          else self.send("#{accessor}=", rf)
+          else
+            send("#{accessor}=", rf)
           end
         end
-      else store_relationship(rf, :unknown)
+      else
+        store_relationship(rf, :unknown)
       end
     end
 

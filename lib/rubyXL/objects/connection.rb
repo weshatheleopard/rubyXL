@@ -59,7 +59,7 @@ module RubyXL
     define_attribute(:url,         RubyXL::ST_Xstring)
     define_attribute(:post,        RubyXL::ST_Xstring)
     define_attribute(:htmlTables,  :bool, :default => false)
-    define_attribute(:htmlFormat,  ssml:ST_HtmlFmt, :default => 'none')
+    define_attribute(:htmlFormat,  ssml: ST_HtmlFmt, :default => 'none')
     define_attribute(:editPage,    RubyXL::ST_Xstring)
 
     define_child_node(RubyXL::ConnectionTables)
@@ -75,7 +75,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_textFields-1.html
   class ConnectionTextFields < OOXMLObject
-    define_child_node(RubyXL::ConnectionTextField, :collection => :with_count, :accessor => :text_fields, :node_name => :textField)
+    define_child_node(RubyXL::ConnectionTextField, :collection => :with_count, :accessor => :text_fields,
+:node_name => :textField)
 
     define_element_name 'textFields'
   end
@@ -95,7 +96,7 @@ module RubyXL
     define_attribute(:comma,       :bool, :default => false)
     define_attribute(:semicolon,   :bool, :default => false)
     define_attribute(:consecutive, :bool, :default => false)
-    define_attribute(:qualifier,   ssml:ST_Qualifier, :default => 'doubleQuote')
+    define_attribute(:qualifier,   ssml: ST_Qualifier, :default => 'doubleQuote')
     define_attribute(:delimiter,   RubyXL::ST_Xstring)
 
     define_child_node(RubyXL::ConnectionTextFields)
@@ -120,7 +121,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_parameters-1.html
   class QueryParameters < OOXMLObject
-    define_child_node(RubyXL::QueryParameter, :collection => :with_count, :accessor => :parameters, :node_name => :parameter)
+    define_child_node(RubyXL::QueryParameter, :collection => :with_count, :accessor => :parameters,
+:node_name => :parameter)
     define_element_name 'parameters'
   end
 

@@ -21,8 +21,8 @@ module RubyXL
       sheet_data[row]
     end
 
-    def each
-      sheet_data.rows.each { |row| yield(row) }
+    def each(&block)
+      sheet_data.rows.each(&block)
     end
 
     def add_row(row_index = 0, params = {})
@@ -53,13 +53,15 @@ module RubyXL
           when Numeric          then c.raw_value = data
           when String           then
             if TEXT_LENGTH_LIMIT_IN_CELL < data.length
-              raise ArgumentError, "The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters"
+              raise ArgumentError,
+                    "The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters"
             end
             c.raw_value = data
             c.datatype = RubyXL::DataType::RAW_STRING
           when RubyXL::RichText then
             if TEXT_LENGTH_LIMIT_IN_CELL < data.to_s.length
-              raise ArgumentError, "The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters"
+              raise ArgumentError,
+                    "The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters"
             end
             c.is = data
             c.datatype = RubyXL::DataType::INLINE_STRING
@@ -81,8 +83,8 @@ module RubyXL
 
     # validates Workbook, ensures that this worksheet is in @workbook
     def validate_workbook
-      unless @workbook.nil? || @workbook.worksheets.nil?
-        return if @workbook.worksheets.any? { |sheet| sheet.equal?(self) }
+      if !(@workbook.nil? || @workbook.worksheets.nil?) && @workbook.worksheets.any? { |sheet| sheet.equal?(self) }
+        return
       end
 
       raise "This worksheet #{self} is not in workbook #{@workbook}"

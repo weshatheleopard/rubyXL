@@ -5,14 +5,14 @@ module RubyXL
   class RawOOXML < OOXMLObject
     attr_accessor :raw_xml
 
-    def self.parse(node, ignore)
+    def self.parse(node, _ignore)
       obj = new
       obj.raw_xml = node.to_xml
       obj
     end
 
-    def write_xml(xml, node_name_override = nil)
-      self.raw_xml
+    def write_xml(_xml, _node_name_override = nil)
+      raw_xml
     end
   end
 
@@ -33,11 +33,11 @@ module RubyXL
   end
 
   class OOXMLIgnored < OOXMLObject
-    def self.parse(node, ignore)
+    def self.parse(_node, _ignore)
       nil
     end
 
-    def write_xml(xml, node_name_override = nil)
+    def write_xml(_xml, _node_name_override = nil)
       ''
     end
   end

@@ -1,5 +1,3 @@
-# encoding: UTF-8  <-- magic comment, need this because of sime fancy fonts in the default scheme below. See http://stackoverflow.com/questions/6444826/ruby-utf-8-file-encoding
-
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/extensions'
 
@@ -10,14 +8,14 @@ module RubyXL
     define_element_name 'a:ext'
     attr_accessor :raw_xml
 
-    def self.parse(node, ignore)
+    def self.parse(node, _ignore)
       obj = new
       obj.raw_xml = node.to_xml
       obj
     end
 
-    def write_xml(xml, node_name_override = nil)
-      self.raw_xml
+    def write_xml(_xml, _node_name_override = nil)
+      raw_xml
     end
   end
 
@@ -1393,19 +1391,19 @@ module RubyXL
     def get_theme_color(idx)
       color_scheme = a_theme_elements && a_theme_elements.a_clr_scheme
 
-      if color_scheme then
-        case idx
-        when 0 then color_scheme.a_lt1
-        when 1 then color_scheme.a_dk1
-        when 2 then color_scheme.a_lt2
-        when 3 then color_scheme.a_dk2
-        when 4 then color_scheme.a_accent1
-        when 5 then color_scheme.a_accent2
-        when 6 then color_scheme.a_accent3
-        when 7 then color_scheme.a_accent4
-        when 8 then color_scheme.a_accent5
-        when 9 then color_scheme.a_accent6
-        end
+      return unless color_scheme
+
+      case idx
+      when 0 then color_scheme.a_lt1
+      when 1 then color_scheme.a_dk1
+      when 2 then color_scheme.a_lt2
+      when 3 then color_scheme.a_dk2
+      when 4 then color_scheme.a_accent1
+      when 5 then color_scheme.a_accent2
+      when 6 then color_scheme.a_accent3
+      when 7 then color_scheme.a_accent4
+      when 8 then color_scheme.a_accent5
+      when 9 then color_scheme.a_accent6
       end
     end
 
@@ -1726,7 +1724,7 @@ module RubyXL
 </a:objectDefaults>
 <a:extraClrSchemeLst/>
 </a:theme>'
-      self.parse(default_theme)
+      parse(default_theme)
     end
   end
 end

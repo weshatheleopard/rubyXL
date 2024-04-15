@@ -30,31 +30,31 @@ module RubyXL
     define_element_name 'border'
 
     def get_edge_style(direction)
-      edge = self.send(direction)
+      edge = send(direction)
       edge && edge.style
     end
 
     def set_edge_style(direction, style)
-      edge = self.send(direction)
+      edge = send(direction)
       if edge
         edge.style = style
       else
-        self.send("#{direction}=", RubyXL::BorderEdge.new(:style => style))
+        send("#{direction}=", RubyXL::BorderEdge.new(:style => style))
       end
     end
 
     def get_edge_color(direction)
-      edge = self.send(direction)
+      edge = send(direction)
       edge && edge.get_rgb_color
     end
 
     def set_edge_color(direction, color)
-      edge = self.send(direction)
+      edge = send(direction)
       if edge
         edge.set_rgb_color(color)
       else
-        self.send("#{direction}=", RubyXL::BorderEdge.new)
-        self.send(direction).set_rgb_color(color)
+        send("#{direction}=", RubyXL::BorderEdge.new)
+        send(direction).set_rgb_color(color)
       end
     end
   end
@@ -65,7 +65,7 @@ module RubyXL
     define_element_name 'borders'
 
     def self.default
-      self.new(:_ => [ RubyXL::Border.new ])
+      new(:_ => [ RubyXL::Border.new ])
     end
   end
 end

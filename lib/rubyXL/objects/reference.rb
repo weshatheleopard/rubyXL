@@ -1,6 +1,6 @@
 module RubyXL
   class Reference
-    ROW_MAX = 1024*1024
+    ROW_MAX = 1024 * 1024
     COL_MAX = 16393
 
     attr_reader :row_range, :col_range
@@ -24,7 +24,9 @@ module RubyXL
           row_from, col_from = self.class.ref2ind(from)
           row_to, col_to = self.class.ref2ind(to) unless to.nil?
         else
-          raise ArgumentError.new("invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
+          unless params[0].is_a?(String)
+            raise ArgumentError.new("invalid value for #{self.class}: #{params[0].inspect}")
+          end
         end
       end
 
@@ -69,7 +71,8 @@ module RubyXL
       if single_cell? then
         self.class.ind2ref(@row_range.begin, @col_range.begin)
       else
-        self.class.ind2ref(@row_range.begin, @col_range.begin) + ':' + self.class.ind2ref(@row_range.end, @col_range.end)
+        self.class.ind2ref(@row_range.begin,
+                           @col_range.begin) + ':' + self.class.ind2ref(@row_range.end, @col_range.end)
       end
     end
 
@@ -99,7 +102,9 @@ module RubyXL
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
     def self.ref2ind(str)
       return [ -1, -1 ] unless str =~ /\A([A-Z]+)(\d+)\Z/
-      [ Regexp.last_match(2).to_i - 1, Regexp.last_match(1).each_byte.inject(0) { |col, chr| col * 26 + (chr - 64) } - 1 ]
+      [ Regexp.last_match(2).to_i - 1, Regexp.last_match(1).each_byte.inject(0) { |col, chr|
+                                         (col * 26) + (chr - 64)
+                                       } - 1 ]
     end
   end
 
@@ -109,7 +114,7 @@ module RubyXL
     end
 
     def to_s
-      self.collect{ |ref| ref.to_s }.join(' ')
+      collect{ |ref| ref.to_s }.join(' ')
     end
   end
 end

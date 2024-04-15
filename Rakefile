@@ -19,7 +19,7 @@ Juwelier::Tasks.new do |gem|
   gem.description = %q{rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents}
   gem.email = 'bhagwat.vivek@gmail.com'
   gem.authors = ['Vivek Bhagwat', 'Wesha']
-#  gem.required_ruby_version = '>2.1'
+  #  gem.required_ruby_version = '>2.1'
   # dependencies defined in Gemfile
 end
 Juwelier::RubygemsDotOrgTasks.new

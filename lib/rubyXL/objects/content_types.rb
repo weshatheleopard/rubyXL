@@ -14,7 +14,7 @@ module RubyXL
   end
 
   class ContentTypes < OOXMLTopLevelObject
-    SAVE_ORDER = 999  # Must be saved last, so it has time to accumulate overrides from all others.
+    SAVE_ORDER = 999 # Must be saved last, so it has time to accumulate overrides from all others.
     XLSX_PATH = ROOT.join('[Content_Types].xml')
 
     define_child_node(RubyXL::ContentTypeDefault,  :collection => true, :accessor => :defaults)
@@ -55,10 +55,12 @@ module RubyXL
       # Add overrides for the files with known extensions but different content types.
       root.rels_hash.each_pair { |klass, objects|
         objects.each { |obj|
-          obj_content_type = case
-                             when obj.respond_to?(:content_type) then obj.content_type
-                             when defined?(klass::CONTENT_TYPE)  then klass::CONTENT_TYPE
-                             else next
+          obj_content_type = if obj.respond_to?(:content_type)
+                               obj.content_type
+                             elsif defined?(klass::CONTENT_TYPE)
+                               klass::CONTENT_TYPE
+                             else
+                               next
                              end
 
           ext = obj.xlsx_path.extname[1..-1]

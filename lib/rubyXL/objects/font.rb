@@ -26,8 +26,8 @@ module RubyXL
     define_element_name 'font'
 
     def self.default(size = 10)
-      self.new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
-               :sz   => RubyXL::FloatValue.new(:val => size))
+      new(:name => RubyXL::StringValue.new(:val => 'Verdana'),
+          :sz   => RubyXL::FloatValue.new(:val => size))
     end
   end
 
@@ -37,7 +37,7 @@ module RubyXL
     define_element_name 'fonts'
 
     def self.default
-      self.new(:_ => [ RubyXL::Font.default(10), RubyXL::Font.default(8) ])
+      new(:_ => [ RubyXL::Font.default(10), RubyXL::Font.default(8) ])
     end
   end
 end

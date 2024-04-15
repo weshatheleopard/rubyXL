@@ -31,13 +31,13 @@ module RubyXL
         raise 'invalid shift option'
       end
 
-      return add_cell(row, col, data, formula)
+      add_cell(row, col, data, formula)
     end
 
     # by default, only sets cell to nil
     # if :left is specified, method will shift row contents to the right of the deleted cell to the left
     # if :up is specified, method will shift column contents below the deleted cell upward
-    def delete_cell(row_index = 0, column_index=0, shift=nil)
+    def delete_cell(row_index = 0, column_index = 0, shift = nil)
       validate_workbook
       validate_nonnegative(row_index)
       validate_nonnegative(column_index)
@@ -65,7 +65,7 @@ module RubyXL
         raise 'invalid shift option'
       end
 
-      return old_cell
+      old_cell
     end
 
     # Inserts row at row_index, pushes down, copies style from the row above (that's what Excel 2013 does!)
@@ -80,12 +80,13 @@ module RubyXL
         old_row = sheet_data.rows[row_index - 1]
         if old_row then
           new_cells = old_row.cells.collect { |c|
-                        if c.nil? then nil
-                        else nc = RubyXL::Cell.new(:style_index => c.style_index)
-                             nc.worksheet = self
-                             nc
-                        end
-                      }
+            if c.nil? then nil
+            else
+              nc = RubyXL::Cell.new(:style_index => c.style_index)
+              nc.worksheet = self
+              nc
+            end
+          }
         end
       end
 
@@ -106,7 +107,7 @@ module RubyXL
       }
 
       # Update merged cells for all rows below
-      if self.merged_cells then
+      if merged_cells then
         merged_cells.each { |mc|
           next if mc.ref.row_range.last < row_index
 
@@ -115,15 +116,15 @@ module RubyXL
             mc.ref.row_range.first + (in_merged_cell ? 0 : 1),
             mc.ref.row_range.last + 1,
             mc.ref.col_range.first,
-            mc.ref.col_range.last,
+            mc.ref.col_range.last
           )
         }
       end
 
-      return new_row
+      new_row
     end
 
-    def delete_row(row_index=0)
+    def delete_row(row_index = 0)
       validate_workbook
       validate_nonnegative(row_index)
 
@@ -136,7 +137,7 @@ module RubyXL
       }
 
       # Update row number of merged cells
-      if self.merged_cells then
+      if merged_cells then
         merged_cells.delete_if { |mc| mc.ref.row_range == (row_index..row_index) }
         merged_cells.each { |mc|
           next if mc.ref.row_range.last < row_index
@@ -146,13 +147,13 @@ module RubyXL
             mc.ref.row_range.first - (in_merged_cell ? 0 : 1),
             mc.ref.row_range.last - 1,
             mc.ref.col_range.first,
-            mc.ref.col_range.last,
+            mc.ref.col_range.last
           )
         }
         merged_cells.delete_if { |mc| mc.ref.single_cell? }
       end
 
-      return deleted
+      deleted
     end
 
     # Inserts column at +column_index+, pushes everything right, takes styles from column to left
@@ -171,7 +172,7 @@ module RubyXL
         c = nil
 
         if old_cell && old_cell.style_index != 0 &&
-             old_range && old_range.style_index != old_cell.style_index then
+           old_range && old_range.style_index != old_cell.style_index then
 
           c = RubyXL::Cell.new(:style_index => old_cell.style_index, :worksheet => self,
                                :row => row_index, :column => column_index,
@@ -184,19 +185,19 @@ module RubyXL
       cols.insert_column(column_index)
 
       # Update merged cells for all rows below
-      if self.merged_cells then
-        merged_cells.each { |mc|
-          next if mc.ref.col_range.last < column_index
+      return unless merged_cells
 
-          in_merged_cell = mc.ref.row_range.first < column_index
-          mc.ref = RubyXL::Reference.new(
-            mc.ref.row_range.first,
-            mc.ref.row_range.last,
-            mc.ref.col_range.first + (in_merged_cell ? 0 : 1),
-            mc.ref.col_range.last + 1,
-          )
-        }
-      end
+      merged_cells.each { |mc|
+        next if mc.ref.col_range.last < column_index
+
+        in_merged_cell = mc.ref.row_range.first < column_index
+        mc.ref = RubyXL::Reference.new(
+          mc.ref.row_range.first,
+          mc.ref.row_range.last,
+          mc.ref.col_range.first + (in_merged_cell ? 0 : 1),
+          mc.ref.col_range.last + 1
+        )
+      }
 
       # TODO: update column numbers
     end
@@ -209,7 +210,7 @@ module RubyXL
       sheet_data.rows.each { |row| row && row.cells.delete_at(column_index) }
 
       # Update column numbers for cells to the right of the deleted column
-      sheet_data.rows.each_with_index { |row, row_index|
+      sheet_data.rows.each_with_index { |row, _row_index|
         next if row.nil?
         row.cells.each_with_index { |c, ci|
           c.column = ci if c.is_a?(Cell)
@@ -219,7 +220,7 @@ module RubyXL
       cols.each { |range| range.delete_column(column_index) }
 
       # Update row number of merged cells
-      return unless self.merged_cells
+      return unless merged_cells
 
       merged_cells.delete_if { |mc| mc.ref.col_range == (column_index..column_index) }
       merged_cells.each { |mc|
@@ -230,7 +231,7 @@ module RubyXL
           mc.ref.row_range.first,
           mc.ref.row_range.last,
           mc.ref.col_range.first - (in_merged_cell ? 0 : 1),
-          mc.ref.col_range.last - 1,
+          mc.ref.col_range.last - 1
         )
       }
 
@@ -280,7 +281,7 @@ module RubyXL
       validate_workbook
       validate_nonnegative(row)
       row = sheet_data.rows[row]
-      row && row.ht || RubyXL::Row::DEFAULT_HEIGHT
+      (row && row.ht) || RubyXL::Row::DEFAULT_HEIGHT
     end
 
     def get_row_border(row, border_direction)
@@ -307,9 +308,9 @@ module RubyXL
       xf_obj = get_row_xf(row)
       return nil if xf_obj.alignment.nil?
 
-      if is_horizontal then return xf_obj.alignment.horizontal
-      else                  return xf_obj.alignment.vertical
-      end
+      return xf_obj.alignment.horizontal if is_horizontal
+
+      xf_obj.alignment.vertical
     end
 
     def get_cols_style_index(column_index)
@@ -382,7 +383,8 @@ module RubyXL
     # Get column width measured in number of digits, as per
     # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
     def change_column_width(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)
-      change_column_width_raw(column_index, ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
+      change_column_width_raw(column_index,
+                              ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
     end
 
     # Helper method to get the style index for a column
@@ -391,7 +393,7 @@ module RubyXL
       (range && range.style_index) || 0
     end
 
-    def get_column_fill(col=0)
+    def get_column_fill(col = 0)
       validate_workbook
       validate_nonnegative(col)
 
@@ -506,7 +508,7 @@ module RubyXL
       change_row_font(row, Worksheet::NAME, font_name, font)
     end
 
-    def change_row_font_size(row = 0, font_size=10)
+    def change_row_font_size(row = 0, font_size = 10)
       ensure_cell_exists(row)
       font = row_font(row).dup
       font.set_size(font_size)
@@ -535,14 +537,14 @@ module RubyXL
       change_row_font(row, Worksheet::BOLD, bolded, font)
     end
 
-    def change_row_underline(row = 0, underlined=false)
+    def change_row_underline(row = 0, underlined = false)
       ensure_cell_exists(row)
       font = row_font(row).dup
       font.set_underline(underlined)
       change_row_font(row, Worksheet::UNDERLINE, underlined, font)
     end
 
-    def change_row_strikethrough(row = 0, struckthrough=false)
+    def change_row_strikethrough(row = 0, struckthrough = false)
       ensure_cell_exists(row)
       font = row_font(row).dup
       font.set_strikethrough(struckthrough)
@@ -580,14 +582,14 @@ module RubyXL
       change_column_font(column_index, Worksheet::NAME, font_name, font, xf)
     end
 
-    def change_column_font_size(column_index, font_size=10)
+    def change_column_font_size(column_index, font_size = 10)
       xf = get_col_xf(column_index)
       font = @workbook.fonts[xf.font_id].dup
       font.set_size(font_size)
       change_column_font(column_index, Worksheet::SIZE, font_size, font, xf)
     end
 
-    def change_column_font_color(column_index, font_color='000000')
+    def change_column_font_color(column_index, font_color = '000000')
       Color.validate_color(font_color)
 
       xf = get_col_xf(column_index)
@@ -617,7 +619,7 @@ module RubyXL
       change_column_font(column_index, Worksheet::UNDERLINE, underlined, font, xf)
     end
 
-    def change_column_strikethrough(column_index, struckthrough=false)
+    def change_column_strikethrough(column_index, struckthrough = false)
       xf = get_col_xf(column_index)
       font = @workbook.fonts[xf.font_id].dup
       font.set_strikethrough(struckthrough)
@@ -651,7 +653,8 @@ module RubyXL
       ensure_cell_exists(0, column_index)
       Color.validate_color(color)
 
-      cols.get_range(column_index).style_index = @workbook.modify_border_color(get_col_style(column_index), direction, color)
+      cols.get_range(column_index).style_index = @workbook.modify_border_color(get_col_style(column_index), direction,
+                                                                               color)
 
       sheet_data.rows.each { |row|
         c = row.cells[column_index]
@@ -704,11 +707,11 @@ module RubyXL
       expr = '"' + list_arr.collect{ |str| str.gsub('"', '""') }.join(',') + '"'
       self.data_validations ||= RubyXL::DataValidations.new
       self.data_validations <<
-        RubyXL::DataValidation.new({:sqref    => RubyXL::Reference.new(ref),
-                                    :formula1 => RubyXL::Formula.new(:expression => expr),
-                                    :type     => 'list'})
+        RubyXL::DataValidation.new({ :sqref    => RubyXL::Reference.new(ref),
+                                     :formula1 => RubyXL::Formula.new(:expression => expr),
+                                     :type     => 'list' })
     end
   end
 
-  RubyXL::Worksheet.send(:include, RubyXL::WorksheetConvenienceMethods) # ruby 2.1 compat
+  RubyXL::Worksheet.include RubyXL::WorksheetConvenienceMethods # ruby 2.1 compat
 end
