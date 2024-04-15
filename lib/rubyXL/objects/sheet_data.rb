@@ -117,7 +117,8 @@ module RubyXL
         elsif r.is_a?(String) && (r =~ NUMBER_REGEXP) then # Numeric
           if Regexp.last_match(1) == ''
             r.to_i
-          else then r.to_f
+          else
+            r.to_f
           end
         else
           r
