@@ -33,8 +33,8 @@ module RubyXL
     NUMBER_REGEXP = /\A-?\d+((?:\.\d+)?(?:e[+-]?\d+)?)?\Z/i
 
     define_attribute(:r,   :ref)
-    define_attribute(:s,   :int,  :default => 0, :accessor => :style_index)
-    define_attribute(:t,   RubyXL::ST_CellType,  :accessor => :datatype, :default => 'n')
+    define_attribute(:s,   :int, :default => 0, :accessor => :style_index)
+    define_attribute(:t,   RubyXL::ST_CellType, :accessor => :datatype, :default => 'n')
     define_attribute(:cm,  :int,  :default => 0)
     define_attribute(:vm,  :int,  :default => 0)
     define_attribute(:ph,  :bool, :default => false)
@@ -75,7 +75,7 @@ module RubyXL
     end
 
     def get_cell_xf
-      workbook.stylesheet.cell_xfs[self.style_index || 0]
+      workbook.stylesheet.cell_xfs[style_index || 0]
     end
 
     def get_cell_font
@@ -98,14 +98,14 @@ module RubyXL
         else false
         end
 
-      num_fmt = self.number_format
+      num_fmt = number_format
       num_fmt && num_fmt.is_date_format?
     end
 
     # Gets massaged value of the cell, converting datatypes to those known to Ruby (that includes
     # stripping any special formatting from RichText).
-    def value(args = {})
-      r = self.raw_value
+    def value(_args = {})
+      r = raw_value
 
       case datatype
       when RubyXL::DataType::SHARED_STRING then workbook.shared_strings_container[r.to_i].to_s
@@ -115,25 +115,27 @@ module RubyXL
         if is then is.to_s
         elsif is_date? then workbook.num_to_date(r.to_f)
         elsif r.is_a?(String) && (r =~ NUMBER_REGEXP) then # Numeric
-          if Regexp.last_match(1) != '' then r.to_f
-          else r.to_i
+          if Regexp.last_match(1) == ''
+            r.to_i
+          else then r.to_f
           end
-        else r
+        else
+          r
         end
       end
     end
 
     def inspect
       str = "#<#{self.class}(#{row},#{column}): #{raw_value.inspect}"
-      str << " =#{self.formula.expression}" if self.formula
-      str << ", datatype=#{self.datatype.inspect}, style_index=#{self.style_index.inspect}>"
-      return str
+      str << " =#{formula.expression}" if formula
+      str << ", datatype=#{datatype.inspect}, style_index=#{style_index.inspect}>"
+      str
     end
 
     include LegacyCell
   end
 
-#TODO#<row r="1" spans="1:1" x14ac:dyDescent="0.25">
+  # TODO#<row r="1" spans="1:1" x14ac:dyDescent="0.25">
 
   # http://www.datypic.com/sc/ooxml/e-ssml_row-1.html
   class Row < OOXMLObject
@@ -189,7 +191,7 @@ module RubyXL
     private :update_cell_coords
 
     def xf
-      @worksheet.workbook.cell_xfs[self.style_index || 0]
+      @worksheet.workbook.cell_xfs[style_index || 0]
     end
 
     def get_fill_color

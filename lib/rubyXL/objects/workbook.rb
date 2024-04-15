@@ -303,7 +303,7 @@ module RubyXL
     REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'.freeze
 
     # http://www.accountingweb.com/technology/excel/seven-characters-you-cant-use-in-worksheet-names
-    SHEET_NAME_FORBIDDEN_CHARS = /[\/\\*\[\]:?]/
+    SHEET_NAME_FORBIDDEN_CHARS = %r{[/\\*\[\]:?]}
 
     # https://answers.microsoft.com/en-us/msoffice/forum/all/excel-history-is-a-reserved-name-help/f8a398a4-b72c-48e3-82da-4f132c305e91
     SHEET_NAME_FORBIDDEN_NAMES = [ 'History' ]
@@ -371,11 +371,15 @@ module RubyXL
 
       self.sheets = RubyXL::Sheets.new
 
-      worksheets.each { |sheet, i|
+      worksheets.each { |sheet, _i|
         rel = relationship_container.find_by_target(sheet.xlsx_path)
 
-        raise "Worksheet name '#{sheet.sheet_name}' contains forbidden characters" if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
-        raise "Worksheet name '#{sheet.sheet_name}' is forbidden" if SHEET_NAME_FORBIDDEN_NAMES.include?(sheet.sheet_name)
+        if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
+          raise "Worksheet name '#{sheet.sheet_name}' contains forbidden characters"
+        end
+        if SHEET_NAME_FORBIDDEN_NAMES.include?(sheet.sheet_name)
+          raise "Worksheet name '#{sheet.sheet_name}' is forbidden"
+        end
 
         sheets << RubyXL::Sheet.new(:name     => sheet.sheet_name[0..30], # Max sheet name length is 31 char
                                     :sheet_id => sheet.sheet_id || (max_sheet_id += 1),
@@ -406,9 +410,9 @@ module RubyXL
 
       File.open(dst_file_path, 'wb') { |output_file| FileUtils.copy_stream(root.stream, output_file) }
 
-      return dst_file_path
+      dst_file_path
     end
-    alias_method :write, :save
+    alias write save
 
     DATE1904 = DateTime.new(1904, 1, 1)
     # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
@@ -416,7 +420,7 @@ module RubyXL
     MARCH_1_1900 = 61
 
     def base_date
-      (workbook_properties && workbook_properties.date1904) ? DATE1904 : DATE1899
+      workbook_properties && workbook_properties.date1904 ? DATE1904 : DATE1899
     end
     private :base_date
 
@@ -431,12 +435,10 @@ module RubyXL
       return nil if num.nil?
 
       # Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)
-      if num < MARCH_1_1900 then
-        num += 1 unless workbook_properties && workbook_properties.date1904
-      end
+      num += 1 if num < MARCH_1_1900 && !(workbook_properties && workbook_properties.date1904)
 
       dateparts = num.divmod(1)
-      base_date + (dateparts[0] + (dateparts[1] * 86400).round(6) / 86400)
+      base_date + (dateparts[0] + ((dateparts[1] * 86400).round(6) / 86400))
     end
 
     include Enumerable
@@ -462,7 +464,11 @@ module RubyXL
       @root.workbook            = self
       @root.source_file_path    = src_file_path
 
-      creation_time = DateTime.parse(created_at) rescue DateTime.now
+      creation_time = begin
+        DateTime.parse(created_at)
+      rescue StandardError
+        DateTime.now
+      end
       self.created_at  = creation_time
       self.modified_at = creation_time
       self.company     = company

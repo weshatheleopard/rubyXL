@@ -50,7 +50,7 @@ module RubyXL
                                endsWith containsBlanks notContainsBlanks containsErrors
                                notContainsErrors timePeriod aboveAverage }
   ST_TimePeriod          = %w{ today yesterday tomorrow last7Days thisMonth
-                                lastMonth nextMonth thisWeek lastWeek nextWeek }
+                               lastMonth nextMonth thisWeek lastWeek nextWeek }
   ST_CalcMode            = %w{ manual auto autoNoTable }
   ST_RefMode             = %w{ A1 R1C1 }
 
@@ -69,8 +69,8 @@ module RubyXL
   ST_DataValidationOperator   = %w{ between notBetween equal notEqual lessThan lessThanOrEqual
                                     greaterThan greaterThanOrEqual }
 
-  ST_DataConsolidateFunction  = %w{ average count countNums max min
-                                    product stdDev stdDevp sum var varp }
+  ST_DataConsolidateFunction = %w{ average count countNums max min
+                                   product stdDev stdDevp sum var varp }
 
   ST_ConditionalFormattingOperator = %w{ lessThan lessThanOrEqual equal notEqual greaterThanOrEqual greaterThan
                                          between notBetween containsText notContains beginsWith endsWith }
@@ -155,7 +155,6 @@ module RubyXL
 
   ST_BevelPresetType      = %w{ relaxedInset circle slope cross angle softRound convex
                                 coolSlant divot riblet hardEdge artDeco }
-
 
   ST_LineEndType          = %w{ none triangle stealth diamond oval arrow }
   ST_LineEndWidth         = %w{ sm med lg }

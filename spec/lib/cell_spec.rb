@@ -45,14 +45,14 @@ describe RubyXL::Cell do
       cell.set_number_format('ddd mmm dd, yyyy HH:MM:SS')
 
       # Due to rounding errors, we allow microsecond precision on DateTime.
-      expect((cell.value - tm).to_f).to be_within(1.0/86400e6).of(0)
+      expect((cell.value - tm).to_f).to be_within(1.0 / 86400e6).of(0)
 
       tm = Time.now
       cell = @worksheet.add_cell(r, c, tm)
       cell.set_number_format('ddd mmm dd, yyyy HH:MM:SS')
 
       # Due to rounding errors, we allow microsecond precision on Time.
-      expect(cell.value - tm.to_datetime).to be_within(1.0/86400e6).of(0)
+      expect(cell.value - tm.to_datetime).to be_within(1.0 / 86400e6).of(0)
 
       expected_date = '2020-10-15T14:00:00Z'
       expected_datetime = Time.parse(expected_date).utc
@@ -68,26 +68,26 @@ describe RubyXL::Cell do
     end
 
     it 'should raise against too long String' do
-      ok_data = 'A' * 32767  # The limit is 32767
+      ok_data = 'A' * 32767 # The limit is 32767
 
       expect {
-         @worksheet.add_cell(0,1, ok_data) # 32767 -> OK
+        @worksheet.add_cell(0, 1, ok_data) # 32767 -> OK
       }.not_to raise_error
       expect {
-         # 1 longer than the limit, so an exception must be thrown.
-         @worksheet.add_cell(0,2, ok_data + 'B')
+        # 1 longer than the limit, so an exception must be thrown.
+        @worksheet.add_cell(0, 2, ok_data + 'B')
       }.to raise_error(ArgumentError)
     end
 
     it 'should raise against too long RichText' do
-      ok_data = 'A' * 32767  # The limit is 32767
+      ok_data = 'A' * 32767 # The limit is 32767
 
       expect {
-         @worksheet.add_cell(0,1, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data))) # 32767 -> OK
+        @worksheet.add_cell(0, 1, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data))) # 32767 -> OK
       }.not_to raise_error
       expect {
-         # 1 longer than the limit, so an exception must be thrown.
-         @worksheet.add_cell(0,2, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data + 'B')))
+        # 1 longer than the limit, so an exception must be thrown.
+        @worksheet.add_cell(0, 2, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data + 'B')))
       }.to raise_error(ArgumentError)
     end
   end

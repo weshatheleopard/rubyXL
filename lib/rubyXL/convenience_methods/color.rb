@@ -2,7 +2,7 @@ module RubyXL
   module ColorConvenienceMethods
     def get_rgb(workbook)
       if rgb then
-        return rgb
+        rgb
       elsif theme then
         theme_color = workbook.theme.get_theme_color(theme)
         rgb_color = theme_color && theme_color.a_srgb_clr
@@ -27,7 +27,7 @@ module RubyXL
         g = self.g / 255.0
         b = self.b / 255.0
 
-        hls_color.a = (self.a || 0) / 255.0
+        hls_color.a = (a || 0) / 255.0
 
         min = [r, g, b].min
         max = [r, g, b].max
@@ -41,17 +41,17 @@ module RubyXL
 
         hls_color.l = (min + max) / 2
 
-        if (hls_color.l < 0.5) then
-          hls_color.s = delta / (max + min);
-        else
-          hls_color.s = delta / (2.0 - max - min);
-        end
+        hls_color.s = if (hls_color.l < 0.5) then
+                        delta / (max + min)
+                      else
+                        delta / (2.0 - max - min)
+                      end
 
-        hls_color.h = (g - b) / delta       if (r == max)
-        hls_color.h = 2.0 + (b - r) / delta if (g == max)
-        hls_color.h = 4.0 + (r - g) / delta if (b == max)
+        hls_color.h = (g - b) / delta if (r == max)
+        hls_color.h = 2.0 + ((b - r) / delta) if (g == max)
+        hls_color.h = 4.0 + ((r - g) / delta) if (b == max)
 
-        hls_color.h *= 60;
+        hls_color.h *= 60
         hls_color.h += 360 if hls_color.h < 0
 
         hls_color
@@ -89,22 +89,22 @@ module RubyXL
         if s != 0 then
           t1 = nil
 
-          if l < 0.5 then
-            t1 = l * (1.0 + s)
-          else
-            t1 = l + s - (l * s)
-          end
+          t1 = if l < 0.5 then
+                 l * (1.0 + s)
+               else
+                 l + s - (l * s)
+               end
 
-          t2 = 2.0 * l - t1;
+          t2 = (2.0 * l) - t1
           h = self.h / 360.0
 
           t_r = h + (1.0 / 3.0)
           r = set_color(t1, t2, t_r)
 
-          t_g = h;
+          t_g = h
           g = set_color(t1, t2, t_g)
 
-          t_b = h - (1.0 / 3.0);
+          t_b = h - (1.0 / 3.0)
           b = set_color(t1, t2, t_b)
         end
 
@@ -124,33 +124,31 @@ module RubyXL
         t3 -= 1.0 if (t3 > 1)
 
         if (6.0 * t3 < 1) then
-          color = t2 + (t1 - t2) * 6.0 * t3;
+          t2 + ((t1 - t2) * 6.0 * t3)
         elsif (2.0 * t3 < 1) then
-          color = t1;
+          t1
         elsif (3.0 * t3 < 2) then
-          color = t2 + (t1 - t2) * ((2.0 / 3.0) - t3) * 6.0;
+          t2 + ((t1 - t2) * ((2.0 / 3.0) - t3) * 6.0)
         else
-          color = t2;
+          t2
         end
-
-        color
       end
       private :set_color
 
       def apply_tint(tint)
         return self if tint.nil? || tint == 0
 
-        if tint < 0 then
-          self.l = l * (1.0 + tint);
-        else
-          self.l = l * (1.0 - tint) + tint;
-        end
+        self.l = if tint < 0 then
+                   l * (1.0 + tint)
+                 else
+                   (l * (1.0 - tint)) + tint
+                 end
 
         self
       end
     end
   end
 
-  RubyXL::Color.send(:include, RubyXL::ColorConvenienceMethods) # ruby 2.1 compat
+  RubyXL::Color.include RubyXL::ColorConvenienceMethods # ruby 2.1 compat
   include(RubyXL::ColorConvenienceClasses)
 end

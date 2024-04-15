@@ -9,10 +9,8 @@ module RubyXL
     def validate_workbook
       unless workbook.nil? || workbook.worksheets.nil?
         workbook.worksheets.each { |sheet|
-          unless sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[row].nil?
-            if sheet.sheet_data[row][column] == self
-              return
-            end
+          if !(sheet.nil? || sheet.sheet_data.nil? || sheet.sheet_data[row].nil?) && (sheet.sheet_data[row][column] == self) && !(sheet.sheet_data[row][column] == selfreturn)
+            next
           end
         }
       end

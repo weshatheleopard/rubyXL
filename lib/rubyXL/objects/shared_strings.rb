@@ -26,8 +26,8 @@ module RubyXL
 
     def before_write_xml
       super
-      self.unique_count = self.count
-      self.count > 0
+      self.unique_count = count
+      count > 0
     end
 
     def [](index)

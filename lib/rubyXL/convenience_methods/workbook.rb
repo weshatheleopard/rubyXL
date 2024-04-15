@@ -1,7 +1,7 @@
 module RubyXL
   module WorkbookConvenienceMethods
-    def each
-      worksheets.each{ |i| yield i }
+    def each(&block)
+      worksheets.each(&block)
     end
 
     def cell_xfs # Stylesheet should be pre-filled with defaults on initialize()
@@ -24,8 +24,8 @@ module RubyXL
       fill = fills[xf.fill_id]
       pattern = fill && fill.pattern_fill
       color = pattern && pattern.fg_color
-      color = color && color.get_rgb(self)
-      color && color.to_s || 'ffffff'
+      color &&= color.get_rgb(self)
+      (color && color.to_s) || 'ffffff'
     end
 
     def register_new_fill(new_fill, old_xf)
@@ -53,14 +53,14 @@ module RubyXL
       new_xf_id
     end
 
-    def modify_alignment(style_index, &block)
+    def modify_alignment(style_index)
       old_xf = cell_xfs[style_index || 0]
       new_xf = old_xf.dup
-      if old_xf.alignment then
-        new_xf.alignment = old_xf.alignment.dup
-      else
-        new_xf.alignment = RubyXL::Alignment.new
-      end
+      new_xf.alignment = if old_xf.alignment then
+                           old_xf.alignment.dup
+                         else
+                           RubyXL::Alignment.new
+                         end
 
       yield(new_xf.alignment)
       new_xf.apply_alignment = true
@@ -111,8 +111,8 @@ module RubyXL
     def password_hash(pwd)
       hsh = 0
       pwd.reverse.each_char { |c|
-        hsh = hsh ^ c.ord
-        hsh = hsh << 1
+        hsh ^= c.ord
+        hsh <<= 1
         hsh -= 0x7fff if hsh > 0x7fff
       }
 
@@ -121,7 +121,7 @@ module RubyXL
 
     def define_new_name(name, reference)
       self.defined_names ||= RubyXL::DefinedNames.new
-      self.defined_names << RubyXL::DefinedName.new({:name => name, :reference => reference})
+      self.defined_names << RubyXL::DefinedName.new({ :name => name, :reference => reference })
     end
 
     def get_defined_name(name)
@@ -129,13 +129,13 @@ module RubyXL
     end
 
     def title
-      self.root.core_properties.dc_title && self.root.core_properties.dc_title.value
+      root.core_properties.dc_title && root.core_properties.dc_title.value
     end
 
     def title=(v)
-      self.root.core_properties.dc_title = v && RubyXL::StringNode.new(:value => v)
+      root.core_properties.dc_title = v && RubyXL::StringNode.new(:value => v)
     end
   end
 
-  RubyXL::Workbook.send(:include, RubyXL::WorkbookConvenienceMethods) # ruby 2.1 compat
+  RubyXL::Workbook.include RubyXL::WorkbookConvenienceMethods # ruby 2.1 compat
 end

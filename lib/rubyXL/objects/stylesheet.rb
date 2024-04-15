@@ -24,42 +24,50 @@ module RubyXL
     define_element_name 'numFmts'
 
     # https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68
-    DEFAULT_NUMBER_FORMATS = self.new(:_ => [
-      RubyXL::NumberFormat.new(:num_fmt_id => 1, :format_code => '0'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 2, :format_code => '0.00'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 3, :format_code => '#, ##0'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 4, :format_code => '#, ##0.00'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 5, :format_code => '$#, ##0_);($#, ##0)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 6, :format_code => '$#, ##0_);[Red]($#, ##0)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 7, :format_code => '$#, ##0.00_);($#, ##0.00)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 8, :format_code => '$#, ##0.00_);[Red]($#, ##0.00)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 9, :format_code => '0%'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 10, :format_code => '0.00%'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 11, :format_code => '0.00E+00'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 12, :format_code => '# ?/?'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 13, :format_code => '# ??/??'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 14, :format_code => 'm/d/yyyy'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 15, :format_code => 'd-mmm-yy'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 16, :format_code => 'd-mmm'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 17, :format_code => 'mmm-yy'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 18, :format_code => 'h:mm AM/PM'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 19, :format_code => 'h:mm:ss AM/PM'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 20, :format_code => 'h:mm'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 21, :format_code => 'h:mm:ss'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 22, :format_code => 'm/d/yyyy h:mm'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 37, :format_code => '#, ##0_);(#, ##0)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 38, :format_code => '#, ##0_);[Red](#, ##0)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 39, :format_code => '#, ##0.00_);(#, ##0.00)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 40, :format_code => '#, ##0.00_);[Red](#, ##0.00)'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 45, :format_code => 'mm:ss'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 46, :format_code => '[h]:mm:ss'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 47, :format_code => 'mm:ss.0'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 48, :format_code => '##0.0E+0'),
-      RubyXL::NumberFormat.new(:num_fmt_id => 49, :format_code => '@')
-    ])
+    DEFAULT_NUMBER_FORMATS = new(:_ => [
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 1, :format_code => '0'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 2, :format_code => '0.00'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 3, :format_code => '#, ##0'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 4, :format_code => '#, ##0.00'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 5,
+                                                            :format_code => '$#, ##0_);($#, ##0)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 6,
+                                                            :format_code => '$#, ##0_);[Red]($#, ##0)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 7,
+                                                            :format_code => '$#, ##0.00_);($#, ##0.00)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 8,
+                                                            :format_code => '$#, ##0.00_);[Red]($#, ##0.00)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 9, :format_code => '0%'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 10, :format_code => '0.00%'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 11, :format_code => '0.00E+00'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 12, :format_code => '# ?/?'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 13, :format_code => '# ??/??'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 14, :format_code => 'm/d/yyyy'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 15, :format_code => 'd-mmm-yy'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 16, :format_code => 'd-mmm'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 17, :format_code => 'mmm-yy'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 18, :format_code => 'h:mm AM/PM'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 19, :format_code => 'h:mm:ss AM/PM'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 20, :format_code => 'h:mm'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 21, :format_code => 'h:mm:ss'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 22, :format_code => 'm/d/yyyy h:mm'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 37,
+                                                            :format_code => '#, ##0_);(#, ##0)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 38,
+                                                            :format_code => '#, ##0_);[Red](#, ##0)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 39,
+                                                            :format_code => '#, ##0.00_);(#, ##0.00)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id  => 40,
+                                                            :format_code => '#, ##0.00_);[Red](#, ##0.00)'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 45, :format_code => 'mm:ss'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 46, :format_code => '[h]:mm:ss'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 47, :format_code => 'mm:ss.0'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 48, :format_code => '##0.0E+0'),
+                                   RubyXL::NumberFormat.new(:num_fmt_id => 49, :format_code => '@')
+                                 ])
 
     def find_by_format_id(format_id)
-      self.find { |fmt| fmt.num_fmt_id == format_id }
+      find { |fmt| fmt.num_fmt_id == format_id }
     end
   end
 
@@ -69,7 +77,7 @@ module RubyXL
     define_element_name 'cellStyleXfs'
 
     def self.default
-      self.new(:_ => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ])
+      new(:_ => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0) ])
     end
   end
 
@@ -79,9 +87,9 @@ module RubyXL
     define_element_name 'cellXfs'
 
     def self.default
-      self.new(:_ => [
-                 RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0)
-               ])
+      new(:_ => [
+            RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0)
+          ])
     end
   end
 
@@ -91,7 +99,7 @@ module RubyXL
     define_element_name 'cellStyles'
 
     def self.default
-      self.new(:_ => [ RubyXL::CellStyle.new(:builtin_id => 0, :name => 'Normal', :xf_id => 0) ])
+      new(:_ => [ RubyXL::CellStyle.new(:builtin_id => 0, :name => 'Normal', :xf_id => 0) ])
     end
   end
 
@@ -187,12 +195,12 @@ module RubyXL
     end
 
     def self.default
-      self.new(:fonts          => RubyXL::Fonts.default,
-               :fills          => RubyXL::Fills.default,
-               :borders        => RubyXL::Borders.default,
-               :cell_xfs       => RubyXL::CellXFs.default,
-               :cell_styles    => RubyXL::CellStyles.default,
-               :cell_style_xfs => RubyXL::CellStyleXFs.default)
+      new(:fonts          => RubyXL::Fonts.default,
+          :fills          => RubyXL::Fills.default,
+          :borders        => RubyXL::Borders.default,
+          :cell_xfs       => RubyXL::CellXFs.default,
+          :cell_styles    => RubyXL::CellStyles.default,
+          :cell_style_xfs => RubyXL::CellStyleXFs.default)
     end
 
     def get_number_format_by_id(format_id)
@@ -200,7 +208,7 @@ module RubyXL
 
       if @format_hash[format_id].nil? then
         @format_hash[format_id] = NumberFormats::DEFAULT_NUMBER_FORMATS.find_by_format_id(format_id) ||
-                                    (number_formats && number_formats.find_by_format_id(format_id))
+                                  (number_formats && number_formats.find_by_format_id(format_id))
       end
 
       @format_hash[format_id]
@@ -219,7 +227,7 @@ module RubyXL
       max_fmt_id += 1
       number_formats << RubyXL::NumberFormat.new(:num_fmt_id => max_fmt_id, :format_code => format_code)
 
-      return max_fmt_id
+      max_fmt_id
     end
   end
 end

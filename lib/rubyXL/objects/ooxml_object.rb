@@ -13,9 +13,9 @@ module RubyXL
     # the setter/getter method addresses it in the context of descendant class,
     # which is what we need.
     def obtain_class_variable(var_name, default = nil)
-      self.class_variable_get(var_name)
+      class_variable_get(var_name)
     rescue NameError
-      self.class_variable_set(var_name, default || {})
+      class_variable_set(var_name, default || {})
     end
 
     # Defines an attribute of OOXML object.
@@ -51,7 +51,7 @@ module RubyXL
       attr_hash.merge!(extra_params) if extra_params
       attr_hash[:accessor] ||= accessorize(attr_name)
       attrs[attr_name.to_s] = attr_hash
-      self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
+      send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
     end
 
     # Defines a `r:id` attribute
@@ -92,7 +92,7 @@ module RubyXL
 
       define_count_attribute if extra_params[:collection] == :with_count
 
-      self.send(:attr_accessor, accessor)
+      send(:attr_accessor, accessor)
     end
 
     def define_count_attribute
@@ -108,7 +108,7 @@ module RubyXL
     # ==== Examples
     #   define_element_name 'externalReference'
     def define_element_name(element_name)
-      self.class_variable_set(:@@ooxml_tag_name, element_name)
+      class_variable_set(:@@ooxml_tag_name, element_name)
     end
 
     def parse(node, known_namespaces = nil)
@@ -118,11 +118,11 @@ module RubyXL
 
       if node.is_a?(Nokogiri::XML::Document) then
         node = node.root
-#        ignorable_attr = node.attributes['Ignorable']
-#        @ignorables << ignorable_attr.value if ignorable_attr
+        #        ignorable_attr = node.attributes['Ignorable']
+        #        @ignorables << ignorable_attr.value if ignorable_attr
       end
 
-      obj = self.new
+      obj = new
       obj.local_namespaces = node.namespace_definitions
 
       known_attributes = obtain_class_variable(:@@ooxml_attributes)
@@ -132,7 +132,8 @@ module RubyXL
 
       node.attributes.each_pair { |attr_name, attr|
         attr_name = if attr.namespace then "#{attr.namespace.prefix}:#{attr.name}"
-                    else attr.name
+                    else
+                      attr.name
                     end
 
         attr_params = known_attributes[attr_name]
@@ -150,7 +151,8 @@ module RubyXL
         node.element_children.each { |child_node|
           ns = child_node.namespace
           prefix = if known_namespaces.has_key?(ns.href) then known_namespaces[ns.href]
-                   else ns.prefix
+                   else
+                     ns.prefix
                    end
 
           child_node_name = case prefix
@@ -165,7 +167,8 @@ module RubyXL
             index = parsed_object.index_in_collection
 
             collection = if (self < RubyXL::OOXMLContainerObject) then obj
-                         else obj.send(child_node_params[:accessor])
+                         else
+                           obj.send(child_node_params[:accessor])
                          end
 
             if index.nil? then
@@ -183,6 +186,7 @@ module RubyXL
     end
 
     private
+
     def accessorize(str)
       acc = str.to_s.dup
       acc.gsub!(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
@@ -193,23 +197,22 @@ module RubyXL
 
     def process_attribute(obj, raw_value, params)
       val = raw_value &&
-              case params[:attr_type]
-              when :double then Float(raw_value) # http://www.datypic.com/sc/xsd/t-xsd_double.html
-              when :string then raw_value
-              when Array   then raw_value # Case of Simple Types
-              when :sqref  then RubyXL::Sqref.new(raw_value)
-              when :ref    then RubyXL::Reference.new(raw_value)
-              when :bool   then ['1', 'true'].include?(raw_value) # http://www.datypic.com/sc/xsd/t-xsd_boolean.html
-              when :int    then Integer(raw_value)
-              when :uint   then
-                v = Integer(raw_value)
-                raise ArgumentError.new("invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
-                v
-              end
+            case params[:attr_type]
+            when :double then Float(raw_value) # http://www.datypic.com/sc/xsd/t-xsd_double.html
+            when :string then raw_value
+            when Array   then raw_value # Case of Simple Types
+            when :sqref  then RubyXL::Sqref.new(raw_value)
+            when :ref    then RubyXL::Reference.new(raw_value)
+            when :bool   then %w[1 true].include?(raw_value) # http://www.datypic.com/sc/xsd/t-xsd_boolean.html
+            when :int    then Integer(raw_value)
+            when :uint   then
+              v = Integer(raw_value)
+              raise ArgumentError.new("invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
+              v
+            end
       obj.send("#{params[:accessor]}=", val)
     end
   end
-
 
   module OOXMLObjectInstanceMethods
     attr_accessor :local_namespaces
@@ -239,7 +242,6 @@ module RubyXL
         initial_value =
           if params.has_key?(v[:accessor]) then params[v[:accessor]]
           elsif v[:is_array] then []
-          else nil
           end
 
         instance_variable_set("@#{v[:accessor]}", initial_value)
@@ -248,14 +250,16 @@ module RubyXL
     private :init_child_nodes
 
     def preserve_whitespace
-      self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
+      self.xml_space = value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n")) ? 'preserve' : nil
     end
     private :preserve_whitespace
 
     def ==(other)
       other.is_a?(self.class) &&
-        obtain_class_variable(:@@ooxml_attributes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&
-        obtain_class_variable(:@@ooxml_child_nodes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) }
+        obtain_class_variable(:@@ooxml_attributes).all? { |_k, v|
+          send(v[:accessor]) == other.send(v[:accessor])
+        } &&
+        obtain_class_variable(:@@ooxml_child_nodes).all? { |_k, v| send(v[:accessor]) == other.send(v[:accessor]) }
     end
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual
@@ -277,11 +281,9 @@ module RubyXL
         seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
         seed_xml.encoding = 'UTF-8'
 
-        if Nokogiri.jruby? then # Issue 188 workaround for JRuby
-          seed_xml.to_java.strict_error_checking = false
-        end
+        seed_xml.to_java.strict_error_checking = false if Nokogiri.jruby? # Issue 188 workaround for JRuby
 
-        result = self.write_xml(seed_xml)
+        result = write_xml(seed_xml)
         return result if result == ''
         seed_xml << result
         return seed_xml.to_xml({ :indent => 0, :save_with => Nokogiri::XML::Node::SaveOptions::AS_XML })
@@ -292,15 +294,14 @@ module RubyXL
       attrs = {}
 
       obtain_class_variable(:@@ooxml_attributes).each_pair { |k, v|
-        val = self.send(v[:accessor])
+        val = send(v[:accessor])
 
         if val.nil? then
           next unless v[:required]
           val = v[:default]
         end
 
-        val = val &&
-                case v[:attr_type]
+        val &&= case v[:attr_type]
                 when :bool   then val ? '1' : '0'
                 when :double then val.to_s.gsub(/\.0*\Z/, '') # Trim trailing zeroes
                 else val
@@ -345,7 +346,7 @@ module RubyXL
     end
 
     def get_node_object(child_node_params)
-      self.send(child_node_params[:accessor])
+      send(child_node_params[:accessor])
     end
     private :get_node_object
 
@@ -353,10 +354,10 @@ module RubyXL
     # along with option to terminate the actual write if +false+ is returned (for example, to avoid writing
     # the collection's root node if the collection is empty).
     def before_write_xml
-      #TODO# This will go away once containers are fully implemented.
+      # TODO# This will go away once containers are fully implemented.
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
-      child_nodes.each_pair { |child_node_name, child_node_params|
-        self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
+      child_nodes.each_pair { |_child_node_name, child_node_params|
+        self.count = send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
       }
       true
     end
@@ -383,7 +384,8 @@ module RubyXL
 
     def get_node_object(child_node_params)
       if child_node_params[:is_array] then self
-      else super
+      else
+        super
       end
     end
     protected :get_node_object
@@ -402,8 +404,8 @@ module RubyXL
 
     def inspect
       vars = [ super ]
-      vars = self.instance_variables.each { |v| vars << "#{v}=#{instance_variable_get(v).inspect}" }
-      "<#{self.class}: #{super} #{vars.join(", ")}>"
+      vars = instance_variables.each { |v| vars << "#{v}=#{instance_variable_get(v).inspect}" }
+      "<#{self.class}: #{super} #{vars.join(', ')}>"
     end
 
     class << self
@@ -436,7 +438,7 @@ module RubyXL
     #   set_namespaces('http://schemas.openxmlformats.org/spreadsheetml/2006/main' => nil,
     #                  'http://schemas.openxmlformats.org/officeDocument/2006/relationships' => 'r')
     def self.set_namespaces(namespace_hash)
-      self.class_variable_set(:@@ooxml_namespaces, namespace_hash)
+      class_variable_set(:@@ooxml_namespaces, namespace_hash)
     end
 
     # Generates the top-level OOXML object by parsing its XML file from the contents of the <tt>.xslx</tt> container.
@@ -444,7 +446,7 @@ module RubyXL
     # * +zip_file+ - <tt>.xslx</tt> file as <tt>Zip::File</tt> object
     # * +file_path+ - path to the subject file inside the <tt>.xslx</tt> zip archive
     def self.parse_file(zip_file, file_path)
-      entry = zip_file.find_entry(RubyXL::from_root(file_path))
+      entry = zip_file.find_entry(RubyXL.from_root(file_path))
       # Accomodate for Nokogiri Java implementation which is incapable of reading from a stream
       entry && (entry.get_input_stream { |f| parse(defined?(JRUBY_VERSION) ? f.read : f) })
     end
@@ -455,7 +457,7 @@ module RubyXL
     def add_to_zip(zip_stream)
       xml_string = write_xml
       return false if xml_string.empty?
-      zip_stream.put_next_entry(RubyXL::from_root(self.xlsx_path))
+      zip_stream.put_next_entry(RubyXL.from_root(xlsx_path))
       zip_stream.write(xml_string)
       true
     end

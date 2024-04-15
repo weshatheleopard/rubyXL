@@ -11,12 +11,14 @@ module RubyXL
     end
 
     def self.parse_file(zip_file, file_path)
-      (entry = zip_file.find_entry(RubyXL::from_root(file_path))) && self.new(file_path, entry.get_input_stream { |f| f.read })
+      (entry = zip_file.find_entry(RubyXL.from_root(file_path))) && new(file_path, entry.get_input_stream { |f|
+                                                                                     f.read
+                                                                                   })
     end
 
     def add_to_zip(zip_stream)
       return false if @data.nil?
-      zip_stream.put_next_entry(RubyXL::from_root(self.xlsx_path))
+      zip_stream.put_next_entry(RubyXL.from_root(xlsx_path))
       zip_stream.write(@data)
       true
     end
@@ -38,7 +40,7 @@ module RubyXL
 
     include RubyXL::RelationshipSupport
 
-    def attach_relationship(rid, rf)
+    def attach_relationship(_rid, rf)
       case rf
       when RubyXL::ChartFile       then store_relationship(rf) # TODO
       when RubyXL::BinaryImageFile then store_relationship(rf) # TODO
@@ -53,7 +55,7 @@ module RubyXL
 
     include RubyXL::RelationshipSupport
 
-    def attach_relationship(rid, rf)
+    def attach_relationship(_rid, rf)
       case rf
       when RubyXL::ChartColorsFile     then store_relationship(rf) # TODO
       when RubyXL::ChartStyleFile      then store_relationship(rf) # TODO
@@ -70,7 +72,7 @@ module RubyXL
 
   class VMLDrawingFile < GenericStorageObject
     CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.vmlDrawing'.freeze
-#    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'.freeze
+    #    CONTENT_TYPE = 'application/vnd.openxmlformats-officedocument.drawingml.chart+xml'.freeze
     REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing'.freeze
 
     include RubyXL::RelationshipSupport
@@ -179,7 +181,7 @@ module RubyXL
 
     include RubyXL::RelationshipSupport
 
-    def attach_relationship(rid, rf)
+    def attach_relationship(_rid, rf)
       case rf
       when RubyXL::ChartFile then store_relationship(rf) # TODO
       else store_relationship(rf, :unknown)

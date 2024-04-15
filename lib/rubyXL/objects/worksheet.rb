@@ -547,7 +547,7 @@ module RubyXL
     define_attribute(:offset,        :ref)
     define_attribute(:collapsedLevelsAreSubtotals, :bool, :default => false)
     define_attribute(:axis,          RubyXL::ST_Axis)
-    define_attribute(:fieldPosition, :int,  :default => 0)
+    define_attribute(:fieldPosition, :int, :default => 0)
     define_child_node(RubyXL::PivotReferences)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'pivotArea'

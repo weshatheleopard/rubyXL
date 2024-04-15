@@ -23,7 +23,7 @@ module RubyXL
     end
 
     def self.default
-      obj = self.new
+      obj = new
       obj.document_properties    = RubyXL::DocumentPropertiesFile.new
       obj.core_properties        = RubyXL::CorePropertiesFile.new
       obj.relationship_container = RubyXL::OOXMLRelationshipsFile.new
@@ -35,17 +35,17 @@ module RubyXL
     def stream
       stream = Zip::OutputStream.write_buffer { |zipstream|
         self.rels_hash = {}
-        self.relationship_container.owner = self
+        relationship_container.owner = self
         collect_related_objects.compact.each { |obj|
           puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
           obj.root = self if obj.respond_to?(:root=)
-          self.rels_hash[obj.class] ||= []
-          self.rels_hash[obj.class] << obj
+          rels_hash[obj.class] ||= []
+          rels_hash[obj.class] << obj
         }
 
-        self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
+        rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
-          self.rels_hash[klass].select! { |obj|
+          rels_hash[klass].select! { |obj|
             puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
             obj.add_to_zip(zipstream)
           }
@@ -60,7 +60,7 @@ module RubyXL
     end
 
     def self.parse_zip_file(zip_file)
-      root = self.new
+      root = new
       root.content_types = RubyXL::ContentTypes.parse_file(zip_file, ContentTypes::XLSX_PATH)
       root.load_relationships(zip_file, OOXMLTopLevelObject::ROOT)
 

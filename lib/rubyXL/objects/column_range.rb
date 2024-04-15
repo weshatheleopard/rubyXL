@@ -17,18 +17,18 @@ module RubyXL
 
     def delete_column(col_index)
       col = col_index + 1
-      self.min -=1 if min >= col
-      self.max -=1 if max >= col
+      self.min -= 1 if min >= col
+      self.max -= 1 if max >= col
     end
 
     def insert_column(col_index)
       col = col_index + 1
-      self.min +=1 if min >= col
-      self.max +=1 if max >= col - 1
+      self.min += 1 if min >= col
+      self.max += 1 if max >= col - 1
     end
 
     def include?(col_index)
-      ((min-1)..(max-1)).include?(col_index)
+      ((min - 1)..(max - 1)).include?(col_index)
     end
 
     DEFAULT_WIDTH = 9
@@ -44,46 +44,44 @@ module RubyXL
     def get_range(col_index)
       col_num = col_index + 1
 
-      old_range = self.locate_range(col_index)
+      old_range = locate_range(col_index)
 
       if old_range.nil? then
         new_range = RubyXL::ColumnRange.new
+      elsif old_range.min == col_num && old_range.max == col_num
+        return old_range
+      elsif old_range.min == col_num
+        new_range = old_range.dup
+        old_range.min += 1
+      elsif old_range.max == col_num
+        new_range = old_range.dup
+        old_range.max -= 1
       else
-        if old_range.min == col_num && old_range.max == col_num then
-          return old_range # Single column range, OK to change in place
-        elsif old_range.min == col_num then
-          new_range = old_range.dup
-          old_range.min += 1
-        elsif old_range.max == col_num then
-          new_range = old_range.dup
-          old_range.max -= 1
-        else
-          range_before = old_range.dup
-          range_before.max = col_index # col_num - 1
-          self << range_before
+        range_before = old_range.dup
+        range_before.max = col_index # col_num - 1
+        self << range_before
 
-          old_range.min = col_num + 1
+        old_range.min = col_num + 1
 
-          new_range = RubyXL::ColumnRange.new
-        end
+        new_range = RubyXL::ColumnRange.new
       end
 
       new_range.min = new_range.max = col_num
       self << new_range
-      return new_range
+      new_range
     end
 
     def locate_range(col_index)
-      self.find { |range| range.include?(col_index) }
+      find { |range| range.include?(col_index) }
     end
 
     def insert_column(col_index)
-      self.each { |range| range.insert_column(col_index) }
+      each { |range| range.insert_column(col_index) }
     end
 
     def before_write_xml
-      self.sort_by!{ |r| r.min }
-      !(self.empty?)
+      sort_by!{ |r| r.min }
+      !empty?
     end
   end
 end

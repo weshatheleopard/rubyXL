@@ -43,7 +43,7 @@ module RubyXL
     end
 
     def self.default(v)
-      v && self.new(:value => v.to_datetime.iso8601)
+      v && new(:value => v.to_datetime.iso8601)
     end
   end
 
@@ -51,21 +51,21 @@ module RubyXL
   class Variant < OOXMLObject
     define_child_node(RubyXL::Variant, :node_name => 'vt:variant')
 
-#   vector    Vector
-#    array    Array
-#    blob    Binary Blob
-#    oblob    Binary Blob Object
-#    empty    Empty
-#    null    Null
-#    int    Integer
-#    uint    Unsigned Integer
-#    decimal    Decimal
-#    stream    Binary Stream
-#    ostream    Binary Stream Object
-#    storage    Binary Storage
-#    ostorage    Binary Storage Object
-#    vstream    Binary Versioned Stream
-#
+    #   vector    Vector
+    #    array    Array
+    #    blob    Binary Blob
+    #    oblob    Binary Blob Object
+    #    empty    Empty
+    #    null    Null
+    #    int    Integer
+    #    uint    Unsigned Integer
+    #    decimal    Decimal
+    #    stream    Binary Stream
+    #    ostream    Binary Stream Object
+    #    storage    Binary Storage
+    #    ostorage    Binary Storage Object
+    #    vstream    Binary Versioned Stream
+    #
     define_child_node(RubyXL::IntegerNode, :node_name => 'vt:i1')
     define_child_node(RubyXL::IntegerNode, :node_name => 'vt:i2')
     define_child_node(RubyXL::IntegerNode, :node_name => 'vt:i4')
@@ -120,7 +120,7 @@ module RubyXL
       # Fill out the count attribute
       known_child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       self.size = 0
-      known_child_nodes.values.each { |v| self.size += self.send(v[:accessor]).size }
+      known_child_nodes.values.each { |v| self.size += send(v[:accessor]).size }
       true
     end
   end
