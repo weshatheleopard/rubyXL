@@ -13,44 +13,44 @@ AllCops:
     - Gemfile
     - rubyXL.gemspec
 
-Style/BlockDelimiters:
+Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
-Style/HashSyntax:
-  Enabled: false
-
-Style/MultilineIfThen:
-  Enabled: false
-
-Style/ParenthesesAroundCondition:
-  Enabled: false
-
-Style/MultilineWhenThen:
-  Enabled: false
-
-Style/RedundantPercentQ:
-  Enabled: false
-
-Style/PercentLiteralDelimiters:
-  Enabled: false
-
-Style/NumericLiterals:
-  Enabled: false
-
-Style/ExponentialNotation:
-  Enabled: false
-
-Layout/SpaceInsideArrayLiteralBrackets:
-  EnforcedStyle: space 
-  Enabled: false
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
 
 Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
-Layout/EmptyLineAfterGuardClause:
+Layout/SpaceInsideArrayLiteralBrackets:
+  EnforcedStyle: space
   Enabled: false
 
-Naming/MethodParameterName:
+Layout/SpaceInsidePercentLiteralDelimiters:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Naming/AccessorMethodName:
   Enabled: false
 
 Naming/ClassAndModuleCamelCase:
@@ -59,35 +59,41 @@ Naming/ClassAndModuleCamelCase:
 Naming/ConstantName:
   Enabled: false
 
-
-
-Layout/HashAlignment:
-  EnforcedHashRocketStyle: table 
-
-Layout/SpaceInsidePercentLiteralDelimiters:
+Naming/MethodParameterName:
   Enabled: false
 
-
-
-Metrics/BlockLength:
+Naming/PredicateName:
   Enabled: false
 
-Metrics/ClassLength:
+Style/BlockDelimiters:
   Enabled: false
 
-Metrics/MethodLength:
+Style/ExponentialNotation:
   Enabled: false
 
-
-
-Metrics/PerceivedComplexity:
+Style/HashSyntax:
   Enabled: false
 
-Metrics/ParameterLists:
+Style/MultilineIfThen:
   Enabled: false
 
-Metrics/CyclomaticComplexity:
+Style/MultilineWhenThen:
   Enabled: false
 
-Metrics/ModuleLength:
+Style/MutableConstant:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/ParenthesesAroundCondition:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/RedundantPercentQ:
+  Enabled: false
+
+Style/SafeNavigation:
   Enabled: false
