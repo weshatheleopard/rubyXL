@@ -16,5 +16,5 @@ group :development, :test do
   gem 'ruby-prof'
   gem 'rspec_junit_formatter'
 
-  gem 'rubocop'
+  gem "rubocop", "~> 1.63.1"
 end
