@@ -1,5 +1,9 @@
 inherit_from: .rubocop_todo.yml
 
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   NewCops: enable
   SuggestExtensions: false
@@ -7,11 +11,9 @@ AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
   Exclude:
-    - test/**/*
-    - tmp/*
-    - vendor/**/*
     - Gemfile
     - rubyXL.gemspec
+    - test/**/*
 
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
