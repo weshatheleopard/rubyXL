@@ -23,7 +23,6 @@ Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
 Layout/SpaceInsideArrayLiteralBrackets:
-  EnforcedStyle: space
   Enabled: false
 
 Layout/SpaceInsidePercentLiteralDelimiters:
