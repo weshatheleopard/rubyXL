@@ -110,6 +110,6 @@ describe RubyXL::Parser do
   end
 
   after do
-    File.delete(@file) if File.exist?(@file)
+    FileUtils.rm_f(@file)
   end
 end

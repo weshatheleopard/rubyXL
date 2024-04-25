@@ -61,15 +61,18 @@ module RubyXL
     end
 
     def cover?(other)
-      !other.nil? && (@row_range.cover?(other.row_range.begin) && @row_range.cover?(other.row_range.end) &&
-                      @col_range.cover?(other.col_range.begin) && @col_range.cover?(other.col_range.end))
+      !other.nil? && (@row_range.cover?(other.row_range.begin) &&
+                      @row_range.cover?(other.row_range.end) &&
+                      @col_range.cover?(other.col_range.begin) &&
+                      @col_range.cover?(other.col_range.end))
     end
 
     def to_s
       if single_cell? then
         self.class.ind2ref(@row_range.begin, @col_range.begin)
       else
-        self.class.ind2ref(@row_range.begin, @col_range.begin) + ':' + self.class.ind2ref(@row_range.end, @col_range.end)
+        self.class.ind2ref(@row_range.begin, @col_range.begin) + ':' +
+                           self.class.ind2ref(@row_range.end, @col_range.end)
       end
     end
 
@@ -99,7 +102,8 @@ module RubyXL
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
     def self.ref2ind(str)
       return [ -1, -1 ] unless str =~ /\A([A-Z]+)(\d+)\Z/
-      [ Regexp.last_match(2).to_i - 1, Regexp.last_match(1).each_byte.inject(0) { |col, chr| col * 26 + (chr - 64) } - 1 ]
+      [ Regexp.last_match(2).to_i - 1,
+        Regexp.last_match(1).each_byte.inject(0) { |col, chr| col * 26 + (chr - 64) } - 1 ]
     end
   end
 

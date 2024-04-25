@@ -25,7 +25,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_queryTableFields-1.html
   class QueryTableFields < OOXMLObject
-    define_child_node(RubyXL::QueryTableField, :collection => :with_count, :accessor => :fields, :node_name => :queryTableField)
+    define_child_node(RubyXL::QueryTableField, :collection => :with_count,
+                      :accessor => :fields, :node_name => :queryTableField)
     define_element_name 'queryTableFields'
   end
 
@@ -38,7 +39,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_queryTableDeletedFields-1.html
   class QueryTableDeletedFields < OOXMLObject
-    define_child_node(RubyXL::QueryTableDeletedField, :collection => :with_count, :accessor => :deleted_fields, :node_name => :deletedField)
+    define_child_node(RubyXL::QueryTableDeletedField, :collection => :with_count,
+                      :accessor => :deleted_fields, :node_name => :deletedField)
     define_element_name 'queryTableDeletedFields'
   end
 
