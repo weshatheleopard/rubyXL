@@ -71,11 +71,11 @@ describe RubyXL::Cell do
       ok_data = 'A' * 32767  # The limit is 32767
 
       expect {
-         @worksheet.add_cell(0,1, ok_data) # 32767 -> OK
+         @worksheet.add_cell(0, 1, ok_data) # 32767 -> OK
       }.not_to raise_error
       expect {
-         # 1 longer than the limit, so an exception must be thrown.
-         @worksheet.add_cell(0,2, ok_data + 'B')
+        # 1 longer than the limit, so an exception must be thrown.
+        @worksheet.add_cell(0, 2, "#{ok_data}x")
       }.to raise_error(ArgumentError)
     end
 
@@ -83,11 +83,11 @@ describe RubyXL::Cell do
       ok_data = 'A' * 32767  # The limit is 32767
 
       expect {
-         @worksheet.add_cell(0,1, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data))) # 32767 -> OK
+        @worksheet.add_cell(0, 1, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data))) # 32767 -> OK
       }.not_to raise_error
       expect {
-         # 1 longer than the limit, so an exception must be thrown.
-         @worksheet.add_cell(0,2, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data + 'B')))
+        # 1 longer than the limit, so an exception must be thrown.
+        @worksheet.add_cell(0, 2, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => "#{ok_data}x")))
       }.to raise_error(ArgumentError)
     end
   end

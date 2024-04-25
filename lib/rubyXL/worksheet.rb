@@ -69,8 +69,8 @@ module RubyXL
           end
         end
 
-        range = cols && cols.locate_range(column_index)
-        c.style_index = row.style_index || (range && range.style_index) || 0
+        range = cols&.locate_range(column_index)
+        c.style_index = row.style_index || range&.style_index || 0
         row.cells[column_index] = c
       end
 
@@ -101,5 +101,5 @@ module RubyXL
       raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
     end
     private :validate_nonnegative
-  end # end class
+  end
 end

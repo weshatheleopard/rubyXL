@@ -206,10 +206,10 @@ module RubyXL
       validate_nonnegative(column_index)
 
       # Delete column
-      sheet_data.rows.each { |row| row && row.cells.delete_at(column_index) }
+      sheet_data.rows.each { |row| row&.cells&.delete_at(column_index) }
 
       # Update column numbers for cells to the right of the deleted column
-      sheet_data.rows.each_with_index { |row, row_index|
+      sheet_data.rows.each { |row|
         next if row.nil?
         row.cells.each_with_index { |c, ci|
           c.column = ci if c.is_a?(Cell)

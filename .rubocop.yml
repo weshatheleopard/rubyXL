@@ -20,6 +20,14 @@ AllCops:
 Style/TernaryParentheses:
   Enabled: false
 
+# Implicity is evil. Unwilingness to type a couple extra characters is laziness.
+Style/RedundantConstantBase:
+  Enabled: false
+
+# I don't see a good reason in this. Unless you are paid per line.
+Style/CommentedKeyword:
+  Enabled: false
+
 Layout/LeadingCommentSpace:
   Enabled: false
 

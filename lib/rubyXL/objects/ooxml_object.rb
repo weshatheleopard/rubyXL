@@ -254,8 +254,8 @@ module RubyXL
 
     def ==(other)
       other.is_a?(self.class) &&
-        obtain_class_variable(:@@ooxml_attributes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&
-        obtain_class_variable(:@@ooxml_child_nodes).all? { |k, v| self.send(v[:accessor]) == other.send(v[:accessor]) }
+        obtain_class_variable(:@@ooxml_attributes).all? { |_k, v| self.send(v[:accessor]) == other.send(v[:accessor]) } &&
+        obtain_class_variable(:@@ooxml_child_nodes).all? { |_k, v| self.send(v[:accessor]) == other.send(v[:accessor]) }
     end
 
     # Recursively write the OOXML object and all its children out as Nokogiri::XML. Immediately before the actual
@@ -355,7 +355,7 @@ module RubyXL
     def before_write_xml
       #TODO# This will go away once containers are fully implemented.
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
-      child_nodes.each_pair { |child_node_name, child_node_params|
+      child_nodes.each_pair { |_child_node_name, child_node_params|
         self.count = self.send(child_node_params[:accessor]).size if child_node_params[:is_array] == :with_count
       }
       true

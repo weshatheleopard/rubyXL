@@ -4,7 +4,8 @@ require 'tmpdir'
 
 describe RubyXL::Parser do
   before do
-    @test_sheet_name = 'This is a very long sheet name that should be trimmed to 31 characters for compatibility with MS Excel'
+    @test_sheet_name = 'This is a very long sheet name that should be trimmed ' \
+                       'to 31 characters for compatibility with MS Excel'
     @workbook = RubyXL::Workbook.new
     @workbook.add_worksheet('Test Worksheet')
     @time = Time.at(Time.now.to_i) # Excel only saves times with 1-second precision.
