@@ -11,7 +11,7 @@ module RubyXL
     end
 
     def self.parse_file(zip_file, file_path)
-      (entry = zip_file.find_entry(RubyXL::from_root(file_path))) && self.new(file_path, entry.get_input_stream { |f| f.read })
+      (entry = zip_file.find_entry(RubyXL::from_root(file_path))) && self.new(file_path, entry.get_input_stream(&:read))
     end
 
     def add_to_zip(zip_stream)

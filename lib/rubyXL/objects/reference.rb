@@ -109,7 +109,7 @@ module RubyXL
     end
 
     def to_s
-      self.collect{ |ref| ref.to_s }.join(' ')
+      self.collect(&:to_s).join(' ')
     end
   end
 end

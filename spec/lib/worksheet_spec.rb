@@ -657,11 +657,11 @@ describe RubyXL::Worksheet do
 
     it 'should properly reindex the cells' do
       subject.sheet_data.rows.each_with_index { |row, r|
-        if (SKIP_ROW_COL == r) then
+        if (r == SKIP_ROW_COL) then
           expect(row).to be_nil
         else
           row.cells.each_with_index { |cell, c|
-            if (SKIP_ROW_COL == c) then
+            if (c == SKIP_ROW_COL) then
               expect(cell).to be_nil
             else
               expect(cell.row).to eq(r)
@@ -822,11 +822,11 @@ describe RubyXL::Worksheet do
 
     it 'should properly reindex the cells' do
       subject.sheet_data.rows.each_with_index { |row, r|
-        if (SKIP_ROW_COL == r) then
+        if (r == SKIP_ROW_COL) then
           expect(row).to be_nil
         else
           row.cells.each_with_index { |cell, c|
-            if (SKIP_ROW_COL == c) then
+            if (c == SKIP_ROW_COL) then
               expect(cell).to be_nil
             else
               expect(cell.row).to eq(r)
@@ -913,7 +913,7 @@ describe RubyXL::Worksheet do
       subject.delete_column(2)
 
       subject.sheet_data.rows.each_with_index { |row, r|
-        if (SKIP_ROW_COL == r) then
+        if (r == SKIP_ROW_COL) then
           expect(row).to be_nil
         else
           row.cells.each_with_index { |cell, c|
@@ -936,11 +936,11 @@ describe RubyXL::Worksheet do
 
     it 'should properly reindex the cells' do
       subject.sheet_data.rows.each_with_index { |row, r|
-        if (SKIP_ROW_COL == r) then
+        if (r == SKIP_ROW_COL) then
           expect(row).to be_nil
         else
           row.cells.each_with_index { |cell, c|
-            if (SKIP_ROW_COL == c) then
+            if (c == SKIP_ROW_COL) then
               expect(cell).to be_nil
             else
               expect(cell.row).to eq(r)
@@ -1099,11 +1099,11 @@ describe RubyXL::Worksheet do
 
     it 'should properly reindex the cells' do
       subject.sheet_data.rows.each_with_index { |row, r|
-        if (SKIP_ROW_COL == r) then
+        if (r == SKIP_ROW_COL) then
           expect(row).to be_nil
         else
           row.cells.each_with_index { |cell, c|
-            if (SKIP_ROW_COL == c) then
+            if (c == SKIP_ROW_COL) then
               expect(cell).to be_nil
             else
               expect(cell.row).to eq(r)
@@ -1181,11 +1181,11 @@ describe RubyXL::Worksheet do
     it 'should update cell indices after inserting the cell' do
       subject.insert_cell(0, 0, 'test', nil, :right)
       subject.sheet_data.rows.each_with_index { |row, r|
-        if (SKIP_ROW_COL == r) then
+        if (r == SKIP_ROW_COL) then
           expect(row).to be_nil
         else
           row.cells.each_with_index { |cell, c|
-            if ((r == 0) && (SKIP_ROW_COL + 1 == c)) || ((r != 0) && (SKIP_ROW_COL == c)) then
+            if ((r == 0) && (SKIP_ROW_COL + 1 == c)) || ((r != 0) && (c == SKIP_ROW_COL)) then
               expect(cell).to be_nil
             else
               expect(cell.row).to eq(r)
@@ -1243,7 +1243,7 @@ describe RubyXL::Worksheet do
     it 'should update cell indices after deleting the cell' do
       subject.delete_cell(4, 0, :left)
       subject[0].cells.each_with_index { |cell, i|
-        if SKIP_ROW_COL == i then
+        if i == SKIP_ROW_COL then
           expect(cell).to be_nil
         else
           expect(cell.column).to eq(i)

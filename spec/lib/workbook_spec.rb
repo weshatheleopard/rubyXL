@@ -168,13 +168,13 @@ describe RubyXL::Workbook do
   describe '.collect_related_objects' do
     it 'should not save shared strings if there are none' do
       wb = RubyXL::Workbook.new
-      expect(wb.root.collect_related_objects.map{ |x| x.class }.include?(::RubyXL::SharedStringsTable)).to be false
+      expect(wb.root.collect_related_objects.map(&:class).include?(::RubyXL::SharedStringsTable)).to be false
       Zip::File.open_buffer(wb.stream) { |zf|
         expect(zf.entries.any? { |e| e.name =~ /sharedstrings/i }).to be false
       }
 
       wb.shared_strings_container.add('test')
-      expect(wb.root.collect_related_objects.map{ |x| x.class }.include?(::RubyXL::SharedStringsTable)).to be true
+      expect(wb.root.collect_related_objects.map(&:class).include?(::RubyXL::SharedStringsTable)).to be true
       Zip::File.open_buffer(wb.stream) { |zf|
         expect(zf.entries.any? { |e| e.name =~ /sharedstrings/i }).to be true
       }

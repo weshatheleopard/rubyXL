@@ -303,7 +303,7 @@ module RubyXL
     REL_TYPE = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument'.freeze
 
     # http://www.accountingweb.com/technology/excel/seven-characters-you-cant-use-in-worksheet-names
-    SHEET_NAME_FORBIDDEN_CHARS = /[\/\\*\[\]:?]/
+    SHEET_NAME_FORBIDDEN_CHARS = %r{[/\\*\[\]:?]}
 
     # https://answers.microsoft.com/en-us/msoffice/forum/all/excel-history-is-a-reserved-name-help/f8a398a4-b72c-48e3-82da-4f132c305e91
     SHEET_NAME_FORBIDDEN_NAMES = [ 'History' ]
