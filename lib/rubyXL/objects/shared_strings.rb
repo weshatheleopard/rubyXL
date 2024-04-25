@@ -20,7 +20,7 @@ module RubyXL
       super
       # So far, going by the structure that the original creator had in mind. However,
       # since the actual implementation is now extracted into a separate class,
-      # we will be able to transparrently change it later if needs be.
+      # we will be able to transparently change it later if needs be.
       @index_by_content = {}
     end
 

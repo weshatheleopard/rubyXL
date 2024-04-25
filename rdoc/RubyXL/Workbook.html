@@ -147,7 +147,7 @@
         <dt id="CONTENT_TYPE_WITH_MACROS">CONTENT_TYPE_WITH_MACROS
         <dd>
         <dt id="DATE1899">DATE1899
-        <dd><p>Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates</p>
+        <dd><p>Subtracting one day to accommodate for erroneous 1900 leap year compatibility only for 1900 based dates</p>
         <dt id="DATE1904">DATE1904
         <dd>
         <dt id="MARCH_1_1900">MARCH_1_1900
@@ -332,7 +332,7 @@
           <div class="method-source-code" id="application-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 529</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">application</span>
-  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span>.<span class="ruby-identifier">value</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">application</span>&amp;.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -379,7 +379,7 @@
           <div class="method-source-code" id="appversion-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 538</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">appversion</span>
-  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span>.<span class="ruby-identifier">value</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">app_version</span>&amp;.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -465,7 +465,7 @@
           <div class="method-source-code" id="company-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 520</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">company</span>
-  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span>.<span class="ruby-identifier">value</span>
+  <span class="ruby-identifier">root</span>.<span class="ruby-identifier">document_properties</span>.<span class="ruby-identifier">company</span>&amp;.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -630,7 +630,7 @@
           <div class="method-source-code" id="date1904-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/workbook.rb, line 563</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">date1904</span>
-  <span class="ruby-identifier">workbook_properties</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">workbook_properties</span>.<span class="ruby-identifier">date1904</span>
+  <span class="ruby-identifier">workbook_properties</span>&amp;.<span class="ruby-identifier">date1904</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -799,7 +799,7 @@
 
   <span class="ruby-comment"># Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">num</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">MARCH_1_1900</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">num</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">workbook_properties</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">workbook_properties</span>.<span class="ruby-identifier">date1904</span>
+    <span class="ruby-identifier">num</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">workbook_properties</span>&amp;.<span class="ruby-identifier">date1904</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">dateparts</span> = <span class="ruby-identifier">num</span>.<span class="ruby-identifier">divmod</span>(<span class="ruby-value">1</span>)

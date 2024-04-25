@@ -117,8 +117,8 @@
           <div class="method-source-code" id="before_write_xml-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sort_by!</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">min</span> }
-  <span class="ruby-operator">!</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sort_by!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:min</span>)
+  <span class="ruby-operator">!</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

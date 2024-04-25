@@ -127,7 +127,7 @@
           
 
           <div class="method-source-code" id="default-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1412</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1410</span>
     <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">default</span>
       <span class="ruby-identifier">default_theme</span> = <span class="ruby-string">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
 &lt;a:theme xmlns:a=&quot;http://schemas.openxmlformats.org/drawingml/2006/main&quot; name=&quot;Office Theme&quot;&gt;
@@ -473,23 +473,23 @@
           
 
           <div class="method-source-code" id="get_theme_color-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1393</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1391</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_theme_color</span>(<span class="ruby-identifier">idx</span>)
-  <span class="ruby-identifier">color_scheme</span> = <span class="ruby-identifier">a_theme_elements</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">a_theme_elements</span>.<span class="ruby-identifier">a_clr_scheme</span>
+  <span class="ruby-identifier">color_scheme</span> = <span class="ruby-identifier">a_theme_elements</span>&amp;.<span class="ruby-identifier">a_clr_scheme</span>
 
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">color_scheme</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-keyword">case</span> <span class="ruby-identifier">idx</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">0</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_lt1</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_dk1</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">2</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_lt2</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">3</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_dk2</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">4</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent1</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">5</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent2</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">6</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent3</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">7</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent4</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">8</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent5</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-value">9</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent6</span>
-    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">color_scheme</span>
+
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">idx</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">0</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_lt1</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_dk1</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">2</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_lt2</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">3</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_dk2</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">4</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent1</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">5</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent2</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">6</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent3</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">7</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent4</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">8</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent5</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">9</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">color_scheme</span>.<span class="ruby-identifier">a_accent6</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -511,7 +511,7 @@
           
 
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1389</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/theme.rb, line 1387</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;xl&#39;</span>, <span class="ruby-string">&#39;theme&#39;</span>, <span class="ruby-string">&#39;theme1.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>

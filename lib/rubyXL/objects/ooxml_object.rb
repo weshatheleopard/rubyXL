@@ -21,7 +21,7 @@ module RubyXL
     # Defines an attribute of OOXML object.
     # === Parameters
     # * +attribute_name+ - Name of the element attribute as seen in the source XML. Can be either <tt>"String"</tt> or <tt>:Symbol</tt>
-    #   * Special attibute name <tt>'_'</tt> (underscore) denotes the value of the element rather than attribute.
+    #   * Special attribute name <tt>'_'</tt> (underscore) denotes the value of the element rather than attribute.
     # * +attribute_type+ - Specifies the conversion type for the attribute when parsing. Available options are:
     #   * +:int+ - <tt>Integer</tt>
     #   * +:uint+ - Unsigned <tt>Integer</tt>
@@ -369,7 +369,7 @@ module RubyXL
     include OOXMLObjectInstanceMethods
   end
 
-  # Parent class for OOXML conainer objects (for example,
+  # Parent class for OOXML container objects (for example,
   # <tt>&lt;fonts&gt;&lt;font&gt;...&lt;/font&gt;&lt;font&gt;...&lt;/font&gt;&lt;/fonts&gt;</tt>
   # that obscures the top-level container, allowing direct access to the contents as +Array+.
   class OOXMLContainerObject < Array

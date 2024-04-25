@@ -161,7 +161,7 @@
           <p>Converts <code>row</code> and <code>col</code> zero-based indices to Excel-style cell reference &lt;0&gt; A…Z, AA…AZ, BA… …ZZ, AAA… …AZZ, BAA… …XFD &lt;16383&gt;</p>
 
           <div class="method-source-code" id="ind2ref-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 86</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 89</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">ind2ref</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">str</span> = <span class="ruby-string">&#39;&#39;</span>
 
@@ -235,10 +235,11 @@
           <p>Converts Excel-style cell reference to <code>row</code> and <code>col</code> zero-based indices.</p>
 
           <div class="method-source-code" id="ref2ind-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 100</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 103</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">ref2ind</span>(<span class="ruby-identifier">str</span>)
   <span class="ruby-keyword">return</span> [ <span class="ruby-value">-1</span>, <span class="ruby-value">-1</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">str</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A([A-Z]+)(\d+)\Z/</span>
-  [ <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">2</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>, <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">each_byte</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">col</span>, <span class="ruby-identifier">chr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">col</span> <span class="ruby-operator">*</span> <span class="ruby-value">26</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">chr</span> <span class="ruby-operator">-</span> <span class="ruby-value">64</span>) } <span class="ruby-operator">-</span> <span class="ruby-value">1</span> ]
+  [ <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">2</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>,
+    <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">each_byte</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">col</span>, <span class="ruby-identifier">chr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">col</span> <span class="ruby-operator">*</span> <span class="ruby-value">26</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">chr</span> <span class="ruby-operator">-</span> <span class="ruby-value">64</span>) } <span class="ruby-operator">-</span> <span class="ruby-value">1</span> ]
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -291,8 +292,10 @@
           <div class="method-source-code" id="cover-3F-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cover?</span>(<span class="ruby-identifier">other</span>)
-  <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">end</span>) <span class="ruby-operator">&amp;&amp;</span>
-                  <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">end</span>))
+  <span class="ruby-operator">!</span><span class="ruby-identifier">other</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span>
+                  <span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">row_range</span>.<span class="ruby-identifier">end</span>) <span class="ruby-operator">&amp;&amp;</span>
+                  <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">&amp;&amp;</span>
+                  <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">col_range</span>.<span class="ruby-identifier">end</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
@@ -359,7 +362,7 @@
           
 
           <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 76</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 79</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">single_cell?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-node">&quot;#&lt;#{self.class} @row=#{@row_range.begin} @col=#{@col_range.begin}&gt;&quot;</span>
@@ -455,12 +458,13 @@
           
 
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 68</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/reference.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to_s</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">single_cell?</span> <span class="ruby-keyword">then</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>)
   <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;:&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>)
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">begin</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">begin</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;:&#39;</span> <span class="ruby-operator">+</span>
+                       <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-ivar">@row_range</span>.<span class="ruby-identifier">end</span>, <span class="ruby-ivar">@col_range</span>.<span class="ruby-identifier">end</span>)
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>

@@ -411,7 +411,7 @@ module RubyXL
     alias_method :write, :save
 
     DATE1904 = DateTime.new(1904, 1, 1)
-    # Subtracting one day to accomodate for erroneous 1900 leap year compatibility only for 1900 based dates
+    # Subtracting one day to accommodate for erroneous 1900 leap year compatibility only for 1900 based dates
     DATE1899 = DateTime.new(1899, 12, 31) - 1
     MARCH_1_1900 = 61
 

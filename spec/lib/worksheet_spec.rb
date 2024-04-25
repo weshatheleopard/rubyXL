@@ -1203,7 +1203,7 @@ describe RubyXL::Worksheet do
       expect(subject[1][0].value).to eq('0:0')
     end
 
-    it 'should cause error if shift argument is specified whcih is not :right or :down' do
+    it 'should cause error if shift argument is specified which is not :right or :down' do
       expect {
         subject.insert_cell(0, 0, 'test', nil, :up)
       }.to raise_error(RuntimeError)

@@ -214,13 +214,13 @@
       <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
       <span class="ruby-keyword">when</span> <span class="ruby-constant">Numeric</span>          <span class="ruby-keyword">then</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-identifier">data</span>
       <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>           <span class="ruby-keyword">then</span>
-        <span class="ruby-keyword">if</span> <span class="ruby-constant">TEXT_LENGTH_LIMIT_IN_CELL</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-constant">TEXT_LENGTH_LIMIT_IN_CELL</span>
           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters&quot;</span>
         <span class="ruby-keyword">end</span>
         <span class="ruby-identifier">c</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-identifier">data</span>
         <span class="ruby-identifier">c</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">RAW_STRING</span>
       <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">RichText</span> <span class="ruby-keyword">then</span>
-        <span class="ruby-keyword">if</span> <span class="ruby-constant">TEXT_LENGTH_LIMIT_IN_CELL</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">length</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-constant">TEXT_LENGTH_LIMIT_IN_CELL</span>
           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters&quot;</span>
         <span class="ruby-keyword">end</span>
         <span class="ruby-identifier">c</span>.<span class="ruby-identifier">is</span> = <span class="ruby-identifier">data</span>
@@ -231,8 +231,8 @@
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
 
-    <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">column_index</span>)
-    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">row</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>&amp;.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">column_index</span>)
+    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">style_index</span> = <span class="ruby-identifier">row</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">range</span>&amp;.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
     <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>[<span class="ruby-identifier">column_index</span>] = <span class="ruby-identifier">c</span>
   <span class="ruby-keyword">end</span>
 
