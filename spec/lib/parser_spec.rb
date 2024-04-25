@@ -16,9 +16,9 @@ describe RubyXL::Parser do
     ws.add_cell(0, 2, '>')
     ws.add_cell(0, 3, '')
 
-    ws.add_cell(1, 0, '&')#TODO#.datatype = RubyXL::Cell::SHARED_STRING
-    ws.add_cell(1, 1, '<')#TODO#.datatype = RubyXL::Cell::SHARED_STRING
-    ws.add_cell(1, 2, '>')#TODO#.datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1, 0, '&') #TODO# .datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1, 1, '<') #TODO# .datatype = RubyXL::Cell::SHARED_STRING
+    ws.add_cell(1, 2, '>') #TODO# .datatype = RubyXL::Cell::SHARED_STRING
     ws.add_cell(1, 3, '')
 
     ws.add_cell(2, 0, 0)

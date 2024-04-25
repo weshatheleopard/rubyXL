@@ -16,6 +16,13 @@ AllCops:
     - Gemfile
     - rubyXL.gemspec
 
+# "Excessive" parentheses are your friend. You will understand it in time, Luke.
+Style/TernaryParentheses:
+  Enabled: false
+
+Layout/LeadingCommentSpace:
+  Enabled: false
+
 Style/BlockDelimiters:
   Enabled: false
 

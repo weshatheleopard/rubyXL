@@ -50,7 +50,7 @@ module RubyXL
     end
 
     def row
-      r && r.first_row
+      r&.first_row
     end
 
     def row=(v)
@@ -58,7 +58,7 @@ module RubyXL
     end
 
     def column
-      r && r.first_col
+      r&.first_col
     end
 
     def column=(v)
@@ -66,7 +66,7 @@ module RubyXL
     end
 
     def raw_value
-      value_container && value_container.value
+      value_container&.value
     end
 
     def raw_value=(v)
@@ -98,8 +98,7 @@ module RubyXL
         else false
         end
 
-      num_fmt = self.number_format
-      num_fmt && num_fmt.is_date_format?
+      self.number_format&.is_date_format?
     end
 
     # Gets massaged value of the cell, converting datatypes to those known to Ruby (that includes
@@ -133,7 +132,7 @@ module RubyXL
     include LegacyCell
   end
 
-#TODO#<row r="1" spans="1:1" x14ac:dyDescent="0.25">
+#TODO# <row r="1" spans="1:1" x14ac:dyDescent="0.25">
 
   # http://www.datypic.com/sc/ooxml/e-ssml_row-1.html
   class Row < OOXMLObject

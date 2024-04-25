@@ -416,7 +416,7 @@ module RubyXL
     MARCH_1_1900 = 61
 
     def base_date
-      (workbook_properties && workbook_properties.date1904) ? DATE1904 : DATE1899
+      workbook_properties&.date1904 ? DATE1904 : DATE1899
     end
     private :base_date
 
@@ -432,7 +432,7 @@ module RubyXL
 
       # Bug-for-bug Excel compatibility (https://support.microsoft.com/kb/214058/)
       if num < MARCH_1_1900 then
-        num += 1 unless workbook_properties && workbook_properties.date1904
+        num += 1 unless workbook_properties&.date1904
       end
 
       dateparts = num.divmod(1)
@@ -518,7 +518,7 @@ module RubyXL
     end
 
     def company
-      root.document_properties.company && root.document_properties.company.value
+      root.document_properties.company&.value
     end
 
     def company=(v)
@@ -527,7 +527,7 @@ module RubyXL
     end
 
     def application
-      root.document_properties.application && root.document_properties.application.value
+      root.document_properties.application&.value
     end
 
     def application=(v)
@@ -536,7 +536,7 @@ module RubyXL
     end
 
     def appversion
-      root.document_properties.app_version && root.document_properties.app_version.value
+      root.document_properties.app_version&.value
     end
 
     def appversion=(v)
@@ -561,7 +561,7 @@ module RubyXL
     end
 
     def date1904
-      workbook_properties && workbook_properties.date1904
+      workbook_properties&.date1904
     end
 
     def date1904=(v)
