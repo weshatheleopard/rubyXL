@@ -116,7 +116,7 @@ module RubyXL
 
     def fill_color
       validate_worksheet
-      return workbook.get_fill_color(get_cell_xf)
+      workbook.get_fill_color(get_cell_xf)
     end
 
     def horizontal_alignment

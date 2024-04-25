@@ -21,11 +21,7 @@ module RubyXL
     end
 
     def get_fill_color(xf)
-      fill = fills[xf.fill_id]
-      pattern = fill && fill.pattern_fill
-      color = pattern && pattern.fg_color
-      color = color && color.get_rgb(self)
-      color && color.to_s || 'ffffff'
+      fills[xf.fill_id]&.pattern_fill&.fg_color&.get_rgb(self)&.to_s || 'ffffff'
     end
 
     def register_new_fill(new_fill, old_xf)

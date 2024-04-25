@@ -28,6 +28,13 @@ Style/RedundantConstantBase:
 Style/CommentedKeyword:
   Enabled: false
 
+# Yes, some things are "redundant" but they are there exactly to drive home some point...
+Style/RedundantSelf:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
 Layout/LeadingCommentSpace:
   Enabled: false
 
