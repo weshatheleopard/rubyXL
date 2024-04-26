@@ -32,6 +32,12 @@ Style/CommentedKeyword:
 Style/RedundantSelf:
   Enabled: false
 
+Naming/AccessorMethodName:
+  Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 

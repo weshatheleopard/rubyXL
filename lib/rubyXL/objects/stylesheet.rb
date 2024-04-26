@@ -79,9 +79,8 @@ module RubyXL
     define_element_name 'cellXfs'
 
     def self.default
-      self.new(:_ => [
-                 RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0, :border_id => 0, :xfId => 0)
-               ])
+      self.new(:_ => [ RubyXL::XF.new(:num_fmt_id => 0, :font_id => 0, :fill_id => 0,
+                                      :border_id => 0, :xfId => 0) ])
     end
   end
 
