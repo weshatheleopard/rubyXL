@@ -312,11 +312,15 @@ module RubyXL
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
 
-      if @local_namespaces.nil? || @local_namespaces.empty? then # If no local namespaces provided in the original document,
-        # use the defaults
-        obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| elem.add_namespace_definition(v, k) }
-      else # otherwise preserve the original ones
-        @local_namespaces.each { |ns| elem.add_namespace_definition(ns.prefix, ns.href) }
+      # Preserve the namespaces from the original document, but fall back to
+      # default namespaces for undefined ones. This is required in case the
+      # original document is missing extended properties which are always added
+      # by rubyXL (e.g. the worksheet count, see
+      # RubyXL::DocumentPropertiesFile#before_write_xml)
+      default_namespaces = obtain_class_variable(:@@ooxml_namespaces).map { |href, prefix| [prefix, href] }.to_h
+      local_namespaces = (@local_namespaces.nil? ? {} : @local_namespaces).map { |ns| [ns.prefix, ns.href] }.to_h
+      default_namespaces.merge(local_namespaces).each do |prefix, href|
+        elem.add_namespace_definition(prefix, href)
       end
 
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
