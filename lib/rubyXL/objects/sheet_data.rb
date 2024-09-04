@@ -110,6 +110,7 @@ module RubyXL
       when RubyXL::DataType::SHARED_STRING then workbook.shared_strings_container[r.to_i].to_s
       when RubyXL::DataType::INLINE_STRING then is.to_s
       when RubyXL::DataType::RAW_STRING    then raw_value
+      when RubyXL::DataType::DATE          then raw_value && DateTime.parse(raw_value)
       else
         if is then is.to_s
         elsif is_date? then workbook.num_to_date(r.to_f)
