@@ -689,12 +689,32 @@ module RubyXL
     end
 
     # Merges cells within a rectangular area
-    def merge_cells(start_row, start_col, end_row, end_col)
+    # #merge_cells(row_from, col_from, row_to, col_to)
+    # #merge_cells(reference_string)
+    # #merge_cells(row_from:, row_to:, col_from:, col_to:)
+    def merge_cells(*params)
       validate_workbook
+
+      row_from = col_from = row_to = col_to = nil
+      case params.size
+      when 4 then row_from, col_from, row_to, col_to = params
+      when 1 then
+        case params.first
+        when Hash then
+          row_from, row_to, col_from, col_to = params.first.fetch_values(:row_from, :row_to, :col_from, :col_to)
+        when String then
+          from, to = params[0].split(':')
+          raise ArgumentError.new("reference for merging cells must be a range") if to.nil?
+          row_from, col_from = RubyXL::Reference.ref2ind(from)
+          row_to, col_to = RubyXL::Reference.ref2ind(to)
+        else
+          raise ArgumentError.new("invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
+        end
+      end
 
       self.merged_cells ||= RubyXL::MergedCells.new
       # TODO: add validation to make sure ranges are not intersecting with existing ones
-      merged_cells << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(start_row, end_row, start_col, end_col))
+      merged_cells << RubyXL::MergedCell.new(:ref => RubyXL::Reference.new(row_from, row_to, col_from, col_to))
     end
 
     def add_validation_list(ref, list_arr)

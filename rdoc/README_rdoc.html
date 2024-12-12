@@ -390,8 +390,9 @@
 
 <h4 id="label-Merging+Cells">Merging Cells<span><a href="#label-Merging+Cells">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">1</span>)  <span class="ruby-comment"># Merges A1:B2</span>
-</pre>
+<pre>worksheet.merge_cells(0, 1, 2, 3)  # Merges B1:D3
+worksheet.merge_cells(&#39;A2:C4&#39;)     # Merges A2:C4
+worksheet.merge_cells(row_from: 0, row_to: 1, col_from 2:, col_to: 3) # Merges C1:D2</pre>
 
 <h4 id="label-Insert+Row">Insert Row<span><a href="#label-Insert+Row">&para;</a> <a href="#top">&uarr;</a></span></h4>
 

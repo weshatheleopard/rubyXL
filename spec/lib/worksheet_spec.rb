@@ -574,8 +574,18 @@ describe RubyXL::Worksheet do
 
   describe '.merge_cells' do
     it 'should merge cells in any valid range specified by indices' do
-      subject.merge_cells(0, 0, 1, 1)
-      expect(subject.merged_cells.collect{ |r| r.ref.to_s }).to eq(['A1:B2'])
+      subject.merge_cells(0, 1, 2, 3)
+      expect(subject.merged_cells.collect{ |r| r.ref.to_s }).to eq(['B1:D3'])
+    end
+
+    it 'should merge cells in any valid range specified by Reference' do
+      subject.merge_cells('A1:FF99')
+      expect(subject.merged_cells.collect{ |r| r.ref.to_s }).to eq(['A1:FF99'])
+    end
+
+    it 'should merge cells in any valid range specified by named params' do
+      subject.merge_cells(row_from: 0, row_to: 1, col_from: 2, col_to: 3)
+      expect(subject.merged_cells.collect{ |r| r.ref.to_s }).to eq(['C1:D2'])
     end
   end
 

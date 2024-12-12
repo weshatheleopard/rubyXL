@@ -168,7 +168,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   worksheet.change_column_width(0, 30)  # Sets first column width to 30
 
 ==== Merging Cells
-  worksheet.merge_cells(0, 0, 1, 1)  # Merges A1:B2
+  worksheet.merge_cells(0, 1, 2, 3)  # Merges B1:D3
+  worksheet.merge_cells('A2:C4')     # Merges A2:C4
+  worksheet.merge_cells(row_from: 0, row_to: 1, col_from 2:, col_to: 3) # Merges C1:D2
 
 ==== Insert Row
 This method will insert a row at specified index, pushing all rows below it down. It also copies styles from row above.

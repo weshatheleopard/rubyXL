@@ -195,7 +195,7 @@
           
 
           <div class="method-source-code" id="add_validation_list-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 700</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 720</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_validation_list</span>(<span class="ruby-identifier">ref</span>, <span class="ruby-identifier">list_arr</span>)
   <span class="ruby-comment"># &quot;Any double quote characters in the value should be escaped with another double quote.</span>
   <span class="ruby-comment"># If the value does not contain a comma, newline or double quote, then the String value should be returned unchanged.</span>
@@ -2128,22 +2128,39 @@
         <div class="method-header">
           <div class="method-heading">
             <span class="method-name">merge_cells</span><span
-              class="method-args">(start_row, start_col, end_row, end_col)</span>
+              class="method-args">(*params)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
         </div>
 
         <div class="method-description">
-          <p>Merges cells within a rectangular area</p>
+          <p>Merges cells within a rectangular area <a href="WorksheetConvenienceMethods.html#method-i-merge_cells"><code>merge_cells(row_from, col_from, row_to, col_to)</code></a> <a href="WorksheetConvenienceMethods.html#method-i-merge_cells"><code>merge_cells(reference_string)</code></a> <a href="WorksheetConvenienceMethods.html#method-i-merge_cells"><code>merge_cells</code></a>(row_from:, row_to:, col_from:, col_to:)</p>
 
           <div class="method-source-code" id="merge_cells-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 692</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">merge_cells</span>(<span class="ruby-identifier">start_row</span>, <span class="ruby-identifier">start_col</span>, <span class="ruby-identifier">end_row</span>, <span class="ruby-identifier">end_col</span>)
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 695</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">merge_cells</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">validate_workbook</span>
+
+  <span class="ruby-identifier">row_from</span> = <span class="ruby-identifier">col_from</span> = <span class="ruby-identifier">row_to</span> = <span class="ruby-identifier">col_to</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">size</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">4</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-identifier">params</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">first</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">fetch_values</span>(<span class="ruby-value">:row_from</span>, <span class="ruby-value">:row_to</span>, <span class="ruby-value">:col_from</span>, <span class="ruby-value">:col_to</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;:&#39;</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;reference for merging cells must be a range&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">from</span>)
+      <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">to</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;invalid value for #{self.class}: #{params[0].inspect}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCells</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-comment"># TODO: add validation to make sure ranges are not intersecting with existing ones</span>
-  <span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:ref</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">start_row</span>, <span class="ruby-identifier">end_row</span>, <span class="ruby-identifier">start_col</span>, <span class="ruby-identifier">end_col</span>))
+  <span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:ref</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
