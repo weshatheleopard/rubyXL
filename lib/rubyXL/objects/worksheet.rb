@@ -173,7 +173,7 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_colorScale-1.html
   class ColorScale < OOXMLObject
     define_child_node(RubyXL::ConditionalFormatValue, :collection => true, :accessor => :cfvo)
-    define_child_node(RubyXL::Color)
+    define_child_node(RubyXL::Color, :collection => true)
     define_element_name 'colorScale'
   end
 
@@ -183,7 +183,7 @@ module RubyXL
     define_attribute(:maxLength, :int,  :default => 90)
     define_attribute(:showValue, :bool, :default => true)
     define_child_node(RubyXL::ConditionalFormatValue, :collection => true, :accessor => :cfvo)
-    define_child_node(RubyXL::Color)
+    define_child_node(RubyXL::Color, :collection => true)
     define_element_name 'dataBar'
   end
 
