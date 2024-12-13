@@ -280,7 +280,7 @@ module RubyXL
       validate_workbook
       validate_nonnegative(row)
       row = sheet_data.rows[row]
-      row && row.ht || RubyXL::Row::DEFAULT_HEIGHT
+      (row && row.ht) || RubyXL::Row::DEFAULT_HEIGHT
     end
 
     def get_row_border(row, border_direction)

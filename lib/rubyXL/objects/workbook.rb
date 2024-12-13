@@ -436,7 +436,7 @@ module RubyXL
       end
 
       dateparts = num.divmod(1)
-      base_date + (dateparts[0] + (dateparts[1] * 86400).round(6) / 86400)
+      base_date + (dateparts[0] + ((dateparts[1] * 86400).round(6) / 86400))
     end
 
     include Enumerable

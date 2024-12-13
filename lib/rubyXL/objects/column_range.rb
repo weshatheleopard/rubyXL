@@ -17,18 +17,18 @@ module RubyXL
 
     def delete_column(col_index)
       col = col_index + 1
-      self.min -=1 if min >= col
-      self.max -=1 if max >= col
+      self.min -= 1 if min >= col
+      self.max -= 1 if max >= col
     end
 
     def insert_column(col_index)
       col = col_index + 1
-      self.min +=1 if min >= col
-      self.max +=1 if max >= col - 1
+      self.min += 1 if min >= col
+      self.max += 1 if max >= col - 1
     end
 
     def include?(col_index)
-      ((min-1)..(max-1)).include?(col_index)
+      ((min - 1)..(max - 1)).include?(col_index)
     end
 
     def self.chars2raw(width_in_chars)

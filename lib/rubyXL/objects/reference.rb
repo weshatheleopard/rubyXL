@@ -1,6 +1,6 @@
 module RubyXL
   class Reference
-    ROW_MAX = 1024*1024
+    ROW_MAX = 1024 * 1024
     COL_MAX = 16393
 
     attr_reader :row_range, :col_range
@@ -103,7 +103,7 @@ module RubyXL
     def self.ref2ind(str)
       return [ -1, -1 ] unless str =~ /\A([A-Z]+)(\d+)\Z/
       [ Regexp.last_match(2).to_i - 1,
-        Regexp.last_match(1).each_byte.inject(0) { |col, chr| col * 26 + (chr - 64) } - 1 ]
+        Regexp.last_match(1).each_byte.inject(0) { |col, chr| (col * 26) + (chr - 64) } - 1 ]
     end
   end
 

@@ -48,8 +48,8 @@ module RubyXL
         end
 
         hls_color.h = (g - b) / delta       if (r == max)
-        hls_color.h = 2.0 + (b - r) / delta if (g == max)
-        hls_color.h = 4.0 + (r - g) / delta if (b == max)
+        hls_color.h = 2.0 + ((b - r) / delta) if (g == max)
+        hls_color.h = 4.0 + ((r - g) / delta) if (b == max)
 
         hls_color.h *= 60;
         hls_color.h += 360 if hls_color.h < 0
@@ -95,7 +95,7 @@ module RubyXL
             t1 = l + s - (l * s)
           end
 
-          t2 = 2.0 * l - t1;
+          t2 = (2.0 * l) - t1;
           h = self.h / 360.0
 
           t_r = h + (1.0 / 3.0)
@@ -124,11 +124,11 @@ module RubyXL
         t3 -= 1.0 if (t3 > 1)
 
         if (6.0 * t3 < 1) then
-          color = t2 + (t1 - t2) * 6.0 * t3;
+          color = t2 + ((t1 - t2) * 6.0 * t3);
         elsif (2.0 * t3 < 1) then
           color = t1;
         elsif (3.0 * t3 < 2) then
-          color = t2 + (t1 - t2) * ((2.0 / 3.0) - t3) * 6.0;
+          color = t2 + ((t1 - t2) * ((2.0 / 3.0) - t3) * 6.0);
         else
           color = t2;
         end
@@ -143,7 +143,7 @@ module RubyXL
         if tint < 0 then
           self.l = l * (1.0 + tint);
         else
-          self.l = l * (1.0 - tint) + tint;
+          self.l = (l * (1.0 - tint)) + tint;
         end
 
         self

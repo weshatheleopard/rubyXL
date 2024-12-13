@@ -95,7 +95,7 @@ module RubyXL
         self.related_files[rel.id] = obj
       }
 
-      @@debug_indent -=2 if @@debug_indent
+      @@debug_indent -= 2 if @@debug_indent
 
       related_files
     end
