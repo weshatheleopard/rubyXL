@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.30</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.31</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -624,7 +624,7 @@
           <div class="method-source-code" id="change_column_width-source">
             <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 384</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_width</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">width_in_chars</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span>)
-  <span class="ruby-identifier">change_column_width_raw</span>(<span class="ruby-identifier">column_index</span>, ((<span class="ruby-identifier">width_in_chars</span> <span class="ruby-operator">+</span> (<span class="ruby-value">5.0</span> <span class="ruby-operator">/</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Font</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX_DIGIT_WIDTH</span>)) <span class="ruby-operator">*</span> <span class="ruby-value">256</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">/</span> <span class="ruby-value">256.0</span>)
+  <span class="ruby-identifier">change_column_width_raw</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-identifier">chars2raw</span>(<span class="ruby-identifier">width_in_chars</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

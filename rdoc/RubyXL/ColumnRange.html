@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColumnRange - rubyXL 3.4.30</title>
+<title>class RubyXL::ColumnRange - rubyXL 3.4.31</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -72,6 +72,7 @@
   <h3>Methods</h3>
 
   <ul class="link-list" role="directory">
+    <li ><a href="#method-c-chars2raw">::chars2raw</a>
     <li ><a href="#method-i-delete_column">#delete_column</a>
     <li ><a href="#method-i-include-3F">#include?</a>
     <li ><a href="#method-i-insert_column">#insert_column</a>
@@ -106,6 +107,36 @@
     </section>
 
 
+
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+      <div id="method-c-chars2raw" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">chars2raw</span><span
+              class="method-args">(width_in_chars)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="chars2raw-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/column_range.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">chars2raw</span>(<span class="ruby-identifier">width_in_chars</span>)
+  ((<span class="ruby-identifier">width_in_chars</span> <span class="ruby-operator">+</span> (<span class="ruby-value">5.0</span> <span class="ruby-operator">/</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Font</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX_DIGIT_WIDTH</span>)) <span class="ruby-operator">*</span> <span class="ruby-value">256</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">/</span> <span class="ruby-value">256.0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+    </section>
 
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>

@@ -382,7 +382,7 @@ module RubyXL
     # Get column width measured in number of digits, as per
     # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.column%28v=office.14%29.aspx
     def change_column_width(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)
-      change_column_width_raw(column_index, ((width_in_chars + (5.0 / RubyXL::Font::MAX_DIGIT_WIDTH)) * 256).to_i / 256.0)
+      change_column_width_raw(column_index, RubyXL::ColumnRange::chars2raw(width_in_chars))
     end
 
     # Helper method to get the style index for a column
