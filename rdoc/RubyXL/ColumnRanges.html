@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColumnRanges - rubyXL 3.4.29</title>
+<title>class RubyXL::ColumnRanges - rubyXL 3.4.30</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -146,7 +146,7 @@
   <span class="ruby-identifier">old_range</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">col_index</span>)
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">new_range</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">new_range</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">width:</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">col_num</span> <span class="ruby-keyword">then</span>
       <span class="ruby-keyword">return</span> <span class="ruby-identifier">old_range</span> <span class="ruby-comment"># Single column range, OK to change in place</span>
@@ -157,9 +157,9 @@
       <span class="ruby-identifier">new_range</span> = <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">dup</span>
       <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">max</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
     <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">range_before</span> = <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">dup</span>
-      <span class="ruby-identifier">range_before</span>.<span class="ruby-identifier">max</span> = <span class="ruby-identifier">col_index</span> <span class="ruby-comment"># col_num - 1</span>
-      <span class="ruby-keyword">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">range_before</span>
+      <span class="ruby-identifier">prior_range</span> = <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">prior_range</span>.<span class="ruby-identifier">max</span> = <span class="ruby-identifier">col_index</span> <span class="ruby-comment"># col_num - 1</span>
+      <span class="ruby-keyword">self</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">prior_range</span>
 
       <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">min</span> = <span class="ruby-identifier">col_num</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
 

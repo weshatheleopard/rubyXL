@@ -1,4 +1,4 @@
-Thu, 12 Dec 2024 23:09:00 +0000
+Fri, 13 Dec 2024 20:17:29 +0000
 README.rdoc	Thu, 12 Dec 2024 23:06:10 +0000
 lib/rubyXL.rb	Thu, 12 May 2022 06:08:08 +0000
 lib/rubyXL/cell.rb	Thu, 25 Apr 2024 20:48:43 +0000
@@ -13,7 +13,7 @@ lib/rubyXL/objects/calculation_chain.rb	Thu, 12 May 2022 06:13:57 +0000
 lib/rubyXL/objects/cell_style.rb	Thu, 12 May 2022 05:58:39 +0000
 lib/rubyXL/objects/chartsheet.rb	Thu, 19 May 2022 03:22:16 +0000
 lib/rubyXL/objects/color.rb	Thu, 12 Dec 2024 22:13:54 +0000
-lib/rubyXL/objects/column_range.rb	Thu, 25 Apr 2024 20:50:33 +0000
+lib/rubyXL/objects/column_range.rb	Fri, 13 Dec 2024 20:14:54 +0000
 lib/rubyXL/objects/comments.rb	Thu, 12 May 2022 06:25:30 +0000
 lib/rubyXL/objects/connection.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/objects/container_nodes.rb	Thu, 25 Apr 2024 20:48:43 +0000

@@ -31,7 +31,7 @@ module RubyXL
       ((min-1)..(max-1)).include?(col_index)
     end
 
-    DEFAULT_WIDTH = 9
+    DEFAULT_WIDTH = 9.140625
   end
 
   class ColumnRanges < OOXMLContainerObject
@@ -47,7 +47,7 @@ module RubyXL
       old_range = self.locate_range(col_index)
 
       if old_range.nil? then
-        new_range = RubyXL::ColumnRange.new
+        new_range = RubyXL::ColumnRange.new(width: RubyXL::ColumnRange::DEFAULT_WIDTH)
       else
         if old_range.min == col_num && old_range.max == col_num then
           return old_range # Single column range, OK to change in place
@@ -58,9 +58,9 @@ module RubyXL
           new_range = old_range.dup
           old_range.max -= 1
         else
-          range_before = old_range.dup
-          range_before.max = col_index # col_num - 1
-          self << range_before
+          prior_range = old_range.dup
+          prior_range.max = col_index # col_num - 1
+          self << prior_range
 
           old_range.min = col_num + 1
 
