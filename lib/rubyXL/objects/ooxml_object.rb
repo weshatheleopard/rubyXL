@@ -123,7 +123,9 @@ module RubyXL
       end
 
       obj = self.new
-      obj.local_namespaces = node.namespace_definitions
+      hsh = {}
+      node.namespace_definitions.each { |ns| hsh[ns.href] = ns.prefix }
+      obj.local_namespaces = hsh
 
       known_attributes = obtain_class_variable(:@@ooxml_attributes)
 
@@ -149,8 +151,9 @@ module RubyXL
 
         node.element_children.each { |child_node|
           ns = child_node.namespace
-          prefix = if known_namespaces.has_key?(ns.href) then known_namespaces[ns.href]
-                   else ns.prefix
+
+          prefix = if known_namespaces.has_key?(ns&.href) then known_namespaces[ns&.href]
+                   else ns&.prefix
                    end
 
           child_node_name = case prefix
@@ -314,9 +317,10 @@ module RubyXL
 
       if @local_namespaces.nil? || @local_namespaces.empty? then # If no local namespaces provided in the original document,
         # use the defaults
-        obtain_class_variable(:@@ooxml_namespaces).each_pair { |k, v| elem.add_namespace_definition(v, k) }
+        obtain_class_variable(:@@ooxml_namespaces).each_pair { |href, prefix| elem.add_namespace_definition(prefix, href) }
+
       else # otherwise preserve the original ones
-        @local_namespaces.each { |ns| elem.add_namespace_definition(ns.prefix, ns.href) }
+        @local_namespaces.each { |href, prefix| elem.add_namespace_definition(prefix, href) }
       end
 
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)

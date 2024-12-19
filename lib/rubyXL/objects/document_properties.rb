@@ -43,6 +43,13 @@ module RubyXL
 
     def add_parts_count(name, count)
       return unless count > 0
+
+      @local_namespaces ||= {}
+
+      if !@local_namespaces.has_value?('vt') then
+        @local_namespaces['http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes'] = 'vt'
+      end
+
       heading_pairs.vt_vector.vt_variant << RubyXL::Variant.new(:vt_lpstr => RubyXL::StringNode.new(:value => name))
       heading_pairs.vt_vector.vt_variant << RubyXL::Variant.new(:vt_i4 => RubyXL::IntegerNode.new(:value => count))
     end
@@ -69,6 +76,7 @@ module RubyXL
         when RubyXL::Chartsheet then chartsheets += 1
         end
       }
+
       add_parts_count('Worksheets', worksheets) if worksheets > 0
       add_parts_count('Charts', chartsheets) if chartsheets > 0
 
