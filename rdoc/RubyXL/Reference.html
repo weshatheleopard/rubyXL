@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::Reference - rubyXL 3.4.31</title>
+<title>class RubyXL::Reference - rubyXL 3.4.32</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -239,7 +239,7 @@
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">ref2ind</span>(<span class="ruby-identifier">str</span>)
   <span class="ruby-keyword">return</span> [ <span class="ruby-value">-1</span>, <span class="ruby-value">-1</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">str</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A([A-Z]+)(\d+)\Z/</span>
   [ <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">2</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>,
-    <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">each_byte</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">col</span>, <span class="ruby-identifier">chr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">col</span> <span class="ruby-operator">*</span> <span class="ruby-value">26</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">chr</span> <span class="ruby-operator">-</span> <span class="ruby-value">64</span>) } <span class="ruby-operator">-</span> <span class="ruby-value">1</span> ]
+    <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">each_byte</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">col</span>, <span class="ruby-identifier">chr</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">col</span> <span class="ruby-operator">*</span> <span class="ruby-value">26</span>) <span class="ruby-operator">+</span> (<span class="ruby-identifier">chr</span> <span class="ruby-operator">-</span> <span class="ruby-value">64</span>) } <span class="ruby-operator">-</span> <span class="ruby-value">1</span> ]
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

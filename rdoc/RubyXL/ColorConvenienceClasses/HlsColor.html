@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::ColorConvenienceClasses::HlsColor - rubyXL 3.4.31</title>
+<title>class RubyXL::ColorConvenienceClasses::HlsColor - rubyXL 3.4.32</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
@@ -166,7 +166,7 @@
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">tint</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">then</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">l</span> = <span class="ruby-identifier">l</span> <span class="ruby-operator">*</span> (<span class="ruby-value">1.0</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">tint</span>);
   <span class="ruby-keyword">else</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">l</span> = <span class="ruby-identifier">l</span> <span class="ruby-operator">*</span> (<span class="ruby-value">1.0</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">tint</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">tint</span>;
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">l</span> = (<span class="ruby-identifier">l</span> <span class="ruby-operator">*</span> (<span class="ruby-value">1.0</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">tint</span>)) <span class="ruby-operator">+</span> <span class="ruby-identifier">tint</span>;
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">self</span>
@@ -205,7 +205,7 @@
       <span class="ruby-identifier">t1</span> = <span class="ruby-identifier">l</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">s</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">l</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">s</span>)
     <span class="ruby-keyword">end</span>
 
-    <span class="ruby-identifier">t2</span> = <span class="ruby-value">2.0</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">l</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">t1</span>;
+    <span class="ruby-identifier">t2</span> = (<span class="ruby-value">2.0</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">l</span>) <span class="ruby-operator">-</span> <span class="ruby-identifier">t1</span>;
     <span class="ruby-identifier">h</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">h</span> <span class="ruby-operator">/</span> <span class="ruby-value">360.0</span>
 
     <span class="ruby-identifier">t_r</span> = <span class="ruby-identifier">h</span> <span class="ruby-operator">+</span> (<span class="ruby-value">1.0</span> <span class="ruby-operator">/</span> <span class="ruby-value">3.0</span>)

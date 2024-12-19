@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.31</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.32</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -1724,7 +1724,7 @@
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>]
-  <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">ht</span> <span class="ruby-operator">||</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Row</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_HEIGHT</span>
+  (<span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">ht</span>) <span class="ruby-operator">||</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Row</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_HEIGHT</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
