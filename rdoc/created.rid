@@ -1,4 +1,4 @@
-Thu, 19 Dec 2024 09:32:04 +0000
+Fri, 20 Dec 2024 18:09:26 +0000
 README.rdoc	Thu, 12 Dec 2024 23:06:10 +0000
 lib/rubyXL.rb	Thu, 12 May 2022 06:08:08 +0000
 lib/rubyXL/cell.rb	Thu, 25 Apr 2024 20:48:43 +0000
@@ -19,14 +19,14 @@ lib/rubyXL/objects/connection.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/objects/container_nodes.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/objects/content_types.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/objects/data_validation.rb	Thu, 12 May 2022 05:58:39 +0000
-lib/rubyXL/objects/document_properties.rb	Thu, 19 Dec 2024 08:11:14 +0000
+lib/rubyXL/objects/document_properties.rb	Fri, 20 Dec 2024 17:51:11 +0000
 lib/rubyXL/objects/extensions.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/objects/external_links.rb	Thu, 28 Mar 2024 04:37:50 +0000
 lib/rubyXL/objects/fill.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/objects/filters.rb	Thu, 12 May 2022 05:58:39 +0000
 lib/rubyXL/objects/font.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/objects/formula.rb	Mon, 13 Feb 2023 18:53:30 +0000
-lib/rubyXL/objects/ooxml_object.rb	Thu, 19 Dec 2024 08:53:09 +0000
+lib/rubyXL/objects/ooxml_object.rb	Fri, 20 Dec 2024 18:07:23 +0000
 lib/rubyXL/objects/query_table.rb	Thu, 25 Apr 2024 19:19:31 +0000
 lib/rubyXL/objects/reference.rb	Fri, 13 Dec 2024 21:37:36 +0000
 lib/rubyXL/objects/relationships.rb	Fri, 13 Dec 2024 21:34:22 +0000

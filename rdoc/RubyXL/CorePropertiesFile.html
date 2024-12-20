@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class RubyXL::CorePropertiesFile - rubyXL 3.4.32</title>
+<title>class RubyXL::CorePropertiesFile - rubyXL 3.4.33</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -147,7 +147,7 @@
           
 
           <div class="method-source-code" id="created_at-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 147</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 140</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">created_at</span>
   <span class="ruby-identifier">dcterms_created</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">dcterms_created</span>.<span class="ruby-identifier">to_time</span>
 <span class="ruby-keyword">end</span></pre>
@@ -170,7 +170,7 @@
           
 
           <div class="method-source-code" id="created_at-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 151</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">created_at=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dcterms_created</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNodeW3C</span>.<span class="ruby-identifier">default</span>(<span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -193,7 +193,7 @@
           
 
           <div class="method-source-code" id="creator-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 131</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 124</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">creator</span>
   <span class="ruby-identifier">dc_creator</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">dc_creator</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -216,7 +216,7 @@
           
 
           <div class="method-source-code" id="creator-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 135</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 128</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">creator=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dc_creator</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -239,7 +239,7 @@
           
 
           <div class="method-source-code" id="modified_at-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 155</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 148</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modified_at</span>
   <span class="ruby-identifier">dcterms_modified</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">dcterms_modified</span>.<span class="ruby-identifier">to_time</span>
 <span class="ruby-keyword">end</span></pre>
@@ -262,7 +262,7 @@
           
 
           <div class="method-source-code" id="modified_at-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 159</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modified_at=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dcterms_modified</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNodeW3C</span>.<span class="ruby-identifier">default</span>(<span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -285,7 +285,7 @@
           
 
           <div class="method-source-code" id="modifier-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 139</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modifier</span>
   <span class="ruby-identifier">cp_last_modified_by</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">cp_last_modified_by</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -308,7 +308,7 @@
           
 
           <div class="method-source-code" id="modifier-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 143</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 136</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modifier=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">cp_last_modified_by</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -331,7 +331,7 @@
           
 
           <div class="method-source-code" id="xlsx_path-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/objects/document_properties.rb, line 120</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">xlsx_path</span>
   <span class="ruby-constant">ROOT</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;docProps&#39;</span>, <span class="ruby-string">&#39;core.xml&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
