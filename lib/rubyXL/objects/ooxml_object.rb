@@ -315,13 +315,11 @@ module RubyXL
       element_text = attrs.delete('_')
       elem = xml.create_element(node_name_override || obtain_class_variable(:@@ooxml_tag_name), attrs, element_text)
 
-      if @local_namespaces.nil? || @local_namespaces.empty? then # If no local namespaces provided in the original document,
-        # use the defaults
-        obtain_class_variable(:@@ooxml_namespaces).each_pair { |href, prefix| elem.add_namespace_definition(prefix, href) }
+      # First, populate namespaces from the original document
+      @local_namespaces&.each_pair { |href, prefix| elem.add_namespace_definition(prefix, href) }
 
-      else # otherwise preserve the original ones
-        @local_namespaces.each { |href, prefix| elem.add_namespace_definition(prefix, href) }
-      end
+      # Then, add defaults. Note that if some namespace prefix was already set, Nokogiri will NOT change that namespace.
+      obtain_class_variable(:@@ooxml_namespaces).each_pair { |href, prefix| elem.add_namespace_definition(prefix, href) }
 
       child_nodes = obtain_class_variable(:@@ooxml_child_nodes)
       child_nodes.each_pair { |child_node_name, child_node_params|
