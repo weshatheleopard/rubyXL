@@ -263,6 +263,16 @@ describe RubyXL::Cell do
       expect(@cell.get_border_color(:top)).to eq('FF0000')
       expect(@cell.get_border(:top)).to eq('thin')
     end
+
+    it 'should not change the border color of another cell with the same style' do
+      another_cell = @worksheet[0][1]
+      @cell.change_border(:right, 'medium')
+      another_cell.change_border(:right, 'medium')
+      @cell.change_border_color(:right, 'FF0000')
+      another_cell.change_border_color(:right, '008000')
+      expect(@cell.get_border_color(:right)).to eq('FF0000')
+      expect(another_cell.get_border_color(:right)).to eq('008000')
+    end
   end
 
   describe '.change_border' do
