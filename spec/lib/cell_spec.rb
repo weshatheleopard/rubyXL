@@ -635,4 +635,20 @@ describe RubyXL::Cell do
       expect(@cell.text_rotation).to eq(45)
     end
   end
+
+  describe '.add_shared_string' do
+    let(:add_shared_string) { Article.create(title: 'test', description: 'test') }
+
+    it 'should correctly add a new shared string to the list' do
+      @cell = @worksheet.add_cell(7, 0, 1)
+      expect(@cell.datatype).to be_nil
+
+      prior_strings = @workbook.shared_strings_container.strings.dup
+      @cell.add_shared_string('testTEST')
+      expect(@workbook.shared_strings_container.strings.size).to eq(prior_strings.size + 1)
+      expect(@cell.datatype).to eq(RubyXL::DataType::SHARED_STRING)
+      expect(@cell.value).to eq('testTEST')
+    end
+  end
+
 end

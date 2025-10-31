@@ -268,7 +268,8 @@ module RubyXL
 
     def add_shared_string(str)
       self.datatype = RubyXL::DataType::SHARED_STRING
-      self.raw_value = @workbook.shared_strings_container.add(str)
+      workbook.shared_strings_container ||= RubyXL::SharedStringsTable.new
+      self.raw_value = workbook.shared_strings_container.add(str)
     end
   end
 
