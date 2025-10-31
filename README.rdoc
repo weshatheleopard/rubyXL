@@ -118,6 +118,9 @@ Please note: these methods are being phased out in favor of the OOXML object mod
 ==== Changing Cells
   worksheet[0][0].change_contents("", worksheet[0][0].formula) # Sets value of cell A1 to empty string, preserves formula
 
+  worksheet[0][0].add_shared_string('some text') # Creates a new Shared String and adds it to the cell.
+                                                 # Later, the same Shared String can be added to other cells.
+
 ==== Changing Fonts
   worksheet.sheet_data[0][0].change_font_bold(true) # Makes A1 bold
   worksheet.change_row_italics(0,true)              # Makes first row italicized
