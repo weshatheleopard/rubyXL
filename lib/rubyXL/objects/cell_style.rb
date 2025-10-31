@@ -51,6 +51,7 @@ module RubyXL
     define_attribute(:applyProtection,   :bool)
     define_child_node(RubyXL::Alignment)
     define_child_node(RubyXL::Protection)
+    define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'xf'
   end
 
