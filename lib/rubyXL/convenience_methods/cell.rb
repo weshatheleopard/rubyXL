@@ -266,10 +266,10 @@ module RubyXL
       worksheet.hyperlinks << hyperlink
     end
 
-#     def add_shared_string(str)
-#       self.datatype = RubyXL::DataType::SHARED_STRING
-#       self.raw_value = @workbook.shared_strings_container.add(str)
-#     end
+    def add_shared_string(str)
+      self.datatype = RubyXL::DataType::SHARED_STRING
+      self.raw_value = @workbook.shared_strings_container.add(str)
+    end
   end
 
   RubyXL::Cell.send(:include, RubyXL::CellConvenienceMethods) # ruby 2.1 compat
