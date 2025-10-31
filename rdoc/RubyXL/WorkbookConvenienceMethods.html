@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.33</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.34</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -169,7 +169,7 @@
           
 
           <div class="method-source-code" id="define_new_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 118</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 122</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_new_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">reference</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DefinedNames</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DefinedName</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:name</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">name</span>, <span class="ruby-value">:reference</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">reference</span>})
@@ -262,7 +262,7 @@
           
 
           <div class="method-source-code" id="get_defined_name-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 123</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 127</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_defined_name</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">name</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -382,6 +382,10 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modify_border_color</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
+
+  <span class="ruby-identifier">edge</span> = <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">dup</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
+
   <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">set_edge_color</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
 
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> = <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_border</span> } <span class="ruby-comment"># Reuse existing border, if it exists</span>
@@ -437,7 +441,7 @@
           <p>Calculate password hash from string for use in ‘password’ fields. <a href="https://www.openoffice.org/sc/excelfileformat.pdf">www.openoffice.org/sc/excelfileformat.pdf</a></p>
 
           <div class="method-source-code" id="password_hash-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 107</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 111</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">password_hash</span>(<span class="ruby-identifier">pwd</span>)
   <span class="ruby-identifier">hsh</span> = <span class="ruby-value">0</span>
   <span class="ruby-identifier">pwd</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">each_char</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
@@ -549,7 +553,7 @@
           
 
           <div class="method-source-code" id="title-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 131</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -572,7 +576,7 @@
           
 
           <div class="method-source-code" id="title-3D-source">
-            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 131</span>
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 135</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>

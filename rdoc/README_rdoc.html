@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>README - rubyXL 3.4.33</title>
+<title>README - rubyXL 3.4.34</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -173,7 +173,7 @@
 
 <h1 id="label-rubyXL">rubyXL<span><a href="#label-rubyXL">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
-<p><a href="http://badge.fury.io/rb/rubyXL"><img src="https://badge.fury.io/rb/rubyXL.svg"></a> <a href="https://codeclimate.com/github/weshatheleopard/rubyXL"><img src="https://codeclimate.com/github/weshatheleopard/rubyXL.png"></a> <a href="https://circleci.com/gh/weshatheleopard/rubyXL"><img src="https://circleci.com/gh/weshatheleopard/rubyXL.svg?style=svg"></a></p>
+<p><a href="http://badge.fury.io/rb/rubyXL"><img src="https://badge.fury.io/rb/rubyXL.svg"></a> <a href="https://circleci.com/gh/weshatheleopard/rubyXL"><img src="https://circleci.com/gh/weshatheleopard/rubyXL.svg?style=svg"></a></p>
 
 <p>This gem supports operating on <code>xlsx</code> files (Open XML format). While it is capable of properly parsing the entire OOXML structure, its current main emphasis is on reading files produced by MS Excel, making minor modifications to them and saving them to be opened again, while preserving as much of the structure as possible.</p>
 
@@ -390,9 +390,10 @@
 
 <h4 id="label-Merging+Cells">Merging Cells<span><a href="#label-Merging+Cells">&para;</a> <a href="#top">&uarr;</a></span></h4>
 
-<pre>worksheet.merge_cells(0, 1, 2, 3)  # Merges B1:D3
-worksheet.merge_cells(&#39;A2:C4&#39;)     # Merges A2:C4
-worksheet.merge_cells(row_from: 0, row_to: 1, col_from 2:, col_to: 3) # Merges C1:D2</pre>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>)  <span class="ruby-comment"># Merges B1:D3</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-string">&#39;A2:C4&#39;</span>)     <span class="ruby-comment"># Merges A2:C4</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-value">row_from:</span> <span class="ruby-value">0</span>, <span class="ruby-value">row_to:</span> <span class="ruby-value">1</span>, <span class="ruby-value">col_from:</span> <span class="ruby-value">2</span>, <span class="ruby-value">col_to:</span> <span class="ruby-value">3</span>) <span class="ruby-comment"># Merges C1:D2</span>
+</pre>
 
 <h4 id="label-Insert+Row">Insert Row<span><a href="#label-Insert+Row">&para;</a> <a href="#top">&uarr;</a></span></h4>
 

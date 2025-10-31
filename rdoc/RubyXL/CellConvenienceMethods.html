@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module RubyXL::CellConvenienceMethods - rubyXL 3.4.33</title>
+<title>module RubyXL::CellConvenienceMethods - rubyXL 3.4.34</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -67,6 +67,7 @@
 
   <ul class="link-list" role="directory">
     <li ><a href="#method-i-add_hyperlink">#add_hyperlink</a>
+    <li ><a href="#method-i-add_shared_string">#add_shared_string</a>
     <li ><a href="#method-i-change_border">#change_border</a>
     <li ><a href="#method-i-change_border_color">#change_border_color</a>
     <li ><a href="#method-i-change_contents">#change_contents</a>
@@ -153,6 +154,30 @@
   <span class="ruby-identifier">hyperlink</span>.<span class="ruby-identifier">tooltip</span> = <span class="ruby-identifier">tooltip</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">tooltip</span>
   <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">hyperlinks</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Hyperlinks</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">hyperlinks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">hyperlink</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-add_shared_string" class="method-detail ">
+        <div class="method-header">
+          <div class="method-heading">
+            <span class="method-name">add_shared_string</span><span
+              class="method-args">(str)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="add_shared_string-source">
+            <pre><span class="ruby-comment"># File lib/rubyXL/convenience_methods/cell.rb, line 269</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_shared_string</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">datatype</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_value</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">shared_strings_container</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">str</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>
