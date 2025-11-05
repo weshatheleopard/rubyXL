@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Vivek Bhagwat".freeze, "Wesha".freeze]
-  s.date = "2025-10-31"
+  s.date = "2025-11-05"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents".freeze
   s.email = "bhagwat.vivek@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -525,7 +525,7 @@ Gem::Specification.new do |s|
   s.specification_version = 4
 
   s.add_runtime_dependency(%q<nokogiri>.freeze, [">= 1.10.8".freeze])
-  s.add_runtime_dependency(%q<rubyzip>.freeze, ["~> 2.4".freeze])
+  s.add_runtime_dependency(%q<rubyzip>.freeze, [">= 3.2.2".freeze])
   s.add_development_dependency(%q<bundler>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<rake>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<juwelier>.freeze, [">= 0".freeze])
