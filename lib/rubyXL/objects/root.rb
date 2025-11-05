@@ -33,7 +33,7 @@ module RubyXL
 
     # Write <tt>.xlsx</tt> to a stream (useful for sending over HTTP)
     def stream
-      stream = Zip::OutputStream.write_buffer { |zipstream|
+      stream = Zip::OutputStream.write_buffer(suppress_extra_fields: true) { |zipstream|
         self.rels_hash = {}
         self.relationship_container.owner = self
         collect_related_objects.compact.each { |obj|
