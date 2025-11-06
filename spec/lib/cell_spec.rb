@@ -73,7 +73,7 @@ describe RubyXL::Cell do
       ok_data = 'A' * 32767  # The limit is 32767
 
       expect {
-         @worksheet.add_cell(0, 1, ok_data) # 32767 -> OK
+        @worksheet.add_cell(0, 1, ok_data) # 32767 -> OK
       }.not_to raise_error
       expect {
         # 1 longer than the limit, so an exception must be thrown.
