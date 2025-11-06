@@ -34,7 +34,7 @@ function showSource( e ) {
 };
 
 function hookSourceViews() {
-  document.querySelectorAll('.method-heading').forEach(function (codeObject) {
+  document.querySelectorAll('.method-source-toggle').forEach(function (codeObject) {
     codeObject.addEventListener('click', showSource);
   });
 };
@@ -72,10 +72,30 @@ function hookSearch() {
   }
 
   search.select = function(result) {
-    window.location.href = result.firstChild.firstChild.href;
+    var href = result.firstChild.firstChild.href;
+    var query = this.input.value;
+    if (query) {
+      var url = new URL(href, window.location.origin);
+      url.searchParams.set('q', query);
+      url.searchParams.set('nav', '0');
+      href = url.toString();
+    }
+    window.location.href = href;
   }
 
   search.scrollIntoView = search.scrollInWindow;
+
+  // Check for ?q= URL parameter and trigger search automatically
+  if (typeof URLSearchParams !== 'undefined') {
+    var urlParams = new URLSearchParams(window.location.search);
+    var queryParam = urlParams.get('q');
+    if (queryParam) {
+      var navParam = urlParams.get('nav');
+      var autoSelect = navParam !== '0';
+      input.value = queryParam;
+      search.search(queryParam, autoSelect);
+    }
+  }
 };
 
 function hookFocus() {
@@ -90,8 +110,31 @@ function hookFocus() {
   });
 }
 
+function hookSidebar() {
+  var navigation = document.querySelector('#navigation');
+  var navigationToggle = document.querySelector('#navigation-toggle');
+
+  navigationToggle.addEventListener('click', function() {
+    navigation.hidden = !navigation.hidden;
+    navigationToggle.ariaExpanded = navigationToggle.ariaExpanded !== 'true';
+  });
+
+  var isSmallViewport = window.matchMedia("(max-width: 1023px)").matches;
+  if (isSmallViewport) {
+    navigation.hidden = true;
+    navigationToggle.ariaExpanded = false;
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#navigation a')) {
+        navigation.hidden = true;
+        navigationToggle.ariaExpanded = false;
+      }
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   hookSourceViews();
   hookSearch();
   hookFocus();
+  hookSidebar();
 });

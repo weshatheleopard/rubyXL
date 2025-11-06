@@ -1,9 +1,9 @@
-Fri, 31 Oct 2025 05:52:07 +0000
-README.rdoc	Fri, 31 Oct 2025 05:50:38 +0000
+Thu, 06 Nov 2025 08:48:14 +0000
+README.rdoc	Fri, 31 Oct 2025 05:58:51 +0000
 lib/rubyXL.rb	Thu, 12 May 2022 06:08:08 +0000
 lib/rubyXL/cell.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/convenience_methods.rb	Mon, 25 Feb 2019 21:06:24 +0000
-lib/rubyXL/convenience_methods/cell.rb	Fri, 31 Oct 2025 05:41:56 +0000
+lib/rubyXL/convenience_methods/cell.rb	Fri, 31 Oct 2025 06:32:01 +0000
 lib/rubyXL/convenience_methods/color.rb	Fri, 13 Dec 2024 21:37:36 +0000
 lib/rubyXL/convenience_methods/font.rb	Thu, 25 Apr 2024 20:48:43 +0000
 lib/rubyXL/convenience_methods/workbook.rb	Fri, 31 Oct 2025 05:11:43 +0000
@@ -30,7 +30,7 @@ lib/rubyXL/objects/ooxml_object.rb	Fri, 31 Oct 2025 05:11:43 +0000
 lib/rubyXL/objects/query_table.rb	Thu, 25 Apr 2024 19:19:31 +0000
 lib/rubyXL/objects/reference.rb	Fri, 13 Dec 2024 21:37:36 +0000
 lib/rubyXL/objects/relationships.rb	Fri, 13 Dec 2024 21:34:22 +0000
-lib/rubyXL/objects/root.rb	Thu, 25 Apr 2024 20:48:43 +0000
+lib/rubyXL/objects/root.rb	Thu, 06 Nov 2025 08:47:09 +0000
 lib/rubyXL/objects/shared_strings.rb	Thu, 25 Apr 2024 21:18:31 +0000
 lib/rubyXL/objects/sheet_common.rb	Thu, 12 May 2022 05:58:39 +0000
 lib/rubyXL/objects/sheet_data.rb	Wed, 04 Sep 2024 02:34:18 +0000

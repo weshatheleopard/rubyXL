@@ -34,6 +34,8 @@ Search.prototype = Object.assign({}, Navigation, new function() {
   }
 
   this.search = function(value, selectFirstMatch) {
+    this.selectFirstMatch = selectFirstMatch;
+
     value = value.trim().toLowerCase();
     if (value) {
       this.setNavigationActive(true);
@@ -76,7 +78,15 @@ Search.prototype = Object.assign({}, Navigation, new function() {
     //TODO: ECMAScript
     //if (jQuery.browser.msie) this.$element[0].className += '';
 
-    if (isLast) this.result.setAttribute('aria-busy', 'false');
+    if (this.selectFirstMatch && this.current) {
+      this.selectFirstMatch = false;
+      this.select(this.current);
+    }
+
+    if (isLast) {
+      this.selectFirstMatch = false;
+      this.result.setAttribute('aria-busy', 'false');
+    }
   }
 
   this.move = function(isDown) {
