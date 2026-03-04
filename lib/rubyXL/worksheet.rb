@@ -57,6 +57,9 @@ module RubyXL
             end
             c.raw_value = data
             c.datatype = RubyXL::DataType::RAW_STRING
+            if data.match?( URI::DEFAULT_PARSER.make_regexp ) # If content is a URL then use the HYPERLINK formula to make it clickable.
+              c.formula = RubyXL::Formula.new(:expression => %(HYPERLINK("#{ data }")))
+            end
           when RubyXL::RichText then
             if data.to_s.length > TEXT_LENGTH_LIMIT_IN_CELL
               raise ArgumentError, "The maximum length of cell contents (text) is #{TEXT_LENGTH_LIMIT_IN_CELL} characters"
