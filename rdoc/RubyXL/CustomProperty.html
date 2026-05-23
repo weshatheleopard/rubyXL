@@ -5,15 +5,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class RubyXL::CustomProperty - rubyXL 3.4.35</title>
+<title>class RubyXL::CustomProperty - rubyXL 3.4.36</title>
 
 
-  <meta name="keywords" content="ruby,class,RubyXL::CustomProperty">
+  <meta
+    name="keywords"
+    content="ruby,class,RubyXL::CustomProperty"
+  >
+
+    <meta
+      name="description"
+      content="class RubyXL::CustomProperty: www. datypic."
+    >
 
 
-    <meta name="description" content="class RubyXL::CustomProperty: www. datypic.">
 
 
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="class RubyXL::CustomProperty - rubyXL 3.4.36">
+
+
+
+    <meta property="og:description" content="www. datypic.">
+
+
+
+
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="class RubyXL::CustomProperty - rubyXL 3.4.36">
+
+
+
+    <meta name="twitter:description" content="www. datypic.">
 
 
 
@@ -22,62 +49,383 @@
   var index_rel_prefix = "../";
 </script>
 
-<script src="../js/navigation.js" defer></script>
-<script src="../js/search.js" defer></script>
-<script src="../js/search_index.js" defer></script>
-<script src="../js/searcher.js" defer></script>
-<script src="../js/darkfish.js" defer></script>
+<script
+  src="../js/theme-toggle.js?v=7.2.0"
+></script>
 
-<link href="../css/fonts.css" rel="stylesheet">
-<link href="../css/rdoc.css" rel="stylesheet">
+<script
+  src="../js/search_navigation.js?v=7.2.0"
+  defer
+></script>
+
+<script
+  src="../js/search_data.js?v=7.2.0"
+  defer
+></script>
+
+<script
+  src="../js/search_ranker.js?v=7.2.0"
+  defer
+></script>
+
+<script
+  src="../js/search_controller.js?v=7.2.0"
+  defer
+></script>
+
+<script
+  src="../js/c_highlighter.js?v=7.2.0"
+  defer
+></script>
+
+<script
+  src="../js/bash_highlighter.js?v=7.2.0"
+  defer
+></script>
+
+<script
+  src="../js/aliki.js?v=7.2.0"
+  defer
+></script>
+
+<link
+  href="../css/rdoc.css?v=7.2.0"
+  rel="stylesheet"
+>
 
 
 
-<body id="top" role="document" class="class">
+
+<body role="document" class="class has-toc">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <!-- Chevron (right arrow) - used for expand/collapse -->
+  <symbol
+    id="icon-chevron"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <polyline points="9 18 15 12 9 6"></polyline>
+  </symbol>
+
+  <!-- File/Document - Pages section -->
+  <symbol
+    id="icon-file"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path
+      d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+    ></path>
+
+    <polyline points="14 2 14 8 20 8"></polyline>
+  </symbol>
+
+  <!-- Layers/Stack - Classes and Modules section -->
+  <symbol
+    id="icon-layers"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+    <polyline points="2 17 12 22 22 17"></polyline>
+    <polyline points="2 12 12 17 22 12"></polyline>
+  </symbol>
+
+  <!-- Curly braces with C - Class Methods section -->
+  <symbol
+    id="icon-class-methods"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M6 3C3.5 3 2 4.5 2 7v3c0 1.5-1 2-1 2s1 .5 1 2v5c0 2.5 1.5 4 4 4"></path>
+    <path d="M18 3c2.5 0 4 1.5 4 4v3c0 1.5 1 2 1 2s-1 .5-1 2v5c0 2.5-1.5 4-4 4"></path>
+
+    <text
+      x="12"
+      y="17"
+      text-anchor="middle"
+      font-size="13"
+      font-weight="bold"
+      fill="currentColor"
+      stroke="none"
+    >
+      C
+    </text>
+  </symbol>
+
+  <!-- Curly braces with I - Instance Methods section -->
+  <symbol
+    id="icon-instance-methods"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M6 3C3.5 3 2 4.5 2 7v3c0 1.5-1 2-1 2s1 .5 1 2v5c0 2.5 1.5 4 4 4"></path>
+    <path d="M18 3c2.5 0 4 1.5 4 4v3c0 1.5 1 2 1 2s-1 .5-1 2v5c0 2.5-1.5 4-4 4"></path>
+
+    <text
+      x="12"
+      y="17"
+      text-anchor="middle"
+      font-size="13"
+      font-weight="bold"
+      fill="currentColor"
+      stroke="none"
+    >
+      I
+    </text>
+  </symbol>
+
+  <!-- Double chevrons up - Ancestors section -->
+  <symbol
+    id="icon-ancestors"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <polyline points="17 11 12 6 7 11"></polyline>
+    <polyline points="17 18 12 13 7 18"></polyline>
+  </symbol>
+
+  <!-- User with plus - Included Modules section -->
+  <symbol
+    id="icon-includes"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+    <circle cx="8.5" cy="7" r="4"></circle>
+
+    <line
+      x1="20"
+      y1="8"
+      x2="20"
+      y2="14"
+    ></line>
+
+    <line
+      x1="23"
+      y1="11"
+      x2="17"
+      y2="11"
+    ></line>
+  </symbol>
+
+  <!-- User with check - Extended Modules section -->
+  <symbol
+    id="icon-extends"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+    <circle cx="8.5" cy="7" r="4"></circle>
+    <polyline points="17 11 19 13 23 9"></polyline>
+  </symbol>
+
+  <!-- List - Sections section -->
+  <symbol
+    id="icon-list"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <line
+      x1="8"
+      y1="6"
+      x2="21"
+      y2="6"
+    ></line>
+
+    <line
+      x1="8"
+      y1="12"
+      x2="21"
+      y2="12"
+    ></line>
+
+    <line
+      x1="8"
+      y1="18"
+      x2="21"
+      y2="18"
+    ></line>
+
+    <line
+      x1="3"
+      y1="6"
+      x2="3.01"
+      y2="6"
+    ></line>
+
+    <line
+      x1="3"
+      y1="12"
+      x2="3.01"
+      y2="12"
+    ></line>
+
+    <line
+      x1="3"
+      y1="18"
+      x2="3.01"
+      y2="18"
+    ></line>
+  </symbol>
+</svg>
+
+<header class="top-navbar">
+  <a href="../index.html" class="navbar-brand">
+    rubyXL 3.4.36
+  </a>
+
+  <!-- Desktop search bar -->
+  <div class="navbar-search navbar-search-desktop" role="search">
+    <form action="#" method="get" accept-charset="utf-8">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results-desktop"
+             type="text" name="search" placeholder="Search (/) for a class, method..."
+             spellcheck="false" autocomplete="off"
+             title="Type to search, Up and Down to navigate, Enter to load">
+      <ul id="search-results-desktop" aria-label="Search Results"
+          aria-busy="false" aria-expanded="false"
+          aria-atomic="false" class="initially-hidden search-results"></ul>
+    </form>
+  </div>
+
+  <!-- Mobile search icon button -->
+  <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search" type="button">
+    <span aria-hidden="true">🔍</span>
+  </button>
+
+  <!-- Theme toggle button -->
+  <button id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" type="button">
+    <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+  </button>
+</header>
+
+<!-- Search Modal (Mobile) -->
+<div id="search-modal" class="search-modal" hidden aria-modal="true" role="dialog" aria-label="Search">
+  <div class="search-modal-backdrop"></div>
+  <div class="search-modal-content">
+    <div class="search-modal-header">
+      <form class="search-modal-form" action="#" method="get" accept-charset="utf-8">
+        <span class="search-modal-icon" aria-hidden="true">🔍</span>
+        <input id="search-field-mobile" role="combobox" aria-label="Search"
+               aria-autocomplete="list" aria-controls="search-results-mobile"
+               type="text" name="search" placeholder="Search documentation"
+               spellcheck="false" autocomplete="off">
+        <button type="button" class="search-modal-close" aria-label="Close search" id="search-modal-close">
+          <span aria-hidden="true">esc</span>
+        </button>
+      </form>
+    </div>
+    <div class="search-modal-body">
+      <ul id="search-results-mobile" aria-label="Search Results"
+          aria-busy="false" aria-expanded="false"
+          aria-atomic="false" class="search-results search-modal-results initially-hidden"></ul>
+      <div class="search-modal-empty">
+        <p>No recent searches</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="navigation">
   <span aria-hidden="true">&#9776;</span>
 </div>
 
 
-<nav id="navigation" role="navigation">
-  <div id="project-navigation">
-    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
-  <h2>
-    <a href="../index.html" rel="home">Home</a>
-  </h2>
-
-  <div id="table-of-contents-navigation">
-    <a href="../table_of_contents.html#pages">Pages</a>
-    <a href="../table_of_contents.html#classes">Classes</a>
-    <a href="../table_of_contents.html#methods">Methods</a>
-  </div>
-</div>
-
-    <div id="search-section" role="search" class="project-section initially-hidden">
-  <form action="#" method="get" accept-charset="utf-8">
-    <div id="search-field-wrapper">
-      <input id="search-field" role="combobox" aria-label="Search"
-             aria-autocomplete="list" aria-controls="search-results"
-             type="text" name="search" placeholder="Search (/) for a class, method, ..." spellcheck="false"
-             title="Type to search, Up and Down to navigate, Enter to load">
-    </div>
-
-    <ul id="search-results" aria-label="Search Results"
-        aria-busy="false" aria-expanded="false"
-        aria-atomic="false" class="initially-hidden"></ul>
-  </form>
-</div>
-
-  </div>
-
+<nav id="navigation" role="navigation" hidden>
   
+
+
+
+
+  <div id="fileindex-section" class="nav-section">
+    <details class="nav-section-collapsible" >
+      <summary class="nav-section-header">
+        <span class="nav-section-icon">
+          <svg>
+            <use href="#icon-file"></use>
+          </svg>
+        </span>
+
+        <span class="nav-section-title">Pages</span>
+
+        <span class="nav-section-chevron">
+          <svg>
+            <use href="#icon-chevron"></use>
+          </svg>
+        </span>
+      </summary>
+
+      <ul class="nav-list">
+
+
+
+
+
+
+            <li>
+              <a href="../README_rdoc.html">
+                README
+              </a>
+            </li>
+
+      </ul>
+    </details>
+  </div>
+
 
   
 
   
 <div id="parent-class-section" class="nav-section">
-  <h3>Ancestors</h3>
-  <ul><li><a href="OOXMLObject.html">RubyXL::OOXMLObject</a><ul><li>Object</li></ul></li></ul>
+  <details class="nav-section-collapsible" open>
+    <summary class="nav-section-header">
+      <span class="nav-section-icon">
+        <svg><use href="#icon-ancestors"></use></svg>
+      </span>
+      <span class="nav-section-title">Ancestors</span>
+      <span class="nav-section-chevron">
+        <svg><use href="#icon-chevron"></use></svg>
+      </span>
+    </summary>
+    <ul><li><a href="OOXMLObject.html">RubyXL::OOXMLObject</a><ul><li>Object</li></ul></li></ul>
+  </details>
 </div>
 
 
@@ -89,16 +437,25 @@
 
 
 
+  <div id="classindex-section" class="nav-section">
+  <details class="nav-section-collapsible" open>
+    <summary class="nav-section-header">
+      <span class="nav-section-icon">
+        <svg><use href="#icon-layers"></use></svg>
+      </span>
+      <span class="nav-section-title">Classes and Modules</span>
+      <span class="nav-section-chevron">
+        <svg><use href="#icon-chevron"></use></svg>
+      </span>
+    </summary>
 
-  <footer id="validator-badges" role="contentinfo">
-  <p><a href="https://validator.w3.org/check/referer">Validate</a></p>
-  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.15.1.</p>
-  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.</p>
-</footer>
+    <ul class="link-list nav-list"><li><details open><summary><code><a href="../RubyXL.html">RubyXL</a></code></summary><ul class="link-list nav-list"><li><code><a href="../RubyXL/AExtension.html">AExtension</a></code></li><li><code><a href="../RubyXL/AExtensionStorageArea.html">AExtensionStorageArea</a></code></li><li><code><a href="../RubyXL/ActiveX.html">ActiveX</a></code></li><li><code><a href="../RubyXL/ActiveXBinary.html">ActiveXBinary</a></code></li><li><code><a href="../RubyXL/AdjustHandleList.html">AdjustHandleList</a></code></li><li><code><a href="../RubyXL/Alignment.html">Alignment</a></code></li><li><code><a href="../RubyXL/AlternateContent.html">AlternateContent</a></code></li><li><code><a href="../RubyXL/AlternateUrls.html">AlternateUrls</a></code></li><li><code><a href="../RubyXL/Authors.html">Authors</a></code></li><li><code><a href="../RubyXL/AutoFilter.html">AutoFilter</a></code></li><li><code><a href="../RubyXL/AutoFilterColumn.html">AutoFilterColumn</a></code></li><li><code><a href="../RubyXL/BinaryImageFile.html">BinaryImageFile</a></code></li><li><code><a href="../RubyXL/BodyProperties.html">BodyProperties</a></code></li><li><code><a href="../RubyXL/BooleanNode.html">BooleanNode</a></code></li><li><code><a href="../RubyXL/BooleanValue.html">BooleanValue</a></code></li><li><code><a href="../RubyXL/Border.html">Border</a></code></li><li><code><a href="../RubyXL/BorderEdge.html">BorderEdge</a></code></li><li><code><a href="../RubyXL/Borders.html">Borders</a></code></li><li><code><a href="../RubyXL/Break.html">Break</a></code></li><li><code><a href="../RubyXL/BreakList.html">BreakList</a></code></li><li><code><a href="../RubyXL/CT_AdjPoint2D.html">CT_AdjPoint2D</a></code></li><li><code><a href="../RubyXL/CT_AlphaBiLevelEffect.html">CT_AlphaBiLevelEffect</a></code></li><li><code><a href="../RubyXL/CT_AlphaModulateEffect.html">CT_AlphaModulateEffect</a></code></li><li><code><a href="../RubyXL/CT_AlphaModulateFixedEffect.html">CT_AlphaModulateFixedEffect</a></code></li><li><code><a href="../RubyXL/CT_AlphaOutsetEffect.html">CT_AlphaOutsetEffect</a></code></li><li><code><a href="../RubyXL/CT_AlphaReplaceEffect.html">CT_AlphaReplaceEffect</a></code></li><li><code><a href="../RubyXL/CT_Backdrop.html">CT_Backdrop</a></code></li><li><code><a href="../RubyXL/CT_Bevel.html">CT_Bevel</a></code></li><li><code><a href="../RubyXL/CT_BiLevelEffect.html">CT_BiLevelEffect</a></code></li><li><code><a href="../RubyXL/CT_BlendEffect.html">CT_BlendEffect</a></code></li><li><code><a href="../RubyXL/CT_Blip.html">CT_Blip</a></code></li><li><code><a href="../RubyXL/CT_BlipFillProperties.html">CT_BlipFillProperties</a></code></li><li><code><a href="../RubyXL/CT_BlurEffect.html">CT_BlurEffect</a></code></li><li><code><a href="../RubyXL/CT_Camera.html">CT_Camera</a></code></li><li><code><a href="../RubyXL/CT_Color.html">CT_Color</a></code></li><li><code><a href="../RubyXL/CT_ColorChangeEffect.html">CT_ColorChangeEffect</a></code></li><li><code><a href="../RubyXL/CT_ColorMapping.html">CT_ColorMapping</a></code></li><li><code><a href="../RubyXL/CT_ColorScheme.html">CT_ColorScheme</a></code></li><li><code><a href="../RubyXL/CT_ColorSchemeAndMapping.html">CT_ColorSchemeAndMapping</a></code></li><li><code><a href="../RubyXL/CT_ConnectionSite.html">CT_ConnectionSite</a></code></li><li><code><a href="../RubyXL/CT_ConnectionSiteList.html">CT_ConnectionSiteList</a></code></li><li><code><a href="../RubyXL/CT_DashStop.html">CT_DashStop</a></code></li><li><code><a href="../RubyXL/CT_DashStopList.html">CT_DashStopList</a></code></li><li><code><a href="../RubyXL/CT_DefaultShapeDefinition.html">CT_DefaultShapeDefinition</a></code></li><li><code><a href="../RubyXL/CT_DuotoneEffect.html">CT_DuotoneEffect</a></code></li><li><code><a href="../RubyXL/CT_EffectContainer.html">CT_EffectContainer</a></code></li><li><code><a href="../RubyXL/CT_EffectList.html">CT_EffectList</a></code></li><li><code><a href="../RubyXL/CT_EffectReference.html">CT_EffectReference</a></code></li><li><code><a href="../RubyXL/CT_EffectStyleItem.html">CT_EffectStyleItem</a></code></li><li><code><a href="../RubyXL/CT_EffectStyleList.html">CT_EffectStyleList</a></code></li><li><code><a href="../RubyXL/CT_EmbeddedWAVAudioFile.html">CT_EmbeddedWAVAudioFile</a></code></li><li><code><a href="../RubyXL/CT_FillEffect.html">CT_FillEffect</a></code></li><li><code><a href="../RubyXL/CT_FillOverlayEffect.html">CT_FillOverlayEffect</a></code></li><li><code><a href="../RubyXL/CT_FillStyleList.html">CT_FillStyleList</a></code></li><li><code><a href="../RubyXL/CT_FlatText.html">CT_FlatText</a></code></li><li><code><a href="../RubyXL/CT_FontCollection.html">CT_FontCollection</a></code></li><li><code><a href="../RubyXL/CT_FontReference.html">CT_FontReference</a></code></li><li><code><a href="../RubyXL/CT_GeomGuideList.html">CT_GeomGuideList</a></code></li><li><code><a href="../RubyXL/CT_GlowEffect.html">CT_GlowEffect</a></code></li><li><code><a href="../RubyXL/CT_GradientFillProperties.html">CT_GradientFillProperties</a></code></li><li><code><a href="../RubyXL/CT_GradientStop.html">CT_GradientStop</a></code></li><li><code><a href="../RubyXL/CT_GradientStopList.html">CT_GradientStopList</a></code></li><li><code><a href="../RubyXL/CT_HSLEffect.html">CT_HSLEffect</a></code></li><li><code><a href="../RubyXL/CT_HslColor.html">CT_HslColor</a></code></li><li><code><a href="../RubyXL/CT_Hyperlink.html">CT_Hyperlink</a></code></li><li><code><a href="../RubyXL/CT_InnerShadowEffect.html">CT_InnerShadowEffect</a></code></li><li><code><a href="../RubyXL/CT_LightRig.html">CT_LightRig</a></code></li><li><code><a href="../RubyXL/CT_LineEndProperties.html">CT_LineEndProperties</a></code></li><li><code><a href="../RubyXL/CT_LineJoinMiterProperties.html">CT_LineJoinMiterProperties</a></code></li><li><code><a href="../RubyXL/CT_LineProperties.html">CT_LineProperties</a></code></li><li><code><a href="../RubyXL/CT_LineStyleList.html">CT_LineStyleList</a></code></li><li><code><a href="../RubyXL/CT_LinearShadeProperties.html">CT_LinearShadeProperties</a></code></li><li><code><a href="../RubyXL/CT_LuminanceEffect.html">CT_LuminanceEffect</a></code></li><li><code><a href="../RubyXL/CT_ObjectStyleDefaults.html">CT_ObjectStyleDefaults</a></code></li><li><code><a href="../RubyXL/CT_OuterShadowEffect.html">CT_OuterShadowEffect</a></code></li><li><code><a href="../RubyXL/CT_Path2D.html">CT_Path2D</a></code></li><li><code><a href="../RubyXL/CT_Path2DArcTo.html">CT_Path2DArcTo</a></code></li><li><code><a href="../RubyXL/CT_Path2DCubicBezierTo.html">CT_Path2DCubicBezierTo</a></code></li><li><code><a href="../RubyXL/CT_Path2DList.html">CT_Path2DList</a></code></li><li><code><a href="../RubyXL/CT_Path2DQuadBezierTo.html">CT_Path2DQuadBezierTo</a></code></li><li><code><a href="../RubyXL/CT_Path2DTo.html">CT_Path2DTo</a></code></li><li><code><a href="../RubyXL/CT_PathShadeProperties.html">CT_PathShadeProperties</a></code></li><li><code><a href="../RubyXL/CT_PatternFillProperties.html">CT_PatternFillProperties</a></code></li><li><code><a href="../RubyXL/CT_Point3D.html">CT_Point3D</a></code></li><li><code><a href="../RubyXL/CT_PolarAdjustHandle.html">CT_PolarAdjustHandle</a></code></li><li><code><a href="../RubyXL/CT_PresetColor.html">CT_PresetColor</a></code></li><li><code><a href="../RubyXL/CT_PresetLineDashProperties.html">CT_PresetLineDashProperties</a></code></li><li><code><a href="../RubyXL/CT_PresetShadowEffect.html">CT_PresetShadowEffect</a></code></li><li><code><a href="../RubyXL/CT_PresetTextShape.html">CT_PresetTextShape</a></code></li><li><code><a href="../RubyXL/CT_ReflectionEffect.html">CT_ReflectionEffect</a></code></li><li><code><a href="../RubyXL/CT_RelativeOffsetEffect.html">CT_RelativeOffsetEffect</a></code></li><li><code><a href="../RubyXL/CT_RelativeRect.html">CT_RelativeRect</a></code></li><li><code><a href="../RubyXL/CT_SRgbColor.html">CT_SRgbColor</a></code></li><li><code><a href="../RubyXL/CT_ScRgbColor.html">CT_ScRgbColor</a></code></li><li><code><a href="../RubyXL/CT_Scene3D.html">CT_Scene3D</a></code></li><li><code><a href="../RubyXL/CT_SchemeColor.html">CT_SchemeColor</a></code></li><li><code><a href="../RubyXL/CT_Shape3D.html">CT_Shape3D</a></code></li><li><code><a href="../RubyXL/CT_ShapeStyle.html">CT_ShapeStyle</a></code></li><li><code><a href="../RubyXL/CT_SoftEdgesEffect.html">CT_SoftEdgesEffect</a></code></li><li><code><a href="../RubyXL/CT_SphereCoords.html">CT_SphereCoords</a></code></li><li><code><a href="../RubyXL/CT_StretchInfoProperties.html">CT_StretchInfoProperties</a></code></li><li><code><a href="../RubyXL/CT_StyleMatrix.html">CT_StyleMatrix</a></code></li><li><code><a href="../RubyXL/CT_StyleMatrixReference.html">CT_StyleMatrixReference</a></code></li><li><code><a href="../RubyXL/CT_SupplementalFont.html">CT_SupplementalFont</a></code></li><li><code><a href="../RubyXL/CT_SystemColor.html">CT_SystemColor</a></code></li><li><code><a href="../RubyXL/CT_TextAutonumberBullet.html">CT_TextAutonumberBullet</a></code></li><li><code><a href="../RubyXL/CT_TextBlipBullet.html">CT_TextBlipBullet</a></code></li><li><code><a href="../RubyXL/CT_TextCharBullet.html">CT_TextCharBullet</a></code></li><li><code><a href="../RubyXL/CT_TextCharacterProperties.html">CT_TextCharacterProperties</a></code></li><li><code><a href="../RubyXL/CT_TextFont.html">CT_TextFont</a></code></li><li><code><a href="../RubyXL/CT_TextListStyle.html">CT_TextListStyle</a></code></li><li><code><a href="../RubyXL/CT_TextNormalAutofit.html">CT_TextNormalAutofit</a></code></li><li><code><a href="../RubyXL/CT_TextParagraphProperties.html">CT_TextParagraphProperties</a></code></li><li><code><a href="../RubyXL/CT_TextSpacing.html">CT_TextSpacing</a></code></li><li><code><a href="../RubyXL/CT_TextTabStop.html">CT_TextTabStop</a></code></li><li><code><a href="../RubyXL/CT_TextTabStopList.html">CT_TextTabStopList</a></code></li><li><code><a href="../RubyXL/CT_TileInfoProperties.html">CT_TileInfoProperties</a></code></li><li><code><a href="../RubyXL/CT_TintEffect.html">CT_TintEffect</a></code></li><li><code><a href="../RubyXL/CT_Transform2D.html">CT_Transform2D</a></code></li><li><code><a href="../RubyXL/CT_TransformEffect.html">CT_TransformEffect</a></code></li><li><code><a href="../RubyXL/CT_Vector3D.html">CT_Vector3D</a></code></li><li><code><a href="../RubyXL/CT_XYAdjustHandle.html">CT_XYAdjustHandle</a></code></li><li><code><a href="../RubyXL/CalculationChain.html">CalculationChain</a></code></li><li><code><a href="../RubyXL/CalculationChainCell.html">CalculationChainCell</a></code></li><li><code><a href="../RubyXL/CalculationProperties.html">CalculationProperties</a></code></li><li><code><a href="../RubyXL/Cell.html">Cell</a></code></li><li><code><a href="../RubyXL/CellConvenienceMethods.html">CellConvenienceMethods</a></code></li><li><code><a href="../RubyXL/CellExt.html">CellExt</a></code></li><li><code><a href="../RubyXL/CellSmartTag.html">CellSmartTag</a></code></li><li><code><a href="../RubyXL/CellSmartTagProperty.html">CellSmartTagProperty</a></code></li><li><code><a href="../RubyXL/CellSmartTags.html">CellSmartTags</a></code></li><li><code><a href="../RubyXL/CellStyle.html">CellStyle</a></code></li><li><code><a href="../RubyXL/CellStyleXFs.html">CellStyleXFs</a></code></li><li><code><a href="../RubyXL/CellStyles.html">CellStyles</a></code></li><li><code><a href="../RubyXL/CellValue.html">CellValue</a></code></li><li><code><a href="../RubyXL/CellWatch.html">CellWatch</a></code></li><li><code><a href="../RubyXL/CellWatches.html">CellWatches</a></code></li><li><code><a href="../RubyXL/CellXFs.html">CellXFs</a></code></li><li><code><a href="../RubyXL/ChartColorsFile.html">ChartColorsFile</a></code></li><li><code><a href="../RubyXL/ChartFile.html">ChartFile</a></code></li><li><code><a href="../RubyXL/ChartStyleFile.html">ChartStyleFile</a></code></li><li><code><a href="../RubyXL/ChartUserShapesFile.html">ChartUserShapesFile</a></code></li><li><code><a href="../RubyXL/Chartsheet.html">Chartsheet</a></code></li><li><code><a href="../RubyXL/ChartsheetPageSetup.html">ChartsheetPageSetup</a></code></li><li><code><a href="../RubyXL/ChartsheetProperties.html">ChartsheetProperties</a></code></li><li><code><a href="../RubyXL/ChartsheetProtection.html">ChartsheetProtection</a></code></li><li><code><a href="../RubyXL/ChartsheetView.html">ChartsheetView</a></code></li><li><code><a href="../RubyXL/ChartsheetViews.html">ChartsheetViews</a></code></li><li><code><a href="../RubyXL/Color.html">Color</a></code></li><li><details><summary><code><a href="../RubyXL/ColorConvenienceClasses.html">ColorConvenienceClasses</a></code></summary><ul class="link-list nav-list"><li><code><a href="../RubyXL/ColorConvenienceClasses/HlsColor.html">HlsColor</a></code></li><li><code><a href="../RubyXL/ColorConvenienceClasses/RgbColor.html">RgbColor</a></code></li></ul></details></li><li><code><a href="../RubyXL/ColorConvenienceMethods.html">ColorConvenienceMethods</a></code></li><li><code><a href="../RubyXL/ColorFilter.html">ColorFilter</a></code></li><li><code><a href="../RubyXL/ColorScale.html">ColorScale</a></code></li><li><code><a href="../RubyXL/ColorSet.html">ColorSet</a></code></li><li><code><a href="../RubyXL/Colors.html">Colors</a></code></li><li><code><a href="../RubyXL/ColumnRange.html">ColumnRange</a></code></li><li><code><a href="../RubyXL/ColumnRanges.html">ColumnRanges</a></code></li><li><code><a href="../RubyXL/Comment.html">Comment</a></code></li><li><code><a href="../RubyXL/CommentList.html">CommentList</a></code></li><li><code><a href="../RubyXL/CommentsFile.html">CommentsFile</a></code></li><li><code><a href="../RubyXL/ConditionalFormatValue.html">ConditionalFormatValue</a></code></li><li><code><a href="../RubyXL/ConditionalFormatting.html">ConditionalFormatting</a></code></li><li><code><a href="../RubyXL/ConditionalFormattingRule.html">ConditionalFormattingRule</a></code></li><li><code><a href="../RubyXL/Connection.html">Connection</a></code></li><li><code><a href="../RubyXL/ConnectionTable.html">ConnectionTable</a></code></li><li><code><a href="../RubyXL/ConnectionTables.html">ConnectionTables</a></code></li><li><code><a href="../RubyXL/ConnectionTextField.html">ConnectionTextField</a></code></li><li><code><a href="../RubyXL/ConnectionTextFields.html">ConnectionTextFields</a></code></li><li><code><a href="../RubyXL/Connections.html">Connections</a></code></li><li><code><a href="../RubyXL/ContentTypeDefault.html">ContentTypeDefault</a></code></li><li><code><a href="../RubyXL/ContentTypeOverride.html">ContentTypeOverride</a></code></li><li><code><a href="../RubyXL/ContentTypes.html">ContentTypes</a></code></li><li><code><a href="../RubyXL/ControlPropertiesFile.html">ControlPropertiesFile</a></code></li><li><code><a href="../RubyXL/CorePropertiesFile.html">CorePropertiesFile</a></code></li><li><code><a href="../RubyXL/CustomColor.html">CustomColor</a></code></li><li><code><a href="../RubyXL/CustomColorList.html">CustomColorList</a></code></li><li><code><a href="../RubyXL/CustomFilter.html">CustomFilter</a></code></li><li><code><a href="../RubyXL/CustomFilters.html">CustomFilters</a></code></li><li><code><a href="../RubyXL/CustomGeometry.html">CustomGeometry</a></code></li><li><code><a href="../RubyXL/CustomProperties.html">CustomProperties</a></code></li><li><code><a href="../RubyXL/CustomPropertiesFile.html">CustomPropertiesFile</a></code></li><li><code><a href="../RubyXL/CustomProperty.html">CustomProperty</a></code></li><li><code><a href="../RubyXL/CustomPropertyFile.html">CustomPropertyFile</a></code></li><li><code><a href="../RubyXL/CustomSheetView.html">CustomSheetView</a></code></li><li><code><a href="../RubyXL/CustomSheetViews.html">CustomSheetViews</a></code></li><li><code><a href="../RubyXL/CustomWorkbookView.html">CustomWorkbookView</a></code></li><li><code><a href="../RubyXL/CustomWorkbookViews.html">CustomWorkbookViews</a></code></li><li><code><a href="../RubyXL/CustomXMLFile.html">CustomXMLFile</a></code></li><li><code><a href="../RubyXL/DXF.html">DXF</a></code></li><li><code><a href="../RubyXL/DXFs.html">DXFs</a></code></li><li><code><a href="../RubyXL/DataBar.html">DataBar</a></code></li><li><code><a href="../RubyXL/DataConsolidate.html">DataConsolidate</a></code></li><li><code><a href="../RubyXL/DataConsolidationReference.html">DataConsolidationReference</a></code></li><li><code><a href="../RubyXL/DataConsolidationReferences.html">DataConsolidationReferences</a></code></li><li><code><a href="../RubyXL/DataType.html">DataType</a></code></li><li><code><a href="../RubyXL/DataValidation.html">DataValidation</a></code></li><li><code><a href="../RubyXL/DataValidations.html">DataValidations</a></code></li><li><code><a href="../RubyXL/DateGroupItem.html">DateGroupItem</a></code></li><li><code><a href="../RubyXL/DefinedName.html">DefinedName</a></code></li><li><code><a href="../RubyXL/DefinedNameExt.html">DefinedNameExt</a></code></li><li><code><a href="../RubyXL/DefinedNames.html">DefinedNames</a></code></li><li><code><a href="../RubyXL/DefinedNamesExt.html">DefinedNamesExt</a></code></li><li><code><a href="../RubyXL/DocumentPropertiesFile.html">DocumentPropertiesFile</a></code></li><li><code><a href="../RubyXL/DrawingFile.html">DrawingFile</a></code></li><li><code><a href="../RubyXL/DynamicFilter.html">DynamicFilter</a></code></li><li><code><a href="../RubyXL/EmbeddedControl.html">EmbeddedControl</a></code></li><li><code><a href="../RubyXL/EmbeddedControls.html">EmbeddedControls</a></code></li><li><code><a href="../RubyXL/Extension.html">Extension</a></code></li><li><code><a href="../RubyXL/ExtensionStorageArea.html">ExtensionStorageArea</a></code></li><li><code><a href="../RubyXL/Extents.html">Extents</a></code></li><li><code><a href="../RubyXL/ExternalBook.html">ExternalBook</a></code></li><li><code><a href="../RubyXL/ExternalLinksFile.html">ExternalLinksFile</a></code></li><li><code><a href="../RubyXL/ExternalReference.html">ExternalReference</a></code></li><li><code><a href="../RubyXL/ExternalReferences.html">ExternalReferences</a></code></li><li><code><a href="../RubyXL/ExtraColorSchemeList.html">ExtraColorSchemeList</a></code></li><li><code><a href="../RubyXL/FieldItem.html">FieldItem</a></code></li><li><code><a href="../RubyXL/FileRecoveryProperties.html">FileRecoveryProperties</a></code></li><li><code><a href="../RubyXL/FileSharing.html">FileSharing</a></code></li><li><code><a href="../RubyXL/FileVersion.html">FileVersion</a></code></li><li><code><a href="../RubyXL/Fill.html">Fill</a></code></li><li><code><a href="../RubyXL/Fills.html">Fills</a></code></li><li><code><a href="../RubyXL/FilterContainer.html">FilterContainer</a></code></li><li><code><a href="../RubyXL/FloatNode.html">FloatNode</a></code></li><li><code><a href="../RubyXL/FloatValue.html">FloatValue</a></code></li><li><code><a href="../RubyXL/Font.html">Font</a></code></li><li><code><a href="../RubyXL/FontConvenienceMethods.html">FontConvenienceMethods</a></code></li><li><code><a href="../RubyXL/FontScheme.html">FontScheme</a></code></li><li><code><a href="../RubyXL/Fonts.html">Fonts</a></code></li><li><code><a href="../RubyXL/Formula.html">Formula</a></code></li><li><code><a href="../RubyXL/FunctionGroup.html">FunctionGroup</a></code></li><li><code><a href="../RubyXL/FunctionGroups.html">FunctionGroups</a></code></li><li><code><a href="../RubyXL/GenericStorageObject.html">GenericStorageObject</a></code></li><li><code><a href="../RubyXL/GradientFill.html">GradientFill</a></code></li><li><code><a href="../RubyXL/HeaderFooterSettings.html">HeaderFooterSettings</a></code></li><li><code><a href="../RubyXL/Hyperlink.html">Hyperlink</a></code></li><li><code><a href="../RubyXL/HyperlinkRelFile.html">HyperlinkRelFile</a></code></li><li><code><a href="../RubyXL/Hyperlinks.html">Hyperlinks</a></code></li><li><code><a href="../RubyXL/IconFilter.html">IconFilter</a></code></li><li><code><a href="../RubyXL/IconSet.html">IconSet</a></code></li><li><code><a href="../RubyXL/IgnoredError.html">IgnoredError</a></code></li><li><code><a href="../RubyXL/IgnoredErrors.html">IgnoredErrors</a></code></li><li><code><a href="../RubyXL/IndexedColors.html">IndexedColors</a></code></li><li><code><a href="../RubyXL/InputCells.html">InputCells</a></code></li><li><code><a href="../RubyXL/IntegerNode.html">IntegerNode</a></code></li><li><code><a href="../RubyXL/IntegerValue.html">IntegerValue</a></code></li><li><code><a href="../RubyXL/LegacyCell.html">LegacyCell</a></code></li><li><code><a href="../RubyXL/LegacyWorksheet.html">LegacyWorksheet</a></code></li><li><code><a href="../RubyXL/MRUColors.html">MRUColors</a></code></li><li><code><a href="../RubyXL/MacrosFile.html">MacrosFile</a></code></li><li><code><a href="../RubyXL/MergedCell.html">MergedCell</a></code></li><li><code><a href="../RubyXL/MergedCells.html">MergedCells</a></code></li><li><code><a href="../RubyXL/NumFmt.html">NumFmt</a></code></li><li><code><a href="../RubyXL/NumberFormat.html">NumberFormat</a></code></li><li><code><a href="../RubyXL/NumberFormats.html">NumberFormats</a></code></li><li><code><a href="../RubyXL/OLEObject.html">OLEObject</a></code></li><li><code><a href="../RubyXL/OLEObjectFile.html">OLEObjectFile</a></code></li><li><code><a href="../RubyXL/OLEObjects.html">OLEObjects</a></code></li><li><code><a href="../RubyXL/OLESize.html">OLESize</a></code></li><li><code><a href="../RubyXL/OOXMLContainerObject.html">OOXMLContainerObject</a></code></li><li><code><a href="../RubyXL/OOXMLIgnored.html">OOXMLIgnored</a></code></li><li><code><a href="../RubyXL/OOXMLObject.html">OOXMLObject</a></code></li><li><code><a href="../RubyXL/OOXMLObjectClassMethods.html">OOXMLObjectClassMethods</a></code></li><li><code><a href="../RubyXL/OOXMLObjectInstanceMethods.html">OOXMLObjectInstanceMethods</a></code></li><li><code><a href="../RubyXL/OOXMLRelationshipsFile.html">OOXMLRelationshipsFile</a></code></li><li><code><a href="../RubyXL/OOXMLTopLevelObject.html">OOXMLTopLevelObject</a></code></li><li><code><a href="../RubyXL/OdbcOleDbProperties.html">OdbcOleDbProperties</a></code></li><li><code><a href="../RubyXL/Offset.html">Offset</a></code></li><li><code><a href="../RubyXL/OlapProperties.html">OlapProperties</a></code></li><li><code><a href="../RubyXL/OleItem.html">OleItem</a></code></li><li><code><a href="../RubyXL/OleItems.html">OleItems</a></code></li><li><code><a href="../RubyXL/OleLink.html">OleLink</a></code></li><li><code><a href="../RubyXL/OutlineProperties.html">OutlineProperties</a></code></li><li><code><a href="../RubyXL/PageMargins.html">PageMargins</a></code></li><li><code><a href="../RubyXL/PageSetup.html">PageSetup</a></code></li><li><code><a href="../RubyXL/PageSetupProperties.html">PageSetupProperties</a></code></li><li><code><a href="../RubyXL/Pane.html">Pane</a></code></li><li><code><a href="../RubyXL/Parser.html">Parser</a></code></li><li><code><a href="../RubyXL/PatternFill.html">PatternFill</a></code></li><li><code><a href="../RubyXL/PersonMetadata.html">PersonMetadata</a></code></li><li><code><a href="../RubyXL/PhoneticProperties.html">PhoneticProperties</a></code></li><li><code><a href="../RubyXL/PhoneticRun.html">PhoneticRun</a></code></li><li><code><a href="../RubyXL/PivotArea.html">PivotArea</a></code></li><li><code><a href="../RubyXL/PivotCache.html">PivotCache</a></code></li><li><code><a href="../RubyXL/PivotCacheDefinitionFile.html">PivotCacheDefinitionFile</a></code></li><li><code><a href="../RubyXL/PivotCacheRecordsFile.html">PivotCacheRecordsFile</a></code></li><li><code><a href="../RubyXL/PivotCaches.html">PivotCaches</a></code></li><li><code><a href="../RubyXL/PivotReference.html">PivotReference</a></code></li><li><code><a href="../RubyXL/PivotReferences.html">PivotReferences</a></code></li><li><code><a href="../RubyXL/PivotTableFile.html">PivotTableFile</a></code></li><li><code><a href="../RubyXL/PivotTableSelection.html">PivotTableSelection</a></code></li><li><code><a href="../RubyXL/PresetGeometry.html">PresetGeometry</a></code></li><li><code><a href="../RubyXL/PrintOptions.html">PrintOptions</a></code></li><li><code><a href="../RubyXL/PrinterSettingsFile.html">PrinterSettingsFile</a></code></li><li><code><a href="../RubyXL/ProtectedRange.html">ProtectedRange</a></code></li><li><code><a href="../RubyXL/ProtectedRanges.html">ProtectedRanges</a></code></li><li><code><a href="../RubyXL/Protection.html">Protection</a></code></li><li><code><a href="../RubyXL/QueryParameter.html">QueryParameter</a></code></li><li><code><a href="../RubyXL/QueryParameters.html">QueryParameters</a></code></li><li><code><a href="../RubyXL/QueryTable.html">QueryTable</a></code></li><li><code><a href="../RubyXL/QueryTableDeletedField.html">QueryTableDeletedField</a></code></li><li><code><a href="../RubyXL/QueryTableDeletedFields.html">QueryTableDeletedFields</a></code></li><li><code><a href="../RubyXL/QueryTableField.html">QueryTableField</a></code></li><li><code><a href="../RubyXL/QueryTableFields.html">QueryTableFields</a></code></li><li><code><a href="../RubyXL/QueryTableRefresh.html">QueryTableRefresh</a></code></li><li><code><a href="../RubyXL/RID.html">RID</a></code></li><li><code><a href="../RubyXL/RawOOXML.html">RawOOXML</a></code></li><li><code><a href="../RubyXL/Reference.html">Reference</a></code></li><li><code><a href="../RubyXL/Relationship.html">Relationship</a></code></li><li><details><summary><code><a href="../RubyXL/RelationshipSupport.html">RelationshipSupport</a></code></summary><ul class="link-list nav-list"><li><code><a href="../RubyXL/RelationshipSupport/ClassMehods.html">ClassMehods</a></code></li></ul></details></li><li><code><a href="../RubyXL/RevisionPointer.html">RevisionPointer</a></code></li><li><code><a href="../RubyXL/RichText.html">RichText</a></code></li><li><code><a href="../RubyXL/RichTextRun.html">RichTextRun</a></code></li><li><code><a href="../RubyXL/Row.html">Row</a></code></li><li><code><a href="../RubyXL/RowExt.html">RowExt</a></code></li><li><code><a href="../RubyXL/RunProperties.html">RunProperties</a></code></li><li><code><a href="../RubyXL/Scenario.html">Scenario</a></code></li><li><code><a href="../RubyXL/Scenarios.html">Scenarios</a></code></li><li><code><a href="../RubyXL/Selection.html">Selection</a></code></li><li><code><a href="../RubyXL/ShapeGuide.html">ShapeGuide</a></code></li><li><code><a href="../RubyXL/ShapeTextRectangle.html">ShapeTextRectangle</a></code></li><li><code><a href="../RubyXL/SharedStringsTable.html">SharedStringsTable</a></code></li><li><code><a href="../RubyXL/Sheet.html">Sheet</a></code></li><li><code><a href="../RubyXL/SheetCalculationProperties.html">SheetCalculationProperties</a></code></li><li><code><a href="../RubyXL/SheetData.html">SheetData</a></code></li><li><code><a href="../RubyXL/SheetDataExt.html">SheetDataExt</a></code></li><li><code><a href="../RubyXL/SheetDataSet.html">SheetDataSet</a></code></li><li><code><a href="../RubyXL/SheetMetadata.html">SheetMetadata</a></code></li><li><code><a href="../RubyXL/SheetName.html">SheetName</a></code></li><li><code><a href="../RubyXL/SheetNames.html">SheetNames</a></code></li><li><code><a href="../RubyXL/Sheets.html">Sheets</a></code></li><li><code><a href="../RubyXL/SlicerCacheFile.html">SlicerCacheFile</a></code></li><li><code><a href="../RubyXL/SlicerFile.html">SlicerFile</a></code></li><li><code><a href="../RubyXL/SmartTagProperties.html">SmartTagProperties</a></code></li><li><code><a href="../RubyXL/SmartTagType.html">SmartTagType</a></code></li><li><code><a href="../RubyXL/SmartTagTypes.html">SmartTagTypes</a></code></li><li><code><a href="../RubyXL/SmartTags.html">SmartTags</a></code></li><li><code><a href="../RubyXL/SortCondition.html">SortCondition</a></code></li><li><code><a href="../RubyXL/SortState.html">SortState</a></code></li><li><code><a href="../RubyXL/Sqref.html">Sqref</a></code></li><li><code><a href="../RubyXL/Stop.html">Stop</a></code></li><li><code><a href="../RubyXL/StringNode.html">StringNode</a></code></li><li><code><a href="../RubyXL/StringNodeW3C.html">StringNodeW3C</a></code></li><li><code><a href="../RubyXL/StringValue.html">StringValue</a></code></li><li><code><a href="../RubyXL/Stylesheet.html">Stylesheet</a></code></li><li><code><a href="../RubyXL/TableFile.html">TableFile</a></code></li><li><code><a href="../RubyXL/TableParts.html">TableParts</a></code></li><li><code><a href="../RubyXL/TableStyle.html">TableStyle</a></code></li><li><code><a href="../RubyXL/TableStyles.html">TableStyles</a></code></li><li><code><a href="../RubyXL/Text.html">Text</a></code></li><li><code><a href="../RubyXL/TextImportSettings.html">TextImportSettings</a></code></li><li><code><a href="../RubyXL/Theme.html">Theme</a></code></li><li><code><a href="../RubyXL/ThemeElements.html">ThemeElements</a></code></li><li><code><a href="../RubyXL/ThumbnailFile.html">ThumbnailFile</a></code></li><li><code><a href="../RubyXL/Top10.html">Top10</a></code></li><li><code><a href="../RubyXL/VMLDrawingFile.html">VMLDrawingFile</a></code></li><li><code><a href="../RubyXL/Variant.html">Variant</a></code></li><li><code><a href="../RubyXL/Vector.html">Vector</a></code></li><li><code><a href="../RubyXL/VectorValue.html">VectorValue</a></code></li><li><code><a href="../RubyXL/VisualProperties.html">VisualProperties</a></code></li><li><code><a href="../RubyXL/WebPublishObject.html">WebPublishObject</a></code></li><li><code><a href="../RubyXL/WebPublishObjects.html">WebPublishObjects</a></code></li><li><code><a href="../RubyXL/WebPublishingItem.html">WebPublishingItem</a></code></li><li><code><a href="../RubyXL/WebPublishingItems.html">WebPublishingItems</a></code></li><li><code><a href="../RubyXL/WebPublishingProperties.html">WebPublishingProperties</a></code></li><li><code><a href="../RubyXL/WebQueryProperties.html">WebQueryProperties</a></code></li><li><code><a href="../RubyXL/Workbook.html">Workbook</a></code></li><li><code><a href="../RubyXL/WorkbookConvenienceMethods.html">WorkbookConvenienceMethods</a></code></li><li><code><a href="../RubyXL/WorkbookProperties.html">WorkbookProperties</a></code></li><li><code><a href="../RubyXL/WorkbookProtection.html">WorkbookProtection</a></code></li><li><code><a href="../RubyXL/WorkbookRoot.html">WorkbookRoot</a></code></li><li><code><a href="../RubyXL/WorkbookView.html">WorkbookView</a></code></li><li><code><a href="../RubyXL/WorkbookViews.html">WorkbookViews</a></code></li><li><code><a href="../RubyXL/Worksheet.html">Worksheet</a></code></li><li><code><a href="../RubyXL/WorksheetConvenienceMethods.html">WorksheetConvenienceMethods</a></code></li><li><code><a href="../RubyXL/WorksheetDimensions.html">WorksheetDimensions</a></code></li><li><code><a href="../RubyXL/WorksheetFormatProperties.html">WorksheetFormatProperties</a></code></li><li><code><a href="../RubyXL/WorksheetProperties.html">WorksheetProperties</a></code></li><li><code><a href="../RubyXL/WorksheetProtection.html">WorksheetProtection</a></code></li><li><code><a href="../RubyXL/WorksheetView.html">WorksheetView</a></code></li><li><code><a href="../RubyXL/WorksheetViews.html">WorksheetViews</a></code></li><li><code><a href="../RubyXL/XF.html">XF</a></code></li></ul></details></li></ul>
+  </details>
+</div>
 
 </nav>
 
-<main role="main" aria-labelledby="class-RubyXL::CustomProperty">
+<main role="main" aria-labelledby="class-rubyxl-customproperty">
   
   
     <ol role="navigation" aria-label="Breadcrumb navigation" class="breadcrumb">
@@ -118,7 +475,8 @@
     </ol>
   
 
-  <h1 id="class-RubyXL::CustomProperty" class="anchor-link class">
+  <span id="class-RubyXL::CustomProperty" class="legacy-anchor"></span>
+  <h1 id="class-rubyxl-customproperty" class="anchor-link class">
     class RubyXL::CustomProperty
   </h1>
 
@@ -129,7 +487,20 @@
   </section>
 
 
-  <section id="5Buntitled-5D" class="documentation-section anchor-link">
+  <span id="5Buntitled-5D" class="legacy-anchor"></span>
+  <section class="documentation-section anchor-link">
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -142,5 +513,27 @@
   </section>
 
 </main>
+
+<aside class="table-of-contents" role="complementary" aria-label="Table of Contents">
+  <div class="toc-sticky">
+    <h3 class="toc-heading">On This Page</h3>
+    <nav class="toc-nav" id="toc-nav" aria-label="Page sections">
+      <!-- Generated by JavaScript based on page headings -->
+    </nav>
+  </div>
+</aside>
+
+
+<footer class="site-footer">
+  
+
+  <div class="footer-bottom">
+    <p>
+      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 7.2.0</a>
+      using the Aliki theme by <a href="http://st0012.dev">Stan Lo</a>
+    </p>
+  </div>
+</footer>
+
 </body>
 
