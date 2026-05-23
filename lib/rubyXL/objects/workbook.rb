@@ -146,6 +146,13 @@ module RubyXL
   class DefinedNames < OOXMLContainerObject
     define_child_node(RubyXL::DefinedName, :collection => true)
     define_element_name 'definedNames'
+
+    def [](key)
+      case key
+      when Integer then super
+      when String then defined_names.find { |n| n.name = key }
+      end
+    end
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_pivotCache-1.html

@@ -3,7 +3,7 @@ module RubyXL
     ROW_MAX = 1024 * 1024
     COL_MAX = 16393
 
-    attr_reader :row_range, :col_range
+    attr_reader :row_range, :col_range, :sheet_name
 
     # RubyXL::Reference.new(row, col)
     # RubyXL::Reference.new(row_from, row_to, col_from, col_to)
@@ -20,7 +20,14 @@ module RubyXL
         when Hash then
           row_from, row_to, col_from, col_to = params.first.fetch_values(:row_from, :row_to, :col_from, :col_to)
         when String then
-          from, to = params[0].split(':')
+          str = params.first
+          match_data = str.match(/^('(?<sheet_name1>[^']+)'|(?<sheet_name2>[^']+))!/)
+          if match_data then
+            @sheet_name = match_data['sheet_name1'] || match_data['sheet_name2']
+            str = str[match_data[0].size..-1]
+          end
+
+          from, to = str.split(':')
           row_from, col_from = self.class.ref2ind(from)
           row_to, col_to = self.class.ref2ind(to) unless to.nil?
         else
@@ -57,7 +64,8 @@ module RubyXL
     end
 
     def ==(other)
-      !other.nil? && (@row_range == other.row_range) && (@col_range == other.col_range)
+      !other.nil? && (@sheet_name == other.sheet_name) &&
+        (@row_range == other.row_range) && (@col_range == other.col_range)
     end
 
     def cover?(other)
@@ -68,19 +76,31 @@ module RubyXL
     end
 
     def to_s
+      result = +''
+
+      if @sheet_name then
+        if @sheet_name.index(' ') then
+          result << "'#{@sheet_name}'"
+        else
+          result << @sheet_name
+        end
+        result << '!'
+      end
+
       if single_cell? then
-        self.class.ind2ref(@row_range.begin, @col_range.begin)
+        result << self.class.ind2ref(@row_range.begin, @col_range.begin)
       else
-        self.class.ind2ref(@row_range.begin, @col_range.begin) + ':' +
-                           self.class.ind2ref(@row_range.end, @col_range.end)
+        result << self.class.ind2ref(@row_range.begin, @col_range.begin)
+        result << ':'
+        result << self.class.ind2ref(@row_range.end, @col_range.end)
       end
     end
 
     def inspect
       if single_cell? then
-        "#<#{self.class} @row=#{@row_range.begin} @col=#{@col_range.begin}>"
+        "#<#{self.class} @sheet_name#{@sheet_name} @row=#{@row_range.begin} @col=#{@col_range.begin}>"
       else
-        "#<#{self.class} @row_range=#{@row_range} @col_range=#{@col_range}>"
+        "#<#{self.class} @sheet_name#{@sheet_name} @row_range=#{@row_range} @col_range=#{@col_range}>"
       end
     end
 
@@ -101,7 +121,7 @@ module RubyXL
 
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
     def self.ref2ind(str)
-      return [ -1, -1 ] unless str =~ /\A([A-Z]+)(\d+)\Z/
+      return [ -1, -1 ] unless str =~ /\A\$?([A-Z]+)\$?(\d+)\Z/
       [ Regexp.last_match(2).to_i - 1,
         Regexp.last_match(1).each_byte.inject(0) { |col, chr| (col * 26) + (chr - 64) } - 1 ]
     end

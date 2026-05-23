@@ -40,9 +40,15 @@ describe RubyXL::Reference do
 
   describe '.new' do
     it 'should take a string parameter' do
-      new_ref = RubyXL::Reference.new('C23')
+      new_ref = RubyXL::Reference.new('TestSheet!C23')
       expect(new_ref.single_cell?).to be true
-      expect(new_ref.to_s).to eq 'C23'
+      expect(new_ref.to_s).to eq 'TestSheet!C23'
+    end
+
+    it 'should take a string parameter with space in sheet name' do
+      new_ref = RubyXL::Reference.new("'Test Sheet'!C23")
+      expect(new_ref.single_cell?).to be true
+      expect(new_ref.to_s).to eq "'Test Sheet'!C23"
     end
 
     it 'should take 2 coordinate parameters' do
