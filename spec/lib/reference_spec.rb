@@ -13,11 +13,38 @@ describe RubyXL::Reference do
       expect(RubyXL::Reference.ind2ref(0, 77)).to eq('BZ1')
       expect(RubyXL::Reference.ind2ref(0, 78)).to eq('CA1')
       expect(RubyXL::Reference.ind2ref(0, 16383)).to eq('XFD1')
+
+      expect(RubyXL::Reference.ind2ref(0, 26, true, false)).to eq('AA$1')
+      expect(RubyXL::Reference.ind2ref(99, 0, true, false)).to eq('A$100')
+      expect(RubyXL::Reference.ind2ref(0, 26, true, false)).to eq('AA$1')
+      expect(RubyXL::Reference.ind2ref(0, 51, true, false)).to eq('AZ$1')
+      expect(RubyXL::Reference.ind2ref(0, 52, true, false)).to eq('BA$1')
+      expect(RubyXL::Reference.ind2ref(0, 77, true, false)).to eq('BZ$1')
+      expect(RubyXL::Reference.ind2ref(0, 78, true, false)).to eq('CA$1')
+      expect(RubyXL::Reference.ind2ref(0, 16383, true, false)).to eq('XFD$1')
+
+      expect(RubyXL::Reference.ind2ref(0, 26, false, true)).to eq('$AA1')
+      expect(RubyXL::Reference.ind2ref(99, 0, false, true)).to eq('$A100')
+      expect(RubyXL::Reference.ind2ref(0, 26, false, true)).to eq('$AA1')
+      expect(RubyXL::Reference.ind2ref(0, 51, false, true)).to eq('$AZ1')
+      expect(RubyXL::Reference.ind2ref(0, 52, false, true)).to eq('$BA1')
+      expect(RubyXL::Reference.ind2ref(0, 77, false, true)).to eq('$BZ1')
+      expect(RubyXL::Reference.ind2ref(0, 78, false, true)).to eq('$CA1')
+      expect(RubyXL::Reference.ind2ref(0, 16383, false, true)).to eq('$XFD1')
+
+      expect(RubyXL::Reference.ind2ref(0, 26, true, true)).to eq('$AA$1')
+      expect(RubyXL::Reference.ind2ref(99, 0, true, true)).to eq('$A$100')
+      expect(RubyXL::Reference.ind2ref(0, 26, true, true)).to eq('$AA$1')
+      expect(RubyXL::Reference.ind2ref(0, 51, true, true)).to eq('$AZ$1')
+      expect(RubyXL::Reference.ind2ref(0, 52, true, true)).to eq('$BA$1')
+      expect(RubyXL::Reference.ind2ref(0, 77, true, true)).to eq('$BZ$1')
+      expect(RubyXL::Reference.ind2ref(0, 78, true, true)).to eq('$CA$1')
+      expect(RubyXL::Reference.ind2ref(0, 16383, true, true)).to eq('$XFD$1')
     end
 
     it "should correctly convert back and forth between 'Excel Style' and index style cell references" do
       0.upto(16383) do |n|
-        expect(RubyXL::Reference.ref2ind(RubyXL::Reference.ind2ref(n, 16383 - n))).to eq([ n, 16383 - n ])
+        expect(RubyXL::Reference.ref2ind(RubyXL::Reference.ind2ref(n, 16383 - n))).to eq([ n, 16383 - n, false, false ])
       end
     end
   end

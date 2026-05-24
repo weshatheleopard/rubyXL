@@ -11,6 +11,7 @@ module RubyXL
     # RubyXL::Reference.new(row_from:, row_to:, col_from:, col_to:)
     def initialize(*params)
       row_from = row_to = col_from = col_to = nil
+      @row_from_absolute = @row_to_absolute = @col_from_absolute = @col_to_absolute = false
 
       case params.size
       when 4 then row_from, row_to, col_from, col_to = params
@@ -28,8 +29,8 @@ module RubyXL
           end
 
           from, to = str.split(':')
-          row_from, col_from = self.class.ref2ind(from)
-          row_to, col_to = self.class.ref2ind(to) unless to.nil?
+          row_from, col_from, @row_from_absolute, @col_from_absolute = self.class.ref2ind(from)
+          row_to, col_to, @row_to_absolute, @col_to_absolute = self.class.ref2ind(to) unless to.nil?
         else
           raise ArgumentError.new("invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
         end
@@ -88,42 +89,45 @@ module RubyXL
       end
 
       if single_cell? then
-        result << self.class.ind2ref(@row_range.begin, @col_range.begin)
+        result << self.class.ind2ref(@row_range.begin, @col_range.begin, @row_from_absolute, @col_from_absolute)
       else
-        result << self.class.ind2ref(@row_range.begin, @col_range.begin)
+        result << self.class.ind2ref(@row_range.begin, @col_range.begin, @row_from_absolute, @col_from_absolute)
         result << ':'
-        result << self.class.ind2ref(@row_range.end, @col_range.end)
+        result << self.class.ind2ref(@row_range.end, @col_range.end, @row_to_absolute, @col_to_absolute)
       end
     end
 
     def inspect
       if single_cell? then
-        "#<#{self.class} @sheet_name#{@sheet_name} @row=#{@row_range.begin} @col=#{@col_range.begin}>"
+        "#<#{self.class} @sheet_name=#{@sheet_name} @row=#{@row_range.begin} @col=#{@col_range.begin}>"
       else
-        "#<#{self.class} @sheet_name#{@sheet_name} @row_range=#{@row_range} @col_range=#{@col_range}>"
+        "#<#{self.class} @sheet_name=#{@sheet_name} @row_range=#{@row_range} @col_range=#{@col_range}>"
       end
     end
 
     # Converts +row+ and +col+ zero-based indices to Excel-style cell reference
     # <0> A...Z, AA...AZ, BA... ...ZZ, AAA... ...AZZ, BAA... ...XFD <16383>
-    def self.ind2ref(row = 0, col = 0)
-      str = ''
+    def self.ind2ref(row = 0, col = 0, row_abs = false, col_abs = false)
+      col_ref = ''
 
       loop do
         x = col % 26
-        str = ('A'.ord + x).chr + str
+        col_ref = ('A'.ord + x).chr + col_ref
         col = (col / 26).floor - 1
         break if col < 0
       end
 
-      str += (row + 1).to_s
+      "#{col_abs ? '$' : ''}#{col_ref}#{row_abs ? '$' : ''}#{row + 1}"
     end
 
     # Converts Excel-style cell reference to +row+ and +col+ zero-based indices.
     def self.ref2ind(str)
-      return [ -1, -1 ] unless str =~ /\A\$?([A-Z]+)\$?(\d+)\Z/
-      [ Regexp.last_match(2).to_i - 1,
-        Regexp.last_match(1).each_byte.inject(0) { |col, chr| (col * 26) + (chr - 64) } - 1 ]
+      matchdata = str.match(/\A(?<cabs>\$?)(?<col>[A-Z]+)(?<rabs>\$?)(?<row>\d+)\Z/)
+      return [ -1, -1 ] unless matchdata
+      [  matchdata['row'].to_i - 1,
+         matchdata['col'].each_byte.inject(0) { |col, chr| (col * 26) + (chr - 64) } - 1,
+         !matchdata['rabs'].empty?,
+         !matchdata['cabs'].empty? ]
     end
   end
 
