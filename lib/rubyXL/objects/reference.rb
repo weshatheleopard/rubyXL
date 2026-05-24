@@ -4,6 +4,7 @@ module RubyXL
     COL_MAX = 16393
 
     attr_reader :row_range, :col_range, :sheet_name
+    attr_reader :row_from_absolute, :row_to_absolute, :col_from_absolute, :col_to_absolute
 
     # RubyXL::Reference.new(row, col)
     # RubyXL::Reference.new(row_from, row_to, col_from, col_to)

@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class RubyXL::Cell - rubyXL 3.4.36</title>
+<title>class RubyXL::Cell - rubyXL 3.4.37</title>
 
 
   <meta
@@ -24,7 +24,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="class RubyXL::Cell - rubyXL 3.4.36">
+<meta property="og:title" content="class RubyXL::Cell - rubyXL 3.4.37">
 
 
 
@@ -36,7 +36,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="class RubyXL::Cell - rubyXL 3.4.36">
+<meta name="twitter:title" content="class RubyXL::Cell - rubyXL 3.4.37">
 
 
 
@@ -308,7 +308,7 @@
 
 <header class="top-navbar">
   <a href="../index.html" class="navbar-brand">
-    rubyXL 3.4.36
+    rubyXL 3.4.37
   </a>
 
   <!-- Desktop search bar -->
@@ -474,6 +474,8 @@
         <li ><a href="#method-i-column">column</a></li>
 
         <li ><a href="#method-i-column-3D">column=</a></li>
+
+        <li ><a href="#method-i-error-3F">error?</a></li>
 
         <li ><a href="#method-i-get_cell_border">get_cell_border</a></li>
 
@@ -705,6 +707,48 @@
       </div>
 
 
+      <div id="method-i-error-3F" class="method-detail anchor-link ">
+        <div class="method-header">
+
+            <div class="method-heading">
+              <a href="#method-i-error-3F" title="Link to this method">
+                <span class="method-name">error?</span>
+                <span class="method-args">()</span>
+              </a>
+            </div>
+
+        </div>
+
+
+          <div class="method-controls">
+            <details class="method-source-toggle">
+              <summary>Source</summary>
+            </details>
+          </div>
+          <div class="method-source-code" id="error-3F-source">
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 127</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error?</span>
+  <span class="ruby-identifier">datatype</span> <span class="ruby-operator">==</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">ERROR</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
       <div id="method-i-get_cell_border" class="method-detail anchor-link ">
         <div class="method-header">
 
@@ -892,7 +936,7 @@
             </details>
           </div>
           <div class="method-source-code" id="inspect-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 126</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 131</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
   <span class="ruby-identifier">str</span> = <span class="ruby-node">&quot;#&lt;#{self.class}(#{row},#{column}): #{raw_value.inspect}&quot;</span>
   <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot; =#{self.formula.expression}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span>
@@ -1206,6 +1250,7 @@
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">INLINE_STRING</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">is</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">RAW_STRING</span>    <span class="ruby-keyword">then</span> <span class="ruby-identifier">raw_value</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">DATE</span>          <span class="ruby-keyword">then</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">raw_value</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">ERROR</span>         <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">is</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">is</span>.<span class="ruby-identifier">to_s</span>
     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">is_date?</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">num_to_date</span>(<span class="ruby-identifier">r</span>.<span class="ruby-identifier">to_f</span>)
