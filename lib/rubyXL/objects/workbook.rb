@@ -150,7 +150,7 @@ module RubyXL
     def [](key)
       case key
       when Integer then super
-      when String then defined_names.find { |n| n.name = key }
+      when String then defined_names.find { |n| n.eql?(key) }
       end
     end
   end

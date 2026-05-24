@@ -111,6 +111,7 @@ module RubyXL
       when RubyXL::DataType::INLINE_STRING then is.to_s
       when RubyXL::DataType::RAW_STRING    then raw_value
       when RubyXL::DataType::DATE          then raw_value && DateTime.parse(raw_value)
+      when RubyXL::DataType::ERROR         then nil
       else
         if is then is.to_s
         elsif is_date? then workbook.num_to_date(r.to_f)
@@ -121,6 +122,10 @@ module RubyXL
         else r
         end
       end
+    end
+
+    def error?
+      datatype == RubyXL::DataType::ERROR
     end
 
     def inspect
