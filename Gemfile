@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 # Dependencies required to run this gem.
 gem 'nokogiri', '>= 1.10.8'
