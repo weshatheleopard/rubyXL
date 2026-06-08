@@ -478,6 +478,7 @@ module RubyXL
     end
 
     def change_row_fill(row_index = 0, rgb = 'ffffff')
+      rgb.delete_prefix!('#')
       validate_workbook
       ensure_cell_exists(row_index)
       Color.validate_color(rgb)

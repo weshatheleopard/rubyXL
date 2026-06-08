@@ -164,6 +164,7 @@ module RubyXL
     # Changes fill color of cell
     def change_fill(rgb = 'ffffff')
       validate_worksheet
+      rgb.delete_prefix!('#')
       Color.validate_color(rgb)
       self.style_index = workbook.modify_fill(self.style_index, rgb)
     end
