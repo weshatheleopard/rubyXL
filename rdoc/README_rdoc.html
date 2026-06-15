@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>README - rubyXL 3.4.37</title>
+<title>README - rubyXL 3.4.38</title>
 
 
   <meta name="keywords" content="ruby,documentation,README">
@@ -19,7 +19,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="README - rubyXL 3.4.37">
+<meta property="og:title" content="README - rubyXL 3.4.38">
 
 
 
@@ -31,7 +31,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="README - rubyXL 3.4.37">
+<meta name="twitter:title" content="README - rubyXL 3.4.38">
 
 
 
@@ -303,7 +303,7 @@
 
 <header class="top-navbar">
   <a href="./index.html" class="navbar-brand">
-    rubyXL 3.4.37
+    rubyXL 3.4.38
   </a>
 
   <!-- Desktop search bar -->
@@ -619,13 +619,32 @@
 <span id="label-Changing+Borders" class="legacy-anchor"></span>
 <h4 id="changing-borders"><a href="#changing-borders">Changing Borders</a></h4>
 
+<span id="label-Border+Styles" class="legacy-anchor"></span>
+<h5 id="border-styles"><a href="#border-styles">Border Styles</a></h5>
+
 <pre class="ruby"><span class="ruby-comment"># Possible weights: hairline, thin, medium, thick</span>
 <span class="ruby-comment"># Possible &quot;directions&quot;: top, bottom, left, right, diagonal</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:top</span>, <span class="ruby-string">&#39;thin&#39;</span>)  <span class="ruby-comment"># Sets A1 to have a top, thin border</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:left</span>, <span class="ruby-string">&#39;hairline&#39;</span>)       <span class="ruby-comment"># Sets first row to have a left, hairline border</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;medium&#39;</span>)  <span class="ruby-comment"># Sets first column to have diagonal, medium border</span>
+<span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">1</span>, <span class="ruby-value">1</span>, <span class="ruby-string">&#39;B2&#39;</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:top</span>, <span class="ruby-string">&#39;thin&#39;</span>)  <span class="ruby-comment"># Sets the cell to have a top, thin border</span>
+<span class="ruby-comment"># Note that with diagonals, you have to specify which one of the diagonals (or both) you need.</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>( <span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;thick&#39;</span>, [ <span class="ruby-value">:diagonal_down</span> ])  <span class="ruby-comment"># Sets A1 to have a thin diagonal going from top left to bottom right</span>
+<span class="ruby-comment"># You can turn on both diagonals, but then they both will share the same style and color:</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>( <span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;thick&#39;</span>, [ <span class="ruby-value">:diagonal_down</span>, <span class="ruby-value">:diagonal_up</span> ])
+</pre>
 
-<span class="ruby-comment"># Set the border style first so there&#39;s something to color.</span>
+<span id="label-Border+Colors" class="legacy-anchor"></span>
+<h5 id="border-colors"><a href="#border-colors">Border Colors</a></h5>
+
+<pre class="ruby"><span class="ruby-comment"># Make sure you set the border style first so there&#39;s something to color.</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border_color</span>(<span class="ruby-value">:top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)      <span class="ruby-comment"># Sets top border color to green</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border_color</span>(<span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;dd0000&#39;</span>) <span class="ruby-comment"># Sets diaginal border color to red</span>
+</pre>
+
+<span id="label-Changing+whole+row+or+column" class="legacy-anchor"></span>
+<h5 id="changing-whole-row-or-column"><a href="#changing-whole-row-or-column">Changing whole row or column</a></h5>
+
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:left</span>, <span class="ruby-string">&#39;hairline&#39;</span>)       <span class="ruby-comment"># Sets first row to have a left, hairline border</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;medium&#39;</span>)  <span class="ruby-comment"># Sets first column to have diagonal, medium border</span>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)    <span class="ruby-comment"># Sets first row to have a green top border</span>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>) <span class="ruby-comment"># Sets first column to have a green top border</span>
 </pre>

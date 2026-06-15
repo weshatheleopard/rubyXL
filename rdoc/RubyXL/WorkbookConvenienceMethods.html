@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.37</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.38</title>
 
 
   <meta
@@ -24,7 +24,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.37">
+<meta property="og:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.38">
 
 
 
@@ -39,7 +39,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.37">
+<meta name="twitter:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.38">
 
 
 
@@ -314,7 +314,7 @@
 
 <header class="top-navbar">
   <a href="../index.html" class="navbar-brand">
-    rubyXL 3.4.37
+    rubyXL 3.4.38
   </a>
 
   <!-- Desktop search bar -->
@@ -951,7 +951,7 @@
             <div class="method-heading">
               <a href="#method-i-modify_border" title="Link to this method">
                 <span class="method-name">modify_border</span>
-                <span class="method-args">(style_index, direction, weight)</span>
+                <span class="method-args">(style_index, direction, weight, diagonals = nil)</span>
               </a>
             </div>
 
@@ -965,14 +965,14 @@
           </div>
           <div class="method-source-code" id="modify_border-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 75</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>, <span class="ruby-identifier">diagonals</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
 
   <span class="ruby-identifier">edge</span> = <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">dup</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
 
-  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">set_edge_style</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">set_edge_style</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>, <span class="ruby-identifier">diagonals</span>)
 
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> = <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_border</span> } <span class="ruby-comment"># Reuse existing border, if it exists</span>
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this border has never existed before, add it to collection.</span>
