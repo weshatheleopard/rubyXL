@@ -68,9 +68,9 @@ module RubyXL
       self.style_index = workbook.modify_alignment(self.style_index) { |a| a.indent = indent }
     end
 
-    def change_border(direction, weight)
+    def change_border(direction, weight, diagonals = nil)
       validate_worksheet
-      self.style_index = workbook.modify_border(self.style_index, direction, weight)
+      self.style_index = workbook.modify_border(self.style_index, direction, weight, diagonals)
     end
 
     def change_border_color(direction, color)

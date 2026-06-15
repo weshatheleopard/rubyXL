@@ -34,12 +34,17 @@ module RubyXL
       edge && edge.style
     end
 
-    def set_edge_style(direction, style)
+    def set_edge_style(direction, style, diagonals = nil)
       edge = self.send(direction)
       if edge
         edge.style = style
       else
         self.send("#{direction}=", RubyXL::BorderEdge.new(:style => style))
+      end
+
+      if diagonals then
+        self.diagonal_up = true if diagonals.index(:diagonal_up)
+        self.diagonal_down = true if diagonals.index(:diagonal_down)
       end
     end
 

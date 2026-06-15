@@ -72,14 +72,14 @@ module RubyXL
       register_new_xf(register_new_fill(new_fill, xf))
     end
 
-    def modify_border(style_index, direction, weight)
+    def modify_border(style_index, direction, weight, diagonals = nil)
       xf = cell_xfs[style_index || 0].dup
       new_border = borders[xf.border_id || 0].dup
 
       edge = new_border.send(direction)
       new_border.send("#{direction}=", edge.dup) if edge
 
-      new_border.set_edge_style(direction, weight)
+      new_border.set_edge_style(direction, weight, diagonals)
 
       xf.border_id = borders.find_index { |x| x == new_border } # Reuse existing border, if it exists
       xf.border_id ||= borders.size # If this border has never existed before, add it to collection.
