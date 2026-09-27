@@ -138,17 +138,16 @@ Please note: these methods are being phased out in favor of the OOXML object mod
   cell = worksheet.add_cell(1, 1, 'B2')
   cell.change_border(:top, 'thin')  # Sets the cell to have a top, thin border
   # Note that with diagonals, you have to specify which one of the diagonals (or both) you need.
-  cell.change_border( :diagonal, 'thick', [ :diagonal_down ])  # Sets A1 to have a thin diagonal going from top left to bottom right
+  cell.change_border(:diagonal, 'thick', [ :diagonal_down ])  # Sets A1 to have a thick diagonal going from top left to bottom right
   # You can turn on both diagonals, but then they both will share the same style and color:
-  cell.change_border( :diagonal, 'thick', [ :diagonal_down, :diagonal_up ])
+  cell.change_border(:diagonal, 'thick', [ :diagonal_down, :diagonal_up ])
 
 ===== Border Colors
   # Make sure you set the border style first so there's something to color.
   cell.change_border_color(:top, '0ba53d')      # Sets top border color to green
-  cell.change_border_color(:diagonal, 'dd0000') # Sets diaginal border color to red
+  cell.change_border_color(:diagonal, 'dd0000') # Sets diagonal border color to red
 
 ===== Changing whole row or column
-
   worksheet.change_row_border(0, :left, 'hairline')       # Sets first row to have a left, hairline border
   worksheet.change_column_border(0, :diagonal, 'medium')  # Sets first column to have diagonal, medium border
   worksheet.change_row_border_color(0, :top, '0ba53d')    # Sets first row to have a green top border

@@ -109,27 +109,27 @@ describe RubyXL::Reference do
     end
   end
 
-  describe '#==' do
+  describe '.==' do
     it 'compares references correctly' do
-      ref1 = RubyXL::Reference.new(1, 2)
-      ref2 = RubyXL::Reference.new(1, 2)
-      ref3 = RubyXL::Reference.new(1, 3)
+      ref12_1 = RubyXL::Reference.new(1, 2)
+      ref12_2 = RubyXL::Reference.new(1, 2)
+      ref13 = RubyXL::Reference.new(1, 3)
 
-      expect(ref1).to eq(ref2)
-      expect(ref1).not_to eq(ref3)
-      expect(ref1).not_to eq(nil)
+      expect(ref12_1).to eq(ref12_2)
+      expect(ref12_1).not_to eq(ref13)
+      expect(ref13).not_to eq(nil)
     end
   end
 
-  describe '#cover?' do
+  describe '.cover?' do
     it 'checks if other reference is covered' do
-      ref = RubyXL::Reference.new(0, 10, 0, 10)
-      inside = RubyXL::Reference.new(2, 5, 2, 5)
-      outside = RubyXL::Reference.new(5, 15, 5, 15)
+      ref_0_0_10_10 = RubyXL::Reference.new(0, 10, 0, 10)
+      ref_2_2_5_5 = RubyXL::Reference.new(2, 5, 2, 5)
+      ref_5_5_15_15 = RubyXL::Reference.new(5, 15, 5, 15)
 
-      expect(ref.cover?(inside)).to be true
-      expect(ref.cover?(outside)).to be false
-      expect(ref.cover?(nil)).to be false
+      expect(ref_0_0_10_10.cover?(ref_2_2_5_5)).to be true
+      expect(ref_0_0_10_10.cover?(ref_5_5_15_15)).to be false
+      expect(ref_0_0_10_10.cover?(nil)).to be false
     end
   end
 end
