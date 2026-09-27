@@ -3,7 +3,7 @@ module RubyXL
     ROW_MAX = 1024 * 1024
     COL_MAX = 16393
 
-    attr_reader :row_range, :col_range, :sheet_name
+    attr_reader :first_row, :last_row, :first_col, :last_col, :sheet_name
     attr_reader :row_from_absolute, :row_to_absolute, :col_from_absolute, :col_to_absolute
 
     # RubyXL::Reference.new(row, col)
@@ -37,44 +37,54 @@ module RubyXL
         end
       end
 
-      @row_range = Range.new(row_from || 0, row_to || row_from || ROW_MAX)
-      @col_range = Range.new(col_from || 0, col_to || col_from || COL_MAX)
+      @first_row = row_from || 0
+      @last_row = row_to || row_from || ROW_MAX
+      @first_col = col_from || 0
+      @last_col = col_to || col_from || COL_MAX
+      @row_range = nil
+      @col_range = nil
+    end
+
+    def row_range
+      @row_range ||= Range.new(@first_row, @last_row)
+    end
+
+    def col_range
+      @col_range ||= Range.new(@first_col, @last_col)
     end
 
     def single_cell?
-      (@row_range.begin == @row_range.end) && (@col_range.begin == @col_range.end)
+      (@first_row == @last_row) && (@first_col == @last_col)
     end
 
     def valid?
-      !(row_range.begin.negative? || col_range.begin.negative?)
-    end
-
-    def first_row
-      @row_range.begin
-    end
-
-    def last_row
-      @row_range.end
-    end
-
-    def first_col
-      @col_range.begin
-    end
-
-    def last_col
-      @col_range.end
+      !(@first_row.negative? || @first_col.negative?)
     end
 
     def ==(other)
-      !other.nil? && (@sheet_name == other.sheet_name) &&
-        (@row_range == other.row_range) && (@col_range == other.col_range)
+      return false if other.nil?
+      return false unless @sheet_name == other.sheet_name
+
+      if other.is_a?(RubyXL::Reference)
+        (@first_row == other.first_row) && (@last_row == other.last_row) &&
+          (@first_col == other.first_col) && (@last_col == other.last_col)
+      else
+        (row_range == other.row_range) && (col_range == other.col_range)
+      end
     end
 
     def cover?(other)
-      !other.nil? && (@row_range.cover?(other.row_range.begin) &&
-                      @row_range.cover?(other.row_range.end) &&
-                      @col_range.cover?(other.col_range.begin) &&
-                      @col_range.cover?(other.col_range.end))
+      return false if other.nil?
+
+      if other.is_a?(RubyXL::Reference)
+        (@first_row <= other.first_row) && (other.last_row <= @last_row) &&
+          (@first_col <= other.first_col) && (other.last_col <= @last_col)
+      else
+        row_range.cover?(other.row_range.begin) &&
+          row_range.cover?(other.row_range.end) &&
+          col_range.cover?(other.col_range.begin) &&
+          col_range.cover?(other.col_range.end)
+      end
     end
 
     def to_s
@@ -90,19 +100,19 @@ module RubyXL
       end
 
       if single_cell? then
-        result << self.class.ind2ref(@row_range.begin, @col_range.begin, @row_from_absolute, @col_from_absolute)
+        result << self.class.ind2ref(@first_row, @first_col, @row_from_absolute, @col_from_absolute)
       else
-        result << self.class.ind2ref(@row_range.begin, @col_range.begin, @row_from_absolute, @col_from_absolute)
+        result << self.class.ind2ref(@first_row, @first_col, @row_from_absolute, @col_from_absolute)
         result << ':'
-        result << self.class.ind2ref(@row_range.end, @col_range.end, @row_to_absolute, @col_to_absolute)
+        result << self.class.ind2ref(@last_row, @last_col, @row_to_absolute, @col_to_absolute)
       end
     end
 
     def inspect
       if single_cell? then
-        "#<#{self.class} @sheet_name=#{@sheet_name} @row=#{@row_range.begin} @col=#{@col_range.begin}>"
+        "#<#{self.class} @sheet_name=#{@sheet_name} @row=#{@first_row} @col=#{@first_col}>"
       else
-        "#<#{self.class} @sheet_name=#{@sheet_name} @row_range=#{@row_range} @col_range=#{@col_range}>"
+        "#<#{self.class} @sheet_name=#{@sheet_name} @row_range=#{row_range} @col_range=#{col_range}>"
       end
     end
 

@@ -94,4 +94,42 @@ describe RubyXL::Reference do
       expect(RubyXL::Reference.new(row_from: 44, row_to: 33, col_from: 22, col_to: 11).to_s).to eq('W45:L34')
     end
   end
+
+  describe '#row_range and #col_range' do
+    it 'lazily creates range objects on demand' do
+      ref = RubyXL::Reference.new(1, 2, 3, 4)
+      expect(ref.instance_variable_get(:@row_range)).to be_nil
+      expect(ref.instance_variable_get(:@col_range)).to be_nil
+
+      expect(ref.row_range).to eq(1..2)
+      expect(ref.col_range).to eq(3..4)
+
+      expect(ref.instance_variable_get(:@row_range)).to eq(1..2)
+      expect(ref.instance_variable_get(:@col_range)).to eq(3..4)
+    end
+  end
+
+  describe '#==' do
+    it 'compares references correctly' do
+      ref1 = RubyXL::Reference.new(1, 2)
+      ref2 = RubyXL::Reference.new(1, 2)
+      ref3 = RubyXL::Reference.new(1, 3)
+
+      expect(ref1).to eq(ref2)
+      expect(ref1).not_to eq(ref3)
+      expect(ref1).not_to eq(nil)
+    end
+  end
+
+  describe '#cover?' do
+    it 'checks if other reference is covered' do
+      ref = RubyXL::Reference.new(0, 10, 0, 10)
+      inside = RubyXL::Reference.new(2, 5, 2, 5)
+      outside = RubyXL::Reference.new(5, 15, 5, 15)
+
+      expect(ref.cover?(inside)).to be true
+      expect(ref.cover?(outside)).to be false
+      expect(ref.cover?(nil)).to be false
+    end
+  end
 end
