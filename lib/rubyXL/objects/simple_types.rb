@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RubyXL
   ST_PageOrder           = %w{ downThenOver overThenDown }
   ST_Orientation         = %w{ default portrait landscape }
