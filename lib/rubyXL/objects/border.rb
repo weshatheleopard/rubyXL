@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubyXL/objects/ooxml_object'
 require 'rubyXL/objects/simple_types'
 
@@ -6,8 +8,8 @@ module RubyXL
     define_attribute(:style, RubyXL::ST_BorderStyle, :default => 'none')
     define_child_node(RubyXL::Color)
 
-    def set_rgb_color(font_color)
-      self.color = RubyXL::Color.new(:rgb => font_color.to_s)
+    def set_rgb_color(edge_color)
+      self.color = RubyXL::Color.new(:rgb => edge_color.to_s)
     end
 
     def get_rgb_color
@@ -43,8 +45,8 @@ module RubyXL
       end
 
       if diagonals then
-        self.diagonal_up = true if diagonals.index(:diagonal_up)
-        self.diagonal_down = true if diagonals.index(:diagonal_down)
+        self.diagonal_up = true if diagonals.include?(:diagonal_up)
+        self.diagonal_down = true if diagonals.include?(:diagonal_down)
       end
     end
 
@@ -58,8 +60,9 @@ module RubyXL
       if edge
         edge.set_rgb_color(color)
       else
-        self.send("#{direction}=", RubyXL::BorderEdge.new)
-        self.send(direction).set_rgb_color(color)
+        edge = RubyXL::BorderEdge.new
+        edge.set_rgb_color(color)
+        self.send("#{direction}=", edge)
       end
     end
   end

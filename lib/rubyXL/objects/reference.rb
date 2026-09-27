@@ -81,8 +81,8 @@ module RubyXL
       result = +''
 
       if @sheet_name then
-        if @sheet_name.index(' ') then
-          result << "'#{@sheet_name}'"
+        if @sheet_name.include?(' ') then
+          result << "'" << @sheet_name << "'"
         else
           result << @sheet_name
         end
