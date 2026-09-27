@@ -651,4 +651,31 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '#row and #column' do
+    it 'directly holds row and column indices and synchronizes with #r' do
+      cell = RubyXL::Cell.new
+      expect(cell.row).to be_nil
+      expect(cell.column).to be_nil
+      expect(cell.r).to be_nil
+
+      cell.row = 5
+      cell.column = 10
+      expect(cell.row).to eq(5)
+      expect(cell.column).to eq(10)
+      expect(cell.index_in_collection).to eq(10)
+
+      # r is lazily instantiated
+      expect(cell.r).to eq(RubyXL::Reference.new(5, 10))
+
+      # Updating r synchronizes row and column
+      cell.r = RubyXL::Reference.new(2, 3)
+      expect(cell.row).to eq(2)
+      expect(cell.column).to eq(3)
+
+      # Setting r to nil clears row and column
+      cell.r = nil
+      expect(cell.row).to be_nil
+      expect(cell.column).to be_nil
+    end
+  end
 end

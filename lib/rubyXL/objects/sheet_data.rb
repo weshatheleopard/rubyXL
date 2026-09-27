@@ -46,23 +46,40 @@ module RubyXL
     attr_accessor :worksheet
 
     def index_in_collection
-      r.col_range.begin
+      @column || r&.first_col
     end
 
     def row
-      r&.first_row
+      @row ||= @r&.first_row
     end
 
     def row=(v)
-      self.r = RubyXL::Reference.new(v, column || 0)
+      @row = v
+      @r = nil
     end
 
     def column
-      r&.first_col
+      @column ||= @r&.first_col
     end
 
     def column=(v)
-      self.r = RubyXL::Reference.new(row || 0, v)
+      @column = v
+      @r = nil
+    end
+
+    def r
+      @r ||= (@row || @column) ? RubyXL::Reference.new(@row || 0, @column || 0) : nil
+    end
+
+    def r=(v)
+      @r = v
+      if v
+        @row = v.first_row
+        @column = v.first_col
+      else
+        @row = nil
+        @column = nil
+      end
     end
 
     def raw_value
