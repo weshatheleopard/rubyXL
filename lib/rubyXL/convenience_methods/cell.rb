@@ -1,5 +1,7 @@
 module RubyXL
   module CellConvenienceMethods
+    EXCEL_HYPERLINK_LIMIT_PER_WORKSHEET = 65_530 # Excel has a hard limit of 65,530 hyperlinks per Worksheet. HYPERLINK formulas are not included in this limit.
+
     def change_contents(data, formula_expression = nil)
       validate_worksheet
 
@@ -263,6 +265,15 @@ module RubyXL
       hyperlink = RubyXL::Hyperlink.new(:ref => self.r, :r_id => r_id)
       hyperlink.tooltip = tooltip if tooltip
       worksheet.hyperlinks ||= RubyXL::Hyperlinks.new
+
+      if worksheet.hyperlinks.size >= EXCEL_HYPERLINK_LIMIT_PER_WORKSHEET # Do not create hyperlinks once the Excel limit of 65,530 is reached. Return false.
+        unless @excel_hyperlink_limit_per_worksheet_warned
+          Rails.logger.warn("Excel hyperlink limit (65,530) reached in worksheet '#{worksheet.sheet_name}' at row #{row}, column #{column}. Further hyperlinks skipped.")
+          @excel_hyperlink_limit_per_worksheet_warned = true
+        end
+        return false
+      end
+
       worksheet.hyperlinks << hyperlink
     end
 
