@@ -16,12 +16,12 @@ module RubyXL
           end
         }
       end
-      raise "This cell #{self} is not in workbook #{workbook}"
+      raise RuntimeError, "Cell #{self} is not in workbook #{workbook}"
     end
 
     def validate_worksheet
       return if @worksheet && @worksheet[row] && @worksheet[row][column].equal?(self)
-      raise "Cell #{self} is not in worksheet #{worksheet}"
+      raise RuntimeError, "Cell #{self} is not in worksheet #{worksheet}"
     end
   end
 end

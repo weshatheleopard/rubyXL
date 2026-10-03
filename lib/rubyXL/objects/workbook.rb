@@ -381,8 +381,8 @@ module RubyXL
       worksheets.each { |sheet, i|
         rel = relationship_container.find_by_target(sheet.xlsx_path)
 
-        raise "Worksheet name '#{sheet.sheet_name}' contains forbidden characters" if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
-        raise "Worksheet name '#{sheet.sheet_name}' is forbidden" if SHEET_NAME_FORBIDDEN_NAMES.include?(sheet.sheet_name)
+        raise(ArgumentError, "Worksheet name '#{sheet.sheet_name}' contains forbidden characters") if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
+        raise(ArgumentError, "Worksheet name '#{sheet.sheet_name}' is forbidden") if SHEET_NAME_FORBIDDEN_NAMES.include?(sheet.sheet_name)
 
         sheets << RubyXL::Sheet.new(:name     => sheet.sheet_name[0..30], # Max sheet name length is 31 char
                                     :sheet_id => sheet.sheet_id || (max_sheet_id += 1),

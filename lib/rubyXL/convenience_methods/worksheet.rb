@@ -28,7 +28,7 @@ module RubyXL
           end
         }
       else
-        raise 'invalid shift option'
+        raise ArgumentError, "Invalid shift option: #{shift}"
       end
 
       return add_cell(row, col, data, formula)
@@ -62,7 +62,7 @@ module RubyXL
           end
         }
       else
-        raise 'invalid shift option'
+        raise ArgumentError, "Invalid shift option: #{shift}"
       end
 
       return old_cell
@@ -715,11 +715,11 @@ module RubyXL
           row_from, row_to, col_from, col_to = params.first.fetch_values(:row_from, :row_to, :col_from, :col_to)
         when String then
           from, to = params[0].split(':')
-          raise ArgumentError.new("reference for merging cells must be a range") if to.nil?
+          raise(ArgumentError, "Reference for merging cells must be a range") if to.nil?
           row_from, col_from = RubyXL::Reference.ref2ind(from)
           row_to, col_to = RubyXL::Reference.ref2ind(to)
         else
-          raise ArgumentError.new("invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
+          raise(ArgumentError, "Invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
         end
       end
 

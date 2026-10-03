@@ -34,7 +34,7 @@ module RubyXL
           row_from, col_from, @row_from_absolute, @col_from_absolute = self.class.ref2ind(from)
           row_to, col_to, @row_to_absolute, @col_to_absolute = self.class.ref2ind(to) unless to.nil?
         else
-          raise ArgumentError.new("invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
+          raise ArgumentError.new("Invalid value for #{self.class}: #{params[0].inspect}") unless params[0].is_a?(String)
         end
       end
 

@@ -70,7 +70,7 @@ module RubyXL
         return if @workbook.worksheets.any? { |sheet| sheet.equal?(self) }
       end
 
-      raise "This worksheet #{self} is not in workbook #{@workbook}"
+      raise RuntimeError, "Worksheet #{self} is not in workbook #{@workbook}"
     end
 
     # Ensures that storage space for a cell with +row_index+ and +column_index+
@@ -83,7 +83,7 @@ module RubyXL
     end
 
     def validate_nonnegative(row_or_col)
-      raise 'Row and Column arguments must be nonnegative' if row_or_col < 0
+      raise(ArgumentError, 'Row and Column arguments must be nonnegative') if row_or_col < 0
     end
     private :validate_nonnegative
   end
