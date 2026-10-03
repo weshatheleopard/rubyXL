@@ -20,7 +20,7 @@ module RubyXL
       if color =~ COLOR_REGEXP
         return true
       else
-        raise 'invalid color'
+        raise ArgumentError, "Invalid color value: #{color}"
       end
     end
   end

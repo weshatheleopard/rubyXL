@@ -1,5 +1,8 @@
 module RubyXL
   module CellConvenienceMethods
+    # Excel has a hard limit of 65'530 hyperlinks per Worksheet
+    MAX_HYPERLINKS_PER_WORKSHEET = 65530
+
     def change_contents(data, formula_expression = nil)
       validate_worksheet
 
@@ -180,7 +183,7 @@ module RubyXL
     # Changes font size of cell
     def change_font_size(font_size = 10)
       validate_worksheet
-      raise 'Argument must be a number' unless font_size.is_a?(Integer) || font_size.is_a?(Float)
+      raise(ArgumentError, 'Argument must be a number') unless font_size.is_a?(Integer) || font_size.is_a?(Float)
 
       font = get_cell_font.dup
       font.set_size(font_size)
@@ -249,11 +252,15 @@ module RubyXL
       when Worksheet::BOLD          then change_font_bold(arg)
       when Worksheet::UNDERLINE     then change_font_underline(arg)
       when Worksheet::STRIKETHROUGH then change_font_strikethrough(arg)
-      else raise 'Invalid change_type'
+      else raise ArgumentError, "Invalid change_type: #{change_type}"
       end
     end
 
     def add_hyperlink(url, tooltip = nil)
+      if worksheet.hyperlinks.size >= MAX_HYPERLINKS_PER_WORKSHEET
+        raise RuntimeError, "Maximum number of hyperlinks per worksheet reached"
+      end
+
       worksheet.relationship_container ||= RubyXL::OOXMLRelationshipsFile.new
       relationships = worksheet.relationship_container.relationships
       r_id = "rId#{relationships.size + 1}"
