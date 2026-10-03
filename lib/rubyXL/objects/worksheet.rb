@@ -757,6 +757,21 @@ module RubyXL
       sheet_data&.rows&.[](reference.first_row)&.cells&.[](reference.first_col)
     end
 
+    # Allows for easier access to sheet_data
+    def [](row = 0)
+      sheet_data[row]
+    end
+
+    def each
+      sheet_data.rows.each { |row| yield(row) }
+    end
+
+    def add_row(row_index = 0, params = {})
+      new_row = RubyXL::Row.new(params)
+      new_row.worksheet = self
+      sheet_data.rows[row_index] = new_row
+    end
+
     include LegacyWorksheet
   end
 end
