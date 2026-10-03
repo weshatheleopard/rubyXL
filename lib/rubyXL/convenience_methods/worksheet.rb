@@ -108,14 +108,14 @@ module RubyXL
       # Update merged cells for all rows below
       if self.merged_cells then
         merged_cells.each { |mc|
-          next if mc.ref.row_range.last < row_index
+          next if mc.ref.last_row < row_index
 
-          in_merged_cell = mc.ref.row_range.first < row_index
+          in_merged_cell = mc.ref.first_row < row_index
           mc.ref = RubyXL::Reference.new(
-            mc.ref.row_range.first + (in_merged_cell ? 0 : 1),
-            mc.ref.row_range.last + 1,
-            mc.ref.col_range.first,
-            mc.ref.col_range.last,
+            mc.ref.first_row + (in_merged_cell ? 0 : 1),
+            mc.ref.last_row + 1,
+            mc.ref.first_col,
+            mc.ref.last_col,
           )
         }
       end
@@ -137,18 +137,24 @@ module RubyXL
 
       # Update row number of merged cells
       if self.merged_cells then
-        merged_cells.delete_if { |mc| mc.ref.row_range == (row_index..row_index) }
-        merged_cells.each { |mc|
-          next if mc.ref.row_range.last < row_index
+        merged_cells.delete_if { |mc|
+          reference = mc.ref
+          (reference.first_row == row_index) && (reference.last_row == row_index)
+        }
 
-          in_merged_cell = mc.ref.row_range.first <= row_index
+        merged_cells.each { |mc|
+          reference = mc.ref
+          next if reference.last_row < row_index
+
+          in_merged_cell = reference.first_row <= row_index
           mc.ref = RubyXL::Reference.new(
-            mc.ref.row_range.first - (in_merged_cell ? 0 : 1),
-            mc.ref.row_range.last - 1,
-            mc.ref.col_range.first,
-            mc.ref.col_range.last,
+            reference.first_row - (in_merged_cell ? 0 : 1),
+            reference.last_row - 1,
+            reference.first_col,
+            reference.last_col,
           )
         }
+
         merged_cells.delete_if { |mc| mc.ref.single_cell? }
       end
 
@@ -186,14 +192,14 @@ module RubyXL
       # Update merged cells for all rows below
       if self.merged_cells then
         merged_cells.each { |mc|
-          next if mc.ref.col_range.last < column_index
+          next if mc.ref.last_col < column_index
 
-          in_merged_cell = mc.ref.row_range.first < column_index
+          in_merged_cell = mc.ref.first_col < column_index
           mc.ref = RubyXL::Reference.new(
-            mc.ref.row_range.first,
-            mc.ref.row_range.last,
-            mc.ref.col_range.first + (in_merged_cell ? 0 : 1),
-            mc.ref.col_range.last + 1,
+            mc.ref.first_row,
+            mc.ref.last_row,
+            mc.ref.first_col + (in_merged_cell ? 0 : 1),
+            mc.ref.last_col + 1,
           )
         }
       end
@@ -221,16 +227,21 @@ module RubyXL
       # Update row number of merged cells
       return unless self.merged_cells
 
-      merged_cells.delete_if { |mc| mc.ref.col_range == (column_index..column_index) }
-      merged_cells.each { |mc|
-        next if mc.ref.col_range.last < column_index
+      merged_cells.delete_if { |mc|
+        reference = mc.ref
+        (reference.first_col == column_index) && (reference.last_col == column_index)
+      }
 
-        in_merged_cell = mc.ref.col_range.first <= column_index
+      merged_cells.each { |mc|
+        reference = mc.ref
+        next if reference.last_col < column_index
+
+        in_merged_cell = reference.first_col <= column_index
         mc.ref = RubyXL::Reference.new(
-          mc.ref.row_range.first,
-          mc.ref.row_range.last,
-          mc.ref.col_range.first - (in_merged_cell ? 0 : 1),
-          mc.ref.col_range.last - 1,
+          reference.first_row,
+          reference.last_row,
+          reference.first_col - (in_merged_cell ? 0 : 1),
+          reference.last_col - 1,
         )
       }
 

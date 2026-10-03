@@ -97,13 +97,13 @@ describe RubyXL::Reference do
 
   describe '.==' do
     it 'compares references correctly' do
-      ref12_1 = RubyXL::Reference.new(1, 2)
-      ref12_2 = RubyXL::Reference.new(1, 2)
-      ref13 = RubyXL::Reference.new(1, 3)
+      ref1_2__1 = RubyXL::Reference.new(1, 2)
+      ref1_2__2 = RubyXL::Reference.new(1, 2)
+      ref1_3 = RubyXL::Reference.new(1, 3)
 
-      expect(ref12_1).to eq(ref12_2)
-      expect(ref12_1).not_to eq(ref13)
-      expect(ref13).not_to eq(nil)
+      expect(ref1_2__1).to eq(ref1_2__2)
+      expect(ref1_2__1).not_to eq(ref1_3)
+      expect(ref1_3).not_to eq(nil)
     end
   end
 
@@ -113,6 +113,7 @@ describe RubyXL::Reference do
       ref_2_2_5_5 = RubyXL::Reference.new(2, 5, 2, 5)
       ref_5_5_15_15 = RubyXL::Reference.new(5, 15, 5, 15)
 
+      expect(ref_0_0_10_10.cover?(ref_0_0_10_10)).to be true
       expect(ref_0_0_10_10.cover?(ref_2_2_5_5)).to be true
       expect(ref_0_0_10_10.cover?(ref_5_5_15_15)).to be false
       expect(ref_0_0_10_10.cover?(nil)).to be false

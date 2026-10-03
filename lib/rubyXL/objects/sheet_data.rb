@@ -46,7 +46,7 @@ module RubyXL
     attr_accessor :worksheet
 
     def index_in_collection
-      r.col_range.begin
+      r.first_col
     end
 
     def row

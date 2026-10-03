@@ -21,10 +21,10 @@ module RubyXL
     def remove_formula
       self.formula = nil
 
-      calculation_chain = workbook && workbook.calculation_chain
-      calculation_cells = calculation_chain && calculation_chain.cells
-      calculation_cells && calculation_cells.reject! { |c|
-        c.ref.col_range.c == self.column && c.ref.row_range.begin == self.row
+      calculation_chain = workbook&.calculation_chain
+      calculation_cells = calculation_chain&.cells
+      calculation_cells&.reject! { |c|
+        (c.ref.first_col == self.column) && (c.ref.first_row == self.row)
       }
     end
 

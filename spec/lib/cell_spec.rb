@@ -651,4 +651,23 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '.remove_formula' do
+    it 'should removes formula and update calculation chain' do
+      cell = @worksheet.add_cell(0, 0, 10, 'A2+1')
+      @workbook.calculation_chain = RubyXL::CalculationChain.new({
+        cells: [
+          RubyXL::CalculationChainCell.new(ref: RubyXL::Reference.new(0, 0)),
+          RubyXL::CalculationChainCell.new(ref: RubyXL::Reference.new(1, 0))
+        ]
+      })
+
+      expect(cell.formula).to_not be_nil
+
+      cell.remove_formula
+
+      expect(cell.formula).to be_nil
+      expect(@workbook.calculation_chain.cells.size).to eq(1)
+      expect(@workbook.calculation_chain.cells.first.ref.first_row).to eq(1)
+    end
+  end
 end

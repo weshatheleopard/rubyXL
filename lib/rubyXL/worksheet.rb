@@ -16,21 +16,6 @@ module RubyXL
       @generic_storage = []
     end
 
-    # allows for easier access to sheet_data
-    def [](row = 0)
-      sheet_data[row]
-    end
-
-    def each
-      sheet_data.rows.each { |row| yield(row) }
-    end
-
-    def add_row(row_index = 0, params = {})
-      new_row = RubyXL::Row.new(params)
-      new_row.worksheet = self
-      sheet_data.rows[row_index] = new_row
-    end
-
     def add_cell(row_index = 0, column_index = 0, data = '', formula = nil, overwrite = true)
       validate_workbook
       validate_nonnegative(row_index)
