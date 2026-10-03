@@ -381,8 +381,8 @@ module RubyXL
       worksheets.each { |sheet, i|
         rel = relationship_container.find_by_target(sheet.xlsx_path)
 
-        raise(ArgumentError, "Worksheet name '#{sheet.sheet_name}' contains forbidden characters") if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
-        raise(ArgumentError, "Worksheet name '#{sheet.sheet_name}' is forbidden") if SHEET_NAME_FORBIDDEN_NAMES.include?(sheet.sheet_name)
+        raise(RuntimeError, "Worksheet name '#{sheet.sheet_name}' contains forbidden characters") if sheet.sheet_name =~ SHEET_NAME_FORBIDDEN_CHARS
+        raise(RuntimeError, "Worksheet name '#{sheet.sheet_name}' is forbidden") if SHEET_NAME_FORBIDDEN_NAMES.include?(sheet.sheet_name)
 
         sheets << RubyXL::Sheet.new(:name     => sheet.sheet_name[0..30], # Max sheet name length is 31 char
                                     :sheet_id => sheet.sheet_id || (max_sheet_id += 1),
@@ -408,7 +408,7 @@ module RubyXL
 
       extension = File.extname(dst_file_path)
       unless %w{.xlsx .xlsm .xltx .xltm}.include?(extension.downcase)
-        raise "Unsupported extension: #{extension} (only .xlsx, .xlsm, .xltx and .xltm files are supported)."
+        raise ArgumentError, "Unsupported extension: #{extension} (only .xlsx, .xlsm, .xltx and .xltm files are supported)."
       end
 
       File.open(dst_file_path, 'wb') { |output_file| FileUtils.copy_stream(root.stream, output_file) }

@@ -164,7 +164,7 @@ module RubyXL
                             end
 
           child_node_params = known_child_nodes[child_node_name]
-          raise "Unknown child node [#{child_node_name}] for element [#{node.name}]" if child_node_params.nil?
+          raise(RuntimeError, "Unknown child node [#{child_node_name}] for element [#{node.name}]") if child_node_params.nil?
           parsed_object = child_node_params[:class].parse(child_node, known_namespaces)
           if child_node_params[:is_array] then
             index = parsed_object.index_in_collection
@@ -208,7 +208,7 @@ module RubyXL
               when :int    then Integer(raw_value)
               when :uint   then
                 v = Integer(raw_value)
-                raise ArgumentError.new("invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
+                raise(ArgumentError, "Invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
                 v
               end
       obj.send("#{params[:accessor]}=", val)
@@ -430,7 +430,7 @@ module RubyXL
     # Prototype method. For top-level OOXML object, returns the path at which the current object's XML file
     # is located within the <tt>.xlsx</tt> zip container.
     def xlsx_path
-      raise 'Subclass responsebility'
+      raise RuntimeError, 'Subclass responsebility'
     end
 
     # Sets the list of namespaces on this object to be added when writing out XML. Valid only on top-level objects.

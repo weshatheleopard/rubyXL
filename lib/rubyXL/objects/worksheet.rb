@@ -753,7 +753,7 @@ module RubyXL
 
     def cell_at(ref)
       reference = RubyXL::Reference.new(ref)
-      raise ArgumentError.new("Invalid reference: #{ref}") unless reference.valid? && reference.single_cell?
+      raise(ArgumentError, "Invalid reference: #{ref}") unless reference.valid? && reference.single_cell?
       sheet_data&.rows&.[](reference.first_row)&.cells&.[](reference.first_col)
     end
 
