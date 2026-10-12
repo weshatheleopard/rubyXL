@@ -45,6 +45,25 @@ module RubyXL
 
     attr_accessor :worksheet
 
+    def write_xml(xml = nil, node_name_override = nil)
+      return super if xml.nil?
+
+      attrs = {}
+      attrs['r'] = @r.to_s if @r
+      attrs['s'] = @style_index.to_s if @style_index
+      attrs['t'] = @datatype if @datatype
+      attrs['cm'] = @cm.to_s if @cm
+      attrs['vm'] = @vm.to_s if @vm
+      attrs['ph'] = '1' if @ph
+
+      elem = xml.create_element(node_name_override || 'c', attrs)
+      @local_namespaces&.each_pair { |href, prefix| elem.add_namespace_definition(prefix, href) }
+      elem << @formula.write_xml(xml, 'f') if @formula
+      elem << @value_container.write_xml(xml, 'v') if @value_container
+      elem << @is.write_xml(xml, 'is') if @is
+      elem
+    end
+
     def index_in_collection
       r.first_col
     end
