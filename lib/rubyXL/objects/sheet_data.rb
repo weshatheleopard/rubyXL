@@ -45,6 +45,12 @@ module RubyXL
 
     attr_accessor :worksheet
 
+    def initialize(params = nil)
+      return if params.nil? || params.empty?
+
+      super
+    end
+
     def index_in_collection
       r.first_col
     end

@@ -670,4 +670,19 @@ describe RubyXL::Cell do
       expect(@workbook.calculation_chain.cells.first.ref.first_row).to eq(1)
     end
   end
+
+  describe '#initialize' do
+    it 'creates a default cell without arguments' do
+      cell = RubyXL::Cell.new
+      expect(cell.r).to be_nil
+      expect(cell.style_index).to be_nil
+      expect(cell.datatype).to be_nil
+    end
+
+    it 'assigns attributes when parameters are provided' do
+      cell = RubyXL::Cell.new(style_index: 3, datatype: RubyXL::DataType::SHARED_STRING)
+      expect(cell.style_index).to eq(3)
+      expect(cell.datatype).to eq(RubyXL::DataType::SHARED_STRING)
+    end
+  end
 end
