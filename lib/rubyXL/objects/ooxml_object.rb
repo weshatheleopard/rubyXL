@@ -407,9 +407,7 @@ module RubyXL
     end
 
     def inspect
-      vars = [ super ]
-      vars = self.instance_variables.each { |v| vars << "#{v}=#{instance_variable_get(v).inspect}" }
-      "<#{self.class}: #{super} #{vars.join(', ')}>"
+      "<#{self.class}: #{super} #{self.instance_variables.collect{ |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')}>"
     end
 
     class << self
