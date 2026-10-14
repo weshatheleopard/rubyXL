@@ -603,7 +603,7 @@ module RubyXL
     define_attribute(:workbookViewId,           :uint, :required => true, :default => 0)
     define_child_node(RubyXL::Pane)
     define_child_node(RubyXL::Selection, :collection => true, :accessor => :selections)
-    define_child_node(RubyXL::PivotTableSelection, :collection => true, :accessor => :pivot_table_selections)
+    define_child_node(RubyXL::PivotSelection, :collection => true, :accessor => :pivot_selections)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'sheetView'
   end
