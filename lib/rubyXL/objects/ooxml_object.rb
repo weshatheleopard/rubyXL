@@ -245,7 +245,7 @@ module RubyXL
     def init_child_nodes(params)
       obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
         initial_value =
-          if params&.has_key?(v[:accessor]) then params&.[](v[:accessor])
+          if params&.has_key?(v[:accessor]) then params[v[:accessor]]
           elsif v[:is_array] then []
           else nil
           end
