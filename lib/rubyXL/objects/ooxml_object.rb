@@ -34,7 +34,7 @@ module RubyXL
     #   * +:bool+ - <tt>Boolean</tt> ("1" and "true" convert to +true+, others to +false+)
     #   * one of +simple_types+ - <tt>String</tt>, plus the list of acceptable values is saved for future validation (not used yet).
     # * +extra_parameters+ - Hash of optional parameters as follows:
-    #   * +:accessor+ - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to classidied +attribute_name+.
+    #   * +:accessor+ - Name of the accessor for this attribute to be defined on the object. If not provided, defaults to snakecased +attribute_name+.
     #   * +:default+ - Value this attribute defaults to if not explicitly provided.
     #   * +:required+ - Whether this attribute is required when writing XML. If the value of the attrinute is not explicitly provided, +:default+ is written instead.
     #   * +:computed+ - Do not store this attribute on +parse+, but do call the object-provided read accessor on +write_xml+.
@@ -52,6 +52,8 @@ module RubyXL
       attr_hash = { :attr_type => attr_type }
       attr_hash.merge!(extra_params) if extra_params
       attr_hash[:accessor] ||= accessorize(attr_name)
+      attr_hash[:instance_var] ||= "@#{attr_hash[:accessor]}".to_sym
+      attr_hash[:setter] ||= "#{attr_hash[:accessor]}=".to_sym
       attrs[attr_name.to_s] = attr_hash
       self.send(:attr_accessor, attr_hash[:accessor]) unless attr_hash[:computed]
     end
@@ -89,7 +91,9 @@ module RubyXL
       child_nodes[child_node_name] = {
         :class    => klass,
         :is_array => extra_params[:collection],
-        :accessor => accessor
+        :accessor => accessor,
+        :setter => "#{accessor}=".to_sym,
+        :instance_var => "@#{accessor}".to_sym
       }
 
       define_count_attribute if extra_params[:collection] == :with_count
@@ -179,7 +183,7 @@ module RubyXL
               collection[index] = parsed_object
             end
           else
-            obj.send("#{child_node_params[:accessor]}=", parsed_object)
+            obj.send(child_node_params[:setter], parsed_object)
           end
         }
       end
@@ -211,7 +215,7 @@ module RubyXL
                 raise(ArgumentError, "Invalid value for unsigned Integer(): \"#{raw_value}\"") if v < 0
                 v
               end
-      obj.send("#{params[:accessor]}=", val)
+      obj.send(params[:setter], val)
     end
   end
 
@@ -230,10 +234,9 @@ module RubyXL
 
     def initialize(params = nil)
       @local_namespaces = nil
-      params ||= {}
 
       obtain_class_variable(:@@ooxml_attributes).each_value { |v|
-        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]]) unless v[:computed]
+        instance_variable_set(v[:instance_var], params&.[](v[:accessor])) unless v[:computed]
       }
 
       init_child_nodes(params)
@@ -242,15 +245,14 @@ module RubyXL
     def init_child_nodes(params)
       obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
         initial_value =
-          if params.has_key?(v[:accessor]) then params[v[:accessor]]
+          if params&.has_key?(v[:accessor]) then params[v[:accessor]]
           elsif v[:is_array] then []
           else nil
           end
 
-        instance_variable_set("@#{v[:accessor]}", initial_value)
+        instance_variable_set(v[:instance_var], initial_value)
       }
     end
-    private :init_child_nodes
 
     def preserve_whitespace
       self.xml_space = (value.is_a?(String) && ((value =~ /\A\s/) || (value =~ /\s\Z/) || value.include?("\n"))) ? 'preserve' : nil
@@ -395,7 +397,7 @@ module RubyXL
     def init_child_nodes(params)
       obtain_class_variable(:@@ooxml_child_nodes).each_value { |v|
         next if v[:is_array] # Only one collection node allowed per OOXMLContainerObject, and it is contained in itself.
-        instance_variable_set("@#{v[:accessor]}", params[v[:accessor]])
+        instance_variable_set(v[:instance_var], params[v[:accessor]])
       }
     end
     protected :init_child_nodes
@@ -405,9 +407,7 @@ module RubyXL
     end
 
     def inspect
-      vars = [ super ]
-      vars = self.instance_variables.each { |v| vars << "#{v}=#{instance_variable_get(v).inspect}" }
-      "<#{self.class}: #{super} #{vars.join(", ")}>"
+      "<#{self.class}: #{super} #{self.instance_variables.collect{ |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')}>"
     end
 
     class << self

@@ -230,6 +230,9 @@ module RubyXL
   ST_TextStrikeType       = %w{ noStrike sngStrike dblStrike }.freeze
   ST_TextCapsType         = %w{ none small all }.freeze
 
+  ST_RelationshipId       = :string
+  ST_Xstring              = :string
+
   # TODO: http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedIntHex.html
   ST_UnsignedIntHex       = :string # length = 4
   # TODO: http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html
