@@ -51,6 +51,10 @@ module RubyXL
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_dimension-3.html
+  # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.sheetdimension%28v=office.14%29.aspx
+  # "This element specifies the used range of the worksheet. It specifies the row and column bounds of used cells
+  # in the worksheet. +This is optional and is not required+. Used cells include cells with formulas, text content,
+  # and cell formatting. When an entire column is formatted, only the first cell in that column is considered used."
   class WorksheetDimensions < OOXMLObject
     define_attribute(:ref, :ref)
     define_element_name 'dimension'
@@ -547,14 +551,14 @@ module RubyXL
     define_attribute(:offset,        :ref)
     define_attribute(:collapsedLevelsAreSubtotals, :bool, :default => false)
     define_attribute(:axis,          RubyXL::ST_Axis)
-    define_attribute(:fieldPosition, :int,  :default => 0)
+    define_attribute(:fieldPosition, :uint,  :default => 0)
     define_child_node(RubyXL::PivotReferences)
     define_child_node(RubyXL::ExtensionStorageArea)
     define_element_name 'pivotArea'
   end
 
   # http://www.datypic.com/sc/ooxml/e-ssml_pivotSelection-1.html
-  class PivotTableSelection < OOXMLObject
+  class PivotSelection < OOXMLObject
     define_attribute(:pane,        RubyXL::ST_Pane, :default => 'topLeft')
     define_attribute(:showHeader,  :bool, :default => false)
     define_attribute(:label,       :bool, :default => false)

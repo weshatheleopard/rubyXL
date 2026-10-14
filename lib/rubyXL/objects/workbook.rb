@@ -93,8 +93,8 @@ module RubyXL
 
   # http://www.datypic.com/sc/ooxml/e-ssml_sheet-1.html
   class Sheet < OOXMLObject
-    define_attribute(:name,            :string, :required => true)
-    define_attribute(:sheetId,         :int,    :required => true)
+    define_attribute(:name,            RubyXL::ST_Xstring, :required => true)
+    define_attribute(:sheetId,         :uint,              :required => true)
     define_attribute(:state,           RubyXL::ST_Visibility, :default => 'visible')
     define_relationship(:required => true)
     define_element_name 'sheet'

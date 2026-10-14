@@ -143,6 +143,11 @@ module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_row-1.html
   class Row < OOXMLObject
     define_attribute(:r,            :int)
+    # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.row%28v=office.14%29.aspx
+    # "Optimization only, and not required. Specifies the range of non-empty columns (in the format X:Y)
+    # for the block of rows to which the current row belongs. To achieve the optimization, span attribute
+    # values in a single block should be the same.
+    # There are 16 rows per block, beginning with the first row."
     define_attribute(:spans,        :string)
     define_attribute(:s,            :int,   :default => 0, :accessor => :style_index)
     define_attribute(:customFormat, :bool,  :default => false)
