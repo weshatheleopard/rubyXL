@@ -36,16 +36,7 @@ module RubyXL
       stream = Zip::OutputStream.write_buffer(suppress_extra_fields: true) { |zipstream|
         self.rels_hash = {}
         self.relationship_container.owner = self
-        stored_paths = {}
         collect_related_objects.compact.each { |obj|
-          # A part targeted by several relationships (e.g. an image shared by two
-          # drawings) is parsed once per relationship; store it only once, or the
-          # package gets duplicate zip entries that LibreOffice refuses to open.
-          if obj.is_a?(RubyXL::GenericStorageObject) then
-            next if stored_paths[obj.xlsx_path]
-            stored_paths[obj.xlsx_path] = true
-          end
-
           puts "<-- DEBUG: adding relationship to #{obj.class}" if @@debug
           obj.root = self if obj.respond_to?(:root=)
           self.rels_hash[obj.class] ||= []
@@ -54,6 +45,9 @@ module RubyXL
 
         self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
+          # A part reached through several relationships (e.g. an image used by two drawings) is loaded once per
+          # relationship; path-named parts and their .rels must be written only once, or the zip gets duplicate entries.
+          self.rels_hash[klass].uniq!(&:xlsx_path) if klass <= GenericStorageObject || klass == OOXMLRelationshipsFile
           self.rels_hash[klass].select! { |obj|
             puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
             obj.add_to_zip(zipstream)
