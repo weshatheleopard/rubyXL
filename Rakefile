@@ -46,13 +46,15 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-desc 'Dump profiling data with stackprof'
-task :stackprof do
-  require 'benchmark'
-  require 'stackprof'
-
+task :preload_library do
   $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
   require './lib/rubyXL'
+end
+
+desc 'Dump profiling data with stackprof'
+task :stackprof => :preload_library do
+  require 'benchmark'
+  require 'stackprof'
 
   spreadsheets = Dir.glob(File.join('test', 'input', '*.xls?')).sort!
 
@@ -74,30 +76,28 @@ task :stackprof do
 end
 
 desc 'Dump profiling data with ruby-prof'
-task :rubyprof do
-  require 'benchmark'
+task :rubyprof => :preload_library do
   require 'ruby-prof'
-
-  $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'  # Make Ruby aware of load path
-  require './lib/rubyXL'
 
   spreadsheets = Dir.glob(File.join('test', 'input', '*.xls?')).sort!
 
   spreadsheets.each { |input|
     puts "<<<--- Profiling parsing of #{input}..."
     doc = nil
-    result = RubyProf.profile {
+    result = RubyProf::Profile.profile {
       doc = RubyXL::Parser.parse(input)
     }
     printer = RubyProf::CallStackPrinter.new(result)
-    File.open("tmp/ruby-prof-parse-#{File.basename(input)}.html", 'w') { |f| printer.print(f, {}) }
+    File.open("tmp/ruby-prof-parse-#{File.basename(input)}.html", 'w') { |f| printer.print(f) }
 
     output = File.join('test', 'output', File.basename(input))
     puts "--->>> Profiling writing of #{output}..."
-    result = RubyProf.profile {
+    result = RubyProf::Profile.profile {
       doc.write(output)
     }
     printer = RubyProf::CallStackPrinter.new(result)
-    File.open("tmp/ruby-prof-write-#{File.basename(input)}.html", 'w') { |f| printer.print(f, {}) }
+    File.open("tmp/ruby-prof-write-#{File.basename(input)}.html", 'w') { |f| printer.print(f) }
   }
 end
+
+Rake::Task["console"].enhance([:preload_library])

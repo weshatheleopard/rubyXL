@@ -12,7 +12,7 @@ group :development, :test do
   gem 'rspec'
   gem 'simplecov'
 
-#  gem 'stackprof'
+  gem 'stackprof'
   gem 'ruby-prof'
   gem 'rspec_junit_formatter'
 

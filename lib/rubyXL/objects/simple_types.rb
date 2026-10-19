@@ -238,8 +238,6 @@ module RubyXL
   # TODO: http://www.datypic.com/sc/ooxml/t-ssml_ST_UnsignedShortHex.html
   ST_UnsignedShortHex     = :string # length = 2
 
-  ST_Xstring = :string
-
   # Query Tables
   ST_GrowShrinkType = %w{ insertDelete insertClear overwriteClear }.freeze
 
