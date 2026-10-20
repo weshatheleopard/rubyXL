@@ -45,7 +45,14 @@ module RubyXL
 
         self.rels_hash.keys.sort_by{ |c| c::SAVE_ORDER }.each { |klass|
           puts "<-- DEBUG: saving related #{klass} files" if @@debug
-          self.rels_hash[klass].select! { |obj|
+          # This is a hack.
+          # Technically, MS Excel allows one file to be shared amongst multiple sheets in the XLS document.
+          # That file exists in the archive structure only once, and all sheets refer to the same file by path.
+          # RubyXL uses a tree structure, where each sheet has its own "branches" (related objects),
+          # and loops in the relationship graph are not allowed (a child node can have onle one parent).
+          # This needs to be fixed in the future. Thankfully, files like that seem to be rare, and this
+          # situation can be avoided simply by not saving a node if it already exists in the zipfile.
+          self.rels_hash[klass].uniq{ |item| item.xlsx_path }.select! { |obj|
             puts "<-- DEBUG:   > #{obj.xlsx_path}" if @@debug
             obj.add_to_zip(zipstream)
           }
