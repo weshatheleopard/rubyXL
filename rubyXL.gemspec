@@ -495,6 +495,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<nokogiri>.freeze, [">= 1.10.8".freeze])
   s.add_runtime_dependency(%q<rubyzip>.freeze, [">= 3.2.2".freeze])
   s.add_development_dependency(%q<pathname>.freeze, ["= 0.3.0".freeze])
+  s.add_development_dependency(%q<psych>.freeze, ["= 2.2.4".freeze])
   s.add_development_dependency(%q<bundler>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<rake>.freeze, [">= 0".freeze])
   s.add_development_dependency(%q<juwelier>.freeze, ["= 2.4.1".freeze])
