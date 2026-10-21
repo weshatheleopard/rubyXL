@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Vivek Bhagwat".freeze, "Wesha".freeze]
-  s.date = "2026-10-20"
+  s.date = "2026-10-21"
   s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents".freeze
   s.email = "bhagwat.vivek@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -363,6 +363,7 @@ Gem::Specification.new do |s|
     "rdoc/RubyXL/PivotCaches.html",
     "rdoc/RubyXL/PivotReference.html",
     "rdoc/RubyXL/PivotReferences.html",
+    "rdoc/RubyXL/PivotSelection.html",
     "rdoc/RubyXL/PivotTableFile.html",
     "rdoc/RubyXL/PresetGeometry.html",
     "rdoc/RubyXL/PrintOptions.html",
