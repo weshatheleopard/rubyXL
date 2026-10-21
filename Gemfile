@@ -6,9 +6,10 @@ gem 'rubyzip', '>= 3.2.2', require: 'zip'
 
 # Development dependencies.
 group :development, :test do
+  gem 'pathname', "=0.3.0"
   gem 'bundler'
   gem 'rake'
-  gem 'juwelier'
+  gem 'juwelier', "=2.4.1"
   gem 'rspec'
   gem 'simplecov'
 
