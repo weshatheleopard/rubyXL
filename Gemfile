@@ -9,6 +9,7 @@ group :development, :test do
   gem 'bundler'
   gem 'rake'
   gem 'juwelier'
+  gem 'psych', '<2.2.4'
   gem 'rspec'
   gem 'simplecov'
 

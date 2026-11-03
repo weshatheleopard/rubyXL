@@ -9,6 +9,11 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 
+require 'psych'
+if defined?(Psych::ClassLoader) && defined?(Psych::ClassLoader::ALLOWED_CLASSES)
+  Psych::ClassLoader::ALLOWED_CLASSES << 'Gem::Specification'
+end
+
 require 'juwelier'
 Juwelier::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
