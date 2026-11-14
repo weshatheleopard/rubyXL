@@ -50,6 +50,9 @@ module RubyXL
             c.datatype = RubyXL::DataType::INLINE_STRING
           when Time, Date, DateTime then
             c.raw_value = workbook.date_to_num(data)
+          when TrueClass, FalseClass then
+            c.raw_value = data ? 1 : 0
+            c.datatype = RubyXL::DataType::BOOLEAN
           when NilClass then nil
           end
         end
