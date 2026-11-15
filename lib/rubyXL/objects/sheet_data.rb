@@ -24,7 +24,7 @@ module RubyXL
 
     def before_write_xml
       preserve_whitespace
-      true
+      !(value.nil? || value == '')
     end
   end
 

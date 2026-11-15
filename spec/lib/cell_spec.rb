@@ -670,4 +670,25 @@ describe RubyXL::Cell do
       expect(@workbook.calculation_chain.cells.first.ref.first_row).to eq(1)
     end
   end
+
+  describe '#write_xml' do
+    it 'properly serializes the Cell with value' do
+      cell = @worksheet.add_cell(101, 101, 123)
+      xml_str = cell.write_xml.split("\n").last
+      expect(xml_str).to eq('<c r="CX102" s="0"><v>123</v></c>')
+    end
+
+    it 'properly serializes the Cell with a Formula' do
+      cell = @worksheet.add_cell(102, 102, nil, 'SUM(A1:A10)')
+      xml_str = cell.write_xml.split("\n").last
+      expect(xml_str).to eq('<c r="CY103" s="0"><f>SUM(A1:A10)</f></c>')
+    end
+
+    it 'properly serializes the Cell with inline string' do
+      cell = @worksheet.add_cell(103, 103)
+      cell.is = RubyXL::RichText.new(t: RubyXL::Text.new(value: 'Inline text'))
+      xml_str = cell.write_xml.split("\n").last
+      expect(xml_str).to eq('<c r="CZ104" s="0" t="str"><is><t>Inline text</t></is></c>')
+    end
+  end
 end
