@@ -633,6 +633,14 @@ describe RubyXL::Worksheet do
       expect(subject[11][11].formula.expression).to eq('B2')
     end
 
+    it 'should add boolean cells' do
+      subject.add_cell(0, 0, true)
+      subject.add_cell(1, 0, false)
+      expect(subject[0][0].datatype).to eq(RubyXL::DataType::BOOLEAN)
+      expect(subject[0][0].value).to eq(1)
+      expect(subject[1][0].value).to eq(0)
+    end
+
     it 'should cause error if a negative argument is passed in' do
       expect {
         subject.add_cell(-1, -1, '')
