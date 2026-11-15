@@ -122,6 +122,19 @@ module RubyXL
 
         self.relationships = []
         related_objects.compact.each { |f| add_relationship(f) }
+      else
+        # Parts can be renamed on write ('xl/comments/comment1.xml' -> 'xl/comments1.xml'),
+        #   so point loaded relationships at where their files are written now.
+        (related_files || {}).each_pair { |rid, obj|
+          rel = find_by_rid(rid)
+          next if rel.nil? || !obj.respond_to?(:xlsx_path)
+          # A part the user detached is not written, and its file_index would point at another part.
+          if obj.respond_to?(:file_index) && Array(root.rels_hash[obj.class]).none? { |o| o.equal?(obj) } then
+            relationships.delete(rel)
+            next
+          end
+          rel.target = obj.xlsx_path.relative_path_from(owner.xlsx_path.dirname).to_s
+        }
       end
       super
     end
