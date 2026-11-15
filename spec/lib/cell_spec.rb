@@ -670,4 +670,51 @@ describe RubyXL::Cell do
       expect(@workbook.calculation_chain.cells.first.ref.first_row).to eq(1)
     end
   end
+
+  describe '#write_xml' do
+    it 'returns XML string when called without xml document' do
+      cell = RubyXL::Cell.new
+      cell.r = RubyXL::Reference.new(0, 0)
+      cell.raw_value = '123'
+      xml_str = cell.write_xml
+      expect(xml_str).to include('<c r="A1"><v>123</v></c>')
+    end
+
+    it 'generates XML element with attributes and children when xml document is provided' do
+      seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
+      cell = RubyXL::Cell.new
+      cell.r = RubyXL::Reference.new(1, 2)
+      cell.style_index = 5
+      cell.datatype = RubyXL::DataType::RAW_STRING
+      cell.raw_value = 'Test'
+
+      elem = cell.write_xml(seed_xml)
+      expect(elem.name).to eq('c')
+      expect(elem['r']).to eq('C2')
+      expect(elem['s']).to eq('5')
+      expect(elem['t']).to eq('str')
+      v_node = elem.xpath('v').first
+      expect(v_node).not_to be_nil
+      expect(v_node.text).to eq('Test')
+    end
+
+    it 'supports node_name_override' do
+      seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
+      cell = RubyXL::Cell.new
+      elem = cell.write_xml(seed_xml, 'customCell')
+      expect(elem.name).to eq('customCell')
+    end
+
+    it 'serializes formula and inline string correctly' do
+      seed_xml = Nokogiri::XML('<?xml version = "1.0" standalone ="yes"?>')
+      cell = RubyXL::Cell.new
+      cell.r = RubyXL::Reference.new(0, 0)
+      cell.formula = RubyXL::Formula.new(expression: 'SUM(A1:A10)')
+      cell.is = RubyXL::RichText.new(t: RubyXL::Text.new(value: 'Inline'))
+
+      elem = cell.write_xml(seed_xml)
+      expect(elem.xpath('f').text).to eq('SUM(A1:A10)')
+      expect(elem.xpath('is/t').text).to eq('Inline')
+    end
+  end
 end
