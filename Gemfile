@@ -10,7 +10,7 @@ group :development, :test do
   gem 'rake'
 
   gem 'juwelier'
-  gem 'git', '~> 4.1' # last compatible with juwelier
+  gem 'git', '< 4.2' # last compatible with juwelier
 
   gem 'rspec'
   gem 'simplecov'
