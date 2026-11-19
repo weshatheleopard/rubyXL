@@ -8,7 +8,10 @@ gem 'rubyzip', '>= 3.2.2', require: 'zip'
 group :development, :test do
   gem 'bundler'
   gem 'rake'
+
   gem 'juwelier'
+  gem 'git', '~> 4.1' # last compatible with juwelier
+
   gem 'rspec'
   gem 'simplecov'
 
