@@ -671,6 +671,13 @@ describe RubyXL::Cell do
     end
   end
 
+  describe '#add_hyperlink' do
+    it 'properly adds a hyperlink when none exist' do
+      cell = @worksheet.add_cell(111, 111)
+      cell.add_hyperlink('http://example.com', tooltip = 'Example hyperlink')
+    end
+  end
+
   describe '#write_xml' do
     it 'properly serializes the Cell with value' do
       cell = @worksheet.add_cell(101, 101, 123)
@@ -691,4 +698,5 @@ describe RubyXL::Cell do
       expect(xml_str).to eq('<c r="CZ104" s="0" t="str"><is><t>Inline text</t></is></c>')
     end
   end
+
 end

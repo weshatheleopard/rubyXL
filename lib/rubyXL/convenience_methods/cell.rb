@@ -257,8 +257,12 @@ module RubyXL
     end
 
     def add_hyperlink(url, tooltip = nil)
-      if worksheet.hyperlinks.size >= MAX_HYPERLINKS_PER_WORKSHEET
-        raise RuntimeError, "Maximum number of hyperlinks per worksheet reached"
+      if worksheet.hyperlinks then
+        if worksheet.hyperlinks.size >= MAX_HYPERLINKS_PER_WORKSHEET then
+          raise RuntimeError, "Maximum number of hyperlinks per worksheet (#{MAX_HYPERLINKS_PER_WORKSHEET}) reached"
+        end
+      else
+        worksheet.hyperlinks = RubyXL::Hyperlinks.new
       end
 
       worksheet.relationship_container ||= RubyXL::OOXMLRelationshipsFile.new
@@ -269,7 +273,6 @@ module RubyXL
 
       hyperlink = RubyXL::Hyperlink.new(:ref => self.r, :r_id => r_id)
       hyperlink.tooltip = tooltip if tooltip
-      worksheet.hyperlinks ||= RubyXL::Hyperlinks.new
       worksheet.hyperlinks << hyperlink
     end
 
