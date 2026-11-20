@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.39</title>
+<title>module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.40</title>
 
 
   <meta
@@ -24,7 +24,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.39">
+<meta property="og:title" content="module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.40">
 
 
 
@@ -39,7 +39,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.39">
+<meta name="twitter:title" content="module RubyXL::WorksheetConvenienceMethods - rubyXL 3.4.40">
 
 
 
@@ -56,46 +56,46 @@
 </script>
 
 <script
-  src="../js/theme-toggle.js?v=7.2.0"
+  src="../js/theme-toggle.js?v=8.1.0"
 ></script>
 
 <script
-  src="../js/search_navigation.js?v=7.2.0"
+  src="../js/search_navigation.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_data.js?v=7.2.0"
+  src="../js/search_data.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_ranker.js?v=7.2.0"
+  src="../js/search_ranker.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_controller.js?v=7.2.0"
+  src="../js/search_controller.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/c_highlighter.js?v=7.2.0"
+  src="../js/c_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/bash_highlighter.js?v=7.2.0"
+  src="../js/bash_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/aliki.js?v=7.2.0"
+  src="../js/aliki.js?v=8.1.0"
   defer
 ></script>
 
 <link
-  href="../css/rdoc.css?v=7.2.0"
+  href="../css/rdoc.css?v=8.1.0"
   rel="stylesheet"
 >
 
@@ -314,27 +314,39 @@
 
 <header class="top-navbar">
   <a href="../index.html" class="navbar-brand">
-    rubyXL 3.4.39
+    rubyXL 3.4.40
   </a>
 
-  <!-- Desktop search bar -->
-  <div class="navbar-search navbar-search-desktop" role="search">
-    <form action="#" method="get" accept-charset="utf-8">
-      <input id="search-field" role="combobox" aria-label="Search"
-             aria-autocomplete="list" aria-controls="search-results-desktop"
-             type="text" name="search" placeholder="Search (/) for a class, method..."
-             spellcheck="false" autocomplete="off"
-             title="Type to search, Up and Down to navigate, Enter to load">
-      <ul id="search-results-desktop" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="initially-hidden search-results"></ul>
-    </form>
-  </div>
+  <div class="navbar-search" data-search-container>
+    <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search"
+            aria-controls="search-surface" aria-expanded="false" type="button">
+      <span aria-hidden="true">🔍</span>
+    </button>
 
-  <!-- Mobile search icon button -->
-  <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search" type="button">
-    <span aria-hidden="true">🔍</span>
-  </button>
+    <div class="search-backdrop" data-search-close></div>
+    <div id="search-surface" class="search-surface">
+      <form class="search-form" role="search" action="#" method="get" accept-charset="utf-8">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input id="search-field" role="combobox" aria-label="Search"
+               aria-autocomplete="list" aria-controls="search-results"
+               type="text" name="search" placeholder="Search (/) for a class, method..."
+               spellcheck="false" autocomplete="off"
+               title="Type to search, Up and Down to navigate, Enter to load">
+        <button type="button" class="search-close" aria-label="Close search" data-search-close>
+          <span aria-hidden="true">esc</span>
+        </button>
+      </form>
+
+      <div class="search-body">
+        <ul id="search-results" aria-label="Search Results"
+            aria-busy="false" aria-expanded="false"
+            aria-atomic="false" class="initially-hidden search-results"></ul>
+        <div class="search-empty">
+          <p>No recent searches</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Theme toggle button -->
   <button id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" type="button">
@@ -342,39 +354,12 @@
   </button>
 </header>
 
-<!-- Search Modal (Mobile) -->
-<div id="search-modal" class="search-modal" hidden aria-modal="true" role="dialog" aria-label="Search">
-  <div class="search-modal-backdrop"></div>
-  <div class="search-modal-content">
-    <div class="search-modal-header">
-      <form class="search-modal-form" action="#" method="get" accept-charset="utf-8">
-        <span class="search-modal-icon" aria-hidden="true">🔍</span>
-        <input id="search-field-mobile" role="combobox" aria-label="Search"
-               aria-autocomplete="list" aria-controls="search-results-mobile"
-               type="text" name="search" placeholder="Search documentation"
-               spellcheck="false" autocomplete="off">
-        <button type="button" class="search-modal-close" aria-label="Close search" id="search-modal-close">
-          <span aria-hidden="true">esc</span>
-        </button>
-      </form>
-    </div>
-    <div class="search-modal-body">
-      <ul id="search-results-mobile" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="search-results search-modal-results initially-hidden"></ul>
-      <div class="search-modal-empty">
-        <p>No recent searches</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="navigation">
+<div id="sidebar-navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar-navigation">
   <span aria-hidden="true">&#9776;</span>
 </div>
 
 
-<nav id="navigation" role="navigation" hidden>
+<nav id="sidebar-navigation" role="navigation" hidden>
   
 
 
@@ -608,7 +593,7 @@
       
       <li>
         
-        <a href="../RubyXL.html">RubyXL</a><span>::</span>
+        <a href="../RubyXL.html">RubyXL</a><span class="separator">::</span>
         
       </li>
       
@@ -622,8 +607,9 @@
   
 
   <span id="module-RubyXL::WorksheetConvenienceMethods" class="legacy-anchor"></span>
-  <h1 id="module-rubyxl-worksheetconveniencemethods" class="anchor-link module">
-    module RubyXL::WorksheetConvenienceMethods
+  <h1 id="module-rubyxl-worksheetconveniencemethods" class="anchor-link module page-title">
+    <span class="page-title-kind">module</span>
+    <span class="page-title-name">RubyXL::WorksheetConvenienceMethods</span>
   </h1>
 
   <section class="description">
@@ -724,34 +710,41 @@
 
       <div id="method-i-add_validation_list" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-add_validation_list" title="Link to this method">
-                <span class="method-name">add_validation_list</span>
-                <span class="method-args">(ref, list_arr)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-add_validation_list" title="Link to this method">
+                  <span class="method-name">add_validation_list</span>
+                  <span class="method-args">(ref, list_arr)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="add_validation_list-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 731</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_validation_list</span>(<span class="ruby-identifier">ref</span>, <span class="ruby-identifier">list_arr</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_validation_list</span>(<span class="ruby-identifier">ref</span>, <span class="ruby-identifier">list_arr</span>)
   <span class="ruby-comment"># &quot;Any double quote characters in the value should be escaped with another double quote.</span>
   <span class="ruby-comment"># If the value does not contain a comma, newline or double quote, then the String value should be returned unchanged.</span>
   <span class="ruby-comment"># If the value contains a comma, newline or double quote, then the String value should be returned enclosed in double quotes.&quot;</span>
-  <span class="ruby-identifier">expr</span> = <span class="ruby-string">&#39;&quot;&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">list_arr</span>.<span class="ruby-identifier">collect</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">str</span><span class="ruby-operator">|</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;&quot;&#39;</span>, <span class="ruby-string">&#39;&quot;&quot;&#39;</span>) }.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;&quot;&#39;</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_validations</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidations</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">&quot;</span><span class="ruby-string">&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">list_arr</span>.<span class="ruby-identifier">collect</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">str</span><span class="ruby-operator">|</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">&quot;</span><span class="ruby-string">&#39;</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">&quot;&quot;</span><span class="ruby-string">&#39;</span>) }.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">,</span><span class="ruby-string">&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;</span><span class="ruby-string">&quot;</span><span class="ruby-string">&#39;</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_validations</span> ||= <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidations</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">data_validations</span> <span class="ruby-operator">&lt;&lt;</span>
-    <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidation</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:sqref</span>    <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ref</span>),
-                                <span class="ruby-value">:formula1</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:expression</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">expr</span>),
-                                <span class="ruby-value">:type</span>     <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;list&#39;</span>})
+    <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataValidation</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:</span><span class="ruby-value">sqref</span>    <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ref</span>),
+                                <span class="ruby-value">:</span><span class="ruby-value">formula1</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Formula</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">expression</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">expr</span>),
+                                <span class="ruby-value">:</span><span class="ruby-value">type</span>     <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;</span><span class="ruby-string">list</span><span class="ruby-string">&#39;</span>})
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -774,25 +767,32 @@
 
       <div id="method-i-change_column_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_alignment" title="Link to this method">
-                <span class="method-name">change_column_alignment</span>
-                <span class="method-args">(column_index, &amp;block)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_alignment" title="Link to this method">
+                  <span class="method-name">change_column_alignment</span>
+                  <span class="method-args">(column_index, &amp;block)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 686</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
 
@@ -828,25 +828,32 @@
 
       <div id="method-i-change_column_bold" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_bold" title="Link to this method">
-                <span class="method-name">change_column_bold</span>
-                <span class="method-args">(column_index, bolded = false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_bold" title="Link to this method">
+                  <span class="method-name">change_column_bold</span>
+                  <span class="method-args">(column_index, bolded = false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_bold-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 617</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_bold</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_bold</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_bold</span>(<span class="ruby-identifier">bolded</span>)
@@ -873,25 +880,32 @@
 
       <div id="method-i-change_column_border" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_border" title="Link to this method">
-                <span class="method-name">change_column_border</span>
-                <span class="method-args">(column_index, direction, weight)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_border" title="Link to this method">
+                  <span class="method-name">change_column_border</span>
+                  <span class="method-args">(column_index, direction, weight)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_border-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 646</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
 
@@ -925,25 +939,32 @@
 
       <div id="method-i-change_column_border_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_border_color" title="Link to this method">
-                <span class="method-name">change_column_border_color</span>
-                <span class="method-args">(column_index, direction, color)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_border_color" title="Link to this method">
+                  <span class="method-name">change_column_border_color</span>
+                  <span class="method-args">(column_index, direction, color)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_border_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 660</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_border_color</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_border_color</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">color</span>)
@@ -976,25 +997,32 @@
 
       <div id="method-i-change_column_fill" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_fill" title="Link to this method">
-                <span class="method-name">change_column_fill</span>
-                <span class="method-args">(column_index, color_code = &#39;ffffff&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_fill" title="Link to this method">
+                  <span class="method-name">change_column_fill</span>
+                  <span class="method-args">(column_index, color_code = &#39;ffffff&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_fill-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 412</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_fill</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">color_code</span> = <span class="ruby-string">&#39;ffffff&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_fill</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">color_code</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">ffffff</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">color_code</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
@@ -1029,25 +1057,32 @@
 
       <div id="method-i-change_column_font" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_font" title="Link to this method">
-                <span class="method-name">change_column_font</span>
-                <span class="method-args">(column_index, change_type, arg, font, xf)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_font" title="Link to this method">
+                  <span class="method-name">change_column_font</span>
+                  <span class="method-args">(column_index, change_type, arg, font, xf)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_font-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 574</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_font</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>, <span class="ruby-identifier">font</span>, <span class="ruby-identifier">xf</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>, <span class="ruby-identifier">font</span>, <span class="ruby-identifier">xf</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
 
@@ -1080,25 +1115,32 @@
 
       <div id="method-i-change_column_font_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_font_color" title="Link to this method">
-                <span class="method-name">change_column_font_color</span>
-                <span class="method-args">(column_index, font_color=&#39;000000&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_font_color" title="Link to this method">
+                  <span class="method-name">change_column_font_color</span>
+                  <span class="method-args">(column_index, font_color=&#39;000000&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_font_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 601</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_font_color</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_color</span>=<span class="ruby-string">&#39;000000&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_color</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_color</span>=<span class="ruby-string">&#39;</span><span class="ruby-string">000000</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">font_color</span>)
 
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
@@ -1127,25 +1169,32 @@
 
       <div id="method-i-change_column_font_name" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_font_name" title="Link to this method">
-                <span class="method-name">change_column_font_name</span>
-                <span class="method-args">(column_index = 0, font_name = &#39;Verdana&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_font_name" title="Link to this method">
+                  <span class="method-name">change_column_font_name</span>
+                  <span class="method-args">(column_index = 0, font_name = &#39;Verdana&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_font_name-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 587</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_font_name</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_name</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">Verdana</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_name</span>(<span class="ruby-identifier">font_name</span>)
@@ -1172,25 +1221,32 @@
 
       <div id="method-i-change_column_font_size" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_font_size" title="Link to this method">
-                <span class="method-name">change_column_font_size</span>
-                <span class="method-args">(column_index, font_size=10)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_font_size" title="Link to this method">
+                  <span class="method-name">change_column_font_size</span>
+                  <span class="method-args">(column_index, font_size=10)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_font_size-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 594</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_font_size</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_font_size</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_size</span>(<span class="ruby-identifier">font_size</span>)
@@ -1217,25 +1273,32 @@
 
       <div id="method-i-change_column_horizontal_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_horizontal_alignment" title="Link to this method">
-                <span class="method-name">change_column_horizontal_alignment</span>
-                <span class="method-args">(column_index, alignment = &#39;center&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_horizontal_alignment" title="Link to this method">
+                  <span class="method-name">change_column_horizontal_alignment</span>
+                  <span class="method-args">(column_index, alignment = &#39;center&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_horizontal_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 638</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_horizontal_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_horizontal_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">center</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">horizontal</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -1259,25 +1322,32 @@
 
       <div id="method-i-change_column_italics" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_italics" title="Link to this method">
-                <span class="method-name">change_column_italics</span>
-                <span class="method-args">(column_index, italicized = false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_italics" title="Link to this method">
+                  <span class="method-name">change_column_italics</span>
+                  <span class="method-args">(column_index, italicized = false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_italics-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 610</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_italics</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_italics</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_italic</span>(<span class="ruby-identifier">italicized</span>)
@@ -1304,25 +1374,32 @@
 
       <div id="method-i-change_column_strikethrough" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_strikethrough" title="Link to this method">
-                <span class="method-name">change_column_strikethrough</span>
-                <span class="method-args">(column_index, struckthrough=false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_strikethrough" title="Link to this method">
+                  <span class="method-name">change_column_strikethrough</span>
+                  <span class="method-args">(column_index, struckthrough=false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_strikethrough-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 631</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_strikethrough</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_strikethrough</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_strikethrough</span>(<span class="ruby-identifier">struckthrough</span>)
@@ -1349,25 +1426,32 @@
 
       <div id="method-i-change_column_underline" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_underline" title="Link to this method">
-                <span class="method-name">change_column_underline</span>
-                <span class="method-args">(column_index, underlined = false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_underline" title="Link to this method">
+                  <span class="method-name">change_column_underline</span>
+                  <span class="method-args">(column_index, underlined = false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_underline-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 624</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_underline</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">underlined</span> = <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_underline</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">underlined</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">get_col_xf</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_underline</span>(<span class="ruby-identifier">underlined</span>)
@@ -1394,25 +1478,32 @@
 
       <div id="method-i-change_column_vertical_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_vertical_alignment" title="Link to this method">
-                <span class="method-name">change_column_vertical_alignment</span>
-                <span class="method-args">(column_index, alignment = &#39;center&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_vertical_alignment" title="Link to this method">
+                  <span class="method-name">change_column_vertical_alignment</span>
+                  <span class="method-args">(column_index, alignment = &#39;center&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_vertical_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 642</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_vertical_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_vertical_alignment</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">center</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">change_column_alignment</span>(<span class="ruby-identifier">column_index</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -1436,25 +1527,32 @@
 
       <div id="method-i-change_column_width" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_width" title="Link to this method">
-                <span class="method-name">change_column_width</span>
-                <span class="method-args">(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_width" title="Link to this method">
+                  <span class="method-name">change_column_width</span>
+                  <span class="method-args">(column_index, width_in_chars = RubyXL::ColumnRange::DEFAULT_WIDTH)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_width-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 395</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_width</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">width_in_chars</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_width</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">width_in_chars</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span>)
   <span class="ruby-identifier">change_column_width_raw</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-identifier">chars2raw</span>(<span class="ruby-identifier">width_in_chars</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -1478,25 +1576,32 @@
 
       <div id="method-i-change_column_width_raw" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_column_width_raw" title="Link to this method">
-                <span class="method-name">change_column_width_raw</span>
-                <span class="method-args">(column_index, width)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_column_width_raw" title="Link to this method">
+                  <span class="method-name">change_column_width_raw</span>
+                  <span class="method-args">(column_index, width)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_column_width_raw-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 385</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_column_width_raw</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">width</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_column_width_raw</span>(<span class="ruby-identifier">column_index</span>, <span class="ruby-identifier">width</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">get_range</span>(<span class="ruby-identifier">column_index</span>)
@@ -1524,25 +1629,32 @@
 
       <div id="method-i-change_row_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_alignment" title="Link to this method">
-                <span class="method-name">change_row_alignment</span>
-                <span class="method-args">(row, &amp;block)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_alignment" title="Link to this method">
+                  <span class="method-name">change_row_alignment</span>
+                  <span class="method-args">(row, &amp;block)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 673</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
@@ -1575,25 +1687,32 @@
 
       <div id="method-i-change_row_bold" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_bold" title="Link to this method">
-                <span class="method-name">change_row_bold</span>
-                <span class="method-args">(row = 0, bolded = false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_bold" title="Link to this method">
+                  <span class="method-name">change_row_bold</span>
+                  <span class="method-args">(row = 0, bolded = false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_bold-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 542</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_bold</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_bold</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">bolded</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_bold</span>(<span class="ruby-identifier">bolded</span>)
@@ -1620,25 +1739,32 @@
 
       <div id="method-i-change_row_border" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_border" title="Link to this method">
-                <span class="method-name">change_row_border</span>
-                <span class="method-args">(row, direction, weight)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_border" title="Link to this method">
+                  <span class="method-name">change_row_border</span>
+                  <span class="method-args">(row, direction, weight)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_border-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 468</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
 
@@ -1669,25 +1795,32 @@
 
       <div id="method-i-change_row_border_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_border_color" title="Link to this method">
-                <span class="method-name">change_row_border_color</span>
-                <span class="method-args">(row, direction, color = &#39;000000&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_border_color" title="Link to this method">
+                  <span class="method-name">change_row_border_color</span>
+                  <span class="method-args">(row, direction, color = &#39;000000&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_border_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 479</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_border_color</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span> = <span class="ruby-string">&#39;000000&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_border_color</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">000000</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">color</span>)
@@ -1719,25 +1852,32 @@
 
       <div id="method-i-change_row_fill" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_fill" title="Link to this method">
-                <span class="method-name">change_row_fill</span>
-                <span class="method-args">(row_index = 0, rgb = &#39;ffffff&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_fill" title="Link to this method">
+                  <span class="method-name">change_row_fill</span>
+                  <span class="method-args">(row_index = 0, rgb = &#39;ffffff&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_fill-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 491</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_fill</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">rgb</span> = <span class="ruby-string">&#39;ffffff&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_fill</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">rgb</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">ffffff</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">rgb</span>)
@@ -1766,25 +1906,32 @@
 
       <div id="method-i-change_row_font" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_font" title="Link to this method">
-                <span class="method-name">change_row_font</span>
-                <span class="method-args">(row_index, change_type, arg, font)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_font" title="Link to this method">
+                  <span class="method-name">change_row_font</span>
+                  <span class="method-args">(row_index, change_type, arg, font)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_font-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 503</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_font</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>, <span class="ruby-identifier">font</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-identifier">change_type</span>, <span class="ruby-identifier">arg</span>, <span class="ruby-identifier">font</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
 
@@ -1814,25 +1961,32 @@
 
       <div id="method-i-change_row_font_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_font_color" title="Link to this method">
-                <span class="method-name">change_row_font_color</span>
-                <span class="method-args">(row = 0, font_color = &#39;000000&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_font_color" title="Link to this method">
+                  <span class="method-name">change_row_font_color</span>
+                  <span class="method-args">(row = 0, font_color = &#39;000000&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_font_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 527</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_font_color</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_color</span> = <span class="ruby-string">&#39;000000&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_color</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_color</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">000000</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-constant">Color</span>.<span class="ruby-identifier">validate_color</span>(<span class="ruby-identifier">font_color</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
@@ -1860,25 +2014,32 @@
 
       <div id="method-i-change_row_font_name" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_font_name" title="Link to this method">
-                <span class="method-name">change_row_font_name</span>
-                <span class="method-args">(row = 0, font_name = &#39;Verdana&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_font_name" title="Link to this method">
+                  <span class="method-name">change_row_font_name</span>
+                  <span class="method-args">(row = 0, font_name = &#39;Verdana&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_font_name-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 513</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_font_name</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;Verdana&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_name</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_name</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">Verdana</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_name</span>(<span class="ruby-identifier">font_name</span>)
@@ -1905,25 +2066,32 @@
 
       <div id="method-i-change_row_font_size" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_font_size" title="Link to this method">
-                <span class="method-name">change_row_font_size</span>
-                <span class="method-args">(row = 0, font_size=10)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_font_size" title="Link to this method">
+                  <span class="method-name">change_row_font_size</span>
+                  <span class="method-args">(row = 0, font_size=10)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_font_size-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 520</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_font_size</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_font_size</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">font_size</span>=<span class="ruby-value">10</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_size</span>(<span class="ruby-identifier">font_size</span>)
@@ -1950,25 +2118,32 @@
 
       <div id="method-i-change_row_height" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_height" title="Link to this method">
-                <span class="method-name">change_row_height</span>
-                <span class="method-args">(row = 0, height = 10)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_height" title="Link to this method">
+                  <span class="method-name">change_row_height</span>
+                  <span class="method-args">(row = 0, height = 10)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_height-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 563</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_height</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">height</span> = <span class="ruby-value">10</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_height</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">height</span> = <span class="ruby-value">10</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
 
@@ -1997,25 +2172,32 @@
 
       <div id="method-i-change_row_horizontal_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_horizontal_alignment" title="Link to this method">
-                <span class="method-name">change_row_horizontal_alignment</span>
-                <span class="method-args">(row = 0, alignment = &#39;center&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_horizontal_alignment" title="Link to this method">
+                  <span class="method-name">change_row_horizontal_alignment</span>
+                  <span class="method-args">(row = 0, alignment = &#39;center&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_horizontal_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 456</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_horizontal_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_horizontal_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">center</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">change_row_alignment</span>(<span class="ruby-identifier">row</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">horizontal</span> = <span class="ruby-identifier">alignment</span> }
@@ -2041,25 +2223,32 @@
 
       <div id="method-i-change_row_italics" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_italics" title="Link to this method">
-                <span class="method-name">change_row_italics</span>
-                <span class="method-args">(row = 0, italicized = false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_italics" title="Link to this method">
+                  <span class="method-name">change_row_italics</span>
+                  <span class="method-args">(row = 0, italicized = false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_italics-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 535</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_italics</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_italics</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">italicized</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_italic</span>(<span class="ruby-identifier">italicized</span>)
@@ -2086,25 +2275,32 @@
 
       <div id="method-i-change_row_strikethrough" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_strikethrough" title="Link to this method">
-                <span class="method-name">change_row_strikethrough</span>
-                <span class="method-args">(row = 0, struckthrough=false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_strikethrough" title="Link to this method">
+                  <span class="method-name">change_row_strikethrough</span>
+                  <span class="method-args">(row = 0, struckthrough=false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_strikethrough-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 556</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_strikethrough</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_strikethrough</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">struckthrough</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_strikethrough</span>(<span class="ruby-identifier">struckthrough</span>)
@@ -2131,25 +2327,32 @@
 
       <div id="method-i-change_row_underline" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_underline" title="Link to this method">
-                <span class="method-name">change_row_underline</span>
-                <span class="method-args">(row = 0, underlined=false)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_underline" title="Link to this method">
+                  <span class="method-name">change_row_underline</span>
+                  <span class="method-args">(row = 0, underlined=false)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_underline-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 549</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_underline</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">underlined</span>=<span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_underline</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">underlined</span>=<span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">font</span>.<span class="ruby-identifier">set_underline</span>(<span class="ruby-identifier">underlined</span>)
@@ -2176,25 +2379,32 @@
 
       <div id="method-i-change_row_vertical_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-change_row_vertical_alignment" title="Link to this method">
-                <span class="method-name">change_row_vertical_alignment</span>
-                <span class="method-args">(row = 0, alignment = &#39;center&#39;)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-change_row_vertical_alignment" title="Link to this method">
+                  <span class="method-name">change_row_vertical_alignment</span>
+                  <span class="method-args">(row = 0, alignment = &#39;center&#39;)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="change_row_vertical_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 462</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">change_row_vertical_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;center&#39;</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_row_vertical_alignment</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">alignment</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">center</span><span class="ruby-string">&#39;</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">change_row_alignment</span>(<span class="ruby-identifier">row</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">vertical</span> = <span class="ruby-identifier">alignment</span> }
@@ -2220,25 +2430,32 @@
 
       <div id="method-i-column_font" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-column_font" title="Link to this method">
-                <span class="method-name">column_font</span>
-                <span class="method-args">(col)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-column_font" title="Link to this method">
+                  <span class="method-name">column_font</span>
+                  <span class="method-args">(col)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="column_font-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 443</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">column_font</span>(<span class="ruby-identifier">col</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)].<span class="ruby-identifier">font_id</span>]
@@ -2264,25 +2481,32 @@
 
       <div id="method-i-delete_cell" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-delete_cell" title="Link to this method">
-                <span class="method-name">delete_cell</span>
-                <span class="method-args">(row_index = 0, column_index=0, shift=nil)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-delete_cell" title="Link to this method">
+                  <span class="method-name">delete_cell</span>
+                  <span class="method-args">(row_index = 0, column_index=0, shift=nil)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="delete_cell-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 40</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_cell</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>=<span class="ruby-value">0</span>, <span class="ruby-identifier">shift</span>=<span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_cell</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>=<span class="ruby-value">0</span>, <span class="ruby-identifier">shift</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row_index</span>)
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
@@ -2293,10 +2517,10 @@
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">shift</span>
   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>[<span class="ruby-identifier">column_index</span>] = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">row</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-value">:left</span> <span class="ruby-keyword">then</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:</span><span class="ruby-value">left</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">row</span>.<span class="ruby-identifier">delete_cell_shift_left</span>(<span class="ruby-identifier">column_index</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">row</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-value">:up</span> <span class="ruby-keyword">then</span>
-    (<span class="ruby-identifier">row_index</span><span class="ruby-operator">...</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>)).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:</span><span class="ruby-value">up</span> <span class="ruby-keyword">then</span>
+    (<span class="ruby-identifier">row_index</span>...(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>)).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">old_row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">index</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>]
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
         <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">index</span>] = <span class="ruby-keyword">nil</span>
@@ -2307,7 +2531,7 @@
       <span class="ruby-keyword">end</span>
     }
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Invalid shift option: #{shift}&quot;</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">Invalid shift option: </span><span class="ruby-string">#{</span><span class="ruby-identifier">shift</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">old_cell</span>
@@ -2333,25 +2557,32 @@
 
       <div id="method-i-delete_column" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-delete_column" title="Link to this method">
-                <span class="method-name">delete_column</span>
-                <span class="method-args">(column_index = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-delete_column" title="Link to this method">
+                  <span class="method-name">delete_column</span>
+                  <span class="method-args">(column_index = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="delete_column-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 210</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
 
@@ -2412,25 +2643,32 @@
 
       <div id="method-i-delete_row" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-delete_row" title="Link to this method">
-                <span class="method-name">delete_row</span>
-                <span class="method-args">(row_index=0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-delete_row" title="Link to this method">
+                  <span class="method-name">delete_row</span>
+                  <span class="method-args">(row_index=0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="delete_row-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 126</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_row</span>(<span class="ruby-identifier">row_index</span>=<span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_row</span>(<span class="ruby-identifier">row_index</span>=<span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row_index</span>)
 
@@ -2439,7 +2677,7 @@
   <span class="ruby-comment"># Update row number of each cell</span>
   <span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>[<span class="ruby-identifier">index</span>]
-    <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">row</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
+    <span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">row</span> -= <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> }
   }
 
   <span class="ruby-comment"># Update row number of merged cells</span>
@@ -2488,25 +2726,32 @@
 
       <div id="method-i-get_col_style" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_col_style" title="Link to this method">
-                <span class="method-name">get_col_style</span>
-                <span class="method-args">(column_index)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_col_style" title="Link to this method">
+                  <span class="method-name">get_col_style</span>
+                  <span class="method-args">(column_index)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_col_style-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 400</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_col_style</span>(<span class="ruby-identifier">column_index</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_col_style</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">column_index</span>)
   (<span class="ruby-identifier">range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2531,25 +2776,32 @@
 
       <div id="method-i-get_cols_style_index" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_cols_style_index" title="Link to this method">
-                <span class="method-name">get_cols_style_index</span>
-                <span class="method-args">(column_index)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_cols_style_index" title="Link to this method">
+                  <span class="method-name">get_cols_style_index</span>
+                  <span class="method-args">(column_index)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_cols_style_index-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 326</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_cols_style_index</span>(<span class="ruby-identifier">column_index</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-identifier">range</span> = <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">locate_range</span>(<span class="ruby-identifier">column_index</span>)
   (<span class="ruby-identifier">range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
@@ -2575,25 +2827,32 @@
 
       <div id="method-i-get_column_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_alignment" title="Link to this method">
-                <span class="method-name">get_column_alignment</span>
-                <span class="method-args">(col, type)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_alignment" title="Link to this method">
+                  <span class="method-name">get_column_alignment</span>
+                  <span class="method-args">(col, type)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 449</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_alignment</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">type</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">type</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-identifier">xf</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)]
@@ -2620,25 +2879,32 @@
 
       <div id="method-i-get_column_border" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_border" title="Link to this method">
-                <span class="method-name">get_column_border</span>
-                <span class="method-args">(col, border_direction)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_border" title="Link to this method">
+                  <span class="method-name">get_column_border</span>
+                  <span class="method-args">(col, border_direction)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_border-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 427</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">border_direction</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">border_direction</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-identifier">xf</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)]
@@ -2666,25 +2932,32 @@
 
       <div id="method-i-get_column_border_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_border_color" title="Link to this method">
-                <span class="method-name">get_column_border_color</span>
-                <span class="method-args">(col, border_direction)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_border_color" title="Link to this method">
+                  <span class="method-name">get_column_border_color</span>
+                  <span class="method-args">(col, border_direction)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_border_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 435</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_border_color</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">border_direction</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_border_color</span>(<span class="ruby-identifier">col</span>, <span class="ruby-identifier">border_direction</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-identifier">xf</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">get_cols_style_index</span>(<span class="ruby-identifier">col</span>)]
@@ -2712,25 +2985,32 @@
 
       <div id="method-i-get_column_fill" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_fill" title="Link to this method">
-                <span class="method-name">get_column_fill</span>
-                <span class="method-args">(col=0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_fill" title="Link to this method">
+                  <span class="method-name">get_column_fill</span>
+                  <span class="method-args">(col=0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_fill-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 405</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_fill</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_fill</span>(<span class="ruby-identifier">col</span>=<span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">col</span>)
 
@@ -2757,27 +3037,34 @@
 
       <div id="method-i-get_column_font_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_font_color" title="Link to this method">
-                <span class="method-name">get_column_font_color</span>
-                <span class="method-args">(col = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_font_color" title="Link to this method">
+                  <span class="method-name">get_column_font_color</span>
+                  <span class="method-args">(col = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_font_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 342</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_font_color</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_color</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
-  <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;000000&#39;</span>)
+  <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_rgb_color</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;</span><span class="ruby-string">000000</span><span class="ruby-string">&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -2800,25 +3087,32 @@
 
       <div id="method-i-get_column_font_name" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_font_name" title="Link to this method">
-                <span class="method-name">get_column_font_name</span>
-                <span class="method-args">(col = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_font_name" title="Link to this method">
+                  <span class="method-name">get_column_font_name</span>
+                  <span class="method-args">(col = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_font_name-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 332</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_font_name</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_name</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2843,25 +3137,32 @@
 
       <div id="method-i-get_column_font_size" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_font_size" title="Link to this method">
-                <span class="method-name">get_column_font_size</span>
-                <span class="method-args">(col = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_font_size" title="Link to this method">
+                  <span class="method-name">get_column_font_size</span>
+                  <span class="method-args">(col = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_font_size-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 337</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_font_size</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_font_size</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_size</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2886,25 +3187,32 @@
 
       <div id="method-i-get_column_width" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_width" title="Link to this method">
-                <span class="method-name">get_column_width</span>
-                <span class="method-args">(column_index = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_width" title="Link to this method">
+                  <span class="method-name">get_column_width</span>
+                  <span class="method-args">(column_index = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_width-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 378</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_width</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_width</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">width</span> = <span class="ruby-identifier">get_column_width_raw</span>(<span class="ruby-identifier">column_index</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">ColumnRange</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_WIDTH</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">width</span>.<span class="ruby-identifier">nil?</span>
   (<span class="ruby-identifier">width</span> <span class="ruby-operator">-</span> (<span class="ruby-value">5.0</span> <span class="ruby-operator">/</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Font</span><span class="ruby-operator">::</span><span class="ruby-constant">MAX_DIGIT_WIDTH</span>)).<span class="ruby-identifier">round</span>
@@ -2930,25 +3238,32 @@
 
       <div id="method-i-get_column_width_raw" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_column_width_raw" title="Link to this method">
-                <span class="method-name">get_column_width_raw</span>
-                <span class="method-args">(column_index = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_column_width_raw" title="Link to this method">
+                  <span class="method-name">get_column_width_raw</span>
+                  <span class="method-args">(column_index = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_column_width_raw-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 368</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_column_width_raw</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_column_width_raw</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">column_index</span>)
 
@@ -2976,25 +3291,32 @@
 
       <div id="method-i-get_row_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_alignment" title="Link to this method">
-                <span class="method-name">get_row_alignment</span>
-                <span class="method-args">(row, is_horizontal)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_alignment" title="Link to this method">
+                  <span class="method-name">get_row_alignment</span>
+                  <span class="method-args">(row, is_horizontal)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 315</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">is_horizontal</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">is_horizontal</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-identifier">xf_obj</span> = <span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>)
@@ -3025,25 +3347,32 @@
 
       <div id="method-i-get_row_border" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_border" title="Link to this method">
-                <span class="method-name">get_row_border</span>
-                <span class="method-args">(row, border_direction)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_border" title="Link to this method">
+                  <span class="method-name">get_row_border</span>
+                  <span class="method-args">(row, border_direction)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_border-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 297</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">border_direction</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">border_direction</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-identifier">border</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">border_id</span>]
@@ -3070,25 +3399,32 @@
 
       <div id="method-i-get_row_border_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_border_color" title="Link to this method">
-                <span class="method-name">get_row_border_color</span>
-                <span class="method-args">(row, border_direction)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_border_color" title="Link to this method">
+                  <span class="method-name">get_row_border_color</span>
+                  <span class="method-args">(row, border_direction)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_border_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 304</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_border_color</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">border_direction</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_border_color</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">border_direction</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-identifier">border</span> = <span class="ruby-ivar">@workbook</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">get_row_xf</span>(<span class="ruby-identifier">row</span>).<span class="ruby-identifier">border_id</span>]
@@ -3115,25 +3451,32 @@
 
       <div id="method-i-get_row_fill" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_fill" title="Link to this method">
-                <span class="method-name">get_row_fill</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_fill" title="Link to this method">
+                  <span class="method-name">get_row_fill</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_fill-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 256</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_fill</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_fill</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">get_fill_color</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -3157,28 +3500,35 @@
 
       <div id="method-i-get_row_font_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_font_color" title="Link to this method">
-                <span class="method-name">get_row_font_color</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_font_color" title="Link to this method">
+                  <span class="method-name">get_row_font_color</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_font_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 268</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_font_color</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_font_color</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">color</span> = <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">color</span>
-  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;000000&#39;</span>)
+  <span class="ruby-identifier">color</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">color</span>.<span class="ruby-identifier">rgb</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;</span><span class="ruby-string">000000</span><span class="ruby-string">&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -3201,25 +3551,32 @@
 
       <div id="method-i-get_row_font_name" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_font_name" title="Link to this method">
-                <span class="method-name">get_row_font_name</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_font_name" title="Link to this method">
+                  <span class="method-name">get_row_font_name</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_font_name-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 260</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_font_name</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_font_name</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_name</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -3243,25 +3600,32 @@
 
       <div id="method-i-get_row_font_size" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_font_size" title="Link to this method">
-                <span class="method-name">get_row_font_size</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_font_size" title="Link to this method">
+                  <span class="method-name">get_row_font_size</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_font_size-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 264</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_font_size</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_font_size</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">get_size</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -3285,25 +3649,32 @@
 
       <div id="method-i-get_row_height" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_height" title="Link to this method">
-                <span class="method-name">get_row_height</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_height" title="Link to this method">
+                  <span class="method-name">get_row_height</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_height-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 290</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_height</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_height</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">validate_nonnegative</span>(<span class="ruby-identifier">row</span>)
   <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>]
@@ -3330,25 +3701,32 @@
 
       <div id="method-i-get_row_style" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_row_style" title="Link to this method">
-                <span class="method-name">get_row_style</span>
-                <span class="method-args">(row_index)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_row_style" title="Link to this method">
+                  <span class="method-name">get_row_style</span>
+                  <span class="method-args">(row_index)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_row_style-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 251</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_row_style</span>(<span class="ruby-identifier">row_index</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_row_style</span>(<span class="ruby-identifier">row_index</span>)
   <span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row_index</span>]
   (<span class="ruby-identifier">row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">style_index</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
@@ -3373,34 +3751,41 @@
 
       <div id="method-i-insert_cell" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-insert_cell" title="Link to this method">
-                <span class="method-name">insert_cell</span>
-                <span class="method-args">(row = 0, col = 0, data = nil, formula = nil, shift = nil)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-insert_cell" title="Link to this method">
+                  <span class="method-name">insert_cell</span>
+                  <span class="method-args">(row = 0, col = 0, data = nil, formula = nil, shift = nil)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="insert_cell-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 11</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_cell</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">data</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">shift</span> = <span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_cell</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">data</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">shift</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">col</span>)
 
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">shift</span>
   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># No shifting at all</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-value">:right</span> <span class="ruby-keyword">then</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:</span><span class="ruby-value">right</span> <span class="ruby-keyword">then</span>
     <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>].<span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">col</span>)
-  <span class="ruby-keyword">when</span> <span class="ruby-value">:down</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span>, <span class="ruby-value">:cells</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>].<span class="ruby-identifier">size</span>))
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:</span><span class="ruby-value">down</span> <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span>, <span class="ruby-value">:</span><span class="ruby-value">cells</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>].<span class="ruby-identifier">size</span>))
     (<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>).<span class="ruby-identifier">downto</span>(<span class="ruby-identifier">row</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">old_row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">index</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>]
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
@@ -3411,7 +3796,7 @@
       <span class="ruby-keyword">end</span>
     }
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Invalid shift option: #{shift}&quot;</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">Invalid shift option: </span><span class="ruby-string">#{</span><span class="ruby-identifier">shift</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">add_cell</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">col</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">formula</span>)
@@ -3437,25 +3822,32 @@
 
       <div id="method-i-insert_column" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-insert_column" title="Link to this method">
-                <span class="method-name">insert_column</span>
-                <span class="method-args">(column_index = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-insert_column" title="Link to this method">
+                  <span class="method-name">insert_column</span>
+                  <span class="method-args">(column_index = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="insert_column-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 166</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_column</span>(<span class="ruby-identifier">column_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">column_index</span>)
 
@@ -3471,9 +3863,9 @@
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_cell</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span>
          <span class="ruby-identifier">old_range</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_range</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-keyword">then</span>
 
-      <span class="ruby-identifier">c</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style_index</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-value">:worksheet</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">self</span>,
-                           <span class="ruby-value">:row</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">row_index</span>, <span class="ruby-value">:column</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">column_index</span>,
-                           <span class="ruby-value">:datatype</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span>)
+      <span class="ruby-identifier">c</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">style_index</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">old_cell</span>.<span class="ruby-identifier">style_index</span>, <span class="ruby-value">:</span><span class="ruby-value">worksheet</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">self</span>,
+                           <span class="ruby-value">:</span><span class="ruby-value">row</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">row_index</span>, <span class="ruby-value">:</span><span class="ruby-value">column</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">column_index</span>,
+                           <span class="ruby-value">:</span><span class="ruby-value">datatype</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span>)
     <span class="ruby-keyword">end</span>
 
     <span class="ruby-identifier">row</span>.<span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">column_index</span>)
@@ -3519,25 +3911,32 @@
 
       <div id="method-i-insert_row" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-insert_row" title="Link to this method">
-                <span class="method-name">insert_row</span>
-                <span class="method-args">(row_index = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-insert_row" title="Link to this method">
+                  <span class="method-name">insert_row</span>
+                  <span class="method-args">(row_index = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="insert_row-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 73</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">insert_row</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_row</span>(<span class="ruby-identifier">row_index</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">validate_workbook</span>
   <span class="ruby-identifier">ensure_cell_exists</span>(<span class="ruby-identifier">row_index</span>)
 
@@ -3548,7 +3947,7 @@
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_row</span> <span class="ruby-keyword">then</span>
       <span class="ruby-identifier">new_cells</span> = <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
                     <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
-                    <span class="ruby-keyword">else</span> <span class="ruby-identifier">nc</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:style_index</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">style_index</span>)
+                    <span class="ruby-keyword">else</span> <span class="ruby-identifier">nc</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Cell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">style_index</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">style_index</span>)
                          <span class="ruby-identifier">nc</span>.<span class="ruby-identifier">worksheet</span> = <span class="ruby-keyword">self</span>
                          <span class="ruby-identifier">nc</span>
                     <span class="ruby-keyword">end</span>
@@ -3557,10 +3956,10 @@
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">row0</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-value">0</span>]
-  <span class="ruby-identifier">new_cells</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>((<span class="ruby-identifier">row0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row0</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">new_cells</span> ||= <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>((<span class="ruby-identifier">row0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row0</span>.<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>) <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
 
   <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">new_row</span> = <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-value">:cells</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">new_cells</span>, <span class="ruby-value">:style_index</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">old_row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">style_index</span>)
+  <span class="ruby-identifier">new_row</span> = <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">row_index</span>, <span class="ruby-value">:</span><span class="ruby-value">cells</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">new_cells</span>, <span class="ruby-value">:</span><span class="ruby-value">style_index</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">old_row</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">old_row</span>.<span class="ruby-identifier">style_index</span>)
 
   <span class="ruby-comment"># Update row values for all rows below</span>
   <span class="ruby-identifier">row_index</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -3610,25 +4009,32 @@
 
       <div id="method-i-is_column_bolded" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_column_bolded" title="Link to this method">
-                <span class="method-name">is_column_bolded</span>
-                <span class="method-args">(col = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_column_bolded" title="Link to this method">
+                  <span class="method-name">is_column_bolded</span>
+                  <span class="method-args">(col = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_column_bolded-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 352</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_column_bolded</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_bolded</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_bold</span>
 <span class="ruby-keyword">end</span></pre>
@@ -3653,25 +4059,32 @@
 
       <div id="method-i-is_column_italicized" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_column_italicized" title="Link to this method">
-                <span class="method-name">is_column_italicized</span>
-                <span class="method-args">(col = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_column_italicized" title="Link to this method">
+                  <span class="method-name">is_column_italicized</span>
+                  <span class="method-args">(col = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_column_italicized-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 347</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_column_italicized</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_italicized</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_italic</span>
 <span class="ruby-keyword">end</span></pre>
@@ -3696,25 +4109,32 @@
 
       <div id="method-i-is_column_struckthrough" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_column_struckthrough" title="Link to this method">
-                <span class="method-name">is_column_struckthrough</span>
-                <span class="method-args">(col = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_column_struckthrough" title="Link to this method">
+                  <span class="method-name">is_column_struckthrough</span>
+                  <span class="method-args">(col = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_column_struckthrough-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 362</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_column_struckthrough</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_struckthrough</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_strikethrough</span>
 <span class="ruby-keyword">end</span></pre>
@@ -3739,25 +4159,32 @@
 
       <div id="method-i-is_column_underlined" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_column_underlined" title="Link to this method">
-                <span class="method-name">is_column_underlined</span>
-                <span class="method-args">(col = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_column_underlined" title="Link to this method">
+                  <span class="method-name">is_column_underlined</span>
+                  <span class="method-args">(col = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_column_underlined-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 357</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_column_underlined</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_column_underlined</span>(<span class="ruby-identifier">col</span> = <span class="ruby-value">0</span>)
   <span class="ruby-identifier">font</span> = <span class="ruby-identifier">column_font</span>(<span class="ruby-identifier">col</span>)
   <span class="ruby-identifier">font</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_underlined</span>
 <span class="ruby-keyword">end</span></pre>
@@ -3782,25 +4209,32 @@
 
       <div id="method-i-is_row_bolded" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_row_bolded" title="Link to this method">
-                <span class="method-name">is_row_bolded</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_row_bolded" title="Link to this method">
+                  <span class="method-name">is_row_bolded</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_row_bolded-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 278</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_row_bolded</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_bolded</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_bold</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -3824,25 +4258,32 @@
 
       <div id="method-i-is_row_italicized" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_row_italicized" title="Link to this method">
-                <span class="method-name">is_row_italicized</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_row_italicized" title="Link to this method">
+                  <span class="method-name">is_row_italicized</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_row_italicized-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 274</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_row_italicized</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_italicized</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_italic</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -3866,25 +4307,32 @@
 
       <div id="method-i-is_row_struckthrough" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_row_struckthrough" title="Link to this method">
-                <span class="method-name">is_row_struckthrough</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_row_struckthrough" title="Link to this method">
+                  <span class="method-name">is_row_struckthrough</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_row_struckthrough-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 286</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_row_struckthrough</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_struckthrough</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_strikethrough</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -3908,25 +4356,32 @@
 
       <div id="method-i-is_row_underlined" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-is_row_underlined" title="Link to this method">
-                <span class="method-name">is_row_underlined</span>
-                <span class="method-args">(row = 0)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-is_row_underlined" title="Link to this method">
+                  <span class="method-name">is_row_underlined</span>
+                  <span class="method-args">(row = 0)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="is_row_underlined-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 282</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">is_row_underlined</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">is_row_underlined</span>(<span class="ruby-identifier">row</span> = <span class="ruby-value">0</span>)
   (<span class="ruby-identifier">font</span> = <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">font</span>.<span class="ruby-identifier">is_underlined</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -3950,25 +4405,32 @@
 
       <div id="method-i-merge_cells" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-merge_cells" title="Link to this method">
-                <span class="method-name">merge_cells</span>
-                <span class="method-args">(*params)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-merge_cells" title="Link to this method">
+                  <span class="method-name">merge_cells</span>
+                  <span class="method-args">(*params)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="merge_cells-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 706</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">merge_cells</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_cells</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">params</span>)
   <span class="ruby-identifier">validate_workbook</span>
 
   <span class="ruby-identifier">row_from</span> = <span class="ruby-identifier">col_from</span> = <span class="ruby-identifier">row_to</span> = <span class="ruby-identifier">col_to</span> = <span class="ruby-keyword">nil</span>
@@ -3977,20 +4439,20 @@
   <span class="ruby-keyword">when</span> <span class="ruby-value">1</span> <span class="ruby-keyword">then</span>
     <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">first</span>
     <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span> <span class="ruby-keyword">then</span>
-      <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">fetch_values</span>(<span class="ruby-value">:row_from</span>, <span class="ruby-value">:row_to</span>, <span class="ruby-value">:col_from</span>, <span class="ruby-value">:col_to</span>)
+      <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">fetch_values</span>(<span class="ruby-value">:</span><span class="ruby-value">row_from</span>, <span class="ruby-value">:</span><span class="ruby-value">row_to</span>, <span class="ruby-value">:</span><span class="ruby-value">col_from</span>, <span class="ruby-value">:</span><span class="ruby-value">col_to</span>)
     <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
-      <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;:&#39;</span>)
-      <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Reference for merging cells must be a range&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">:</span><span class="ruby-string">&#39;</span>)
+      <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">Reference for merging cells must be a range</span><span class="ruby-string">&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">to</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">col_from</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">from</span>)
       <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_to</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-identifier">to</span>)
     <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Invalid value for #{self.class}: #{params[0].inspect}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+      <span class="ruby-identifier">raise</span>(<span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">Invalid value for </span><span class="ruby-string">#{</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-string">}</span><span class="ruby-string">: </span><span class="ruby-string">#{</span><span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">inspect</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCells</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">merged_cells</span> ||= <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCells</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-comment"># TODO: add validation to make sure ranges are not intersecting with existing ones</span>
-  <span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:ref</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span>))
+  <span class="ruby-identifier">merged_cells</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">MergedCell</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">ref</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row_from</span>, <span class="ruby-identifier">row_to</span>, <span class="ruby-identifier">col_from</span>, <span class="ruby-identifier">col_to</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -4013,25 +4475,32 @@
 
       <div id="method-i-row_font" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-row_font" title="Link to this method">
-                <span class="method-name">row_font</span>
-                <span class="method-args">(row)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-row_font" title="Link to this method">
+                  <span class="method-name">row_font</span>
+                  <span class="method-args">(row)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="row_font-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/worksheet.rb, line 311</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">row_font</span>(<span class="ruby-identifier">row</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">row_font</span>(<span class="ruby-identifier">row</span>)
   (<span class="ruby-identifier">row</span> = <span class="ruby-identifier">sheet_data</span>.<span class="ruby-identifier">rows</span>[<span class="ruby-identifier">row</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">get_font</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -4062,7 +4531,7 @@
 
 </main>
 
-<aside class="table-of-contents" role="complementary" aria-label="Table of Contents">
+<aside id="table-of-contents" class="table-of-contents" role="complementary" aria-label="Table of Contents">
   <div class="toc-sticky">
     <h3 class="toc-heading">On This Page</h3>
     <nav class="toc-nav" id="toc-nav" aria-label="Page sections">
@@ -4077,7 +4546,7 @@
 
   <div class="footer-bottom">
     <p>
-      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 7.2.0</a>
+      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 8.1.0</a>
       using the Aliki theme by <a href="http://st0012.dev">Stan Lo</a>
     </p>
   </div>

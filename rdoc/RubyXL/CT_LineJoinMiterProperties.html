@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>class RubyXL::CT_LineJoinMiterProperties - rubyXL 3.4.39</title>
+<title>class RubyXL::CT_LineJoinMiterProperties - rubyXL 3.4.40</title>
 
 
   <meta
@@ -24,7 +24,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="class RubyXL::CT_LineJoinMiterProperties - rubyXL 3.4.39">
+<meta property="og:title" content="class RubyXL::CT_LineJoinMiterProperties - rubyXL 3.4.40">
 
 
 
@@ -36,7 +36,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="class RubyXL::CT_LineJoinMiterProperties - rubyXL 3.4.39">
+<meta name="twitter:title" content="class RubyXL::CT_LineJoinMiterProperties - rubyXL 3.4.40">
 
 
 
@@ -50,46 +50,46 @@
 </script>
 
 <script
-  src="../js/theme-toggle.js?v=7.2.0"
+  src="../js/theme-toggle.js?v=8.1.0"
 ></script>
 
 <script
-  src="../js/search_navigation.js?v=7.2.0"
+  src="../js/search_navigation.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_data.js?v=7.2.0"
+  src="../js/search_data.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_ranker.js?v=7.2.0"
+  src="../js/search_ranker.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_controller.js?v=7.2.0"
+  src="../js/search_controller.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/c_highlighter.js?v=7.2.0"
+  src="../js/c_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/bash_highlighter.js?v=7.2.0"
+  src="../js/bash_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/aliki.js?v=7.2.0"
+  src="../js/aliki.js?v=8.1.0"
   defer
 ></script>
 
 <link
-  href="../css/rdoc.css?v=7.2.0"
+  href="../css/rdoc.css?v=8.1.0"
   rel="stylesheet"
 >
 
@@ -308,27 +308,39 @@
 
 <header class="top-navbar">
   <a href="../index.html" class="navbar-brand">
-    rubyXL 3.4.39
+    rubyXL 3.4.40
   </a>
 
-  <!-- Desktop search bar -->
-  <div class="navbar-search navbar-search-desktop" role="search">
-    <form action="#" method="get" accept-charset="utf-8">
-      <input id="search-field" role="combobox" aria-label="Search"
-             aria-autocomplete="list" aria-controls="search-results-desktop"
-             type="text" name="search" placeholder="Search (/) for a class, method..."
-             spellcheck="false" autocomplete="off"
-             title="Type to search, Up and Down to navigate, Enter to load">
-      <ul id="search-results-desktop" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="initially-hidden search-results"></ul>
-    </form>
-  </div>
+  <div class="navbar-search" data-search-container>
+    <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search"
+            aria-controls="search-surface" aria-expanded="false" type="button">
+      <span aria-hidden="true">🔍</span>
+    </button>
 
-  <!-- Mobile search icon button -->
-  <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search" type="button">
-    <span aria-hidden="true">🔍</span>
-  </button>
+    <div class="search-backdrop" data-search-close></div>
+    <div id="search-surface" class="search-surface">
+      <form class="search-form" role="search" action="#" method="get" accept-charset="utf-8">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input id="search-field" role="combobox" aria-label="Search"
+               aria-autocomplete="list" aria-controls="search-results"
+               type="text" name="search" placeholder="Search (/) for a class, method..."
+               spellcheck="false" autocomplete="off"
+               title="Type to search, Up and Down to navigate, Enter to load">
+        <button type="button" class="search-close" aria-label="Close search" data-search-close>
+          <span aria-hidden="true">esc</span>
+        </button>
+      </form>
+
+      <div class="search-body">
+        <ul id="search-results" aria-label="Search Results"
+            aria-busy="false" aria-expanded="false"
+            aria-atomic="false" class="initially-hidden search-results"></ul>
+        <div class="search-empty">
+          <p>No recent searches</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Theme toggle button -->
   <button id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" type="button">
@@ -336,39 +348,12 @@
   </button>
 </header>
 
-<!-- Search Modal (Mobile) -->
-<div id="search-modal" class="search-modal" hidden aria-modal="true" role="dialog" aria-label="Search">
-  <div class="search-modal-backdrop"></div>
-  <div class="search-modal-content">
-    <div class="search-modal-header">
-      <form class="search-modal-form" action="#" method="get" accept-charset="utf-8">
-        <span class="search-modal-icon" aria-hidden="true">🔍</span>
-        <input id="search-field-mobile" role="combobox" aria-label="Search"
-               aria-autocomplete="list" aria-controls="search-results-mobile"
-               type="text" name="search" placeholder="Search documentation"
-               spellcheck="false" autocomplete="off">
-        <button type="button" class="search-modal-close" aria-label="Close search" id="search-modal-close">
-          <span aria-hidden="true">esc</span>
-        </button>
-      </form>
-    </div>
-    <div class="search-modal-body">
-      <ul id="search-results-mobile" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="search-results search-modal-results initially-hidden"></ul>
-      <div class="search-modal-empty">
-        <p>No recent searches</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="navigation">
+<div id="sidebar-navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar-navigation">
   <span aria-hidden="true">&#9776;</span>
 </div>
 
 
-<nav id="navigation" role="navigation" hidden>
+<nav id="sidebar-navigation" role="navigation" hidden>
   
 
 
@@ -462,7 +447,7 @@
       
       <li>
         
-        <a href="../RubyXL.html">RubyXL</a><span>::</span>
+        <a href="../RubyXL.html">RubyXL</a><span class="separator">::</span>
         
       </li>
       
@@ -476,8 +461,9 @@
   
 
   <span id="class-RubyXL::CT_LineJoinMiterProperties" class="legacy-anchor"></span>
-  <h1 id="class-rubyxl-ct_linejoinmiterproperties" class="anchor-link class">
-    class RubyXL::CT_LineJoinMiterProperties
+  <h1 id="class-rubyxl-ct_linejoinmiterproperties" class="anchor-link class page-title">
+    <span class="page-title-kind">class</span>
+    <span class="page-title-name">RubyXL::CT_LineJoinMiterProperties</span>
   </h1>
 
   <section class="description">
@@ -514,7 +500,7 @@
 
 </main>
 
-<aside class="table-of-contents" role="complementary" aria-label="Table of Contents">
+<aside id="table-of-contents" class="table-of-contents" role="complementary" aria-label="Table of Contents">
   <div class="toc-sticky">
     <h3 class="toc-heading">On This Page</h3>
     <nav class="toc-nav" id="toc-nav" aria-label="Page sections">
@@ -529,7 +515,7 @@
 
   <div class="footer-bottom">
     <p>
-      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 7.2.0</a>
+      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 8.1.0</a>
       using the Aliki theme by <a href="http://st0012.dev">Stan Lo</a>
     </p>
   </div>

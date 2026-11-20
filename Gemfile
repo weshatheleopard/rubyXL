@@ -6,10 +6,13 @@ gem 'rubyzip', '>= 3.2.2', require: 'zip'
 
 # Development dependencies.
 group :development, :test do
-  gem 'bundler'
-  gem 'rake'
+  gem 'irb'
 
+  gem 'rake'
+  gem 'bundler'
   gem 'gem-release'
+
+  gem 'bigdecimal'
 
   gem 'rspec'
   gem 'simplecov'

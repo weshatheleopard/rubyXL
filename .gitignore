@@ -3,10 +3,10 @@
 *.swp
 *.xls?
 *.tmp
-tmp
 .bundle
+tmp
 bin
-vendor
 lib/tests/
 coverage
 Gemfile.lock
+VERSION

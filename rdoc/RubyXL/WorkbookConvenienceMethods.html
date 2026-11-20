@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.39</title>
+<title>module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.40</title>
 
 
   <meta
@@ -24,7 +24,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.39">
+<meta property="og:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.40">
 
 
 
@@ -39,7 +39,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.39">
+<meta name="twitter:title" content="module RubyXL::WorkbookConvenienceMethods - rubyXL 3.4.40">
 
 
 
@@ -56,46 +56,46 @@
 </script>
 
 <script
-  src="../js/theme-toggle.js?v=7.2.0"
+  src="../js/theme-toggle.js?v=8.1.0"
 ></script>
 
 <script
-  src="../js/search_navigation.js?v=7.2.0"
+  src="../js/search_navigation.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_data.js?v=7.2.0"
+  src="../js/search_data.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_ranker.js?v=7.2.0"
+  src="../js/search_ranker.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_controller.js?v=7.2.0"
+  src="../js/search_controller.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/c_highlighter.js?v=7.2.0"
+  src="../js/c_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/bash_highlighter.js?v=7.2.0"
+  src="../js/bash_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/aliki.js?v=7.2.0"
+  src="../js/aliki.js?v=8.1.0"
   defer
 ></script>
 
 <link
-  href="../css/rdoc.css?v=7.2.0"
+  href="../css/rdoc.css?v=8.1.0"
   rel="stylesheet"
 >
 
@@ -314,27 +314,39 @@
 
 <header class="top-navbar">
   <a href="../index.html" class="navbar-brand">
-    rubyXL 3.4.39
+    rubyXL 3.4.40
   </a>
 
-  <!-- Desktop search bar -->
-  <div class="navbar-search navbar-search-desktop" role="search">
-    <form action="#" method="get" accept-charset="utf-8">
-      <input id="search-field" role="combobox" aria-label="Search"
-             aria-autocomplete="list" aria-controls="search-results-desktop"
-             type="text" name="search" placeholder="Search (/) for a class, method..."
-             spellcheck="false" autocomplete="off"
-             title="Type to search, Up and Down to navigate, Enter to load">
-      <ul id="search-results-desktop" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="initially-hidden search-results"></ul>
-    </form>
-  </div>
+  <div class="navbar-search" data-search-container>
+    <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search"
+            aria-controls="search-surface" aria-expanded="false" type="button">
+      <span aria-hidden="true">🔍</span>
+    </button>
 
-  <!-- Mobile search icon button -->
-  <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search" type="button">
-    <span aria-hidden="true">🔍</span>
-  </button>
+    <div class="search-backdrop" data-search-close></div>
+    <div id="search-surface" class="search-surface">
+      <form class="search-form" role="search" action="#" method="get" accept-charset="utf-8">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input id="search-field" role="combobox" aria-label="Search"
+               aria-autocomplete="list" aria-controls="search-results"
+               type="text" name="search" placeholder="Search (/) for a class, method..."
+               spellcheck="false" autocomplete="off"
+               title="Type to search, Up and Down to navigate, Enter to load">
+        <button type="button" class="search-close" aria-label="Close search" data-search-close>
+          <span aria-hidden="true">esc</span>
+        </button>
+      </form>
+
+      <div class="search-body">
+        <ul id="search-results" aria-label="Search Results"
+            aria-busy="false" aria-expanded="false"
+            aria-atomic="false" class="initially-hidden search-results"></ul>
+        <div class="search-empty">
+          <p>No recent searches</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Theme toggle button -->
   <button id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" type="button">
@@ -342,39 +354,12 @@
   </button>
 </header>
 
-<!-- Search Modal (Mobile) -->
-<div id="search-modal" class="search-modal" hidden aria-modal="true" role="dialog" aria-label="Search">
-  <div class="search-modal-backdrop"></div>
-  <div class="search-modal-content">
-    <div class="search-modal-header">
-      <form class="search-modal-form" action="#" method="get" accept-charset="utf-8">
-        <span class="search-modal-icon" aria-hidden="true">🔍</span>
-        <input id="search-field-mobile" role="combobox" aria-label="Search"
-               aria-autocomplete="list" aria-controls="search-results-mobile"
-               type="text" name="search" placeholder="Search documentation"
-               spellcheck="false" autocomplete="off">
-        <button type="button" class="search-modal-close" aria-label="Close search" id="search-modal-close">
-          <span aria-hidden="true">esc</span>
-        </button>
-      </form>
-    </div>
-    <div class="search-modal-body">
-      <ul id="search-results-mobile" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="search-results search-modal-results initially-hidden"></ul>
-      <div class="search-modal-empty">
-        <p>No recent searches</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="navigation">
+<div id="sidebar-navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar-navigation">
   <span aria-hidden="true">&#9776;</span>
 </div>
 
 
-<nav id="navigation" role="navigation" hidden>
+<nav id="sidebar-navigation" role="navigation" hidden>
   
 
 
@@ -506,7 +491,7 @@
       
       <li>
         
-        <a href="../RubyXL.html">RubyXL</a><span>::</span>
+        <a href="../RubyXL.html">RubyXL</a><span class="separator">::</span>
         
       </li>
       
@@ -520,8 +505,9 @@
   
 
   <span id="module-RubyXL::WorkbookConvenienceMethods" class="legacy-anchor"></span>
-  <h1 id="module-rubyxl-workbookconveniencemethods" class="anchor-link module">
-    module RubyXL::WorkbookConvenienceMethods
+  <h1 id="module-rubyxl-workbookconveniencemethods" class="anchor-link module page-title">
+    <span class="page-title-kind">module</span>
+    <span class="page-title-name">RubyXL::WorkbookConvenienceMethods</span>
   </h1>
 
   <section class="description">
@@ -557,25 +543,32 @@
 
       <div id="method-i-borders" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-borders" title="Link to this method">
-                <span class="method-name">borders</span>
-                <span class="method-args">()</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-borders" title="Link to this method">
+                  <span class="method-name">borders</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="borders-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 19</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">borders</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">borders</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">borders</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -599,25 +592,32 @@
 
       <div id="method-i-cell_xfs" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-cell_xfs" title="Link to this method">
-                <span class="method-name">cell_xfs</span>
-                <span class="method-args">()</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-cell_xfs" title="Link to this method">
+                  <span class="method-name">cell_xfs</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="cell_xfs-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 7</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cell_xfs</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cell_xfs</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -641,27 +641,34 @@
 
       <div id="method-i-define_new_name" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-define_new_name" title="Link to this method">
-                <span class="method-name">define_new_name</span>
-                <span class="method-args">(name, reference)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-define_new_name" title="Link to this method">
+                  <span class="method-name">define_new_name</span>
+                  <span class="method-args">(name, reference)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="define_new_name-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 122</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_new_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">reference</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DefinedNames</span>.<span class="ruby-identifier">new</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DefinedName</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:name</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">name</span>, <span class="ruby-value">:reference</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">reference</span>})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_new_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">reference</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> ||= <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DefinedNames</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DefinedName</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:</span><span class="ruby-value">name</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">name</span>, <span class="ruby-value">:</span><span class="ruby-value">reference</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">reference</span>})
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -684,25 +691,32 @@
 
       <div id="method-i-each" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-each" title="Link to this method">
-                <span class="method-name">each</span>
-                <span class="method-args">() { |i| ... }</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-each" title="Link to this method">
+                  <span class="method-name">each</span>
+                  <span class="method-args">() { |i| ... }</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="each-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 3</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
   <span class="ruby-identifier">worksheets</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-keyword">yield</span> <span class="ruby-identifier">i</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -726,25 +740,32 @@
 
       <div id="method-i-fills" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-fills" title="Link to this method">
-                <span class="method-name">fills</span>
-                <span class="method-args">()</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-fills" title="Link to this method">
+                  <span class="method-name">fills</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="fills-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 15</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fills</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">fills</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fills</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -768,25 +789,32 @@
 
       <div id="method-i-fonts" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-fonts" title="Link to this method">
-                <span class="method-name">fonts</span>
-                <span class="method-args">()</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-fonts" title="Link to this method">
+                  <span class="method-name">fonts</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="fonts-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 11</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">fonts</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">fonts</span> <span class="ruby-comment"># Stylesheet should be pre-filled with defaults on initialize()</span>
   <span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fonts</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -810,25 +838,32 @@
 
       <div id="method-i-get_defined_name" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_defined_name" title="Link to this method">
-                <span class="method-name">get_defined_name</span>
-                <span class="method-args">(name)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_defined_name" title="Link to this method">
+                  <span class="method-name">get_defined_name</span>
+                  <span class="method-args">(name)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_defined_name-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 127</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_defined_name</span>(<span class="ruby-identifier">name</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_defined_name</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">defined_names</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span> <span class="ruby-identifier">n</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">name</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -852,26 +887,33 @@
 
       <div id="method-i-get_fill_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-get_fill_color" title="Link to this method">
-                <span class="method-name">get_fill_color</span>
-                <span class="method-args">(xf)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-get_fill_color" title="Link to this method">
+                  <span class="method-name">get_fill_color</span>
+                  <span class="method-args">(xf)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="get_fill_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 23</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
-  <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">fill_id</span>]&amp;.<span class="ruby-identifier">pattern_fill</span>&amp;.<span class="ruby-identifier">fg_color</span>&amp;.<span class="ruby-identifier">get_rgb</span>(<span class="ruby-keyword">self</span>)&amp;.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;ffffff&#39;</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
+  <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">fill_id</span>]&amp;.<span class="ruby-identifier">pattern_fill</span>&amp;.<span class="ruby-identifier">fg_color</span>&amp;.<span class="ruby-identifier">get_rgb</span>(<span class="ruby-keyword">self</span>)&amp;.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;</span><span class="ruby-string">ffffff</span><span class="ruby-string">&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -894,25 +936,32 @@
 
       <div id="method-i-modify_alignment" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-modify_alignment" title="Link to this method">
-                <span class="method-name">modify_alignment</span>
-                <span class="method-args">(style_index) { |alignment| ... }</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-modify_alignment" title="Link to this method">
+                  <span class="method-name">modify_alignment</span>
+                  <span class="method-args">(style_index) { |alignment| ... }</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="modify_alignment-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 52</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_alignment</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">old_xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">alignment</span> <span class="ruby-keyword">then</span>
@@ -947,35 +996,42 @@
 
       <div id="method-i-modify_border" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-modify_border" title="Link to this method">
-                <span class="method-name">modify_border</span>
-                <span class="method-args">(style_index, direction, weight, diagonals = nil)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-modify_border" title="Link to this method">
+                  <span class="method-name">modify_border</span>
+                  <span class="method-args">(style_index, direction, weight, diagonals = nil)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="modify_border-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 75</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>, <span class="ruby-identifier">diagonals</span> = <span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_border</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>, <span class="ruby-identifier">diagonals</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
 
   <span class="ruby-identifier">edge</span> = <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
-  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">dup</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
+  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">#{</span><span class="ruby-identifier">direction</span><span class="ruby-string">}</span><span class="ruby-string">=</span><span class="ruby-string">&quot;</span>, <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">dup</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
 
   <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">set_edge_style</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">weight</span>, <span class="ruby-identifier">diagonals</span>)
 
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> = <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_border</span> } <span class="ruby-comment"># Reuse existing border, if it exists</span>
-  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this border has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> ||= <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this border has never existed before, add it to collection.</span>
   <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span>] = <span class="ruby-identifier">new_border</span>
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">apply_border</span> = <span class="ruby-keyword">true</span>
 
@@ -1002,35 +1058,42 @@
 
       <div id="method-i-modify_border_color" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-modify_border_color" title="Link to this method">
-                <span class="method-name">modify_border_color</span>
-                <span class="method-args">(style_index, direction, color)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-modify_border_color" title="Link to this method">
+                  <span class="method-name">modify_border_color</span>
+                  <span class="method-args">(style_index, direction, color)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="modify_border_color-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 92</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modify_border_color</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_border_color</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_border</span> = <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
 
   <span class="ruby-identifier">edge</span> = <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">direction</span>)
-  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}=&quot;</span>, <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">dup</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
+  <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">send</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">#{</span><span class="ruby-identifier">direction</span><span class="ruby-string">}</span><span class="ruby-string">=</span><span class="ruby-string">&quot;</span>, <span class="ruby-identifier">edge</span>.<span class="ruby-identifier">dup</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">edge</span>
 
   <span class="ruby-identifier">new_border</span>.<span class="ruby-identifier">set_edge_color</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">color</span>)
 
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> = <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_border</span> } <span class="ruby-comment"># Reuse existing border, if it exists</span>
-  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this border has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span> ||= <span class="ruby-identifier">borders</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this border has never existed before, add it to collection.</span>
   <span class="ruby-identifier">borders</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">border_id</span>] = <span class="ruby-identifier">new_border</span>
   <span class="ruby-identifier">xf</span>.<span class="ruby-identifier">apply_border</span> = <span class="ruby-keyword">true</span>
 
@@ -1057,29 +1120,36 @@
 
       <div id="method-i-modify_fill" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-modify_fill" title="Link to this method">
-                <span class="method-name">modify_fill</span>
-                <span class="method-args">(style_index, rgb)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-modify_fill" title="Link to this method">
+                  <span class="method-name">modify_fill</span>
+                  <span class="method-args">(style_index, rgb)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="modify_fill-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 67</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modify_fill</span>(<span class="ruby-identifier">style_index</span>, <span class="ruby-identifier">rgb</span>)
   <span class="ruby-identifier">xf</span> = <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>].<span class="ruby-identifier">dup</span>
-  <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_fill</span> <span class="ruby-operator">=&gt;</span>
-                                               <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:pattern_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;solid&#39;</span>,
-                                                                       <span class="ruby-value">:fg_color</span>     <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:rgb</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">rgb</span>)))
+  <span class="ruby-identifier">new_fill</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Fill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">pattern_fill</span> <span class="ruby-operator">=&gt;</span>
+                                               <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">PatternFill</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">pattern_type</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;</span><span class="ruby-string">solid</span><span class="ruby-string">&#39;</span>,
+                                                                       <span class="ruby-value">:</span><span class="ruby-value">fg_color</span>     <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Color</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">rgb</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">rgb</span>)))
   <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">xf</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -1103,30 +1173,37 @@
 
       <div id="method-i-password_hash" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-password_hash" title="Link to this method">
-                <span class="method-name">password_hash</span>
-                <span class="method-args">(pwd)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-password_hash" title="Link to this method">
+                  <span class="method-name">password_hash</span>
+                  <span class="method-args">(pwd)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="password_hash-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 111</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">password_hash</span>(<span class="ruby-identifier">pwd</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">password_hash</span>(<span class="ruby-identifier">pwd</span>)
   <span class="ruby-identifier">hsh</span> = <span class="ruby-value">0</span>
   <span class="ruby-identifier">pwd</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">each_char</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">hsh</span> = <span class="ruby-identifier">hsh</span> <span class="ruby-operator">^</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">ord</span>
     <span class="ruby-identifier">hsh</span> = <span class="ruby-identifier">hsh</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">1</span>
-    <span class="ruby-identifier">hsh</span> <span class="ruby-operator">-=</span> <span class="ruby-value">0x7fff</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">hsh</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0x7fff</span>
+    <span class="ruby-identifier">hsh</span> -= <span class="ruby-value">0x7fff</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">hsh</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0x7fff</span>
   }
 
   (<span class="ruby-identifier">hsh</span> <span class="ruby-operator">^</span> <span class="ruby-identifier">pwd</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">^</span> <span class="ruby-value">0xCE4B</span>).<span class="ruby-identifier">to_s</span>(<span class="ruby-value">16</span>)
@@ -1152,29 +1229,36 @@
 
       <div id="method-i-register_new_fill" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-register_new_fill" title="Link to this method">
-                <span class="method-name">register_new_fill</span>
-                <span class="method-args">(new_fill, old_xf)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-register_new_fill" title="Link to this method">
+                  <span class="method-name">register_new_fill</span>
+                  <span class="method-args">(new_fill, old_xf)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="register_new_fill-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 27</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">old_xf</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_fill</span>(<span class="ruby-identifier">new_fill</span>, <span class="ruby-identifier">old_xf</span>)
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">apply_fill</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">fill_id</span> = <span class="ruby-identifier">fills</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_fill</span> } <span class="ruby-comment"># Reuse existing fill, if it exists</span>
-  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">fill_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">fills</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this fill has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">fill_id</span> ||= <span class="ruby-identifier">fills</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this fill has never existed before, add it to collection.</span>
   <span class="ruby-identifier">fills</span>[<span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">fill_id</span>] = <span class="ruby-identifier">new_fill</span>
   <span class="ruby-identifier">new_xf</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1199,28 +1283,35 @@
 
       <div id="method-i-register_new_font" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-register_new_font" title="Link to this method">
-                <span class="method-name">register_new_font</span>
-                <span class="method-args">(new_font, old_xf)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-register_new_font" title="Link to this method">
+                  <span class="method-name">register_new_font</span>
+                  <span class="method-args">(new_font, old_xf)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="register_new_font-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 36</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">register_new_font</span>(<span class="ruby-identifier">new_font</span>, <span class="ruby-identifier">old_xf</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_font</span>(<span class="ruby-identifier">new_font</span>, <span class="ruby-identifier">old_xf</span>)
   <span class="ruby-identifier">new_xf</span> = <span class="ruby-identifier">old_xf</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span> = <span class="ruby-identifier">fonts</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_font</span> } <span class="ruby-comment"># Reuse existing font, if it exists</span>
-  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">fonts</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this font has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span> ||= <span class="ruby-identifier">fonts</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this font has never existed before, add it to collection.</span>
   <span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">font_id</span>] = <span class="ruby-identifier">new_font</span>
   <span class="ruby-identifier">new_xf</span>.<span class="ruby-identifier">apply_font</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-identifier">new_xf</span>
@@ -1246,27 +1337,34 @@
 
       <div id="method-i-register_new_xf" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-register_new_xf" title="Link to this method">
-                <span class="method-name">register_new_xf</span>
-                <span class="method-args">(new_xf)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-register_new_xf" title="Link to this method">
+                  <span class="method-name">register_new_xf</span>
+                  <span class="method-args">(new_xf)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="register_new_xf-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 45</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_new_xf</span>(<span class="ruby-identifier">new_xf</span>)
   <span class="ruby-identifier">new_xf_id</span> = <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">find_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">xf</span><span class="ruby-operator">|</span> <span class="ruby-identifier">xf</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">new_xf</span> } <span class="ruby-comment"># Reuse existing XF, if it exists</span>
-  <span class="ruby-identifier">new_xf_id</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this XF has never existed before, add it to collection.</span>
+  <span class="ruby-identifier">new_xf_id</span> ||= <span class="ruby-identifier">cell_xfs</span>.<span class="ruby-identifier">size</span> <span class="ruby-comment"># If this XF has never existed before, add it to collection.</span>
   <span class="ruby-identifier">cell_xfs</span>[<span class="ruby-identifier">new_xf_id</span>] = <span class="ruby-identifier">new_xf</span>
   <span class="ruby-identifier">new_xf_id</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1291,25 +1389,32 @@
 
       <div id="method-i-title" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-title" title="Link to this method">
-                <span class="method-name">title</span>
-                <span class="method-args">()</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-title" title="Link to this method">
+                  <span class="method-name">title</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="title-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 131</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">title</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span>.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -1333,26 +1438,33 @@
 
       <div id="method-i-title-3D" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-title-3D" title="Link to this method">
-                <span class="method-name">title=</span>
-                <span class="method-args">(v)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-title-3D" title="Link to this method">
+                  <span class="method-name">title=</span>
+                  <span class="method-args">(v)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="title-3D-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/convenience_methods/workbook.rb, line 135</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">title=</span>(<span class="ruby-identifier">v</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">title=</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">core_properties</span>.<span class="ruby-identifier">dc_title</span> = <span class="ruby-identifier">v</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">StringNode</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:</span><span class="ruby-value">value</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -1382,7 +1494,7 @@
 
 </main>
 
-<aside class="table-of-contents" role="complementary" aria-label="Table of Contents">
+<aside id="table-of-contents" class="table-of-contents" role="complementary" aria-label="Table of Contents">
   <div class="toc-sticky">
     <h3 class="toc-heading">On This Page</h3>
     <nav class="toc-nav" id="toc-nav" aria-label="Page sections">
@@ -1397,7 +1509,7 @@
 
   <div class="footer-bottom">
     <p>
-      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 7.2.0</a>
+      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 8.1.0</a>
       using the Aliki theme by <a href="http://st0012.dev">Stan Lo</a>
     </p>
   </div>

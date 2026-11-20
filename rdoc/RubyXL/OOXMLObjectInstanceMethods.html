@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.39</title>
+<title>module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.40</title>
 
 
   <meta
@@ -24,7 +24,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.39">
+<meta property="og:title" content="module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.40">
 
 
 
@@ -39,7 +39,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.39">
+<meta name="twitter:title" content="module RubyXL::OOXMLObjectInstanceMethods - rubyXL 3.4.40">
 
 
 
@@ -56,46 +56,46 @@
 </script>
 
 <script
-  src="../js/theme-toggle.js?v=7.2.0"
+  src="../js/theme-toggle.js?v=8.1.0"
 ></script>
 
 <script
-  src="../js/search_navigation.js?v=7.2.0"
+  src="../js/search_navigation.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_data.js?v=7.2.0"
+  src="../js/search_data.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_ranker.js?v=7.2.0"
+  src="../js/search_ranker.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/search_controller.js?v=7.2.0"
+  src="../js/search_controller.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/c_highlighter.js?v=7.2.0"
+  src="../js/c_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/bash_highlighter.js?v=7.2.0"
+  src="../js/bash_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="../js/aliki.js?v=7.2.0"
+  src="../js/aliki.js?v=8.1.0"
   defer
 ></script>
 
 <link
-  href="../css/rdoc.css?v=7.2.0"
+  href="../css/rdoc.css?v=8.1.0"
   rel="stylesheet"
 >
 
@@ -314,27 +314,39 @@
 
 <header class="top-navbar">
   <a href="../index.html" class="navbar-brand">
-    rubyXL 3.4.39
+    rubyXL 3.4.40
   </a>
 
-  <!-- Desktop search bar -->
-  <div class="navbar-search navbar-search-desktop" role="search">
-    <form action="#" method="get" accept-charset="utf-8">
-      <input id="search-field" role="combobox" aria-label="Search"
-             aria-autocomplete="list" aria-controls="search-results-desktop"
-             type="text" name="search" placeholder="Search (/) for a class, method..."
-             spellcheck="false" autocomplete="off"
-             title="Type to search, Up and Down to navigate, Enter to load">
-      <ul id="search-results-desktop" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="initially-hidden search-results"></ul>
-    </form>
-  </div>
+  <div class="navbar-search" data-search-container>
+    <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search"
+            aria-controls="search-surface" aria-expanded="false" type="button">
+      <span aria-hidden="true">🔍</span>
+    </button>
 
-  <!-- Mobile search icon button -->
-  <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search" type="button">
-    <span aria-hidden="true">🔍</span>
-  </button>
+    <div class="search-backdrop" data-search-close></div>
+    <div id="search-surface" class="search-surface">
+      <form class="search-form" role="search" action="#" method="get" accept-charset="utf-8">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input id="search-field" role="combobox" aria-label="Search"
+               aria-autocomplete="list" aria-controls="search-results"
+               type="text" name="search" placeholder="Search (/) for a class, method..."
+               spellcheck="false" autocomplete="off"
+               title="Type to search, Up and Down to navigate, Enter to load">
+        <button type="button" class="search-close" aria-label="Close search" data-search-close>
+          <span aria-hidden="true">esc</span>
+        </button>
+      </form>
+
+      <div class="search-body">
+        <ul id="search-results" aria-label="Search Results"
+            aria-busy="false" aria-expanded="false"
+            aria-atomic="false" class="initially-hidden search-results"></ul>
+        <div class="search-empty">
+          <p>No recent searches</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Theme toggle button -->
   <button id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" type="button">
@@ -342,39 +354,12 @@
   </button>
 </header>
 
-<!-- Search Modal (Mobile) -->
-<div id="search-modal" class="search-modal" hidden aria-modal="true" role="dialog" aria-label="Search">
-  <div class="search-modal-backdrop"></div>
-  <div class="search-modal-content">
-    <div class="search-modal-header">
-      <form class="search-modal-form" action="#" method="get" accept-charset="utf-8">
-        <span class="search-modal-icon" aria-hidden="true">🔍</span>
-        <input id="search-field-mobile" role="combobox" aria-label="Search"
-               aria-autocomplete="list" aria-controls="search-results-mobile"
-               type="text" name="search" placeholder="Search documentation"
-               spellcheck="false" autocomplete="off">
-        <button type="button" class="search-modal-close" aria-label="Close search" id="search-modal-close">
-          <span aria-hidden="true">esc</span>
-        </button>
-      </form>
-    </div>
-    <div class="search-modal-body">
-      <ul id="search-results-mobile" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="search-results search-modal-results initially-hidden"></ul>
-      <div class="search-modal-empty">
-        <p>No recent searches</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="navigation">
+<div id="sidebar-navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar-navigation">
   <span aria-hidden="true">&#9776;</span>
 </div>
 
 
-<nav id="navigation" role="navigation" hidden>
+<nav id="sidebar-navigation" role="navigation" hidden>
   
 
 
@@ -423,28 +408,6 @@
   
 
   
-<div id="extends-section" class="nav-section">
-  <details class="nav-section-collapsible" open>
-    <summary class="nav-section-header">
-      <span class="nav-section-icon">
-        <svg><use href="#icon-extends"></use></svg>
-      </span>
-      <span class="nav-section-title">Extended With Modules</span>
-      <span class="nav-section-chevron">
-        <svg><use href="#icon-chevron"></use></svg>
-      </span>
-    </summary>
-
-    <ul class="nav-list">
-
-
-      <li><a class="extend" href="OOXMLObjectClassMethods.html">RubyXL::OOXMLObjectClassMethods</a></li>
-
-
-    </ul>
-  </details>
-</div>
-
 
   
   <div class="nav-section">
@@ -487,8 +450,6 @@
 
         <li ><a href="#method-i-before_write_xml">before_write_xml</a></li>
 
-        <li ><a href="#method-i-get_node_object">get_node_object</a></li>
-
         <li ><a href="#method-i-index_in_collection">index_in_collection</a></li>
 
         <li ><a href="#method-i-init_child_nodes">init_child_nodes</a></li>
@@ -525,7 +486,7 @@
       
       <li>
         
-        <a href="../RubyXL.html">RubyXL</a><span>::</span>
+        <a href="../RubyXL.html">RubyXL</a><span class="separator">::</span>
         
       </li>
       
@@ -539,8 +500,9 @@
   
 
   <span id="module-RubyXL::OOXMLObjectInstanceMethods" class="legacy-anchor"></span>
-  <h1 id="module-rubyxl-ooxmlobjectinstancemethods" class="anchor-link module">
-    module RubyXL::OOXMLObjectInstanceMethods
+  <h1 id="module-rubyxl-ooxmlobjectinstancemethods" class="anchor-link module page-title">
+    <span class="page-title-kind">module</span>
+    <span class="page-title-name">RubyXL::OOXMLObjectInstanceMethods</span>
   </h1>
 
   <section class="description">
@@ -569,6 +531,7 @@
             <span class="method-name">local_namespaces</span>
             <span class="attribute-access-type">[RW]</span>
           </a>
+
         </div>
 
         <div class="method-description">
@@ -594,25 +557,32 @@
 
       <div id="method-c-included" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-c-included" title="Link to this method">
-                <span class="method-name">included</span>
-                <span class="method-args">(klass)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-c-included" title="Link to this method">
+                  <span class="method-name">included</span>
+                  <span class="method-args">(klass)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="included-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 226</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">included</span>(<span class="ruby-identifier">klass</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">klass</span>)
   <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">extend</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">OOXMLObjectClassMethods</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -636,29 +606,36 @@
 
       <div id="method-c-new" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-c-new" title="Link to this method">
-                <span class="method-name">new</span>
-                <span class="method-args">(params = nil)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-c-new" title="Link to this method">
+                  <span class="method-name">new</span>
+                  <span class="method-args">(params = nil)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="new-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 235</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">params</span> = <span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">params</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@local_namespaces</span> = <span class="ruby-keyword">nil</span>
 
-  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:instance_var</span>], <span class="ruby-identifier">params</span>&amp;.<span class="ruby-identifier">[]</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>])) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:computed</span>]
+  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_attributes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">instance_var</span>], <span class="ruby-identifier">params</span>&amp;.[](<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>])) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">computed</span>]
   }
 
   <span class="ruby-identifier">init_child_nodes</span>(<span class="ruby-identifier">params</span>)
@@ -698,28 +675,35 @@
 
       <div id="method-i-3D-3D" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-3D-3D" title="Link to this method">
-                <span class="method-name">==</span>
-                <span class="method-args">(other)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-3D-3D" title="Link to this method">
+                  <span class="method-name">==</span>
+                  <span class="method-args">(other)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="3D-3D-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 262</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">==</span>(<span class="ruby-identifier">other</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">==</span>(<span class="ruby-identifier">other</span>)
   <span class="ruby-identifier">other</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>) <span class="ruby-operator">&amp;&amp;</span>
-    <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">all?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) } <span class="ruby-operator">&amp;&amp;</span>
-    <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>).<span class="ruby-identifier">all?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) }
+    <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_attributes</span>).<span class="ruby-identifier">all?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>]) <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>]) } <span class="ruby-operator">&amp;&amp;</span>
+    <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_child_nodes</span>).<span class="ruby-identifier">all?</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>]) <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>]) }
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -742,29 +726,36 @@
 
       <div id="method-i-before_write_xml" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-before_write_xml" title="Link to this method">
-                <span class="method-name">before_write_xml</span>
-                <span class="method-args">()</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-before_write_xml" title="Link to this method">
+                  <span class="method-name">before_write_xml</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="before_write_xml-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 361</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">before_write_xml</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-comment">#TODO# This will go away once containers are fully implemented.</span>
-  <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
+  <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_child_nodes</span>)
   <span class="ruby-identifier">child_nodes</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_child_node_name</span>, <span class="ruby-identifier">child_node_params</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:accessor</span>]).<span class="ruby-identifier">size</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:is_array</span>] <span class="ruby-operator">==</span> <span class="ruby-value">:with_count</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>]).<span class="ruby-identifier">size</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:</span><span class="ruby-value">is_array</span>] <span class="ruby-operator">==</span> <span class="ruby-value">:</span><span class="ruby-value">with_count</span>
   }
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -789,25 +780,32 @@
 
       <div id="method-i-index_in_collection" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-index_in_collection" title="Link to this method">
-                <span class="method-name">index_in_collection</span>
-                <span class="method-args">()</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-index_in_collection" title="Link to this method">
+                  <span class="method-name">index_in_collection</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
           <div class="method-source-code" id="index_in_collection-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 349</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">index_in_collection</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -829,78 +827,142 @@
       </div>
 
 
-      <div id="method-i-write_xml" class="method-detail anchor-link ">
+      <div id="method-i-init_child_nodes" class="method-detail anchor-link ">
         <div class="method-header">
+          <div class="method-heading-group">
 
-            <div class="method-heading">
-              <a href="#method-i-write_xml" title="Link to this method">
-                <span class="method-name">write_xml</span>
-                <span class="method-args">(xml = nil, node_name_override = nil)</span>
-              </a>
+              <div class="method-heading">
+                <a href="#method-i-init_child_nodes" title="Link to this method">
+                  <span class="method-name">init_child_nodes</span>
+                  <span class="method-args">(params)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
             </div>
 
         </div>
 
 
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
+          <div class="method-source-code" id="init_child_nodes-source">
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 245</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">init_child_nodes</span>(<span class="ruby-identifier">params</span>)
+  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_child_nodes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">initial_value</span> =
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>&amp;.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>]) <span class="ruby-keyword">then</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>]]
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">is_array</span>] <span class="ruby-keyword">then</span> []
+      <span class="ruby-keyword">else</span> <span class="ruby-keyword">nil</span>
+      <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">instance_var</span>], <span class="ruby-identifier">initial_value</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
           </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-write_xml" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-write_xml" title="Link to this method">
+                  <span class="method-name">write_xml</span>
+                  <span class="method-args">(xml = nil, node_name_override = nil)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
           <div class="method-source-code" id="write_xml-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 282</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">write_xml</span>(<span class="ruby-identifier">xml</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">node_name_override</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
-    <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">&#39;&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;&#39;</span>)
-    <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">encoding</span> = <span class="ruby-string">&#39;UTF-8&#39;</span>
+    <span class="ruby-identifier">seed_xml</span> = <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">&lt;?xml version = &quot;1.0&quot; standalone =&quot;yes&quot;?&gt;</span><span class="ruby-string">&#39;</span>)
+    <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">encoding</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">UTF-8</span><span class="ruby-string">&#39;</span>
 
     <span class="ruby-keyword">if</span> <span class="ruby-constant">Nokogiri</span>.<span class="ruby-identifier">jruby?</span> <span class="ruby-keyword">then</span> <span class="ruby-comment"># Issue 188 workaround for JRuby</span>
       <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">to_java</span>.<span class="ruby-identifier">strict_error_checking</span> = <span class="ruby-keyword">false</span>
     <span class="ruby-keyword">end</span>
 
     <span class="ruby-identifier">result</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">seed_xml</span>)
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;</span><span class="ruby-string">&#39;</span>
     <span class="ruby-identifier">seed_xml</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">result</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">to_xml</span>({ <span class="ruby-value">:indent</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value">:save_with</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Node</span><span class="ruby-operator">::</span><span class="ruby-constant">SaveOptions</span><span class="ruby-operator">::</span><span class="ruby-constant">AS_XML</span> })
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">seed_xml</span>.<span class="ruby-identifier">to_xml</span>({ <span class="ruby-value">:</span><span class="ruby-value">indent</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">save_with</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">Nokogiri</span><span class="ruby-operator">::</span><span class="ruby-constant">XML</span><span class="ruby-operator">::</span><span class="ruby-constant">Node</span><span class="ruby-operator">::</span><span class="ruby-constant">SaveOptions</span><span class="ruby-operator">::</span><span class="ruby-constant">AS_XML</span> })
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">before_write_xml</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;</span><span class="ruby-string">&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">before_write_xml</span>
 
   <span class="ruby-identifier">attrs</span> = {}
 
-  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_attributes</span>).<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">val</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>])
+  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_attributes</span>).<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">val</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">accessor</span>])
 
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">then</span>
-      <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:required</span>]
-      <span class="ruby-identifier">val</span> = <span class="ruby-identifier">v</span>[<span class="ruby-value">:default</span>]
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">required</span>]
+      <span class="ruby-identifier">val</span> = <span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">default</span>]
     <span class="ruby-keyword">end</span>
 
     <span class="ruby-identifier">val</span> = <span class="ruby-identifier">val</span> <span class="ruby-operator">&amp;&amp;</span>
-            <span class="ruby-keyword">case</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:attr_type</span>]
-            <span class="ruby-keyword">when</span> <span class="ruby-value">:bool</span>   <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;1&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;0&#39;</span>
-            <span class="ruby-keyword">when</span> <span class="ruby-value">:double</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\.0*\Z/</span>, <span class="ruby-string">&#39;&#39;</span>) <span class="ruby-comment"># Trim trailing zeroes</span>
+            <span class="ruby-keyword">case</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:</span><span class="ruby-value">attr_type</span>]
+            <span class="ruby-keyword">when</span> <span class="ruby-value">:</span><span class="ruby-value">bool</span>   <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;</span><span class="ruby-string">1</span><span class="ruby-string">&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;</span><span class="ruby-string">0</span><span class="ruby-string">&#39;</span>
+            <span class="ruby-keyword">when</span> <span class="ruby-value">:</span><span class="ruby-value">double</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\.0*\Z/</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">&#39;</span>) <span class="ruby-comment"># Trim trailing zeroes</span>
             <span class="ruby-keyword">else</span> <span class="ruby-identifier">val</span>
             <span class="ruby-keyword">end</span>
 
     <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">val</span>
   }
 
-  <span class="ruby-identifier">element_text</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;_&#39;</span>)
-  <span class="ruby-identifier">elem</span> = <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-identifier">node_name_override</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_tag_name</span>), <span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">element_text</span>)
+  <span class="ruby-identifier">element_text</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">_</span><span class="ruby-string">&#39;</span>)
+  <span class="ruby-identifier">elem</span> = <span class="ruby-identifier">xml</span>.<span class="ruby-identifier">create_element</span>(<span class="ruby-identifier">node_name_override</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_tag_name</span>), <span class="ruby-identifier">attrs</span>, <span class="ruby-identifier">element_text</span>)
 
   <span class="ruby-comment"># First, populate namespaces from the original document</span>
   <span class="ruby-ivar">@local_namespaces</span>&amp;.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">href</span>, <span class="ruby-identifier">prefix</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">add_namespace_definition</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">href</span>) }
 
   <span class="ruby-comment"># Then, add defaults. Note that if some namespace prefix was already set, Nokogiri will NOT change that namespace.</span>
-  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_namespaces</span>).<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">href</span>, <span class="ruby-identifier">prefix</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">add_namespace_definition</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">href</span>) }
+  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_namespaces</span>).<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">href</span>, <span class="ruby-identifier">prefix</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">add_namespace_definition</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">href</span>) }
 
-  <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>)
+  <span class="ruby-identifier">child_nodes</span> = <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:</span><span class="ruby-value">@@ooxml_child_nodes</span>)
   <span class="ruby-identifier">child_nodes</span>.<span class="ruby-identifier">each_pair</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">child_node_name</span>, <span class="ruby-identifier">child_node_params</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">node_obj</span> = <span class="ruby-identifier">get_node_object</span>(<span class="ruby-identifier">child_node_params</span>)
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">nil?</span>
 
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:write_xml</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-keyword">self</span>) <span class="ruby-keyword">then</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:</span><span class="ruby-value">write_xml</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-keyword">self</span>) <span class="ruby-keyword">then</span>
       <span class="ruby-comment"># If child node is either +OOXMLObject+, or +OOXMLContainerObject+ on its first (envelope) pass,</span>
       <span class="ruby-comment"># serialize that object.</span>
       <span class="ruby-identifier">elem</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">node_obj</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">xml</span>, <span class="ruby-identifier">child_node_name</span>)
@@ -942,7 +1004,7 @@
 
 <p>Using the passed-in <code>Nokogiri</code> <code>xml</code> object, creates a new element corresponding to <code>obj</code> according to its definition, along with all its properties and children, and returns the newly created element.</p>
 
-<pre class="ruby"><span class="ruby-identifier">obj</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">seed_xml</span>, <span class="ruby-string">&#39;overriden_element_name&#39;</span>)
+<pre class="ruby"><span class="ruby-identifier">obj</span>.<span class="ruby-identifier">write_xml</span>(<span class="ruby-identifier">seed_xml</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">overriden_element_name</span><span class="ruby-string">&#39;</span>)
 </pre>
 
 <p>Same as above, but uses the passed-in <code>node_name_override</code> as the new element name, instead of its default name set by <code>define_element_name</code>.</p>
@@ -960,113 +1022,13 @@
     </section>
 
 
-     <section id="protected-instance-untitled-method-details" class="method-section anchor-link">
-       <header>
-         <h3 id="protected-instance-untitled-methods"><a href="#protected-instance-untitled-methods">Protected Instance Methods</a></h3>
-       </header>
-
-
-      <div id="method-i-get_node_object" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-get_node_object" title="Link to this method">
-                <span class="method-name">get_node_object</span>
-                <span class="method-args">(child_node_params)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-          <div class="method-source-code" id="get_node_object-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 353</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">get_node_object</span>(<span class="ruby-identifier">child_node_params</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">child_node_params</span>[<span class="ruby-value">:accessor</span>])
-<span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-        <div class="method-description">
-
-
-          
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-      <div id="method-i-init_child_nodes" class="method-detail anchor-link ">
-        <div class="method-header">
-
-            <div class="method-heading">
-              <a href="#method-i-init_child_nodes" title="Link to this method">
-                <span class="method-name">init_child_nodes</span>
-                <span class="method-args">(params)</span>
-              </a>
-            </div>
-
-        </div>
-
-
-          <div class="method-controls">
-            <details class="method-source-toggle">
-              <summary>Source</summary>
-            </details>
-          </div>
-          <div class="method-source-code" id="init_child_nodes-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/ooxml_object.rb, line 245</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">init_child_nodes</span>(<span class="ruby-identifier">params</span>)
-  <span class="ruby-identifier">obtain_class_variable</span>(<span class="ruby-value">:@@ooxml_child_nodes</span>).<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">initial_value</span> =
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>&amp;.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]) <span class="ruby-keyword">then</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">v</span>[<span class="ruby-value">:accessor</span>]]
-      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:is_array</span>] <span class="ruby-keyword">then</span> []
-      <span class="ruby-keyword">else</span> <span class="ruby-keyword">nil</span>
-      <span class="ruby-keyword">end</span>
-
-    <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">v</span>[<span class="ruby-value">:instance_var</span>], <span class="ruby-identifier">initial_value</span>)
-  }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-
-
-
-        <div class="method-description">
-
-
-          
-
-
-        </div>
-
-
-
-
-
-      </div>
-
-
-    </section>
-
 
 
   </section>
 
 </main>
 
-<aside class="table-of-contents" role="complementary" aria-label="Table of Contents">
+<aside id="table-of-contents" class="table-of-contents" role="complementary" aria-label="Table of Contents">
   <div class="toc-sticky">
     <h3 class="toc-heading">On This Page</h3>
     <nav class="toc-nav" id="toc-nav" aria-label="Page sections">
@@ -1081,7 +1043,7 @@
 
   <div class="footer-bottom">
     <p>
-      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 7.2.0</a>
+      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 8.1.0</a>
       using the Aliki theme by <a href="http://st0012.dev">Stan Lo</a>
     </p>
   </div>

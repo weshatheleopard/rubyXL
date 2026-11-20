@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>README - rubyXL 3.4.39</title>
+<title>README - rubyXL 3.4.40</title>
 
 
   <meta name="keywords" content="ruby,documentation,README">
@@ -19,7 +19,7 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="README - rubyXL 3.4.39">
+<meta property="og:title" content="README - rubyXL 3.4.40">
 
 
 
@@ -31,7 +31,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="README - rubyXL 3.4.39">
+<meta name="twitter:title" content="README - rubyXL 3.4.40">
 
 
 
@@ -45,46 +45,46 @@
 </script>
 
 <script
-  src="./js/theme-toggle.js?v=7.2.0"
+  src="./js/theme-toggle.js?v=8.1.0"
 ></script>
 
 <script
-  src="./js/search_navigation.js?v=7.2.0"
+  src="./js/search_navigation.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="./js/search_data.js?v=7.2.0"
+  src="./js/search_data.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="./js/search_ranker.js?v=7.2.0"
+  src="./js/search_ranker.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="./js/search_controller.js?v=7.2.0"
+  src="./js/search_controller.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="./js/c_highlighter.js?v=7.2.0"
+  src="./js/c_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="./js/bash_highlighter.js?v=7.2.0"
+  src="./js/bash_highlighter.js?v=8.1.0"
   defer
 ></script>
 
 <script
-  src="./js/aliki.js?v=7.2.0"
+  src="./js/aliki.js?v=8.1.0"
   defer
 ></script>
 
 <link
-  href="./css/rdoc.css?v=7.2.0"
+  href="./css/rdoc.css?v=8.1.0"
   rel="stylesheet"
 >
 
@@ -303,27 +303,39 @@
 
 <header class="top-navbar">
   <a href="./index.html" class="navbar-brand">
-    rubyXL 3.4.39
+    rubyXL 3.4.40
   </a>
 
-  <!-- Desktop search bar -->
-  <div class="navbar-search navbar-search-desktop" role="search">
-    <form action="#" method="get" accept-charset="utf-8">
-      <input id="search-field" role="combobox" aria-label="Search"
-             aria-autocomplete="list" aria-controls="search-results-desktop"
-             type="text" name="search" placeholder="Search (/) for a class, method..."
-             spellcheck="false" autocomplete="off"
-             title="Type to search, Up and Down to navigate, Enter to load">
-      <ul id="search-results-desktop" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="initially-hidden search-results"></ul>
-    </form>
-  </div>
+  <div class="navbar-search" data-search-container>
+    <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search"
+            aria-controls="search-surface" aria-expanded="false" type="button">
+      <span aria-hidden="true">🔍</span>
+    </button>
 
-  <!-- Mobile search icon button -->
-  <button id="search-toggle" class="navbar-search-mobile" aria-label="Open search" type="button">
-    <span aria-hidden="true">🔍</span>
-  </button>
+    <div class="search-backdrop" data-search-close></div>
+    <div id="search-surface" class="search-surface">
+      <form class="search-form" role="search" action="#" method="get" accept-charset="utf-8">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input id="search-field" role="combobox" aria-label="Search"
+               aria-autocomplete="list" aria-controls="search-results"
+               type="text" name="search" placeholder="Search (/) for a class, method..."
+               spellcheck="false" autocomplete="off"
+               title="Type to search, Up and Down to navigate, Enter to load">
+        <button type="button" class="search-close" aria-label="Close search" data-search-close>
+          <span aria-hidden="true">esc</span>
+        </button>
+      </form>
+
+      <div class="search-body">
+        <ul id="search-results" aria-label="Search Results"
+            aria-busy="false" aria-expanded="false"
+            aria-atomic="false" class="initially-hidden search-results"></ul>
+        <div class="search-empty">
+          <p>No recent searches</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Theme toggle button -->
   <button id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" type="button">
@@ -331,39 +343,12 @@
   </button>
 </header>
 
-<!-- Search Modal (Mobile) -->
-<div id="search-modal" class="search-modal" hidden aria-modal="true" role="dialog" aria-label="Search">
-  <div class="search-modal-backdrop"></div>
-  <div class="search-modal-content">
-    <div class="search-modal-header">
-      <form class="search-modal-form" action="#" method="get" accept-charset="utf-8">
-        <span class="search-modal-icon" aria-hidden="true">🔍</span>
-        <input id="search-field-mobile" role="combobox" aria-label="Search"
-               aria-autocomplete="list" aria-controls="search-results-mobile"
-               type="text" name="search" placeholder="Search documentation"
-               spellcheck="false" autocomplete="off">
-        <button type="button" class="search-modal-close" aria-label="Close search" id="search-modal-close">
-          <span aria-hidden="true">esc</span>
-        </button>
-      </form>
-    </div>
-    <div class="search-modal-body">
-      <ul id="search-results-mobile" aria-label="Search Results"
-          aria-busy="false" aria-expanded="false"
-          aria-atomic="false" class="search-results search-modal-results initially-hidden"></ul>
-      <div class="search-modal-empty">
-        <p>No recent searches</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="navigation">
+<div id="sidebar-navigation-toggle" role="button" tabindex="0" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar-navigation">
   <span aria-hidden="true">&#9776;</span>
 </div>
 
 
-<nav id="navigation" role="navigation" hidden>
+<nav id="sidebar-navigation" role="navigation" hidden>
   
 
 
@@ -445,7 +430,7 @@
 <span id="label-To+Use-3A" class="legacy-anchor"></span>
 <h2 id="to-use"><a href="#to-use">To Use:</a></h2>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL&#39;</span> <span class="ruby-comment"># Assuming rubygems is already required</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;</span><span class="ruby-string">rubyXL</span><span class="ruby-string">&#39;</span> <span class="ruby-comment"># Assuming rubygems is already required</span>
 </pre>
 
 <span id="label-Convenience+methods" class="legacy-anchor"></span>
@@ -453,22 +438,22 @@
 
 <p>Starting with version 3.4.0, the main data structure has been separated from the convenience methods that provide access to individual features of the <code>xlsx</code> format, in order to decrease the memory footprint. If you intend to use these features, you will need to additionally include the respective files:</p>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/cell&#39;</span>
-<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/color&#39;</span>
-<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/font&#39;</span>
-<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/workbook&#39;</span>
-<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods/worksheet&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;</span><span class="ruby-string">rubyXL/convenience_methods/cell</span><span class="ruby-string">&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;</span><span class="ruby-string">rubyXL/convenience_methods/color</span><span class="ruby-string">&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;</span><span class="ruby-string">rubyXL/convenience_methods/font</span><span class="ruby-string">&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;</span><span class="ruby-string">rubyXL/convenience_methods/workbook</span><span class="ruby-string">&#39;</span>
+<span class="ruby-identifier">require</span> <span class="ruby-string">&#39;</span><span class="ruby-string">rubyXL/convenience_methods/worksheet</span><span class="ruby-string">&#39;</span>
 </pre>
 
 <p>If you do not care about your RAM usage, just include them all at once by adding the following line to your code so it can continue operating just as before:</p>
 
-<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rubyXL/convenience_methods&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;</span><span class="ruby-string">rubyXL/convenience_methods</span><span class="ruby-string">&#39;</span>
 </pre>
 
 <span id="label-Parsing+an+existing+workbook" class="legacy-anchor"></span>
 <h3 id="parsing-an-existing-workbook"><a href="#parsing-an-existing-workbook">Parsing an existing workbook</a></h3>
 
-<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;path/to/Excel/file.xlsx&quot;</span>)
+<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">path/to/Excel/file.xlsx</span><span class="ruby-string">&quot;</span>)
 </pre>
 
 <span id="label-Creating+a+new+Workbook" class="legacy-anchor"></span>
@@ -485,7 +470,7 @@
 
 <pre class="ruby"><span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">worksheets</span>[<span class="ruby-value">0</span>] <span class="ruby-comment"># Returns first worksheet</span>
 <span class="ruby-identifier">workbook</span>[<span class="ruby-value">0</span>]            <span class="ruby-comment"># Returns first worksheet</span>
-<span class="ruby-identifier">workbook</span>[<span class="ruby-string">&#39;Sheet1&#39;</span>]     <span class="ruby-comment"># Finds and returns worksheet titled &quot;Sheet1&quot;. Note that sheet names in Excel are limited to 31 character.</span>
+<span class="ruby-identifier">workbook</span>[<span class="ruby-string">&#39;</span><span class="ruby-string">Sheet1</span><span class="ruby-string">&#39;</span>]     <span class="ruby-comment"># Finds and returns worksheet titled &quot;Sheet1&quot;. Note that sheet names in Excel are limited to 31 character.</span>
 </pre>
 
 <span id="label-Accessing+a+Row+-28Array+of+Cells-29" class="legacy-anchor"></span>
@@ -514,7 +499,7 @@
 
 <p>Or, if you prefer Excel-style references (single-cell only!)</p>
 
-<pre class="ruby"><span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">cell_at</span>(<span class="ruby-string">&#39;B11&#39;</span>)
+<pre class="ruby"><span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">cell_at</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">B11</span><span class="ruby-string">&#39;</span>)
 </pre>
 
 <span id="label-Wrappers+for+accessing+Cell+properties" class="legacy-anchor"></span>
@@ -528,8 +513,8 @@
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">fill_color</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">horizontal_alignment</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">vertical_alignment</span>
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border</span>(<span class="ruby-value">:top</span>)
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border_color</span>(<span class="ruby-value">:top</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border</span>(<span class="ruby-value">:</span><span class="ruby-value">top</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">get_border_color</span>(<span class="ruby-value">:</span><span class="ruby-value">top</span>)
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">text_rotation</span>
 </pre>
 
@@ -547,8 +532,8 @@
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_height</span>(<span class="ruby-value">0</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-keyword">true</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-keyword">false</span>)
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:right</span>)
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:right</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">right</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_row_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">right</span>)
 </pre>
 
 <span id="label-Accessing+column+properties" class="legacy-anchor"></span>
@@ -563,10 +548,10 @@
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_font_color</span>(<span class="ruby-value">0</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">is_column_underlined</span>(<span class="ruby-value">0</span>)
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_width</span>(<span class="ruby-value">0</span>)
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:horizontal</span>)
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:vertical</span>)
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:right</span>)
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:right</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">horizontal</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">vertical</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">right</span>)
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">get_column_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">right</span>)
 </pre>
 
 <span id="label-Modifying" class="legacy-anchor"></span>
@@ -575,28 +560,28 @@
 <span id="label-Adding+Worksheets" class="legacy-anchor"></span>
 <h4 id="adding-worksheets"><a href="#adding-worksheets">Adding Worksheets</a></h4>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">add_worksheet</span>(<span class="ruby-string">&#39;Sheet2&#39;</span>)
+<pre class="ruby"><span class="ruby-identifier">worksheet</span> = <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">add_worksheet</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">Sheet2</span><span class="ruby-string">&#39;</span>)
 </pre>
 
 <span id="label-Renaming+Worksheets" class="legacy-anchor"></span>
 <h4 id="renaming-worksheets"><a href="#renaming-worksheets">Renaming Worksheets</a></h4>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-string">&#39;Cool New Name&#39;</span> <span class="ruby-comment"># Note that sheet name is limited to 31 characters by Excel.</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_name</span> = <span class="ruby-string">&#39;</span><span class="ruby-string">Cool New Name</span><span class="ruby-string">&#39;</span> <span class="ruby-comment"># Note that sheet name is limited to 31 characters by Excel.</span>
 </pre>
 
 <span id="label-Adding+Cells" class="legacy-anchor"></span>
 <h4 id="adding-cells"><a href="#adding-cells">Adding Cells</a></h4>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&#39;A1&#39;</span>)      <span class="ruby-comment"># Sets cell A1 to string &quot;A1&quot;</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&#39;A1&#39;</span>)  <span class="ruby-comment"># Sets formula in the cell B1 to &#39;=A1&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">A1</span><span class="ruby-string">&#39;</span>)      <span class="ruby-comment"># Sets cell A1 to string &quot;A1&quot;</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">&#39;</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">A1</span><span class="ruby-string">&#39;</span>)  <span class="ruby-comment"># Sets formula in the cell B1 to &#39;=A1&#39;</span>
 </pre>
 
 <span id="label-Changing+Cells" class="legacy-anchor"></span>
 <h4 id="changing-cells"><a href="#changing-cells">Changing Cells</a></h4>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_contents</span>(<span class="ruby-string">&quot;&quot;</span>, <span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">formula</span>) <span class="ruby-comment"># Sets value of cell A1 to empty string, preserves formula</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_contents</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">&quot;</span>, <span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">formula</span>) <span class="ruby-comment"># Sets value of cell A1 to empty string, preserves formula</span>
 
-<span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">add_shared_string</span>(<span class="ruby-string">&#39;some text&#39;</span>) <span class="ruby-comment"># Creates a new Shared String and adds it to the cell.</span>
+<span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">add_shared_string</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">some text</span><span class="ruby-string">&#39;</span>) <span class="ruby-comment"># Creates a new Shared String and adds it to the cell.</span>
                                                <span class="ruby-comment"># Later, the same Shared String can be added to other cells.</span>
 </pre>
 
@@ -605,15 +590,15 @@
 
 <pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_font_bold</span>(<span class="ruby-keyword">true</span>) <span class="ruby-comment"># Makes A1 bold</span>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_italics</span>(<span class="ruby-value">0</span>,<span class="ruby-keyword">true</span>)              <span class="ruby-comment"># Makes first row italicized</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_font_name</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;Courier&#39;</span>)   <span class="ruby-comment"># Makes first column have font Courier</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_font_name</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">Courier</span><span class="ruby-string">&#39;</span>)   <span class="ruby-comment"># Makes first column have font Courier</span>
 </pre>
 
 <span id="label-Changing+Fills+++++" class="legacy-anchor"></span>
 <h4 id="changing-fills-----"><a href="#changing-fills-----">Changing Fills     </a></h4>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_fill</span>(<span class="ruby-string">&#39;0ba53d&#39;</span>)  <span class="ruby-comment"># Sets A1 to have fill #0ba53d</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_fill</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)            <span class="ruby-comment"># Sets first row to have fill #0ba53d</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_fill</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)         <span class="ruby-comment"># Sets first column to have fill #0ba53d</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_fill</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">0ba53d</span><span class="ruby-string">&#39;</span>)  <span class="ruby-comment"># Sets A1 to have fill #0ba53d</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_fill</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">0ba53d</span><span class="ruby-string">&#39;</span>)            <span class="ruby-comment"># Sets first row to have fill #0ba53d</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_fill</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">0ba53d</span><span class="ruby-string">&#39;</span>)         <span class="ruby-comment"># Sets first column to have fill #0ba53d</span>
 </pre>
 
 <span id="label-Changing+Borders" class="legacy-anchor"></span>
@@ -624,29 +609,29 @@
 
 <pre class="ruby"><span class="ruby-comment"># Possible weights: hairline, thin, medium, thick</span>
 <span class="ruby-comment"># Possible &quot;directions&quot;: top, bottom, left, right, diagonal</span>
-<span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">1</span>, <span class="ruby-value">1</span>, <span class="ruby-string">&#39;B2&#39;</span>)
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:top</span>, <span class="ruby-string">&#39;thin&#39;</span>)  <span class="ruby-comment"># Sets the cell to have a top, thin border</span>
+<span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_cell</span>(<span class="ruby-value">1</span>, <span class="ruby-value">1</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">B2</span><span class="ruby-string">&#39;</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:</span><span class="ruby-value">top</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">thin</span><span class="ruby-string">&#39;</span>)  <span class="ruby-comment"># Sets the cell to have a top, thin border</span>
 <span class="ruby-comment"># Note that with diagonals, you have to specify which one of the diagonals (or both) you need.</span>
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;thick&#39;</span>, [ <span class="ruby-value">:diagonal_down</span> ])  <span class="ruby-comment"># Sets A1 to have a thick diagonal going from top left to bottom right</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:</span><span class="ruby-value">diagonal</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">thick</span><span class="ruby-string">&#39;</span>, [ <span class="ruby-value">:</span><span class="ruby-value">diagonal_down</span> ])  <span class="ruby-comment"># Sets A1 to have a thick diagonal going from top left to bottom right</span>
 <span class="ruby-comment"># You can turn on both diagonals, but then they both will share the same style and color:</span>
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;thick&#39;</span>, [ <span class="ruby-value">:diagonal_down</span>, <span class="ruby-value">:diagonal_up</span> ])
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border</span>(<span class="ruby-value">:</span><span class="ruby-value">diagonal</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">thick</span><span class="ruby-string">&#39;</span>, [ <span class="ruby-value">:</span><span class="ruby-value">diagonal_down</span>, <span class="ruby-value">:</span><span class="ruby-value">diagonal_up</span> ])
 </pre>
 
 <span id="label-Border+Colors" class="legacy-anchor"></span>
 <h5 id="border-colors"><a href="#border-colors">Border Colors</a></h5>
 
 <pre class="ruby"><span class="ruby-comment"># Make sure you set the border style first so there&#39;s something to color.</span>
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border_color</span>(<span class="ruby-value">:top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)      <span class="ruby-comment"># Sets top border color to green</span>
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border_color</span>(<span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;dd0000&#39;</span>) <span class="ruby-comment"># Sets diagonal border color to red</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border_color</span>(<span class="ruby-value">:</span><span class="ruby-value">top</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">0ba53d</span><span class="ruby-string">&#39;</span>)      <span class="ruby-comment"># Sets top border color to green</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_border_color</span>(<span class="ruby-value">:</span><span class="ruby-value">diagonal</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">dd0000</span><span class="ruby-string">&#39;</span>) <span class="ruby-comment"># Sets diagonal border color to red</span>
 </pre>
 
 <span id="label-Changing+whole+row+or+column" class="legacy-anchor"></span>
 <h5 id="changing-whole-row-or-column"><a href="#changing-whole-row-or-column">Changing whole row or column</a></h5>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:left</span>, <span class="ruby-string">&#39;hairline&#39;</span>)       <span class="ruby-comment"># Sets first row to have a left, hairline border</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:diagonal</span>, <span class="ruby-string">&#39;medium&#39;</span>)  <span class="ruby-comment"># Sets first column to have diagonal, medium border</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>)    <span class="ruby-comment"># Sets first row to have a green top border</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:top</span>, <span class="ruby-string">&#39;0ba53d&#39;</span>) <span class="ruby-comment"># Sets first column to have a green top border</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">left</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">hairline</span><span class="ruby-string">&#39;</span>)       <span class="ruby-comment"># Sets first row to have a left, hairline border</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">diagonal</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">medium</span><span class="ruby-string">&#39;</span>)  <span class="ruby-comment"># Sets first column to have diagonal, medium border</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">top</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">0ba53d</span><span class="ruby-string">&#39;</span>)    <span class="ruby-comment"># Sets first row to have a green top border</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_border_color</span>(<span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">top</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">0ba53d</span><span class="ruby-string">&#39;</span>) <span class="ruby-comment"># Sets first column to have a green top border</span>
 </pre>
 
 <span id="label-Changing+Alignment" class="legacy-anchor"></span>
@@ -656,18 +641,18 @@
 <h5 id="horizontal"><a href="#horizontal">Horizontal</a></h5>
 
 <pre class="ruby"><span class="ruby-comment"># Possible alignments: center, distributed, justify, left, right</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-string">&#39;center&#39;</span>) <span class="ruby-comment"># Sets A1 to be centered</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_horizontal_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;justify&#39;</span>)          <span class="ruby-comment"># Sets first row to be justified</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_horizontal_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;right&#39;</span>)         <span class="ruby-comment"># Sets first column to be right-aligned</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_horizontal_alignment</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">center</span><span class="ruby-string">&#39;</span>) <span class="ruby-comment"># Sets A1 to be centered</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_horizontal_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">justify</span><span class="ruby-string">&#39;</span>)          <span class="ruby-comment"># Sets first row to be justified</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_horizontal_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">right</span><span class="ruby-string">&#39;</span>)         <span class="ruby-comment"># Sets first column to be right-aligned</span>
 </pre>
 
 <span id="label-Vertical" class="legacy-anchor"></span>
 <h5 id="vertical"><a href="#vertical">Vertical</a></h5>
 
 <pre class="ruby"><span class="ruby-comment"># Possible alignments: bottom, center, distributed, top</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-string">&#39;bottom&#39;</span>)  <span class="ruby-comment"># Sets A1 to be bottom aligned</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_vertical_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;distributed&#39;</span>)       <span class="ruby-comment"># Sets first row to be distributed vertically</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_vertical_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;top&#39;</span>)            <span class="ruby-comment"># Sets first column to be top aligned</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">sheet_data</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">change_vertical_alignment</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">bottom</span><span class="ruby-string">&#39;</span>)  <span class="ruby-comment"># Sets A1 to be bottom aligned</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_row_vertical_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">distributed</span><span class="ruby-string">&#39;</span>)       <span class="ruby-comment"># Sets first row to be distributed vertically</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">change_column_vertical_alignment</span>(<span class="ruby-value">0</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">top</span><span class="ruby-string">&#39;</span>)            <span class="ruby-comment"># Sets first column to be top aligned</span>
 </pre>
 
 <span id="label-Rotation" class="legacy-anchor"></span>
@@ -697,8 +682,8 @@
 <h4 id="merging-cells"><a href="#merging-cells">Merging Cells</a></h4>
 
 <pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-value">0</span>, <span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>)  <span class="ruby-comment"># Merges B1:D3</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-string">&#39;A2:C4&#39;</span>)     <span class="ruby-comment"># Merges A2:C4</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-value">row_from:</span> <span class="ruby-value">0</span>, <span class="ruby-value">row_to:</span> <span class="ruby-value">1</span>, <span class="ruby-value">col_from:</span> <span class="ruby-value">2</span>, <span class="ruby-value">col_to:</span> <span class="ruby-value">3</span>) <span class="ruby-comment"># Merges C1:D2</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">A2:C4</span><span class="ruby-string">&#39;</span>)     <span class="ruby-comment"># Merges A2:C4</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">merge_cells</span>(<span class="ruby-value">row_from</span><span class="ruby-value">:</span> <span class="ruby-value">0</span>, <span class="ruby-value">row_to</span><span class="ruby-value">:</span> <span class="ruby-value">1</span>, <span class="ruby-value">col_from</span><span class="ruby-value">:</span> <span class="ruby-value">2</span>, <span class="ruby-value">col_to</span><span class="ruby-value">:</span> <span class="ruby-value">3</span>) <span class="ruby-comment"># Merges C1:D2</span>
 </pre>
 
 <span id="label-Insert+Row" class="legacy-anchor"></span>
@@ -748,9 +733,9 @@
 
 <p>WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted cells</p>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;blah&quot;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-value">:right</span>)  <span class="ruby-comment"># Inserts cell at A1, shifts cells in first row right</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;blah&quot;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-value">:down</span>)   <span class="ruby-comment"># Inserts cell at A1, shifts cells in first column down</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;blah&quot;</span>)                         <span class="ruby-comment"># Inserts cell at A1, shifts nothing</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">blah</span><span class="ruby-string">&quot;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-value">:</span><span class="ruby-value">right</span>)  <span class="ruby-comment"># Inserts cell at A1, shifts cells in first row right</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">blah</span><span class="ruby-string">&quot;</span>, <span class="ruby-identifier">formula</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-value">:</span><span class="ruby-value">down</span>)   <span class="ruby-comment"># Inserts cell at A1, shifts cells in first column down</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">insert_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">blah</span><span class="ruby-string">&quot;</span>)                         <span class="ruby-comment"># Inserts cell at A1, shifts nothing</span>
 </pre>
 
 <span id="label-Delete+Cell" class="legacy-anchor"></span>
@@ -760,8 +745,8 @@
 
 <p>WARNING: Use of this method WILL break formulas referencing cells which have been moved, as the formulas do not adapt to the shifted cells</p>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">:left</span>)  <span class="ruby-comment"># Deletes A1, shifts contents of first row left</span>
-<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">:up</span>)    <span class="ruby-comment"># Deletes A1, shifts contents of first column up</span>
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">left</span>)  <span class="ruby-comment"># Deletes A1, shifts contents of first row left</span>
+<span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>, <span class="ruby-value">:</span><span class="ruby-value">up</span>)    <span class="ruby-comment"># Deletes A1, shifts contents of first column up</span>
 <span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">delete_cell</span>(<span class="ruby-value">0</span>, <span class="ruby-value">0</span>)         <span class="ruby-comment"># Deletes A1, does not shift cells</span>
 </pre>
 
@@ -769,7 +754,7 @@
 <h4 id="modifying-cell-format"><a href="#modifying-cell-format">Modifying Cell Format</a></h4>
 
 <pre class="ruby"><span class="ruby-identifier">cell</span> = <span class="ruby-identifier">worksheet</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>]
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">set_number_format</span> <span class="ruby-string">&#39;0.0000%&#39;</span>    <span class="ruby-comment"># For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68</span>
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">set_number_format</span> <span class="ruby-string">&#39;</span><span class="ruby-string">0.0000%</span><span class="ruby-string">&#39;</span>    <span class="ruby-comment"># For formats, see https://support.office.com/en-us/article/5026bbd6-04bc-48cd-bf33-80f18b4eae68</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_text_wrap</span>(<span class="ruby-keyword">true</span>)         <span class="ruby-comment"># Makes the text in the cell to wrap.</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_shrink_to_fit</span>(<span class="ruby-keyword">true</span>)     <span class="ruby-comment"># Makes the text in the cell to shrink to fit.</span>
 <span class="ruby-identifier">cell</span>.<span class="ruby-identifier">change_text_indent</span>(<span class="ruby-value">1</span>)          <span class="ruby-comment"># Indents the text in the cell by 1 level</span>
@@ -778,8 +763,8 @@
 <span id="label-Add+hyperlink+to+a+Cell" class="legacy-anchor"></span>
 <h4 id="add-hyperlink-to-a-cell"><a href="#add-hyperlink-to-a-cell">Add hyperlink to a Cell</a></h4>
 
-<pre class="ruby"><span class="ruby-identifier">cell</span>.<span class="ruby-identifier">add_hyperlink</span>(<span class="ruby-string">&#39;http://example.com&#39;</span>)
-<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">add_hyperlink</span>(<span class="ruby-string">&#39;http://example.com&#39;</span>, <span class="ruby-string">&#39;Some tooltip text&#39;</span>)
+<pre class="ruby"><span class="ruby-identifier">cell</span>.<span class="ruby-identifier">add_hyperlink</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">http://example.com</span><span class="ruby-string">&#39;</span>)
+<span class="ruby-identifier">cell</span>.<span class="ruby-identifier">add_hyperlink</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">http://example.com</span><span class="ruby-string">&#39;</span>, <span class="ruby-string">&#39;</span><span class="ruby-string">Some tooltip text</span><span class="ruby-string">&#39;</span>)
 </pre>
 
 <span id="label-I-2FO" class="legacy-anchor"></span>
@@ -787,8 +772,8 @@
 
 <p>By default, the gem operates with files on the local filesystem:</p>
 
-<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;path/to/Excel/file.xlsx&quot;</span>)
-<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">write</span>(<span class="ruby-string">&quot;path/to/desired/Excel/file.xlsx&quot;</span>)
+<pre class="ruby"><span class="ruby-identifier">workbook</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">path/to/Excel/file.xlsx</span><span class="ruby-string">&quot;</span>)
+<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">write</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">path/to/desired/Excel/file.xlsx</span><span class="ruby-string">&quot;</span>)
 </pre>
 
 <p>It can also operate on <code>StringIO</code> objects, thus eliminating the need to save the <code>xlsx</code> file to disk. This capability comes in handy for web servers.</p>
@@ -800,20 +785,20 @@
 <span id="label-Miscellaneous" class="legacy-anchor"></span>
 <h2 id="miscellaneous"><a href="#miscellaneous">Miscellaneous</a></h2>
 
-<pre class="ruby"><span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-value">0</span>,<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-string">&#39;A1&#39;</span>    <span class="ruby-comment"># Converts row and column index to Excel-style cell reference</span>
-<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-string">&#39;A1&#39;</span>) <span class="ruby-operator">==</span> [<span class="ruby-value">0</span>, <span class="ruby-value">0</span>] <span class="ruby-comment"># Converts Excel-style cell reference to row and column index</span>
+<pre class="ruby"><span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ind2ref</span>(<span class="ruby-value">0</span>,<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-string">&#39;</span><span class="ruby-string">A1</span><span class="ruby-string">&#39;</span>    <span class="ruby-comment"># Converts row and column index to Excel-style cell reference</span>
+<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">ref2ind</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">A1</span><span class="ruby-string">&#39;</span>) <span class="ruby-operator">==</span> [<span class="ruby-value">0</span>, <span class="ruby-value">0</span>] <span class="ruby-comment"># Converts Excel-style cell reference to row and column index</span>
 </pre>
 
 <span id="label-Suppress+warnings+about+malformed+input+files" class="legacy-anchor"></span>
 <h3 id="suppress-warnings-about-malformed-input-files"><a href="#suppress-warnings-about-malformed-input-files">Suppress warnings about malformed input files</a></h3>
 
-<pre class="ruby"><span class="ruby-constant">RubyXL</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:@@suppress_warnings</span>, <span class="ruby-keyword">true</span>)
+<pre class="ruby"><span class="ruby-constant">RubyXL</span>.<span class="ruby-identifier">class_variable_set</span>(<span class="ruby-value">:</span><span class="ruby-value">@@suppress_warnings</span>, <span class="ruby-keyword">true</span>)
 </pre>
 
 <span id="label-Data+validation+-28colloquially+referred+to+as+-22dropdown+list-22-29" class="legacy-anchor"></span>
 <h2 id="data-validation-colloquially-referred-to-as-dropdown-list"><a href="#data-validation-colloquially-referred-to-as-dropdown-list">Data validation (colloquially referred to as “dropdown list”)</a></h2>
 
-<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_validation_list</span>(<span class="ruby-string">&quot;A1&quot;</span>, [ <span class="ruby-string">&quot;value1&quot;</span>, <span class="ruby-string">&quot;value2&quot;</span> ])
+<pre class="ruby"><span class="ruby-identifier">worksheet</span>.<span class="ruby-identifier">add_validation_list</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">A1</span><span class="ruby-string">&quot;</span>, [ <span class="ruby-string">&quot;</span><span class="ruby-string">value1</span><span class="ruby-string">&quot;</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">value2</span><span class="ruby-string">&quot;</span> ])
 </pre>
 
 <span id="label-For+more+information" class="legacy-anchor"></span>
@@ -846,7 +831,7 @@
 
 </main>
 
-<aside class="table-of-contents" role="complementary" aria-label="Table of Contents">
+<aside id="table-of-contents" class="table-of-contents" role="complementary" aria-label="Table of Contents">
   <div class="toc-sticky">
     <h3 class="toc-heading">On This Page</h3>
     <nav class="toc-nav" id="toc-nav" aria-label="Page sections">
@@ -861,7 +846,7 @@
 
   <div class="footer-bottom">
     <p>
-      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 7.2.0</a>
+      Generated by <a href="https://ruby.github.io/rdoc/">RDoc 8.1.0</a>
       using the Aliki theme by <a href="http://st0012.dev">Stan Lo</a>
     </p>
   </div>
