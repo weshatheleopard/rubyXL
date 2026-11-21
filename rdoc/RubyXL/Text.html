@@ -419,6 +419,25 @@
   
 
   
+  <div class="nav-section">
+    <details class="nav-section-collapsible" open>
+      <summary class="nav-section-header">
+        <span class="nav-section-icon">
+          <svg><use href="#icon-class-methods"></use></svg>
+        </span>
+        <span class="nav-section-title">Class Methods</span>
+        <span class="nav-section-chevron">
+          <svg><use href="#icon-chevron"></use></svg>
+        </span>
+      </summary>
+      <ul class="nav-list" role="directory">
+
+        <li ><a href="#method-c-escape_bad_xml_chars">escape_bad_xml_chars</a></li>
+
+      </ul>
+    </details>
+  </div>
+
 
 
   <div class="nav-section">
@@ -533,6 +552,64 @@
 
 
 
+     <section id="public-class-untitled-method-details" class="method-section anchor-link">
+       <header>
+         <h3 id="public-class-untitled-methods"><a href="#public-class-untitled-methods">Public Class Methods</a></h3>
+       </header>
+
+
+      <div id="method-c-escape_bad_xml_chars" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-c-escape_bad_xml_chars" title="Link to this method">
+                  <span class="method-name">escape_bad_xml_chars</span>
+                  <span class="method-args">(str)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="escape_bad_xml_chars-source">
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/text.rb, line 29</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">escape_bad_xml_chars</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">str</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+  <span class="ruby-identifier">str</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">INVALID_XML10_CHARS</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">bad_char</span><span class="ruby-operator">|</span> <span class="ruby-identifier">format</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">_x%04X_</span><span class="ruby-string">&#39;</span>, <span class="ruby-identifier">bad_char</span>.<span class="ruby-identifier">ord</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
+
 
 
 
@@ -574,7 +651,7 @@
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/text.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-identifier">preserve_whitespace</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">INVALID_XML10_CHARS</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">bad_char</span><span class="ruby-operator">|</span> <span class="ruby-identifier">format</span>(<span class="ruby-string">&#39;</span><span class="ruby-string">_x%04x_</span><span class="ruby-string">&#39;</span>, <span class="ruby-identifier">bad_char</span>.<span class="ruby-identifier">ord</span>) }
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-identifier">escape_bad_xml_chars</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
           </div>

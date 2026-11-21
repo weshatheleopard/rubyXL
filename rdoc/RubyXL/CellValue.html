@@ -546,8 +546,10 @@
           <div class="method-source-code" id="before_write_xml-source">
             <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;</span><span class="ruby-string">&#39;</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span>.<span class="ruby-identifier">escape_bad_xml_chars</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">preserve_whitespace</span>
-  <span class="ruby-operator">!</span>(<span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;</span><span class="ruby-string">&#39;</span>)
+  <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
 

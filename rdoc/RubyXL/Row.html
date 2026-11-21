@@ -602,7 +602,7 @@
 
 
           <div class="method-source-code" id="5B-5D-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 175</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 178</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">[]</span>(<span class="ruby-identifier">ind</span>)
   <span class="ruby-identifier">cells</span>[<span class="ruby-identifier">ind</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -651,7 +651,7 @@
 
 
           <div class="method-source-code" id="before_write_xml-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 167</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write_xml</span>
   <span class="ruby-operator">!</span>(<span class="ruby-identifier">cells</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">empty?</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -700,7 +700,7 @@
 
 
           <div class="method-source-code" id="delete_cell_shift_left-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 188</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 191</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_cell_shift_left</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -750,7 +750,7 @@
 
 
           <div class="method-source-code" id="get_fill_color-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 205</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 208</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_fill_color</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">get_fill_color</span>(<span class="ruby-identifier">xf</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -799,7 +799,7 @@
 
 
           <div class="method-source-code" id="get_font-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 209</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 212</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_font</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">xf</span>.<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -848,7 +848,7 @@
 
 
           <div class="method-source-code" id="index_in_collection-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 171</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 174</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-identifier">r</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
 <span class="ruby-keyword">end</span></pre>
@@ -897,7 +897,7 @@
 
 
           <div class="method-source-code" id="insert_cell_shift_right-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 183</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 186</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">insert_cell_shift_right</span>(<span class="ruby-identifier">c</span>, <span class="ruby-identifier">col_index</span>)
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">col_index</span>, <span class="ruby-identifier">c</span>)
   <span class="ruby-identifier">update_cell_coords</span>(<span class="ruby-identifier">col_index</span>)
@@ -947,7 +947,7 @@
 
 
           <div class="method-source-code" id="size-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 179</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 182</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>
   <span class="ruby-identifier">cells</span>.<span class="ruby-identifier">size</span>
 <span class="ruby-keyword">end</span></pre>
@@ -996,7 +996,7 @@
 
 
           <div class="method-source-code" id="xf-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 201</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 204</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">xf</span>
   <span class="ruby-ivar">@worksheet</span>.<span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>

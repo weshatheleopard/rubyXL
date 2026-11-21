@@ -638,7 +638,7 @@
 
 
           <div class="method-source-code" id="column-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 60</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">column</span>
   <span class="ruby-identifier">r</span>&amp;.<span class="ruby-identifier">first_col</span>
 <span class="ruby-keyword">end</span></pre>
@@ -687,7 +687,7 @@
 
 
           <div class="method-source-code" id="column-3D-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 64</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">column=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>, <span class="ruby-identifier">v</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -736,7 +736,7 @@
 
 
           <div class="method-source-code" id="error-3F-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 127</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 130</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">error?</span>
   <span class="ruby-identifier">datatype</span> <span class="ruby-operator">==</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">ERROR</span>
 <span class="ruby-keyword">end</span></pre>
@@ -785,7 +785,7 @@
 
 
           <div class="method-source-code" id="get_cell_border-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 85</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 87</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cell_border</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">borders</span>[<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">border_id</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -834,7 +834,7 @@
 
 
           <div class="method-source-code" id="get_cell_font-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 81</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cell_font</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">fonts</span>[<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">font_id</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -883,7 +883,7 @@
 
 
           <div class="method-source-code" id="get_cell_xf-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 77</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 79</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_cell_xf</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">cell_xfs</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">style_index</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -932,7 +932,7 @@
 
 
           <div class="method-source-code" id="index_in_collection-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 48</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index_in_collection</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">first_col</span>
 <span class="ruby-keyword">end</span></pre>
@@ -981,7 +981,7 @@
 
 
           <div class="method-source-code" id="inspect-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 131</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
   <span class="ruby-identifier">str</span> = <span class="ruby-string">&quot;</span><span class="ruby-string">#&lt;</span><span class="ruby-string">#{</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-string">}</span><span class="ruby-string">(</span><span class="ruby-string">#{</span><span class="ruby-identifier">row</span><span class="ruby-string">}</span><span class="ruby-string">,</span><span class="ruby-string">#{</span><span class="ruby-identifier">column</span><span class="ruby-string">}</span><span class="ruby-string">): </span><span class="ruby-string">#{</span><span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">inspect</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span>
   <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;</span><span class="ruby-string"> =</span><span class="ruby-string">#{</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span>.<span class="ruby-identifier">expression</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">formula</span>
@@ -1033,7 +1033,7 @@
 
 
           <div class="method-source-code" id="is_date-3F-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 93</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 95</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">is_date?</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-comment"># Only fully numeric values can be dates</span>
     <span class="ruby-keyword">case</span> <span class="ruby-identifier">raw_value</span>
@@ -1089,7 +1089,7 @@
 
 
           <div class="method-source-code" id="number_format-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 89</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 91</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">number_format</span>
   <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">stylesheet</span>.<span class="ruby-identifier">get_number_format_by_id</span>(<span class="ruby-identifier">get_cell_xf</span>.<span class="ruby-identifier">num_fmt_id</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1138,7 +1138,7 @@
 
 
           <div class="method-source-code" id="raw_value-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 68</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value</span>
   <span class="ruby-identifier">value_container</span>&amp;.<span class="ruby-identifier">value</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1187,7 +1187,7 @@
 
 
           <div class="method-source-code" id="raw_value-3D-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 72</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_value=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value_container</span> ||= <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">CellValue</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">value_container</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">v</span>
@@ -1237,7 +1237,7 @@
 
 
           <div class="method-source-code" id="row-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 52</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 54</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">row</span>
   <span class="ruby-identifier">r</span>&amp;.<span class="ruby-identifier">first_row</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1286,7 +1286,7 @@
 
 
           <div class="method-source-code" id="row-3D-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 56</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">row=</span>(<span class="ruby-identifier">v</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">r</span> = <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Reference</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">v</span>, <span class="ruby-identifier">column</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1335,14 +1335,15 @@
 
 
           <div class="method-source-code" id="value-source">
-            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 106</span>
+            <pre class="ruby"><span class="ruby-comment"># File lib/rubyXL/objects/sheet_data.rb, line 108</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-identifier">r</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">raw_value</span>
 
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">datatype</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">SHARED_STRING</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">workbook</span>.<span class="ruby-identifier">shared_strings_container</span>[<span class="ruby-identifier">r</span>.<span class="ruby-identifier">to_i</span>].<span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">INLINE_STRING</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">is</span>.<span class="ruby-identifier">to_s</span>
-  <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">RAW_STRING</span>    <span class="ruby-keyword">then</span> <span class="ruby-identifier">raw_value</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">RAW_STRING</span>    <span class="ruby-keyword">then</span>
+    <span class="ruby-identifier">raw_value</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">Text</span><span class="ruby-operator">::</span><span class="ruby-constant">ESCAPED_UNICODE</span>) { <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">last_match</span>(<span class="ruby-value">1</span>).<span class="ruby-identifier">hex</span>.<span class="ruby-identifier">chr</span>(::<span class="ruby-constant">Encoding</span><span class="ruby-operator">::</span><span class="ruby-constant">UTF_8</span>) }
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">DATE</span>          <span class="ruby-keyword">then</span> <span class="ruby-identifier">raw_value</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">raw_value</span>)
   <span class="ruby-keyword">when</span> <span class="ruby-constant">RubyXL</span><span class="ruby-operator">::</span><span class="ruby-constant">DataType</span><span class="ruby-operator">::</span><span class="ruby-constant">ERROR</span>         <span class="ruby-keyword">then</span> <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">else</span>
