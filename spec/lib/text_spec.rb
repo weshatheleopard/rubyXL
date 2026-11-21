@@ -17,11 +17,18 @@ describe RubyXL::Text do
     end
 
     it 'should not escape valid XML extended UNICODE characters' do
-      t = RubyXL::Text.new(:value => "\u{10000}\u{10FFFF}")
+      string_with_valid_chars = "\u{10000}\u{10FABC}\u{10FFFF}"
+      t = RubyXL::Text.new(:value => string_with_valid_chars.dup)
+      xml = t.write_xml
+      expect(xml[%r{<t>[^<]+</t>}]).to eq("<t>#{string_with_valid_chars}</t>")
+    end
 
-      xml = t.write_xml[%r{<t>[^<]+</t>}]
-
-      expect(xml).to eq("<t>\u{10000}\u{10FFFF}</t>")
+    it 'should escape invalid in XML characters' do
+      string_with_invalid_chars = "VT - \v, BELL - \a, UNICODE BLOCK - [\u0001...\uFFFE]"
+      t = RubyXL::Text.new(:value => string_with_invalid_chars.dup)
+      xml = t.write_xml
+      expect(xml[%r{<t>[^<]+</t>}]).to eq("<t>VT - _x000B_, BELL - _x0007_, UNICODE BLOCK - [_x0001_..._xFFFE_]</t>")
+      expect(t.to_s).to eq(string_with_invalid_chars)
     end
   end
 end

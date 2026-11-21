@@ -18,12 +18,17 @@ module RubyXL
 
     def before_write_xml
       preserve_whitespace
-      self.value.gsub(INVALID_XML10_CHARS) { |bad_char| format('_x%04x_', bad_char.ord) }
+      self.value = RubyXL::Text::escape_bad_xml_chars(value)
       true
     end
 
     def to_s
       value.to_s.gsub(ESCAPED_UNICODE) { Regexp.last_match(1).hex.chr(::Encoding::UTF_8) }
+    end
+
+    def self.escape_bad_xml_chars(str)
+      return str unless str.is_a?(String)
+      str.gsub(INVALID_XML10_CHARS) { |bad_char| format('_x%04X_', bad_char.ord) }
     end
   end
 

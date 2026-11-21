@@ -23,8 +23,10 @@ module RubyXL
     define_element_name 'v'
 
     def before_write_xml
+      return false if (value.nil? || value == '')
+      self.value = RubyXL::Text.escape_bad_xml_chars(value)
       preserve_whitespace
-      !(value.nil? || value == '')
+      true
     end
   end
 
@@ -109,7 +111,8 @@ module RubyXL
       case datatype
       when RubyXL::DataType::SHARED_STRING then workbook.shared_strings_container[r.to_i].to_s
       when RubyXL::DataType::INLINE_STRING then is.to_s
-      when RubyXL::DataType::RAW_STRING    then raw_value
+      when RubyXL::DataType::RAW_STRING    then
+        raw_value.gsub(RubyXL::Text::ESCAPED_UNICODE) { Regexp.last_match(1).hex.chr(::Encoding::UTF_8) }
       when RubyXL::DataType::DATE          then raw_value && DateTime.parse(raw_value)
       when RubyXL::DataType::ERROR         then nil
       else

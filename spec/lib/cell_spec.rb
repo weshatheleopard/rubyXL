@@ -697,6 +697,20 @@ describe RubyXL::Cell do
       xml_str = cell.write_xml.split("\n").last
       expect(xml_str).to eq('<c r="CZ104" s="0" t="str"><is><t>Inline text</t></is></c>')
     end
-  end
 
+    it 'should not escape valid XML extended UNICODE characters' do
+      string_with_valid_chars = "\u{10000}\u{10FABC}\u{10FFFF}"
+      cell = @worksheet.add_cell(14, 1, string_with_valid_chars.dup)
+      xml = cell.write_xml
+      expect(xml[%r{<v>[^<]+</v>}]).to eq("<v>#{string_with_valid_chars}</v>")
+    end
+
+    it 'should escape invalid in XML characters' do
+      string_with_invalid_chars = "VT - \v, BELL - \a, UNICODE BLOCK - [\u0001...\uFFFE]"
+      cell = @worksheet.add_cell(14, 2, string_with_invalid_chars.dup)
+      xml = cell.write_xml
+      expect(xml[%r{<v>[^<]+</v>}]).to eq("<v>VT - _x000B_, BELL - _x0007_, UNICODE BLOCK - [_x0001_..._xFFFE_]</v>")
+      expect(cell.value.to_s).to eq(string_with_invalid_chars)
+    end
+  end
 end
