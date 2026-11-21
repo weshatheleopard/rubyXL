@@ -443,7 +443,9 @@ module RubyXL
       end
 
       dateparts = num.divmod(1)
-      base_date + (dateparts[0] + ((dateparts[1] * 86400).round(6) / 86400))
+      # Keep the time as an exact Rational: adding a Float to a DateTime keeps its binary
+      # error, so 16:00 (44927.666666666664) would come out as 15:59:59.99999979.
+      base_date + dateparts[0] + (dateparts[1] * 86_400_000_000).round.quo(86_400_000_000)
     end
 
     include Enumerable

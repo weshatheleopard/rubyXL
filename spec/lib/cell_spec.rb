@@ -67,6 +67,14 @@ describe RubyXL::Cell do
 
       # We expect exactly the same date
       expect(cell.value.to_time.utc.iso8601).to eq(expected_datetime.iso8601)
+
+      # Floats a tiny bit below the exact time must not lose a second.
+      { '44927.666666666664' => '2023-01-01T16:00:00+00:00',
+        '45000.1'            => '2023-03-15T02:24:00+00:00',
+        '25569.00001157407'  => '1970-01-01T00:00:01+00:00' }.each_pair do |raw, expected|
+        cell.raw_value = raw
+        expect(cell.value.iso8601).to eq(expected)
+      end
     end
 
     it 'should raise against too long String' do
