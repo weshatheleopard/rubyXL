@@ -112,6 +112,37 @@ describe RubyXL::Parser do
     end
   end
 
+  describe 'round trip' do
+    it 'should keep comments stored under a part name rubyXL does not use' do
+      workbook = RubyXL::Workbook.new
+      comments = RubyXL::CommentsFile.new
+      comments.authors = RubyXL::Authors.new
+      comments.authors << RubyXL::StringNode.new(:value => 'me')
+      comments.comment_list = RubyXL::CommentList.new
+      text = RubyXL::RichText.new(:t => RubyXL::Text.new(:value => 'note'))
+      comments.comment_list << RubyXL::Comment.new(:ref => RubyXL::Reference.new('A1'), :author_id => 0, :text => text)
+      workbook[0].comments << comments
+
+      # Store the comments part the way openpyxl does: 'xl/comments/comment1.xml'.
+      buffer = Zip::OutputStream.write_buffer { |zos|
+        Zip::File.open_buffer(workbook.stream) { |zip|
+          zip.each { |entry|
+            zos.put_next_entry(entry.name == 'xl/comments1.xml' ? 'xl/comments/comment1.xml' : entry.name)
+            zos.write(entry.get_input_stream.read.sub('/xl/comments1.xml', '/xl/comments/comment1.xml'))
+          }
+        }
+        zos.put_next_entry('xl/worksheets/_rels/sheet1.xml.rels')
+        zos.write('<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' \
+                  "<Relationship Id=\"rId1\" Type=\"#{RubyXL::CommentsFile::REL_TYPE}\" " \
+                  'Target="/xl/comments/comment1.xml"/></Relationships>')
+      }.string
+
+      parsed = RubyXL::Parser.parse_buffer(buffer)
+      expect(parsed[0].comments.size).to eq(1)
+      expect(RubyXL::Parser.parse_buffer(parsed.stream)[0].comments.size).to eq(1)
+    end
+  end
+
   after do
     FileUtils.rm_f(@file)
   end
