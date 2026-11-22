@@ -1,8 +1,10 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
-require 'rubyXL/objects/extensions'
-require 'rubyXL/objects/relationships'
-require 'rubyXL/objects/sheet_common'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'simple_types'
+require_relative 'extensions'
+require_relative 'relationships'
+require_relative 'sheet_common'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetProtection-4.html

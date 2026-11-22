@@ -1,6 +1,8 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
-require 'rubyXL/objects/extensions'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'simple_types'
+require_relative 'extensions'
 
 # Connections
 # https://msdn.microsoft.com/en-us/library/dd908547(v=office.12).aspx

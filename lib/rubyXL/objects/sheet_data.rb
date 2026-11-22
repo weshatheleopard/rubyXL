@@ -1,8 +1,11 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
-require 'rubyXL/objects/text'
-require 'rubyXL/objects/formula'
-require 'rubyXL/cell'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'simple_types'
+require_relative 'text'
+require_relative 'formula'
+
+require_relative '../legacy_cell'
 
 module RubyXL
   # http://msdn.microsoft.com/en-us/library/documentformat.openxml.spreadsheet.cellvalues(v=office.14).aspx

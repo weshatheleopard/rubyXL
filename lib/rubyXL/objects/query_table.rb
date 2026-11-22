@@ -1,8 +1,10 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
-require 'rubyXL/objects/extensions'
-require 'rubyXL/objects/relationships'
-require 'rubyXL/objects/sheet_common'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'simple_types'
+require_relative 'extensions'
+require_relative 'relationships'
+require_relative 'sheet_common'
 
 # Query Tables
 # https://msdn.microsoft.com/en-us/library/hh643563(v=office.12).aspx

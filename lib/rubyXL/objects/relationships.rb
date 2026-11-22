@@ -1,5 +1,5 @@
 require 'pathname'
-require 'rubyXL/objects/ooxml_object'
+require_relative 'ooxml_object'
 
 module RubyXL
   class RID < OOXMLObject

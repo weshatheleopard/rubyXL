@@ -1,7 +1,9 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
-require 'rubyXL/objects/container_nodes'
-require 'rubyXL/objects/color'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'simple_types'
+require_relative 'container_nodes'
+require_relative 'color'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_t-1.html

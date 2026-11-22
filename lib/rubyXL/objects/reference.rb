@@ -1,3 +1,5 @@
+require_relative 'ooxml_object'
+
 module RubyXL
   class Reference
     ROW_MAX = 1024 * 1024

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'zip'
-require 'rubyXL/objects/relationships'
-require 'rubyXL/objects/document_properties'
-require 'rubyXL/objects/content_types'
-require 'rubyXL/objects/workbook'
+require_relative 'relationships'
+require_relative 'document_properties'
+require_relative 'content_types'
+require_relative 'workbook'
 
 module RubyXL
   class WorkbookRoot

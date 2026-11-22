@@ -1,5 +1,5 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/extensions'
+require_relative 'ooxml_object'
+require_relative 'extensions'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-a_ext-1.html

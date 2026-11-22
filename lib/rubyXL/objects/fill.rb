@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
+require_relative 'ooxml_object'
+require_relative 'simple_types'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_stop-1.html

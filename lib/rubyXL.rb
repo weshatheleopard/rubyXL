@@ -1,6 +1,6 @@
-require 'rubyXL/objects/root'
-require 'rubyXL/parser'
-require 'rubyXL/version'
+require_relative 'rubyXL/objects/root'
+require_relative 'rubyXL/parser'
+require_relative 'rubyXL/version'
 
 module RubyXL
   @@suppress_warnings = false

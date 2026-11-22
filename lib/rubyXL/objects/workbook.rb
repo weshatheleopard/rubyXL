@@ -1,16 +1,19 @@
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
 require 'date'
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/shared_strings'
-require 'rubyXL/objects/stylesheet'
-require 'rubyXL/objects/theme'
-require 'rubyXL/objects/calculation_chain'
-require 'rubyXL/objects/worksheet'
-require 'rubyXL/objects/chartsheet'
-require 'rubyXL/objects/connection'
-require 'rubyXL/objects/relationships'
-require 'rubyXL/objects/simple_types'
-require 'rubyXL/objects/extensions'
-require 'rubyXL/objects/external_links'
+require_relative 'ooxml_object'
+require_relative 'shared_strings'
+require_relative 'stylesheet'
+require_relative 'theme'
+require_relative 'calculation_chain'
+require_relative 'worksheet'
+require_relative 'chartsheet'
+require_relative 'connection'
+require_relative 'relationships'
+require_relative 'simple_types'
+require_relative 'extensions'
+require_relative 'external_links'
 
 module RubyXL
   # Eventually, the entire code for Workbook will be moved here.

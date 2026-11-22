@@ -1,9 +1,11 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/cell_style'
-require 'rubyXL/objects/font'
-require 'rubyXL/objects/fill'
-require 'rubyXL/objects/border'
-require 'rubyXL/objects/extensions'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'cell_style'
+require_relative 'font'
+require_relative 'fill'
+require_relative 'border'
+require_relative 'extensions'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_numFmt-1.html

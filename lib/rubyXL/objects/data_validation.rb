@@ -1,6 +1,8 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
-require 'rubyXL/objects/formula'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'simple_types'
+require_relative 'formula'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_dataValidation-1.html

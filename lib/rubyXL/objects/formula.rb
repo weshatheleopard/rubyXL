@@ -1,5 +1,7 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/simple_types'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'simple_types'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_f-1.html

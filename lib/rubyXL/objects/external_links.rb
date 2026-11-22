@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_sheetName-1.html
   class SheetName < OOXMLObject

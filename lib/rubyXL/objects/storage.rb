@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+
 module RubyXL
   class GenericStorageObject
     SAVE_ORDER = 0

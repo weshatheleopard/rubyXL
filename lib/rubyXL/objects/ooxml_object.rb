@@ -1,6 +1,6 @@
 require 'nokogiri'
 require 'pathname'
-require 'rubyXL/objects/reference'
+require_relative 'reference'
 
 module RubyXL
   module OOXMLObjectClassMethods

@@ -1,5 +1,7 @@
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/storage'
+# frozen_string_literal: true
+
+require_relative 'ooxml_object'
+require_relative 'storage'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_webPublishItem-1.html

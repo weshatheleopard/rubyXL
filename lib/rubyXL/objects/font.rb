@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rubyXL/objects/ooxml_object'
-require 'rubyXL/objects/container_nodes'
-require 'rubyXL/objects/color'
+require_relative 'ooxml_object'
+require_relative 'container_nodes'
+require_relative 'color'
 
 module RubyXL
   # http://www.datypic.com/sc/ooxml/e-ssml_font-1.html
