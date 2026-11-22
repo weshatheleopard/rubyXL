@@ -1,3 +1,3 @@
 module RubyXL
-  VERSION = "3.4.41"
+  VERSION = "3.4.42"
 end
