@@ -1,3 +1,5 @@
+gem 'rubyzip'
+
 module RubyXL
   class Parser
     # Parse <tt>.xslx</tt> file by reading it from local disk.

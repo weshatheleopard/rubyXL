@@ -122,7 +122,6 @@ task :version => :preload_library  do
   puts RubyXL::VERSION
 end
 
-
 desc 'Releases the current version'
 task :release => :preload_library  do
   `gem release`
@@ -132,7 +131,7 @@ namespace :version do
   namespace :bump do
     desc 'Bump the major version by 1'
     task :major do
-      `gem bump major`
+      `gem bump major --no-commit`
     end
   end
 end
@@ -141,7 +140,7 @@ namespace :version do
   namespace :bump do
     desc 'Bump the minor version by 1'
     task :minor do
-      `gem bump minor`
+      `gem bump minor --no-commit`
     end
   end
 end
@@ -150,52 +149,7 @@ namespace :version do
   namespace :bump do
     desc 'Bump the patch version by 1'
     task :patch do
-      `gem bump patch`
+      `gem bump patch --no-commit`
     end
-  end
-end
-
-namespace :gemspec do
-  desc 'Generate gemspec'
-  task :generate do
-    Gem::Specification.new do |s|
-      s.name = "rubyXL"
-
-      require_relative 'lib/rubyXL/version'
-      s.version = RubyXL::VERSION
-      File.open('VERSION', 'w') { |f| f << s.version }
-
-      s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
-      s.require_paths = ["lib".freeze]
-      s.authors = ["Vivek Bhagwat".freeze, "Wesha".freeze]
-      s.date = Date.today.to_s
-      s.description = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents".freeze
-      s.email = "bhagwat.vivek@gmail.com".freeze
-      s.homepage = "http://github.com/gilt/rubyXL".freeze
-      s.licenses = ["MIT".freeze]
-      s.rubygems_version = `gem -v`.strip
-      s.summary = "rubyXL is a gem which allows the parsing, creation, and manipulation of Microsoft Excel (.xlsx/.xlsm) Documents".freeze
-
-      s.files = Dir.chdir(__dir__) do
-        Dir.glob('{lib,bin}/**/*').select { |f| File.file?(f) }
-      end + ['Rakefile', 'rubyXL.gemspec', 'VERSION']
-
-      s.extra_rdoc_files = [
-        "LICENSE.txt",
-        "README.rdoc"
-      ]
-
-      Bundler::Dsl.evaluate(File.expand_path("Gemfile", __dir__), nil, {}).dependencies.each do |dep|
-        reqs = dep.requirement.requirements.collect{ |op, ver| "#{op} #{ver.to_s}" }
-        if dep.groups.include?(:default) then
-          s.add_runtime_dependency(dep.name, reqs)
-        elsif !(dep.groups & [:development, :test]).empty? then
-          s.add_development_dependency(dep.name, reqs)
-        end
-      end
-
-      File.write("#{s.name}.gemspec", s.to_ruby)
-    end
-
   end
 end

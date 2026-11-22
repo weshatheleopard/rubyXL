@@ -10,3 +10,4 @@ lib/tests/
 coverage
 Gemfile.lock
 VERSION
+*~
