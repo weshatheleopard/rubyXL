@@ -20,8 +20,8 @@ describe RubyXL::Cell do
 
   describe '.add_cell' do
     it 'should properly assign data types' do
-      r = 4
-      c = 4
+      r = 3
+      c = 1
 
       cell = @worksheet.add_cell(r, c, 123)
       expect(cell.datatype).to be_nil
@@ -35,7 +35,7 @@ describe RubyXL::Cell do
 
     it 'should properly handle dates' do
       r = 3
-      c = 3
+      c = 2
 
       dt = Date.today
       cell = @worksheet.add_cell(r, c, dt)
@@ -48,6 +48,11 @@ describe RubyXL::Cell do
 
       # Due to rounding errors, we allow microsecond precision on DateTime.
       expect((cell.value - tm).to_f).to be_within(1.0 / 86400e6).of(0)
+    end
+
+    it 'should properly handle time' do
+      r = 3
+      c = 3
 
       tm = Time.now
       cell = @worksheet.add_cell(r, c, tm)
@@ -82,14 +87,13 @@ describe RubyXL::Cell do
     end
 
     it 'should raise against too long RichText' do
-      ok_data = 'A' * 32767  # The limit is 32767
+      expect {
+        @worksheet.add_cell(0, 1, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => 'X' * 32767))) # The limit is 32767
+      }.not_to raise_error
 
       expect {
-        @worksheet.add_cell(0, 1, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => ok_data))) # 32767 -> OK
-      }.not_to raise_error
-      expect {
         # 1 longer than the limit, so an exception must be thrown.
-        @worksheet.add_cell(0, 2, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => "#{ok_data}x")))
+        @worksheet.add_cell(0, 2, RubyXL::RichText.new(:t => RubyXL::Text.new(:value => 'X' * 32768)))
       }.to raise_error(ArgumentError)
     end
   end
