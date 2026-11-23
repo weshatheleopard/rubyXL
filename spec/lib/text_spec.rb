@@ -32,3 +32,28 @@ describe RubyXL::Text do
     end
   end
 end
+
+describe RubyXL::RichText do
+  describe '.to_s' do
+    it 'should concatenate rich text runs' do
+      runs = [ 'text run 1', 'text run 2', 'text run 3']
+
+      rt = RubyXL::RichText.new
+      runs.each { |rtr|
+        rt.r << RubyXL::RichTextRun.new(:t => RubyXL::Text.new(:value => rtr))
+      }
+
+      expect(rt.to_s).to eq(runs.join)
+    end
+
+    it 'in the absence of text runs it should use plaintext' do
+      str = 'test string'
+
+      rt = RubyXL::RichText.new
+      rt.t = RubyXL::Text.new(:value => str)
+
+      expect(rt.to_s).to eq(str)
+    end
+  end
+
+end

@@ -61,7 +61,7 @@ module RubyXL
     define_element_name 'r'
 
     def to_s
-      t.to_s
+      t&.to_s
     end
   end
 
